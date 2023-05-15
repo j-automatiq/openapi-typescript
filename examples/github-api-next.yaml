@@ -29576,7 +29576,10 @@ paths:
   "/repos/{owner}/{repo}/pages":
     get:
       summary: Get a GitHub Pages site
-      description: ''
+      description: |-
+        Gets information about a GitHub Pages site.
+
+        A token with the `repo` scope is required. GitHub Apps must have the `pages:read` permission.
       tags:
       - repos
       operationId: repos/get-pages
@@ -29816,7 +29819,10 @@ paths:
   "/repos/{owner}/{repo}/pages/builds":
     get:
       summary: List GitHub Pages builds
-      description: ''
+      description: |-
+        Lists builts of a GitHub Pages site.
+
+        A token with the `repo` scope is required. GitHub Apps must have the `pages:read` permission.
       tags:
       - repos
       operationId: repos/list-pages-builds
@@ -29879,7 +29885,10 @@ paths:
   "/repos/{owner}/{repo}/pages/builds/latest":
     get:
       summary: Get latest Pages build
-      description: ''
+      description: |-
+        Gets information about the single most recent build of a GitHub Pages site.
+
+        A token with the `repo` scope is required. GitHub Apps must have the `pages:read` permission.
       tags:
       - repos
       operationId: repos/get-latest-pages-build
@@ -29906,7 +29915,10 @@ paths:
   "/repos/{owner}/{repo}/pages/builds/{build_id}":
     get:
       summary: Get GitHub Pages build
-      description: ''
+      description: |-
+        Gets information about a GitHub Pages build.
+
+        A token with the `repo` scope is required. GitHub Apps must have the `pages:read` permission.
       tags:
       - repos
       operationId: repos/get-pages-build
@@ -31232,7 +31244,9 @@ paths:
   "/repos/{owner}/{repo}/pulls/{pull_number}/merge":
     get:
       summary: Check if a pull request has been merged
-      description: ''
+      description: Checks if a pull request has been merged into the base branch.
+        The HTTP status of the response indicates whether or not the pull request
+        has been merged; the response body is empty.
       tags:
       - pulls
       operationId: pulls/check-if-merged
@@ -31255,11 +31269,9 @@ paths:
         subcategory: 
     put:
       summary: Merge a pull request
-      description: This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications).
-        Creating content too quickly using this endpoint may result in secondary rate
-        limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)"
-        and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)"
-        for details.
+      description: |-
+        Merges a pull request into the base branch.
+        This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
       tags:
       - pulls
       operationId: pulls/merge
@@ -31391,11 +31403,9 @@ paths:
         subcategory: review-requests
     post:
       summary: Request reviewers for a pull request
-      description: This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications).
-        Creating content too quickly using this endpoint may result in secondary rate
-        limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)"
-        and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)"
-        for details.
+      description: |-
+        Requests reviews for a pull request from a given set of users and/or teams.
+        This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
       tags:
       - pulls
       operationId: pulls/request-reviewers
@@ -31459,7 +31469,8 @@ paths:
         subcategory: review-requests
     delete:
       summary: Remove requested reviewers from a pull request
-      description: ''
+      description: Removes review requests from a pull request for a given set of
+        users and/or teams.
       tags:
       - pulls
       operationId: pulls/remove-requested-reviewers
@@ -31673,7 +31684,7 @@ paths:
   "/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}":
     get:
       summary: Get a review for a pull request
-      description: ''
+      description: Retrieves a pull request review by its ID.
       tags:
       - pulls
       operationId: pulls/get-review
@@ -31752,7 +31763,8 @@ paths:
         subcategory: reviews
     delete:
       summary: Delete a pending review for a pull request
-      description: ''
+      description: Deletes a pull request review that has not been submitted. Submitted
+        reviews cannot be deleted.
       tags:
       - pulls
       operationId: pulls/delete-pending-review
@@ -49631,6 +49643,75 @@ webhooks:
           application/json:
             schema:
               "$ref": "#/components/schemas/webhook-merge-group-checks-requested"
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received
+            successfully
+      x-github:
+        githubCloudOnly: false
+        category: webhooks
+        subcategory: merge-group
+        supported-webhook-types:
+        - app
+  merge-group-destroyed:
+    post:
+      summary: |-
+        This event occurs when there is activity relating to a merge group in a merge queue. For more information, see "[Managing a merge queue](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue)."
+
+        To subscribe to this event, a GitHub App must have at least read-level access for the "Merge queues" repository permission.
+
+        **Note**: The pull request merge queue feature is currently in public beta and subject to change.
+      description: |-
+        The merge queue groups pull requests together to be merged. This event indicates that one of those merge groups was destroyed. This happens when a pull request is removed from the queue: any group containing that pull request is also destroyed.
+
+        When you receive this event, you may want to cancel any checks that are running on the head SHA to avoid wasting computing resources on a merge group that will not be used.
+      operationId: merge-group/destroyed
+      tags:
+      - merge-queue
+      externalDocs:
+        url: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#merge-group
+      parameters:
+      - name: User-Agent
+        in: header
+        example: GitHub-Hookshot/123abc
+        schema:
+          type: string
+      - name: X-Github-Hook-Id
+        in: header
+        example: 12312312
+        schema:
+          type: string
+      - name: X-Github-Event
+        in: header
+        example: issues
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Id
+        in: header
+        example: 123123
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Type
+        in: header
+        example: repository
+        schema:
+          type: string
+      - name: X-GitHub-Delivery
+        in: header
+        example: 0b989ba4-242f-11e5-81e1-c7b6966d2516
+        schema:
+          type: string
+      - name: X-Hub-Signature-256
+        in: header
+        example: sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/webhook-merge-group-destroyed"
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received
@@ -69400,22 +69481,40 @@ components:
       properties:
         id:
           type: string
+          description: SHA for the commit
+          examples:
+          - 7638417db6d59f3c431d3e1f261cc637155684cd
         tree_id:
           type: string
+          description: SHA for the commit's tree
         message:
+          description: Message describing the purpose of the commit
           type: string
+          examples:
+          - 'Fix #42'
         timestamp:
-          type: string
+          description: Timestamp of the commit
           format: date-time
+          type: string
+          examples:
+          - '2014-08-09T08:02:04+12:00'
         author:
           type:
           - object
           - 'null'
+          description: Information about the Git author
           properties:
             name:
+              description: Name of the commit's author
               type: string
+              examples:
+              - Monalisa Octocat
             email:
+              description: Git email address of the commit's author
               type: string
+              format: email
+              examples:
+              - monalisa.octocat@example.com
           required:
           - name
           - email
@@ -69423,11 +69522,19 @@ components:
           type:
           - object
           - 'null'
+          description: Information about the Git committer
           properties:
             name:
+              description: Name of the commit's committer
               type: string
+              examples:
+              - Monalisa Octocat
             email:
+              description: Git email address of the commit's committer
               type: string
+              format: email
+              examples:
+              - monalisa.octocat@example.com
           required:
           - name
           - email
@@ -79191,7 +79298,7 @@ components:
       required:
       - type
       - details
-    repository-advisory-ecosystems:
+    security-advisory-ecosystems:
       type: string
       description: The package's language or package management ecosystem.
       enum:
@@ -79219,7 +79326,7 @@ components:
           - 'null'
           properties:
             ecosystem:
-              "$ref": "#/components/schemas/repository-advisory-ecosystems"
+              "$ref": "#/components/schemas/security-advisory-ecosystems"
             name:
               type:
               - string
@@ -79251,7 +79358,7 @@ components:
       - patched_versions
       - vulnerable_functions
       additionalProperties: false
-    repository-advisory-credit-types:
+    security-advisory-credit-types:
       type: string
       description: The type of credit the user is receiving.
       enum:
@@ -79272,7 +79379,7 @@ components:
         user:
           "$ref": "#/components/schemas/simple-user"
         type:
-          "$ref": "#/components/schemas/repository-advisory-credit-types"
+          "$ref": "#/components/schemas/security-advisory-credit-types"
         state:
           type: string
           description: The state of the user's acceptance of the credit.
@@ -79484,7 +79591,7 @@ components:
                 type: string
                 description: The username of the user credited.
               type:
-                "$ref": "#/components/schemas/repository-advisory-credit-types"
+                "$ref": "#/components/schemas/security-advisory-credit-types"
         credits_detailed:
           type:
           - array
@@ -79545,7 +79652,7 @@ components:
                 type: object
                 properties:
                   ecosystem:
-                    "$ref": "#/components/schemas/repository-advisory-ecosystems"
+                    "$ref": "#/components/schemas/security-advisory-ecosystems"
                   name:
                     type:
                     - string
@@ -79593,7 +79700,7 @@ components:
                 type: string
                 description: The username of the user credited.
               type:
-                "$ref": "#/components/schemas/repository-advisory-credit-types"
+                "$ref": "#/components/schemas/security-advisory-credit-types"
             required:
             - login
             - type
@@ -79646,7 +79753,7 @@ components:
                 type: object
                 properties:
                   ecosystem:
-                    "$ref": "#/components/schemas/repository-advisory-ecosystems"
+                    "$ref": "#/components/schemas/security-advisory-ecosystems"
                   name:
                     type:
                     - string
@@ -79731,7 +79838,7 @@ components:
                 type: object
                 properties:
                   ecosystem:
-                    "$ref": "#/components/schemas/repository-advisory-ecosystems"
+                    "$ref": "#/components/schemas/security-advisory-ecosystems"
                   name:
                     type:
                     - string
@@ -79779,7 +79886,7 @@ components:
                 type: string
                 description: The username of the user credited.
               type:
-                "$ref": "#/components/schemas/repository-advisory-credit-types"
+                "$ref": "#/components/schemas/security-advisory-credit-types"
             required:
             - login
             - type
@@ -82561,6 +82668,34 @@ components:
       - author_association
       - active_lock_reason
       - body
+    merge-group:
+      type: object
+      title: Merge Group
+      description: 'A group of pull requests that the merge queue has grouped together
+        to be merged.
+
+'
+      properties:
+        head_sha:
+          description: The SHA of the merge group.
+          type: string
+        head_ref:
+          description: The full ref of the merge group.
+          type: string
+        base_sha:
+          description: The SHA of the merge group's parent commit.
+          type: string
+        base_ref:
+          description: The full ref of the branch the merge group will be merged into.
+          type: string
+        head_commit:
+          "$ref": "#/components/schemas/simple-commit"
+      required:
+      - head_sha
+      - head_ref
+      - base_sha
+      - base_ref
+      - head_commit
     personal-access-token-request:
       title: Personal Access Token Request
       description: Details of a Personal Access Token Request.
@@ -119421,89 +119556,36 @@ components:
         installation:
           "$ref": "#/components/schemas/simple-installation"
         merge_group:
-          title: MergeGroup
-          type: object
-          properties:
-            head_sha:
-              description: The SHA of the merge group.
-              type: string
-            head_ref:
-              description: The full ref of the merge group.
-              type: string
-            base_sha:
-              description: The SHA of the merge group's parent commit.
-              type: string
-            base_ref:
-              description: The full ref of the branch the merge group will be merged
-                into.
-              type: string
-            head_commit:
-              title: SimpleCommit
-              type: object
-              properties:
-                author:
-                  title: Committer
-                  description: Metaproperties for Git author/committer information.
-                  type: object
-                  properties:
-                    date:
-                      type: string
-                      format: date-time
-                    email:
-                      type:
-                      - string
-                      - 'null'
-                      format: email
-                    name:
-                      description: The git author's name.
-                      type: string
-                    username:
-                      type: string
-                  required:
-                  - email
-                  - name
-                committer:
-                  title: Committer
-                  description: Metaproperties for Git author/committer information.
-                  type: object
-                  properties:
-                    date:
-                      type: string
-                      format: date-time
-                    email:
-                      type:
-                      - string
-                      - 'null'
-                      format: email
-                    name:
-                      description: The git author's name.
-                      type: string
-                    username:
-                      type: string
-                  required:
-                  - email
-                  - name
-                id:
-                  type: string
-                message:
-                  type: string
-                timestamp:
-                  type: string
-                tree_id:
-                  type: string
-              required:
-              - id
-              - tree_id
-              - message
-              - timestamp
-              - author
-              - committer
-          required:
-          - head_sha
-          - head_ref
-          - base_sha
-          - base_ref
-          - head_commit
+          "$ref": "#/components/schemas/merge-group"
+        organization:
+          "$ref": "#/components/schemas/organization-simple"
+        repository:
+          "$ref": "#/components/schemas/repository"
+        sender:
+          "$ref": "#/components/schemas/simple-user"
+      required:
+      - action
+      - merge_group
+    webhook-merge-group-destroyed:
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+          - destroyed
+        reason:
+          type: string
+          description: Explains why the merge group is being destroyed. The group
+            could have been merged, removed from the queue (dequeued), or invalidated
+            by an earlier queue entry being dequeued (invalidated).
+          enum:
+          - merged
+          - invalidated
+          - dequeued
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
+        merge_group:
+          "$ref": "#/components/schemas/merge-group"
         organization:
           "$ref": "#/components/schemas/organization-simple"
         repository:
