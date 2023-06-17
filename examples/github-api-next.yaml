@@ -29,6 +29,8 @@ tags:
   description: Insight into codes of conduct for your communities.
 - name: codespaces
   description: Endpoints to manage Codespaces using the REST API.
+- name: copilot
+  description: Endpoints to manage Copilot using the REST API.
 - name: emojis
   description: List emojis available to use on GitHub.
 - name: dependabot
@@ -948,7 +950,7 @@ paths:
   "/codes_of_conduct":
     get:
       summary: Get all codes of conduct
-      description: ''
+      description: Returns array of all GitHub's codes of conduct.
       tags:
       - codes-of-conduct
       operationId: codes-of-conduct/get-all-codes-of-conduct
@@ -978,7 +980,7 @@ paths:
   "/codes_of_conduct/{key}":
     get:
       summary: Get a code of conduct
-      description: ''
+      description: Returns information about the specified GitHub code of conduct.
       tags:
       - codes-of-conduct
       operationId: codes-of-conduct/get-conduct-code
@@ -2761,6 +2763,8 @@ paths:
       description: |-
         Returns meta information about GitHub, including a list of GitHub's IP addresses. For more information, see "[About GitHub's IP addresses](https://docs.github.com/articles/about-github-s-ip-addresses/)."
 
+        The API's response also includes a list of GitHub's domain names.
+
         The values shown in the documentation's response are example values. You must always query the API directly to get the latest values.
 
         **Note:** This endpoint returns both IPv4 and IPv6 addresses. However, not all features support IPv6. You should refer to the specific documentation for each feature to determine if IPv6 is supported.
@@ -3188,475 +3192,6 @@ paths:
         enabledForGitHubApps: true
         category: orgs
         subcategory: 
-  "/organizations/{org}/personal-access-token-requests":
-    get:
-      summary: List requests to access organization resources with fine-grained personal
-        access tokens
-      description: |-
-        Lists requests from organization members to access organization resources with a fine-grained personal access token. Only GitHub Apps can call this API,
-        using the `organization_personal_access_token_requests: read` permission.
-
-        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
-      tags:
-      - orgs
-      operationId: orgs/list-pat-grant-requests
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/orgs/orgs#list-requests-to-access-organization-resources-with-fine-grained-personal-access-tokens
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/per-page"
-      - "$ref": "#/components/parameters/page"
-      - "$ref": "#/components/parameters/personal-access-token-sort"
-      - "$ref": "#/components/parameters/direction"
-      - "$ref": "#/components/parameters/personal-access-token-owner"
-      - "$ref": "#/components/parameters/personal-access-token-repository"
-      - "$ref": "#/components/parameters/personal-access-token-permission"
-      - "$ref": "#/components/parameters/personal-access-token-before"
-      - "$ref": "#/components/parameters/personal-access-token-after"
-      responses:
-        '500':
-          "$ref": "#/components/responses/internal_error"
-        '422':
-          "$ref": "#/components/responses/validation_failed"
-        '404':
-          "$ref": "#/components/responses/not_found"
-        '403':
-          "$ref": "#/components/responses/forbidden"
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/organization-programmatic-access-grant-request"
-              examples:
-                default:
-                  "$ref": "#/components/examples/org-pat-grant-request-paginated"
-          headers:
-            Link:
-              "$ref": "#/components/headers/link"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: orgs
-        subcategory: personal-access-tokens
-    post:
-      summary: Review requests to access organization resources with fine-grained
-        personal access tokens
-      description: |-
-        Approves or denies multiple pending requests to access organization resources via a fine-grained personal access token. Only GitHub Apps can call this API,
-        using the `organization_personal_access_token_requests: write` permission.
-
-        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
-      tags:
-      - orgs
-      operationId: orgs/review-pat-grant-requests-in-bulk
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/orgs/orgs#review-requests-to-access-organization-resources-with-a-fine-grained-personal-access-token
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                pat_request_ids:
-                  type: array
-                  description: Unique identifiers of the requests for access via fine-grained
-                    personal access token. Must be formed of between 1 and 100 `pat_request_id`
-                    values.
-                  items:
-                    type: integer
-                  minItems: 1
-                  maxItems: 100
-                action:
-                  type: string
-                  description: Action to apply to the requests.
-                  enum:
-                  - approve
-                  - deny
-                reason:
-                  type:
-                  - string
-                  - 'null'
-                  description: Reason for approving or denying the requests. Max 1024
-                    characters.
-                  maxLength: 1024
-              required:
-              - action
-            examples:
-              '204':
-                summary: Example of denying a request
-                value:
-                  pat_request_ids:
-                  - 42
-                  - 73
-                  action: deny
-                  reason: Access is too broad.
-      responses:
-        '500':
-          "$ref": "#/components/responses/internal_error"
-        '422':
-          "$ref": "#/components/responses/validation_failed"
-        '404':
-          "$ref": "#/components/responses/not_found"
-        '403':
-          "$ref": "#/components/responses/forbidden"
-        '202':
-          "$ref": "#/components/responses/accepted"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: orgs
-        subcategory: personal-access-tokens
-  "/organizations/{org}/personal-access-token-requests/{pat_request_id}":
-    post:
-      summary: Review a request to access organization resources with a fine-grained
-        personal access token
-      description: |-
-        Approves or denies a pending request to access organization resources via a fine-grained personal access token. Only GitHub Apps can call this API,
-        using the `organization_personal_access_token_requests: write` permission.
-
-        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
-      tags:
-      - orgs
-      operationId: orgs/review-pat-grant-request
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/orgs/orgs#review-a-request-to-access-organization-resources-with-a-fine-grained-personal-access-token
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - name: pat_request_id
-        in: path
-        description: Unique identifier of the request for access via fine-grained
-          personal access token.
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                action:
-                  type: string
-                  description: Action to apply to the request.
-                  enum:
-                  - approve
-                  - deny
-                reason:
-                  type:
-                  - string
-                  - 'null'
-                  description: Reason for approving or denying the request. Max 1024
-                    characters.
-                  maxLength: 1024
-              required:
-              - action
-            examples:
-              '204':
-                summary: Example of denying a request
-                value:
-                  action: deny
-                  reason: This request is denied because the access is too broad.
-      responses:
-        '500':
-          "$ref": "#/components/responses/internal_error"
-        '422':
-          "$ref": "#/components/responses/validation_failed"
-        '404':
-          "$ref": "#/components/responses/not_found"
-        '403':
-          "$ref": "#/components/responses/forbidden"
-        '204':
-          "$ref": "#/components/responses/no_content"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: orgs
-        subcategory: personal-access-tokens
-  "/organizations/{org}/personal-access-token-requests/{pat_request_id}/repositories":
-    get:
-      summary: List repositories requested to be accessed by a fine-grained personal
-        access token
-      description: |-
-        Lists the repositories a fine-grained personal access token request is requesting access to. Only GitHub Apps can call this API,
-        using the `organization_personal_access_token_requests: read` permission.
-
-        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
-      tags:
-      - orgs
-      operationId: orgs/list-pat-grant-request-repositories
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/orgs/orgs#list-repositories-requested-to-be-accessed-by-a-fine-grained-personal-access-token
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - name: pat_request_id
-        in: path
-        description: Unique identifier of the request for access via fine-grained
-          personal access token.
-        required: true
-        schema:
-          type: integer
-      - "$ref": "#/components/parameters/per-page"
-      - "$ref": "#/components/parameters/page"
-      responses:
-        '500':
-          "$ref": "#/components/responses/internal_error"
-        '404':
-          "$ref": "#/components/responses/not_found"
-        '403':
-          "$ref": "#/components/responses/forbidden"
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/minimal-repository"
-              examples:
-                default:
-                  "$ref": "#/components/examples/minimal-repository-items"
-          headers:
-            Link:
-              "$ref": "#/components/headers/link"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: orgs
-        subcategory: personal-access-tokens
-  "/organizations/{org}/personal-access-tokens":
-    get:
-      summary: List fine-grained personal access tokens with access to organization
-        resources
-      description: |-
-        Lists approved fine-grained personal access tokens owned by organization members that can access organization resources. Only GitHub Apps can call this API,
-        using the `organization_personal_access_tokens: read` permission.
-
-        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
-      tags:
-      - orgs
-      operationId: orgs/list-pat-grants
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/orgs/orgs#list-fine-grained-personal-access-tokens-with-access-to-organization-resources
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/per-page"
-      - "$ref": "#/components/parameters/page"
-      - "$ref": "#/components/parameters/personal-access-token-sort"
-      - "$ref": "#/components/parameters/direction"
-      - "$ref": "#/components/parameters/personal-access-token-owner"
-      - "$ref": "#/components/parameters/personal-access-token-repository"
-      - "$ref": "#/components/parameters/personal-access-token-permission"
-      - "$ref": "#/components/parameters/personal-access-token-before"
-      - "$ref": "#/components/parameters/personal-access-token-after"
-      responses:
-        '500':
-          "$ref": "#/components/responses/internal_error"
-        '422':
-          "$ref": "#/components/responses/validation_failed"
-        '404':
-          "$ref": "#/components/responses/not_found"
-        '403':
-          "$ref": "#/components/responses/forbidden"
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/organization-programmatic-access-grant"
-              examples:
-                default:
-                  "$ref": "#/components/examples/org-pat-grant-paginated"
-          headers:
-            Link:
-              "$ref": "#/components/headers/link"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: orgs
-        subcategory: personal-access-tokens
-    post:
-      summary: Update the access to organization resources via fine-grained personal
-        access tokens
-      description: |-
-        Updates the access organization members have to organization resources via fine-grained personal access tokens. Limited to revoking a token's existing access. Only GitHub Apps can call this API,
-        using the `organization_personal_access_tokens: write` permission.
-
-        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
-      tags:
-      - orgs
-      operationId: orgs/update-pat-accesses
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/orgs/orgs#update-the-access-to-organization-resources-via-fine-grained-personal-access-tokens
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                action:
-                  type: string
-                  description: Action to apply to the fine-grained personal access
-                    token.
-                  enum:
-                  - revoke
-                pat_ids:
-                  description: The IDs of the fine-grained personal access tokens.
-                  type: array
-                  items:
-                    type: integer
-                    description: Unique identifier of the fine-grained personal access
-                      token.
-                  minItems: 1
-                  maxItems: 100
-              required:
-              - action
-              - pat_ids
-            examples:
-              '204':
-                summary: Example of revoking a fine-grained personal access token.
-                value:
-                  action: revoke
-                  pat_ids:
-                  - 1296269
-                  - 1296280
-      responses:
-        '500':
-          "$ref": "#/components/responses/internal_error"
-        '404':
-          "$ref": "#/components/responses/not_found"
-        '202':
-          "$ref": "#/components/responses/accepted"
-        '403':
-          "$ref": "#/components/responses/forbidden"
-        '422':
-          "$ref": "#/components/responses/validation_failed"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: orgs
-        subcategory: personal-access-tokens
-  "/organizations/{org}/personal-access-tokens/{pat_id}":
-    post:
-      summary: Update the access a fine-grained personal access token has to organization
-        resources
-      description: |-
-        Updates the access an organization member has to organization resources via a fine-grained personal access token. Limited to revoking the token's existing access. Limited to revoking a token's existing access. Only GitHub Apps can call this API,
-        using the `organization_personal_access_tokens: write` permission.
-
-        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
-      tags:
-      - orgs
-      operationId: orgs/update-pat-access
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/orgs/orgs#update-the-access-a-fine-grained-personal-access-token-has-to-organization-resources
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/fine-grained-personal-access-token-id"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                action:
-                  type: string
-                  description: Action to apply to the fine-grained personal access
-                    token.
-                  enum:
-                  - revoke
-              required:
-              - action
-            examples:
-              '204':
-                summary: Example of revoking a fine-grained personal access token.
-                value:
-                  action: revoke
-      responses:
-        '500':
-          "$ref": "#/components/responses/internal_error"
-        '404':
-          "$ref": "#/components/responses/not_found"
-        '204':
-          "$ref": "#/components/responses/no_content"
-        '403':
-          "$ref": "#/components/responses/forbidden"
-        '422':
-          "$ref": "#/components/responses/validation_failed"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: orgs
-        subcategory: personal-access-tokens
-  "/organizations/{org}/personal-access-tokens/{pat_id}/repositories":
-    get:
-      summary: List repositories a fine-grained personal access token has access to
-      description: |-
-        Lists the repositories a fine-grained personal access token has access to. Only GitHub Apps can call this API,
-        using the `organization_personal_access_tokens: read` permission.
-
-        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
-      tags:
-      - orgs
-      operationId: orgs/list-pat-grant-repositories
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/orgs/orgs#list-repositories-a-fine-grained-personal-access-token-has-access-to
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - name: pat_id
-        in: path
-        description: Unique identifier of the fine-grained personal access token.
-        required: true
-        schema:
-          type: integer
-      - "$ref": "#/components/parameters/per-page"
-      - "$ref": "#/components/parameters/page"
-      responses:
-        '500':
-          "$ref": "#/components/responses/internal_error"
-        '404':
-          "$ref": "#/components/responses/not_found"
-        '403':
-          "$ref": "#/components/responses/forbidden"
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/minimal-repository"
-              examples:
-                default:
-                  "$ref": "#/components/examples/minimal-repository-items"
-          headers:
-            Link:
-              "$ref": "#/components/headers/link"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: orgs
-        subcategory: personal-access-tokens
   "/orgs/{org}":
     get:
       summary: Get an organization
@@ -3694,7 +3229,7 @@ paths:
       description: |-
         **Parameter Deprecation Notice:** GitHub will replace and discontinue `members_allowed_repository_creation_type` in favor of more granular permissions. The new input parameters are `members_can_create_public_repositories`, `members_can_create_private_repositories` for all organizations and `members_can_create_internal_repositories` for organizations associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see the [blog post](https://developer.github.com/changes/2019-12-03-internal-visibility-changes).
 
-        Enables an authenticated organization owner with the `admin:org` scope to update the organization's profile and member privileges.
+        Enables an authenticated organization owner with the `admin:org` scope or the `repo` scope to update the organization's profile and member privileges.
       tags:
       - orgs
       operationId: orgs/update
@@ -4906,6 +4441,74 @@ paths:
         enabledForGitHubApps: true
         category: actions
         subcategory: self-hosted-runners
+  "/orgs/{org}/actions/runners/generate-jitconfig":
+    post:
+      summary: Create configuration for a just-in-time runner for an organization
+      description: |-
+        Generates a configuration that can be passed to the runner application at startup.
+
+        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+      tags:
+      - actions
+      operationId: actions/generate-runner-jitconfig-for-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/self-hosted-runners#create-configuration-for-a-just-in-time-runner-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - runner_group_id
+              - labels
+              properties:
+                name:
+                  type: string
+                  description: The name of the new runner.
+                runner_group_id:
+                  type: integer
+                  description: The ID of the runner group to register the runner to.
+                labels:
+                  type: array
+                  minItems: 1
+                  maxItems: 100
+                  items:
+                    type: string
+                  description: 'The names of the custom labels to add to the runner.
+                    **Minimum items**: 1. **Maximum items**: 100.'
+                work_folder:
+                  type: string
+                  description: The working directory to be used for job execution,
+                    relative to the runner install directory.
+                  default: _work
+            examples:
+              default:
+                value:
+                  name: New runner
+                  runner_group_id: 1
+                  labels:
+                  - self-hosted
+                  - X64
+                  - macOS
+                  - no-gpu
+                  work_folder: _work
+      responses:
+        '201':
+          "$ref": "#/components/responses/actions_runner_jitconfig"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '422':
+          "$ref": "#/components/responses/validation_failed_simple"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: self-hosted-runners
   "/orgs/{org}/actions/runners/registration-token":
     post:
       summary: Create a registration token for an organization
@@ -5336,7 +4939,7 @@ paths:
         token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to
         use this endpoint.
 
-        #### Example encrypting a secret using Node.js
+        **Example encrypting a secret using Node.js*
 
         Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
 
@@ -5361,7 +4964,7 @@ paths:
         });
         ```
 
-        #### Example encrypting a secret using Python
+        **Example encrypting a secret using Python**
 
         Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
 
@@ -5377,7 +4980,7 @@ paths:
           return b64encode(encrypted).decode("utf-8")
         ```
 
-        #### Example encrypting a secret using C#
+        **Example encrypting a secret using C#**
 
         Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
 
@@ -5390,7 +4993,7 @@ paths:
         Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
         ```
 
-        #### Example encrypting a secret using Ruby
+        **Example encrypting a secret using Ruby**
 
         Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
 
@@ -6090,7 +5693,9 @@ paths:
   "/orgs/{org}/blocks/{username}":
     get:
       summary: Check if a user is blocked by an organization
-      description: ''
+      description: Returns a 204 if the given user is blocked by the given organization.
+        Returns a 404 if the organization is not blocking the user, or if the user
+        account has been identified as spam by GitHub.
       tags:
       - orgs
       operationId: orgs/check-blocked-user
@@ -6116,7 +5721,8 @@ paths:
         subcategory: blocking
     put:
       summary: Block a user from an organization
-      description: ''
+      description: Blocks the given user on behalf of the specified organization and
+        returns a 204. If the organization cannot block the given user a 422 is returned.
       tags:
       - orgs
       operationId: orgs/block-user
@@ -6138,7 +5744,7 @@ paths:
         subcategory: blocking
     delete:
       summary: Unblock a user from an organization
-      description: ''
+      description: Unblocks the given user on behalf of the specified organization.
       tags:
       - orgs
       operationId: orgs/unblock-user
@@ -6296,6 +5902,7 @@ paths:
         url: https://docs.github.com/rest/reference/codespaces#set-codespaces-billing
       parameters:
       - "$ref": "#/components/parameters/org"
+      deprecated: true
       requestBody:
         required: true
         content:
@@ -6362,6 +5969,7 @@ paths:
         url: https://docs.github.com/rest/reference/codespaces#set-codespaces-billing-users
       parameters:
       - "$ref": "#/components/parameters/org"
+      deprecated: true
       requestBody:
         required: true
         content:
@@ -6413,6 +6021,7 @@ paths:
       externalDocs:
         description: API method documentation
         url: https://docs.github.com/rest/reference/codespaces#delete-codespaces-billing-users
+      deprecated: true
       parameters:
       - "$ref": "#/components/parameters/org"
       requestBody:
@@ -6569,7 +6178,7 @@ paths:
         [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
         token with the `admin:org` scope to use this endpoint.
 
-        #### Example encrypting a secret using Node.js
+        **Example encrypting a secret using Node.js**
 
         Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
 
@@ -6594,7 +6203,7 @@ paths:
         });
         ```
 
-        #### Example encrypting a secret using Python
+        **Example encrypting a secret using Python**
 
         Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
 
@@ -6610,7 +6219,7 @@ paths:
           return b64encode(encrypted).decode("utf-8")
         ```
 
-        #### Example encrypting a secret using C#
+        **Example encrypting a secret using C#**
 
         Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
 
@@ -6623,7 +6232,7 @@ paths:
         Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
         ```
 
-        #### Example encrypting a secret using Ruby
+        **Example encrypting a secret using Ruby**
 
         Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
 
@@ -7084,7 +6693,7 @@ paths:
         token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization
         permission to use this endpoint.
 
-        #### Example encrypting a secret using Node.js
+        **Example encrypting a secret using Node.js**
 
         Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
 
@@ -7109,7 +6718,7 @@ paths:
         });
         ```
 
-        #### Example encrypting a secret using Python
+        **Example encrypting a secret using Python**
 
         Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
 
@@ -7125,7 +6734,7 @@ paths:
           return b64encode(encrypted).decode("utf-8")
         ```
 
-        #### Example encrypting a secret using C#
+        **Example encrypting a secret using C#**
 
         Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
 
@@ -7138,7 +6747,7 @@ paths:
         Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
         ```
 
-        #### Example encrypting a secret using Ruby
+        **Example encrypting a secret using Ruby**
 
         Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
 
@@ -9625,6 +9234,475 @@ paths:
         enabledForGitHubApps: false
         category: packages
         subcategory: 
+  "/orgs/{org}/personal-access-token-requests":
+    get:
+      summary: List requests to access organization resources with fine-grained personal
+        access tokens
+      description: |-
+        Lists requests from organization members to access organization resources with a fine-grained personal access token. Only GitHub Apps can call this API,
+        using the `organization_personal_access_token_requests: read` permission.
+
+        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+      tags:
+      - orgs
+      operationId: orgs/list-pat-grant-requests
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/orgs#list-requests-to-access-organization-resources-with-fine-grained-personal-access-tokens
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
+      - "$ref": "#/components/parameters/personal-access-token-sort"
+      - "$ref": "#/components/parameters/direction"
+      - "$ref": "#/components/parameters/personal-access-token-owner"
+      - "$ref": "#/components/parameters/personal-access-token-repository"
+      - "$ref": "#/components/parameters/personal-access-token-permission"
+      - "$ref": "#/components/parameters/personal-access-token-before"
+      - "$ref": "#/components/parameters/personal-access-token-after"
+      responses:
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '422':
+          "$ref": "#/components/responses/validation_failed"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/organization-programmatic-access-grant-request"
+              examples:
+                default:
+                  "$ref": "#/components/examples/org-pat-grant-request-paginated"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: personal-access-tokens
+    post:
+      summary: Review requests to access organization resources with fine-grained
+        personal access tokens
+      description: |-
+        Approves or denies multiple pending requests to access organization resources via a fine-grained personal access token. Only GitHub Apps can call this API,
+        using the `organization_personal_access_token_requests: write` permission.
+
+        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+      tags:
+      - orgs
+      operationId: orgs/review-pat-grant-requests-in-bulk
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/orgs#review-requests-to-access-organization-resources-with-a-fine-grained-personal-access-token
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pat_request_ids:
+                  type: array
+                  description: Unique identifiers of the requests for access via fine-grained
+                    personal access token. Must be formed of between 1 and 100 `pat_request_id`
+                    values.
+                  items:
+                    type: integer
+                  minItems: 1
+                  maxItems: 100
+                action:
+                  type: string
+                  description: Action to apply to the requests.
+                  enum:
+                  - approve
+                  - deny
+                reason:
+                  type:
+                  - string
+                  - 'null'
+                  description: Reason for approving or denying the requests. Max 1024
+                    characters.
+                  maxLength: 1024
+              required:
+              - action
+            examples:
+              '204':
+                summary: Example of denying a request
+                value:
+                  pat_request_ids:
+                  - 42
+                  - 73
+                  action: deny
+                  reason: Access is too broad.
+      responses:
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '422':
+          "$ref": "#/components/responses/validation_failed"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '202':
+          "$ref": "#/components/responses/accepted"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: personal-access-tokens
+  "/orgs/{org}/personal-access-token-requests/{pat_request_id}":
+    post:
+      summary: Review a request to access organization resources with a fine-grained
+        personal access token
+      description: |-
+        Approves or denies a pending request to access organization resources via a fine-grained personal access token. Only GitHub Apps can call this API,
+        using the `organization_personal_access_token_requests: write` permission.
+
+        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+      tags:
+      - orgs
+      operationId: orgs/review-pat-grant-request
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/orgs#review-a-request-to-access-organization-resources-with-a-fine-grained-personal-access-token
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - name: pat_request_id
+        in: path
+        description: Unique identifier of the request for access via fine-grained
+          personal access token.
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  description: Action to apply to the request.
+                  enum:
+                  - approve
+                  - deny
+                reason:
+                  type:
+                  - string
+                  - 'null'
+                  description: Reason for approving or denying the request. Max 1024
+                    characters.
+                  maxLength: 1024
+              required:
+              - action
+            examples:
+              '204':
+                summary: Example of denying a request
+                value:
+                  action: deny
+                  reason: This request is denied because the access is too broad.
+      responses:
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '422':
+          "$ref": "#/components/responses/validation_failed"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '204':
+          "$ref": "#/components/responses/no_content"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: personal-access-tokens
+  "/orgs/{org}/personal-access-token-requests/{pat_request_id}/repositories":
+    get:
+      summary: List repositories requested to be accessed by a fine-grained personal
+        access token
+      description: |-
+        Lists the repositories a fine-grained personal access token request is requesting access to. Only GitHub Apps can call this API,
+        using the `organization_personal_access_token_requests: read` permission.
+
+        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+      tags:
+      - orgs
+      operationId: orgs/list-pat-grant-request-repositories
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/orgs#list-repositories-requested-to-be-accessed-by-a-fine-grained-personal-access-token
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - name: pat_request_id
+        in: path
+        description: Unique identifier of the request for access via fine-grained
+          personal access token.
+        required: true
+        schema:
+          type: integer
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
+      responses:
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/minimal-repository"
+              examples:
+                default:
+                  "$ref": "#/components/examples/minimal-repository-items"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: personal-access-tokens
+  "/orgs/{org}/personal-access-tokens":
+    get:
+      summary: List fine-grained personal access tokens with access to organization
+        resources
+      description: |-
+        Lists approved fine-grained personal access tokens owned by organization members that can access organization resources. Only GitHub Apps can call this API,
+        using the `organization_personal_access_tokens: read` permission.
+
+        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+      tags:
+      - orgs
+      operationId: orgs/list-pat-grants
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/orgs#list-fine-grained-personal-access-tokens-with-access-to-organization-resources
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
+      - "$ref": "#/components/parameters/personal-access-token-sort"
+      - "$ref": "#/components/parameters/direction"
+      - "$ref": "#/components/parameters/personal-access-token-owner"
+      - "$ref": "#/components/parameters/personal-access-token-repository"
+      - "$ref": "#/components/parameters/personal-access-token-permission"
+      - "$ref": "#/components/parameters/personal-access-token-before"
+      - "$ref": "#/components/parameters/personal-access-token-after"
+      responses:
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '422':
+          "$ref": "#/components/responses/validation_failed"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/organization-programmatic-access-grant"
+              examples:
+                default:
+                  "$ref": "#/components/examples/org-pat-grant-paginated"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: personal-access-tokens
+    post:
+      summary: Update the access to organization resources via fine-grained personal
+        access tokens
+      description: |-
+        Updates the access organization members have to organization resources via fine-grained personal access tokens. Limited to revoking a token's existing access. Only GitHub Apps can call this API,
+        using the `organization_personal_access_tokens: write` permission.
+
+        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+      tags:
+      - orgs
+      operationId: orgs/update-pat-accesses
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/orgs#update-the-access-to-organization-resources-via-fine-grained-personal-access-tokens
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  description: Action to apply to the fine-grained personal access
+                    token.
+                  enum:
+                  - revoke
+                pat_ids:
+                  description: The IDs of the fine-grained personal access tokens.
+                  type: array
+                  items:
+                    type: integer
+                    description: Unique identifier of the fine-grained personal access
+                      token.
+                  minItems: 1
+                  maxItems: 100
+              required:
+              - action
+              - pat_ids
+            examples:
+              '204':
+                summary: Example of revoking a fine-grained personal access token.
+                value:
+                  action: revoke
+                  pat_ids:
+                  - 1296269
+                  - 1296280
+      responses:
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '202':
+          "$ref": "#/components/responses/accepted"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '422':
+          "$ref": "#/components/responses/validation_failed"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: personal-access-tokens
+  "/orgs/{org}/personal-access-tokens/{pat_id}":
+    post:
+      summary: Update the access a fine-grained personal access token has to organization
+        resources
+      description: |-
+        Updates the access an organization member has to organization resources via a fine-grained personal access token. Limited to revoking the token's existing access. Limited to revoking a token's existing access. Only GitHub Apps can call this API,
+        using the `organization_personal_access_tokens: write` permission.
+
+        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+      tags:
+      - orgs
+      operationId: orgs/update-pat-access
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/orgs#update-the-access-a-fine-grained-personal-access-token-has-to-organization-resources
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/fine-grained-personal-access-token-id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  description: Action to apply to the fine-grained personal access
+                    token.
+                  enum:
+                  - revoke
+              required:
+              - action
+            examples:
+              '204':
+                summary: Example of revoking a fine-grained personal access token.
+                value:
+                  action: revoke
+      responses:
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '204':
+          "$ref": "#/components/responses/no_content"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '422':
+          "$ref": "#/components/responses/validation_failed"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: personal-access-tokens
+  "/orgs/{org}/personal-access-tokens/{pat_id}/repositories":
+    get:
+      summary: List repositories a fine-grained personal access token has access to
+      description: |-
+        Lists the repositories a fine-grained personal access token has access to. Only GitHub Apps can call this API,
+        using the `organization_personal_access_tokens: read` permission.
+
+        **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+      tags:
+      - orgs
+      operationId: orgs/list-pat-grant-repositories
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/orgs#list-repositories-a-fine-grained-personal-access-token-has-access-to
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - name: pat_id
+        in: path
+        description: Unique identifier of the fine-grained personal access token.
+        required: true
+        schema:
+          type: integer
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
+      responses:
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/minimal-repository"
+              examples:
+                default:
+                  "$ref": "#/components/examples/minimal-repository-items"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: personal-access-tokens
   "/orgs/{org}/projects":
     get:
       summary: List organization projects
@@ -9772,7 +9850,7 @@ paths:
   "/orgs/{org}/public_members/{username}":
     get:
       summary: Check public organization membership for a user
-      description: ''
+      description: Check if the provided user is a public member of the organization.
       tags:
       - orgs
       operationId: orgs/check-public-membership-for-user
@@ -9819,7 +9897,8 @@ paths:
         subcategory: members
     delete:
       summary: Remove public organization membership for the authenticated user
-      description: ''
+      description: Removes the public membership for the authenticated user from the
+        specified organization, unless public visibility is enforced by default.
       tags:
       - orgs
       operationId: orgs/remove-public-membership-for-authenticated-user
@@ -10136,6 +10215,8 @@ paths:
         subcategory: rules
       parameters:
       - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
       responses:
         '200':
           description: Response
@@ -12242,7 +12323,7 @@ paths:
   "/projects/columns/cards/{card_id}":
     get:
       summary: Get a project card
-      description: ''
+      description: Gets information about a project card.
       tags:
       - projects
       operationId: projects/get-card
@@ -12336,7 +12417,7 @@ paths:
         subcategory: cards
     delete:
       summary: Delete a project card
-      description: ''
+      description: Deletes a project card
       tags:
       - projects
       operationId: projects/delete-card
@@ -12487,7 +12568,7 @@ paths:
   "/projects/columns/{column_id}":
     get:
       summary: Get a project column
-      description: ''
+      description: Gets information about a project column.
       tags:
       - projects
       operationId: projects/get-column
@@ -12572,7 +12653,7 @@ paths:
         subcategory: columns
     delete:
       summary: Delete a project column
-      description: ''
+      description: Deletes a project column.
       tags:
       - projects
       operationId: projects/delete-column
@@ -12598,7 +12679,7 @@ paths:
   "/projects/columns/{column_id}/cards":
     get:
       summary: List project cards
-      description: ''
+      description: Lists the project cards in a project.
       tags:
       - projects
       operationId: projects/list-cards
@@ -13175,7 +13256,7 @@ paths:
   "/projects/{project_id}/columns":
     get:
       summary: List project columns
-      description: ''
+      description: Lists the project columns in a project.
       tags:
       - projects
       operationId: projects/list-columns
@@ -13214,7 +13295,7 @@ paths:
         subcategory: columns
     post:
       summary: Create a project column
-      description: ''
+      description: Creates a new project column.
       tags:
       - projects
       operationId: projects/create-column
@@ -14744,6 +14825,75 @@ paths:
         enabledForGitHubApps: true
         category: actions
         subcategory: self-hosted-runners
+  "/repos/{owner}/{repo}/actions/runners/generate-jitconfig":
+    post:
+      summary: Create configuration for a just-in-time runner for a repository
+      description: |-
+        Generates a configuration that can be passed to the runner application at startup.
+
+        You must authenticate using an access token with the `repo` scope to use this endpoint.
+      tags:
+      - actions
+      operationId: actions/generate-runner-jitconfig-for-repo
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/self-hosted-runners#create-configuration-for-a-just-in-time-runner-for-a-repository
+      parameters:
+      - "$ref": "#/components/parameters/owner"
+      - "$ref": "#/components/parameters/repo"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - runner_group_id
+              - labels
+              properties:
+                name:
+                  type: string
+                  description: The name of the new runner.
+                runner_group_id:
+                  type: integer
+                  description: The ID of the runner group to register the runner to.
+                labels:
+                  type: array
+                  minItems: 1
+                  maxItems: 100
+                  items:
+                    type: string
+                  description: 'The names of the custom labels to add to the runner.
+                    **Minimum items**: 1. **Maximum items**: 100.'
+                work_folder:
+                  type: string
+                  description: The working directory to be used for job execution,
+                    relative to the runner install directory.
+                  default: _work
+            examples:
+              default:
+                value:
+                  name: New runner
+                  runner_group_id: 1
+                  labels:
+                  - self-hosted
+                  - X64
+                  - macOS
+                  - no-gpu
+                  work_folder: _work
+      responses:
+        '201':
+          "$ref": "#/components/responses/actions_runner_jitconfig"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '422':
+          "$ref": "#/components/responses/validation_failed_simple"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: self-hosted-runners
   "/repos/{owner}/{repo}/actions/runners/registration-token":
     post:
       summary: Create a registration token for a repository
@@ -15956,7 +16106,7 @@ paths:
         token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use
         this endpoint.
 
-        #### Example encrypting a secret using Node.js
+        **Example encrypting a secret using Node.js**
 
         Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
 
@@ -15981,7 +16131,7 @@ paths:
         });
         ```
 
-        #### Example encrypting a secret using Python
+        **Example encrypting a secret using Python**
 
         Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
 
@@ -15997,7 +16147,7 @@ paths:
           return b64encode(encrypted).decode("utf-8")
         ```
 
-        #### Example encrypting a secret using C#
+        **Example encrypting a secret using C#**
 
         Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
 
@@ -16010,7 +16160,7 @@ paths:
         Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
         ```
 
-        #### Example encrypting a secret using Ruby
+        **Example encrypting a secret using Ruby**
 
         Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
 
@@ -19485,6 +19635,8 @@ paths:
         Triggers GitHub to rerequest an existing check run, without pushing new code to a repository. This endpoint will trigger the [`check_run` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) event with the action `rerequested`. When a check run is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
 
         To rerequest a check run, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
+
+        For more information about how to re-run GitHub Actions jobs, see "[Re-run a job from a workflow run](https://docs.github.com/rest/actions/workflow-runs#re-run-a-job-from-a-workflow-run)".
       tags:
       - checks
       operationId: checks/rerequest-run
@@ -21466,7 +21618,28 @@ paths:
         category: collaborators
     delete:
       summary: Remove a repository collaborator
-      description: ''
+      description: |-
+        Removes a collaborator from a repository.
+
+        To use this endpoint, the authenticated user must either be an administrator of the repository or target themselves for removal.
+
+        This endpoint also:
+        - Cancels any outstanding invitations
+        - Unasigns the user from any issues
+        - Removes access to organization projects if the user is not an organization member and is not a collaborator on any other organization repositories.
+        - Unstars the repository
+        - Updates access permissions to packages
+
+        Removing a user as a collaborator has the following effects on forks:
+         - If the user had access to a fork through their membership to this repository, the user will also be removed from the fork.
+         - If the user had their own fork of the repository, the fork will be deleted.
+         - If the user still has read access to the repository, open pull requests by this user from a fork will be denied.
+
+        **Note**: A user can still have access to the repository through organization permissions like base repository permissions.
+
+        Although the API responds immediately, the additional permission updates might take some extra time to complete in the background.
+
+        For more information on fork permissions, see "[About permissions and visibility of forks](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/about-permissions-and-visibility-of-forks)".
       tags:
       - repos
       operationId: repos/remove-collaborator
@@ -21479,7 +21652,11 @@ paths:
       - "$ref": "#/components/parameters/username"
       responses:
         '204':
-          description: Response
+          description: No Content when collaborator was removed from the repository.
+        '422':
+          "$ref": "#/components/responses/validation_failed"
+        '403':
+          "$ref": "#/components/responses/forbidden"
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
@@ -21487,8 +21664,14 @@ paths:
   "/repos/{owner}/{repo}/collaborators/{username}/permission":
     get:
       summary: Get repository permissions for a user
-      description: Checks the repository permission of a collaborator. The possible
-        repository permissions are `admin`, `write`, `read`, and `none`.
+      description: |-
+        Checks the repository permission of a collaborator. The possible repository
+        permissions are `admin`, `write`, `read`, and `none`.
+
+        *Note*: The `permission` attribute provides the legacy base roles of `admin`, `write`, `read`, and `none`, where the
+        `maintain` role is mapped to `write` and the `triage` role is mapped to `read`. To determine the role assigned to the
+        collaborator, see the `role_name` attribute, which will provide the full role name, including custom roles. The
+        `permissions` hash can also be used to determine which base level of access the collaborator has to the repository.
       tags:
       - repos
       operationId: repos/get-collaborator-permission-level
@@ -22134,13 +22317,7 @@ paths:
       - "$ref": "#/components/parameters/repo"
       - "$ref": "#/components/parameters/page"
       - "$ref": "#/components/parameters/per-page"
-      - name: ref
-        description: ref parameter
-        in: path
-        required: true
-        schema:
-          type: string
-        x-multi-segment: true
+      - "$ref": "#/components/parameters/commit-ref"
       responses:
         '200':
           description: Response
@@ -22179,13 +22356,7 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
-      - name: ref
-        description: ref parameter
-        in: path
-        required: true
-        schema:
-          type: string
-        x-multi-segment: true
+      - "$ref": "#/components/parameters/commit-ref"
       - "$ref": "#/components/parameters/check-name"
       - "$ref": "#/components/parameters/status"
       - name: filter
@@ -22250,13 +22421,7 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
-      - name: ref
-        description: ref parameter
-        in: path
-        required: true
-        schema:
-          type: string
-        x-multi-segment: true
+      - "$ref": "#/components/parameters/commit-ref"
       - name: app_id
         description: Filters check suites by GitHub App `id`.
         in: query
@@ -22316,13 +22481,7 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
-      - name: ref
-        description: ref parameter
-        in: path
-        required: true
-        schema:
-          type: string
-        x-multi-segment: true
+      - "$ref": "#/components/parameters/commit-ref"
       - "$ref": "#/components/parameters/per-page"
       - "$ref": "#/components/parameters/page"
       responses:
@@ -22358,13 +22517,7 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
-      - name: ref
-        description: ref parameter
-        in: path
-        required: true
-        schema:
-          type: string
-        x-multi-segment: true
+      - "$ref": "#/components/parameters/commit-ref"
       - "$ref": "#/components/parameters/per-page"
       - "$ref": "#/components/parameters/page"
       responses:
@@ -23022,6 +23175,8 @@ paths:
         You must use an access token with the `security_events` scope to use this endpoint with private repositories.
         You can also use tokens with the `public_repo` scope for public repositories only.
         GitHub Apps must have **Dependabot alerts** write permission to use this endpoint.
+
+        To use this endpoint, you must have access to security alerts for the repository. For more information, see "[Granting access to security alerts](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository#granting-access-to-security-alerts)."
       tags:
       - dependabot
       operationId: dependabot/update-alert
@@ -23215,7 +23370,7 @@ paths:
         token with the `repo` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` repository
         permission to use this endpoint.
 
-        #### Example encrypting a secret using Node.js
+        **Example encrypting a secret using Node.js**
 
         Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
 
@@ -23240,7 +23395,7 @@ paths:
         });
         ```
 
-        #### Example encrypting a secret using Python
+        **Example encrypting a secret using Python**
 
         Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
 
@@ -23256,7 +23411,7 @@ paths:
           return b64encode(encrypted).decode("utf-8")
         ```
 
-        #### Example encrypting a secret using C#
+        **Example encrypting a secret using C#**
 
         Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
 
@@ -23269,7 +23424,7 @@ paths:
         Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
         ```
 
-        #### Example encrypting a secret using Ruby
+        **Example encrypting a secret using Ruby**
 
         Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
 
@@ -25049,9 +25204,10 @@ paths:
         subcategory: commits
   "/repos/{owner}/{repo}/git/commits/{commit_sha}":
     get:
-      summary: Get a commit
+      summary: Get a commit object
       description: |-
-        Gets a Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).
+        Gets a Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
+        To get the contents of a commit, see "[Get a commit](/rest/commits/commits#get-a-commit)."
 
         **Signature verification object**
 
@@ -25128,13 +25284,7 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
-      - name: ref
-        description: ref parameter
-        in: path
-        required: true
-        schema:
-          type: string
-        x-multi-segment: true
+      - "$ref": "#/components/parameters/commit-ref"
       responses:
         '200':
           description: Response
@@ -25171,13 +25321,7 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
-      - name: ref
-        description: ref parameter
-        in: path
-        required: true
-        schema:
-          type: string
-        x-multi-segment: true
+      - "$ref": "#/components/parameters/commit-ref"
       responses:
         '200':
           description: Response
@@ -25330,13 +25474,7 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
-      - name: ref
-        description: ref parameter
-        in: path
-        required: true
-        schema:
-          type: string
-        x-multi-segment: true
+      - "$ref": "#/components/parameters/commit-ref"
       responses:
         '204':
           description: Response
@@ -27162,6 +27300,8 @@ paths:
               example: https://api.github.com/repos/octocat/Hello-World/issues/1347
               schema:
                 type: string
+        '400':
+          "$ref": "#/components/responses/bad_request"
         '403':
           "$ref": "#/components/responses/forbidden"
         '422':
@@ -27482,7 +27622,7 @@ paths:
   "/repos/{owner}/{repo}/issues/events":
     get:
       summary: List issue events for a repository
-      description: ''
+      description: Lists events for a repository.
       tags:
       - issues
       operationId: issues/list-events-for-repo
@@ -27519,7 +27659,7 @@ paths:
   "/repos/{owner}/{repo}/issues/events/{event_id}":
     get:
       summary: Get an issue event
-      description: ''
+      description: Gets a single event by the event id.
       tags:
       - issues
       operationId: issues/get-event
@@ -27992,7 +28132,7 @@ paths:
   "/repos/{owner}/{repo}/issues/{issue_number}/events":
     get:
       summary: List issue events
-      description: ''
+      description: Lists all events for an issue.
       tags:
       - issues
       operationId: issues/list-events
@@ -28030,7 +28170,7 @@ paths:
   "/repos/{owner}/{repo}/issues/{issue_number}/labels":
     get:
       summary: List labels for an issue
-      description: ''
+      description: Lists all labels for an issue.
       tags:
       - issues
       operationId: issues/list-labels-on-issue
@@ -28071,7 +28211,8 @@ paths:
         subcategory: labels
     post:
       summary: Add labels to an issue
-      description: ''
+      description: 'Adds labels to an issue. If you provide an empty array of labels,
+        all labels are removed from the issue. '
       tags:
       - issues
       operationId: issues/add-labels
@@ -28250,7 +28391,7 @@ paths:
         subcategory: labels
     delete:
       summary: Remove all labels from an issue
-      description: ''
+      description: Removes all labels from an issue.
       tags:
       - issues
       operationId: issues/remove-all-labels
@@ -28553,7 +28694,7 @@ paths:
   "/repos/{owner}/{repo}/issues/{issue_number}/timeline":
     get:
       summary: List timeline events for an issue
-      description: ''
+      description: List all timeline events for an issue.
       tags:
       - issues
       operationId: issues/list-events-for-timeline
@@ -28741,7 +28882,7 @@ paths:
   "/repos/{owner}/{repo}/labels":
     get:
       summary: List labels for a repository
-      description: ''
+      description: Lists all labels for a repository.
       tags:
       - issues
       operationId: issues/list-labels-for-repo
@@ -28777,7 +28918,9 @@ paths:
         subcategory: labels
     post:
       summary: Create a label
-      description: ''
+      description: Creates a label for the specified repository with the given name
+        and color. The name and color parameters are required. The color must be a
+        valid [hexadecimal color code](http://www.color-hex.com/).
       tags:
       - issues
       operationId: issues/create-label
@@ -28844,7 +28987,7 @@ paths:
   "/repos/{owner}/{repo}/labels/{name}":
     get:
       summary: Get a label
-      description: ''
+      description: Gets a label using the given name.
       tags:
       - issues
       operationId: issues/get-label
@@ -28878,7 +29021,7 @@ paths:
         subcategory: labels
     patch:
       summary: Update a label
-      description: ''
+      description: Updates a label using the given label name.
       tags:
       - issues
       operationId: issues/update-label
@@ -28938,7 +29081,7 @@ paths:
         subcategory: labels
     delete:
       summary: Delete a label
-      description: ''
+      description: Deletes a label using the given label name.
       tags:
       - issues
       operationId: issues/delete-label
@@ -29188,7 +29331,7 @@ paths:
   "/repos/{owner}/{repo}/milestones":
     get:
       summary: List milestones
-      description: ''
+      description: Lists milestones for a repository.
       tags:
       - issues
       operationId: issues/list-milestones
@@ -29255,7 +29398,7 @@ paths:
         subcategory: milestones
     post:
       summary: Create a milestone
-      description: ''
+      description: Creates a milestone.
       tags:
       - issues
       operationId: issues/create-milestone
@@ -29326,7 +29469,7 @@ paths:
   "/repos/{owner}/{repo}/milestones/{milestone_number}":
     get:
       summary: Get a milestone
-      description: ''
+      description: Gets a milestone using the given milestone number.
       tags:
       - issues
       operationId: issues/get-milestone
@@ -29416,7 +29559,7 @@ paths:
         subcategory: milestones
     delete:
       summary: Delete a milestone
-      description: ''
+      description: Deletes a milestone using the given milestone number.
       tags:
       - issues
       operationId: issues/delete-milestone
@@ -29440,7 +29583,7 @@ paths:
   "/repos/{owner}/{repo}/milestones/{milestone_number}/labels":
     get:
       summary: List labels for issues in a milestone
-      description: ''
+      description: Lists labels for issues in a milestone.
       tags:
       - issues
       operationId: issues/list-labels-for-milestone
@@ -32542,8 +32685,8 @@ paths:
               examples:
                 default:
                   "$ref": "#/components/examples/release"
-        '404':
-          "$ref": "#/components/responses/not_found"
+        '401':
+          description: Unauthorized
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
@@ -32923,7 +33066,10 @@ paths:
   "/repos/{owner}/{repo}/rules/branches/{branch}":
     get:
       summary: Get rules for a branch
-      description: Returns all rules that apply to the specified branch.
+      description: |-
+        Returns all rules that apply to the specified branch. The branch does not need to exist; rules that would apply to a
+        branch with that name will be returned. All rules that apply will be returned, regardless of the level at which they
+        are configured.
       tags:
       - repos
       operationId: repos/get-branch-rules
@@ -32934,6 +33080,8 @@ paths:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
       - "$ref": "#/components/parameters/branch"
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
       responses:
         '200':
           description: Response
@@ -32969,6 +33117,8 @@ paths:
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
       - name: includes_parents
         description: Include rulesets configured at higher levels that apply to this
           repository
@@ -32976,6 +33126,7 @@ paths:
         required: false
         schema:
           type: boolean
+          default: true
       responses:
         '200':
           description: Response
@@ -33121,6 +33272,7 @@ paths:
         required: false
         schema:
           type: boolean
+          default: true
       responses:
         '200':
           description: Response
@@ -34188,7 +34340,8 @@ paths:
   "/repos/{owner}/{repo}/subscription":
     get:
       summary: Get a repository subscription
-      description: ''
+      description: Gets information about whether the authenticated user is subscribed
+        to the repository.
       tags:
       - activity
       operationId: activity/get-repo-subscription
@@ -34479,7 +34632,16 @@ paths:
   "/repos/{owner}/{repo}/teams":
     get:
       summary: List repository teams
-      description: ''
+      description: |-
+        Lists the teams that have access to the specified repository and that are also visible to the authenticated user.
+
+        For a public repository, a team is listed only if that team added the public repository explicitly.
+
+        Personal access tokens require the following scopes:
+        * `public_repo` to call this endpoint on a public repository
+        * `repo` to call this endpoint on a private repository (this scope also includes public repositories)
+
+        This endpoint is not compatible with fine-grained personal access tokens.
       tags:
       - repos
       operationId: repos/list-teams
@@ -34506,6 +34668,8 @@ paths:
           headers:
             Link:
               "$ref": "#/components/headers/link"
+        '404':
+          "$ref": "#/components/responses/not_found"
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
@@ -35148,7 +35312,7 @@ paths:
         token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use
         this endpoint.
 
-        #### Example encrypting a secret using Node.js
+        **Example encrypting a secret using Node.js**
 
         Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
 
@@ -35173,7 +35337,7 @@ paths:
         });
         ```
 
-        #### Example encrypting a secret using Python
+        **Example encrypting a secret using Python**
 
         Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
 
@@ -35189,7 +35353,7 @@ paths:
           return b64encode(encrypted).decode("utf-8")
         ```
 
-        #### Example encrypting a secret using C#
+        **Example encrypting a secret using C#**
 
         Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
 
@@ -35202,7 +35366,7 @@ paths:
         Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
         ```
 
-        #### Example encrypting a secret using Ruby
+        **Example encrypting a secret using Ruby**
 
         Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
 
@@ -35997,6 +36161,8 @@ paths:
         `q=tom+repos:%3E42+followers:%3E1000`
 
         This query searches for users with the name `tom`. The results are restricted to users with more than 42 repositories and over 1,000 followers.
+
+        This endpoint does not accept authentication and will only include publicly visible users. As an alternative, you can use the GraphQL API. The GraphQL API requires authentication and will return private users, including Enterprise Managed Users (EMUs), that you are authorized to view. For more information, see "[GraphQL Queries](https://docs.github.com/graphql/reference/queries#search)."
       tags:
       - search
       operationId: search/users
@@ -37790,7 +37956,9 @@ paths:
   "/user/blocks/{username}":
     get:
       summary: Check if a user is blocked by the authenticated user
-      description: ''
+      description: Returns a 204 if the given user is blocked by the authenticated
+        user. Returns a 404 if the given user is not blocked by the authenticated
+        user, or if the given user account has been identified as spam by GitHub.
       tags:
       - users
       operationId: users/check-blocked
@@ -37821,7 +37989,8 @@ paths:
         subcategory: blocking
     put:
       summary: Block a user
-      description: ''
+      description: Blocks the given user and returns a 204. If the authenticated user
+        cannot block the given user a 422 is returned.
       tags:
       - users
       operationId: users/block
@@ -37850,7 +38019,7 @@ paths:
         subcategory: blocking
     delete:
       summary: Unblock a user
-      description: ''
+      description: Unblocks the given user and returns a 204.
       tags:
       - users
       operationId: users/unblock
@@ -38206,7 +38375,7 @@ paths:
 
         GitHub Apps must have write access to the `codespaces_user_secrets` user permission and `codespaces_secrets` repository permission on all referenced repositories to use this endpoint.
 
-        #### Example encrypting a secret using Node.js
+        **Example encrypting a secret using Node.js**
 
         Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
 
@@ -38231,7 +38400,7 @@ paths:
         });
         ```
 
-        #### Example encrypting a secret using Python
+        **Example encrypting a secret using Python**
 
         Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
 
@@ -38247,7 +38416,7 @@ paths:
           return b64encode(encrypted).decode("utf-8")
         ```
 
-        #### Example encrypting a secret using C#
+        **Example encrypting a secret using C#**
 
         Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
 
@@ -38260,7 +38429,7 @@ paths:
         Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
         ```
 
-        #### Example encrypting a secret using Ruby
+        **Example encrypting a secret using Ruby**
 
         Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
 
@@ -39732,7 +39901,7 @@ paths:
     delete:
       summary: Remove a repository from an app installation
       description: |-
-        Remove a single repository from an installation. The authenticated user must have admin access to the repository.
+        Remove a single repository from an installation. The authenticated user must have admin access to the repository. The installation must have the `repository_selection` of `selected`.
 
         You must use a personal access token (which you can create via the [command line](https://docs.github.com/github/authenticating-to-github/creating-a-personal-access-token) or [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication)) to access this endpoint.
       tags:
@@ -39753,6 +39922,10 @@ paths:
           "$ref": "#/components/responses/not_modified"
         '404':
           "$ref": "#/components/responses/not_found"
+        '422':
+          description: Returned when the application is installed on `all` repositories
+            in the organization, or if this request would remove the last repository
+            that the application has access to in the organization.
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: false
@@ -40187,7 +40360,7 @@ paths:
   "/user/memberships/orgs":
     get:
       summary: List organization memberships for the authenticated user
-      description: ''
+      description: Lists all of the authenticated user's organization memberships.
       tags:
       - orgs
       operationId: orgs/list-memberships-for-authenticated-user
@@ -40232,13 +40405,17 @@ paths:
           "$ref": "#/components/responses/validation_failed"
       x-github:
         githubCloudOnly: false
-        enabledForGitHubApps: false
+        enabledForGitHubApps: true
         category: orgs
         subcategory: members
   "/user/memberships/orgs/{org}":
     get:
       summary: Get an organization membership for the authenticated user
-      description: ''
+      description: If the authenticated user is an active or pending member of the
+        organization, this endpoint will return the user's membership. If the authenticated
+        user is not affiliated with the organization, a `404` is returned. This endpoint
+        will return a `403` if the request is made by a GitHub App that is blocked
+        by the organization.
       tags:
       - orgs
       operationId: orgs/get-membership-for-authenticated-user
@@ -40263,12 +40440,13 @@ paths:
           "$ref": "#/components/responses/not_found"
       x-github:
         githubCloudOnly: false
-        enabledForGitHubApps: false
+        enabledForGitHubApps: true
         category: orgs
         subcategory: members
     patch:
       summary: Update an organization membership for the authenticated user
-      description: ''
+      description: Converts the authenticated user to an active member of the organization,
+        if that user has a pending invitation from the organization.
       tags:
       - orgs
       operationId: orgs/update-membership-for-authenticated-user
@@ -40314,7 +40492,7 @@ paths:
           "$ref": "#/components/responses/validation_failed"
       x-github:
         githubCloudOnly: false
-        enabledForGitHubApps: false
+        enabledForGitHubApps: true
         category: orgs
         subcategory: members
   "/user/migrations":
@@ -41934,7 +42112,7 @@ paths:
   "/user/starred/{owner}/{repo}":
     get:
       summary: Check if a repository is starred by the authenticated user
-      description: ''
+      description: Whether the authenticated user has starred the repository.
       tags:
       - activity
       operationId: activity/check-repo-is-starred-by-authenticated-user
@@ -41995,7 +42173,8 @@ paths:
         subcategory: starring
     delete:
       summary: Unstar a repository for the authenticated user
-      description: ''
+      description: Unstar a repository that the authenticated user has previously
+        starred.
       tags:
       - activity
       operationId: activity/unstar-repo-for-authenticated-user
@@ -42958,7 +43137,7 @@ paths:
   "/users/{username}/projects":
     get:
       summary: List user projects
-      description: ''
+      description: Lists projects for a user.
       tags:
       - projects
       operationId: projects/list-for-user
@@ -45301,7 +45480,7 @@ webhooks:
   deploy-key-deleted:
     post:
       summary: |-
-        This event occurs when there is activity relating to deploy keys. For more information, see "[Managing deploy keys](https://docs.github.com/developers/overview/managing-deploy-keys)." For information about the APIs to manage deploy keys, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#deploykey) or "[Deploy keys](https://docs.github.com/rest/deploy-keys)" in the REST API documentation.
+        This event occurs when there is activity relating to deploy keys. For more information, see "[Managing deploy keys](https://docs.github.com/developers/overview/managing-deploy-keys)." For information about the APIs to manage deploy keys, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deploykey) or "[Deploy keys](https://docs.github.com/rest/deploy-keys)" in the REST API documentation.
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Deployments" repository permission.
       description: A deploy key was deleted.
@@ -49590,8 +49769,6 @@ webhooks:
         This event occurs when there is activity relating to a merge group in a merge queue. For more information, see "[Managing a merge queue](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue)."
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Merge queues" repository permission.
-
-        **Note**: The pull request merge queue feature is currently in public beta and subject to change.
       description: |-
         Status checks were requested for a merge group. This happens when a merge group is created or added to by the merge queue because a pull request was queued.
 
@@ -63358,6 +63535,33 @@ components:
             type: string
           examples:
           - 192.0.2.1
+        domains:
+          type: object
+          properties:
+            website:
+              type: array
+              items:
+                type: string
+                examples:
+                - example.com
+            codespaces:
+              type: array
+              items:
+                type: string
+                examples:
+                - example.com
+            copilot:
+              type: array
+              items:
+                type: string
+                examples:
+                - example.com
+            packages:
+              type: array
+              items:
+                type: string
+                examples:
+                - example.com
       required:
       - verifiable_password_authentication
     security-and-analysis:
@@ -63942,151 +64146,6 @@ components:
       - public_members_url
       - avatar_url
       - description
-    organization-programmatic-access-grant-request:
-      title: Simple Organization Programmatic Access Grant Request
-      description: Minimal representation of an organization programmatic access grant
-        request for enumerations
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Unique identifier of the request for access via fine-grained
-            personal access token. The `pat_request_id` used to review PAT requests.
-        reason:
-          type:
-          - string
-          - 'null'
-          description: Reason for requesting access.
-        owner:
-          "$ref": "#/components/schemas/simple-user"
-        repository_selection:
-          type: string
-          enum:
-          - none
-          - all
-          - subset
-          description: Type of repository selection requested.
-        repositories_url:
-          type: string
-          description: URL to the list of repositories requested to be accessed via
-            fine-grained personal access token. Should only be followed when `repository_selection`
-            is `subset`.
-        permissions:
-          type: object
-          description: Permissions requested, categorized by type of permission.
-          properties:
-            organization:
-              type: object
-              additionalProperties:
-                type: string
-            repository:
-              type: object
-              additionalProperties:
-                type: string
-            other:
-              type: object
-              additionalProperties:
-                type: string
-        created_at:
-          type: string
-          description: Date and time when the request for access was created.
-        token_expired:
-          type: boolean
-          description: Whether the associated fine-grained personal access token has
-            expired.
-        token_expires_at:
-          type:
-          - string
-          - 'null'
-          description: Date and time when the associated fine-grained personal access
-            token expires.
-        token_last_used_at:
-          type:
-          - string
-          - 'null'
-          description: Date and time when the associated fine-grained personal access
-            token was last used for authentication.
-      required:
-      - id
-      - reason
-      - owner
-      - repository_selection
-      - repositories_url
-      - permissions
-      - created_at
-      - token_expired
-      - token_expires_at
-      - token_last_used_at
-    organization-programmatic-access-grant:
-      title: Organization Programmatic Access Grant
-      description: Minimal representation of an organization programmatic access grant
-        for enumerations
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Unique identifier of the fine-grained personal access token.
-            The `pat_id` used to get details about an approved fine-grained personal
-            access token.
-        owner:
-          "$ref": "#/components/schemas/simple-user"
-        repository_selection:
-          type: string
-          enum:
-          - none
-          - all
-          - subset
-          description: Type of repository selection requested.
-        repositories_url:
-          type: string
-          description: URL to the list of repositories the fine-grained personal access
-            token can access. Only follow when `repository_selection` is `subset`.
-        permissions:
-          type: object
-          description: Permissions requested, categorized by type of permission.
-          properties:
-            organization:
-              type: object
-              additionalProperties:
-                type: string
-            repository:
-              type: object
-              additionalProperties:
-                type: string
-            other:
-              type: object
-              additionalProperties:
-                type: string
-        access_granted_at:
-          type: string
-          description: Date and time when the fine-grained personal access token was
-            approved to access the organization.
-        token_expired:
-          type: boolean
-          description: Whether the associated fine-grained personal access token has
-            expired.
-        token_expires_at:
-          type:
-          - string
-          - 'null'
-          description: Date and time when the associated fine-grained personal access
-            token expires.
-        token_last_used_at:
-          type:
-          - string
-          - 'null'
-          description: Date and time when the associated fine-grained personal access
-            token was last used for authentication.
-      required:
-      - id
-      - owner
-      - repository_selection
-      - repositories_url
-      - permissions
-      - access_granted_at
-      - token_expired
-      - token_expires_at
-      - token_last_used_at
     organization-full:
       title: Organization Full
       description: Organization Full
@@ -66177,6 +66236,151 @@ components:
       - package_html_url
       - created_at
       - updated_at
+    organization-programmatic-access-grant-request:
+      title: Simple Organization Programmatic Access Grant Request
+      description: Minimal representation of an organization programmatic access grant
+        request for enumerations
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the request for access via fine-grained
+            personal access token. The `pat_request_id` used to review PAT requests.
+        reason:
+          type:
+          - string
+          - 'null'
+          description: Reason for requesting access.
+        owner:
+          "$ref": "#/components/schemas/simple-user"
+        repository_selection:
+          type: string
+          enum:
+          - none
+          - all
+          - subset
+          description: Type of repository selection requested.
+        repositories_url:
+          type: string
+          description: URL to the list of repositories requested to be accessed via
+            fine-grained personal access token. Should only be followed when `repository_selection`
+            is `subset`.
+        permissions:
+          type: object
+          description: Permissions requested, categorized by type of permission.
+          properties:
+            organization:
+              type: object
+              additionalProperties:
+                type: string
+            repository:
+              type: object
+              additionalProperties:
+                type: string
+            other:
+              type: object
+              additionalProperties:
+                type: string
+        created_at:
+          type: string
+          description: Date and time when the request for access was created.
+        token_expired:
+          type: boolean
+          description: Whether the associated fine-grained personal access token has
+            expired.
+        token_expires_at:
+          type:
+          - string
+          - 'null'
+          description: Date and time when the associated fine-grained personal access
+            token expires.
+        token_last_used_at:
+          type:
+          - string
+          - 'null'
+          description: Date and time when the associated fine-grained personal access
+            token was last used for authentication.
+      required:
+      - id
+      - reason
+      - owner
+      - repository_selection
+      - repositories_url
+      - permissions
+      - created_at
+      - token_expired
+      - token_expires_at
+      - token_last_used_at
+    organization-programmatic-access-grant:
+      title: Organization Programmatic Access Grant
+      description: Minimal representation of an organization programmatic access grant
+        for enumerations
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the fine-grained personal access token.
+            The `pat_id` used to get details about an approved fine-grained personal
+            access token.
+        owner:
+          "$ref": "#/components/schemas/simple-user"
+        repository_selection:
+          type: string
+          enum:
+          - none
+          - all
+          - subset
+          description: Type of repository selection requested.
+        repositories_url:
+          type: string
+          description: URL to the list of repositories the fine-grained personal access
+            token can access. Only follow when `repository_selection` is `subset`.
+        permissions:
+          type: object
+          description: Permissions requested, categorized by type of permission.
+          properties:
+            organization:
+              type: object
+              additionalProperties:
+                type: string
+            repository:
+              type: object
+              additionalProperties:
+                type: string
+            other:
+              type: object
+              additionalProperties:
+                type: string
+        access_granted_at:
+          type: string
+          description: Date and time when the fine-grained personal access token was
+            approved to access the organization.
+        token_expired:
+          type: boolean
+          description: Whether the associated fine-grained personal access token has
+            expired.
+        token_expires_at:
+          type:
+          - string
+          - 'null'
+          description: Date and time when the associated fine-grained personal access
+            token expires.
+        token_last_used_at:
+          type:
+          - string
+          - 'null'
+          description: Date and time when the associated fine-grained personal access
+            token was last used for authentication.
+      required:
+      - id
+      - owner
+      - repository_selection
+      - repositories_url
+      - permissions
+      - access_granted_at
+      - token_expired
+      - token_expires_at
+      - token_last_used_at
     project:
       title: Project
       description: Projects are a way to organize columns and cards of work.
@@ -66349,7 +66553,7 @@ components:
       - "$ref": "#/components/schemas/repository-ruleset-conditions-repository-name-target"
     repository-rule-creation:
       title: creation
-      description: Parameters to be used for the creation rule
+      description: Only allow users with bypass permission to create matching refs.
       type: object
       required:
       - type
@@ -66360,7 +66564,7 @@ components:
           - creation
     repository-rule-update:
       title: update
-      description: Parameters to be used for the update rule
+      description: Only allow users with bypass permission to update matching refs.
       type: object
       required:
       - type
@@ -66379,7 +66583,7 @@ components:
           - update_allows_fetch_and_merge
     repository-rule-deletion:
       title: deletion
-      description: Parameters to be used for the deletion rule
+      description: Only allow users with bypass permissions to delete matching refs.
       type: object
       required:
       - type
@@ -66390,7 +66594,7 @@ components:
           - deletion
     repository-rule-required-linear-history:
       title: required_linear_history
-      description: Parameters to be used for the required_linear_history rule
+      description: Prevent merge commits from being pushed to matching branches.
       type: object
       required:
       - type
@@ -66401,7 +66605,8 @@ components:
           - required_linear_history
     repository-rule-required-deployments:
       title: required_deployments
-      description: Parameters to be used for the required_deployments rule
+      description: Choose which environments must be successfully deployed to before
+        branches can be merged into a branch that matches this rule.
       type: object
       required:
       - type
@@ -66423,7 +66628,7 @@ components:
           - required_deployment_environments
     repository-rule-required-signatures:
       title: required_signatures
-      description: Parameters to be used for the required_signatures rule
+      description: Commits pushed to matching branches must have verified signatures.
       type: object
       required:
       - type
@@ -66434,7 +66639,8 @@ components:
           - required_signatures
     repository-rule-pull-request:
       title: pull_request
-      description: Parameters to be used for the pull_request rule
+      description: Require all commits be made to a non-target branch and submitted
+        via a pull request before they can be merged.
       type: object
       required:
       - type
@@ -66490,7 +66696,10 @@ components:
       - context
     repository-rule-required-status-checks:
       title: required_status_checks
-      description: Parameters to be used for the required_status_checks rule
+      description: Choose which status checks must pass before branches can be merged
+        into a branch that matches this rule. When enabled, commits must first be
+        pushed to another branch, then merged or pushed directly to a branch that
+        matches this rule after status checks have passed.
       type: object
       required:
       - type
@@ -66517,7 +66726,7 @@ components:
           - strict_required_status_checks_policy
     repository-rule-non-fast-forward:
       title: non_fast_forward
-      description: Parameters to be used for the non_fast_forward rule
+      description: Prevent users with push access from force pushing to branches.
       type: object
       required:
       - type
@@ -66774,6 +66983,12 @@ components:
                 href:
                   type: string
                   description: The URL of the ruleset
+            html:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: The html URL of the ruleset
         conditions:
           anyOf:
           - "$ref": "#/components/schemas/repository-ruleset-conditions"
@@ -66782,6 +66997,12 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/repository-rule"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
     actions-billing-usage:
       type: object
       properties:
@@ -68246,6 +68467,8 @@ components:
             graphql:
               "$ref": "#/components/schemas/rate-limit"
             search:
+              "$ref": "#/components/schemas/rate-limit"
+            code_search:
               "$ref": "#/components/schemas/rate-limit"
             source_import:
               "$ref": "#/components/schemas/rate-limit"
@@ -71906,13 +72129,12 @@ components:
           items:
             type: string
             enum:
-            - c
-            - cpp
+            - c-cpp
             - csharp
             - go
-            - java
+            - java-kotlin
+            - javascript-typescript
             - javascript
-            - kotlin
             - python
             - ruby
             - typescript
@@ -71947,6 +72169,21 @@ components:
           enum:
           - default
           - extended
+        languages:
+          description: 'CodeQL languages to be analyzed. Supported values are: `c-cpp`,
+            `csharp`, `go`, `java-kotlin`, `javascript-typescript`, `python`, and
+            `ruby`.'
+          type: array
+          items:
+            type: string
+            enum:
+            - c-cpp
+            - csharp
+            - go
+            - java-kotlin
+            - javascript-typescript
+            - python
+            - ruby
       required:
       - state
     code-scanning-default-setup-update-response:
@@ -83031,6 +83268,10 @@ components:
               type: integer
             require_code_owner_review:
               type: boolean
+            require_last_push_approval:
+              description: Whether the most recent push must be approved by someone
+                other than the person who pushed it
+              type: boolean
             required_approving_review_count:
               type: integer
             required_conversation_resolution_level:
@@ -83179,6 +83420,10 @@ components:
             repository_id:
               type: integer
             require_code_owner_review:
+              type: boolean
+            require_last_push_approval:
+              description: Whether the most recent push must be approved by someone
+                other than the person who pushed it
               type: boolean
             required_approving_review_count:
               type: integer
@@ -83399,6 +83644,10 @@ components:
             repository_id:
               type: integer
             require_code_owner_review:
+              type: boolean
+            require_last_push_approval:
+              description: Whether the most recent push must be approved by someone
+                other than the person who pushed it
               type: boolean
             required_approving_review_count:
               type: integer
@@ -124685,6 +124934,8 @@ components:
           type: string
           enum:
           - closed
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
         organization:
           "$ref": "#/components/schemas/organization-simple"
         projects_v2:
@@ -124704,6 +124955,8 @@ components:
           type: string
           enum:
           - created
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
         organization:
           "$ref": "#/components/schemas/organization-simple"
         projects_v2:
@@ -124723,6 +124976,8 @@ components:
           type: string
           enum:
           - deleted
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
         organization:
           "$ref": "#/components/schemas/organization-simple"
         projects_v2:
@@ -124781,6 +125036,8 @@ components:
                   type: string
                 to:
                   type: string
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
         organization:
           "$ref": "#/components/schemas/organization-simple"
         projects_v2:
@@ -125038,6 +125295,8 @@ components:
           type: string
           enum:
           - reopened
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
         organization:
           "$ref": "#/components/schemas/organization-simple"
         projects_v2:
@@ -201488,14 +201747,12 @@ components:
         slug: octoapp
         node_id: MDExOkludGVncmF0aW9uMQ==
         owner:
-          login: github
+          login: octocat
           id: 1
-          node_id: MDEyOk9yZ2FuaXphdGlvbjE=
-          url: https://api.github.com/orgs/github
-          repos_url: https://api.github.com/orgs/github/repos
-          events_url: https://api.github.com/orgs/github/events
+          node_id: MDQ6VXNlcjE=
           avatar_url: https://github.com/images/error/octocat_happy.gif
           gravatar_id: ''
+          url: https://api.github.com/users/octocat
           html_url: https://github.com/octocat
           followers_url: https://api.github.com/users/octocat/followers
           following_url: https://api.github.com/users/octocat/following{/other_user}
@@ -201503,9 +201760,11 @@ components:
           starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
           subscriptions_url: https://api.github.com/users/octocat/subscriptions
           organizations_url: https://api.github.com/users/octocat/orgs
+          repos_url: https://api.github.com/users/octocat/repos
+          events_url: https://api.github.com/users/octocat/events{/privacy}
           received_events_url: https://api.github.com/users/octocat/received_events
           type: User
-          site_admin: true
+          site_admin: false
         name: Octocat App
         description: ''
         external_url: https://example.com
@@ -205589,6 +205848,15 @@ components:
         - 192.0.2.1
         dependabot:
         - 192.0.2.1
+        domains:
+          website:
+          - "*.example.com"
+          codespaces:
+          - "*.example.com"
+          copilot:
+          - "*.example.com"
+          packages:
+          - "*.example.com"
     public-repo-events-items:
       value:
       - id: '22249084964'
@@ -205849,181 +206117,6 @@ components:
         public_members_url: https://api.github.com/orgs/github/public_members{/member}
         avatar_url: https://github.com/images/error/octocat_happy.gif
         description: A great organization
-    org-pat-grant-request-paginated:
-      value:
-      - id: 25381
-        reason: I need to access the GitHub API
-        owner:
-          login: github
-          id: 1
-          node_id: MDEyOk9yZ2FuaXphdGlvbjE=
-          url: https://api.github.com/orgs/github
-          repos_url: https://api.github.com/orgs/github/repos
-          events_url: https://api.github.com/orgs/github/events
-          avatar_url: https://github.com/images/error/octocat_happy.gif
-          gravatar_id: ''
-          html_url: https://github.com/octocat
-          followers_url: https://api.github.com/users/octocat/followers
-          following_url: https://api.github.com/users/octocat/following{/other_user}
-          gists_url: https://api.github.com/users/octocat/gists{/gist_id}
-          starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
-          subscriptions_url: https://api.github.com/users/octocat/subscriptions
-          organizations_url: https://api.github.com/users/octocat/orgs
-          received_events_url: https://api.github.com/users/octocat/received_events
-          type: User
-          site_admin: true
-        repository_selection: all
-        repositories_url: https://api.github.com/organizations/652551/personal-access-token-requests/25381/repositories
-        permissions:
-          organization:
-            members: read
-          repository:
-            metadata: read
-        created_at: '2023-05-16T08:47:09.000-07:00'
-        token_expired: false
-        token_expires_at: '2023-11-16T08:47:09.000-07:00'
-        token_last_used_at: 
-    minimal-repository-items:
-      value:
-      - id: 1296269
-        node_id: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-        name: Hello-World
-        full_name: octocat/Hello-World
-        owner:
-          login: octocat
-          id: 1
-          node_id: MDQ6VXNlcjE=
-          avatar_url: https://github.com/images/error/octocat_happy.gif
-          gravatar_id: ''
-          url: https://api.github.com/users/octocat
-          html_url: https://github.com/octocat
-          followers_url: https://api.github.com/users/octocat/followers
-          following_url: https://api.github.com/users/octocat/following{/other_user}
-          gists_url: https://api.github.com/users/octocat/gists{/gist_id}
-          starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
-          subscriptions_url: https://api.github.com/users/octocat/subscriptions
-          organizations_url: https://api.github.com/users/octocat/orgs
-          repos_url: https://api.github.com/users/octocat/repos
-          events_url: https://api.github.com/users/octocat/events{/privacy}
-          received_events_url: https://api.github.com/users/octocat/received_events
-          type: User
-          site_admin: false
-        private: false
-        html_url: https://github.com/octocat/Hello-World
-        description: This your first repo!
-        fork: false
-        url: https://api.github.com/repos/octocat/Hello-World
-        archive_url: https://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}
-        assignees_url: https://api.github.com/repos/octocat/Hello-World/assignees{/user}
-        blobs_url: https://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}
-        branches_url: https://api.github.com/repos/octocat/Hello-World/branches{/branch}
-        collaborators_url: https://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}
-        comments_url: https://api.github.com/repos/octocat/Hello-World/comments{/number}
-        commits_url: https://api.github.com/repos/octocat/Hello-World/commits{/sha}
-        compare_url: https://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}
-        contents_url: https://api.github.com/repos/octocat/Hello-World/contents/{+path}
-        contributors_url: https://api.github.com/repos/octocat/Hello-World/contributors
-        deployments_url: https://api.github.com/repos/octocat/Hello-World/deployments
-        downloads_url: https://api.github.com/repos/octocat/Hello-World/downloads
-        events_url: https://api.github.com/repos/octocat/Hello-World/events
-        forks_url: https://api.github.com/repos/octocat/Hello-World/forks
-        git_commits_url: https://api.github.com/repos/octocat/Hello-World/git/commits{/sha}
-        git_refs_url: https://api.github.com/repos/octocat/Hello-World/git/refs{/sha}
-        git_tags_url: https://api.github.com/repos/octocat/Hello-World/git/tags{/sha}
-        git_url: git:github.com/octocat/Hello-World.git
-        issue_comment_url: https://api.github.com/repos/octocat/Hello-World/issues/comments{/number}
-        issue_events_url: https://api.github.com/repos/octocat/Hello-World/issues/events{/number}
-        issues_url: https://api.github.com/repos/octocat/Hello-World/issues{/number}
-        keys_url: https://api.github.com/repos/octocat/Hello-World/keys{/key_id}
-        labels_url: https://api.github.com/repos/octocat/Hello-World/labels{/name}
-        languages_url: https://api.github.com/repos/octocat/Hello-World/languages
-        merges_url: https://api.github.com/repos/octocat/Hello-World/merges
-        milestones_url: https://api.github.com/repos/octocat/Hello-World/milestones{/number}
-        notifications_url: https://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}
-        pulls_url: https://api.github.com/repos/octocat/Hello-World/pulls{/number}
-        releases_url: https://api.github.com/repos/octocat/Hello-World/releases{/id}
-        ssh_url: git@github.com:octocat/Hello-World.git
-        stargazers_url: https://api.github.com/repos/octocat/Hello-World/stargazers
-        statuses_url: https://api.github.com/repos/octocat/Hello-World/statuses/{sha}
-        subscribers_url: https://api.github.com/repos/octocat/Hello-World/subscribers
-        subscription_url: https://api.github.com/repos/octocat/Hello-World/subscription
-        tags_url: https://api.github.com/repos/octocat/Hello-World/tags
-        teams_url: https://api.github.com/repos/octocat/Hello-World/teams
-        trees_url: https://api.github.com/repos/octocat/Hello-World/git/trees{/sha}
-        clone_url: https://github.com/octocat/Hello-World.git
-        mirror_url: git:git.example.com/octocat/Hello-World
-        hooks_url: https://api.github.com/repos/octocat/Hello-World/hooks
-        svn_url: https://svn.github.com/octocat/Hello-World
-        homepage: https://github.com
-        language: 
-        forks_count: 9
-        stargazers_count: 80
-        watchers_count: 80
-        size: 108
-        default_branch: master
-        open_issues_count: 0
-        is_template: false
-        topics:
-        - octocat
-        - atom
-        - electron
-        - api
-        has_issues: true
-        has_projects: true
-        has_wiki: true
-        has_pages: false
-        has_downloads: true
-        has_discussions: false
-        archived: false
-        disabled: false
-        visibility: public
-        pushed_at: '2011-01-26T19:06:43Z'
-        created_at: '2011-01-26T19:01:12Z'
-        updated_at: '2011-01-26T19:14:43Z'
-        permissions:
-          admin: false
-          push: false
-          pull: true
-        security_and_analysis:
-          advanced_security:
-            status: enabled
-          secret_scanning:
-            status: enabled
-          secret_scanning_push_protection:
-            status: disabled
-    org-pat-grant-paginated:
-      value:
-      - id: 25381
-        owner:
-          login: github
-          id: 1
-          node_id: MDEyOk9yZ2FuaXphdGlvbjE=
-          url: https://api.github.com/orgs/github
-          repos_url: https://api.github.com/orgs/github/repos
-          events_url: https://api.github.com/orgs/github/events
-          avatar_url: https://github.com/images/error/octocat_happy.gif
-          gravatar_id: ''
-          html_url: https://github.com/octocat
-          followers_url: https://api.github.com/users/octocat/followers
-          following_url: https://api.github.com/users/octocat/following{/other_user}
-          gists_url: https://api.github.com/users/octocat/gists{/gist_id}
-          starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
-          subscriptions_url: https://api.github.com/users/octocat/subscriptions
-          organizations_url: https://api.github.com/users/octocat/orgs
-          received_events_url: https://api.github.com/users/octocat/received_events
-          type: User
-          site_admin: true
-        repository_selection: all
-        repositories_url: https://api.github.com/organizations/652551/personal-access-tokens/25381/repositories
-        permissions:
-          organization:
-            members: read
-          repository:
-            metadata: read
-        access_granted_at: '2023-05-16T08:47:09.000-07:00'
-        token_expired: false
-        token_expires_at: '2023-11-16T08:47:09.000-07:00'
-        token_last_used_at: 
     organization-full:
       value:
         login: github
@@ -206536,6 +206629,28 @@ components:
         architecture: arm64
         download_url: https://github.com/actions/runner/releases/download/v2.164.0/actions-runner-linux-arm64-2.164.0.tar.gz
         filename: actions-runner-linux-arm64-2.164.0.tar.gz
+    runner-jitconfig:
+      value:
+        runner:
+          id: 23
+          name: New runner
+          os: unknown
+          status: offline
+          busy: false
+          labels:
+          - id: 5
+            name: self-hosted
+            type: read-only
+          - id: 7
+            name: X64
+            type: read-only
+          - id: 20
+            name: macOS
+            type: read-only
+          - id: 21
+            name: no-gpu
+            type: custom
+        encoded_jit_config: abc123
     authentication-token:
       value:
         token: LLBF3JGZDX3P5PMEXLND6TS6FCWO6
@@ -208390,6 +208505,114 @@ components:
         url: https://api.github.com/orgs/octo-org/migrations/79
         created_at: '2015-07-06T15:33:38-07:00'
         updated_at: '2015-07-06T15:33:38-07:00'
+    minimal-repository-items:
+      value:
+      - id: 1296269
+        node_id: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
+        name: Hello-World
+        full_name: octocat/Hello-World
+        owner:
+          login: octocat
+          id: 1
+          node_id: MDQ6VXNlcjE=
+          avatar_url: https://github.com/images/error/octocat_happy.gif
+          gravatar_id: ''
+          url: https://api.github.com/users/octocat
+          html_url: https://github.com/octocat
+          followers_url: https://api.github.com/users/octocat/followers
+          following_url: https://api.github.com/users/octocat/following{/other_user}
+          gists_url: https://api.github.com/users/octocat/gists{/gist_id}
+          starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
+          subscriptions_url: https://api.github.com/users/octocat/subscriptions
+          organizations_url: https://api.github.com/users/octocat/orgs
+          repos_url: https://api.github.com/users/octocat/repos
+          events_url: https://api.github.com/users/octocat/events{/privacy}
+          received_events_url: https://api.github.com/users/octocat/received_events
+          type: User
+          site_admin: false
+        private: false
+        html_url: https://github.com/octocat/Hello-World
+        description: This your first repo!
+        fork: false
+        url: https://api.github.com/repos/octocat/Hello-World
+        archive_url: https://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}
+        assignees_url: https://api.github.com/repos/octocat/Hello-World/assignees{/user}
+        blobs_url: https://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}
+        branches_url: https://api.github.com/repos/octocat/Hello-World/branches{/branch}
+        collaborators_url: https://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}
+        comments_url: https://api.github.com/repos/octocat/Hello-World/comments{/number}
+        commits_url: https://api.github.com/repos/octocat/Hello-World/commits{/sha}
+        compare_url: https://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}
+        contents_url: https://api.github.com/repos/octocat/Hello-World/contents/{+path}
+        contributors_url: https://api.github.com/repos/octocat/Hello-World/contributors
+        deployments_url: https://api.github.com/repos/octocat/Hello-World/deployments
+        downloads_url: https://api.github.com/repos/octocat/Hello-World/downloads
+        events_url: https://api.github.com/repos/octocat/Hello-World/events
+        forks_url: https://api.github.com/repos/octocat/Hello-World/forks
+        git_commits_url: https://api.github.com/repos/octocat/Hello-World/git/commits{/sha}
+        git_refs_url: https://api.github.com/repos/octocat/Hello-World/git/refs{/sha}
+        git_tags_url: https://api.github.com/repos/octocat/Hello-World/git/tags{/sha}
+        git_url: git:github.com/octocat/Hello-World.git
+        issue_comment_url: https://api.github.com/repos/octocat/Hello-World/issues/comments{/number}
+        issue_events_url: https://api.github.com/repos/octocat/Hello-World/issues/events{/number}
+        issues_url: https://api.github.com/repos/octocat/Hello-World/issues{/number}
+        keys_url: https://api.github.com/repos/octocat/Hello-World/keys{/key_id}
+        labels_url: https://api.github.com/repos/octocat/Hello-World/labels{/name}
+        languages_url: https://api.github.com/repos/octocat/Hello-World/languages
+        merges_url: https://api.github.com/repos/octocat/Hello-World/merges
+        milestones_url: https://api.github.com/repos/octocat/Hello-World/milestones{/number}
+        notifications_url: https://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}
+        pulls_url: https://api.github.com/repos/octocat/Hello-World/pulls{/number}
+        releases_url: https://api.github.com/repos/octocat/Hello-World/releases{/id}
+        ssh_url: git@github.com:octocat/Hello-World.git
+        stargazers_url: https://api.github.com/repos/octocat/Hello-World/stargazers
+        statuses_url: https://api.github.com/repos/octocat/Hello-World/statuses/{sha}
+        subscribers_url: https://api.github.com/repos/octocat/Hello-World/subscribers
+        subscription_url: https://api.github.com/repos/octocat/Hello-World/subscription
+        tags_url: https://api.github.com/repos/octocat/Hello-World/tags
+        teams_url: https://api.github.com/repos/octocat/Hello-World/teams
+        trees_url: https://api.github.com/repos/octocat/Hello-World/git/trees{/sha}
+        clone_url: https://github.com/octocat/Hello-World.git
+        mirror_url: git:git.example.com/octocat/Hello-World
+        hooks_url: https://api.github.com/repos/octocat/Hello-World/hooks
+        svn_url: https://svn.github.com/octocat/Hello-World
+        homepage: https://github.com
+        language: 
+        forks_count: 9
+        stargazers_count: 80
+        watchers_count: 80
+        size: 108
+        default_branch: master
+        open_issues_count: 0
+        is_template: false
+        topics:
+        - octocat
+        - atom
+        - electron
+        - api
+        has_issues: true
+        has_projects: true
+        has_wiki: true
+        has_pages: false
+        has_downloads: true
+        has_discussions: false
+        archived: false
+        disabled: false
+        visibility: public
+        pushed_at: '2011-01-26T19:06:43Z'
+        created_at: '2011-01-26T19:01:12Z'
+        updated_at: '2011-01-26T19:14:43Z'
+        permissions:
+          admin: false
+          push: false
+          pull: true
+        security_and_analysis:
+          advanced_security:
+            status: enabled
+          secret_scanning:
+            status: enabled
+          secret_scanning_push_protection:
+            status: disabled
     package-org:
       value:
         id: 197
@@ -208454,6 +208677,73 @@ components:
           container:
             tags:
             - latest
+    org-pat-grant-request-paginated:
+      value:
+      - id: 25381
+        reason: I need to access the GitHub API
+        owner:
+          login: octocat
+          id: 1
+          node_id: MDQ6VXNlcjE=
+          avatar_url: https://github.com/images/error/octocat_happy.gif
+          gravatar_id: ''
+          url: https://api.github.com/users/octocat
+          html_url: https://github.com/octocat
+          followers_url: https://api.github.com/users/octocat/followers
+          following_url: https://api.github.com/users/octocat/following{/other_user}
+          gists_url: https://api.github.com/users/octocat/gists{/gist_id}
+          starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
+          subscriptions_url: https://api.github.com/users/octocat/subscriptions
+          organizations_url: https://api.github.com/users/octocat/orgs
+          repos_url: https://api.github.com/users/octocat/repos
+          events_url: https://api.github.com/users/octocat/events{/privacy}
+          received_events_url: https://api.github.com/users/octocat/received_events
+          type: User
+          site_admin: false
+        repository_selection: all
+        repositories_url: https://api.github.com/organizations/652551/personal-access-token-requests/25381/repositories
+        permissions:
+          organization:
+            members: read
+          repository:
+            metadata: read
+        created_at: '2023-05-16T08:47:09.000-07:00'
+        token_expired: false
+        token_expires_at: '2023-11-16T08:47:09.000-07:00'
+        token_last_used_at: 
+    org-pat-grant-paginated:
+      value:
+      - id: 25381
+        owner:
+          login: octocat
+          id: 1
+          node_id: MDQ6VXNlcjE=
+          avatar_url: https://github.com/images/error/octocat_happy.gif
+          gravatar_id: ''
+          url: https://api.github.com/users/octocat
+          html_url: https://github.com/octocat
+          followers_url: https://api.github.com/users/octocat/followers
+          following_url: https://api.github.com/users/octocat/following{/other_user}
+          gists_url: https://api.github.com/users/octocat/gists{/gist_id}
+          starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
+          subscriptions_url: https://api.github.com/users/octocat/subscriptions
+          organizations_url: https://api.github.com/users/octocat/orgs
+          repos_url: https://api.github.com/users/octocat/repos
+          events_url: https://api.github.com/users/octocat/events{/privacy}
+          received_events_url: https://api.github.com/users/octocat/received_events
+          type: User
+          site_admin: false
+        repository_selection: all
+        repositories_url: https://api.github.com/organizations/652551/personal-access-tokens/25381/repositories
+        permissions:
+          organization:
+            members: read
+          repository:
+            metadata: read
+        access_granted_at: '2023-05-16T08:47:09.000-07:00'
+        token_expired: false
+        token_expires_at: '2023-11-16T08:47:09.000-07:00'
+        token_last_used_at: 
     project-items:
       value:
       - owner_url: https://api.github.com/orgs/octocat
@@ -208649,11 +208939,29 @@ components:
         source_type: Organization
         source: my-org
         enforcement: enabled
+        bypass_mode: repository
+        node_id: RRS_lACkVXNlcgQB
+        _links:
+          self:
+            href: https://api.github.com/orgs/my-org/rulesets/21
+          html:
+            href: https://github.com/organizations/my-org/settings/rules/21
+        created_at: '2023-07-15T08:43:03Z'
+        updated_at: '2023-08-23T16:29:47Z'
       - id: 432
         name: Another ruleset
         source_type: Organization
         source: my-org
         enforcement: enabled
+        bypass_mode: repository
+        node_id: RRS_lACkVXNlcgQQ
+        _links:
+          self:
+            href: https://api.github.com/orgs/my-org/rulesets/432
+          html:
+            href: https://github.com/organizations/my-org/settings/rules/432
+        created_at: '2023-08-15T08:43:03Z'
+        updated_at: '2023-09-23T16:29:47Z'
     org-ruleset:
       value:
         id: 21
@@ -208662,6 +208970,7 @@ components:
         source_type: Organization
         source: my-org
         enforcement: active
+        bypass_mode: repository
         bypass_actors:
         - actor_id: 234
           actor_type: Team
@@ -208684,6 +208993,14 @@ components:
           parameters:
             operator: contains
             pattern: github
+        node_id: RRS_lACkVXNlcgQB
+        _links:
+          self:
+            href: https://api.github.com/orgs/my-org/rulesets/21
+          html:
+            href: https://github.com/organizations/my-org/settings/rules/21
+        created_at: '2023-08-15T08:43:03Z'
+        updated_at: '2023-09-23T16:29:47Z'
     actions-billing-usage:
       value:
         total_minutes_used: 305
@@ -210961,6 +211278,7 @@ components:
           head_sha: acb5820ced9479c074f688cc328bf03f341a511d
           run_number: 562
           event: push
+          display_title: Update README.md
           status: queued
           conclusion: 
           workflow_id: 159038
@@ -213574,7 +213892,6 @@ components:
         state: configured
         languages:
         - ruby
-        - javascript
         - python
         query_suite: default
         updated_at: '2023-01-19T11:21:34Z'
@@ -220591,11 +220908,29 @@ components:
         source_type: Repository
         source: monalisa/my-repo
         enforcement: enabled
+        bypass_mode: repository
+        node_id: RRS_lACkVXNlcgQB
+        _links:
+          self:
+            href: https://api.github.com/repos/monalisa/my-repo/rulesets/42
+          html:
+            href: https://github.com/monalisa/my-repo/rules/42
+        created_at: '2023-07-15T08:43:03Z'
+        updated_at: '2023-08-23T16:29:47Z'
       - id: 314
         name: Another ruleset
         source_type: Repository
         source: monalisa/my-repo
         enforcement: enabled
+        bypass_mode: repository
+        node_id: RRS_lACkVXNlcgQQ
+        _links:
+          self:
+            href: https://api.github.com/repos/monalisa/my-repo/rulesets/314
+          html:
+            href: https://github.com/monalisa/my-repo/rules/314
+        created_at: '2023-08-15T08:43:03Z'
+        updated_at: '2023-09-23T16:29:47Z'
     repository-ruleset:
       value:
         id: 42
@@ -220620,6 +220955,14 @@ components:
           parameters:
             operator: contains
             pattern: github
+        node_id: RRS_lACkVXNlcgQB
+        _links:
+          self:
+            href: https://api.github.com/repos/monalisa/my-repo/rulesets/42
+          html:
+            href: https://github.com/monalisa/my-repo/rules/42
+        created_at: '2023-07-15T08:43:03Z'
+        updated_at: '2023-08-23T16:29:47Z'
     secret-scanning-alert-list:
       value:
       - number: 2
@@ -227075,20 +227418,30 @@ components:
         application/json:
           schema:
             "$ref": "#/components/schemas/basic-error"
-    internal_error:
-      description: Internal Error
-      content:
-        application/json:
-          schema:
-            "$ref": "#/components/schemas/basic-error"
-    no_content:
-      description: A header with no content is returned.
     conflict:
       description: Conflict
       content:
         application/json:
           schema:
             "$ref": "#/components/schemas/basic-error"
+    actions_runner_jitconfig:
+      description: Response
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - runner
+            - encoded_jit_config
+            properties:
+              runner:
+                "$ref": "#/components/schemas/runner"
+              encoded_jit_config:
+                type: string
+                description: The base64 encoded runner configuration.
+          examples:
+            default:
+              "$ref": "#/components/examples/runner-jitconfig"
     actions_runner_labels:
       description: Response
       content:
@@ -227127,9 +227480,17 @@ components:
           examples:
             default:
               "$ref": "#/components/examples/runner-labels-readonly"
+    internal_error:
+      description: Internal Error
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/basic-error"
     package_es_list_error:
       description: The value of `per_page` multiplied by `page` cannot be greater
         than 10000.
+    no_content:
+      description: A header with no content is returned.
     gone:
       description: Gone
       content:
@@ -227450,7 +227811,8 @@ components:
         type: string
     repo:
       name: repo
-      description: The name of the repository. The name is not case sensitive.
+      description: The name of the repository without the `.git` extension. The name
+        is not case sensitive.
       in: path
       required: true
       schema:
@@ -227506,73 +227868,6 @@ components:
       required: true
       schema:
         type: string
-    personal-access-token-sort:
-      name: sort
-      description: The property by which to sort the results.
-      in: query
-      required: false
-      schema:
-        type: string
-        enum:
-        - created_at
-        default: created_at
-    personal-access-token-owner:
-      name: owner
-      description: A list of owner usernames to use to filter the results.
-      in: query
-      required: false
-      schema:
-        type: array
-        maxItems: 10
-        items:
-          type: string
-        examples:
-        - owner[]=octocat1,owner[]=octocat2
-    personal-access-token-repository:
-      name: repository
-      description: The name of the repository to use to filter the results.
-      in: query
-      required: false
-      schema:
-        type: string
-        examples:
-        - Hello-World
-    personal-access-token-permission:
-      name: permission
-      description: The permission to use to filter the results.
-      in: query
-      required: false
-      schema:
-        type: string
-        examples:
-        - issues_read
-    personal-access-token-before:
-      name: last_used_before
-      description: 'Only show fine-grained personal access tokens used before the
-        given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
-        format: `YYYY-MM-DDTHH:MM:SSZ`.'
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date-time
-    personal-access-token-after:
-      name: last_used_after
-      description: 'Only show fine-grained personal access tokens used after the given
-        time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
-        format: `YYYY-MM-DDTHH:MM:SSZ`.'
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date-time
-    fine-grained-personal-access-token-id:
-      name: pat_id
-      description: The unique identifier of the fine-grained personal access token.
-      in: path
-      required: true
-      schema:
-        type: integer
     repository-id:
       name: repository_id
       description: The unique identifier of the repository.
@@ -227726,6 +228021,73 @@ components:
     package-version-id:
       name: package_version_id
       description: Unique identifier of the package version.
+      in: path
+      required: true
+      schema:
+        type: integer
+    personal-access-token-sort:
+      name: sort
+      description: The property by which to sort the results.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - created_at
+        default: created_at
+    personal-access-token-owner:
+      name: owner
+      description: A list of owner usernames to use to filter the results.
+      in: query
+      required: false
+      schema:
+        type: array
+        maxItems: 10
+        items:
+          type: string
+        examples:
+        - owner[]=octocat1,owner[]=octocat2
+    personal-access-token-repository:
+      name: repository
+      description: The name of the repository to use to filter the results.
+      in: query
+      required: false
+      schema:
+        type: string
+        examples:
+        - Hello-World
+    personal-access-token-permission:
+      name: permission
+      description: The permission to use to filter the results.
+      in: query
+      required: false
+      schema:
+        type: string
+        examples:
+        - issues_read
+    personal-access-token-before:
+      name: last_used_before
+      description: 'Only show fine-grained personal access tokens used before the
+        given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+        format: `YYYY-MM-DDTHH:MM:SSZ`.'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date-time
+    personal-access-token-after:
+      name: last_used_after
+      description: 'Only show fine-grained personal access tokens used after the given
+        time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+        format: `YYYY-MM-DDTHH:MM:SSZ`.'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date-time
+    fine-grained-personal-access-token-id:
+      name: pat_id
+      description: The unique identifier of the fine-grained personal access token.
       in: path
       required: true
       schema:
@@ -228066,6 +228428,16 @@ components:
     commit-sha:
       name: commit_sha
       description: The SHA of the commit.
+      in: path
+      required: true
+      schema:
+        type: string
+      x-multi-segment: true
+    commit-ref:
+      name: ref
+      description: The commit reference. Can be a commit SHA, branch name (`heads/BRANCH_NAME`),
+        or tag name (`tags/TAG_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)"
+        in the Git documentation.
       in: path
       required: true
       schema:
