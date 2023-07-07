@@ -11931,7 +11931,7 @@ export interface components {
          * @description The execution scope of the vulnerable dependency. 
          * @enum {string|null}
          */
-        readonly scope?: "development" | "runtime" | "" | null;
+        readonly scope?: "development" | "runtime" | null;
       };
       security_advisory: components["schemas"]["dependabot-alert-security-advisory"];
       security_vulnerability: components["schemas"]["dependabot-alert-security-vulnerability"];
@@ -11945,7 +11945,7 @@ export interface components {
        * @description The reason that the alert was dismissed. 
        * @enum {string|null}
        */
-      dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk" | "" | null;
+      dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk" | null;
       /** @description An optional comment associated with the alert's dismissal. */
       dismissed_comment: OneOf<[string, null]>;
       fixed_at: components["schemas"]["alert-fixed-at"];
@@ -11961,7 +11961,7 @@ export interface components {
      * @description **Required when the `state` is `resolved`.** The reason for resolving the alert. 
      * @enum {string|null}
      */
-    "secret-scanning-alert-resolution": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "" | null;
+    "secret-scanning-alert-resolution": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | null;
     "organization-secret-scanning-alert": {
       number?: components["schemas"]["alert-number"];
       created_at?: components["schemas"]["alert-created-at"];
@@ -12102,7 +12102,7 @@ export interface components {
        * @description The reason for the current state 
        * @enum {string|null}
        */
-      state_reason?: "completed" | "reopened" | "not_planned" | "" | null;
+      state_reason?: "completed" | "reopened" | "not_planned" | null;
       /** @description Title of the issue */
       title: string;
       /** @description Contents of the issue */
@@ -13167,7 +13167,7 @@ export interface components {
      * @description **Required when the state is dismissed.** The reason for dismissing or closing the alert. 
      * @enum {string|null}
      */
-    "code-scanning-alert-dismissed-reason": "" | "false positive" | "won't fix" | "used in tests" | null;
+    "code-scanning-alert-dismissed-reason": null | "false positive" | "won't fix" | "used in tests";
     /** @description The dismissal comment associated with the dismissal of the alert. */
     "code-scanning-alert-dismissed-comment": OneOf<[string, null]>;
     "code-scanning-alert-rule": {
@@ -13179,12 +13179,12 @@ export interface components {
        * @description The severity of the alert. 
        * @enum {string|null}
        */
-      severity?: "none" | "note" | "warning" | "error" | "" | null;
+      severity?: "none" | "note" | "warning" | "error" | null;
       /**
        * @description The security severity of the alert. 
        * @enum {string|null}
        */
-      security_severity_level?: "low" | "medium" | "high" | "critical" | "" | null;
+      security_severity_level?: "low" | "medium" | "high" | "critical" | null;
       /** @description A short description of the rule used to detect the alert. */
       description?: string;
       /** @description description of the rule used to detect the alert. */
@@ -13226,7 +13226,7 @@ export interface components {
      * @description A classification of the file. For example to identify it as generated. 
      * @enum {string|null}
      */
-    "code-scanning-alert-classification": "source" | "generated" | "test" | "library" | "" | null;
+    "code-scanning-alert-classification": "source" | "generated" | "test" | "library" | null;
     "code-scanning-alert-instance": {
       ref?: components["schemas"]["code-scanning-ref"];
       analysis_key?: components["schemas"]["code-scanning-analysis-analysis-key"];
@@ -13284,7 +13284,7 @@ export interface components {
        * @description Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value will be "none" if no prebuild is available. Latest values "ready" and "in_progress" indicate the prebuild availability status. 
        * @enum {string|null}
        */
-      prebuild_availability: "none" | "ready" | "in_progress" | "" | null;
+      prebuild_availability: "none" | "ready" | "in_progress" | null;
     };
     /**
      * Codespace 
@@ -15111,7 +15111,7 @@ export interface components {
        * @description The outcome of the job. 
        * @enum {string|null}
        */
-      conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "" | null;
+      conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
       /**
        * Format: date-time 
        * @description The time that the job created, in ISO 8601 format.
@@ -16018,7 +16018,7 @@ export interface components {
        */
       status: "queued" | "in_progress" | "completed";
       /** @enum {string|null} */
-      conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "" | null;
+      conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
       /** Format: date-time */
       started_at: OneOf<[string, null]>;
       /** Format: date-time */
@@ -16068,9 +16068,9 @@ export interface components {
       /** @description The SHA of the head commit that is being checked. */
       head_sha: string;
       /** @enum {string|null} */
-      status: "queued" | "in_progress" | "completed" | "" | null;
+      status: "queued" | "in_progress" | "completed" | null;
       /** @enum {string|null} */
-      conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "startup_failure" | "stale" | "" | null;
+      conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "startup_failure" | "stale" | null;
       url: OneOf<[string, null]>;
       before: OneOf<[string, null]>;
       after: OneOf<[string, null]>;
@@ -16111,7 +16111,7 @@ export interface components {
        * @description The severity of the alert. 
        * @enum {string|null}
        */
-      severity?: "none" | "note" | "warning" | "error" | "" | null;
+      severity?: "none" | "note" | "warning" | "error" | null;
       /** @description A short description of the rule used to detect the alert. */
       description?: string;
     };
@@ -16939,7 +16939,7 @@ export interface components {
          * @description The execution scope of the vulnerable dependency. 
          * @enum {string|null}
          */
-        readonly scope?: "development" | "runtime" | "" | null;
+        readonly scope?: "development" | "runtime" | null;
       };
       security_advisory: components["schemas"]["dependabot-alert-security-advisory"];
       security_vulnerability: components["schemas"]["dependabot-alert-security-vulnerability"];
@@ -16953,7 +16953,7 @@ export interface components {
        * @description The reason that the alert was dismissed. 
        * @enum {string|null}
        */
-      dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk" | "" | null;
+      dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk" | null;
       /** @description An optional comment associated with the alert's dismissal. */
       dismissed_comment: OneOf<[string, null]>;
       fixed_at: components["schemas"]["alert-fixed-at"];
@@ -18156,7 +18156,7 @@ export interface components {
        * @default RIGHT 
        * @enum {string|null}
        */
-      start_side?: "LEFT" | "RIGHT" | "" | null;
+      start_side?: "LEFT" | "RIGHT" | null;
       /** @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
       line?: number;
       /** @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
@@ -18339,14 +18339,14 @@ export interface components {
        * @description The status of the most recent build of the Page. 
        * @enum {string|null}
        */
-      status: "built" | "building" | "errored" | "" | null;
+      status: "built" | "building" | "errored" | null;
       /** @description The Pages site's custom domain */
       cname: OneOf<[string, null]>;
       /**
        * @description The state if the domain is verified 
        * @enum {string|null}
        */
-      protected_domain_state?: "pending" | "verified" | "unverified" | "" | null;
+      protected_domain_state?: "pending" | "verified" | "unverified" | null;
       /**
        * Format: date-time 
        * @description The timestamp when a pending domain becomes unverified.
@@ -18366,7 +18366,7 @@ export interface components {
        * @description The process in which the Page will be built. 
        * @enum {string|null}
        */
-      build_type?: "legacy" | "workflow" | "" | null;
+      build_type?: "legacy" | "workflow" | null;
       source?: components["schemas"]["pages-source-hash"];
       /** @description Whether the GitHub Pages site is publicly visible. If set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site. */
       public: boolean;
@@ -19033,7 +19033,7 @@ export interface components {
        * @default RIGHT 
        * @enum {string|null}
        */
-      start_side?: "LEFT" | "RIGHT" | "" | null;
+      start_side?: "LEFT" | "RIGHT" | null;
       /** @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
       line?: number;
       /** @description The original line of the blob to which the comment applies. The last line of the range for a multi-line comment */
@@ -19275,7 +19275,7 @@ export interface components {
        * @description The severity of the advisory. 
        * @enum {string|null}
        */
-      severity: "critical" | "high" | "medium" | "low" | "" | null;
+      severity: "critical" | "high" | "medium" | "low" | null;
       /** @description The author of the advisory. */
       author: null;
       /** @description The publisher of the advisory. */
@@ -19379,7 +19379,7 @@ export interface components {
        * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`. 
        * @enum {string|null}
        */
-      severity?: "critical" | "high" | "medium" | "low" | "" | null;
+      severity?: "critical" | "high" | "medium" | "low" | null;
       /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
       cvss_vector_string?: OneOf<[string, null]>;
     };
@@ -19409,7 +19409,7 @@ export interface components {
        * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`. 
        * @enum {string|null}
        */
-      severity?: "critical" | "high" | "medium" | "low" | "" | null;
+      severity?: "critical" | "high" | "medium" | "low" | null;
       /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
       cvss_vector_string?: OneOf<[string, null]>;
     };
@@ -19447,7 +19447,7 @@ export interface components {
        * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`. 
        * @enum {string|null}
        */
-      severity?: "critical" | "high" | "medium" | "low" | "" | null;
+      severity?: "critical" | "high" | "medium" | "low" | null;
       /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
       cvss_vector_string?: OneOf<[string, null]>;
       /**
@@ -20368,7 +20368,7 @@ export interface components {
       app?: components["schemas"]["integration"];
       before?: OneOf<[string, null]>;
       /** @enum {string|null} */
-      conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "stale" | "startup_failure" | "" | null;
+      conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "stale" | "startup_failure" | null;
       /** Format: date-time */
       created_at?: string;
       head_branch?: OneOf<[string, null]>;
@@ -20394,7 +20394,7 @@ export interface components {
       /** Format: date-time */
       completed_at: OneOf<[string, null]>;
       /** @enum {string|null} */
-      conclusion: "waiting" | "pending" | "startup_failure" | "stale" | "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "" | null;
+      conclusion: "waiting" | "pending" | "startup_failure" | "stale" | "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
       deployment?: components["schemas"]["deployment-simple"];
       details_url: string;
       external_id: string;
@@ -20523,7 +20523,7 @@ export interface components {
        * @description The reason for the current state 
        * @enum {string|null}
        */
-      state_reason: "resolved" | "outdated" | "duplicate" | "reopened" | "" | null;
+      state_reason: "resolved" | "outdated" | "duplicate" | "reopened" | null;
       timeline_url?: string;
       title: string;
       /** Format: date-time */
@@ -21113,7 +21113,7 @@ export interface components {
          * @description The summary conclusion for all check runs that are part of the check suite. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, `action_required` or `stale`. This value will be `null` until the check run has `completed`. 
          * @enum {string|null}
          */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "" | "skipped" | "startup_failure" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null | "skipped" | "startup_failure";
         /** Format: date-time */
         created_at: string;
         /** @description The head branch name the changes are on. */
@@ -21191,7 +21191,7 @@ export interface components {
          * @description The summary status for all check runs that are part of the check suite. Can be `requested`, `in_progress`, or `completed`. 
          * @enum {string|null}
          */
-        status: "requested" | "in_progress" | "completed" | "queued" | "" | "pending" | null;
+        status: "requested" | "in_progress" | "completed" | "queued" | null | "pending";
         /** Format: date-time */
         updated_at: string;
         /**
@@ -21354,7 +21354,7 @@ export interface components {
          * @description The summary conclusion for all check runs that are part of the check suite. Can be one of `success`, `failure`,` neutral`, `cancelled`, `timed_out`, `action_required` or `stale`. This value will be `null` until the check run has completed. 
          * @enum {string|null}
          */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "" | "skipped" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null | "skipped";
         /** Format: date-time */
         created_at: string;
         /** @description The head branch name the changes are on. */
@@ -21432,7 +21432,7 @@ export interface components {
          * @description The summary status for all check runs that are part of the check suite. Can be `requested`, `in_progress`, or `completed`. 
          * @enum {string|null}
          */
-        status: "requested" | "in_progress" | "completed" | "queued" | "" | null;
+        status: "requested" | "in_progress" | "completed" | "queued" | null;
         /** Format: date-time */
         updated_at: string;
         /**
@@ -21595,7 +21595,7 @@ export interface components {
          * @description The summary conclusion for all check runs that are part of the check suite. Can be one of `success`, `failure`,` neutral`, `cancelled`, `timed_out`, `action_required` or `stale`. This value will be `null` until the check run has completed. 
          * @enum {string|null}
          */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null;
         /** Format: date-time */
         created_at: string;
         /** @description The head branch name the changes are on. */
@@ -21673,7 +21673,7 @@ export interface components {
          * @description The summary status for all check runs that are part of the check suite. Can be `requested`, `in_progress`, or `completed`. 
          * @enum {string|null}
          */
-        status: "requested" | "in_progress" | "completed" | "queued" | "" | null;
+        status: "requested" | "in_progress" | "completed" | "queued" | null;
         /** Format: date-time */
         updated_at: string;
         /**
@@ -21745,7 +21745,7 @@ export interface components {
          * @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. 
          * @enum {string|null}
          */
-        dismissed_reason: "false positive" | "won't fix" | "used in tests" | "" | null;
+        dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
         /**
          * Format: uri 
          * @description The GitHub URL of the alert resource.
@@ -21790,7 +21790,7 @@ export interface components {
            * @description The severity of the alert. 
            * @enum {string|null}
            */
-          severity: "none" | "note" | "warning" | "error" | "" | null;
+          severity: "none" | "note" | "warning" | "error" | null;
         };
         /**
          * @description State of a code scanning alert. 
@@ -21873,7 +21873,7 @@ export interface components {
          * @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. 
          * @enum {string|null}
          */
-        dismissed_reason: "false positive" | "won't fix" | "used in tests" | "" | null;
+        dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
         /**
          * Format: uri 
          * @description The GitHub URL of the alert resource.
@@ -21923,7 +21923,7 @@ export interface components {
            * @description The severity of the alert. 
            * @enum {string|null}
            */
-          severity: "none" | "note" | "warning" | "error" | "" | null;
+          severity: "none" | "note" | "warning" | "error" | null;
           tags?: OneOf<[(string)[], null]>;
         };
         /**
@@ -22019,7 +22019,7 @@ export interface components {
            * @description The severity of the alert. 
            * @enum {string|null}
            */
-          severity: "none" | "note" | "warning" | "error" | "" | null;
+          severity: "none" | "note" | "warning" | "error" | null;
           tags?: OneOf<[(string)[], null]>;
         };
         /**
@@ -22105,7 +22105,7 @@ export interface components {
          * @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. 
          * @enum {string|null}
          */
-        dismissed_reason: "false positive" | "won't fix" | "used in tests" | "" | null;
+        dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
         /**
          * Format: uri 
          * @description The GitHub URL of the alert resource.
@@ -22157,7 +22157,7 @@ export interface components {
            * @description The severity of the alert. 
            * @enum {string|null}
            */
-          severity: "none" | "note" | "warning" | "error" | "" | null;
+          severity: "none" | "note" | "warning" | "error" | null;
           tags?: OneOf<[(string)[], null]>;
         };
         /**
@@ -22250,7 +22250,7 @@ export interface components {
            * @description The severity of the alert. 
            * @enum {string|null}
            */
-          severity: "none" | "note" | "warning" | "error" | "" | null;
+          severity: "none" | "note" | "warning" | "error" | null;
           tags?: OneOf<[(string)[], null]>;
         };
         /**
@@ -22338,7 +22338,7 @@ export interface components {
            * @description The severity of the alert. 
            * @enum {string|null}
            */
-          severity: "none" | "note" | "warning" | "error" | "" | null;
+          severity: "none" | "note" | "warning" | "error" | null;
         };
         /**
          * @description State of a code scanning alert. 
@@ -22886,7 +22886,7 @@ export interface components {
         check_suite_node_id: string;
         check_suite_url?: string;
         /** @enum {string|null} */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null;
         /** Format: date-time */
         created_at: string;
         display_title: string;
@@ -23153,7 +23153,7 @@ export interface components {
          * @description The result of the completed check run. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, `action_required` or `stale`. This value will be `null` until the check run has completed. 
          * @enum {string|null}
          */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "skipped" | "" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "skipped" | null;
         /** Format: uri */
         details_url: string;
         external_id: string;
@@ -23635,7 +23635,7 @@ export interface components {
         check_suite_node_id: string;
         check_suite_url?: string;
         /** @enum {string|null} */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "" | "startup_failure" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null | "startup_failure";
         /** Format: date-time */
         created_at: string;
         display_title: string;
@@ -25499,7 +25499,7 @@ export interface components {
       /** @description The [issue](https://docs.github.com/rest/reference/issues) the comment belongs to. */
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -26113,7 +26113,7 @@ export interface components {
       /** @description The [issue](https://docs.github.com/rest/reference/issues) the comment belongs to. */
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -26734,7 +26734,7 @@ export interface components {
       /** @description The [issue](https://docs.github.com/rest/reference/issues) the comment belongs to. */
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -27306,7 +27306,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -27726,7 +27726,7 @@ export interface components {
       /** @description The [issue](https://docs.github.com/rest/reference/issues) itself. */
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -28205,7 +28205,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -28621,7 +28621,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -29251,7 +29251,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -29687,7 +29687,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -30119,7 +30119,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -30524,7 +30524,7 @@ export interface components {
         }, null]>;
       }) & ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         assignee?: OneOf<[Record<string, never>, null]>;
         assignees?: (OneOf<[Record<string, never>, null]>)[];
         author_association?: string;
@@ -30595,7 +30595,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -31213,7 +31213,7 @@ export interface components {
          */
         old_issue: OneOf<[{
           /** @enum {string|null} */
-          active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+          active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
           /** User */
           assignee?: OneOf<[{
             /** Format: uri */
@@ -31861,7 +31861,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -32281,7 +32281,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -32697,7 +32697,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -33175,7 +33175,7 @@ export interface components {
          */
         new_issue: {
           /** @enum {string|null} */
-          active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+          active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
           /** User */
           assignee?: OneOf<[{
             /** Format: uri */
@@ -33830,7 +33830,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -34290,7 +34290,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -34710,7 +34710,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -35142,7 +35142,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -35621,7 +35621,7 @@ export interface components {
        */
       issue: {
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee?: OneOf<[{
           /** Format: uri */
@@ -39698,7 +39698,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -40886,7 +40886,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -42075,7 +42075,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -43387,7 +43387,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -44575,7 +44575,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -45844,7 +45844,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -47049,7 +47049,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -48238,7 +48238,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -49427,7 +49427,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -50843,7 +50843,7 @@ export interface components {
          * @default RIGHT 
          * @enum {string|null}
          */
-        start_side: "LEFT" | "RIGHT" | "" | null;
+        start_side: "LEFT" | "RIGHT" | null;
         /**
          * @description The level at which the comment is targeted, can be a diff line or a file. 
          * @enum {string}
@@ -50941,7 +50941,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee: OneOf<[{
           /** Format: uri */
@@ -52115,7 +52115,7 @@ export interface components {
          * @default RIGHT 
          * @enum {string|null}
          */
-        start_side: "LEFT" | "RIGHT" | "" | null;
+        start_side: "LEFT" | "RIGHT" | null;
         /**
          * @description The level at which the comment is targeted, can be a diff line or a file. 
          * @enum {string}
@@ -52213,7 +52213,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee: OneOf<[{
           /** Format: uri */
@@ -53394,7 +53394,7 @@ export interface components {
          * @default RIGHT 
          * @enum {string|null}
          */
-        start_side: "LEFT" | "RIGHT" | "" | null;
+        start_side: "LEFT" | "RIGHT" | null;
         /**
          * @description The level at which the comment is targeted, can be a diff line or a file. 
          * @enum {string}
@@ -53492,7 +53492,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee: OneOf<[{
           /** Format: uri */
@@ -54620,7 +54620,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee: OneOf<[{
           /** Format: uri */
@@ -55827,7 +55827,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee: OneOf<[{
           /** Format: uri */
@@ -56937,7 +56937,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -58154,7 +58154,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -59398,7 +59398,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -60622,7 +60622,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -61864,7 +61864,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee: OneOf<[{
           /** Format: uri */
@@ -63064,7 +63064,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee: OneOf<[{
           /** Format: uri */
@@ -64152,7 +64152,7 @@ export interface components {
              * @default RIGHT 
              * @enum {string|null}
              */
-            start_side: "LEFT" | "RIGHT" | "" | null;
+            start_side: "LEFT" | "RIGHT" | null;
             /**
              * @description The level at which the comment is targeted, can be a diff line or a file. 
              * @enum {string}
@@ -64258,7 +64258,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         /** User */
         assignee: OneOf<[{
           /** Format: uri */
@@ -65346,7 +65346,7 @@ export interface components {
              * @default RIGHT 
              * @enum {string|null}
              */
-            start_side: "LEFT" | "RIGHT" | "" | null;
+            start_side: "LEFT" | "RIGHT" | null;
             /**
              * @description The level at which the comment is targeted, can be a diff line or a file. 
              * @enum {string}
@@ -65456,7 +65456,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -66675,7 +66675,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -67880,7 +67880,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -69062,7 +69062,7 @@ export interface components {
           };
         };
         /** @enum {string|null} */
-        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | "" | null;
+        active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
         additions?: number;
         /** User */
         assignee: OneOf<[{
@@ -72783,7 +72783,7 @@ export interface components {
          * @description **Required when the `state` is `resolved`.** The reason for resolving the alert. 
          * @enum {string|null}
          */
-        resolution?: "" | "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "pattern_deleted" | "pattern_edited" | null;
+        resolution?: null | "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "pattern_deleted" | "pattern_edited";
         /**
          * Format: date-time 
          * @description The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
@@ -75650,7 +75650,7 @@ export interface components {
         check_run_url: string;
         completed_at: OneOf<[string, null]>;
         /** @enum {string|null} */
-        conclusion: "success" | "failure" | "" | "skipped" | "cancelled" | "action_required" | "neutral" | "timed_out" | null;
+        conclusion: "success" | "failure" | null | "skipped" | "cancelled" | "action_required" | "neutral" | "timed_out";
         /** @description The time that the job created. */
         created_at: string;
         head_sha: string;
@@ -75686,7 +75686,7 @@ export interface components {
         steps: ({
             completed_at: OneOf<[string, null]>;
             /** @enum {string|null} */
-            conclusion: "failure" | "skipped" | "success" | "cancelled" | "" | null;
+            conclusion: "failure" | "skipped" | "success" | "cancelled" | null;
             name: string;
             number: number;
             started_at: OneOf<[string, null]>;
@@ -75740,7 +75740,7 @@ export interface components {
         check_run_url: string;
         completed_at: OneOf<[string, null]>;
         /** @enum {string|null} */
-        conclusion: "success" | "failure" | "" | "cancelled" | "neutral" | null;
+        conclusion: "success" | "failure" | null | "cancelled" | "neutral";
         /** @description The time that the job created. */
         created_at: string;
         head_sha: string;
@@ -75776,7 +75776,7 @@ export interface components {
         steps: ({
             completed_at: OneOf<[string, null]>;
             /** @enum {string|null} */
-            conclusion: "failure" | "skipped" | "success" | "" | "cancelled" | null;
+            conclusion: "failure" | "skipped" | "success" | null | "cancelled";
             name: string;
             number: number;
             started_at: OneOf<[string, null]>;
@@ -75866,7 +75866,7 @@ export interface components {
         steps: ({
             completed_at: OneOf<[string, null]>;
             /** @enum {string|null} */
-            conclusion: "failure" | "skipped" | "success" | "cancelled" | "" | null;
+            conclusion: "failure" | "skipped" | "success" | "cancelled" | null;
             name: string;
             number: number;
             started_at: OneOf<[string, null]>;
@@ -75920,7 +75920,7 @@ export interface components {
         steps: ({
             completed_at: OneOf<[string, null]>;
             /** @enum {string|null} */
-            conclusion: "failure" | "skipped" | "success" | "cancelled" | "" | null;
+            conclusion: "failure" | "skipped" | "success" | "cancelled" | null;
             name: string;
             number: number;
             started_at: OneOf<[string, null]>;
@@ -76006,7 +76006,7 @@ export interface components {
         /** Format: uri */
         check_suite_url: string;
         /** @enum {string|null} */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "" | "skipped" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null | "skipped";
         /** Format: date-time */
         created_at: string;
         event: string;
@@ -76693,7 +76693,7 @@ export interface components {
         /** Format: uri */
         check_suite_url: string;
         /** @enum {string|null} */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "skipped" | "" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "skipped" | null;
         /** Format: date-time */
         created_at: string;
         event: string;
@@ -77108,7 +77108,7 @@ export interface components {
         check_suite_node_id?: string;
         check_suite_url?: string;
         /** @enum {string|null} */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "skipped" | "stale" | "" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "skipped" | "stale" | null;
         created_at?: string;
         event?: string;
         head_branch?: OneOf<[string, null]>;
@@ -77381,7 +77381,7 @@ export interface components {
         /** Format: uri */
         check_suite_url: string;
         /** @enum {string|null} */
-        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "" | "skipped" | "startup_failure" | null;
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null | "skipped" | "startup_failure";
         /** Format: date-time */
         created_at: string;
         event: string;
@@ -95411,7 +95411,7 @@ export interface operations {
            * @description The reason for the state change. Ignored unless `state` is changed. 
            * @enum {string|null}
            */
-          state_reason?: "completed" | "not_planned" | "reopened" | "" | null;
+          state_reason?: "completed" | "not_planned" | "reopened" | null;
           milestone?: string | number;
           /** @description Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
           labels?: (OneOf<[string, {
