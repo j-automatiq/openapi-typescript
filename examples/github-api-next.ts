@@ -161,7 +161,7 @@ export interface paths {
   "/applications/{client_id}/token/scoped": {
     /**
      * Create a scoped access token 
-     * @description Use a non-scoped user-to-server access token to create a repository scoped and/or permission scoped user-to-server access token. You can specify which repositories the token can access and which permissions are granted to the token. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the `client_id` and `client_secret` of the GitHub App as the username and password. Invalid tokens will return `404 NOT FOUND`.
+     * @description Use a non-scoped user access token to create a repository scoped and/or permission scoped user access token. You can specify which repositories the token can access and which permissions are granted to the token. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the `client_id` and `client_secret` of the GitHub App as the username and password. Invalid tokens will return `404 NOT FOUND`.
      */
     post: operations["apps/scope-token"];
   };
@@ -391,7 +391,7 @@ export interface paths {
      * Get a subscription plan for an account 
      * @description Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
      * 
-     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
      */
     get: operations["apps/get-subscription-plan-for-account"];
   };
@@ -400,7 +400,7 @@ export interface paths {
      * List plans 
      * @description Lists all plans that are part of your GitHub Marketplace listing.
      * 
-     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
      */
     get: operations["apps/list-plans"];
   };
@@ -409,7 +409,7 @@ export interface paths {
      * List accounts for a plan 
      * @description Returns user and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
      * 
-     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
      */
     get: operations["apps/list-accounts-for-plan"];
   };
@@ -418,7 +418,7 @@ export interface paths {
      * Get a subscription plan for an account (stubbed) 
      * @description Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
      * 
-     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
      */
     get: operations["apps/get-subscription-plan-for-account-stubbed"];
   };
@@ -427,7 +427,7 @@ export interface paths {
      * List plans (stubbed) 
      * @description Lists all plans that are part of your GitHub Marketplace listing.
      * 
-     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
      */
     get: operations["apps/list-plans-stubbed"];
   };
@@ -436,7 +436,7 @@ export interface paths {
      * List accounts for a plan (stubbed) 
      * @description Returns repository and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
      * 
-     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+     * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
      */
     get: operations["apps/list-accounts-for-plan-stubbed"];
   };
@@ -664,95 +664,6 @@ export interface paths {
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
      */
     put: operations["actions/set-github-actions-default-workflow-permissions-organization"];
-  };
-  "/orgs/{org}/actions/required_workflows": {
-    /**
-     * List required workflows 
-     * @description List all required workflows in an organization.
-     * 
-     * You must authenticate using an access token with the `read:org` scope to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    get: operations["actions/list-required-workflows"];
-    /**
-     * Create a required workflow 
-     * @description Create a required workflow in an organization.
-     * 
-     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    post: operations["actions/create-required-workflow"];
-  };
-  "/orgs/{org}/actions/required_workflows/{required_workflow_id}": {
-    /**
-     * Get a required workflow 
-     * @description Get a required workflow configured in an organization.
-     * 
-     * You must authenticate using an access token with the `read:org` scope to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    get: operations["actions/get-required-workflow"];
-    /**
-     * Delete a required workflow 
-     * @description Deletes a required workflow configured in an organization.
-     * 
-     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    delete: operations["actions/delete-required-workflow"];
-    /**
-     * Update a required workflow 
-     * @description Update a required workflow in an organization.
-     * 
-     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    patch: operations["actions/update-required-workflow"];
-  };
-  "/orgs/{org}/actions/required_workflows/{required_workflow_id}/repositories": {
-    /**
-     * List selected repositories for a required workflow 
-     * @description Lists the selected repositories that are configured for a required workflow in an organization. To use this endpoint, the required workflow must be configured to run on selected repositories.
-     * 
-     * You must authenticate using an access token with the `read:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    get: operations["actions/list-selected-repositories-required-workflow"];
-    /**
-     * Sets repositories for a required workflow 
-     * @description Sets the repositories for a required workflow that is required for selected repositories.
-     * 
-     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    put: operations["actions/set-selected-repos-to-required-workflow"];
-  };
-  "/orgs/{org}/actions/required_workflows/{required_workflow_id}/repositories/{repository_id}": {
-    /**
-     * Add a repository to a required workflow 
-     * @description Adds a repository to a required workflow. To use this endpoint, the required workflow must be configured to run on selected repositories.
-     * 
-     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    put: operations["actions/add-selected-repo-to-required-workflow"];
-    /**
-     * Remove a selected repository from required workflow 
-     * @description Removes a repository from a required workflow. To use this endpoint, the required workflow must be configured to run on selected repositories.
-     * 
-     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-     * 
-     * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    delete: operations["actions/remove-selected-repo-from-required-workflow"];
   };
   "/orgs/{org}/actions/runners": {
     /**
@@ -1126,14 +1037,22 @@ export interface paths {
      * Add users to Codespaces billing for an organization 
      * @deprecated 
      * @description Codespaces for the specified users will be billed to the organization.
-     * To use this endpoint, the billing settings for the organization must be set to `selected_members`. For information on how to change this setting please see [these docs].(https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces) You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * 
+     * To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+     * For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
+     * 
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
      */
     post: operations["codespaces/set-codespaces-billing-users"];
     /**
-     * Removes users from Codespaces billing for an organization 
+     * Remove users from Codespaces billing for an organization 
      * @deprecated 
      * @description Codespaces for the specified users will no longer be billed to the organization.
-     * To use this endpoint, the billing settings for the organization must be set to `selected_members`. For information on how to change this setting please see [these docs].(https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces) You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * 
+     * To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+     * For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
+     * 
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
      */
     delete: operations["codespaces/delete-codespaces-billing-users"];
   };
@@ -2474,31 +2393,6 @@ export interface paths {
      */
     get: operations["rate-limit/get"];
   };
-  "/repos/{org}/{repo}/actions/required_workflows": {
-    /**
-     * List repository required workflows 
-     * @description Lists the required workflows in a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint. For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    get: operations["actions/list-repo-required-workflows"];
-  };
-  "/repos/{org}/{repo}/actions/required_workflows/{required_workflow_id_for_repo}": {
-    /**
-     * Get a required workflow entity for a repository 
-     * @description Gets a specific required workflow present in a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint. For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    get: operations["actions/get-repo-required-workflow"];
-  };
-  "/repos/{org}/{repo}/actions/required_workflows/{required_workflow_id_for_repo}/timing": {
-    /**
-     * Get required workflow usage 
-     * @description Gets the number of billable minutes used by a specific required workflow during the current billing cycle.
-     * 
-     * Billable minutes only apply to required workflows running in private repositories that use GitHub-hosted runners. Usage is listed for each GitHub-hosted runner operating system in milliseconds. Any job re-runs are also included in the usage. The usage does not include the multiplier for macOS and Windows runners and is not rounded up to the nearest whole minute. For more information, see "[Managing billing for GitHub Actions](https://docs.github.com/github/setting-up-and-managing-billing-and-payments-on-github/managing-billing-for-github-actions)."
-     * 
-     * Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
-     */
-    get: operations["actions/get-repo-required-workflow-usage"];
-  };
   "/repos/{owner}/{repo}": {
     /**
      * Get a repository 
@@ -2715,15 +2609,6 @@ export interface paths {
      * You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the repository `administration` permission to use this API.
      */
     put: operations["actions/set-github-actions-default-workflow-permissions-repository"];
-  };
-  "/repos/{owner}/{repo}/actions/required_workflows/{required_workflow_id_for_repo}/runs": {
-    /**
-     * List workflow runs for a required workflow 
-     * @description List all workflow runs for a required workflow. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
-     * 
-     * Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-     */
-    get: operations["actions/list-required-workflow-runs"];
   };
   "/repos/{owner}/{repo}/actions/runners": {
     /**
@@ -3561,7 +3446,7 @@ export interface paths {
      * Get a check run 
      * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
      * 
-     * Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+     * Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
      */
     get: operations["checks/get"];
     /**
@@ -3575,7 +3460,7 @@ export interface paths {
   "/repos/{owner}/{repo}/check-runs/{check_run_id}/annotations": {
     /**
      * List check run annotations 
-     * @description Lists annotations for a check run using the annotation `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get annotations for a check run. OAuth Apps and authenticated users must have the `repo` scope to get annotations for a check run in a private repository.
+     * @description Lists annotations for a check run using the annotation `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get annotations for a check run. OAuth apps and authenticated users must have the `repo` scope to get annotations for a check run in a private repository.
      */
     get: operations["checks/list-annotations"];
   };
@@ -3611,7 +3496,7 @@ export interface paths {
      * Get a check suite 
      * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
      * 
-     * Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
+     * Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth apps and authenticated users must have the `repo` scope to get check suites in a private repository.
      */
     get: operations["checks/get-suite"];
   };
@@ -3620,7 +3505,7 @@ export interface paths {
      * List check runs in a check suite 
      * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
      * 
-     * Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+     * Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
      */
     get: operations["checks/list-for-suite"];
   };
@@ -4235,6 +4120,8 @@ export interface paths {
     /**
      * List pull requests associated with a commit 
      * @description Lists the merged pull request that introduced the commit to the repository. If the commit is not present in the default branch, will only return open pull requests associated with the commit.
+     * 
+     * To list the open or merged pull requests associated with a branch, you can set the `commit_sha` parameter to the branch name.
      */
     get: operations["repos/list-pull-requests-associated-with-commit"];
   };
@@ -4285,7 +4172,7 @@ export interface paths {
      * List check runs for a Git reference 
      * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
      * 
-     * Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+     * Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
      */
     get: operations["checks/list-for-ref"];
   };
@@ -4294,7 +4181,7 @@ export interface paths {
      * List check suites for a Git reference 
      * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
      * 
-     * Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
+     * Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth apps and authenticated users must have the `repo` scope to get check suites in a private repository.
      */
     get: operations["checks/list-suites-for-ref"];
   };
@@ -4699,7 +4586,7 @@ export interface paths {
      * Create a deployment status 
      * @description Users with `push` access can create deployment statuses for a given deployment.
      * 
-     * GitHub Apps require `read & write` access to "Deployments" and `read-only` access to "Repo contents" (for private repos). OAuth Apps require the `repo_deployment` scope.
+     * GitHub Apps require `read & write` access to "Deployments" and `read-only` access to "Repo contents" (for private repos). OAuth apps require the `repo_deployment` scope.
      */
     post: operations["repos/create-deployment-status"];
   };
@@ -4882,7 +4769,7 @@ export interface paths {
   "/repos/{owner}/{repo}/git/commits": {
     /**
      * Create a commit 
-     * @description Creates a new Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).
+     * @description Creates a new Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
      * 
      * **Signature verification object**
      * 
@@ -4919,6 +4806,7 @@ export interface paths {
     /**
      * Get a commit object 
      * @description Gets a Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
+     * 
      * To get the contents of a commit, see "[Get a commit](/rest/commits/commits#get-a-commit)."
      * 
      * **Signature verification object**
@@ -6711,7 +6599,7 @@ export interface paths {
      * 
      * This query searches for the keyword `windows`, within any open issue that is labeled as `bug`. The search runs across repositories whose primary language is Python. The results are sorted by creation date in ascending order, which means the oldest issues appear first in the search results.
      * 
-     * **Note:** For [user-to-server](https://docs.github.com/developers/apps/identifying-and-authorizing-users-for-github-apps#user-to-server-requests) GitHub App requests, you can't retrieve a combination of issues and pull requests in a single query. Requests that don't include the `is:issue` or `is:pull-request` qualifier will receive an HTTP `422 Unprocessable Entity` response. To get results for both issues and pull requests, you must send separate queries for issues and pull requests. For more information about the `is` qualifier, see "[Searching only issues or pull requests](https://docs.github.com/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-only-issues-or-pull-requests)."
+     * **Note:** For requests made by GitHub Apps with a user access token, you can't retrieve a combination of issues and pull requests in a single query. Requests that don't include the `is:issue` or `is:pull-request` qualifier will receive an HTTP `422 Unprocessable Entity` response. To get results for both issues and pull requests, you must send separate queries for issues and pull requests. For more information about the `is` qualifier, see "[Searching only issues or pull requests](https://docs.github.com/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-only-issues-or-pull-requests)."
      */
     get: operations["search/issues-and-pull-requests"];
   };
@@ -7537,7 +7425,7 @@ export interface paths {
      * List app installations accessible to the user access token 
      * @description Lists installations of your GitHub App that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.
      * 
-     * You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.
+     * You must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint.
      * 
      * The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
      * 
@@ -7552,7 +7440,7 @@ export interface paths {
      * 
      * The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
      * 
-     * You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.
+     * You must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint.
      * 
      * The access the user has to each repository is included in the hash under the `permissions` key.
      */
@@ -7630,14 +7518,14 @@ export interface paths {
   "/user/marketplace_purchases": {
     /**
      * List subscriptions for the authenticated user 
-     * @description Lists the active subscriptions for the authenticated user. You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint. . OAuth Apps must authenticate using an [OAuth token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/).
+     * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
      */
     get: operations["apps/list-subscriptions-for-authenticated-user"];
   };
   "/user/marketplace_purchases/stubbed": {
     /**
      * List subscriptions for the authenticated user (stubbed) 
-     * @description Lists the active subscriptions for the authenticated user. You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint. . OAuth Apps must authenticate using an [OAuth token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/).
+     * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
      */
     get: operations["apps/list-subscriptions-for-authenticated-user-stubbed"];
   };
@@ -8863,7 +8751,7 @@ export interface webhooks {
      * 
      * A GitHub App receives this webhook by default and cannot unsubscribe from this event.
      * 
-     * Anyone can revoke their authorization of a GitHub App from their [GitHub account settings page](https://github.com/settings/apps/authorizations). Revoking the authorization of a GitHub App does not uninstall the GitHub App. You should program your GitHub App so that when it receives this webhook, it stops calling the API on behalf of the person who revoked the token. If your GitHub App continues to use a revoked access token, it will receive the `401 Bad Credentials` error. For details about user-to-server requests, which require GitHub App authorization, see "[Identifying and authorizing users for GitHub Apps](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/)." 
+     * Anyone can revoke their authorization of a GitHub App from their [GitHub account settings page](https://github.com/settings/apps/authorizations). Revoking the authorization of a GitHub App does not uninstall the GitHub App. You should program your GitHub App so that when it receives this webhook, it stops calling the API on behalf of the person who revoked the token. If your GitHub App continues to use a revoked access token, it will receive the `401 Bad Credentials` error. For details about requests with a user access token, which require GitHub App authorization, see "[Authenticating with a GitHub App on behalf of a user](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-with-a-github-app-on-behalf-of-a-user)." 
      * @description Someone revoked their authorization of a GitHub App.
      */
     post: operations["github-app-authorization/revoked"];
@@ -11071,7 +10959,7 @@ export interface components {
     };
     /**
      * App Permissions 
-     * @description The permissions granted to the user-to-server access token. 
+     * @description The permissions granted to the user access token. 
      * @example {
      *   "contents": "read",
      *   "issues": "read",
@@ -12731,6 +12619,14 @@ export interface components {
         /** @enum {string} */
         status?: "enabled" | "disabled";
       };
+      /** @description Enable or disable Dependabot security updates for the repository. */
+      dependabot_security_updates?: {
+        /**
+         * @description The enablement status of Dependabot security updates for the repository. 
+         * @enum {string}
+         */
+        status?: "enabled" | "disabled";
+      };
       secret_scanning?: {
         /** @enum {string} */
         status?: "enabled" | "disabled";
@@ -12959,8 +12855,6 @@ export interface components {
       following: number;
       /** Format: uri */
       html_url: string;
-      /** Format: date-time */
-      created_at: string;
       type: string;
       total_private_repos?: number;
       owned_private_repos?: number;
@@ -12988,8 +12882,6 @@ export interface components {
       members_can_create_private_pages?: boolean;
       members_can_fork_private_repositories?: OneOf<[boolean, null]>;
       web_commit_signoff_required?: boolean;
-      /** Format: date-time */
-      updated_at: string;
       /**
        * @description Whether GitHub Advanced Security is enabled for new repositories and repositories transferred to this organization.
        * 
@@ -13035,6 +12927,12 @@ export interface components {
       secret_scanning_push_protection_custom_link_enabled?: boolean;
       /** @description An optional URL string to display to contributors who are blocked from pushing a secret. */
       secret_scanning_push_protection_custom_link?: OneOf<[string, null]>;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      /** Format: date-time */
+      archived_at: OneOf<[string, null]>;
     };
     "actions-cache-usage-org-enterprise": {
       /** @description The count of active caches across all repositories of an enterprise or an organization. */
@@ -13112,33 +13010,6 @@ export interface components {
     "actions-set-default-workflow-permissions": {
       default_workflow_permissions?: components["schemas"]["actions-default-workflow-permissions"];
       can_approve_pull_request_reviews?: components["schemas"]["actions-can-approve-pull-request-reviews"];
-    };
-    "required-workflow": {
-      /** @description Unique identifier for a required workflow */
-      id: number;
-      /** @description Name present in the workflow file */
-      name: string;
-      /** @description Path of the workflow file */
-      path: string;
-      /**
-       * @description Scope of the required workflow 
-       * @enum {string}
-       */
-      scope: "all" | "selected";
-      /** @description Ref at which the workflow file will be selected */
-      ref: string;
-      /**
-       * @description State of the required workflow 
-       * @enum {string}
-       */
-      state: "active" | "deleted";
-      /** Format: uri */
-      selected_repositories_url?: string;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      repository: components["schemas"]["minimal-repository"];
     };
     /**
      * Self hosted runner label 
@@ -13276,7 +13147,7 @@ export interface components {
      * @description State of a code scanning alert. 
      * @enum {string}
      */
-    "code-scanning-alert-state": "open" | "closed" | "dismissed" | "fixed";
+    "code-scanning-alert-state-query": "open" | "closed" | "dismissed" | "fixed";
     /**
      * @description Severity of a code scanning alert. 
      * @enum {string}
@@ -13287,6 +13158,11 @@ export interface components {
      * @description The REST API URL for fetching the list of instances for an alert.
      */
     readonly "alert-instances-url": string;
+    /**
+     * @description State of a code scanning alert. 
+     * @enum {string}
+     */
+    "code-scanning-alert-state": "open" | "dismissed" | "fixed";
     /**
      * @description **Required when the state is dismissed.** The reason for dismissing or closing the alert. 
      * @enum {string|null}
@@ -13958,12 +13834,17 @@ export interface components {
      */
     "repository-ruleset-bypass-actor": {
       /** @description The ID of the actor that can bypass a ruleset */
-      actor_id?: number;
+      actor_id: number;
       /**
        * @description The type of actor that can bypass a ruleset 
        * @enum {string}
        */
-      actor_type?: "Team" | "Integration";
+      actor_type: "RepositoryRole" | "Team" | "Integration" | "OrganizationAdmin";
+      /**
+       * @description When the specified actor can bypass the ruleset. `pull_request` means that an actor can only bypass rules on pull requests. 
+       * @enum {string}
+       */
+      bypass_mode: "always" | "pull_request";
     };
     /**
      * Repository ruleset conditions for ref names 
@@ -13982,7 +13863,7 @@ export interface components {
      * @description Parameters for a repository name condition
      */
     "repository-ruleset-conditions-repository-name-target": {
-      repository_name?: {
+      repository_name: {
         /** @description Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
         include?: (string)[];
         /** @description Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
@@ -13992,10 +13873,20 @@ export interface components {
       };
     };
     /**
+     * Repository ruleset conditions for repository IDs 
+     * @description Parameters for a repository ID condition
+     */
+    "repository-ruleset-conditions-repository-id-target": {
+      repository_id: {
+        /** @description The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
+        repository_ids?: (number)[];
+      };
+    };
+    /**
      * Organization ruleset conditions 
      * @description Conditions for a organization ruleset
      */
-    "org-ruleset-conditions": components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-name-target"];
+    "org-ruleset-conditions": (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-name-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-id-target"]);
     /**
      * creation 
      * @description Only allow users with bypass permission to create matching refs.
@@ -14003,6 +13894,15 @@ export interface components {
     "repository-rule-creation": {
       /** @enum {string} */
       type: "creation";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
     };
     /**
      * update 
@@ -14011,6 +13911,15 @@ export interface components {
     "repository-rule-update": {
       /** @enum {string} */
       type: "update";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description Branch can pull changes from its upstream repository */
         update_allows_fetch_and_merge: boolean;
@@ -14023,6 +13932,15 @@ export interface components {
     "repository-rule-deletion": {
       /** @enum {string} */
       type: "deletion";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
     };
     /**
      * required_linear_history 
@@ -14031,6 +13949,15 @@ export interface components {
     "repository-rule-required-linear-history": {
       /** @enum {string} */
       type: "required_linear_history";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
     };
     /**
      * required_deployments 
@@ -14039,6 +13966,15 @@ export interface components {
     "repository-rule-required-deployments": {
       /** @enum {string} */
       type: "required_deployments";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description The environments that must be successfully deployed to before branches can be merged. */
         required_deployment_environments: (string)[];
@@ -14051,6 +13987,15 @@ export interface components {
     "repository-rule-required-signatures": {
       /** @enum {string} */
       type: "required_signatures";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
     };
     /**
      * pull_request 
@@ -14059,6 +14004,15 @@ export interface components {
     "repository-rule-pull-request": {
       /** @enum {string} */
       type: "pull_request";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description New, reviewable commits pushed will dismiss previous pull request review approvals. */
         dismiss_stale_reviews_on_push: boolean;
@@ -14089,6 +14043,15 @@ export interface components {
     "repository-rule-required-status-checks": {
       /** @enum {string} */
       type: "required_status_checks";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description Status checks that are required. */
         required_status_checks: (components["schemas"]["repository-rule-params-status-check-configuration"])[];
@@ -14103,6 +14066,15 @@ export interface components {
     "repository-rule-non-fast-forward": {
       /** @enum {string} */
       type: "non_fast_forward";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
     };
     /**
      * commit_message_pattern 
@@ -14111,6 +14083,15 @@ export interface components {
     "repository-rule-commit-message-pattern": {
       /** @enum {string} */
       type: "commit_message_pattern";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description How this rule will appear to users. */
         name?: string;
@@ -14132,6 +14113,15 @@ export interface components {
     "repository-rule-commit-author-email-pattern": {
       /** @enum {string} */
       type: "commit_author_email_pattern";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description How this rule will appear to users. */
         name?: string;
@@ -14153,6 +14143,15 @@ export interface components {
     "repository-rule-committer-email-pattern": {
       /** @enum {string} */
       type: "committer_email_pattern";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description How this rule will appear to users. */
         name?: string;
@@ -14174,6 +14173,15 @@ export interface components {
     "repository-rule-branch-name-pattern": {
       /** @enum {string} */
       type: "branch_name_pattern";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description How this rule will appear to users. */
         name?: string;
@@ -14195,6 +14203,15 @@ export interface components {
     "repository-rule-tag-name-pattern": {
       /** @enum {string} */
       type: "tag_name_pattern";
+      /**
+       * @description The type of source of the ruleset that this rule is configured in 
+       * @enum {string}
+       */
+      ruleset_source_type?: "Repository" | "Organization";
+      /** @description The name of the source of the ruleset that this rule is configured in */
+      ruleset_source?: string;
+      /** @description The ID of the ruleset that this rule is configured in */
+      ruleset_id?: number;
       parameters?: {
         /** @description How this rule will appear to users. */
         name?: string;
@@ -14236,13 +14253,13 @@ export interface components {
       /** @description The name of the source */
       source: string;
       enforcement: components["schemas"]["repository-rule-enforcement"];
-      /**
-       * @description The permission level required to bypass this ruleset. "repository" allows those with bypass permission at the repository level to bypass. "organization" allows those with bypass permission at the organization level to bypass. "none" prevents anyone from bypassing. 
-       * @enum {string}
-       */
-      bypass_mode?: "none" | "repository" | "organization";
       /** @description The actors that can bypass the rules in this ruleset */
       bypass_actors?: (components["schemas"]["repository-ruleset-bypass-actor"])[];
+      /**
+       * @description Whether the user making this API request is able to bypass the ruleset. This field is only returned when
+       * querying the repository-level endpoint.
+       */
+      current_user_can_bypass?: boolean;
       node_id?: string;
       _links?: {
         self?: {
@@ -14385,6 +14402,8 @@ export interface components {
       web_commit_signoff_required?: boolean;
       /** Format: date-time */
       updated_at: string;
+      /** Format: date-time */
+      archived_at: OneOf<[string, null]>;
     };
     /**
      * Full Team 
@@ -14747,6 +14766,11 @@ export interface components {
       master_branch?: string;
     };
     /**
+     * @description The CodeQL query suite to use. 
+     * @enum {string}
+     */
+    "code-scanning-query-suite": "default" | "extended";
+    /**
      * Project Card 
      * @description Project cards represent a scope of work.
      */
@@ -14827,43 +14851,6 @@ export interface components {
         dependency_snapshots?: components["schemas"]["rate-limit"];
       };
       rate: components["schemas"]["rate-limit"];
-    };
-    /**
-     * Required workflow 
-     * @description A GitHub Actions required workflow
-     */
-    "repo-required-workflow": {
-      id: number;
-      node_id: string;
-      name: string;
-      path: string;
-      /** @enum {string} */
-      state: "active" | "deleted";
-      source_repository: components["schemas"]["minimal-repository"];
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      url: string;
-      html_url: string;
-      badge_url: string;
-    };
-    /**
-     * Workflow Usage 
-     * @description Workflow Usage
-     */
-    "workflow-usage": {
-      billable: {
-        UBUNTU?: {
-          total_ms?: number;
-        };
-        MACOS?: {
-          total_ms?: number;
-        };
-        WINDOWS?: {
-          total_ms?: number;
-        };
-      };
     };
     /**
      * Code Of Conduct Simple 
@@ -15339,6 +15326,7 @@ export interface components {
       /** @description The URL to the workflow run. */
       url: string;
       html_url: string;
+      /** @description Pull requests that are open with a `head_sha` or `head_branch` that matches the workflow run. The returned pull requests do not necessarily indicate pull requests that triggered the run. */
       pull_requests: OneOf<[(components["schemas"]["pull-request-minimal"])[], null]>;
       /** Format: date-time */
       created_at: string;
@@ -15549,6 +15537,23 @@ export interface components {
       badge_url: string;
       /** Format: date-time */
       deleted_at?: string;
+    };
+    /**
+     * Workflow Usage 
+     * @description Workflow Usage
+     */
+    "workflow-usage": {
+      billable: {
+        UBUNTU?: {
+          total_ms?: number;
+        };
+        MACOS?: {
+          total_ms?: number;
+        };
+        WINDOWS?: {
+          total_ms?: number;
+        };
+      };
     };
     /**
      * Autolink reference 
@@ -16032,6 +16037,7 @@ export interface components {
         id: number;
       }, null]>;
       app: null | components["schemas"]["integration"];
+      /** @description Pull requests that are open with a `head_sha` or `head_branch` that matches the check. The returned pull requests do not necessarily indicate pull requests that triggered the check. */
       pull_requests: (components["schemas"]["pull-request-minimal"])[];
       deployment?: components["schemas"]["deployment-simple"];
     };
@@ -16241,7 +16247,7 @@ export interface components {
        */
       state?: "configured" | "not-configured";
       /** @description Languages to be analysed. */
-      languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "javascript" | "python" | "ruby" | "typescript")[];
+      languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "javascript" | "python" | "ruby" | "typescript" | "swift")[];
       /**
        * @description CodeQL query suite to be used. 
        * @enum {string}
@@ -16260,13 +16266,9 @@ export interface components {
        * @enum {string}
        */
       state: "configured" | "not-configured";
-      /**
-       * @description CodeQL query suite to be used. 
-       * @enum {string}
-       */
-      query_suite?: "default" | "extended";
+      query_suite?: components["schemas"]["code-scanning-query-suite"];
       /** @description CodeQL languages to be analyzed. Supported values are: `c-cpp`, `csharp`, `go`, `java-kotlin`, `javascript-typescript`, `python`, and `ruby`. */
-      languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "python" | "ruby")[];
+      languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "python" | "ruby" | "swift")[];
     };
     /**
      * @description You can use `run_url` to track the status of the run. This includes a property status and conclusion.
@@ -19221,7 +19223,7 @@ export interface components {
      * @description The package's language or package management ecosystem. 
      * @enum {string}
      */
-    "security-advisory-ecosystems": "rubygems" | "npm" | "pip" | "maven" | "nuget" | "composer" | "go" | "rust" | "erlang" | "actions" | "pub" | "other";
+    "security-advisory-ecosystems": "rubygems" | "npm" | "pip" | "maven" | "nuget" | "composer" | "go" | "rust" | "erlang" | "actions" | "pub" | "other" | "swift";
     /** @description A product affected by the vulnerability detailed in a repository security advisory. */
     "repository-advisory-vulnerability": {
       /** @description The name of the package affected by the vulnerability. */
@@ -20967,7 +20969,6 @@ export interface components {
     "webhook-check-suite-completed": {
       /** @enum {string} */
       action: "completed";
-      actions_meta?: OneOf<[Record<string, never>, null]>;
       /** @description The [check_suite](https://docs.github.com/rest/reference/checks#suites). */
       check_suite: {
         after: OneOf<[string, null]>;
@@ -21209,7 +21210,6 @@ export interface components {
     "webhook-check-suite-requested": {
       /** @enum {string} */
       action: "requested";
-      actions_meta?: OneOf<[Record<string, never>, null]>;
       /** @description The [check_suite](https://docs.github.com/rest/reference/checks#suites). */
       check_suite: {
         after: OneOf<[string, null]>;
@@ -21451,12 +21451,6 @@ export interface components {
     "webhook-check-suite-rerequested": {
       /** @enum {string} */
       action: "rerequested";
-      actions_meta?: OneOf<[{
-        rerun_info?: {
-          plan_id?: string;
-          job_ids?: (string)[];
-        };
-      }, null]>;
       /** @description The [check_suite](https://docs.github.com/rest/reference/checks#suites). */
       check_suite: {
         after: OneOf<[string, null]>;
@@ -25336,6 +25330,7 @@ export interface components {
     };
     "webhook-installation-target-renamed": {
       account: {
+        archived_at?: OneOf<[string, null]>;
         avatar_url: string;
         created_at?: string;
         description?: null;
@@ -78042,8 +78037,6 @@ export interface components {
     org: string;
     /** @description The unique identifier of the repository. */
     "repository-id": number;
-    /** @description The unique identifier of the required workflow. */
-    "required-workflow-id": number;
     /** @description Unique identifier of the self-hosted runner. */
     "runner-id": number;
     /** @description The name of a self-hosted runner's custom label. */
@@ -78124,8 +78117,6 @@ export interface components {
     "card-id": number;
     /** @description The unique identifier of the column. */
     "column-id": number;
-    /** @description The ID of the required workflow that has run at least once in a repository. */
-    "repo-required-workflow-id": number;
     /** @description The unique identifier of the artifact. */
     "artifact-id": number;
     /** @description The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
@@ -78702,7 +78693,7 @@ export interface operations {
   };
   /**
    * Create a scoped access token 
-   * @description Use a non-scoped user-to-server access token to create a repository scoped and/or permission scoped user-to-server access token. You can specify which repositories the token can access and which permissions are granted to the token. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the `client_id` and `client_secret` of the GitHub App as the username and password. Invalid tokens will return `404 NOT FOUND`.
+   * @description Use a non-scoped user access token to create a repository scoped and/or permission scoped user access token. You can specify which repositories the token can access and which permissions are granted to the token. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the `client_id` and `client_secret` of the GitHub App as the username and password. Invalid tokens will return `404 NOT FOUND`.
    */
   "apps/scope-token": {
     parameters: {
@@ -78715,13 +78706,13 @@ export interface operations {
         "application/json": {
           /** @description The access token used to authenticate to the GitHub API. */
           access_token: string;
-          /** @description The name of the user or organization to scope the user-to-server access token to. **Required** unless `target_id` is specified. */
+          /** @description The name of the user or organization to scope the user access token to. **Required** unless `target_id` is specified. */
           target?: string;
-          /** @description The ID of the user or organization to scope the user-to-server access token to. **Required** unless `target` is specified. */
+          /** @description The ID of the user or organization to scope the user access token to. **Required** unless `target` is specified. */
           target_id?: number;
-          /** @description The list of repository names to scope the user-to-server access token to. `repositories` may not be specified if `repository_ids` is specified. */
+          /** @description The list of repository names to scope the user access token to. `repositories` may not be specified if `repository_ids` is specified. */
           repositories?: (string)[];
-          /** @description The list of repository IDs to scope the user-to-server access token to. `repository_ids` may not be specified if `repositories` is specified. */
+          /** @description The list of repository IDs to scope the user access token to. `repository_ids` may not be specified if `repositories` is specified. */
           repository_ids?: (number)[];
           permissions?: components["schemas"]["app-permissions"];
         };
@@ -79635,7 +79626,7 @@ export interface operations {
    * Get a subscription plan for an account 
    * @description Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
    * 
-   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/get-subscription-plan-for-account": {
     parameters: {
@@ -79663,7 +79654,7 @@ export interface operations {
    * List plans 
    * @description Lists all plans that are part of your GitHub Marketplace listing.
    * 
-   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-plans": {
     parameters: {
@@ -79690,7 +79681,7 @@ export interface operations {
    * List accounts for a plan 
    * @description Returns user and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
    * 
-   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-accounts-for-plan": {
     parameters: {
@@ -79724,7 +79715,7 @@ export interface operations {
    * Get a subscription plan for an account (stubbed) 
    * @description Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
    * 
-   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/get-subscription-plan-for-account-stubbed": {
     parameters: {
@@ -79748,7 +79739,7 @@ export interface operations {
    * List plans (stubbed) 
    * @description Lists all plans that are part of your GitHub Marketplace listing.
    * 
-   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-plans-stubbed": {
     parameters: {
@@ -79774,7 +79765,7 @@ export interface operations {
    * List accounts for a plan (stubbed) 
    * @description Returns repository and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
    * 
-   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+   * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-accounts-for-plan-stubbed": {
     parameters: {
@@ -80603,272 +80594,6 @@ export interface operations {
     responses: {
       /** @description Success response */
       204: never;
-    };
-  };
-  /**
-   * List required workflows 
-   * @description List all required workflows in an organization.
-   * 
-   * You must authenticate using an access token with the `read:org` scope to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/list-required-workflows": {
-    parameters: {
-      query?: {
-        per_page?: components["parameters"]["per-page"];
-        page?: components["parameters"]["page"];
-      };
-      path: {
-        org: components["parameters"]["org"];
-      };
-    };
-    responses: {
-      /** @description Response */
-      200: {
-        content: {
-          "application/json": {
-            total_count: number;
-            required_workflows: (components["schemas"]["required-workflow"])[];
-          };
-        };
-      };
-    };
-  };
-  /**
-   * Create a required workflow 
-   * @description Create a required workflow in an organization.
-   * 
-   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/create-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": {
-          /** @description Path of the workflow file to be configured as a required workflow. */
-          workflow_file_path: string;
-          /** @description The ID of the repository that contains the workflow file. */
-          repository_id: string;
-          /**
-           * @description Enable the required workflow for all repositories or selected repositories in the organization. 
-           * @default all 
-           * @enum {string}
-           */
-          scope?: "selected" | "all";
-          /** @description A list of repository IDs where you want to enable the required workflow. You can only provide a list of repository ids when the `scope` is set to `selected`. */
-          selected_repository_ids?: (number)[];
-        };
-      };
-    };
-    responses: {
-      /** @description Response */
-      201: {
-        content: {
-          "application/json": components["schemas"]["required-workflow"];
-        };
-      };
-      422: components["responses"]["validation_failed_simple"];
-    };
-  };
-  /**
-   * Get a required workflow 
-   * @description Get a required workflow configured in an organization.
-   * 
-   * You must authenticate using an access token with the `read:org` scope to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/get-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        required_workflow_id: components["parameters"]["required-workflow-id"];
-      };
-    };
-    responses: {
-      /** @description Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["required-workflow"];
-        };
-      };
-    };
-  };
-  /**
-   * Delete a required workflow 
-   * @description Deletes a required workflow configured in an organization.
-   * 
-   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/delete-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        required_workflow_id: components["parameters"]["required-workflow-id"];
-      };
-    };
-    responses: {
-      /** @description Response */
-      204: never;
-    };
-  };
-  /**
-   * Update a required workflow 
-   * @description Update a required workflow in an organization.
-   * 
-   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/update-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        required_workflow_id: components["parameters"]["required-workflow-id"];
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": {
-          /** @description Path of the workflow file to be configured as a required workflow. */
-          workflow_file_path?: string;
-          /** @description The ID of the repository that contains the workflow file. */
-          repository_id?: string;
-          /**
-           * @description Enable the required workflow for all repositories or selected repositories in the organization. 
-           * @default all 
-           * @enum {string}
-           */
-          scope?: "selected" | "all";
-          /** @description A list of repository IDs where you want to enable the required workflow. A list of repository IDs where you want to enable the required workflow. You can only provide a list of repository ids when the `scope` is set to `selected`. */
-          selected_repository_ids?: (number)[];
-        };
-      };
-    };
-    responses: {
-      /** @description Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["required-workflow"];
-        };
-      };
-      422: components["responses"]["validation_failed_simple"];
-    };
-  };
-  /**
-   * List selected repositories for a required workflow 
-   * @description Lists the selected repositories that are configured for a required workflow in an organization. To use this endpoint, the required workflow must be configured to run on selected repositories.
-   * 
-   * You must authenticate using an access token with the `read:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/list-selected-repositories-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        required_workflow_id: components["parameters"]["required-workflow-id"];
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": {
-            total_count: number;
-            repositories: (components["schemas"]["repository"])[];
-          };
-        };
-      };
-      /** @description Resource Not Found */
-      404: never;
-    };
-  };
-  /**
-   * Sets repositories for a required workflow 
-   * @description Sets the repositories for a required workflow that is required for selected repositories.
-   * 
-   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/set-selected-repos-to-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        required_workflow_id: components["parameters"]["required-workflow-id"];
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": {
-          /** @description The IDs of the repositories for which the workflow should be required. */
-          selected_repository_ids: (number)[];
-        };
-      };
-    };
-    responses: {
-      /** @description Response */
-      204: never;
-    };
-  };
-  /**
-   * Add a repository to a required workflow 
-   * @description Adds a repository to a required workflow. To use this endpoint, the required workflow must be configured to run on selected repositories.
-   * 
-   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/add-selected-repo-to-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        required_workflow_id: components["parameters"]["required-workflow-id"];
-        repository_id: components["parameters"]["repository-id"];
-      };
-    };
-    responses: {
-      /** @description Success */
-      204: never;
-      /** @description Resource Not Found */
-      404: never;
-      /** @description Validation Error */
-      422: never;
-    };
-  };
-  /**
-   * Remove a selected repository from required workflow 
-   * @description Removes a repository from a required workflow. To use this endpoint, the required workflow must be configured to run on selected repositories.
-   * 
-   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-   * 
-   * For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/remove-selected-repo-from-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        required_workflow_id: components["parameters"]["required-workflow-id"];
-        repository_id: components["parameters"]["repository-id"];
-      };
-    };
-    responses: {
-      /** @description Success */
-      204: never;
-      /** @description Resource Not Found */
-      404: never;
-      /** @description Validation Error */
-      422: never;
     };
   };
   /**
@@ -81792,7 +81517,7 @@ export interface operations {
         per_page?: components["parameters"]["per-page"];
         direction?: components["parameters"]["direction"];
         /** @description If specified, only code scanning alerts with this state will be returned. */
-        state?: components["schemas"]["code-scanning-alert-state"];
+        state?: components["schemas"]["code-scanning-alert-state-query"];
         /** @description The property by which to sort the results. */
         sort?: "created" | "updated";
         /** @description If specified, only code scanning alerts with this severity will be returned. */
@@ -81889,7 +81614,11 @@ export interface operations {
    * Add users to Codespaces billing for an organization 
    * @deprecated 
    * @description Codespaces for the specified users will be billed to the organization.
-   * To use this endpoint, the billing settings for the organization must be set to `selected_members`. For information on how to change this setting please see [these docs].(https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces) You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * 
+   * To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+   * For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
+   * 
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
    */
   "codespaces/set-codespaces-billing-users": {
     parameters: {
@@ -81917,10 +81646,14 @@ export interface operations {
     };
   };
   /**
-   * Removes users from Codespaces billing for an organization 
+   * Remove users from Codespaces billing for an organization 
    * @deprecated 
    * @description Codespaces for the specified users will no longer be billed to the organization.
-   * To use this endpoint, the billing settings for the organization must be set to `selected_members`. For information on how to change this setting please see [these docs].(https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces) You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * 
+   * To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+   * For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
+   * 
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
    */
   "codespaces/delete-codespaces-billing-users": {
     parameters: {
@@ -86666,82 +86399,6 @@ export interface operations {
     };
   };
   /**
-   * List repository required workflows 
-   * @description Lists the required workflows in a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint. For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/list-repo-required-workflows": {
-    parameters: {
-      query?: {
-        per_page?: components["parameters"]["per-page"];
-        page?: components["parameters"]["page"];
-      };
-      path: {
-        org: components["parameters"]["org"];
-        repo: components["parameters"]["repo"];
-      };
-    };
-    responses: {
-      /** @description Response */
-      200: {
-        content: {
-          "application/json": {
-            total_count: number;
-            required_workflows: (components["schemas"]["repo-required-workflow"])[];
-          };
-        };
-      };
-      404: components["responses"]["not_found"];
-    };
-  };
-  /**
-   * Get a required workflow entity for a repository 
-   * @description Gets a specific required workflow present in a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint. For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/get-repo-required-workflow": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        repo: components["parameters"]["repo"];
-        required_workflow_id_for_repo: components["parameters"]["repo-required-workflow-id"];
-      };
-    };
-    responses: {
-      /** @description Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["repo-required-workflow"];
-        };
-      };
-      404: components["responses"]["not_found"];
-    };
-  };
-  /**
-   * Get required workflow usage 
-   * @description Gets the number of billable minutes used by a specific required workflow during the current billing cycle.
-   * 
-   * Billable minutes only apply to required workflows running in private repositories that use GitHub-hosted runners. Usage is listed for each GitHub-hosted runner operating system in milliseconds. Any job re-runs are also included in the usage. The usage does not include the multiplier for macOS and Windows runners and is not rounded up to the nearest whole minute. For more information, see "[Managing billing for GitHub Actions](https://docs.github.com/github/setting-up-and-managing-billing-and-payments-on-github/managing-billing-for-github-actions)."
-   * 
-   * Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
-   */
-  "actions/get-repo-required-workflow-usage": {
-    parameters: {
-      path: {
-        org: components["parameters"]["org"];
-        repo: components["parameters"]["repo"];
-        required_workflow_id_for_repo: components["parameters"]["repo-required-workflow-id"];
-      };
-    };
-    responses: {
-      /** @description Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["workflow-usage"];
-        };
-      };
-      404: components["responses"]["not_found"];
-    };
-  };
-  /**
    * Get a repository 
    * @description The `parent` and `source` objects are present when the repository is a fork. `parent` is the repository this repository was forked from, `source` is the ultimate source for the network.
    * 
@@ -87559,47 +87216,6 @@ export interface operations {
       204: never;
       /** @description Conflict response when changing a setting is prevented by the owning organization */
       409: never;
-    };
-  };
-  /**
-   * List workflow runs for a required workflow 
-   * @description List all workflow runs for a required workflow. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
-   * 
-   * Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-   */
-  "actions/list-required-workflow-runs": {
-    parameters: {
-      query?: {
-        actor?: components["parameters"]["actor"];
-        branch?: components["parameters"]["workflow-run-branch"];
-        event?: components["parameters"]["event"];
-        status?: components["parameters"]["workflow-run-status"];
-        per_page?: components["parameters"]["per-page"];
-        page?: components["parameters"]["page"];
-        created?: components["parameters"]["created"];
-        exclude_pull_requests?: components["parameters"]["exclude-pull-requests"];
-        check_suite_id?: components["parameters"]["workflow-run-check-suite-id"];
-        head_sha?: components["parameters"]["workflow-run-head-sha"];
-      };
-      path: {
-        owner: components["parameters"]["owner"];
-        repo: components["parameters"]["repo"];
-        required_workflow_id_for_repo: components["parameters"]["repo-required-workflow-id"];
-      };
-    };
-    responses: {
-      /** @description Response */
-      200: {
-        headers: {
-          Link: components["headers"]["link"];
-        };
-        content: {
-          "application/json": {
-            total_count: number;
-            workflow_runs: (components["schemas"]["workflow-run"])[];
-          };
-        };
-      };
     };
   };
   /**
@@ -90279,7 +89895,7 @@ export interface operations {
    * Get a check run 
    * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
    * 
-   * Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+   * Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
    */
   "checks/get": {
     parameters: {
@@ -90415,7 +90031,7 @@ export interface operations {
   };
   /**
    * List check run annotations 
-   * @description Lists annotations for a check run using the annotation `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get annotations for a check run. OAuth Apps and authenticated users must have the `repo` scope to get annotations for a check run in a private repository.
+   * @description Lists annotations for a check run using the annotation `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get annotations for a check run. OAuth apps and authenticated users must have the `repo` scope to get annotations for a check run in a private repository.
    */
   "checks/list-annotations": {
     parameters: {
@@ -90555,7 +90171,7 @@ export interface operations {
    * Get a check suite 
    * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
    * 
-   * Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
+   * Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth apps and authenticated users must have the `repo` scope to get check suites in a private repository.
    */
   "checks/get-suite": {
     parameters: {
@@ -90578,7 +90194,7 @@ export interface operations {
    * List check runs in a check suite 
    * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
    * 
-   * Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+   * Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
    */
   "checks/list-for-suite": {
     parameters: {
@@ -90659,7 +90275,7 @@ export interface operations {
         /** @description The property by which to sort the results. */
         sort?: "created" | "updated";
         /** @description If specified, only code scanning alerts with this state will be returned. */
-        state?: components["schemas"]["code-scanning-alert-state"];
+        state?: components["schemas"]["code-scanning-alert-state-query"];
         /** @description If specified, only code scanning alerts with this severity will be returned. */
         severity?: components["schemas"]["code-scanning-alert-severity"];
       };
@@ -92181,6 +91797,8 @@ export interface operations {
   /**
    * List pull requests associated with a commit 
    * @description Lists the merged pull request that introduced the commit to the repository. If the commit is not present in the default branch, will only return open pull requests associated with the commit.
+   * 
+   * To list the open or merged pull requests associated with a branch, you can set the `commit_sha` parameter to the branch name.
    */
   "repos/list-pull-requests-associated-with-commit": {
     parameters: {
@@ -92274,7 +91892,7 @@ export interface operations {
    * List check runs for a Git reference 
    * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
    * 
-   * Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+   * Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
    */
   "checks/list-for-ref": {
     parameters: {
@@ -92312,7 +91930,7 @@ export interface operations {
    * List check suites for a Git reference 
    * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
    * 
-   * Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
+   * Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth apps and authenticated users must have the `repo` scope to get check suites in a private repository.
    */
   "checks/list-suites-for-ref": {
     parameters: {
@@ -93379,7 +92997,7 @@ export interface operations {
    * Create a deployment status 
    * @description Users with `push` access can create deployment statuses for a given deployment.
    * 
-   * GitHub Apps require `read & write` access to "Deployments" and `read-only` access to "Repo contents" (for private repos). OAuth Apps require the `repo_deployment` scope.
+   * GitHub Apps require `read & write` access to "Deployments" and `read-only` access to "Repo contents" (for private repos). OAuth apps require the `repo_deployment` scope.
    */
   "repos/create-deployment-status": {
     parameters: {
@@ -94051,7 +93669,7 @@ export interface operations {
   };
   /**
    * Create a commit 
-   * @description Creates a new Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).
+   * @description Creates a new Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
    * 
    * **Signature verification object**
    * 
@@ -94145,6 +93763,7 @@ export interface operations {
   /**
    * Get a commit object 
    * @description Gets a Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
+   * 
    * To get the contents of a commit, see "[Get a commit](/rest/commits/commits#get-a-commit)."
    * 
    * **Signature verification object**
@@ -99115,11 +98734,6 @@ export interface operations {
            */
           target?: "branch" | "tag";
           enforcement: components["schemas"]["repository-rule-enforcement"];
-          /**
-           * @description The permission level required to bypass this ruleset. "repository" allows those with bypass permission at the repository level to bypass. "organization" allows those with bypass permission at the organization level to bypass. "none" prevents anyone from bypassing. 
-           * @enum {string}
-           */
-          bypass_mode?: "none" | "repository" | "organization";
           /** @description The actors that can bypass the rules in this ruleset */
           bypass_actors?: (components["schemas"]["repository-ruleset-bypass-actor"])[];
           conditions?: components["schemas"]["repository-ruleset-conditions"];
@@ -99192,11 +98806,6 @@ export interface operations {
            */
           target?: "branch" | "tag";
           enforcement?: components["schemas"]["repository-rule-enforcement"];
-          /**
-           * @description The permission level required to bypass this ruleset. "repository" allows those with bypass permission at the repository level to bypass. "organization" allows those with bypass permission at the organization level to bypass. "none" prevents anyone from bypassing. 
-           * @enum {string}
-           */
-          bypass_mode?: "none" | "repository" | "organization";
           /** @description The actors that can bypass the rules in this ruleset */
           bypass_actors?: (components["schemas"]["repository-ruleset-bypass-actor"])[];
           conditions?: components["schemas"]["repository-ruleset-conditions"];
@@ -100761,7 +100370,7 @@ export interface operations {
    * 
    * This query searches for the keyword `windows`, within any open issue that is labeled as `bug`. The search runs across repositories whose primary language is Python. The results are sorted by creation date in ascending order, which means the oldest issues appear first in the search results.
    * 
-   * **Note:** For [user-to-server](https://docs.github.com/developers/apps/identifying-and-authorizing-users-for-github-apps#user-to-server-requests) GitHub App requests, you can't retrieve a combination of issues and pull requests in a single query. Requests that don't include the `is:issue` or `is:pull-request` qualifier will receive an HTTP `422 Unprocessable Entity` response. To get results for both issues and pull requests, you must send separate queries for issues and pull requests. For more information about the `is` qualifier, see "[Searching only issues or pull requests](https://docs.github.com/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-only-issues-or-pull-requests)."
+   * **Note:** For requests made by GitHub Apps with a user access token, you can't retrieve a combination of issues and pull requests in a single query. Requests that don't include the `is:issue` or `is:pull-request` qualifier will receive an HTTP `422 Unprocessable Entity` response. To get results for both issues and pull requests, you must send separate queries for issues and pull requests. For more information about the `is` qualifier, see "[Searching only issues or pull requests](https://docs.github.com/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-only-issues-or-pull-requests)."
    */
   "search/issues-and-pull-requests": {
     parameters: {
@@ -103184,7 +102793,7 @@ export interface operations {
    * List app installations accessible to the user access token 
    * @description Lists installations of your GitHub App that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.
    * 
-   * You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.
+   * You must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint.
    * 
    * The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
    * 
@@ -103221,7 +102830,7 @@ export interface operations {
    * 
    * The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
    * 
-   * You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.
+   * You must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint.
    * 
    * The access the user has to each repository is included in the hash under the `permissions` key.
    */
@@ -103483,7 +103092,7 @@ export interface operations {
   };
   /**
    * List subscriptions for the authenticated user 
-   * @description Lists the active subscriptions for the authenticated user. You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint. . OAuth Apps must authenticate using an [OAuth token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/).
+   * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
    */
   "apps/list-subscriptions-for-authenticated-user": {
     parameters: {
@@ -103509,7 +103118,7 @@ export interface operations {
   };
   /**
    * List subscriptions for the authenticated user (stubbed) 
-   * @description Lists the active subscriptions for the authenticated user. You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint. . OAuth Apps must authenticate using an [OAuth token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/).
+   * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
    */
   "apps/list-subscriptions-for-authenticated-user-stubbed": {
     parameters: {
@@ -107486,7 +107095,7 @@ export interface operations {
    * 
    * A GitHub App receives this webhook by default and cannot unsubscribe from this event.
    * 
-   * Anyone can revoke their authorization of a GitHub App from their [GitHub account settings page](https://github.com/settings/apps/authorizations). Revoking the authorization of a GitHub App does not uninstall the GitHub App. You should program your GitHub App so that when it receives this webhook, it stops calling the API on behalf of the person who revoked the token. If your GitHub App continues to use a revoked access token, it will receive the `401 Bad Credentials` error. For details about user-to-server requests, which require GitHub App authorization, see "[Identifying and authorizing users for GitHub Apps](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/)." 
+   * Anyone can revoke their authorization of a GitHub App from their [GitHub account settings page](https://github.com/settings/apps/authorizations). Revoking the authorization of a GitHub App does not uninstall the GitHub App. You should program your GitHub App so that when it receives this webhook, it stops calling the API on behalf of the person who revoked the token. If your GitHub App continues to use a revoked access token, it will receive the `401 Bad Credentials` error. For details about requests with a user access token, which require GitHub App authorization, see "[Authenticating with a GitHub App on behalf of a user](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-with-a-github-app-on-behalf-of-a-user)." 
    * @description Someone revoked their authorization of a GitHub App.
    */
   "github-app-authorization/revoked": {

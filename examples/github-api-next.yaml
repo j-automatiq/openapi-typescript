@@ -110,6 +110,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: meta
+        subcategory: meta
       externalDocs:
         description: API method documentation
         url: https://docs.github.com/rest/overview/resources-in-the-rest-api#root-endpoint
@@ -141,7 +142,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: apps
-        subcategory: 
+        subcategory: apps
   "/app-manifests/{code}/conversions":
     post:
       summary: Create a GitHub App from a manifest
@@ -198,7 +199,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: apps
-        subcategory: 
+        subcategory: apps
   "/app/hook/config":
     get:
       summary: Get a webhook configuration for an app
@@ -413,7 +414,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: apps
-        subcategory: 
+        subcategory: apps
   "/app/installations":
     get:
       summary: List installations for the authenticated app
@@ -456,7 +457,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: apps
-        subcategory: 
+        subcategory: apps
   "/app/installations/{installation_id}":
     get:
       summary: Get an installation for the authenticated app
@@ -488,7 +489,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: apps
-        subcategory: 
+        subcategory: apps
     delete:
       summary: Delete an installation for the authenticated app
       description: |-
@@ -512,7 +513,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: apps
-        subcategory: 
+        subcategory: apps
   "/app/installations/{installation_id}/access_tokens":
     post:
       summary: Create an installation access token for an app
@@ -582,7 +583,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: apps
-        subcategory: 
+        subcategory: apps
   "/app/installations/{installation_id}/suspended":
     put:
       summary: Suspend an app installation
@@ -607,7 +608,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: apps
-        subcategory: 
+        subcategory: apps
     delete:
       summary: Unsuspend an app installation
       description: |-
@@ -631,7 +632,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: apps
-        subcategory: 
+        subcategory: apps
   "/applications/{client_id}/grant":
     delete:
       summary: Delete an app authorization
@@ -819,10 +820,10 @@ paths:
   "/applications/{client_id}/token/scoped":
     post:
       summary: Create a scoped access token
-      description: Use a non-scoped user-to-server access token to create a repository
-        scoped and/or permission scoped user-to-server access token. You can specify
-        which repositories the token can access and which permissions are granted
-        to the token. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication)
+      description: Use a non-scoped user access token to create a repository scoped
+        and/or permission scoped user access token. You can specify which repositories
+        the token can access and which permissions are granted to the token. You must
+        use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication)
         when accessing this endpoint, using the `client_id` and `client_secret` of
         the GitHub App as the username and password. Invalid tokens will return `404
         NOT FOUND`.
@@ -848,20 +849,20 @@ paths:
                   examples:
                   - e72e16c7e42f292c6912e7710c838347ae178b4a
                 target:
-                  description: The name of the user or organization to scope the user-to-server
+                  description: The name of the user or organization to scope the user
                     access token to. **Required** unless `target_id` is specified.
                   type: string
                   examples:
                   - octocat
                 target_id:
-                  description: The ID of the user or organization to scope the user-to-server
+                  description: The ID of the user or organization to scope the user
                     access token to. **Required** unless `target` is specified.
                   type: integer
                   examples:
                   - 1
                 repositories:
-                  description: The list of repository names to scope the user-to-server
-                    access token to. `repositories` may not be specified if `repository_ids`
+                  description: The list of repository names to scope the user access
+                    token to. `repositories` may not be specified if `repository_ids`
                     is specified.
                   type: array
                   items:
@@ -869,8 +870,8 @@ paths:
                     examples:
                     - rails
                 repository_ids:
-                  description: The list of repository IDs to scope the user-to-server
-                    access token to. `repository_ids` may not be specified if `repositories`
+                  description: The list of repository IDs to scope the user access
+                    token to. `repository_ids` may not be specified if `repositories`
                     is specified.
                   type: array
                   items:
@@ -946,7 +947,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: apps
-        subcategory: 
+        subcategory: apps
   "/codes_of_conduct":
     get:
       summary: Get all codes of conduct
@@ -976,7 +977,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: codes-of-conduct
-        subcategory: 
+        subcategory: codes-of-conduct
   "/codes_of_conduct/{key}":
     get:
       summary: Get a code of conduct
@@ -1011,7 +1012,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: codes-of-conduct
-        subcategory: 
+        subcategory: codes-of-conduct
   "/emojis":
     get:
       summary: Get emojis
@@ -1041,7 +1042,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: emojis
-        subcategory: 
+        subcategory: emojis
   "/enterprises/{enterprise}/dependabot/alerts":
     get:
       summary: List Dependabot alerts for an enterprise
@@ -1141,7 +1142,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: secret-scanning
-        subcategory: 
+        subcategory: secret-scanning
   "/events":
     get:
       summary: List public events
@@ -1255,7 +1256,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
     post:
       summary: Create a gist
       description: |-
@@ -1348,7 +1349,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/gists/public":
     get:
       summary: List public gists
@@ -1391,7 +1392,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/gists/starred":
     get:
       summary: List starred gists
@@ -1431,7 +1432,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/gists/{gist_id}":
     get:
       summary: Get a gist
@@ -1464,7 +1465,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
     patch:
       summary: Update a gist
       description: Allows you to update a gist's description and to update, delete,
@@ -1569,7 +1570,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
     delete:
       summary: Delete a gist
       description: ''
@@ -1594,7 +1595,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/gists/{gist_id}/comments":
     get:
       summary: List gist comments
@@ -1842,7 +1843,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/gists/{gist_id}/forks":
     get:
       summary: List gist forks
@@ -1882,7 +1883,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
     post:
       summary: Fork a gist
       description: ''
@@ -1921,7 +1922,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/gists/{gist_id}/star":
     get:
       summary: Check if a gist is starred
@@ -1953,7 +1954,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
     put:
       summary: Star a gist
       description: Note that you'll need to set `Content-Length` to zero when calling
@@ -1979,7 +1980,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
     delete:
       summary: Unstar a gist
       description: ''
@@ -2004,7 +2005,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/gists/{gist_id}/{sha}":
     get:
       summary: Get a gist revision
@@ -2042,7 +2043,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/gitignore/templates":
     get:
       summary: Get all gitignore templates
@@ -2080,7 +2081,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: gitignore
-        subcategory: 
+        subcategory: gitignore
   "/gitignore/templates/{name}":
     get:
       summary: Get a gitignore template
@@ -2115,7 +2116,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: gitignore
-        subcategory: 
+        subcategory: gitignore
   "/installation/repositories":
     get:
       summary: List repositories accessible to the app installation
@@ -2304,7 +2305,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: issues
-        subcategory: 
+        subcategory: issues
   "/licenses":
     get:
       summary: Get all commonly used licenses
@@ -2341,7 +2342,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: licenses
-        subcategory: 
+        subcategory: licenses
   "/licenses/{license}":
     get:
       summary: Get a license
@@ -2378,7 +2379,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: licenses
-        subcategory: 
+        subcategory: licenses
   "/markdown":
     post:
       summary: Render a Markdown document
@@ -2448,7 +2449,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: markdown
-        subcategory: 
+        subcategory: markdown
   "/markdown/raw":
     post:
       summary: Render a Markdown document in raw mode
@@ -2502,14 +2503,14 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: markdown
-        subcategory: 
+        subcategory: markdown
   "/marketplace_listing/accounts/{account_id}":
     get:
       summary: Get a subscription plan for an account
       description: |-
         Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
 
-        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
       tags:
       - apps
       operationId: apps/get-subscription-plan-for-account
@@ -2547,7 +2548,7 @@ paths:
       description: |-
         Lists all plans that are part of your GitHub Marketplace listing.
 
-        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
       tags:
       - apps
       operationId: apps/list-plans
@@ -2587,7 +2588,7 @@ paths:
       description: |-
         Returns user and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
 
-        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
       tags:
       - apps
       operationId: apps/list-accounts-for-plan
@@ -2641,7 +2642,7 @@ paths:
       description: |-
         Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
 
-        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
       tags:
       - apps
       operationId: apps/get-subscription-plan-for-account-stubbed
@@ -2675,7 +2676,7 @@ paths:
       description: |-
         Lists all plans that are part of your GitHub Marketplace listing.
 
-        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
       tags:
       - apps
       operationId: apps/list-plans-stubbed
@@ -2713,7 +2714,7 @@ paths:
       description: |-
         Returns repository and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
 
-        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+        GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
       tags:
       - apps
       operationId: apps/list-accounts-for-plan-stubbed
@@ -2791,7 +2792,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: meta
-        subcategory: 
+        subcategory: meta
   "/networks/{owner}/{repo}/events":
     get:
       summary: List public events for a network of repositories
@@ -3152,6 +3153,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: meta
+        subcategory: meta
   "/organizations":
     get:
       summary: List organizations
@@ -3191,7 +3193,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: orgs
-        subcategory: 
+        subcategory: orgs
   "/orgs/{org}":
     get:
       summary: Get an organization
@@ -3223,7 +3225,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: orgs
-        subcategory: 
+        subcategory: orgs
     patch:
       summary: Update an organization
       description: |-
@@ -3450,7 +3452,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: orgs
-        subcategory: 
+        subcategory: orgs
     delete:
       summary: Delete an organization
       description: |-
@@ -3958,412 +3960,6 @@ paths:
         enabledForGitHubApps: true
         category: actions
         subcategory: permissions
-  "/orgs/{org}/actions/required_workflows":
-    get:
-      summary: List required workflows
-      description: |-
-        List all required workflows in an organization.
-
-        You must authenticate using an access token with the `read:org` scope to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/list-required-workflows
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#list-required-workflows
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/per-page"
-      - "$ref": "#/components/parameters/page"
-      responses:
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                - total_count
-                - required_workflows
-                properties:
-                  total_count:
-                    type: integer
-                  required_workflows:
-                    type: array
-                    items:
-                      "$ref": "#/components/schemas/required-workflow"
-              examples:
-                default:
-                  "$ref": "#/components/examples/required-workflows-paginated"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-    post:
-      summary: Create a required workflow
-      description: |-
-        Create a required workflow in an organization.
-
-        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/create-required-workflow
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#create-a-required-workflow
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                workflow_file_path:
-                  description: Path of the workflow file to be configured as a required
-                    workflow.
-                  type: string
-                repository_id:
-                  description: The ID of the repository that contains the workflow
-                    file.
-                  type: string
-                scope:
-                  description: Enable the required workflow for all repositories or
-                    selected repositories in the organization.
-                  type: string
-                  enum:
-                  - selected
-                  - all
-                  default: all
-                selected_repository_ids:
-                  description: A list of repository IDs where you want to enable the
-                    required workflow. You can only provide a list of repository ids
-                    when the `scope` is set to `selected`.
-                  type: array
-                  items:
-                    type: integer
-                    description: Unique identifier of the repository.
-              required:
-              - workflow_file_path
-              - repository_id
-            examples:
-              default:
-                value:
-                  workflow_file_path: ".github/workflows/ci.yaml"
-                  repository_id: 53
-                  scope: selected
-                  selected_repository_ids:
-                  - 32
-                  - 91
-      responses:
-        '201':
-          description: Response
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/required-workflow"
-              examples:
-                default:
-                  "$ref": "#/components/examples/required-workflow"
-        '422':
-          "$ref": "#/components/responses/validation_failed_simple"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-  "/orgs/{org}/actions/required_workflows/{required_workflow_id}":
-    get:
-      summary: Get a required workflow
-      description: |-
-        Get a required workflow configured in an organization.
-
-        You must authenticate using an access token with the `read:org` scope to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/get-required-workflow
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#get-a-required-workflow
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/required-workflow-id"
-      responses:
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/required-workflow"
-              examples:
-                default:
-                  "$ref": "#/components/examples/required-workflow"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-    patch:
-      summary: Update a required workflow
-      description: |-
-        Update a required workflow in an organization.
-
-        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/update-required-workflow
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#update-a-required-workflow
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/required-workflow-id"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                workflow_file_path:
-                  description: Path of the workflow file to be configured as a required
-                    workflow.
-                  type: string
-                repository_id:
-                  description: The ID of the repository that contains the workflow
-                    file.
-                  type: string
-                scope:
-                  description: Enable the required workflow for all repositories or
-                    selected repositories in the organization.
-                  type: string
-                  enum:
-                  - selected
-                  - all
-                  default: all
-                selected_repository_ids:
-                  description: A list of repository IDs where you want to enable the
-                    required workflow. A list of repository IDs where you want to
-                    enable the required workflow. You can only provide a list of repository
-                    ids when the `scope` is set to `selected`.
-                  type: array
-                  items:
-                    type: integer
-                    description: Unique identifier of the repository.
-            examples:
-              default:
-                value:
-                  workflow_file_path: ".github/workflows/ci.yaml"
-                  repository_id: 53
-                  scope: selected
-                  selected_repository_ids:
-                  - 32
-                  - 91
-      responses:
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/required-workflow"
-              examples:
-                default:
-                  "$ref": "#/components/examples/required-workflow"
-        '422':
-          "$ref": "#/components/responses/validation_failed_simple"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-    delete:
-      summary: Delete a required workflow
-      description: |-
-        Deletes a required workflow configured in an organization.
-
-        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/delete-required-workflow
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#delete-a-required-workflow
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/required-workflow-id"
-      responses:
-        '204':
-          description: Response
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-  "/orgs/{org}/actions/required_workflows/{required_workflow_id}/repositories":
-    get:
-      summary: List selected repositories for a required workflow
-      description: |-
-        Lists the selected repositories that are configured for a required workflow in an organization. To use this endpoint, the required workflow must be configured to run on selected repositories.
-
-        You must authenticate using an access token with the `read:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      operationId: actions/list-selected-repositories-required-workflow
-      tags:
-      - actions
-      externalDocs:
-        description: API method documentation https://docs.github.com/rest/reference/actions#list-selected-repositories-required-workflows
-        url: https://docs.github.com/rest/reference/actions#list-selected-repositories-required-workflows
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/required-workflow-id"
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                - total_count
-                - repositories
-                properties:
-                  total_count:
-                    type: number
-                  repositories:
-                    type: array
-                    items:
-                      "$ref": "#/components/schemas/repository"
-              examples:
-                default:
-                  "$ref": "#/components/examples/repository-paginated"
-        '404':
-          description: Resource Not Found
-      x-github:
-        enabledForGitHubApps: true
-        githubCloudOnly: false
-        category: actions
-        subcategory: required-workflows
-    put:
-      summary: Sets repositories for a required workflow
-      description: |-
-        Sets the repositories for a required workflow that is required for selected repositories.
-
-        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/set-selected-repos-to-required-workflow
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#set-selected-repositories-for-a-required-workflow
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/required-workflow-id"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                selected_repository_ids:
-                  description: The IDs of the repositories for which the workflow
-                    should be required.
-                  type: array
-                  items:
-                    type: integer
-                    description: Unique identifier of the repository.
-              required:
-              - selected_repository_ids
-            examples:
-              default:
-                value:
-                  selected_repository_ids:
-                  - 32
-                  - 91
-      responses:
-        '204':
-          description: Response
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-  "/orgs/{org}/actions/required_workflows/{required_workflow_id}/repositories/{repository_id}":
-    put:
-      summary: Add a repository to a required workflow
-      description: |-
-        Adds a repository to a required workflow. To use this endpoint, the required workflow must be configured to run on selected repositories.
-
-        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/add-selected-repo-to-required-workflow
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#add-a-repository-to-selected-repositories-list-for-a-required-workflow
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/required-workflow-id"
-      - "$ref": "#/components/parameters/repository-id"
-      responses:
-        '204':
-          description: Success
-        '404':
-          description: Resource Not Found
-        '422':
-          description: Validation Error
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-    delete:
-      summary: Remove a selected repository from required workflow
-      description: |-
-        Removes a repository from a required workflow. To use this endpoint, the required workflow must be configured to run on selected repositories.
-
-        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
-
-        For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/remove-selected-repo-from-required-workflow
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#remove-a-repository-from-selected-repositories-list-for-a-required-workflow
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/required-workflow-id"
-      - "$ref": "#/components/parameters/repository-id"
-      responses:
-        '204':
-          description: Success
-        '404':
-          description: Resource Not Found
-        '422':
-          description: Validation Error
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
   "/orgs/{org}/actions/runners":
     get:
       summary: List self-hosted runners for an organization
@@ -5794,7 +5390,7 @@ paths:
         in: query
         required: false
         schema:
-          "$ref": "#/components/schemas/code-scanning-alert-state"
+          "$ref": "#/components/schemas/code-scanning-alert-state-query"
       - name: sort
         description: The property by which to sort the results.
         in: query
@@ -5835,7 +5431,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: code-scanning
-        subcategory: 
+        subcategory: code-scanning
   "/orgs/{org}/codespaces":
     get:
       summary: List codespaces for the organization
@@ -5960,7 +5556,11 @@ paths:
       summary: Add users to Codespaces billing for an organization
       description: |-
         Codespaces for the specified users will be billed to the organization.
-        To use this endpoint, the billing settings for the organization must be set to `selected_members`. For information on how to change this setting please see [these docs].(https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces) You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+
+        To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+        For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
+
+        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
       tags:
       - codespaces
       operationId: codespaces/set-codespaces-billing-users
@@ -6011,10 +5611,14 @@ paths:
         category: codespaces
         subcategory: organizations
     delete:
-      summary: Removes users from Codespaces billing for an organization
+      summary: Remove users from Codespaces billing for an organization
       description: |-
         Codespaces for the specified users will no longer be billed to the organization.
-        To use this endpoint, the billing settings for the organization must be set to `selected_members`. For information on how to change this setting please see [these docs].(https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces) You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+
+        To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+        For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
+
+        You must authenticate using an access token with the `admin:org` scope to use this endpoint.
       tags:
       - codespaces
       operationId: codespaces/delete-codespaces-billing-users
@@ -7055,7 +6659,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/orgs/{org}/events":
     get:
       summary: List public organization events
@@ -7629,7 +7233,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: apps
-        subcategory: 
+        subcategory: apps
   "/orgs/{org}/installations":
     get:
       summary: List app installations for an organization
@@ -7673,7 +7277,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: orgs
-        subcategory: 
+        subcategory: orgs
   "/orgs/{org}/interaction-limits":
     get:
       summary: Get interaction restrictions for an organization
@@ -8062,7 +7666,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: issues
-        subcategory: 
+        subcategory: issues
   "/orgs/{org}/members":
     get:
       summary: List organization members
@@ -8970,7 +8574,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/orgs/{org}/packages/{package_type}/{package_name}":
     get:
       summary: Get a package for an organization
@@ -9002,7 +8606,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
     delete:
       summary: Delete a package for an organization
       description: |-
@@ -9034,7 +8638,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/orgs/{org}/packages/{package_type}/{package_name}/restore":
     post:
       summary: Restore a package for an organization
@@ -9077,7 +8681,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/orgs/{org}/packages/{package_type}/{package_name}/versions":
     get:
       summary: List package versions for a package owned by an organization
@@ -9129,7 +8733,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}":
     get:
       summary: Get a package version for an organization
@@ -9162,7 +8766,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
     delete:
       summary: Delete package version for an organization
       description: |-
@@ -9195,7 +8799,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore":
     post:
       summary: Restore package version for an organization
@@ -9233,7 +8837,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/orgs/{org}/personal-access-token-requests":
     get:
       summary: List requests to access organization resources with fine-grained personal
@@ -9752,7 +9356,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: projects
-        subcategory: 
+        subcategory: projects
     post:
       summary: Create an organization project
       description: Creates an organization project board. Returns a `410 Gone` status
@@ -9811,7 +9415,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: projects
-        subcategory: 
+        subcategory: projects
   "/orgs/{org}/public_members":
     get:
       summary: List public organization members
@@ -9988,7 +9592,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
     post:
       summary: Create an organization repository
       description: |-
@@ -10197,7 +9801,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/orgs/{org}/rulesets":
     get:
       summary: Get all organization repository rulesets
@@ -10292,6 +9896,7 @@ paths:
                   bypass_actors:
                   - actor_id: 234
                     actor_type: Team
+                    bypass_mode: always
                   conditions:
                     ref_name:
                       include:
@@ -10417,6 +10022,7 @@ paths:
                   bypass_actors:
                   - actor_id: 234
                     actor_type: Team
+                    bypass_mode: always
                   conditions:
                     ref_name:
                       include:
@@ -10521,7 +10127,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: secret-scanning
-        subcategory: 
+        subcategory: secret-scanning
   "/orgs/{org}/security-managers":
     get:
       summary: List security manager teams
@@ -10644,7 +10250,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: billing
-        subcategory: 
+        subcategory: billing
   "/orgs/{org}/settings/billing/packages":
     get:
       summary: Get GitHub Packages billing for an organization
@@ -10676,7 +10282,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: billing
-        subcategory: 
+        subcategory: billing
   "/orgs/{org}/settings/billing/shared-storage":
     get:
       summary: Get shared storage billing for an organization
@@ -10708,7 +10314,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: billing
-        subcategory: 
+        subcategory: billing
   "/orgs/{org}/teams":
     get:
       summary: List teams
@@ -10745,7 +10351,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
     post:
       summary: Create a team
       description: |-
@@ -10844,7 +10450,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
   "/orgs/{org}/teams/{team_slug}":
     get:
       summary: Get a team by name
@@ -10877,7 +10483,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
     patch:
       summary: Update a team
       description: |-
@@ -10979,7 +10585,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
     delete:
       summary: Delete a team
       description: |-
@@ -11004,7 +10610,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
   "/orgs/{org}/teams/{team_slug}/discussions":
     get:
       summary: List discussions
@@ -11466,7 +11072,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
     post:
       summary: Create reaction for a team discussion comment
       description: |-
@@ -11534,7 +11140,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id}":
     delete:
       summary: Delete team discussion comment reaction
@@ -11561,7 +11167,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions":
     get:
       summary: List reactions for a team discussion
@@ -11616,7 +11222,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
     post:
       summary: Create reaction for a team discussion
       description: |-
@@ -11682,7 +11288,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id}":
     delete:
       summary: Delete team discussion reaction
@@ -11708,7 +11314,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/orgs/{org}/teams/{team_slug}/invitations":
     get:
       summary: List pending team invitations
@@ -11967,7 +11573,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
   "/orgs/{org}/teams/{team_slug}/projects/{project_id}":
     get:
       summary: Check team permissions for a project
@@ -12001,7 +11607,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
     put:
       summary: Add or update team project permissions
       description: |-
@@ -12067,7 +11673,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
     delete:
       summary: Remove a project from a team
       description: |-
@@ -12091,7 +11697,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
   "/orgs/{org}/teams/{team_slug}/repos":
     get:
       summary: List team repositories
@@ -12129,7 +11735,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
   "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}":
     get:
       summary: Check team permissions for a repository
@@ -12172,7 +11778,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
     put:
       summary: Add or update team repository permissions
       description: |-
@@ -12222,7 +11828,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
     delete:
       summary: Remove a repository from a team
       description: |-
@@ -12247,7 +11853,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
   "/orgs/{org}/teams/{team_slug}/teams":
     get:
       summary: List child teams
@@ -12285,7 +11891,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: teams
-        subcategory: 
+        subcategory: teams
   "/orgs/{org}/{security_product}/{enablement}":
     post:
       summary: Enable or disable a security feature for an organization
@@ -12920,7 +12526,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: projects
-        subcategory: 
+        subcategory: projects
     patch:
       summary: Update a project
       description: Updates a project board's information. Returns a `404 Not Found`
@@ -13017,7 +12623,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: projects
-        subcategory: 
+        subcategory: projects
     delete:
       summary: Delete a project
       description: Deletes a project board. Returns a `404 Not Found` status if projects
@@ -13060,7 +12666,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: projects
-        subcategory: 
+        subcategory: projects
   "/projects/{project_id}/collaborators":
     get:
       summary: List project collaborators
@@ -13392,124 +12998,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: rate-limit
-        subcategory: 
-  "/repos/{org}/{repo}/actions/required_workflows":
-    get:
-      summary: List repository required workflows
-      description: Lists the required workflows in a repository. Anyone with read
-        access to the repository can use this endpoint. If the repository is private
-        you must use an access token with the `repo` scope. GitHub Apps must have
-        the `actions:read` permission to use this endpoint. For more information,
-        see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/list-repo-required-workflows
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#list-repository-required-workflows
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/repo"
-      - "$ref": "#/components/parameters/per-page"
-      - "$ref": "#/components/parameters/page"
-      responses:
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                - total_count
-                - required_workflows
-                properties:
-                  total_count:
-                    type: integer
-                  required_workflows:
-                    type: array
-                    items:
-                      "$ref": "#/components/schemas/repo-required-workflow"
-              examples:
-                default:
-                  "$ref": "#/components/examples/repo-required-workflow-paginated"
-        '404':
-          "$ref": "#/components/responses/not_found"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-  "/repos/{org}/{repo}/actions/required_workflows/{required_workflow_id_for_repo}":
-    get:
-      summary: Get a required workflow entity for a repository
-      description: Gets a specific required workflow present in a repository. Anyone
-        with read access to the repository can use this endpoint. If the repository
-        is private you must use an access token with the `repo` scope. GitHub Apps
-        must have the `actions:read` permission to use this endpoint. For more information,
-        see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/get-repo-required-workflow
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#get-repository-required-workflow
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/repo"
-      - "$ref": "#/components/parameters/repo-required-workflow-id"
-      responses:
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/repo-required-workflow"
-              examples:
-                default:
-                  "$ref": "#/components/examples/repo-required-workflow"
-        '404':
-          "$ref": "#/components/responses/not_found"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: required-workflows
-  "/repos/{org}/{repo}/actions/required_workflows/{required_workflow_id_for_repo}/timing":
-    get:
-      summary: Get required workflow usage
-      description: |-
-        Gets the number of billable minutes used by a specific required workflow during the current billing cycle.
-
-        Billable minutes only apply to required workflows running in private repositories that use GitHub-hosted runners. Usage is listed for each GitHub-hosted runner operating system in milliseconds. Any job re-runs are also included in the usage. The usage does not include the multiplier for macOS and Windows runners and is not rounded up to the nearest whole minute. For more information, see "[Managing billing for GitHub Actions](https://docs.github.com/github/setting-up-and-managing-billing-and-payments-on-github/managing-billing-for-github-actions)."
-
-        Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
-      tags:
-      - actions
-      operationId: actions/get-repo-required-workflow-usage
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#get-repository-required-workflow-usage
-      parameters:
-      - "$ref": "#/components/parameters/org"
-      - "$ref": "#/components/parameters/repo"
-      - "$ref": "#/components/parameters/repo-required-workflow-id"
-      responses:
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/workflow-usage"
-              examples:
-                default:
-                  "$ref": "#/components/examples/workflow-usage"
-        '404':
-          "$ref": "#/components/responses/not_found"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: false
-        category: actions
-        subcategory: required-workflows
+        subcategory: rate-limit
   "/repos/{owner}/{repo}":
     get:
       summary: Get a repository
@@ -13546,7 +13035,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
     patch:
       summary: Update a repository
       description: "**Note**: To edit a repository's topics, use the [Replace all
@@ -13791,7 +13280,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
     delete:
       summary: Delete a repository
       description: |-
@@ -13837,7 +13326,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/actions/artifacts":
     get:
       summary: List artifacts for a repository
@@ -14693,61 +14182,6 @@ paths:
         enabledForGitHubApps: true
         category: actions
         subcategory: permissions
-  "/repos/{owner}/{repo}/actions/required_workflows/{required_workflow_id_for_repo}/runs":
-    get:
-      summary: List workflow runs for a required workflow
-      description: |-
-        List all workflow runs for a required workflow. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
-
-        Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. For more information, see "[Required Workflows](https://docs.github.com/actions/using-workflows/required-workflows)."
-      tags:
-      - actions
-      operationId: actions/list-required-workflow-runs
-      externalDocs:
-        description: API method documentation
-        url: https://docs.github.com/rest/reference/actions#list-required-workflow-runs
-      parameters:
-      - "$ref": "#/components/parameters/owner"
-      - "$ref": "#/components/parameters/repo"
-      - "$ref": "#/components/parameters/repo-required-workflow-id"
-      - "$ref": "#/components/parameters/actor"
-      - "$ref": "#/components/parameters/workflow-run-branch"
-      - "$ref": "#/components/parameters/event"
-      - "$ref": "#/components/parameters/workflow-run-status"
-      - "$ref": "#/components/parameters/per-page"
-      - "$ref": "#/components/parameters/page"
-      - "$ref": "#/components/parameters/created"
-      - "$ref": "#/components/parameters/exclude-pull-requests"
-      - "$ref": "#/components/parameters/workflow-run-check-suite-id"
-      - "$ref": "#/components/parameters/workflow-run-head-sha"
-      responses:
-        '200':
-          description: Response
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                - total_count
-                - workflow_runs
-                properties:
-                  total_count:
-                    type: integer
-                  workflow_runs:
-                    type: array
-                    items:
-                      "$ref": "#/components/schemas/workflow-run"
-              examples:
-                default:
-                  "$ref": "#/components/examples/workflow-run-paginated"
-          headers:
-            Link:
-              "$ref": "#/components/headers/link"
-      x-github:
-        githubCloudOnly: false
-        enabledForGitHubApps: true
-        category: actions
-        subcategory: workflow-runs
   "/repos/{owner}/{repo}/actions/runners":
     get:
       summary: List self-hosted runners for a repository
@@ -16972,7 +16406,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
     delete:
       summary: Disable automated security fixes
       description: Disables automated security fixes for a repository. The authenticated
@@ -16994,7 +16428,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/branches":
     get:
       summary: List branches
@@ -17039,6 +16473,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: branches
+        subcategory: branches
   "/repos/{owner}/{repo}/branches/{branch}":
     get:
       summary: Get a branch
@@ -17071,6 +16506,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: branches
+        subcategory: branches
   "/repos/{owner}/{repo}/branches/{branch}/protection":
     get:
       summary: Get branch protection
@@ -18992,6 +18428,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: branches
+        subcategory: branches
   "/repos/{owner}/{repo}/check-runs":
     post:
       summary: Create a check run
@@ -19300,7 +18737,7 @@ paths:
       description: |-
         **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
 
-        Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+        Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
       tags:
       - checks
       operationId: checks/get
@@ -19593,7 +19030,7 @@ paths:
       summary: List check run annotations
       description: Lists annotations for a check run using the annotation `id`. GitHub
         Apps must have the `checks:read` permission on a private repository or pull
-        access to a public repository to get annotations for a check run. OAuth Apps
+        access to a public repository to get annotations for a check run. OAuth apps
         and authenticated users must have the `repo` scope to get annotations for
         a check run in a private repository.
       tags:
@@ -19804,7 +19241,7 @@ paths:
       description: |-
         **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
 
-        Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
+        Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth apps and authenticated users must have the `repo` scope to get check suites in a private repository.
       tags:
       - checks
       operationId: checks/get-suite
@@ -19836,7 +19273,7 @@ paths:
       description: |-
         **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
 
-        Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+        Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
       tags:
       - checks
       operationId: checks/list-for-suite
@@ -19967,7 +19404,7 @@ paths:
         in: query
         required: false
         schema:
-          "$ref": "#/components/schemas/code-scanning-alert-state"
+          "$ref": "#/components/schemas/code-scanning-alert-state-query"
       - name: severity
         description: If specified, only code scanning alerts with this severity will
           be returned.
@@ -19999,7 +19436,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: code-scanning
-        subcategory: 
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}":
     get:
       summary: Get a code scanning alert
@@ -20040,7 +19477,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: code-scanning
-        subcategory: 
+        subcategory: code-scanning
     patch:
       summary: Update a code scanning alert
       description: Updates the status of a single code scanning alert. You must use
@@ -20100,6 +19537,7 @@ paths:
         enabledForGitHubApps: true
         githubCloudOnly: false
         category: code-scanning
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances":
     get:
       summary: List instances of a code scanning alert
@@ -20143,7 +19581,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: code-scanning
-        subcategory: 
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/analyses":
     get:
       summary: List code scanning analyses for a repository
@@ -20224,6 +19662,7 @@ paths:
         enabledForGitHubApps: true
         githubCloudOnly: false
         category: code-scanning
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}":
     get:
       summary: Get a code scanning analysis for a repository
@@ -20290,6 +19729,7 @@ paths:
         enabledForGitHubApps: true
         githubCloudOnly: false
         category: code-scanning
+        subcategory: code-scanning
     delete:
       summary: Delete a code scanning analysis from a repository
       description: |-
@@ -20408,6 +19848,7 @@ paths:
         enabledForGitHubApps: true
         githubCloudOnly: false
         category: code-scanning
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/codeql/databases":
     get:
       summary: List CodeQL databases for a repository
@@ -20449,7 +19890,7 @@ paths:
         enabledForGitHubApps: true
         previews: []
         category: code-scanning
-        subcategory: 
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/codeql/databases/{language}":
     get:
       summary: Get a CodeQL database for a repository
@@ -20503,7 +19944,7 @@ paths:
         enabledForGitHubApps: true
         previews: []
         category: code-scanning
-        subcategory: 
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/default-setup":
     get:
       summary: Get a code scanning default setup configuration
@@ -20540,7 +19981,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: code-scanning
-        subcategory: 
+        subcategory: code-scanning
     patch:
       summary: Update a code scanning default setup configuration
       description: |-
@@ -20593,7 +20034,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: code-scanning
-        subcategory: 
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/sarifs":
     post:
       summary: Upload an analysis as SARIF data
@@ -20716,6 +20157,7 @@ paths:
         enabledForGitHubApps: true
         githubCloudOnly: false
         category: code-scanning
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/code-scanning/sarifs/{sarif_id}":
     get:
       summary: Get information about a SARIF upload
@@ -20762,6 +20204,7 @@ paths:
         enabledForGitHubApps: true
         githubCloudOnly: false
         category: code-scanning
+        subcategory: code-scanning
   "/repos/{owner}/{repo}/codeowners/errors":
     get:
       summary: List CODEOWNERS errors
@@ -20805,7 +20248,7 @@ paths:
         enabledForGitHubApps: true
         previews: []
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/codespaces":
     get:
       summary: List codespaces in a repository for the authenticated user
@@ -20858,7 +20301,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
     post:
       summary: Create a codespace in a repository
       description: |-
@@ -20968,7 +20411,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/repos/{owner}/{repo}/codespaces/devcontainers":
     get:
       summary: List devcontainer configurations in a repository for the authenticated
@@ -21034,7 +20477,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/repos/{owner}/{repo}/codespaces/machines":
     get:
       summary: List available machine types for a repository
@@ -21171,7 +20614,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/repos/{owner}/{repo}/codespaces/secrets":
     get:
       summary: List repository secrets
@@ -21507,6 +20950,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: collaborators
+        subcategory: collaborators
   "/repos/{owner}/{repo}/collaborators/{username}":
     get:
       summary: Check if a user is a repository collaborator
@@ -21537,6 +20981,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: collaborators
+        subcategory: collaborators
     put:
       summary: Add a repository collaborator
       description: |-
@@ -21616,6 +21061,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: collaborators
+        subcategory: collaborators
     delete:
       summary: Remove a repository collaborator
       description: |-
@@ -21661,6 +21107,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: collaborators
+        subcategory: collaborators
   "/repos/{owner}/{repo}/collaborators/{username}/permission":
     get:
       summary: Get repository permissions for a user
@@ -21698,6 +21145,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: collaborators
+        subcategory: collaborators
   "/repos/{owner}/{repo}/comments":
     get:
       summary: List commit comments for a repository
@@ -21889,7 +21337,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
     post:
       summary: Create reaction for a commit comment
       description: Create a reaction to a [commit comment](https://docs.github.com/rest/reference/repos#comments).
@@ -21956,7 +21404,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id}":
     delete:
       summary: Delete a commit comment reaction
@@ -21982,7 +21430,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/commits":
     get:
       summary: List commits
@@ -22087,6 +21535,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: commits
+        subcategory: commits
   "/repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head":
     get:
       summary: List branches for HEAD commit
@@ -22122,6 +21571,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: commits
+        subcategory: commits
   "/repos/{owner}/{repo}/commits/{commit_sha}/comments":
     get:
       summary: List commit comments
@@ -22232,9 +21682,10 @@ paths:
   "/repos/{owner}/{repo}/commits/{commit_sha}/pulls":
     get:
       summary: List pull requests associated with a commit
-      description: Lists the merged pull request that introduced the commit to the
-        repository. If the commit is not present in the default branch, will only
-        return open pull requests associated with the commit.
+      description: |-
+        Lists the merged pull request that introduced the commit to the repository. If the commit is not present in the default branch, will only return open pull requests associated with the commit.
+
+        To list the open or merged pull requests associated with a branch, you can set the `commit_sha` parameter to the branch name.
       tags:
       - repos
       operationId: repos/list-pull-requests-associated-with-commit
@@ -22266,6 +21717,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: commits
+        subcategory: commits
   "/repos/{owner}/{repo}/commits/{ref}":
     get:
       summary: Get a commit
@@ -22340,13 +21792,14 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: commits
+        subcategory: commits
   "/repos/{owner}/{repo}/commits/{ref}/check-runs":
     get:
       summary: List check runs for a Git reference
       description: |-
         **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
 
-        Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+        Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
       tags:
       - checks
       operationId: checks/list-for-ref
@@ -22411,7 +21864,7 @@ paths:
       description: |-
         **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
 
-        Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
+        Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth apps and authenticated users must have the `repo` scope to get check suites in a private repository.
       tags:
       - checks
       operationId: checks/list-suites-for-ref
@@ -22673,6 +22126,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: commits
+        subcategory: commits
   "/repos/{owner}/{repo}/contents/{path}":
     get:
       summary: Get repository content
@@ -23058,7 +22512,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/dependabot/alerts":
     get:
       summary: List Dependabot alerts for a repository
@@ -23723,6 +23177,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: deployments
+        subcategory: deployments
     post:
       summary: Create a deployment
       description: |-
@@ -23888,6 +23343,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: deployments
+        subcategory: deployments
   "/repos/{owner}/{repo}/deployments/{deployment_id}":
     get:
       summary: Get a deployment
@@ -23918,6 +23374,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: deployments
+        subcategory: deployments
     delete:
       summary: Delete a deployment
       description: |-
@@ -23950,6 +23407,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: deployments
+        subcategory: deployments
   "/repos/{owner}/{repo}/deployments/{deployment_id}/statuses":
     get:
       summary: List deployment statuses
@@ -23993,7 +23451,7 @@ paths:
       description: |-
         Users with `push` access can create deployment statuses for a given deployment.
 
-        GitHub Apps require `read & write` access to "Deployments" and `read-only` access to "Repo contents" (for private repos). OAuth Apps require the `repo_deployment` scope.
+        GitHub Apps require `read & write` access to "Deployments" and `read-only` access to "Repo contents" (for private repos). OAuth apps require the `repo_deployment` scope.
       tags:
       - repos
       operationId: repos/create-deployment-status
@@ -24194,7 +23652,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/environments":
     get:
       summary: List environments
@@ -25037,7 +24495,7 @@ paths:
     post:
       summary: Create a commit
       description: |-
-        Creates a new Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).
+        Creates a new Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
 
         **Signature verification object**
 
@@ -25207,6 +24665,7 @@ paths:
       summary: Get a commit object
       description: |-
         Gets a Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
+
         To get the contents of a commit, see "[Get a commit](/rest/commits/commits#get-a-commit)."
 
         **Signature verification object**
@@ -26879,7 +26338,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: apps
-        subcategory: 
+        subcategory: apps
   "/repos/{owner}/{repo}/interaction-limits":
     get:
       summary: Get interaction restrictions for a repository
@@ -27194,7 +26653,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: issues
-        subcategory: 
+        subcategory: issues
     post:
       summary: Create an issue
       description: |-
@@ -27317,7 +26776,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: issues
-        subcategory: 
+        subcategory: issues
   "/repos/{owner}/{repo}/issues/comments":
     get:
       summary: List issue comments for a repository
@@ -27525,7 +26984,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
     post:
       summary: Create reaction for an issue comment
       description: Create a reaction to an [issue comment](https://docs.github.com/rest/reference/issues#comments).
@@ -27592,7 +27051,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id}":
     delete:
       summary: Delete an issue comment reaction
@@ -27618,7 +27077,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/issues/events":
     get:
       summary: List issue events for a repository
@@ -27742,7 +27201,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: issues
-        subcategory: 
+        subcategory: issues
     patch:
       summary: Update an issue
       description: Issue owners and users with push access can edit an issue.
@@ -27883,7 +27342,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: issues
-        subcategory: 
+        subcategory: issues
   "/repos/{owner}/{repo}/issues/{issue_number}/assignees":
     post:
       summary: Add assignees to an issue
@@ -28516,7 +27975,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: issues
-        subcategory: 
+        subcategory: issues
     delete:
       summary: Unlock an issue
       description: Users with push access can unlock an issue's conversation.
@@ -28541,7 +28000,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: issues
-        subcategory: 
+        subcategory: issues
   "/repos/{owner}/{repo}/issues/{issue_number}/reactions":
     get:
       summary: List reactions for an issue
@@ -28597,7 +28056,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
     post:
       summary: Create reaction for an issue
       description: Create a reaction to an [issue](https://docs.github.com/rest/reference/issues/).
@@ -28664,7 +28123,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}":
     delete:
       summary: Delete an issue reaction
@@ -28690,7 +28149,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/issues/{issue_number}/timeline":
     get:
       summary: List timeline events for an issue
@@ -28765,6 +28224,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: deploy-keys
+        subcategory: deploy-keys
     post:
       summary: Create a deploy key
       description: You can create a read-only deploy key.
@@ -28828,6 +28288,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: deploy-keys
+        subcategory: deploy-keys
   "/repos/{owner}/{repo}/keys/{key_id}":
     get:
       summary: Get a deploy key
@@ -28858,6 +28319,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: deploy-keys
+        subcategory: deploy-keys
     delete:
       summary: Delete a deploy key
       description: Deploy keys are immutable. If you need to update a key, remove
@@ -28879,6 +28341,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: deploy-keys
+        subcategory: deploy-keys
   "/repos/{owner}/{repo}/labels":
     get:
       summary: List labels for a repository
@@ -29132,7 +28595,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/lfs":
     put:
       summary: Enable Git LFS for a repository
@@ -29213,7 +28676,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: licenses
-        subcategory: 
+        subcategory: licenses
   "/repos/{owner}/{repo}/merge-upstream":
     post:
       summary: Sync a fork branch with the upstream repository
@@ -29263,6 +28726,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: branches
+        subcategory: branches
   "/repos/{owner}/{repo}/merges":
     post:
       summary: Merge a branch
@@ -29328,6 +28792,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: branches
+        subcategory: branches
   "/repos/{owner}/{repo}/milestones":
     get:
       summary: List milestones
@@ -29748,6 +29213,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
     post:
       summary: Create a GitHub Pages site
       description: |-
@@ -29830,6 +29296,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
     put:
       summary: Update information about a GitHub Pages site
       description: |-
@@ -29931,6 +29398,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
     delete:
       summary: Delete a GitHub Pages site
       description: |-
@@ -29959,6 +29427,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
   "/repos/{owner}/{repo}/pages/builds":
     get:
       summary: List GitHub Pages builds
@@ -29996,6 +29465,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
     post:
       summary: Request a GitHub Pages build
       description: |-
@@ -30025,6 +29495,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
   "/repos/{owner}/{repo}/pages/builds/latest":
     get:
       summary: Get latest Pages build
@@ -30055,6 +29526,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
   "/repos/{owner}/{repo}/pages/builds/{build_id}":
     get:
       summary: Get GitHub Pages build
@@ -30090,6 +29562,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
   "/repos/{owner}/{repo}/pages/deployment":
     post:
       summary: Create a GitHub Pages deployment
@@ -30163,6 +29636,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
   "/repos/{owner}/{repo}/pages/health":
     get:
       summary: Get a DNS health check for GitHub Pages
@@ -30210,6 +29684,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pages
+        subcategory: pages
   "/repos/{owner}/{repo}/projects":
     get:
       summary: List repository projects
@@ -30268,7 +29743,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: projects
-        subcategory: 
+        subcategory: projects
     post:
       summary: Create a repository project
       description: Creates a repository project board. Returns a `410 Gone` status
@@ -30328,7 +29803,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: projects
-        subcategory: 
+        subcategory: projects
   "/repos/{owner}/{repo}/pulls":
     get:
       summary: List pull requests
@@ -30421,7 +29896,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pulls
-        subcategory: 
+        subcategory: pulls
     post:
       summary: Create a pull request
       description: |-
@@ -30524,7 +29999,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pulls
-        subcategory: 
+        subcategory: pulls
   "/repos/{owner}/{repo}/pulls/comments":
     get:
       summary: List review comments in a repository
@@ -30731,7 +30206,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
     post:
       summary: Create reaction for a pull request review comment
       description: Create a reaction to a [pull request review comment](https://docs.github.com/rest/reference/pulls#comments).
@@ -30798,7 +30273,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id}":
     delete:
       summary: Delete a pull request comment reaction
@@ -30824,7 +30299,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/pulls/{pull_number}":
     get:
       summary: Get a pull request
@@ -30877,7 +30352,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pulls
-        subcategory: 
+        subcategory: pulls
     patch:
       summary: Update a pull request
       description: |-
@@ -30948,7 +30423,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pulls
-        subcategory: 
+        subcategory: pulls
   "/repos/{owner}/{repo}/pulls/{pull_number}/codespaces":
     post:
       summary: Create a codespace from a pull request
@@ -31055,7 +30530,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/repos/{owner}/{repo}/pulls/{pull_number}/comments":
     get:
       summary: List review comments on a pull request
@@ -31340,7 +30815,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pulls
-        subcategory: 
+        subcategory: pulls
   "/repos/{owner}/{repo}/pulls/{pull_number}/files":
     get:
       summary: List pull requests files
@@ -31383,7 +30858,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pulls
-        subcategory: 
+        subcategory: pulls
   "/repos/{owner}/{repo}/pulls/{pull_number}/merge":
     get:
       summary: Check if a pull request has been merged
@@ -31409,7 +30884,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pulls
-        subcategory: 
+        subcategory: pulls
     put:
       summary: Merge a pull request
       description: |-
@@ -31507,7 +30982,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: pulls
-        subcategory: 
+        subcategory: pulls
   "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers":
     get:
       summary: Get all requested reviewers for a pull request
@@ -32165,7 +31640,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: pulls
-        subcategory: 
+        subcategory: pulls
   "/repos/{owner}/{repo}/readme":
     get:
       summary: Get a repository README
@@ -32269,7 +31744,7 @@ paths:
       operationId: repos/list-releases
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#list-releases
+        url: https://docs.github.com/rest/releases/releases#list-releases
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32295,7 +31770,7 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
+        category: releases
         subcategory: releases
     post:
       summary: Create a release
@@ -32409,7 +31884,7 @@ paths:
         triggersNotification: true
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
+        category: releases
         subcategory: releases
   "/repos/{owner}/{repo}/releases/assets/{asset_id}":
     get:
@@ -32423,7 +31898,7 @@ paths:
       operationId: repos/get-release-asset
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#get-a-release-asset
+        url: https://docs.github.com/rest/releases/assets#get-a-release-asset
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32445,8 +31920,8 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
-        subcategory: releases
+        category: releases
+        subcategory: assets
     patch:
       summary: Update a release asset
       description: Users with push access to the repository can edit a release asset.
@@ -32455,7 +31930,7 @@ paths:
       operationId: repos/update-release-asset
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#update-a-release-asset
+        url: https://docs.github.com/rest/releases/assets#update-a-release-asset
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32496,8 +31971,8 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
-        subcategory: releases
+        category: releases
+        subcategory: assets
     delete:
       summary: Delete a release asset
       description: ''
@@ -32506,7 +31981,7 @@ paths:
       operationId: repos/delete-release-asset
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#delete-a-release-asset
+        url: https://docs.github.com/rest/releases/assets#delete-a-release-asset
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32517,8 +31992,8 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
-        subcategory: releases
+        category: releases
+        subcategory: assets
   "/repos/{owner}/{repo}/releases/generate-notes":
     post:
       summary: Generate release notes content for a release
@@ -32532,7 +32007,7 @@ paths:
       operationId: repos/generate-release-notes
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#generate-release-notes
+        url: https://docs.github.com/rest/releases/releases#generate-release-notes
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32589,7 +32064,7 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
+        category: releases
         subcategory: releases
   "/repos/{owner}/{repo}/releases/latest":
     get:
@@ -32603,7 +32078,7 @@ paths:
       operationId: repos/get-latest-release
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#get-the-latest-release
+        url: https://docs.github.com/rest/releases/releases#get-the-latest-release
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32620,7 +32095,7 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
+        category: releases
         subcategory: releases
   "/repos/{owner}/{repo}/releases/tags/{tag}":
     get:
@@ -32631,7 +32106,7 @@ paths:
       operationId: repos/get-release-by-tag
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#get-a-release-by-tag-name
+        url: https://docs.github.com/rest/releases/releases#get-a-release-by-tag-name
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32657,7 +32132,7 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
+        category: releases
         subcategory: releases
   "/repos/{owner}/{repo}/releases/{release_id}":
     get:
@@ -32669,7 +32144,7 @@ paths:
       operationId: repos/get-release
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#get-a-release
+        url: https://docs.github.com/rest/releases/releases#get-a-release
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32690,7 +32165,7 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
+        category: releases
         subcategory: releases
     patch:
       summary: Update a release
@@ -32700,7 +32175,7 @@ paths:
       operationId: repos/update-release
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#update-a-release
+        url: https://docs.github.com/rest/releases/releases#update-a-release
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32782,7 +32257,7 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
+        category: releases
         subcategory: releases
     delete:
       summary: Delete a release
@@ -32792,7 +32267,7 @@ paths:
       operationId: repos/delete-release
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#delete-a-release
+        url: https://docs.github.com/rest/releases/releases#delete-a-release
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32803,7 +32278,7 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
+        category: releases
         subcategory: releases
   "/repos/{owner}/{repo}/releases/{release_id}/assets":
     get:
@@ -32814,7 +32289,7 @@ paths:
       operationId: repos/list-release-assets
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#list-release-assets
+        url: https://docs.github.com/rest/releases/assets#list-release-assets
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -32839,8 +32314,8 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
-        subcategory: releases
+        category: releases
+        subcategory: assets
     post:
       summary: Upload a release asset
       description: "This endpoint makes use of [a Hypermedia relation](https://docs.github.com/rest/overview/resources-in-the-rest-api#hypermedia)
@@ -32873,7 +32348,7 @@ paths:
       operationId: repos/upload-release-asset
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/reference/repos#upload-a-release-asset
+        url: https://docs.github.com/rest/releases/assets#upload-a-release-asset
       servers:
       - url: https://uploads.github.com
         description: The URL origin (protocol + host name + port) is included in `upload_url`
@@ -32918,8 +32393,8 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
-        category: repos
-        subcategory: releases
+        category: releases
+        subcategory: assets
   "/repos/{owner}/{repo}/releases/{release_id}/reactions":
     get:
       summary: List reactions for a release
@@ -32971,7 +32446,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
     post:
       summary: Create reaction for a release
       description: 'Create a reaction to a [release](https://docs.github.com/rest/reference/repos#releases).
@@ -33036,7 +32511,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/releases/{release_id}/reactions/{reaction_id}":
     delete:
       summary: Delete a release reaction
@@ -33062,7 +32537,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: reactions
-        subcategory: 
+        subcategory: reactions
   "/repos/{owner}/{repo}/rules/branches/{branch}":
     get:
       summary: Get rules for a branch
@@ -33179,17 +32654,6 @@ paths:
                   - tag
                 enforcement:
                   "$ref": "#/components/schemas/repository-rule-enforcement"
-                bypass_mode:
-                  type: string
-                  description: The permission level required to bypass this ruleset.
-                    "repository" allows those with bypass permission at the repository
-                    level to bypass. "organization" allows those with bypass permission
-                    at the organization level to bypass. "none" prevents anyone from
-                    bypassing.
-                  enum:
-                  - none
-                  - repository
-                  - organization
                 bypass_actors:
                   type: array
                   description: The actors that can bypass the rules in this ruleset
@@ -33211,10 +32675,10 @@ paths:
                   name: super cool ruleset
                   target: branch
                   enforcement: active
-                  bypass_mode: repository
                   bypass_actors:
                   - actor_id: 234
                     actor_type: Team
+                    bypass_mode: always
                   conditions:
                     ref_name:
                       include:
@@ -33329,17 +32793,6 @@ paths:
                   - tag
                 enforcement:
                   "$ref": "#/components/schemas/repository-rule-enforcement"
-                bypass_mode:
-                  type: string
-                  description: The permission level required to bypass this ruleset.
-                    "repository" allows those with bypass permission at the repository
-                    level to bypass. "organization" allows those with bypass permission
-                    at the organization level to bypass. "none" prevents anyone from
-                    bypassing.
-                  enum:
-                  - none
-                  - repository
-                  - organization
                 bypass_actors:
                   type: array
                   description: The actors that can bypass the rules in this ruleset
@@ -33358,10 +32811,10 @@ paths:
                   name: super cool ruleset
                   target: branch
                   enforcement: active
-                  bypass_mode: repository
                   bypass_actors:
                   - actor_id: 234
                     actor_type: Team
+                    bypass_mode: always
                   conditions:
                     ref_name:
                       include:
@@ -33466,7 +32919,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: secret-scanning
-        subcategory: 
+        subcategory: secret-scanning
   "/repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}":
     get:
       summary: Get a secret scanning alert
@@ -33507,7 +32960,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: secret-scanning
-        subcategory: 
+        subcategory: secret-scanning
     patch:
       summary: Update a secret scanning alert
       description: |-
@@ -33570,6 +33023,7 @@ paths:
         enabledForGitHubApps: true
         githubCloudOnly: false
         category: secret-scanning
+        subcategory: secret-scanning
   "/repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}/locations":
     get:
       summary: List locations for a secret scanning alert
@@ -33616,7 +33070,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: secret-scanning
-        subcategory: 
+        subcategory: secret-scanning
   "/repos/{owner}/{repo}/security-advisories":
     get:
       summary: List repository security advisories
@@ -34477,7 +33931,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/tags/protection":
     get:
       summary: List tag protection states for a repository
@@ -34674,7 +34128,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/topics":
     get:
       summary: Get all repository topics
@@ -34706,7 +34160,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
     put:
       summary: Replace all repository topics
       description: ''
@@ -34762,7 +34216,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/traffic/clones":
     get:
       summary: Get repository clones
@@ -34954,7 +34408,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/vulnerability-alerts":
     get:
       summary: Check if vulnerability alerts are enabled for a repository
@@ -34979,7 +34433,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: repos
-        subcategory: 
+        subcategory: repos
     put:
       summary: Enable vulnerability alerts
       description: Enables dependency alerts and the dependency graph for a repository.
@@ -35001,7 +34455,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
     delete:
       summary: Disable vulnerability alerts
       description: |-
@@ -35024,7 +34478,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repos/{owner}/{repo}/zipball/{ref}":
     get:
       summary: Download a repository archive (zip)
@@ -35149,7 +34603,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repositories":
     get:
       summary: List public repositories
@@ -35192,7 +34646,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/repositories/{repository_id}/environments/{environment_name}/secrets":
     get:
       summary: List environment secrets
@@ -35754,7 +35208,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: search
-        subcategory: 
+        subcategory: search
   "/search/commits":
     get:
       summary: Search commits
@@ -35827,7 +35281,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: search
-        subcategory: 
+        subcategory: search
   "/search/issues":
     get:
       summary: Search issues and pull requests
@@ -35843,7 +35297,7 @@ paths:
 
         This query searches for the keyword `windows`, within any open issue that is labeled as `bug`. The search runs across repositories whose primary language is Python. The results are sorted by creation date in ascending order, which means the oldest issues appear first in the search results.
 
-        **Note:** For [user-to-server](https://docs.github.com/developers/apps/identifying-and-authorizing-users-for-github-apps#user-to-server-requests) GitHub App requests, you can't retrieve a combination of issues and pull requests in a single query. Requests that don't include the `is:issue` or `is:pull-request` qualifier will receive an HTTP `422 Unprocessable Entity` response. To get results for both issues and pull requests, you must send separate queries for issues and pull requests. For more information about the `is` qualifier, see "[Searching only issues or pull requests](https://docs.github.com/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-only-issues-or-pull-requests)."
+        **Note:** For requests made by GitHub Apps with a user access token, you can't retrieve a combination of issues and pull requests in a single query. Requests that don't include the `is:issue` or `is:pull-request` qualifier will receive an HTTP `422 Unprocessable Entity` response. To get results for both issues and pull requests, you must send separate queries for issues and pull requests. For more information about the `is` qualifier, see "[Searching only issues or pull requests](https://docs.github.com/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-only-issues-or-pull-requests)."
       tags:
       - search
       operationId: search/issues-and-pull-requests
@@ -35922,7 +35376,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: search
-        subcategory: 
+        subcategory: search
   "/search/labels":
     get:
       summary: Search labels
@@ -36005,7 +35459,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: search
-        subcategory: 
+        subcategory: search
   "/search/repositories":
     get:
       summary: Search repositories
@@ -36086,7 +35540,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: search
-        subcategory: 
+        subcategory: search
   "/search/topics":
     get:
       summary: Search topics
@@ -36147,7 +35601,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: search
-        subcategory: 
+        subcategory: search
   "/search/users":
     get:
       summary: Search users
@@ -36228,7 +35682,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: search
-        subcategory: 
+        subcategory: search
   "/teams/{team_id}":
     get:
       summary: Get a team (Legacy)
@@ -36262,7 +35716,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
     patch:
       summary: Update a team (Legacy)
@@ -36369,7 +35823,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
     delete:
       summary: Delete a team (Legacy)
@@ -36400,7 +35854,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
   "/teams/{team_id}/discussions":
     get:
@@ -36878,7 +36332,7 @@ paths:
         removalDate: '2021-02-21'
         deprecationDate: '2020-02-26'
         category: reactions
-        subcategory: 
+        subcategory: reactions
       deprecated: true
     post:
       summary: Create reaction for a team discussion comment (Legacy)
@@ -36938,7 +36392,7 @@ paths:
         removalDate: '2021-02-21'
         deprecationDate: '2020-02-26'
         category: reactions
-        subcategory: 
+        subcategory: reactions
       deprecated: true
   "/teams/{team_id}/discussions/{discussion_number}/reactions":
     get:
@@ -36995,7 +36449,7 @@ paths:
         removalDate: '2021-02-21'
         deprecationDate: '2020-02-26'
         category: reactions
-        subcategory: 
+        subcategory: reactions
       deprecated: true
     post:
       summary: Create reaction for a team discussion (Legacy)
@@ -37054,7 +36508,7 @@ paths:
         removalDate: '2021-02-21'
         deprecationDate: '2020-02-26'
         category: reactions
-        subcategory: 
+        subcategory: reactions
       deprecated: true
   "/teams/{team_id}/invitations":
     get:
@@ -37438,7 +36892,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
   "/teams/{team_id}/projects/{project_id}":
     get:
@@ -37474,7 +36928,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
     put:
       summary: Add or update team project permissions (Legacy)
@@ -37544,7 +36998,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
     delete:
       summary: Remove a project from a team (Legacy)
@@ -37574,7 +37028,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
   "/teams/{team_id}/repos":
     get:
@@ -37616,7 +37070,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
   "/teams/{team_id}/repos/{owner}/{repo}":
     get:
@@ -37657,7 +37111,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
     put:
       summary: Add or update team repository permissions (Legacy)
@@ -37712,7 +37166,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
     delete:
       summary: Remove a repository from a team (Legacy)
@@ -37739,7 +37193,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
   "/teams/{team_id}/teams":
     get:
@@ -37785,7 +37239,7 @@ paths:
         removalDate: '2021-02-01'
         deprecationDate: '2020-01-21'
         category: teams
-        subcategory: 
+        subcategory: teams
       deprecated: true
   "/user":
     get:
@@ -37825,7 +37279,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: users
-        subcategory: 
+        subcategory: users
     patch:
       summary: Update the authenticated user
       description: "**Note:** If your email is set to private and you send an `email`
@@ -37914,7 +37368,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: users
-        subcategory: 
+        subcategory: users
   "/user/blocks":
     get:
       summary: List users blocked by the authenticated user
@@ -38097,7 +37551,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
     post:
       summary: Create a codespace for the authenticated user
       description: |-
@@ -38255,7 +37709,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/user/codespaces/secrets":
     get:
       summary: List secrets for the authenticated user
@@ -38757,7 +38211,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
     patch:
       summary: Update a codespace for the authenticated user
       description: |-
@@ -38820,7 +38274,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
     delete:
       summary: Delete a codespace for the authenticated user
       description: |-
@@ -38854,7 +38308,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/user/codespaces/{codespace_name}/exports":
     post:
       summary: Export a codespace for the authenticated user
@@ -38898,7 +38352,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/user/codespaces/{codespace_name}/exports/{export_id}":
     get:
       summary: Get details about a codespace export
@@ -38933,7 +38387,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/user/codespaces/{codespace_name}/machines":
     get:
       summary: List machine types for a codespace
@@ -39047,7 +38501,7 @@ paths:
       x-github:
         githubCloudOnly: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/user/codespaces/{codespace_name}/start":
     post:
       summary: Start a codespace for the authenticated user
@@ -39099,7 +38553,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/user/codespaces/{codespace_name}/stop":
     post:
       summary: Stop a codespace for the authenticated user
@@ -39139,7 +38593,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: codespaces
-        subcategory: 
+        subcategory: codespaces
   "/user/docker/conflicts":
     get:
       summary: Get list of conflicting packages during Docker migration for authenticated-user
@@ -39168,7 +38622,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/user/email/visibility":
     patch:
       summary: Set primary email visibility for the authenticated user
@@ -39761,7 +39215,7 @@ paths:
       description: |-
         Lists installations of your GitHub App that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.
 
-        You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.
+        You must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint.
 
         The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
 
@@ -39818,7 +39272,7 @@ paths:
 
         The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
 
-        You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.
+        You must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint.
 
         The access the user has to each repository is included in the hash under the `permissions` key.
       tags:
@@ -40105,7 +39559,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: issues
-        subcategory: 
+        subcategory: issues
   "/user/keys":
     get:
       summary: List public SSH keys for the authenticated user
@@ -40278,10 +39732,10 @@ paths:
   "/user/marketplace_purchases":
     get:
       summary: List subscriptions for the authenticated user
-      description: Lists the active subscriptions for the authenticated user. You
-        must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site),
+      description: Lists the active subscriptions for the authenticated user. GitHub
+        Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app),
         created for a user who has authorized your GitHub App, to access this endpoint.
-        . OAuth Apps must authenticate using an [OAuth token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/).
+        OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
       tags:
       - apps
       operationId: apps/list-subscriptions-for-authenticated-user
@@ -40320,10 +39774,10 @@ paths:
   "/user/marketplace_purchases/stubbed":
     get:
       summary: List subscriptions for the authenticated user (stubbed)
-      description: Lists the active subscriptions for the authenticated user. You
-        must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site),
+      description: Lists the active subscriptions for the authenticated user. GitHub
+        Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app),
         created for a user who has authorized your GitHub App, to access this endpoint.
-        . OAuth Apps must authenticate using an [OAuth token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/).
+        OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
       tags:
       - apps
       operationId: apps/list-subscriptions-for-authenticated-user-stubbed
@@ -40893,7 +40347,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: orgs
-        subcategory: 
+        subcategory: orgs
   "/user/packages":
     get:
       summary: List packages for the authenticated user's namespace
@@ -40946,7 +40400,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/user/packages/{package_type}/{package_name}":
     get:
       summary: Get a package for the authenticated user
@@ -40977,7 +40431,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
     delete:
       summary: Delete a package for the authenticated user
       description: |-
@@ -41007,7 +40461,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/user/packages/{package_type}/{package_name}/restore":
     post:
       summary: Restore a package for the authenticated user
@@ -41047,7 +40501,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/user/packages/{package_type}/{package_name}/versions":
     get:
       summary: List package versions for a package owned by the authenticated user
@@ -41098,7 +40552,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/user/packages/{package_type}/{package_name}/versions/{package_version_id}":
     get:
       summary: Get a package version for the authenticated user
@@ -41130,7 +40584,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
     delete:
       summary: Delete a package version for the authenticated user
       description: |-
@@ -41161,7 +40615,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore":
     post:
       summary: Restore a package version for the authenticated user
@@ -41196,7 +40650,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/user/projects":
     post:
       summary: Create a user project
@@ -41260,7 +40714,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: projects
-        subcategory: 
+        subcategory: projects
   "/user/public_emails":
     get:
       summary: List public email addresses for the authenticated user
@@ -41404,7 +40858,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: repos
-        subcategory: 
+        subcategory: repos
     post:
       summary: Create a repository for the authenticated user
       description: |-
@@ -41619,7 +41073,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: repos
-        subcategory: 
+        subcategory: repos
   "/user/repository_invitations":
     get:
       summary: List repository invitations for the authenticated user
@@ -42285,7 +41739,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: teams
-        subcategory: 
+        subcategory: teams
   "/users":
     get:
       summary: List users
@@ -42325,7 +41779,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: users
-        subcategory: 
+        subcategory: users
   "/users/{username}":
     get:
       summary: Get a user
@@ -42365,7 +41819,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: users
-        subcategory: 
+        subcategory: users
   "/users/{username}/docker/conflicts":
     get:
       summary: Get list of conflicting packages during Docker migration for user
@@ -42400,7 +41854,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/users/{username}/events":
     get:
       summary: List events for the authenticated user
@@ -42628,7 +42082,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: gists
-        subcategory: 
+        subcategory: gists
   "/users/{username}/gpg_keys":
     get:
       summary: List GPG keys for a user
@@ -42722,7 +42176,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: users
-        subcategory: 
+        subcategory: users
   "/users/{username}/installation":
     get:
       summary: Get a user installation for the authenticated app
@@ -42752,7 +42206,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: apps
-        subcategory: 
+        subcategory: apps
   "/users/{username}/keys":
     get:
       summary: List public keys for a user
@@ -42824,7 +42278,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: orgs
-        subcategory: 
+        subcategory: orgs
   "/users/{username}/packages":
     get:
       summary: List packages for a user
@@ -42882,7 +42336,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/users/{username}/packages/{package_type}/{package_name}":
     get:
       summary: Get a package for a user
@@ -42914,7 +42368,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
     delete:
       summary: Delete a package for a user
       description: |-
@@ -42946,7 +42400,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/users/{username}/packages/{package_type}/{package_name}/restore":
     post:
       summary: Restore a package for a user
@@ -42989,7 +42443,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/users/{username}/packages/{package_type}/{package_name}/versions":
     get:
       summary: List package versions for a package owned by a user
@@ -43029,7 +42483,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}":
     get:
       summary: Get a package version for a user
@@ -43062,7 +42516,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
     delete:
       summary: Delete package version for a user
       description: |-
@@ -43095,7 +42549,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore":
     post:
       summary: Restore package version for a user
@@ -43133,7 +42587,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: packages
-        subcategory: 
+        subcategory: packages
   "/users/{username}/projects":
     get:
       summary: List user projects
@@ -43180,7 +42634,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: projects
-        subcategory: 
+        subcategory: projects
   "/users/{username}/received_events":
     get:
       summary: List events received by the authenticated user
@@ -43312,7 +42766,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: repos
-        subcategory: 
+        subcategory: repos
   "/users/{username}/settings/billing/actions":
     get:
       summary: Get GitHub Actions billing for a user
@@ -43344,7 +42798,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: billing
-        subcategory: 
+        subcategory: billing
   "/users/{username}/settings/billing/packages":
     get:
       summary: Get GitHub Packages billing for a user
@@ -43376,7 +42830,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: billing
-        subcategory: 
+        subcategory: billing
   "/users/{username}/settings/billing/shared-storage":
     get:
       summary: Get shared storage billing for a user
@@ -43408,7 +42862,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: false
         category: billing
-        subcategory: 
+        subcategory: billing
   "/users/{username}/social_accounts":
     get:
       summary: List social accounts for a user
@@ -43590,7 +43044,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: meta
-        subcategory: 
+        subcategory: meta
   "/zen":
     get:
       summary: Get the Zen of GitHub
@@ -43616,6 +43070,7 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         category: meta
+        subcategory: meta
 webhooks:
   branch-protection-rule-created:
     post:
@@ -47031,7 +46486,7 @@ webhooks:
 
         A GitHub App receives this webhook by default and cannot unsubscribe from this event.
 
-        Anyone can revoke their authorization of a GitHub App from their [GitHub account settings page](https://github.com/settings/apps/authorizations). Revoking the authorization of a GitHub App does not uninstall the GitHub App. You should program your GitHub App so that when it receives this webhook, it stops calling the API on behalf of the person who revoked the token. If your GitHub App continues to use a revoked access token, it will receive the `401 Bad Credentials` error. For details about user-to-server requests, which require GitHub App authorization, see "[Identifying and authorizing users for GitHub Apps](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/)."
+        Anyone can revoke their authorization of a GitHub App from their [GitHub account settings page](https://github.com/settings/apps/authorizations). Revoking the authorization of a GitHub App does not uninstall the GitHub App. You should program your GitHub App so that when it receives this webhook, it stops calling the API on behalf of the person who revoked the token. If your GitHub App continues to use a revoked access token, it will receive the `401 Bad Credentials` error. For details about requests with a user access token, which require GitHub App authorization, see "[Authenticating with a GitHub App on behalf of a user](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-with-a-github-app-on-behalf-of-a-user)."
       description: Someone revoked their authorization of a GitHub App.
       operationId: github-app-authorization/revoked
       externalDocs:
@@ -59732,7 +59187,7 @@ components:
     app-permissions:
       title: App Permissions
       type: object
-      description: The permissions granted to the user-to-server access token.
+      description: The permissions granted to the user access token.
       properties:
         actions:
           type: string
@@ -63577,6 +63032,17 @@ components:
               enum:
               - enabled
               - disabled
+        dependabot_security_updates:
+          description: Enable or disable Dependabot security updates for the repository.
+          type: object
+          properties:
+            status:
+              description: The enablement status of Dependabot security updates for
+                the repository.
+              type: string
+              enum:
+              - enabled
+              - disabled
         secret_scanning:
           type: object
           properties:
@@ -64265,11 +63731,6 @@ components:
           format: uri
           examples:
           - https://github.com/octocat
-        created_at:
-          type: string
-          format: date-time
-          examples:
-          - '2008-01-14T04:33:35Z'
         type:
           type: string
           examples:
@@ -64378,9 +63839,6 @@ components:
           type: boolean
           examples:
           - false
-        updated_at:
-          type: string
-          format: date-time
         advanced_security_enabled_for_new_repositories:
           type: boolean
           description: |-
@@ -64448,6 +63906,19 @@ components:
             from pushing a secret.
           examples:
           - https://github.com/test-org/test-repo/blob/main/README.md
+        created_at:
+          type: string
+          format: date-time
+          examples:
+          - '2008-01-14T04:33:35Z'
+        updated_at:
+          type: string
+          format: date-time
+        archived_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
       required:
       - login
       - url
@@ -64471,6 +63942,7 @@ components:
       - type
       - created_at
       - updated_at
+      - archived_at
     actions-cache-usage-org-enterprise:
       type: object
       properties:
@@ -64613,56 +64085,6 @@ components:
           "$ref": "#/components/schemas/actions-default-workflow-permissions"
         can_approve_pull_request_reviews:
           "$ref": "#/components/schemas/actions-can-approve-pull-request-reviews"
-    required-workflow:
-      type: object
-      properties:
-        id:
-          description: Unique identifier for a required workflow
-          type: number
-        name:
-          description: Name present in the workflow file
-          type: string
-        path:
-          description: Path of the workflow file
-          type: string
-        scope:
-          description: Scope of the required workflow
-          enum:
-          - all
-          - selected
-          type: string
-        ref:
-          description: Ref at which the workflow file will be selected
-          type: string
-        state:
-          description: State of the required workflow
-          enum:
-          - active
-          - deleted
-          type: string
-        selected_repositories_url:
-          type: string
-          format: uri
-          examples:
-          - https://api.github.com/organizations/org/actions/required_workflows/1/repositories
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        repository:
-          "$ref": "#/components/schemas/minimal-repository"
-      required:
-      - id
-      - name
-      - path
-      - scope
-      - ref
-      - state
-      - created_at
-      - updated_at
-      - repository
     runner-label:
       title: Self hosted runner label
       description: A label for a self hosted runner
@@ -64915,7 +64337,7 @@ components:
       - 'null'
       description: The GUID of the tool used to generate the code scanning analysis,
         if provided in the uploaded SARIF data.
-    code-scanning-alert-state:
+    code-scanning-alert-state-query:
       type: string
       description: State of a code scanning alert.
       enum:
@@ -64939,6 +64361,13 @@ components:
       description: The REST API URL for fetching the list of instances for an alert.
       format: uri
       readOnly: true
+    code-scanning-alert-state:
+      type: string
+      description: State of a code scanning alert.
+      enum:
+      - open
+      - dismissed
+      - fixed
     code-scanning-alert-dismissed-reason:
       type:
       - string
@@ -66489,6 +65918,10 @@ components:
       title: Repository Ruleset Bypass Actor
       type: object
       description: An actor that can bypass rules in a ruleset
+      required:
+      - actor_id
+      - actor_type
+      - bypass_mode
       properties:
         actor_id:
           type: integer
@@ -66496,9 +65929,18 @@ components:
         actor_type:
           type: string
           enum:
+          - RepositoryRole
           - Team
           - Integration
+          - OrganizationAdmin
           description: The type of actor that can bypass a ruleset
+        bypass_mode:
+          type: string
+          description: When the specified actor can bypass the ruleset. `pull_request`
+            means that an actor can only bypass rules on pull requests.
+          enum:
+          - always
+          - pull_request
     repository-ruleset-conditions:
       title: Repository ruleset conditions for ref names
       type: object
@@ -66544,13 +65986,35 @@ components:
             protected:
               type: boolean
               description: Whether renaming of target repositories is prevented.
+      required:
+      - repository_name
+    repository-ruleset-conditions-repository-id-target:
+      title: Repository ruleset conditions for repository IDs
+      type: object
+      description: Parameters for a repository ID condition
+      properties:
+        repository_id:
+          type: object
+          properties:
+            repository_ids:
+              type: array
+              description: The repository IDs that the ruleset applies to. One of
+                these IDs must match for the condition to pass.
+              items:
+                type: integer
+      required:
+      - repository_id
     org-ruleset-conditions:
       title: Organization ruleset conditions
       type: object
       description: Conditions for a organization ruleset
-      allOf:
-      - "$ref": "#/components/schemas/repository-ruleset-conditions"
-      - "$ref": "#/components/schemas/repository-ruleset-conditions-repository-name-target"
+      oneOf:
+      - allOf:
+        - "$ref": "#/components/schemas/repository-ruleset-conditions"
+        - "$ref": "#/components/schemas/repository-ruleset-conditions-repository-name-target"
+      - allOf:
+        - "$ref": "#/components/schemas/repository-ruleset-conditions"
+        - "$ref": "#/components/schemas/repository-ruleset-conditions-repository-id-target"
     repository-rule-creation:
       title: creation
       description: Only allow users with bypass permission to create matching refs.
@@ -66562,6 +66026,20 @@ components:
           type: string
           enum:
           - creation
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
     repository-rule-update:
       title: update
       description: Only allow users with bypass permission to update matching refs.
@@ -66573,6 +66051,20 @@ components:
           type: string
           enum:
           - update
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66592,6 +66084,20 @@ components:
           type: string
           enum:
           - deletion
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
     repository-rule-required-linear-history:
       title: required_linear_history
       description: Prevent merge commits from being pushed to matching branches.
@@ -66603,6 +66109,20 @@ components:
           type: string
           enum:
           - required_linear_history
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
     repository-rule-required-deployments:
       title: required_deployments
       description: Choose which environments must be successfully deployed to before
@@ -66615,6 +66135,20 @@ components:
           type: string
           enum:
           - required_deployments
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66637,6 +66171,20 @@ components:
           type: string
           enum:
           - required_signatures
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
     repository-rule-pull-request:
       title: pull_request
       description: Require all commits be made to a non-target branch and submitted
@@ -66649,6 +66197,20 @@ components:
           type: string
           enum:
           - pull_request
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66708,6 +66270,20 @@ components:
           type: string
           enum:
           - required_status_checks
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66735,6 +66311,20 @@ components:
           type: string
           enum:
           - non_fast_forward
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
     repository-rule-commit-message-pattern:
       title: commit_message_pattern
       description: Parameters to be used for the commit_message_pattern rule
@@ -66746,6 +66336,20 @@ components:
           type: string
           enum:
           - commit_message_pattern
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66780,6 +66384,20 @@ components:
           type: string
           enum:
           - commit_author_email_pattern
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66814,6 +66432,20 @@ components:
           type: string
           enum:
           - committer_email_pattern
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66848,6 +66480,20 @@ components:
           type: string
           enum:
           - branch_name_pattern
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66882,6 +66528,20 @@ components:
           type: string
           enum:
           - tag_name_pattern
+        ruleset_source_type:
+          type: string
+          description: The type of source of the ruleset that this rule is configured
+            in
+          enum:
+          - Repository
+          - Organization
+        ruleset_source:
+          type: string
+          description: The name of the source of the ruleset that this rule is configured
+            in
+        ruleset_id:
+          type: integer
+          description: The ID of the ruleset that this rule is configured in
         parameters:
           type: object
           properties:
@@ -66957,21 +66617,16 @@ components:
           description: The name of the source
         enforcement:
           "$ref": "#/components/schemas/repository-rule-enforcement"
-        bypass_mode:
-          type: string
-          description: The permission level required to bypass this ruleset. "repository"
-            allows those with bypass permission at the repository level to bypass.
-            "organization" allows those with bypass permission at the organization
-            level to bypass. "none" prevents anyone from bypassing.
-          enum:
-          - none
-          - repository
-          - organization
         bypass_actors:
           type: array
           description: The actors that can bypass the rules in this ruleset
           items:
             "$ref": "#/components/schemas/repository-ruleset-bypass-actor"
+        current_user_can_bypass:
+          type: boolean
+          description: |-
+            Whether the user making this API request is able to bypass the ruleset. This field is only returned when
+            querying the repository-level endpoint.
         node_id:
           type: string
         _links:
@@ -67336,6 +66991,11 @@ components:
         updated_at:
           type: string
           format: date-time
+        archived_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
       required:
       - login
       - url
@@ -67359,6 +67019,7 @@ components:
       - type
       - created_at
       - updated_at
+      - archived_at
     team-full:
       title: Full Team
       description: Groups of organization members that gives permissions on specified
@@ -68297,6 +67958,12 @@ components:
       - watchers_count
       - created_at
       - updated_at
+    code-scanning-query-suite:
+      description: The CodeQL query suite to use.
+      type: string
+      enum:
+      - default
+      - extended
     project-card:
       title: Project Card
       description: Project cards represent a scope of work.
@@ -68490,95 +68157,6 @@ components:
       required:
       - rate
       - resources
-    repo-required-workflow:
-      title: Required workflow
-      description: A GitHub Actions required workflow
-      type: object
-      properties:
-        id:
-          type: integer
-          examples:
-          - 5
-        node_id:
-          type: string
-          examples:
-          - MDg6V29ya2Zsb3cxMg==
-        name:
-          type: string
-          examples:
-          - Required CI
-        path:
-          type: string
-          examples:
-          - ".github/workflows/required_ci.yaml"
-        state:
-          type: string
-          enum:
-          - active
-          - deleted
-          examples:
-          - active
-        source_repository:
-          "$ref": "#/components/schemas/minimal-repository"
-        created_at:
-          type: string
-          format: date-time
-          examples:
-          - '2019-12-06T14:20:20.000Z'
-        updated_at:
-          type: string
-          format: date-time
-          examples:
-          - '2019-12-06T14:20:20.000Z'
-        url:
-          type: string
-          examples:
-          - https://api.github.com/repos/sample-org/sample-repo/actions/required_workflows/5
-        html_url:
-          type: string
-          examples:
-          - https://github.com/sample-org/source-repo/blob/main/.github/workflows/required_ci.yaml
-        badge_url:
-          type: string
-          examples:
-          - https://github.com/sample-org/sample-repo/workflows/required/sample-org/source-repo/.github/workflows/required_ci.yaml/badge.svg
-      required:
-      - id
-      - node_id
-      - name
-      - path
-      - state
-      - source_repository
-      - url
-      - html_url
-      - badge_url
-      - created_at
-      - updated_at
-    workflow-usage:
-      title: Workflow Usage
-      description: Workflow Usage
-      type: object
-      properties:
-        billable:
-          type: object
-          properties:
-            UBUNTU:
-              type: object
-              properties:
-                total_ms:
-                  type: integer
-            MACOS:
-              type: object
-              properties:
-                total_ms:
-                  type: integer
-            WINDOWS:
-              type: object
-              properties:
-                total_ms:
-                  type: integer
-      required:
-      - billable
     code-of-conduct-simple:
       title: Code Of Conduct Simple
       description: Code of Conduct Simple
@@ -69864,6 +69442,9 @@ components:
           examples:
           - https://github.com/github/hello-world/suites/4
         pull_requests:
+          description: Pull requests that are open with a `head_sha` or `head_branch`
+            that matches the workflow run. The returned pull requests do not necessarily
+            indicate pull requests that triggered the run.
           type:
           - array
           - 'null'
@@ -70404,6 +69985,31 @@ components:
       - badge_url
       - created_at
       - updated_at
+    workflow-usage:
+      title: Workflow Usage
+      description: Workflow Usage
+      type: object
+      properties:
+        billable:
+          type: object
+          properties:
+            UBUNTU:
+              type: object
+              properties:
+                total_ms:
+                  type: integer
+            MACOS:
+              type: object
+              properties:
+                total_ms:
+                  type: integer
+            WINDOWS:
+              type: object
+              properties:
+                total_ms:
+                  type: integer
+      required:
+      - billable
     autolink:
       title: Autolink reference
       description: An autolink reference.
@@ -71593,6 +71199,9 @@ components:
           - type: 'null'
           - "$ref": "#/components/schemas/integration"
         pull_requests:
+          description: Pull requests that are open with a `head_sha` or `head_branch`
+            that matches the check. The returned pull requests do not necessarily
+            indicate pull requests that triggered the check.
           type: array
           items:
             "$ref": "#/components/schemas/pull-request-minimal"
@@ -72138,6 +71747,7 @@ components:
             - python
             - ruby
             - typescript
+            - swift
         query_suite:
           description: CodeQL query suite to be used.
           type: string
@@ -72164,11 +71774,7 @@ components:
           - configured
           - not-configured
         query_suite:
-          description: CodeQL query suite to be used.
-          type: string
-          enum:
-          - default
-          - extended
+          "$ref": "#/components/schemas/code-scanning-query-suite"
         languages:
           description: 'CodeQL languages to be analyzed. Supported values are: `c-cpp`,
             `csharp`, `go`, `java-kotlin`, `javascript-typescript`, `python`, and
@@ -72184,6 +71790,7 @@ components:
             - javascript-typescript
             - python
             - ruby
+            - swift
       required:
       - state
     code-scanning-default-setup-update-response:
@@ -79551,6 +79158,7 @@ components:
       - actions
       - pub
       - other
+      - swift
     repository-advisory-vulnerability:
       description: A product affected by the vulnerability detailed in a repository
         security advisory.
@@ -83865,10 +83473,6 @@ components:
           type: string
           enum:
           - completed
-        actions_meta:
-          type:
-          - object
-          - 'null'
         check_suite:
           description: The [check_suite](https://docs.github.com/rest/reference/checks#suites).
           type: object
@@ -84482,10 +84086,6 @@ components:
           type: string
           enum:
           - requested
-        actions_meta:
-          type:
-          - object
-          - 'null'
         check_suite:
           description: The [check_suite](https://docs.github.com/rest/reference/checks#suites).
           type: object
@@ -85098,20 +84698,6 @@ components:
           type: string
           enum:
           - rerequested
-        actions_meta:
-          type:
-          - object
-          - 'null'
-          properties:
-            rerun_info:
-              type: object
-              properties:
-                plan_id:
-                  type: string
-                job_ids:
-                  type: array
-                  items:
-                    type: string
         check_suite:
           description: The [check_suite](https://docs.github.com/rest/reference/checks#suites).
           type: object
@@ -93806,6 +93392,10 @@ components:
         account:
           type: object
           properties:
+            archived_at:
+              type:
+              - string
+              - 'null'
             avatar_url:
               type: string
             created_at:
@@ -206172,6 +205762,7 @@ components:
         members_can_fork_private_repositories: false
         web_commit_signoff_required: false
         updated_at: '2014-03-03T18:58:10Z'
+        archived_at: 
         dependency_graph_enabled_for_new_repositories: false
         dependabot_alerts_enabled_for_new_repositories: false
         dependabot_security_updates_enabled_for_new_repositories: false
@@ -206337,239 +205928,6 @@ components:
       value:
         default_workflow_permissions: read
         can_approve_pull_request_reviews: true
-    required-workflows-paginated:
-      value:
-        total_count: 2
-        required_workflows:
-        - id: 30433642
-          name: Required CI
-          path: ".github/workflows/ci.yml"
-          scope: selected
-          ref: refs/head/main
-          state: active
-          selected_repositories_url: https://api.github.com/organizations/org/actions/required_workflows/1/repositories
-          created_at: '2020-01-22T19:33:08Z'
-          updated_at: '2020-01-22T19:33:08Z'
-          repository:
-            id: 1296269
-            node_id: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-            name: Hello-World
-            full_name: octocat/Hello-World
-            owner:
-              login: octocat
-              id: 1
-              node_id: MDQ6VXNlcjE=
-              avatar_url: https://github.com/images/error/octocat_happy.gif
-              gravatar_id: ''
-              url: https://api.github.com/users/octocat
-              html_url: https://github.com/octocat
-              followers_url: https://api.github.com/users/octocat/followers
-              following_url: https://api.github.com/users/octocat/following{/other_user}
-              gists_url: https://api.github.com/users/octocat/gists{/gist_id}
-              starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
-              subscriptions_url: https://api.github.com/users/octocat/subscriptions
-              organizations_url: https://api.github.com/users/octocat/orgs
-              repos_url: https://api.github.com/users/octocat/repos
-              events_url: https://api.github.com/users/octocat/events{/privacy}
-              received_events_url: https://api.github.com/users/octocat/received_events
-              type: User
-              site_admin: false
-            private: false
-            html_url: https://github.com/octocat/Hello-World
-            description: This your first repo!
-            fork: false
-            url: https://api.github.com/repos/octocat/Hello-World
-            archive_url: https://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}
-            assignees_url: https://api.github.com/repos/octocat/Hello-World/assignees{/user}
-            blobs_url: https://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}
-            branches_url: https://api.github.com/repos/octocat/Hello-World/branches{/branch}
-            collaborators_url: https://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}
-            comments_url: https://api.github.com/repos/octocat/Hello-World/comments{/number}
-            commits_url: https://api.github.com/repos/octocat/Hello-World/commits{/sha}
-            compare_url: https://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}
-            contents_url: https://api.github.com/repos/octocat/Hello-World/contents/{+path}
-            contributors_url: https://api.github.com/repos/octocat/Hello-World/contributors
-            deployments_url: https://api.github.com/repos/octocat/Hello-World/deployments
-            downloads_url: https://api.github.com/repos/octocat/Hello-World/downloads
-            events_url: https://api.github.com/repos/octocat/Hello-World/events
-            forks_url: https://api.github.com/repos/octocat/Hello-World/forks
-            git_commits_url: https://api.github.com/repos/octocat/Hello-World/git/commits{/sha}
-            git_refs_url: https://api.github.com/repos/octocat/Hello-World/git/refs{/sha}
-            git_tags_url: https://api.github.com/repos/octocat/Hello-World/git/tags{/sha}
-            git_url: git:github.com/octocat/Hello-World.git
-            issue_comment_url: https://api.github.com/repos/octocat/Hello-World/issues/comments{/number}
-            issue_events_url: https://api.github.com/repos/octocat/Hello-World/issues/events{/number}
-            issues_url: https://api.github.com/repos/octocat/Hello-World/issues{/number}
-            keys_url: https://api.github.com/repos/octocat/Hello-World/keys{/key_id}
-            labels_url: https://api.github.com/repos/octocat/Hello-World/labels{/name}
-            languages_url: https://api.github.com/repos/octocat/Hello-World/languages
-            merges_url: https://api.github.com/repos/octocat/Hello-World/merges
-            milestones_url: https://api.github.com/repos/octocat/Hello-World/milestones{/number}
-            notifications_url: https://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}
-            pulls_url: https://api.github.com/repos/octocat/Hello-World/pulls{/number}
-            releases_url: https://api.github.com/repos/octocat/Hello-World/releases{/id}
-            ssh_url: git@github.com:octocat/Hello-World.git
-            stargazers_url: https://api.github.com/repos/octocat/Hello-World/stargazers
-            statuses_url: https://api.github.com/repos/octocat/Hello-World/statuses/{sha}
-            subscribers_url: https://api.github.com/repos/octocat/Hello-World/subscribers
-            subscription_url: https://api.github.com/repos/octocat/Hello-World/subscription
-            tags_url: https://api.github.com/repos/octocat/Hello-World/tags
-            teams_url: https://api.github.com/repos/octocat/Hello-World/teams
-            trees_url: https://api.github.com/repos/octocat/Hello-World/git/trees{/sha}
-            hooks_url: http://api.github.com/repos/octocat/Hello-World/hooks
-        - id: 30433643
-          name: Required Linter
-          path: ".github/workflows/lint.yml"
-          scope: all
-          ref: refs/head/main
-          state: active
-          created_at: '2020-01-22T19:33:08Z'
-          updated_at: '2020-01-22T19:33:08Z'
-          repository:
-            id: 1296269
-            node_id: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-            name: Hello-World
-            full_name: octocat/Hello-World
-            owner:
-              login: octocat
-              id: 1
-              node_id: MDQ6VXNlcjE=
-              avatar_url: https://github.com/images/error/octocat_happy.gif
-              gravatar_id: ''
-              url: https://api.github.com/users/octocat
-              html_url: https://github.com/octocat
-              followers_url: https://api.github.com/users/octocat/followers
-              following_url: https://api.github.com/users/octocat/following{/other_user}
-              gists_url: https://api.github.com/users/octocat/gists{/gist_id}
-              starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
-              subscriptions_url: https://api.github.com/users/octocat/subscriptions
-              organizations_url: https://api.github.com/users/octocat/orgs
-              repos_url: https://api.github.com/users/octocat/repos
-              events_url: https://api.github.com/users/octocat/events{/privacy}
-              received_events_url: https://api.github.com/users/octocat/received_events
-              type: User
-              site_admin: false
-            private: false
-            html_url: https://github.com/octocat/Hello-World
-            description: This your first repo!
-            fork: false
-            url: https://api.github.com/repos/octocat/Hello-World
-            archive_url: https://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}
-            assignees_url: https://api.github.com/repos/octocat/Hello-World/assignees{/user}
-            blobs_url: https://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}
-            branches_url: https://api.github.com/repos/octocat/Hello-World/branches{/branch}
-            collaborators_url: https://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}
-            comments_url: https://api.github.com/repos/octocat/Hello-World/comments{/number}
-            commits_url: https://api.github.com/repos/octocat/Hello-World/commits{/sha}
-            compare_url: https://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}
-            contents_url: https://api.github.com/repos/octocat/Hello-World/contents/{+path}
-            contributors_url: https://api.github.com/repos/octocat/Hello-World/contributors
-            deployments_url: https://api.github.com/repos/octocat/Hello-World/deployments
-            downloads_url: https://api.github.com/repos/octocat/Hello-World/downloads
-            events_url: https://api.github.com/repos/octocat/Hello-World/events
-            forks_url: https://api.github.com/repos/octocat/Hello-World/forks
-            git_commits_url: https://api.github.com/repos/octocat/Hello-World/git/commits{/sha}
-            git_refs_url: https://api.github.com/repos/octocat/Hello-World/git/refs{/sha}
-            git_tags_url: https://api.github.com/repos/octocat/Hello-World/git/tags{/sha}
-            git_url: git:github.com/octocat/Hello-World.git
-            issue_comment_url: https://api.github.com/repos/octocat/Hello-World/issues/comments{/number}
-            issue_events_url: https://api.github.com/repos/octocat/Hello-World/issues/events{/number}
-            issues_url: https://api.github.com/repos/octocat/Hello-World/issues{/number}
-            keys_url: https://api.github.com/repos/octocat/Hello-World/keys{/key_id}
-            labels_url: https://api.github.com/repos/octocat/Hello-World/labels{/name}
-            languages_url: https://api.github.com/repos/octocat/Hello-World/languages
-            merges_url: https://api.github.com/repos/octocat/Hello-World/merges
-            milestones_url: https://api.github.com/repos/octocat/Hello-World/milestones{/number}
-            notifications_url: https://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}
-            pulls_url: https://api.github.com/repos/octocat/Hello-World/pulls{/number}
-            releases_url: https://api.github.com/repos/octocat/Hello-World/releases{/id}
-            ssh_url: git@github.com:octocat/Hello-World.git
-            stargazers_url: https://api.github.com/repos/octocat/Hello-World/stargazers
-            statuses_url: https://api.github.com/repos/octocat/Hello-World/statuses/{sha}
-            subscribers_url: https://api.github.com/repos/octocat/Hello-World/subscribers
-            subscription_url: https://api.github.com/repos/octocat/Hello-World/subscription
-            tags_url: https://api.github.com/repos/octocat/Hello-World/tags
-            teams_url: https://api.github.com/repos/octocat/Hello-World/teams
-            trees_url: https://api.github.com/repos/octocat/Hello-World/git/trees{/sha}
-            hooks_url: http://api.github.com/repos/octocat/Hello-World/hooks
-    required-workflow:
-      value:
-        id: 30433642
-        name: Required CI
-        path: ".github/workflows/ci.yml"
-        scope: selected
-        ref: refs/head/main
-        state: active
-        selected_repositories_url: https://api.github.com/orgs/octo-org/actions/required_workflows/1/repositories
-        created_at: '2020-01-22T19:33:08Z'
-        updated_at: '2020-01-22T19:33:08Z'
-        repository:
-          id: 1296269
-          node_id: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-          name: Hello-World
-          full_name: octocat/Hello-World
-          owner:
-            login: octocat
-            id: 1
-            node_id: MDQ6VXNlcjE=
-            avatar_url: https://github.com/images/error/octocat_happy.gif
-            gravatar_id: ''
-            url: https://api.github.com/users/octocat
-            html_url: https://github.com/octocat
-            followers_url: https://api.github.com/users/octocat/followers
-            following_url: https://api.github.com/users/octocat/following{/other_user}
-            gists_url: https://api.github.com/users/octocat/gists{/gist_id}
-            starred_url: https://api.github.com/users/octocat/starred{/owner}{/repo}
-            subscriptions_url: https://api.github.com/users/octocat/subscriptions
-            organizations_url: https://api.github.com/users/octocat/orgs
-            repos_url: https://api.github.com/users/octocat/repos
-            events_url: https://api.github.com/users/octocat/events{/privacy}
-            received_events_url: https://api.github.com/users/octocat/received_events
-            type: User
-            site_admin: false
-          private: false
-          html_url: https://github.com/octocat/Hello-World
-          description: This your first repo!
-          fork: false
-          url: https://api.github.com/repos/octocat/Hello-World
-          archive_url: https://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}
-          assignees_url: https://api.github.com/repos/octocat/Hello-World/assignees{/user}
-          blobs_url: https://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}
-          branches_url: https://api.github.com/repos/octocat/Hello-World/branches{/branch}
-          collaborators_url: https://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}
-          comments_url: https://api.github.com/repos/octocat/Hello-World/comments{/number}
-          commits_url: https://api.github.com/repos/octocat/Hello-World/commits{/sha}
-          compare_url: https://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}
-          contents_url: https://api.github.com/repos/octocat/Hello-World/contents/{+path}
-          contributors_url: https://api.github.com/repos/octocat/Hello-World/contributors
-          deployments_url: https://api.github.com/repos/octocat/Hello-World/deployments
-          downloads_url: https://api.github.com/repos/octocat/Hello-World/downloads
-          events_url: https://api.github.com/repos/octocat/Hello-World/events
-          forks_url: https://api.github.com/repos/octocat/Hello-World/forks
-          git_commits_url: https://api.github.com/repos/octocat/Hello-World/git/commits{/sha}
-          git_refs_url: https://api.github.com/repos/octocat/Hello-World/git/refs{/sha}
-          git_tags_url: https://api.github.com/repos/octocat/Hello-World/git/tags{/sha}
-          git_url: git:github.com/octocat/Hello-World.git
-          issue_comment_url: https://api.github.com/repos/octocat/Hello-World/issues/comments{/number}
-          issue_events_url: https://api.github.com/repos/octocat/Hello-World/issues/events{/number}
-          issues_url: https://api.github.com/repos/octocat/Hello-World/issues{/number}
-          keys_url: https://api.github.com/repos/octocat/Hello-World/keys{/key_id}
-          labels_url: https://api.github.com/repos/octocat/Hello-World/labels{/name}
-          languages_url: https://api.github.com/repos/octocat/Hello-World/languages
-          merges_url: https://api.github.com/repos/octocat/Hello-World/merges
-          milestones_url: https://api.github.com/repos/octocat/Hello-World/milestones{/number}
-          notifications_url: https://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}
-          pulls_url: https://api.github.com/repos/octocat/Hello-World/pulls{/number}
-          releases_url: https://api.github.com/repos/octocat/Hello-World/releases{/id}
-          ssh_url: git@github.com:octocat/Hello-World.git
-          stargazers_url: https://api.github.com/repos/octocat/Hello-World/stargazers
-          statuses_url: https://api.github.com/repos/octocat/Hello-World/statuses/{sha}
-          subscribers_url: https://api.github.com/repos/octocat/Hello-World/subscribers
-          subscription_url: https://api.github.com/repos/octocat/Hello-World/subscription
-          tags_url: https://api.github.com/repos/octocat/Hello-World/tags
-          teams_url: https://api.github.com/repos/octocat/Hello-World/teams
-          trees_url: https://api.github.com/repos/octocat/Hello-World/git/trees{/sha}
-          hooks_url: http://api.github.com/repos/octocat/Hello-World/hooks
     runner-paginated:
       value:
         total_count: 2
@@ -208939,7 +208297,6 @@ components:
         source_type: Organization
         source: my-org
         enforcement: enabled
-        bypass_mode: repository
         node_id: RRS_lACkVXNlcgQB
         _links:
           self:
@@ -208953,7 +208310,6 @@ components:
         source_type: Organization
         source: my-org
         enforcement: enabled
-        bypass_mode: repository
         node_id: RRS_lACkVXNlcgQQ
         _links:
           self:
@@ -208970,10 +208326,10 @@ components:
         source_type: Organization
         source: my-org
         enforcement: active
-        bypass_mode: repository
         bypass_actors:
         - actor_id: 234
           actor_type: Team
+          bypass_mode: always
         conditions:
           ref_name:
             include:
@@ -209918,175 +209274,6 @@ components:
           remaining: 4999
           reset: 1372700873
           used: 1
-    repo-required-workflow-paginated:
-      value:
-        total_count: 1
-        required_workflows:
-        - id: 161335
-          node_id: MDg6V29ya2Zsb3cxNjEzMzU=
-          name: RequiredCI
-          path: ".github/workflows/required_ci.yaml"
-          state: active
-          created_at: '2020-01-08T23:48:37.000-08:00'
-          updated_at: '2020-01-08T23:50:21.000-08:00'
-          url: https://api.github.com/repos/octo-org/octo-repo/actions/required_workflows/161335
-          html_url: https://github.com/octo-org/octo-repo/blob/master/octo-org/hello-world/.github/workflows/required_ci.yaml
-          badge_url: https://github.com/octo-org/octo-repo/workflows/required/octo-org/hello-world/.github/workflows/required_ci.yaml/badge.svg
-          source_repository:
-            id: 1296269
-            node_id: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-            name: Hello-World
-            full_name: octo-org/Hello-World
-            owner:
-              login: octo-org
-              id: 1
-              node_id: MDQ6VXNlcjE=
-              avatar_url: https://github.com/images/error/octo-org_happy.gif
-              gravatar_id: ''
-              url: https://api.github.com/users/octo-org
-              html_url: https://github.com/octo-org
-              followers_url: https://api.github.com/users/octo-org/followers
-              following_url: https://api.github.com/users/octo-org/following{/other_user}
-              gists_url: https://api.github.com/users/octo-org/gists{/gist_id}
-              starred_url: https://api.github.com/users/octo-org/starred{/owner}{/repo}
-              subscriptions_url: https://api.github.com/users/octo-org/subscriptions
-              organizations_url: https://api.github.com/users/octo-org/orgs
-              repos_url: https://api.github.com/users/octo-org/repos
-              events_url: https://api.github.com/users/octo-org/events{/privacy}
-              received_events_url: https://api.github.com/users/octo-org/received_events
-              type: User
-              site_admin: false
-            private: false
-            html_url: https://github.com/octo-org/Hello-World
-            description: This your first repo!
-            fork: false
-            url: https://api.github.com/repos/octo-org/Hello-World
-            archive_url: https://api.github.com/repos/octo-org/Hello-World/{archive_format}{/ref}
-            assignees_url: https://api.github.com/repos/octo-org/Hello-World/assignees{/user}
-            blobs_url: https://api.github.com/repos/octo-org/Hello-World/git/blobs{/sha}
-            branches_url: https://api.github.com/repos/octo-org/Hello-World/branches{/branch}
-            collaborators_url: https://api.github.com/repos/octo-org/Hello-World/collaborators{/collaborator}
-            comments_url: https://api.github.com/repos/octo-org/Hello-World/comments{/number}
-            commits_url: https://api.github.com/repos/octo-org/Hello-World/commits{/sha}
-            compare_url: https://api.github.com/repos/octo-org/Hello-World/compare/{base}...{head}
-            contents_url: https://api.github.com/repos/octo-org/Hello-World/contents/{+path}
-            contributors_url: https://api.github.com/repos/octo-org/Hello-World/contributors
-            deployments_url: https://api.github.com/repos/octo-org/Hello-World/deployments
-            downloads_url: https://api.github.com/repos/octo-org/Hello-World/downloads
-            events_url: https://api.github.com/repos/octo-org/Hello-World/events
-            forks_url: https://api.github.com/repos/octo-org/Hello-World/forks
-            git_commits_url: https://api.github.com/repos/octo-org/Hello-World/git/commits{/sha}
-            git_refs_url: https://api.github.com/repos/octo-org/Hello-World/git/refs{/sha}
-            git_tags_url: https://api.github.com/repos/octo-org/Hello-World/git/tags{/sha}
-            git_url: git:github.com/octo-org/Hello-World.git
-            issue_comment_url: https://api.github.com/repos/octo-org/Hello-World/issues/comments{/number}
-            issue_events_url: https://api.github.com/repos/octo-org/Hello-World/issues/events{/number}
-            issues_url: https://api.github.com/repos/octo-org/Hello-World/issues{/number}
-            keys_url: https://api.github.com/repos/octo-org/Hello-World/keys{/key_id}
-            labels_url: https://api.github.com/repos/octo-org/Hello-World/labels{/name}
-            languages_url: https://api.github.com/repos/octo-org/Hello-World/languages
-            merges_url: https://api.github.com/repos/octo-org/Hello-World/merges
-            milestones_url: https://api.github.com/repos/octo-org/Hello-World/milestones{/number}
-            notifications_url: https://api.github.com/repos/octo-org/Hello-World/notifications{?since,all,participating}
-            pulls_url: https://api.github.com/repos/octo-org/Hello-World/pulls{/number}
-            releases_url: https://api.github.com/repos/octo-org/Hello-World/releases{/id}
-            ssh_url: git@github.com:octo-org/Hello-World.git
-            stargazers_url: https://api.github.com/repos/octo-org/Hello-World/stargazers
-            statuses_url: https://api.github.com/repos/octo-org/Hello-World/statuses/{sha}
-            subscribers_url: https://api.github.com/repos/octo-org/Hello-World/subscribers
-            subscription_url: https://api.github.com/repos/octo-org/Hello-World/subscription
-            tags_url: https://api.github.com/repos/octo-org/Hello-World/tags
-            teams_url: https://api.github.com/repos/octo-org/Hello-World/teams
-            trees_url: https://api.github.com/repos/octo-org/Hello-World/git/trees{/sha}
-            hooks_url: http://api.github.com/repos/octo-org/Hello-World/hooks
-    repo-required-workflow:
-      value:
-        id: 161335
-        node_id: MDg6V29ya2Zsb3cxNjEzMzU=
-        name: RequiredCI
-        path: ".github/workflows/required_ci.yaml"
-        state: active
-        created_at: '2020-01-08T23:48:37.000-08:00'
-        updated_at: '2020-01-08T23:50:21.000-08:00'
-        url: https://api.github.com/repos/octo-org/octo-repo/actions/required_workflows/161335
-        html_url: https://github.com/octo-org/octo-repo/blob/master/octo-org/hello-world/.github/workflows/required_ci.yaml
-        badge_url: https://github.com/octo-org/octo-repo/workflows/required/octo-org/hello-world/.github/workflows/required_ci.yaml/badge.svg
-        source_repository:
-          id: 1296269
-          node_id: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-          name: Hello-World
-          full_name: octo-org/Hello-World
-          owner:
-            login: octo-org
-            id: 1
-            node_id: MDQ6VXNlcjE=
-            avatar_url: https://github.com/images/error/octo-org_happy.gif
-            gravatar_id: ''
-            url: https://api.github.com/users/octo-org
-            html_url: https://github.com/octo-org
-            followers_url: https://api.github.com/users/octo-org/followers
-            following_url: https://api.github.com/users/octo-org/following{/other_user}
-            gists_url: https://api.github.com/users/octo-org/gists{/gist_id}
-            starred_url: https://api.github.com/users/octo-org/starred{/owner}{/repo}
-            subscriptions_url: https://api.github.com/users/octo-org/subscriptions
-            organizations_url: https://api.github.com/users/octo-org/orgs
-            repos_url: https://api.github.com/users/octo-org/repos
-            events_url: https://api.github.com/users/octo-org/events{/privacy}
-            received_events_url: https://api.github.com/users/octo-org/received_events
-            type: User
-            site_admin: false
-          private: false
-          html_url: https://github.com/octo-org/Hello-World
-          description: This your first repo!
-          fork: false
-          url: https://api.github.com/repos/octo-org/Hello-World
-          archive_url: https://api.github.com/repos/octo-org/Hello-World/{archive_format}{/ref}
-          assignees_url: https://api.github.com/repos/octo-org/Hello-World/assignees{/user}
-          blobs_url: https://api.github.com/repos/octo-org/Hello-World/git/blobs{/sha}
-          branches_url: https://api.github.com/repos/octo-org/Hello-World/branches{/branch}
-          collaborators_url: https://api.github.com/repos/octo-org/Hello-World/collaborators{/collaborator}
-          comments_url: https://api.github.com/repos/octo-org/Hello-World/comments{/number}
-          commits_url: https://api.github.com/repos/octo-org/Hello-World/commits{/sha}
-          compare_url: https://api.github.com/repos/octo-org/Hello-World/compare/{base}...{head}
-          contents_url: https://api.github.com/repos/octo-org/Hello-World/contents/{+path}
-          contributors_url: https://api.github.com/repos/octo-org/Hello-World/contributors
-          deployments_url: https://api.github.com/repos/octo-org/Hello-World/deployments
-          downloads_url: https://api.github.com/repos/octo-org/Hello-World/downloads
-          events_url: https://api.github.com/repos/octo-org/Hello-World/events
-          forks_url: https://api.github.com/repos/octo-org/Hello-World/forks
-          git_commits_url: https://api.github.com/repos/octo-org/Hello-World/git/commits{/sha}
-          git_refs_url: https://api.github.com/repos/octo-org/Hello-World/git/refs{/sha}
-          git_tags_url: https://api.github.com/repos/octo-org/Hello-World/git/tags{/sha}
-          git_url: git:github.com/octo-org/Hello-World.git
-          issue_comment_url: https://api.github.com/repos/octo-org/Hello-World/issues/comments{/number}
-          issue_events_url: https://api.github.com/repos/octo-org/Hello-World/issues/events{/number}
-          issues_url: https://api.github.com/repos/octo-org/Hello-World/issues{/number}
-          keys_url: https://api.github.com/repos/octo-org/Hello-World/keys{/key_id}
-          labels_url: https://api.github.com/repos/octo-org/Hello-World/labels{/name}
-          languages_url: https://api.github.com/repos/octo-org/Hello-World/languages
-          merges_url: https://api.github.com/repos/octo-org/Hello-World/merges
-          milestones_url: https://api.github.com/repos/octo-org/Hello-World/milestones{/number}
-          notifications_url: https://api.github.com/repos/octo-org/Hello-World/notifications{?since,all,participating}
-          pulls_url: https://api.github.com/repos/octo-org/Hello-World/pulls{/number}
-          releases_url: https://api.github.com/repos/octo-org/Hello-World/releases{/id}
-          ssh_url: git@github.com:octo-org/Hello-World.git
-          stargazers_url: https://api.github.com/repos/octo-org/Hello-World/stargazers
-          statuses_url: https://api.github.com/repos/octo-org/Hello-World/statuses/{sha}
-          subscribers_url: https://api.github.com/repos/octo-org/Hello-World/subscribers
-          subscription_url: https://api.github.com/repos/octo-org/Hello-World/subscription
-          tags_url: https://api.github.com/repos/octo-org/Hello-World/tags
-          teams_url: https://api.github.com/repos/octo-org/Hello-World/teams
-          trees_url: https://api.github.com/repos/octo-org/Hello-World/git/trees{/sha}
-          hooks_url: http://api.github.com/repos/octo-org/Hello-World/hooks
-    workflow-usage:
-      value:
-        billable:
-          UBUNTU:
-            total_ms: 180000
-          MACOS:
-            total_ms: 240000
-          WINDOWS:
-            total_ms: 300000
     full-repository-default-response:
       summary: Default response
       value:
@@ -211978,6 +211165,15 @@ components:
         url: https://api.github.com/repos/octo-org/octo-repo/actions/workflows/161335
         html_url: https://github.com/octo-org/octo-repo/blob/master/.github/workflows/161335
         badge_url: https://github.com/octo-org/octo-repo/workflows/CI/badge.svg
+    workflow-usage:
+      value:
+        billable:
+          UBUNTU:
+            total_ms: 180000
+          MACOS:
+            total_ms: 240000
+          WINDOWS:
+            total_ms: 300000
     autolink-items:
       value:
       - id: 1
@@ -220894,10 +220090,16 @@ components:
     repository-rule-items:
       value:
       - type: commit_message_pattern
+        ruleset_source_type: Repository
+        ruleset_source: monalisa/my-repo
+        ruleset_id: 42
         parameters:
           operator: starts_with
           pattern: issue
       - type: commit_author_email_pattern
+        ruleset_source_type: Organization
+        ruleset_source: my-org
+        ruleset_id: 73
         parameters:
           operator: contains
           pattern: github
@@ -220908,7 +220110,6 @@ components:
         source_type: Repository
         source: monalisa/my-repo
         enforcement: enabled
-        bypass_mode: repository
         node_id: RRS_lACkVXNlcgQB
         _links:
           self:
@@ -220922,7 +220123,6 @@ components:
         source_type: Repository
         source: monalisa/my-repo
         enforcement: enabled
-        bypass_mode: repository
         node_id: RRS_lACkVXNlcgQQ
         _links:
           self:
@@ -220939,10 +220139,10 @@ components:
         source_type: Repository
         source: monalisa/my-repo
         enforcement: active
-        bypass_mode: repository
         bypass_actors:
         - actor_id: 234
           actor_type: Team
+          bypass_mode: always
         conditions:
           ref_name:
             include:
@@ -227875,13 +227075,6 @@ components:
       required: true
       schema:
         type: integer
-    required-workflow-id:
-      name: required_workflow_id
-      description: The unique identifier of the required workflow.
-      in: path
-      required: true
-      schema:
-        type: integer
     runner-id:
       name: runner_id
       description: Unique identifier of the self-hosted runner.
@@ -228185,14 +227378,6 @@ components:
       name: column_id
       description: The unique identifier of the column.
       in: path
-      required: true
-      schema:
-        type: integer
-    repo-required-workflow-id:
-      name: required_workflow_id_for_repo
-      in: path
-      description: The ID of the required workflow that has run at least once in a
-        repository.
       required: true
       schema:
         type: integer
