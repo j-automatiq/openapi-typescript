@@ -10759,7 +10759,7 @@ export interface components {
         [key: string]: string | undefined;
       };
       /** @description The list of events for the GitHub app */
-      events: (string)[];
+      events: string[];
       /** @description The number of installations associated with the GitHub app */
       installations_count?: number;
       client_id?: string;
@@ -10784,7 +10784,7 @@ export interface components {
     "validation-error-simple": {
       message: string;
       documentation_url: string;
-      errors?: (string)[];
+      errors?: string[];
     };
     /**
      * Format: uri
@@ -10847,7 +10847,7 @@ export interface components {
       detail?: string | null;
       status?: number;
       scimType?: string | null;
-      schemas?: (string)[];
+      schemas?: string[];
     };
     /**
      * Validation Error
@@ -10862,7 +10862,7 @@ export interface components {
           message?: string;
           code: string;
           index?: number;
-          value?: (string | null) | (number | null) | ((string)[] | null);
+          value?: (string | null) | (number | null) | (string[] | null);
         })[];
     };
     /**
@@ -11163,14 +11163,14 @@ export interface components {
       target_id: number;
       target_type: string;
       permissions: components["schemas"]["app-permissions"];
-      events: (string)[];
+      events: string[];
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
       updated_at: string;
       single_file_name: string | null;
       has_multiple_single_files?: boolean;
-      single_file_paths?: (string)[];
+      single_file_paths?: string[];
       app_slug: string;
       suspended_by: null | components["schemas"]["simple-user"];
       /** Format: date-time */
@@ -11296,7 +11296,7 @@ export interface components {
        * @default false
        */
       is_template?: boolean;
-      topics?: (string)[];
+      topics?: string[];
       /**
        * @description Whether issues are enabled.
        * @default true
@@ -11426,7 +11426,7 @@ export interface components {
         default_branch?: string;
         open_issues_count?: number;
         is_template?: boolean;
-        topics?: (string)[];
+        topics?: string[];
         has_issues?: boolean;
         has_projects?: boolean;
         has_wiki?: boolean;
@@ -11582,10 +11582,10 @@ export interface components {
       permissions?: components["schemas"]["app-permissions"];
       /** @enum {string} */
       repository_selection?: "all" | "selected";
-      repositories?: (components["schemas"]["repository"])[];
+      repositories?: components["schemas"]["repository"][];
       single_file?: string;
       has_multiple_single_files?: boolean;
-      single_file_paths?: (string)[];
+      single_file_paths?: string[];
     };
     /** Scoped Installation */
     "scoped-installation": {
@@ -11597,7 +11597,7 @@ export interface components {
       repository_selection: "all" | "selected";
       single_file_name: string | null;
       has_multiple_single_files?: boolean;
-      single_file_paths?: (string)[];
+      single_file_paths?: string[];
       /** Format: uri */
       repositories_url: string;
       account: components["schemas"]["simple-user"];
@@ -11611,7 +11611,7 @@ export interface components {
       /** Format: uri */
       url: string;
       /** @description A list of scopes that this authorization is in. */
-      scopes: (string)[] | null;
+      scopes: string[] | null;
       token: string;
       token_last_eight: string | null;
       hashed_token: string | null;
@@ -11683,7 +11683,7 @@ export interface components {
       /** @description A long-form Markdown-supported description of the advisory. */
       readonly description: string;
       /** @description Vulnerable version range information for the advisory. */
-      readonly vulnerabilities: readonly (components["schemas"]["dependabot-alert-security-vulnerability"])[];
+      readonly vulnerabilities: readonly components["schemas"]["dependabot-alert-security-vulnerability"][];
       /**
        * @description The severity of the advisory.
        * @enum {string}
@@ -11697,12 +11697,12 @@ export interface components {
         readonly vector_string: string | null;
       };
       /** @description Details for the advisory pertaining to Common Weakness Enumeration. */
-      readonly cwes: readonly ({
+      readonly cwes: readonly {
           /** @description The unique CWE ID. */
           readonly cwe_id: string;
           /** @description The short, plain text name of the CWE. */
           readonly name: string;
-        })[];
+        }[];
       /** @description Values that identify this advisory among security information sources. */
       readonly identifiers: readonly ({
           /**
@@ -11714,13 +11714,13 @@ export interface components {
           readonly value: string;
         })[];
       /** @description Links to additional advisory information. */
-      readonly references: readonly ({
+      readonly references: readonly {
           /**
            * Format: uri
            * @description The URL of the reference.
            */
           readonly url: string;
-        })[];
+        }[];
       /**
        * Format: date-time
        * @description The time that the advisory was published in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
@@ -12121,7 +12121,7 @@ export interface components {
           default?: boolean;
         }]>)[];
       assignee: null | components["schemas"]["simple-user"];
-      assignees?: (components["schemas"]["simple-user"])[] | null;
+      assignees?: components["schemas"]["simple-user"][] | null;
       milestone: null | components["schemas"]["milestone"];
       locked: boolean;
       active_lock_reason?: string | null;
@@ -12239,7 +12239,7 @@ export interface components {
       current_user_url?: string;
       current_user_actor_url?: string;
       current_user_organization_url?: string;
-      current_user_organization_urls?: (string)[];
+      current_user_organization_urls?: string[];
       security_advisories_url?: string;
       /** @description A feed of discussions for a given repository. */
       repository_discussions_url?: string;
@@ -12253,7 +12253,7 @@ export interface components {
         current_user_public?: components["schemas"]["link-with-type"];
         current_user_actor?: components["schemas"]["link-with-type"];
         current_user_organization?: components["schemas"]["link-with-type"];
-        current_user_organizations?: (components["schemas"]["link-with-type"])[];
+        current_user_organizations?: components["schemas"]["link-with-type"][];
         repository_discussions?: components["schemas"]["link-with-type"];
         repository_discussions_category?: components["schemas"]["link-with-type"];
       };
@@ -12298,8 +12298,8 @@ export interface components {
       comments_url: string;
       owner?: components["schemas"]["simple-user"];
       truncated?: boolean;
-      forks?: (unknown)[];
-      history?: (unknown)[];
+      forks?: unknown[];
+      history?: unknown[];
     };
     /**
      * Public User
@@ -12386,7 +12386,7 @@ export interface components {
      */
     "gist-simple": {
       /** @deprecated */
-      forks?: ({
+      forks?: {
           id?: string;
           /** Format: uri */
           url?: string;
@@ -12395,9 +12395,9 @@ export interface components {
           created_at?: string;
           /** Format: date-time */
           updated_at?: string;
-        })[] | null;
+        }[] | null;
       /** @deprecated */
-      history?: (components["schemas"]["gist-history"])[] | null;
+      history?: components["schemas"]["gist-history"][] | null;
       /**
        * Gist
        * @description Gist
@@ -12438,8 +12438,8 @@ export interface components {
         comments_url: string;
         owner?: null | components["schemas"]["simple-user"];
         truncated?: boolean;
-        forks?: (unknown)[];
-        history?: (unknown)[];
+        forks?: unknown[];
+        history?: unknown[];
       }) | null;
       url?: string;
       forks_url?: string;
@@ -12528,9 +12528,9 @@ export interface components {
       html_url: string;
       description: string;
       implementation: string;
-      permissions: (string)[];
-      conditions: (string)[];
-      limitations: (string)[];
+      permissions: string[];
+      conditions: string[];
+      limitations: string[];
       body: string;
       featured: boolean;
     };
@@ -12554,7 +12554,7 @@ export interface components {
       has_free_trial: boolean;
       unit_name: string | null;
       state: string;
-      bullets: (string)[];
+      bullets: string[];
     };
     /**
      * Marketplace Purchase
@@ -12597,21 +12597,21 @@ export interface components {
         SHA256_ECDSA?: string;
         SHA256_ED25519?: string;
       };
-      ssh_keys?: (string)[];
-      hooks?: (string)[];
-      web?: (string)[];
-      api?: (string)[];
-      git?: (string)[];
-      packages?: (string)[];
-      pages?: (string)[];
-      importer?: (string)[];
-      actions?: (string)[];
-      dependabot?: (string)[];
+      ssh_keys?: string[];
+      hooks?: string[];
+      web?: string[];
+      api?: string[];
+      git?: string[];
+      packages?: string[];
+      pages?: string[];
+      importer?: string[];
+      actions?: string[];
+      dependabot?: string[];
       domains?: {
-        website?: (string)[];
-        codespaces?: (string)[];
-        copilot?: (string)[];
-        packages?: (string)[];
+        website?: string[];
+        codespaces?: string[];
+        copilot?: string[];
+        packages?: string[];
       };
     };
     "security-and-analysis": ({
@@ -12717,7 +12717,7 @@ export interface components {
       default_branch?: string;
       open_issues_count?: number;
       is_template?: boolean;
-      topics?: (string)[];
+      topics?: string[];
       has_issues?: boolean;
       has_projects?: boolean;
       has_wiki?: boolean;
@@ -12958,7 +12958,7 @@ export interface components {
      */
     "oidc-custom-sub": {
       /** @description Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
-      include_claim_keys: (string)[];
+      include_claim_keys: string[];
     };
     /**
      * Empty Object
@@ -12994,7 +12994,7 @@ export interface components {
        *
        * **Note**: The `patterns_allowed` setting only applies to public repositories.
        */
-      patterns_allowed?: (string)[];
+      patterns_allowed?: string[];
     };
     /**
      * @description The default workflow permissions granted to the GITHUB_TOKEN when running workflows.
@@ -13042,7 +13042,7 @@ export interface components {
       /** @description The status of the runner. */
       status: string;
       busy: boolean;
-      labels: (components["schemas"]["runner-label"])[];
+      labels: components["schemas"]["runner-label"][];
     };
     /**
      * Runner Application
@@ -13071,7 +13071,7 @@ export interface components {
       expires_at: string;
       permissions?: Record<string, never>;
       /** @description The repositories this token has access to */
-      repositories?: (components["schemas"]["repository"])[];
+      repositories?: components["schemas"]["repository"][];
       single_file?: string | null;
       /**
        * @description Describe whether all repositories have been selected or there's a selection involved
@@ -13190,7 +13190,7 @@ export interface components {
       /** @description description of the rule used to detect the alert. */
       full_description?: string;
       /** @description A set of tags applicable for the rule. */
-      tags?: (string)[] | null;
+      tags?: string[] | null;
       /** @description Detailed documentation for the rule as GitHub Flavored Markdown. */
       help?: string | null;
       /** @description A link to the documentation for the rule used to detect the alert. */
@@ -13243,7 +13243,7 @@ export interface components {
        * @description Classifications that have been applied to the file that triggered the alert.
        * For example identifying it as documentation, or a generated file.
        */
-      classifications?: (components["schemas"]["code-scanning-alert-classification"])[];
+      classifications?: components["schemas"]["code-scanning-alert-classification"][];
     };
     "code-scanning-organization-alert-items": {
       number: components["schemas"]["alert-number"];
@@ -13375,10 +13375,10 @@ export interface components {
        * @description API URL for the Pull Request associated with this codespace, if any.
        */
       pulls_url: string | null;
-      recent_folders: (string)[];
+      recent_folders: string[];
       runtime_constraints?: {
         /** @description The privacy settings a user can select from when forwarding a port. */
-        allowed_port_privacy_settings?: (string)[] | null;
+        allowed_port_privacy_settings?: string[] | null;
       };
       /** @description Whether or not a codespace has a pending async operation. This would mean that the codespace is temporarily unavailable. The only thing that you can do with a codespace in this state is delete it. */
       pending_operation?: boolean | null;
@@ -13522,7 +13522,7 @@ export interface components {
       /** Format: uri */
       deliveries_url?: string;
       name: string;
-      events: (string)[];
+      events: string[];
       active: boolean;
       config: {
         url?: string;
@@ -13667,7 +13667,7 @@ export interface components {
       exclude_owner_projects: boolean;
       org_metadata_only: boolean;
       /** @description The repositories included in the migration. Only returned for export migrations. */
-      repositories: (components["schemas"]["repository"])[];
+      repositories: components["schemas"]["repository"][];
       /** Format: uri */
       url: string;
       /** Format: date-time */
@@ -13678,7 +13678,7 @@ export interface components {
       /** Format: uri */
       archive_url?: string;
       /** @description Exclude related items from being returned in the response in order to improve performance of the request. The array can include any of: `"repositories"`. */
-      exclude?: (string)[];
+      exclude?: string[];
     };
     /**
      * Package Version
@@ -13706,11 +13706,11 @@ export interface components {
         package_type: "npm" | "maven" | "rubygems" | "docker" | "nuget" | "container";
         /** Container Metadata */
         container?: {
-          tags: (string)[];
+          tags: string[];
         };
         /** Docker Metadata */
         docker?: {
-          tag?: (string)[];
+          tag?: string[];
         };
       };
     };
@@ -13853,9 +13853,9 @@ export interface components {
     "repository-ruleset-conditions": {
       ref_name?: {
         /** @description Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches. */
-        include?: (string)[];
+        include?: string[];
         /** @description Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match. */
-        exclude?: (string)[];
+        exclude?: string[];
       };
     };
     /**
@@ -13865,9 +13865,9 @@ export interface components {
     "repository-ruleset-conditions-repository-name-target": {
       repository_name: {
         /** @description Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
-        include?: (string)[];
+        include?: string[];
         /** @description Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
-        exclude?: (string)[];
+        exclude?: string[];
         /** @description Whether renaming of target repositories is prevented. */
         protected?: boolean;
       };
@@ -13879,7 +13879,7 @@ export interface components {
     "repository-ruleset-conditions-repository-id-target": {
       repository_id: {
         /** @description The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
-        repository_ids?: (number)[];
+        repository_ids?: number[];
       };
     };
     /**
@@ -13977,7 +13977,7 @@ export interface components {
       ruleset_id?: number;
       parameters?: {
         /** @description The environments that must be successfully deployed to before branches can be merged. */
-        required_deployment_environments: (string)[];
+        required_deployment_environments: string[];
       };
     };
     /**
@@ -14054,7 +14054,7 @@ export interface components {
       ruleset_id?: number;
       parameters?: {
         /** @description Status checks that are required. */
-        required_status_checks: (components["schemas"]["repository-rule-params-status-check-configuration"])[];
+        required_status_checks: components["schemas"]["repository-rule-params-status-check-configuration"][];
         /** @description Whether pull requests targeting a matching branch must be tested with the latest code. This setting will not take effect unless at least one status check is enabled. */
         strict_required_status_checks_policy: boolean;
       };
@@ -14254,7 +14254,7 @@ export interface components {
       source: string;
       enforcement: components["schemas"]["repository-rule-enforcement"];
       /** @description The actors that can bypass the rules in this ruleset */
-      bypass_actors?: (components["schemas"]["repository-ruleset-bypass-actor"])[];
+      bypass_actors?: components["schemas"]["repository-ruleset-bypass-actor"][];
       /**
        * @description Whether the user making this API request is able to bypass the ruleset. This field is only returned when
        * querying the repository-level endpoint.
@@ -14272,7 +14272,7 @@ export interface components {
         };
       };
       conditions?: components["schemas"]["repository-ruleset-conditions"] | components["schemas"]["org-ruleset-conditions"];
-      rules?: (components["schemas"]["repository-rule"])[];
+      rules?: components["schemas"]["repository-rule"][];
       /** Format: date-time */
       created_at?: string;
       /** Format: date-time */
@@ -14682,7 +14682,7 @@ export interface components {
        * @default false
        */
       is_template?: boolean;
-      topics?: (string)[];
+      topics?: string[];
       /**
        * @description Whether issues are enabled.
        * @default true
@@ -14948,7 +14948,7 @@ export interface components {
       default_branch: string;
       open_issues_count: number;
       is_template?: boolean;
-      topics?: (string)[];
+      topics?: string[];
       has_issues: boolean;
       has_projects: boolean;
       has_wiki: boolean;
@@ -15073,7 +15073,7 @@ export interface components {
       /** @description Total number of caches */
       total_count: number;
       /** @description Array of caches */
-      actions_caches: ({
+      actions_caches: {
           id?: number;
           ref?: string;
           key?: string;
@@ -15083,7 +15083,7 @@ export interface components {
           /** Format: date-time */
           created_at?: string;
           size_in_bytes?: number;
-        })[];
+        }[];
     };
     /**
      * Job
@@ -15154,7 +15154,7 @@ export interface components {
         })[];
       check_run_url: string;
       /** @description Labels for the workflow job. Specified by the "runs_on" attribute in the action's workflow file. */
-      labels: (string)[];
+      labels: string[];
       /** @description The ID of the runner to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.) */
       runner_id: number | null;
       /** @description The name of the runner to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.) */
@@ -15176,7 +15176,7 @@ export interface components {
       /** @description Whether to use the default template or not. If `true`, the `include_claim_keys` field is ignored. */
       use_default: boolean;
       /** @description Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
-      include_claim_keys?: (string)[];
+      include_claim_keys?: string[];
     };
     /**
      * Actions Secret
@@ -15317,7 +15317,7 @@ export interface components {
       run_number: number;
       /** @description Attempt number of the run, 1 for first attempt and higher if the workflow was re-run. */
       run_attempt?: number;
-      referenced_workflows?: (components["schemas"]["referenced-workflow"])[] | null;
+      referenced_workflows?: components["schemas"]["referenced-workflow"][] | null;
       event: string;
       status: string | null;
       conclusion: string | null;
@@ -15327,7 +15327,7 @@ export interface components {
       url: string;
       html_url: string;
       /** @description Pull requests that are open with a `head_sha` or `head_branch` that matches the workflow run. The returned pull requests do not necessarily indicate pull requests that triggered the run. */
-      pull_requests: (components["schemas"]["pull-request-minimal"])[] | null;
+      pull_requests: components["schemas"]["pull-request-minimal"][] | null;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
@@ -15368,7 +15368,7 @@ export interface components {
      */
     "environment-approvals": {
       /** @description The list of environments that were approved or rejected */
-      environments: ({
+      environments: {
           /** @description The id of the environment. */
           id?: number;
           node_id?: string;
@@ -15386,7 +15386,7 @@ export interface components {
            * @description The time that the environment was last updated, in ISO 8601 format.
            */
           updated_at?: string;
-        })[];
+        }[];
       /**
        * @description Whether deployment to the environment(s) was approved or rejected or pending (with comments)
        * @enum {string}
@@ -15493,26 +15493,26 @@ export interface components {
         UBUNTU?: {
           total_ms: number;
           jobs: number;
-          job_runs?: ({
+          job_runs?: {
               job_id: number;
               duration_ms: number;
-            })[];
+            }[];
         };
         MACOS?: {
           total_ms: number;
           jobs: number;
-          job_runs?: ({
+          job_runs?: {
               job_id: number;
               duration_ms: number;
-            })[];
+            }[];
         };
         WINDOWS?: {
           total_ms: number;
           jobs: number;
-          job_runs?: ({
+          job_runs?: {
               job_id: number;
               duration_ms: number;
-            })[];
+            }[];
         };
       };
       run_duration_ms?: number;
@@ -15575,7 +15575,7 @@ export interface components {
     "protected-branch-required-status-check": {
       url?: string;
       enforcement_level?: string;
-      contexts: (string)[];
+      contexts: string[];
       checks: ({
           context: string;
           app_id: number | null;
@@ -15601,11 +15601,11 @@ export interface components {
       url?: string;
       dismissal_restrictions?: {
         /** @description The list of users with review dismissal access. */
-        users?: (components["schemas"]["simple-user"])[];
+        users?: components["schemas"]["simple-user"][];
         /** @description The list of teams with review dismissal access. */
-        teams?: (components["schemas"]["team"])[];
+        teams?: components["schemas"]["team"][];
         /** @description The list of apps with review dismissal access. */
-        apps?: (components["schemas"]["integration"])[];
+        apps?: components["schemas"]["integration"][];
         url?: string;
         users_url?: string;
         teams_url?: string;
@@ -15613,11 +15613,11 @@ export interface components {
       /** @description Allow specific users, teams, or apps to bypass pull request requirements. */
       bypass_pull_request_allowances?: {
         /** @description The list of users allowed to bypass pull request requirements. */
-        users?: (components["schemas"]["simple-user"])[];
+        users?: components["schemas"]["simple-user"][];
         /** @description The list of teams allowed to bypass pull request requirements. */
-        teams?: (components["schemas"]["team"])[];
+        teams?: components["schemas"]["team"][];
         /** @description The list of apps allowed to bypass pull request requirements. */
-        apps?: (components["schemas"]["integration"])[];
+        apps?: components["schemas"]["integration"][];
       };
       dismiss_stale_reviews: boolean;
       require_code_owner_reviews: boolean;
@@ -15641,7 +15641,7 @@ export interface components {
       teams_url: string;
       /** Format: uri */
       apps_url: string;
-      users: ({
+      users: {
           login?: string;
           id?: number;
           node_id?: string;
@@ -15660,7 +15660,7 @@ export interface components {
           received_events_url?: string;
           type?: string;
           site_admin?: boolean;
-        })[];
+        }[];
       teams: ({
           id?: number;
           node_id?: string;
@@ -15676,7 +15676,7 @@ export interface components {
           repositories_url?: string;
           parent?: string | null;
         })[];
-      apps: ({
+      apps: {
           id?: number;
           slug?: string;
           node_id?: string;
@@ -15717,8 +15717,8 @@ export interface components {
             issues?: string;
             single_file?: string;
           };
-          events?: (string)[];
-        })[];
+          events?: string[];
+        }[];
     };
     /**
      * Branch Protection
@@ -15846,19 +15846,19 @@ export interface components {
       };
       author: null | components["schemas"]["simple-user"];
       committer: null | components["schemas"]["simple-user"];
-      parents: ({
+      parents: {
           sha: string;
           /** Format: uri */
           url: string;
           /** Format: uri */
           html_url?: string;
-        })[];
+        }[];
       stats?: {
         additions?: number;
         deletions?: number;
         total?: number;
       };
-      files?: (components["schemas"]["diff-entry"])[];
+      files?: components["schemas"]["diff-entry"][];
     };
     /**
      * Branch With Protection
@@ -15887,7 +15887,7 @@ export interface components {
       /** Format: uri */
       url: string;
       strict: boolean;
-      contexts: (string)[];
+      contexts: string[];
       checks: ({
           context: string;
           app_id: number | null;
@@ -15921,14 +15921,14 @@ export interface components {
           users_url: string;
           /** Format: uri */
           teams_url: string;
-          users: (components["schemas"]["simple-user"])[];
-          teams: (components["schemas"]["team"])[];
-          apps?: (components["schemas"]["integration"])[];
+          users: components["schemas"]["simple-user"][];
+          teams: components["schemas"]["team"][];
+          apps?: components["schemas"]["integration"][];
         };
         bypass_pull_request_allowances?: {
-          users: (components["schemas"]["simple-user"])[];
-          teams: (components["schemas"]["team"])[];
-          apps?: (components["schemas"]["integration"])[];
+          users: components["schemas"]["simple-user"][];
+          teams: components["schemas"]["team"][];
+          apps?: components["schemas"]["integration"][];
         };
       };
       required_signatures?: {
@@ -16038,7 +16038,7 @@ export interface components {
       } | null;
       app: null | components["schemas"]["integration"];
       /** @description Pull requests that are open with a `head_sha` or `head_branch` that matches the check. The returned pull requests do not necessarily indicate pull requests that triggered the check. */
-      pull_requests: (components["schemas"]["pull-request-minimal"])[];
+      pull_requests: components["schemas"]["pull-request-minimal"][];
       deployment?: components["schemas"]["deployment-simple"];
     };
     /**
@@ -16074,7 +16074,7 @@ export interface components {
       url: string | null;
       before: string | null;
       after: string | null;
-      pull_requests: (components["schemas"]["pull-request-minimal"])[] | null;
+      pull_requests: components["schemas"]["pull-request-minimal"][] | null;
       app: null | components["schemas"]["integration"];
       repository: components["schemas"]["minimal-repository"];
       /** Format: date-time */
@@ -16093,10 +16093,10 @@ export interface components {
      */
     "check-suite-preference": {
       preferences: {
-        auto_trigger_checks?: ({
+        auto_trigger_checks?: {
             app_id: number;
             setting: boolean;
-          })[];
+          }[];
       };
       repository: components["schemas"]["minimal-repository"];
     };
@@ -16106,7 +16106,7 @@ export interface components {
       /** @description The name of the rule used to detect the alert. */
       name?: string;
       /** @description A set of tags applicable for the rule. */
-      tags?: (string)[] | null;
+      tags?: string[] | null;
       /**
        * @description The severity of the alert.
        * @enum {string|null}
@@ -16302,7 +16302,7 @@ export interface components {
        */
       analyses_url?: string | null;
       /** @description Any errors that ocurred during processing of the delivery. */
-      errors?: readonly (string)[] | null;
+      errors?: readonly string[] | null;
     };
     /**
      * CODEOWNERS errors
@@ -16504,7 +16504,7 @@ export interface components {
       title: string;
       user: null | components["schemas"]["simple-user"];
       body: string | null;
-      labels: ({
+      labels: {
           /** Format: int64 */
           id: number;
           node_id: string;
@@ -16513,7 +16513,7 @@ export interface components {
           description: string;
           color: string;
           default: boolean;
-        })[];
+        }[];
       milestone: null | components["schemas"]["milestone"];
       active_lock_reason?: string | null;
       /** Format: date-time */
@@ -16526,9 +16526,9 @@ export interface components {
       merged_at: string | null;
       merge_commit_sha: string | null;
       assignee: null | components["schemas"]["simple-user"];
-      assignees?: (components["schemas"]["simple-user"])[] | null;
-      requested_reviewers?: (components["schemas"]["simple-user"])[] | null;
-      requested_teams?: (components["schemas"]["team"])[] | null;
+      assignees?: components["schemas"]["simple-user"][] | null;
+      requested_reviewers?: components["schemas"]["simple-user"][] | null;
+      requested_teams?: components["schemas"]["team"][] | null;
       head: {
         label: string;
         ref: string;
@@ -16583,7 +16583,7 @@ export interface components {
      */
     "combined-commit-status": {
       state: string;
-      statuses: (components["schemas"]["simple-commit-status"])[];
+      statuses: components["schemas"]["simple-commit-status"][];
       sha: string;
       total_count: number;
       repository: components["schemas"]["minimal-repository"];
@@ -16659,8 +16659,8 @@ export interface components {
       ahead_by: number;
       behind_by: number;
       total_commits: number;
-      commits: (components["schemas"]["commit"])[];
-      files?: (components["schemas"]["diff-entry"])[];
+      commits: components["schemas"]["commit"][];
+      files?: components["schemas"]["diff-entry"][];
     };
     /**
      * Content Tree
@@ -16874,11 +16874,11 @@ export interface components {
           url?: string;
           sha?: string;
         };
-        parents?: ({
+        parents?: {
             url?: string;
             html_url?: string;
             sha?: string;
-          })[];
+          }[];
         verification?: {
           verified?: boolean;
           reason?: string;
@@ -16985,12 +16985,12 @@ export interface components {
         package_url: string | null;
         license: string | null;
         source_repository_url: string | null;
-        vulnerabilities: ({
+        vulnerabilities: {
             severity: string;
             advisory_ghsa_id: string;
             advisory_summary: string;
             advisory_url: string;
-          })[];
+          }[];
         /**
          * @description Where the dependency is utilized. `development` means that the dependency is only utilized in the development environment. `runtime` means that the dependency is utilized at runtime and in the development environment.
          * @enum {string}
@@ -17011,17 +17011,17 @@ export interface components {
           /** @description The date and time the SPDX document was created. */
           created: string;
           /** @description The tools that were used to generate the SPDX document. */
-          creators: (string)[];
+          creators: string[];
         };
         /** @description The name of the SPDX document. */
         name: string;
         /** @description The license under which the SPDX document is licensed. */
         dataLicense: string;
         /** @description The name of the repository that the SPDX document describes. */
-        documentDescribes: (string)[];
+        documentDescribes: string[];
         /** @description The namespace for the SPDX document. */
         documentNamespace: string;
-        packages: ({
+        packages: {
             /** @description A unique SPDX identifier for the package. */
             SPDXID?: string;
             /** @description The name of the package. */
@@ -17050,15 +17050,15 @@ export interface components {
             licenseDeclared?: string;
             /** @description The distribution source of this package, or NOASSERTION if this was not determined. */
             supplier?: string;
-            externalRefs?: ({
+            externalRefs?: {
                 /** @description The category of reference to an external resource this reference refers to. */
                 referenceCategory: string;
                 /** @description A locator for the particular external resource this reference refers to. */
                 referenceLocator: string;
                 /** @description The category of reference to an external resource this reference refers to. */
                 referenceType: string;
-              })[];
-          })[];
+              }[];
+          }[];
       };
     };
     /**
@@ -17083,7 +17083,7 @@ export interface components {
        */
       scope?: "runtime" | "development";
       /** @description Array of package-url (PURLs) of direct child dependencies. */
-      dependencies?: (string)[];
+      dependencies?: string[];
     };
     manifest: {
       /** @description The name of the manifest. */
@@ -17355,14 +17355,14 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      parents: ({
+      parents: {
           /** @description SHA for the commit */
           sha: string;
           /** Format: uri */
           url: string;
           /** Format: uri */
           html_url: string;
-        })[];
+        }[];
       verification: {
         verified: boolean;
         reason: string;
@@ -17428,14 +17428,14 @@ export interface components {
       url: string;
       truncated: boolean;
       /** @description Objects specifying a tree structure */
-      tree: ({
+      tree: {
           path?: string;
           mode?: string;
           type?: string;
           sha?: string;
           size?: number;
           url?: string;
-        })[];
+        }[];
     };
     /** Hook Response */
     "hook-response": {
@@ -17456,7 +17456,7 @@ export interface components {
       /** @description Determines whether the hook is actually triggered on pushes. */
       active: boolean;
       /** @description Determines what events the hook is triggered for. Default: ['push']. */
-      events: (string)[];
+      events: string[];
       config: {
         email?: string;
         password?: string;
@@ -17505,11 +17505,11 @@ export interface components {
       has_large_files?: boolean;
       large_files_size?: number;
       large_files_count?: number;
-      project_choices?: ({
+      project_choices?: {
           vcs?: string;
           tfvc_project?: string;
           human_name?: string;
-        })[];
+        }[];
       message?: string;
       authors_count?: number | null;
       /** Format: uri */
@@ -18038,14 +18038,14 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      parents: ({
+      parents: {
           /** @description SHA for the commit */
           sha: string;
           /** Format: uri */
           url: string;
           /** Format: uri */
           html_url: string;
-        })[];
+        }[];
       verification: {
         verified: boolean;
         reason: string;
@@ -18183,7 +18183,7 @@ export interface components {
     "timeline-line-commented-event": {
       event?: string;
       node_id?: string;
-      comments?: (components["schemas"]["pull-request-review-comment"])[];
+      comments?: components["schemas"]["pull-request-review-comment"][];
     };
     /**
      * Timeline Commit Commented Event
@@ -18193,7 +18193,7 @@ export interface components {
       event?: string;
       node_id?: string;
       commit_id?: string;
-      comments?: (components["schemas"]["commit-comment"])[];
+      comments?: components["schemas"]["commit-comment"][];
     };
     /**
      * Timeline Assigned Issue Event
@@ -18321,7 +18321,7 @@ export interface components {
       state: "new" | "authorization_created" | "authorization_pending" | "authorized" | "authorization_revoked" | "issued" | "uploaded" | "approved" | "errored" | "bad_authz" | "destroy_pending" | "dns_changed";
       description: string;
       /** @description Array of the domain set and its alternate name (if it is configured) */
-      domains: (string)[];
+      domains: string[];
       /** Format: date */
       expires_at?: string;
     };
@@ -18549,9 +18549,9 @@ export interface components {
       merged_at: string | null;
       merge_commit_sha: string | null;
       assignee: null | components["schemas"]["simple-user"];
-      assignees?: (components["schemas"]["simple-user"])[] | null;
-      requested_reviewers?: (components["schemas"]["simple-user"])[] | null;
-      requested_teams?: (components["schemas"]["team-simple"])[] | null;
+      assignees?: components["schemas"]["simple-user"][] | null;
+      requested_reviewers?: components["schemas"]["simple-user"][] | null;
+      requested_teams?: components["schemas"]["team-simple"][] | null;
       head: {
         label: string;
         ref: string;
@@ -18693,7 +18693,7 @@ export interface components {
           stargazers_count: number;
           /** Format: uri */
           svn_url: string;
-          topics?: (string)[];
+          topics?: string[];
           watchers: number;
           watchers_count: number;
           /** Format: date-time */
@@ -18869,7 +18869,7 @@ export interface components {
           stargazers_count: number;
           /** Format: uri */
           svn_url: string;
-          topics?: (string)[];
+          topics?: string[];
           watchers: number;
           watchers_count: number;
           /** Format: date-time */
@@ -18951,8 +18951,8 @@ export interface components {
      * @description Pull Request Review Request
      */
     "pull-request-review-request": {
-      users: (components["schemas"]["simple-user"])[];
-      teams: (components["schemas"]["team"])[];
+      users: components["schemas"]["simple-user"][];
+      teams: components["schemas"]["team"][];
     };
     /**
      * Pull Request Review
@@ -19104,7 +19104,7 @@ export interface components {
       /** Format: date-time */
       published_at: string | null;
       author: components["schemas"]["simple-user"];
-      assets: (components["schemas"]["release-asset"])[];
+      assets: components["schemas"]["release-asset"][];
       body_html?: string;
       body_text?: string;
       mentions_count?: number;
@@ -19237,7 +19237,7 @@ export interface components {
       /** @description The package version(s) that resolve the vulnerability. */
       patched_versions: string | null;
       /** @description The functions in the package that are affected. */
-      vulnerable_functions: (string)[] | null;
+      vulnerable_functions: string[] | null;
     };
     /**
      * @description The type of credit the user is receiving.
@@ -19323,27 +19323,27 @@ export interface components {
         /** @description Whether a private vulnerability report was accepted by the repository's administrators. */
         readonly accepted: boolean;
       } | null;
-      vulnerabilities: (components["schemas"]["repository-advisory-vulnerability"])[] | null;
+      vulnerabilities: components["schemas"]["repository-advisory-vulnerability"][] | null;
       cvss: ({
         /** @description The CVSS vector. */
         vector_string: string | null;
         /** @description The CVSS score. */
         score: number | null;
       }) | null;
-      cwes: readonly ({
+      cwes: readonly {
           /** @description The Common Weakness Enumeration (CWE) identifier. */
           cwe_id: string;
           /** @description The name of the CWE. */
           name: string;
-        })[] | null;
+        }[] | null;
       /** @description A list of only the CWE IDs. */
-      cwe_ids: (string)[] | null;
-      credits: ({
+      cwe_ids: string[] | null;
+      credits: {
           /** @description The username of the user credited. */
           login?: string;
           type?: components["schemas"]["security-advisory-credit-types"];
-        })[] | null;
-      credits_detailed: readonly (components["schemas"]["repository-advisory-credit"])[] | null;
+        }[] | null;
+      credits_detailed: readonly components["schemas"]["repository-advisory-credit"][] | null;
     };
     "repository-advisory-create": {
       /** @description A short summary of the advisory. */
@@ -19365,16 +19365,16 @@ export interface components {
           /** @description The package version(s) that resolve the vulnerability. */
           patched_versions?: string | null;
           /** @description The functions in the package that are affected. */
-          vulnerable_functions?: (string)[] | null;
+          vulnerable_functions?: string[] | null;
         })[];
       /** @description A list of Common Weakness Enumeration (CWE) IDs. */
-      cwe_ids?: (string)[] | null;
+      cwe_ids?: string[] | null;
       /** @description A list of users receiving credit for their participation in the security advisory. */
-      credits?: ({
+      credits?: {
           /** @description The username of the user credited. */
           login: string;
           type: components["schemas"]["security-advisory-credit-types"];
-        })[] | null;
+        }[] | null;
       /**
        * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
        * @enum {string|null}
@@ -19401,10 +19401,10 @@ export interface components {
           /** @description The package version(s) that resolve the vulnerability. */
           patched_versions?: string | null;
           /** @description The functions in the package that are affected. */
-          vulnerable_functions?: (string)[] | null;
+          vulnerable_functions?: string[] | null;
         })[]) | null;
       /** @description A list of Common Weakness Enumeration (CWE) IDs. */
-      cwe_ids?: (string)[] | null;
+      cwe_ids?: string[] | null;
       /**
        * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
        * @enum {string|null}
@@ -19433,16 +19433,16 @@ export interface components {
           /** @description The package version(s) that resolve the vulnerability. */
           patched_versions?: string | null;
           /** @description The functions in the package that are affected. */
-          vulnerable_functions?: (string)[] | null;
+          vulnerable_functions?: string[] | null;
         })[];
       /** @description A list of Common Weakness Enumeration (CWE) IDs. */
-      cwe_ids?: (string)[] | null;
+      cwe_ids?: string[] | null;
       /** @description A list of users receiving credit for their participation in the security advisory. */
-      credits?: ({
+      credits?: {
           /** @description The username of the user credited. */
           login: string;
           type: components["schemas"]["security-advisory-credit-types"];
-        })[] | null;
+        }[] | null;
       /**
        * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
        * @enum {string|null}
@@ -19469,13 +19469,13 @@ export interface components {
      * Code Frequency Stat
      * @description Code Frequency Stat
      */
-    "code-frequency-stat": (number)[];
+    "code-frequency-stat": number[];
     /**
      * Commit Activity
      * @description Commit Activity
      */
     "commit-activity": {
-      days: (number)[];
+      days: number[];
       total: number;
       week: number;
     };
@@ -19486,17 +19486,17 @@ export interface components {
     "contributor-activity": {
       author: null | components["schemas"]["simple-user"];
       total: number;
-      weeks: ({
+      weeks: {
           w?: number;
           a?: number;
           d?: number;
           c?: number;
-        })[];
+        }[];
     };
     /** Participation Stats */
     "participation-stats": {
-      all: (number)[];
-      owner: (number)[];
+      all: number[];
+      owner: number[];
     };
     /**
      * Repository Invitation
@@ -19548,7 +19548,7 @@ export interface components {
      * @description A topic aggregates entities that are related to a subject.
      */
     topic: {
-      names: (string)[];
+      names: string[];
     };
     /** Traffic */
     traffic: {
@@ -19564,7 +19564,7 @@ export interface components {
     "clone-traffic": {
       count: number;
       uniques: number;
-      clones: (components["schemas"]["traffic"])[];
+      clones: components["schemas"]["traffic"][];
     };
     /**
      * Content Traffic
@@ -19592,7 +19592,7 @@ export interface components {
     "view-traffic": {
       count: number;
       uniques: number;
-      views: (components["schemas"]["traffic"])[];
+      views: components["schemas"]["traffic"][];
     };
     /** Search Result Text Matches */
     "search-result-text-matches": ({
@@ -19600,10 +19600,10 @@ export interface components {
         object_type?: string | null;
         property?: string;
         fragment?: string;
-        matches?: ({
+        matches?: {
             text?: string;
-            indices?: (number)[];
-          })[];
+            indices?: number[];
+          }[];
       })[];
     /**
      * Code Search Result Item
@@ -19625,7 +19625,7 @@ export interface components {
       language?: string | null;
       /** Format: date-time */
       last_modified_at?: string;
-      line_numbers?: (string)[];
+      line_numbers?: string[];
       text_matches?: components["schemas"]["search-result-text-matches"];
     };
     /**
@@ -19661,11 +19661,11 @@ export interface components {
       };
       author: null | components["schemas"]["simple-user"];
       committer: null | components["schemas"]["git-user"];
-      parents: ({
+      parents: {
           url?: string;
           html_url?: string;
           sha?: string;
-        })[];
+        }[];
       repository: components["schemas"]["minimal-repository"];
       score: number;
       node_id: string;
@@ -19694,7 +19694,7 @@ export interface components {
       title: string;
       locked: boolean;
       active_lock_reason?: string | null;
-      assignees?: (components["schemas"]["simple-user"])[] | null;
+      assignees?: components["schemas"]["simple-user"][] | null;
       user: null | components["schemas"]["simple-user"];
       labels: ({
           /** Format: int64 */
@@ -19849,7 +19849,7 @@ export interface components {
       forks: number;
       open_issues: number;
       watchers: number;
-      topics?: (string)[];
+      topics?: string[];
       /** Format: uri */
       mirror_url: string | null;
       has_issues: boolean;
@@ -19904,22 +19904,22 @@ export interface components {
       /** Format: uri */
       logo_url?: string | null;
       text_matches?: components["schemas"]["search-result-text-matches"];
-      related?: ({
+      related?: {
           topic_relation?: {
             id?: number;
             name?: string;
             topic_id?: number;
             relation_type?: string;
           };
-        })[] | null;
-      aliases?: ({
+        }[] | null;
+      aliases?: {
           topic_relation?: {
             id?: number;
             name?: string;
             topic_id?: number;
             relation_type?: string;
           };
-        })[] | null;
+        }[] | null;
     };
     /**
      * User Search Result Item
@@ -20188,10 +20188,10 @@ export interface components {
        * @description API URL for the Pull Request associated with this codespace, if any.
        */
       pulls_url: string | null;
-      recent_folders: (string)[];
+      recent_folders: string[];
       runtime_constraints?: {
         /** @description The privacy settings a user can select from when forwarding a port. */
-        allowed_port_privacy_settings?: (string)[] | null;
+        allowed_port_privacy_settings?: string[] | null;
       };
       /** @description Whether or not a codespace has a pending async operation. This would mean that the codespace is temporarily unavailable. The only thing that you can do with a codespace in this state is delete it. */
       pending_operation?: boolean | null;
@@ -20228,20 +20228,20 @@ export interface components {
       primary_key_id: number | null;
       key_id: string;
       public_key: string;
-      emails: ({
+      emails: {
           email?: string;
           verified?: boolean;
-        })[];
+        }[];
       subkeys: ({
           id?: number;
           primary_key_id?: number;
           key_id?: string;
           public_key?: string;
-          emails?: ({
+          emails?: {
               email?: string;
               verified?: boolean;
-            })[];
-          subkeys?: (unknown)[];
+            }[];
+          subkeys?: unknown[];
           can_sign?: boolean;
           can_encrypt_comms?: boolean;
           can_encrypt_storage?: boolean;
@@ -20339,10 +20339,10 @@ export interface components {
      * @description Hovercard
      */
     hovercard: {
-      contexts: ({
+      contexts: {
           message: string;
           octicon: string;
-        })[];
+        }[];
     };
     /**
      * Key Simple
@@ -20376,7 +20376,7 @@ export interface components {
       head_sha?: string;
       id?: number;
       node_id?: string;
-      pull_requests?: (components["schemas"]["pull-request-minimal"])[];
+      pull_requests?: components["schemas"]["pull-request-minimal"][];
       repository?: components["schemas"]["minimal-repository"];
       /** @enum {string} */
       status?: "queued" | "in_progress" | "completed" | "pending" | "waiting";
@@ -20414,7 +20414,7 @@ export interface components {
         text: string | null;
         title: string | null;
       };
-      pull_requests: (components["schemas"]["pull-request-minimal"])[];
+      pull_requests: components["schemas"]["pull-request-minimal"][];
       /** Format: date-time */
       started_at: string;
       /**
@@ -20633,7 +20633,7 @@ export interface components {
       /** @description The number of repositories the token is requesting access to. This field is only populated when `repository_selection` is `subset`. */
       repository_count: number | null;
       /** @description An array of repository objects the token is requesting access to. This field is only populated when `repository_selection` is `subset`. */
-      repositories: ({
+      repositories: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -20642,7 +20642,7 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[] | null;
+        }[] | null;
       /** @description Date and time when the request for access was created. */
       created_at: string;
       /** @description Whether the associated fine-grained personal access token has expired. */
@@ -20718,7 +20718,7 @@ export interface components {
         allow_deletions_enforcement_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
         allow_force_pushes_enforcement_level: "off" | "non_admins" | "everyone";
-        authorized_actor_names: (string)[];
+        authorized_actor_names: string[];
         authorized_actors_only: boolean;
         authorized_dismissal_actors_only: boolean;
         create_protected?: boolean;
@@ -20743,7 +20743,7 @@ export interface components {
         required_conversation_resolution_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
         required_deployments_enforcement_level: "off" | "non_admins" | "everyone";
-        required_status_checks: (string)[];
+        required_status_checks: string[];
         /** @enum {string} */
         required_status_checks_enforcement_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
@@ -20772,7 +20772,7 @@ export interface components {
         allow_deletions_enforcement_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
         allow_force_pushes_enforcement_level: "off" | "non_admins" | "everyone";
-        authorized_actor_names: (string)[];
+        authorized_actor_names: string[];
         authorized_actors_only: boolean;
         authorized_dismissal_actors_only: boolean;
         create_protected?: boolean;
@@ -20797,7 +20797,7 @@ export interface components {
         required_conversation_resolution_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
         required_deployments_enforcement_level: "off" | "non_admins" | "everyone";
-        required_status_checks: (string)[];
+        required_status_checks: string[];
         /** @enum {string} */
         required_status_checks_enforcement_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
@@ -20818,7 +20818,7 @@ export interface components {
           from: boolean | null;
         };
         authorized_actor_names?: {
-          from: (string)[];
+          from: string[];
         };
         authorized_actors_only?: {
           from: boolean | null;
@@ -20831,7 +20831,7 @@ export interface components {
           from: "off" | "non_admins" | "everyone";
         };
         required_status_checks?: {
-          from: (string)[];
+          from: string[];
         };
         required_status_checks_enforcement_level?: {
           /** @enum {string} */
@@ -20852,7 +20852,7 @@ export interface components {
         allow_deletions_enforcement_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
         allow_force_pushes_enforcement_level: "off" | "non_admins" | "everyone";
-        authorized_actor_names: (string)[];
+        authorized_actor_names: string[];
         authorized_actors_only: boolean;
         authorized_dismissal_actors_only: boolean;
         create_protected?: boolean;
@@ -20877,7 +20877,7 @@ export interface components {
         required_conversation_resolution_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
         required_deployments_enforcement_level: "off" | "non_admins" | "everyone";
-        required_status_checks: (string)[];
+        required_status_checks: string[];
         /** @enum {string} */
         required_status_checks_enforcement_level: "off" | "non_admins" | "everyone";
         /** @enum {string} */
@@ -21157,7 +21157,7 @@ export interface components {
         latest_check_runs_count: number;
         node_id: string;
         /** @description An array of pull requests that match this check suite. A pull request matches a check suite if they have the same `head_sha` and `head_branch`. When the check suite's `head_branch` is in a forked repository it will be `null` and the `pull_requests` array will be empty. */
-        pull_requests: ({
+        pull_requests: {
             base: {
               ref: string;
               /** Repo Ref */
@@ -21184,7 +21184,7 @@ export interface components {
             number: number;
             /** Format: uri */
             url: string;
-          })[];
+          }[];
         rerequestable?: boolean;
         runs_rerequestable?: boolean;
         /**
@@ -21398,7 +21398,7 @@ export interface components {
         latest_check_runs_count: number;
         node_id: string;
         /** @description An array of pull requests that match this check suite. A pull request matches a check suite if they have the same `head_sha` and `head_branch`. When the check suite's `head_branch` is in a forked repository it will be `null` and the `pull_requests` array will be empty. */
-        pull_requests: ({
+        pull_requests: {
             base: {
               ref: string;
               /** Repo Ref */
@@ -21425,7 +21425,7 @@ export interface components {
             number: number;
             /** Format: uri */
             url: string;
-          })[];
+          }[];
         rerequestable?: boolean;
         runs_rerequestable?: boolean;
         /**
@@ -21639,7 +21639,7 @@ export interface components {
         latest_check_runs_count: number;
         node_id: string;
         /** @description An array of pull requests that match this check suite. A pull request matches a check suite if they have the same `head_sha` and `head_branch`. When the check suite's `head_branch` is in a forked repository it will be `null` and the `pull_requests` array will be empty. */
-        pull_requests: ({
+        pull_requests: {
             base: {
               ref: string;
               /** Repo Ref */
@@ -21666,7 +21666,7 @@ export interface components {
             number: number;
             /** Format: uri */
             url: string;
-          })[];
+          }[];
         rerequestable?: boolean;
         runs_rerequestable?: boolean;
         /**
@@ -21757,7 +21757,7 @@ export interface components {
           analysis_key: string;
           /** @description Identifies the configuration under which the analysis was executed. */
           category?: string;
-          classifications?: (string)[];
+          classifications?: string[];
           commit_sha?: string;
           /** @description Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
           environment: string;
@@ -21885,7 +21885,7 @@ export interface components {
           analysis_key: string;
           /** @description Identifies the configuration under which the analysis was executed. */
           category?: string;
-          classifications?: (string)[];
+          classifications?: string[];
           commit_sha?: string;
           /** @description Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
           environment: string;
@@ -21924,7 +21924,7 @@ export interface components {
            * @enum {string|null}
            */
           severity: "none" | "note" | "warning" | "error" | null;
-          tags?: (string)[] | null;
+          tags?: string[] | null;
         };
         /**
          * @description State of a code scanning alert.
@@ -21981,7 +21981,7 @@ export interface components {
           analysis_key: string;
           /** @description Identifies the configuration under which the analysis was executed. */
           category?: string;
-          classifications?: (string)[];
+          classifications?: string[];
           commit_sha?: string;
           /** @description Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
           environment: string;
@@ -22020,7 +22020,7 @@ export interface components {
            * @enum {string|null}
            */
           severity: "none" | "note" | "warning" | "error" | null;
-          tags?: (string)[] | null;
+          tags?: string[] | null;
         };
         /**
          * @description State of a code scanning alert.
@@ -22119,7 +22119,7 @@ export interface components {
           analysis_key: string;
           /** @description Identifies the configuration under which the analysis was executed. */
           category?: string;
-          classifications?: (string)[];
+          classifications?: string[];
           commit_sha?: string;
           /** @description Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
           environment: string;
@@ -22158,7 +22158,7 @@ export interface components {
            * @enum {string|null}
            */
           severity: "none" | "note" | "warning" | "error" | null;
-          tags?: (string)[] | null;
+          tags?: string[] | null;
         };
         /**
          * @description State of a code scanning alert.
@@ -22212,7 +22212,7 @@ export interface components {
           analysis_key: string;
           /** @description Identifies the configuration under which the analysis was executed. */
           category?: string;
-          classifications?: (string)[];
+          classifications?: string[];
           commit_sha?: string;
           /** @description Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
           environment: string;
@@ -22251,7 +22251,7 @@ export interface components {
            * @enum {string|null}
            */
           severity: "none" | "note" | "warning" | "error" | null;
-          tags?: (string)[] | null;
+          tags?: string[] | null;
         };
         /**
          * @description State of a code scanning alert.
@@ -22305,7 +22305,7 @@ export interface components {
           analysis_key: string;
           /** @description Identifies the configuration under which the analysis was executed. */
           category?: string;
-          classifications?: (string)[];
+          classifications?: string[];
           commit_sha?: string;
           /** @description Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed. */
           environment: string;
@@ -22970,7 +22970,7 @@ export interface components {
         node_id: string;
         path: string;
         previous_attempt_url?: null;
-        pull_requests: ({
+        pull_requests: {
             base: {
               ref: string;
               /** Repo Ref */
@@ -22997,12 +22997,12 @@ export interface components {
             number: number;
             /** Format: uri */
             url: string;
-          })[];
-        referenced_workflows?: ({
+          }[];
+        referenced_workflows?: {
             path: string;
             ref?: string;
             sha: string;
-          })[] | null;
+          }[] | null;
         repository?: {
           archive_url?: string;
           assignees_url?: string;
@@ -23136,7 +23136,7 @@ export interface components {
        */
       deployment_callback_url?: string;
       deployment?: components["schemas"]["deployment"];
-      pull_requests?: (components["schemas"]["pull-request"])[];
+      pull_requests?: components["schemas"]["pull-request"][];
       repository?: components["schemas"]["repository"];
       organization?: components["schemas"]["organization-simple"];
       installation?: components["schemas"]["simple-installation"];
@@ -23719,7 +23719,7 @@ export interface components {
         node_id: string;
         path: string;
         previous_attempt_url?: null;
-        pull_requests: ({
+        pull_requests: {
             base: {
               ref: string;
               /** Repo Ref */
@@ -23746,12 +23746,12 @@ export interface components {
             number: number;
             /** Format: uri */
             url: string;
-          })[];
-        referenced_workflows?: ({
+          }[];
+        referenced_workflows?: {
             path: string;
             ref?: string;
             sha: string;
-          })[] | null;
+          }[] | null;
         repository?: {
           archive_url?: string;
           assignees_url?: string;
@@ -24900,7 +24900,7 @@ export interface components {
         tags_url: string;
         /** Format: uri */
         teams_url: string;
-        topics: (string)[];
+        topics: string[];
         /** Format: uri-template */
         trees_url: string;
         /** Format: date-time */
@@ -25005,7 +25005,7 @@ export interface components {
         svn_url?: string;
         tags_url?: string;
         teams_url?: string;
-        topics?: (null)[];
+        topics?: null[];
         trees_url?: string;
         updated_at?: string;
         url?: string;
@@ -25064,7 +25064,7 @@ export interface components {
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple"];
       /** @description An array of repository objects that the installation can access. */
-      repositories?: ({
+      repositories?: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -25073,7 +25073,7 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[];
+        }[];
       repository?: components["schemas"]["repository"];
       /** User */
       requester?: ({
@@ -25122,7 +25122,7 @@ export interface components {
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple"];
       /** @description An array of repository objects that the installation can access. */
-      repositories?: ({
+      repositories?: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -25131,7 +25131,7 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[];
+        }[];
       repository?: components["schemas"]["repository"];
       requester?: null;
       sender: components["schemas"]["simple-user"];
@@ -25144,7 +25144,7 @@ export interface components {
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple"];
       /** @description An array of repository objects that the installation can access. */
-      repositories?: ({
+      repositories?: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -25153,7 +25153,7 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[];
+        }[];
       repository?: components["schemas"]["repository"];
       requester?: null;
       sender: components["schemas"]["simple-user"];
@@ -25166,7 +25166,7 @@ export interface components {
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple"];
       /** @description An array of repository objects, which were added to the installation. */
-      repositories_added: ({
+      repositories_added: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -25175,9 +25175,9 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[];
+        }[];
       /** @description An array of repository objects, which were removed from the installation. */
-      repositories_removed: ({
+      repositories_removed: {
           full_name?: string;
           /** @description Unique identifier of the repository */
           id?: number;
@@ -25186,7 +25186,7 @@ export interface components {
           node_id?: string;
           /** @description Whether the repository is private or public. */
           private?: boolean;
-        })[];
+        }[];
       repository?: components["schemas"]["repository"];
       /**
        * @description Describe whether all repositories have been selected or there's a selection involved
@@ -25240,7 +25240,7 @@ export interface components {
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple"];
       /** @description An array of repository objects, which were added to the installation. */
-      repositories_added: ({
+      repositories_added: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -25249,9 +25249,9 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[];
+        }[];
       /** @description An array of repository objects, which were removed from the installation. */
-      repositories_removed: ({
+      repositories_removed: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -25260,7 +25260,7 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[];
+        }[];
       repository?: components["schemas"]["repository"];
       /**
        * @description Describe whether all repositories have been selected or there's a selection involved
@@ -25314,7 +25314,7 @@ export interface components {
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple"];
       /** @description An array of repository objects that the installation can access. */
-      repositories?: ({
+      repositories?: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -25323,7 +25323,7 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[];
+        }[];
       repository?: components["schemas"]["repository"];
       requester?: null;
       sender: components["schemas"]["simple-user"];
@@ -25391,7 +25391,7 @@ export interface components {
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple"];
       /** @description An array of repository objects that the installation can access. */
-      repositories?: ({
+      repositories?: {
           full_name: string;
           /** @description Unique identifier of the repository */
           id: number;
@@ -25400,7 +25400,7 @@ export interface components {
           node_id: string;
           /** @description Whether the repository is private or public. */
           private: boolean;
-        })[];
+        }[];
       repository?: components["schemas"]["repository"];
       requester?: null;
       sender: components["schemas"]["simple-user"];
@@ -31840,7 +31840,7 @@ export interface components {
           tags_url: string;
           /** Format: uri */
           teams_url: string;
-          topics: (string)[];
+          topics: string[];
           /** Format: uri-template */
           trees_url: string;
           /** Format: date-time */
@@ -33807,7 +33807,7 @@ export interface components {
           tags_url: string;
           /** Format: uri */
           teams_url: string;
-          topics: (string)[];
+          topics: string[];
           /** Format: uri-template */
           trees_url: string;
           /** Format: date-time */
@@ -36142,7 +36142,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36195,7 +36195,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36231,7 +36231,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36284,7 +36284,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean | null;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36320,7 +36320,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36373,7 +36373,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36409,7 +36409,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36439,7 +36439,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36475,7 +36475,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -36528,7 +36528,7 @@ export interface components {
         next_billing_date?: string | null;
         on_free_trial: boolean;
         plan: {
-          bullets: (string)[];
+          bullets: string[];
           description: string;
           has_free_trial: boolean;
           id: number;
@@ -38035,18 +38035,18 @@ export interface components {
           }) | null;
           created_at?: string;
           description: string;
-          docker_metadata?: ({
-              tags?: (string)[];
-            })[];
+          docker_metadata?: {
+              tags?: string[];
+            }[];
           draft?: boolean;
           /** Format: uri */
           html_url: string;
           id: number;
           installation_command: string;
           manifest?: string;
-          metadata: ({
+          metadata: {
               [key: string]: unknown;
-            })[];
+            }[];
           name: string;
           npm_metadata?: ({
             name?: string;
@@ -38070,16 +38070,16 @@ export interface components {
             node_version?: string;
             npm_version?: string;
             has_shrinkwrap?: boolean;
-            maintainers?: (Record<string, never>)[];
-            contributors?: (Record<string, never>)[];
+            maintainers?: Record<string, never>[];
+            contributors?: Record<string, never>[];
             engines?: Record<string, never>;
-            keywords?: (string)[];
-            files?: (string)[];
+            keywords?: string[];
+            files?: string[];
             bin?: Record<string, never>;
             man?: Record<string, never>;
             directories?: Record<string, never> | null;
-            os?: (string)[];
-            cpu?: (string)[];
+            os?: string[];
+            cpu?: string[];
             readme?: string;
             installation_command?: string;
             release_id?: number;
@@ -38164,7 +38164,7 @@ export interface components {
             /** Format: uri */
             url: string;
           };
-          rubygems_metadata?: (components["schemas"]["webhook-rubygems-metadata"])[];
+          rubygems_metadata?: components["schemas"]["webhook-rubygems-metadata"][];
           source_url?: string;
           summary: string;
           tag_name?: string;
@@ -38284,18 +38284,18 @@ export interface components {
           body_html: string;
           created_at: string;
           description: string;
-          docker_metadata?: ({
-              tags?: (string)[];
-            })[];
+          docker_metadata?: {
+              tags?: string[];
+            }[];
           draft?: boolean;
           /** Format: uri */
           html_url: string;
           id: number;
           installation_command: string;
           manifest?: string;
-          metadata: ({
+          metadata: {
               [key: string]: unknown;
-            })[];
+            }[];
           name: string;
           package_files: ({
               content_type: string;
@@ -38364,7 +38364,7 @@ export interface components {
             /** Format: uri */
             url: string;
           };
-          rubygems_metadata?: (components["schemas"]["webhook-rubygems-metadata"])[];
+          rubygems_metadata?: components["schemas"]["webhook-rubygems-metadata"][];
           /** Format: uri */
           source_url?: string;
           summary: string;
@@ -38504,7 +38504,7 @@ export interface components {
         /** Format: uri */
         deliveries_url?: string;
         /** @description Determines what events the hook is triggered for. Default: ['push']. */
-        events: (string)[];
+        events: string[];
         /** @description Unique identifier of the webhook. */
         id: number;
         last_response?: components["schemas"]["hook-response"];
@@ -40096,7 +40096,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -40436,7 +40436,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -41284,7 +41284,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -41624,7 +41624,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -42473,7 +42473,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -42813,7 +42813,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -43785,7 +43785,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -44125,7 +44125,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -44973,7 +44973,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -45313,7 +45313,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -46242,7 +46242,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -46582,7 +46582,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -47447,7 +47447,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -47787,7 +47787,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -48636,7 +48636,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -48976,7 +48976,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -49825,7 +49825,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -50165,7 +50165,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -51338,7 +51338,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -51671,7 +51671,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -52610,7 +52610,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -52943,7 +52943,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -53889,7 +53889,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -54222,7 +54222,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -55017,7 +55017,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -55350,7 +55350,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -56185,7 +56185,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -56472,7 +56472,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -57328,7 +57328,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -57668,7 +57668,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -58552,7 +58552,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -58892,7 +58892,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -59796,7 +59796,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -60136,7 +60136,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -61020,7 +61020,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -61360,7 +61360,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -62261,7 +62261,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -62594,7 +62594,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -63427,7 +63427,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -63721,7 +63721,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -64621,7 +64621,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -64915,7 +64915,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -65854,7 +65854,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -66187,7 +66187,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -67073,7 +67073,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -67413,7 +67413,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -68278,7 +68278,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -68611,7 +68611,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -69460,7 +69460,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -69800,7 +69800,7 @@ export interface components {
             tags_url: string;
             /** Format: uri */
             teams_url: string;
-            topics: (string)[];
+            topics: string[];
             /** Format: uri-template */
             trees_url: string;
             /** Format: date-time */
@@ -70207,7 +70207,7 @@ export interface components {
       /** @description An array of commit objects describing the pushed commits. (Pushed commits are all commits that are included in the `compare` between the `before` commit and the `after` commit.) The array includes a maximum of 20 commits. If necessary, you can use the [Commits API](https://docs.github.com/rest/reference/repos#commits) to fetch additional commits. This limit is applied to timeline events only and isn't applied to webhook deliveries. */
       commits: ({
           /** @description An array of files added in the commit. */
-          added?: (string)[];
+          added?: string[];
           /**
            * Committer
            * @description Metaproperties for Git author/committer information.
@@ -70240,9 +70240,9 @@ export interface components {
           /** @description The commit message. */
           message: string;
           /** @description An array of files modified by the commit. */
-          modified?: (string)[];
+          modified?: string[];
           /** @description An array of files removed in the commit. */
-          removed?: (string)[];
+          removed?: string[];
           /**
            * Format: date-time
            * @description The ISO 8601 timestamp of the commit.
@@ -70267,7 +70267,7 @@ export interface components {
       /** Commit */
       head_commit: ({
         /** @description An array of files added in the commit. */
-        added?: (string)[];
+        added?: string[];
         /**
          * Committer
          * @description Metaproperties for Git author/committer information.
@@ -70300,9 +70300,9 @@ export interface components {
         /** @description The commit message. */
         message: string;
         /** @description An array of files modified by the commit. */
-        modified?: (string)[];
+        modified?: string[];
         /** @description An array of files removed in the commit. */
-        removed?: (string)[];
+        removed?: string[];
         /**
          * Format: date-time
          * @description The ISO 8601 timestamp of the commit.
@@ -70560,7 +70560,7 @@ export interface components {
         tags_url: string;
         /** Format: uri */
         teams_url: string;
-        topics: (string)[];
+        topics: string[];
         /** Format: uri-template */
         trees_url: string;
         /** Format: date-time */
@@ -70644,17 +70644,17 @@ export interface components {
           };
           created_at?: string;
           description: string;
-          docker_metadata?: ({
-              tags?: (string)[];
-            })[];
+          docker_metadata?: {
+              tags?: string[];
+            }[];
           draft?: boolean;
           html_url: string;
           id: number;
           installation_command: string;
           manifest?: string;
-          metadata: ({
+          metadata: {
               [key: string]: unknown;
-            })[];
+            }[];
           name: string;
           npm_metadata?: ({
             name?: string;
@@ -70678,16 +70678,16 @@ export interface components {
             node_version?: string;
             npm_version?: string;
             has_shrinkwrap?: boolean;
-            maintainers?: (string)[];
-            contributors?: (string)[];
+            maintainers?: string[];
+            contributors?: string[];
             engines?: Record<string, never>;
-            keywords?: (string)[];
-            files?: (string)[];
+            keywords?: string[];
+            files?: string[];
             bin?: Record<string, never>;
             man?: Record<string, never>;
             directories?: string | Record<string, never>;
-            os?: (string)[];
-            cpu?: (string)[];
+            os?: string[];
+            cpu?: string[];
             readme?: string;
             installation_command?: string;
             release_id?: number;
@@ -70752,7 +70752,7 @@ export interface components {
             target_commitish?: string;
             url?: string;
           };
-          rubygems_metadata?: (components["schemas"]["webhook-rubygems-metadata"])[];
+          rubygems_metadata?: components["schemas"]["webhook-rubygems-metadata"][];
           summary: string;
           tag_name?: string;
           target_commitish?: string;
@@ -70832,16 +70832,16 @@ export interface components {
           created_at: string;
           description: string;
           docker_metadata?: ({
-              tags?: (string)[];
+              tags?: string[];
             } | null)[];
           draft?: boolean;
           html_url: string;
           id: number;
           installation_command: string;
           manifest?: string;
-          metadata: ({
+          metadata: {
               [key: string]: unknown;
-            })[];
+            }[];
           name: string;
           package_files: ({
               content_type?: string;
@@ -70890,7 +70890,7 @@ export interface components {
             target_commitish: string;
             url: string;
           };
-          rubygems_metadata?: (components["schemas"]["webhook-rubygems-metadata"])[];
+          rubygems_metadata?: components["schemas"]["webhook-rubygems-metadata"][];
           summary: string;
           tag_name?: string;
           target_commitish: string;
@@ -72204,7 +72204,7 @@ export interface components {
           from: string | null;
         };
         topics?: {
-          from?: (string)[] | null;
+          from?: string[] | null;
         };
       };
       enterprise?: components["schemas"]["enterprise"];
@@ -72836,21 +72836,21 @@ export interface components {
           score: number;
           vector_string: string | null;
         };
-        cwes: ({
+        cwes: {
             cwe_id: string;
             name: string;
-          })[];
+          }[];
         description: string;
         ghsa_id: string;
-        identifiers: ({
+        identifiers: {
             type: string;
             value: string;
-          })[];
+          }[];
         published_at: string;
-        references: ({
+        references: {
             /** Format: uri */
             url: string;
-          })[];
+          }[];
         severity: string;
         summary: string;
         updated_at: string;
@@ -72883,21 +72883,21 @@ export interface components {
           score: number;
           vector_string: string | null;
         };
-        cwes: ({
+        cwes: {
             cwe_id: string;
             name: string;
-          })[];
+          }[];
         description: string;
         ghsa_id: string;
-        identifiers: ({
+        identifiers: {
             type: string;
             value: string;
-          })[];
+          }[];
         published_at: string;
-        references: ({
+        references: {
             /** Format: uri */
             url: string;
-          })[];
+          }[];
         severity: string;
         summary: string;
         updated_at: string;
@@ -72930,21 +72930,21 @@ export interface components {
           score: number;
           vector_string: string | null;
         };
-        cwes: ({
+        cwes: {
             cwe_id: string;
             name: string;
-          })[];
+          }[];
         description: string;
         ghsa_id: string;
-        identifiers: ({
+        identifiers: {
             type: string;
             value: string;
-          })[];
+          }[];
         published_at: string;
-        references: ({
+        references: {
             /** Format: uri */
             url: string;
-          })[];
+          }[];
         severity: string;
         summary: string;
         updated_at: string;
@@ -73930,13 +73930,13 @@ export interface components {
         /** Format: uri */
         html_url: string;
         node_id: string;
-        parents: ({
+        parents: {
             /** Format: uri */
             html_url: string;
             sha: string;
             /** Format: uri */
             url: string;
-          })[];
+          }[];
         sha: string;
         /** Format: uri */
         url: string;
@@ -74267,7 +74267,7 @@ export interface components {
         tags_url: string;
         /** Format: uri */
         teams_url: string;
-        topics: (string)[];
+        topics: string[];
         /** Format: uri-template */
         trees_url: string;
         /** Format: date-time */
@@ -74576,7 +74576,7 @@ export interface components {
         tags_url: string;
         /** Format: uri */
         teams_url: string;
-        topics: (string)[];
+        topics: string[];
         /** Format: uri-template */
         trees_url: string;
         /** Format: date-time */
@@ -74885,7 +74885,7 @@ export interface components {
         tags_url: string;
         /** Format: uri */
         teams_url: string;
-        topics: (string)[];
+        topics: string[];
         /** Format: uri-template */
         trees_url: string;
         /** Format: date-time */
@@ -75225,7 +75225,7 @@ export interface components {
         tags_url: string;
         /** Format: uri */
         teams_url: string;
-        topics: (string)[];
+        topics: string[];
         /** Format: uri-template */
         trees_url: string;
         /** Format: date-time */
@@ -75534,7 +75534,7 @@ export interface components {
         tags_url: string;
         /** Format: uri */
         teams_url: string;
-        topics: (string)[];
+        topics: string[];
         /** Format: uri-template */
         trees_url: string;
         /** Format: date-time */
@@ -75658,7 +75658,7 @@ export interface components {
         html_url: string;
         id: number;
         /** @description Custom labels for the job. Specified by the [`"runs-on"` attribute](https://docs.github.com/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on) in the workflow YAML. */
-        labels: (string)[];
+        labels: string[];
         name: string;
         node_id: string;
         run_attempt: number;
@@ -75748,7 +75748,7 @@ export interface components {
         html_url: string;
         id: number;
         /** @description Custom labels for the job. Specified by the [`"runs-on"` attribute](https://docs.github.com/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on) in the workflow YAML. */
-        labels: (string)[];
+        labels: string[];
         name: string;
         node_id: string;
         run_attempt: number;
@@ -75794,7 +75794,7 @@ export interface components {
         head_sha?: string;
         html_url?: string;
         id?: number;
-        labels?: (string)[];
+        labels?: string[];
         name?: string;
         node_id?: string;
         run_attempt?: number;
@@ -75844,7 +75844,7 @@ export interface components {
         /** Format: uri */
         html_url: string;
         id: number;
-        labels: (string)[];
+        labels: string[];
         name: string;
         node_id: string;
         run_attempt: number;
@@ -75898,7 +75898,7 @@ export interface components {
         /** Format: uri */
         html_url: string;
         id: number;
-        labels: (string)[];
+        labels: string[];
         name: string;
         node_id: string;
         run_attempt: number;
@@ -76183,7 +76183,7 @@ export interface components {
         path: string;
         /** Format: uri */
         previous_attempt_url: string | null;
-        pull_requests: ({
+        pull_requests: {
             base: {
               ref: string;
               /** Repo Ref */
@@ -76210,12 +76210,12 @@ export interface components {
             number: number;
             /** Format: uri */
             url: string;
-          })[];
-        referenced_workflows?: ({
+          }[];
+        referenced_workflows?: {
             path: string;
             ref?: string;
             sha: string;
-          })[] | null;
+          }[] | null;
         /** Repository Lite */
         repository: {
           /** Format: uri-template */
@@ -76516,11 +76516,11 @@ export interface components {
         path?: string;
         previous_attempt_url?: string | null;
         pull_requests?: (Record<string, never> | null)[];
-        referenced_workflows?: ({
+        referenced_workflows?: {
             path: string;
             ref?: string;
             sha: string;
-          })[] | null;
+          }[] | null;
         repository?: {
           archive_url?: string;
           assignees_url?: string;
@@ -76870,7 +76870,7 @@ export interface components {
         path: string;
         /** Format: uri */
         previous_attempt_url: string | null;
-        pull_requests: ({
+        pull_requests: {
             base: {
               ref: string;
               /** Repo Ref */
@@ -76897,12 +76897,12 @@ export interface components {
             number: number;
             /** Format: uri */
             url: string;
-          })[];
-        referenced_workflows?: ({
+          }[];
+        referenced_workflows?: {
             path: string;
             ref?: string;
             sha: string;
-          })[] | null;
+          }[] | null;
         /** Repository Lite */
         repository: {
           /** Format: uri-template */
@@ -77203,11 +77203,11 @@ export interface components {
         path?: string;
         previous_attempt_url?: string | null;
         pull_requests?: (Record<string, never> | null)[];
-        referenced_workflows?: ({
+        referenced_workflows?: {
             path: string;
             ref?: string;
             sha: string;
-          })[] | null;
+          }[] | null;
         repository?: {
           archive_url?: string;
           assignees_url?: string;
@@ -77558,7 +77558,7 @@ export interface components {
         path: string;
         /** Format: uri */
         previous_attempt_url: string | null;
-        pull_requests: ({
+        pull_requests: {
             base: {
               ref: string;
               /** Repo Ref */
@@ -77585,12 +77585,12 @@ export interface components {
             number: number;
             /** Format: uri */
             url: string;
-          })[];
-        referenced_workflows?: ({
+          }[];
+        referenced_workflows?: {
             path: string;
             ref?: string;
             sha: string;
-          })[] | null;
+          }[] | null;
         /** Repository Lite */
         repository: {
           /** Format: uri-template */
@@ -77870,7 +77870,7 @@ export interface components {
       content: {
         "application/json": {
           total_count: number;
-          labels: (components["schemas"]["runner-label"])[];
+          labels: components["schemas"]["runner-label"][];
         };
       };
     };
@@ -77879,7 +77879,7 @@ export interface components {
       content: {
         "application/json": {
           total_count: number;
-          labels: (components["schemas"]["runner-label"])[];
+          labels: components["schemas"]["runner-label"][];
         };
       };
     };
@@ -78079,7 +78079,7 @@ export interface components {
     /** @description The property by which to sort the results. */
     "personal-access-token-sort"?: "created_at";
     /** @description A list of owner usernames to use to filter the results. */
-    "personal-access-token-owner"?: (string)[];
+    "personal-access-token-owner"?: string[];
     /** @description The name of the repository to use to filter the results. */
     "personal-access-token-repository"?: string;
     /** @description The permission to use to filter the results. */
@@ -78376,7 +78376,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["hook-delivery-item"])[];
+          "application/json": components["schemas"]["hook-delivery-item"][];
         };
       };
       400: components["responses"]["bad_request"];
@@ -78439,7 +78439,7 @@ export interface operations {
       /** @description List of integration installation requests */
       200: {
         content: {
-          "application/json": (components["schemas"]["integration-installation-request"])[];
+          "application/json": components["schemas"]["integration-installation-request"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -78468,7 +78468,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["installation"])[];
+          "application/json": components["schemas"]["installation"][];
         };
       };
     };
@@ -78529,9 +78529,9 @@ export interface operations {
       content: {
         "application/json": {
           /** @description List of repository names that the token should have access to */
-          repositories?: (string)[];
+          repositories?: string[];
           /** @description List of repository IDs that the token should have access to */
-          repository_ids?: (number)[];
+          repository_ids?: number[];
           permissions?: components["schemas"]["app-permissions"];
         };
       };
@@ -78711,9 +78711,9 @@ export interface operations {
           /** @description The ID of the user or organization to scope the user access token to. **Required** unless `target` is specified. */
           target_id?: number;
           /** @description The list of repository names to scope the user access token to. `repositories` may not be specified if `repository_ids` is specified. */
-          repositories?: (string)[];
+          repositories?: string[];
           /** @description The list of repository IDs to scope the user access token to. `repository_ids` may not be specified if `repositories` is specified. */
-          repository_ids?: (number)[];
+          repository_ids?: number[];
           permissions?: components["schemas"]["app-permissions"];
         };
       };
@@ -78763,7 +78763,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["code-of-conduct"])[];
+          "application/json": components["schemas"]["code-of-conduct"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -78838,7 +78838,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["dependabot-alert-with-repository"])[];
+          "application/json": components["schemas"]["dependabot-alert-with-repository"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -78875,7 +78875,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-secret-scanning-alert"])[];
+          "application/json": components["schemas"]["organization-secret-scanning-alert"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -78897,7 +78897,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -78948,7 +78948,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["base-gist"])[];
+          "application/json": components["schemas"]["base-gist"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79016,7 +79016,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["base-gist"])[];
+          "application/json": components["schemas"]["base-gist"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79043,7 +79043,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["base-gist"])[];
+          "application/json": components["schemas"]["base-gist"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79146,7 +79146,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["gist-comment"])[];
+          "application/json": components["schemas"]["gist-comment"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79266,7 +79266,7 @@ export interface operations {
           Link?: string;
         };
         content: {
-          "application/json": (components["schemas"]["gist-commit"])[];
+          "application/json": components["schemas"]["gist-commit"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79292,7 +79292,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["gist-simple"])[];
+          "application/json": components["schemas"]["gist-simple"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79406,7 +79406,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (string)[];
+          "application/json": string[];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79455,7 +79455,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            repositories: (components["schemas"]["repository"])[];
+            repositories: components["schemas"]["repository"][];
             repository_selection?: string;
           };
         };
@@ -79518,7 +79518,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["issue"])[];
+          "application/json": components["schemas"]["issue"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79539,7 +79539,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["license-simple"])[];
+          "application/json": components["schemas"]["license-simple"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -79670,7 +79670,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["marketplace-listing-plan"])[];
+          "application/json": components["schemas"]["marketplace-listing-plan"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -79703,7 +79703,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["marketplace-purchase"])[];
+          "application/json": components["schemas"]["marketplace-purchase"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -79755,7 +79755,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["marketplace-listing-plan"])[];
+          "application/json": components["schemas"]["marketplace-listing-plan"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -79787,7 +79787,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["marketplace-purchase"])[];
+          "application/json": components["schemas"]["marketplace-purchase"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -79830,7 +79830,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
       301: components["responses"]["moved_permanently"];
@@ -79862,7 +79862,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["thread"])[];
+          "application/json": components["schemas"]["thread"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -80064,7 +80064,7 @@ export interface operations {
           Link?: string;
         };
         content: {
-          "application/json": (components["schemas"]["organization-simple"])[];
+          "application/json": components["schemas"]["organization-simple"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -80316,7 +80316,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            repository_cache_usages: (components["schemas"]["actions-cache-usage-by-repository"])[];
+            repository_cache_usages: components["schemas"]["actions-cache-usage-by-repository"][];
           };
         };
       };
@@ -80439,7 +80439,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            repositories: (components["schemas"]["repository"])[];
+            repositories: components["schemas"]["repository"][];
           };
         };
       };
@@ -80461,7 +80461,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description List of repository IDs to enable for GitHub Actions. */
-          selected_repository_ids: (number)[];
+          selected_repository_ids: number[];
         };
       };
     };
@@ -80621,7 +80621,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            runners: (components["schemas"]["runner"])[];
+            runners: components["schemas"]["runner"][];
           };
         };
       };
@@ -80643,7 +80643,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["runner-application"])[];
+          "application/json": components["schemas"]["runner-application"][];
         };
       };
     };
@@ -80668,7 +80668,7 @@ export interface operations {
           /** @description The ID of the runner group to register the runner to. */
           runner_group_id: number;
           /** @description The names of the custom labels to add to the runner. **Minimum items**: 1. **Maximum items**: 100. */
-          labels: (string)[];
+          labels: string[];
           /**
            * @description The working directory to be used for job execution, relative to the runner install directory.
            * @default _work
@@ -80818,7 +80818,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The names of the custom labels to set for the runner. You can pass an empty array to remove all custom labels. */
-          labels: (string)[];
+          labels: string[];
         };
       };
     };
@@ -80845,7 +80845,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The names of the custom labels to add to the runner. */
-          labels: (string)[];
+          labels: string[];
         };
       };
     };
@@ -80921,7 +80921,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["organization-actions-secret"])[];
+            secrets: components["schemas"]["organization-actions-secret"][];
           };
         };
       };
@@ -81065,7 +81065,7 @@ export interface operations {
            */
           visibility: "all" | "private" | "selected";
           /** @description An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can manage the list of selected repositories using the [List selected repositories for an organization secret](https://docs.github.com/rest/reference/actions#list-selected-repositories-for-an-organization-secret), [Set selected repositories for an organization secret](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret), and [Remove selected repository from an organization secret](https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret) endpoints. */
-          selected_repository_ids?: (number)[];
+          selected_repository_ids?: number[];
         };
       };
     };
@@ -81117,7 +81117,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            repositories: (components["schemas"]["minimal-repository"])[];
+            repositories: components["schemas"]["minimal-repository"][];
           };
         };
       };
@@ -81138,7 +81138,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can add and remove individual repositories using the [Add selected repository to an organization secret](https://docs.github.com/rest/actions/secrets#add-selected-repository-to-an-organization-secret) and [Remove selected repository from an organization secret](https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret) endpoints. */
-          selected_repository_ids: (number)[];
+          selected_repository_ids: number[];
         };
       };
     };
@@ -81208,7 +81208,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            variables: (components["schemas"]["organization-actions-variable"])[];
+            variables: components["schemas"]["organization-actions-variable"][];
           };
         };
       };
@@ -81239,7 +81239,7 @@ export interface operations {
            */
           visibility: "all" | "private" | "selected";
           /** @description An array of repository ids that can access the organization variable. You can only provide a list of repository ids when the `visibility` is set to `selected`. */
-          selected_repository_ids?: (number)[];
+          selected_repository_ids?: number[];
         };
       };
     };
@@ -81316,7 +81316,7 @@ export interface operations {
            */
           visibility?: "all" | "private" | "selected";
           /** @description An array of repository ids that can access the organization variable. You can only provide a list of repository ids when the `visibility` is set to `selected`. */
-          selected_repository_ids?: (number)[];
+          selected_repository_ids?: number[];
         };
       };
     };
@@ -81346,7 +81346,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            repositories: (components["schemas"]["minimal-repository"])[];
+            repositories: components["schemas"]["minimal-repository"][];
           };
         };
       };
@@ -81369,7 +81369,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The IDs of the repositories that can access the organization variable. */
-          selected_repository_ids: (number)[];
+          selected_repository_ids: number[];
         };
       };
     };
@@ -81436,7 +81436,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
     };
@@ -81534,7 +81534,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["code-scanning-organization-alert-items"])[];
+          "application/json": components["schemas"]["code-scanning-organization-alert-items"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -81563,7 +81563,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            codespaces: (components["schemas"]["codespace"])[];
+            codespaces: components["schemas"]["codespace"][];
           };
         };
       };
@@ -81595,7 +81595,7 @@ export interface operations {
            */
           visibility: "disabled" | "selected_members" | "all_members" | "all_members_and_outside_collaborators";
           /** @description The usernames of the organization members who should have access to codespaces in the organization. Required when `visibility` is `selected_members`. The provided list of usernames will replace any existing value. */
-          selected_usernames?: (string)[];
+          selected_usernames?: string[];
         };
       };
     };
@@ -81630,7 +81630,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The usernames of the organization members whose codespaces be billed to the organization. */
-          selected_usernames: (string)[];
+          selected_usernames: string[];
         };
       };
     };
@@ -81665,7 +81665,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The usernames of the organization members whose codespaces should not be billed to the organization. */
-          selected_usernames: (string)[];
+          selected_usernames: string[];
         };
       };
     };
@@ -81704,7 +81704,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["codespaces-org-secret"])[];
+            secrets: components["schemas"]["codespaces-org-secret"][];
           };
         };
       };
@@ -81851,7 +81851,7 @@ export interface operations {
            */
           visibility: "all" | "private" | "selected";
           /** @description An array of repository IDs that can access the organization secret. You can only provide a list of repository IDs when the `visibility` is set to `selected`. You can manage the list of selected repositories using the [List selected repositories for an organization secret](https://docs.github.com/rest/reference/codespaces#list-selected-repositories-for-an-organization-secret), [Set selected repositories for an organization secret](https://docs.github.com/rest/reference/codespaces#set-selected-repositories-for-an-organization-secret), and [Remove selected repository from an organization secret](https://docs.github.com/rest/reference/codespaces#remove-selected-repository-from-an-organization-secret) endpoints. */
-          selected_repository_ids?: (number)[];
+          selected_repository_ids?: number[];
         };
       };
     };
@@ -81906,7 +81906,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            repositories: (components["schemas"]["minimal-repository"])[];
+            repositories: components["schemas"]["minimal-repository"][];
           };
         };
       };
@@ -81928,7 +81928,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can add and remove individual repositories using the [Set selected repositories for an organization secret](https://docs.github.com/rest/reference/codespaces#set-selected-repositories-for-an-organization-secret) and [Remove selected repository from an organization secret](https://docs.github.com/rest/reference/codespaces#remove-selected-repository-from-an-organization-secret) endpoints. */
-          selected_repository_ids: (number)[];
+          selected_repository_ids: number[];
         };
       };
     };
@@ -82016,7 +82016,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["dependabot-alert-with-repository"])[];
+          "application/json": components["schemas"]["dependabot-alert-with-repository"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -82049,7 +82049,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["organization-dependabot-secret"])[];
+            secrets: components["schemas"]["organization-dependabot-secret"][];
           };
         };
       };
@@ -82193,7 +82193,7 @@ export interface operations {
            */
           visibility: "all" | "private" | "selected";
           /** @description An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can manage the list of selected repositories using the [List selected repositories for an organization secret](https://docs.github.com/rest/reference/dependabot#list-selected-repositories-for-an-organization-secret), [Set selected repositories for an organization secret](https://docs.github.com/rest/reference/dependabot#set-selected-repositories-for-an-organization-secret), and [Remove selected repository from an organization secret](https://docs.github.com/rest/reference/dependabot#remove-selected-repository-from-an-organization-secret) endpoints. */
-          selected_repository_ids?: (string)[];
+          selected_repository_ids?: string[];
         };
       };
     };
@@ -82245,7 +82245,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            repositories: (components["schemas"]["minimal-repository"])[];
+            repositories: components["schemas"]["minimal-repository"][];
           };
         };
       };
@@ -82266,7 +82266,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description An array of repository ids that can access the organization secret. You can only provide a list of repository ids when the `visibility` is set to `selected`. You can add and remove individual repositories using the [Set selected repositories for an organization secret](https://docs.github.com/rest/reference/dependabot#set-selected-repositories-for-an-organization-secret) and [Remove selected repository from an organization secret](https://docs.github.com/rest/reference/dependabot#remove-selected-repository-from-an-organization-secret) endpoints. */
-          selected_repository_ids: (number)[];
+          selected_repository_ids: number[];
         };
       };
     };
@@ -82328,7 +82328,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package"])[];
+          "application/json": components["schemas"]["package"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -82350,7 +82350,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
     };
@@ -82376,7 +82376,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-invitation"])[];
+          "application/json": components["schemas"]["organization-invitation"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -82400,7 +82400,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["org-hook"])[];
+          "application/json": components["schemas"]["org-hook"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -82436,7 +82436,7 @@ export interface operations {
            *   "push"
            * ]
            */
-          events?: (string)[];
+          events?: string[];
           /**
            * @description Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
            * @default true
@@ -82522,7 +82522,7 @@ export interface operations {
            *   "push"
            * ]
            */
-          events?: (string)[];
+          events?: string[];
           /**
            * @description Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
            * @default true
@@ -82617,7 +82617,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["hook-delivery-item"])[];
+          "application/json": components["schemas"]["hook-delivery-item"][];
         };
       };
       400: components["responses"]["bad_request"];
@@ -82726,7 +82726,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            installations: (components["schemas"]["installation"])[];
+            installations: components["schemas"]["installation"][];
           };
         };
       };
@@ -82816,7 +82816,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-invitation"])[];
+          "application/json": components["schemas"]["organization-invitation"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -82851,7 +82851,7 @@ export interface operations {
            */
           role?: "admin" | "direct_member" | "billing_manager";
           /** @description Specify IDs for the teams you want to invite new members to. */
-          team_ids?: (number)[];
+          team_ids?: number[];
         };
       };
     };
@@ -82908,7 +82908,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -82949,7 +82949,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["issue"])[];
+          "application/json": components["schemas"]["issue"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -82980,7 +82980,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -83046,7 +83046,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            codespaces: (components["schemas"]["codespace"])[];
+            codespaces: components["schemas"]["codespace"][];
           };
         };
       };
@@ -83206,7 +83206,7 @@ export interface operations {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
         /** @description Exclude attributes from the API response to improve performance */
-        exclude?: ("repositories")[];
+        exclude?: "repositories"[];
       };
       path: {
         org: components["parameters"]["org"];
@@ -83219,7 +83219,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["migration"])[];
+          "application/json": components["schemas"]["migration"][];
         };
       };
     };
@@ -83238,7 +83238,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description A list of arrays indicating which repositories should be migrated. */
-          repositories: (string)[];
+          repositories: string[];
           /**
            * @description Indicates whether repositories should be locked (to prevent manipulation) while migrating data.
            * @default false
@@ -83275,7 +83275,7 @@ export interface operations {
            */
           org_metadata_only?: boolean;
           /** @description Exclude related items from being returned in the response in order to improve performance of the request. The array can include any of: `"repositories"`. */
-          exclude?: ("repositories")[];
+          exclude?: "repositories"[];
         };
       };
     };
@@ -83305,7 +83305,7 @@ export interface operations {
     parameters: {
       query?: {
         /** @description Exclude attributes from the API response to improve performance */
-        exclude?: ("repositories")[];
+        exclude?: "repositories"[];
       };
       path: {
         org: components["parameters"]["org"];
@@ -83401,7 +83401,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -83430,7 +83430,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
     };
@@ -83521,7 +83521,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package"])[];
+          "application/json": components["schemas"]["package"][];
         };
       };
       400: components["responses"]["package_es_list_error"];
@@ -83632,7 +83632,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package-version"])[];
+          "application/json": components["schemas"]["package-version"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -83749,7 +83749,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-programmatic-access-grant-request"])[];
+          "application/json": components["schemas"]["organization-programmatic-access-grant-request"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -83775,7 +83775,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description Unique identifiers of the requests for access via fine-grained personal access token. Must be formed of between 1 and 100 `pat_request_id` values. */
-          pat_request_ids?: (number)[];
+          pat_request_ids?: number[];
           /**
            * @description Action to apply to the requests.
            * @enum {string}
@@ -83856,7 +83856,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -83895,7 +83895,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-programmatic-access-grant"])[];
+          "application/json": components["schemas"]["organization-programmatic-access-grant"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -83926,7 +83926,7 @@ export interface operations {
            */
           action: "revoke";
           /** @description The IDs of the fine-grained personal access tokens. */
-          pat_ids: (number)[];
+          pat_ids: number[];
         };
       };
     };
@@ -83997,7 +83997,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -84028,7 +84028,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["project"])[];
+          "application/json": components["schemas"]["project"][];
         };
       };
       422: components["responses"]["validation_failed_simple"];
@@ -84089,7 +84089,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
     };
@@ -84176,7 +84176,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
     };
@@ -84354,7 +84354,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["repository-ruleset"])[];
+          "application/json": components["schemas"]["repository-ruleset"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -84384,10 +84384,10 @@ export interface operations {
           target?: "branch" | "tag";
           enforcement: components["schemas"]["repository-rule-enforcement"];
           /** @description The actors that can bypass the rules in this ruleset */
-          bypass_actors?: (components["schemas"]["repository-ruleset-bypass-actor"])[];
+          bypass_actors?: components["schemas"]["repository-ruleset-bypass-actor"][];
           conditions?: components["schemas"]["org-ruleset-conditions"];
           /** @description An array of rules within the ruleset. */
-          rules?: (components["schemas"]["repository-rule"])[];
+          rules?: components["schemas"]["repository-rule"][];
         };
       };
     };
@@ -84450,10 +84450,10 @@ export interface operations {
           target?: "branch" | "tag";
           enforcement?: components["schemas"]["repository-rule-enforcement"];
           /** @description The actors that can bypass the rules in this ruleset */
-          bypass_actors?: (components["schemas"]["repository-ruleset-bypass-actor"])[];
+          bypass_actors?: components["schemas"]["repository-ruleset-bypass-actor"][];
           conditions?: components["schemas"]["org-ruleset-conditions"];
           /** @description An array of rules within the ruleset. */
-          rules?: (components["schemas"]["repository-rule"])[];
+          rules?: components["schemas"]["repository-rule"][];
         };
       };
     };
@@ -84519,7 +84519,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-secret-scanning-alert"])[];
+          "application/json": components["schemas"]["organization-secret-scanning-alert"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -84544,7 +84544,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["team-simple"])[];
+          "application/json": components["schemas"]["team-simple"][];
         };
       };
     };
@@ -84681,7 +84681,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -84707,9 +84707,9 @@ export interface operations {
           /** @description The description of the team. */
           description?: string;
           /** @description List GitHub IDs for organization members who will become team maintainers. */
-          maintainers?: (string)[];
+          maintainers?: string[];
           /** @description The full name (e.g., "organization-name/repository-name") of repositories to add the team to. */
-          repo_names?: (string)[];
+          repo_names?: string[];
           /**
            * @description The level of privacy this team should have. The options are:
            * **For a non-nested team:**
@@ -84888,7 +84888,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team-discussion"])[];
+          "application/json": components["schemas"]["team-discussion"][];
         };
       };
     };
@@ -85033,7 +85033,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team-discussion-comment"])[];
+          "application/json": components["schemas"]["team-discussion-comment"][];
         };
       };
     };
@@ -85175,7 +85175,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
     };
@@ -85269,7 +85269,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
     };
@@ -85358,7 +85358,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-invitation"])[];
+          "application/json": components["schemas"]["organization-invitation"][];
         };
       };
     };
@@ -85389,7 +85389,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
     };
@@ -85522,7 +85522,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team-project"])[];
+          "application/json": components["schemas"]["team-project"][];
         };
       };
     };
@@ -85634,7 +85634,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
     };
@@ -85748,7 +85748,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
     };
@@ -85823,7 +85823,7 @@ export interface operations {
           "application/json": {
             message?: string;
             documentation_url?: string;
-            errors?: (string)[];
+            errors?: string[];
           };
         };
       };
@@ -85893,12 +85893,12 @@ export interface operations {
           "application/json": {
             message?: string;
             documentation_url?: string;
-            errors?: ({
+            errors?: {
                 code?: string;
                 message?: string;
                 resource?: string;
                 field?: string;
-              })[];
+              }[];
           };
         };
       };
@@ -85910,10 +85910,10 @@ export interface operations {
             code?: string;
             message?: string;
             documentation_url?: string;
-            errors?: ({
+            errors?: {
                 code?: string;
                 message?: string;
-              })[];
+              }[];
           };
         };
       };
@@ -86010,7 +86010,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["project-card"])[];
+          "application/json": components["schemas"]["project-card"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -86061,10 +86061,10 @@ export interface operations {
             code?: string;
             message?: string;
             documentation_url?: string;
-            errors?: ({
+            errors?: {
                 code?: string;
                 message?: string;
-              })[];
+              }[];
           };
         };
       };
@@ -86141,7 +86141,7 @@ export interface operations {
           "application/json": {
             message?: string;
             documentation_url?: string;
-            errors?: (string)[];
+            errors?: string[];
           };
         };
       };
@@ -86193,7 +86193,7 @@ export interface operations {
           "application/json": {
             message?: string;
             documentation_url?: string;
-            errors?: (string)[];
+            errors?: string[];
           };
         };
       };
@@ -86226,7 +86226,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -86336,7 +86336,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["project-column"])[];
+          "application/json": components["schemas"]["project-column"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -86660,7 +86660,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            artifacts: (components["schemas"]["artifact"])[];
+            artifacts: components["schemas"]["artifact"][];
           };
         };
       };
@@ -86947,7 +86947,7 @@ export interface operations {
           /** @description Whether to use the default template or not. If `true`, the `include_claim_keys` field is ignored. */
           use_default: boolean;
           /** @description Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
-          include_claim_keys?: (string)[];
+          include_claim_keys?: string[];
         };
       };
     };
@@ -86987,7 +86987,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["actions-secret"])[];
+            secrets: components["schemas"]["actions-secret"][];
           };
         };
       };
@@ -87017,7 +87017,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            variables: (components["schemas"]["actions-variable"])[];
+            variables: components["schemas"]["actions-variable"][];
           };
         };
       };
@@ -87242,7 +87242,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            runners: (components["schemas"]["runner"])[];
+            runners: components["schemas"]["runner"][];
           };
         };
       };
@@ -87265,7 +87265,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["runner-application"])[];
+          "application/json": components["schemas"]["runner-application"][];
         };
       };
     };
@@ -87291,7 +87291,7 @@ export interface operations {
           /** @description The ID of the runner group to register the runner to. */
           runner_group_id: number;
           /** @description The names of the custom labels to add to the runner. **Minimum items**: 1. **Maximum items**: 100. */
-          labels: (string)[];
+          labels: string[];
           /**
            * @description The working directory to be used for job execution, relative to the runner install directory.
            * @default _work
@@ -87448,7 +87448,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The names of the custom labels to set for the runner. You can pass an empty array to remove all custom labels. */
-          labels: (string)[];
+          labels: string[];
         };
       };
     };
@@ -87477,7 +87477,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The names of the custom labels to add to the runner. */
-          labels: (string)[];
+          labels: string[];
         };
       };
     };
@@ -87568,7 +87568,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            workflow_runs: (components["schemas"]["workflow-run"])[];
+            workflow_runs: components["schemas"]["workflow-run"][];
           };
         };
       };
@@ -87633,7 +87633,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["environment-approvals"])[];
+          "application/json": components["schemas"]["environment-approvals"][];
         };
       };
     };
@@ -87688,7 +87688,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            artifacts: (components["schemas"]["artifact"])[];
+            artifacts: components["schemas"]["artifact"][];
           };
         };
       };
@@ -87748,7 +87748,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            jobs: (components["schemas"]["job"])[];
+            jobs: components["schemas"]["job"][];
           };
         };
       };
@@ -87852,7 +87852,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            jobs: (components["schemas"]["job"])[];
+            jobs: components["schemas"]["job"][];
           };
         };
       };
@@ -87915,7 +87915,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["pending-deployment"])[];
+          "application/json": components["schemas"]["pending-deployment"][];
         };
       };
     };
@@ -87938,7 +87938,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The list of environment ids to approve or reject */
-          environment_ids: (number)[];
+          environment_ids: number[];
           /**
            * @description Whether to approve or reject deployment to the specified environments.
            * @enum {string}
@@ -87953,7 +87953,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["deployment"])[];
+          "application/json": components["schemas"]["deployment"][];
         };
       };
     };
@@ -88069,7 +88069,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["actions-secret"])[];
+            secrets: components["schemas"]["actions-secret"][];
           };
         };
       };
@@ -88265,7 +88265,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            variables: (components["schemas"]["actions-variable"])[];
+            variables: components["schemas"]["actions-variable"][];
           };
         };
       };
@@ -88396,7 +88396,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            workflows: (components["schemas"]["workflow"])[];
+            workflows: components["schemas"]["workflow"][];
           };
         };
       };
@@ -88529,7 +88529,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            workflow_runs: (components["schemas"]["workflow-run"])[];
+            workflow_runs: components["schemas"]["workflow-run"][];
           };
         };
       };
@@ -88580,7 +88580,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -88633,7 +88633,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["autolink"])[];
+          "application/json": components["schemas"]["autolink"][];
         };
       };
     };
@@ -88775,7 +88775,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["short-branch"])[];
+          "application/json": components["schemas"]["short-branch"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -88852,14 +88852,14 @@ export interface operations {
              * @deprecated
              * @description **Deprecated**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control.
              */
-            contexts: (string)[];
+            contexts: string[];
             /** @description The list of status checks to require in order to merge into this branch. */
-            checks?: ({
+            checks?: {
                 /** @description The name of the required check */
                 context: string;
                 /** @description The ID of the GitHub App that must provide this check. Omit this field to automatically select the GitHub App that has recently provided this check, or any app if it was not set by a GitHub App. Pass -1 to explicitly allow any app to set the status. */
                 app_id?: number;
-              })[];
+              }[];
           } | null;
           /** @description Enforce all configured restrictions for administrators. Set to `true` to enforce required status checks for repository administrators. Set to `null` to disable. */
           enforce_admins: boolean | null;
@@ -88868,11 +88868,11 @@ export interface operations {
             /** @description Specify which users, teams, and apps can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories. */
             dismissal_restrictions?: {
               /** @description The list of user `login`s with dismissal access */
-              users?: (string)[];
+              users?: string[];
               /** @description The list of team `slug`s with dismissal access */
-              teams?: (string)[];
+              teams?: string[];
               /** @description The list of app `slug`s with dismissal access */
-              apps?: (string)[];
+              apps?: string[];
             };
             /** @description Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit. */
             dismiss_stale_reviews?: boolean;
@@ -88888,21 +88888,21 @@ export interface operations {
             /** @description Allow specific users, teams, or apps to bypass pull request requirements. */
             bypass_pull_request_allowances?: {
               /** @description The list of user `login`s allowed to bypass pull request requirements. */
-              users?: (string)[];
+              users?: string[];
               /** @description The list of team `slug`s allowed to bypass pull request requirements. */
-              teams?: (string)[];
+              teams?: string[];
               /** @description The list of app `slug`s allowed to bypass pull request requirements. */
-              apps?: (string)[];
+              apps?: string[];
             };
           } | null;
           /** @description Restrict who can push to the protected branch. User, app, and team `restrictions` are only available for organization-owned repositories. Set to `null` to disable. */
           restrictions: {
             /** @description The list of user `login`s with push access */
-            users: (string)[];
+            users: string[];
             /** @description The list of team `slug`s with push access */
-            teams: (string)[];
+            teams: string[];
             /** @description The list of app `slug`s with push access */
-            apps?: (string)[];
+            apps?: string[];
           } | null;
           /** @description Enforces a linear commit Git history, which prevents anyone from pushing merge commits to a branch. Set to `true` to enforce a linear commit history. Set to `false` to disable a linear commit Git history. Your repository must allow squash merging or rebase merging before you can enable a linear commit history. Default: `false`. For more information, see "[Requiring a linear commit history](https://docs.github.com/github/administering-a-repository/requiring-a-linear-commit-history)" in the GitHub Help documentation. */
           required_linear_history?: boolean;
@@ -89082,11 +89082,11 @@ export interface operations {
           /** @description Specify which users, teams, and apps can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories. */
           dismissal_restrictions?: {
             /** @description The list of user `login`s with dismissal access */
-            users?: (string)[];
+            users?: string[];
             /** @description The list of team `slug`s with dismissal access */
-            teams?: (string)[];
+            teams?: string[];
             /** @description The list of app `slug`s with dismissal access */
-            apps?: (string)[];
+            apps?: string[];
           };
           /** @description Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit. */
           dismiss_stale_reviews?: boolean;
@@ -89102,11 +89102,11 @@ export interface operations {
           /** @description Allow specific users, teams, or apps to bypass pull request requirements. */
           bypass_pull_request_allowances?: {
             /** @description The list of user `login`s allowed to bypass pull request requirements. */
-            users?: (string)[];
+            users?: string[];
             /** @description The list of team `slug`s allowed to bypass pull request requirements. */
-            teams?: (string)[];
+            teams?: string[];
             /** @description The list of app `slug`s allowed to bypass pull request requirements. */
-            apps?: (string)[];
+            apps?: string[];
           };
         };
       };
@@ -89253,14 +89253,14 @@ export interface operations {
            * @deprecated
            * @description **Deprecated**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control.
            */
-          contexts?: (string)[];
+          contexts?: string[];
           /** @description The list of status checks to require in order to merge into this branch. */
-          checks?: ({
+          checks?: {
               /** @description The name of the required check */
               context: string;
               /** @description The ID of the GitHub App that must provide this check. Omit this field to automatically select the GitHub App that has recently provided this check, or any app if it was not set by a GitHub App. Pass -1 to explicitly allow any app to set the status. */
               app_id?: number;
-            })[];
+            }[];
         };
       };
     };
@@ -89291,7 +89291,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (string)[];
+          "application/json": string[];
         };
       };
       404: components["responses"]["not_found"];
@@ -89313,15 +89313,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The name of the status checks */
-          contexts: (string)[];
-        }, (string)[]]>;
+          contexts: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (string)[];
+          "application/json": string[];
         };
       };
       404: components["responses"]["not_found"];
@@ -89344,15 +89344,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The name of the status checks */
-          contexts: (string)[];
-        }, (string)[]]>;
+          contexts: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (string)[];
+          "application/json": string[];
         };
       };
       403: components["responses"]["forbidden"];
@@ -89376,15 +89376,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The name of the status checks */
-          contexts: (string)[];
-        }, (string)[]]>;
+          contexts: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (string)[];
+          "application/json": string[];
         };
       };
       404: components["responses"]["not_found"];
@@ -89454,7 +89454,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["integration"])[];
+          "application/json": components["schemas"]["integration"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -89478,15 +89478,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The GitHub Apps that have push access to this branch. Use the slugified version of the app name. **Note**: The list of users, apps, and teams in total is limited to 100 items. */
-          apps: (string)[];
-        }, (string)[]]>;
+          apps: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["integration"])[];
+          "application/json": components["schemas"]["integration"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89510,15 +89510,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The GitHub Apps that have push access to this branch. Use the slugified version of the app name. **Note**: The list of users, apps, and teams in total is limited to 100 items. */
-          apps: (string)[];
-        }, (string)[]]>;
+          apps: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["integration"])[];
+          "application/json": components["schemas"]["integration"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89542,15 +89542,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The GitHub Apps that have push access to this branch. Use the slugified version of the app name. **Note**: The list of users, apps, and teams in total is limited to 100 items. */
-          apps: (string)[];
-        }, (string)[]]>;
+          apps: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["integration"])[];
+          "application/json": components["schemas"]["integration"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89574,7 +89574,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -89598,15 +89598,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The slug values for teams */
-          teams: (string)[];
-        }, (string)[]]>;
+          teams: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89630,15 +89630,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The slug values for teams */
-          teams: (string)[];
-        }, (string)[]]>;
+          teams: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89662,15 +89662,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The slug values for teams */
-          teams: (string)[];
-        }, (string)[]]>;
+          teams: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89694,7 +89694,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -89722,15 +89722,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The username for users */
-          users: (string)[];
-        }, (string)[]]>;
+          users: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89758,15 +89758,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The username for users */
-          users: (string)[];
-        }, (string)[]]>;
+          users: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89794,15 +89794,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The username for users */
-          users: (string)[];
-        }, (string)[]]>;
+          users: string[];
+        }, string[]]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -89991,24 +89991,24 @@ export interface operations {
                 raw_details?: string;
               })[];
             /** @description Adds images to the output displayed in the GitHub pull request UI. */
-            images?: ({
+            images?: {
                 /** @description The alternative text for the image. */
                 alt: string;
                 /** @description The full URL of the image. */
                 image_url: string;
                 /** @description A short image description. */
                 caption?: string;
-              })[];
+              }[];
           };
           /** @description Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." */
-          actions?: ({
+          actions?: {
               /** @description The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
               label: string;
               /** @description A short explanation of what this action would do. The maximum size is 40 characters. */
               description: string;
               /** @description A reference for the action on the integrator's system. The maximum size is 20 characters. */
               identifier: string;
-            })[];
+            }[];
         }) & ({
           /** @enum {unknown} */
           status?: "completed";
@@ -90052,7 +90052,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["check-annotation"])[];
+          "application/json": components["schemas"]["check-annotation"][];
         };
       };
     };
@@ -90146,7 +90146,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description Enables or disables automatic creation of CheckSuite events upon pushes to the repository. Enabled by default. */
-          auto_trigger_checks?: ({
+          auto_trigger_checks?: {
               /** @description The `id` of the GitHub App. */
               app_id: number;
               /**
@@ -90154,7 +90154,7 @@ export interface operations {
                * @default true
                */
               setting: boolean;
-            })[];
+            }[];
         };
       };
     };
@@ -90221,7 +90221,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            check_runs: (components["schemas"]["check-run"])[];
+            check_runs: components["schemas"]["check-run"][];
           };
         };
       };
@@ -90288,7 +90288,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["code-scanning-alert-items"])[];
+          "application/json": components["schemas"]["code-scanning-alert-items"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -90379,7 +90379,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["code-scanning-alert-instance"])[];
+          "application/json": components["schemas"]["code-scanning-alert-instance"][];
         };
       };
       403: components["responses"]["code_scanning_forbidden_read"];
@@ -90431,7 +90431,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["code-scanning-analysis"])[];
+          "application/json": components["schemas"]["code-scanning-analysis"][];
         };
       };
       403: components["responses"]["code_scanning_forbidden_read"];
@@ -90598,7 +90598,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["code-scanning-codeql-database"])[];
+          "application/json": components["schemas"]["code-scanning-codeql-database"][];
         };
       };
       403: components["responses"]["code_scanning_forbidden_read"];
@@ -90868,7 +90868,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            codespaces: (components["schemas"]["codespace"])[];
+            codespaces: components["schemas"]["codespace"][];
           };
         };
       };
@@ -90970,11 +90970,11 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            devcontainers: ({
+            devcontainers: {
                 path: string;
                 name?: string;
                 display_name?: string;
-              })[];
+              }[];
           };
         };
       };
@@ -91012,7 +91012,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            machines: (components["schemas"]["codespace-machine"])[];
+            machines: components["schemas"]["codespace-machine"][];
           };
         };
       };
@@ -91086,7 +91086,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["repo-codespaces-secret"])[];
+            secrets: components["schemas"]["repo-codespaces-secret"][];
           };
         };
       };
@@ -91291,7 +91291,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["collaborator"])[];
+          "application/json": components["schemas"]["collaborator"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -91474,7 +91474,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["commit-comment"])[];
+          "application/json": components["schemas"]["commit-comment"][];
         };
       };
     };
@@ -91565,7 +91565,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -91690,7 +91690,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["commit"])[];
+          "application/json": components["schemas"]["commit"][];
         };
       };
       400: components["responses"]["bad_request"];
@@ -91717,7 +91717,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["branch-short"])[];
+          "application/json": components["schemas"]["branch-short"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -91746,7 +91746,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["commit-comment"])[];
+          "application/json": components["schemas"]["commit-comment"][];
         };
       };
     };
@@ -91819,7 +91819,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["pull-request-simple"])[];
+          "application/json": components["schemas"]["pull-request-simple"][];
         };
       };
     };
@@ -91920,7 +91920,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            check_runs: (components["schemas"]["check-run"])[];
+            check_runs: components["schemas"]["check-run"][];
           };
         };
       };
@@ -91959,7 +91959,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            check_suites: (components["schemas"]["check-suite"])[];
+            check_suites: components["schemas"]["check-suite"][];
           };
         };
       };
@@ -92023,7 +92023,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["status"])[];
+          "application/json": components["schemas"]["status"][];
         };
       };
       301: components["responses"]["moved_permanently"];
@@ -92349,7 +92349,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["contributor"])[];
+          "application/json": components["schemas"]["contributor"][];
         };
       };
       /** @description Response if repository is empty */
@@ -92399,7 +92399,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["dependabot-alert"])[];
+          "application/json": components["schemas"]["dependabot-alert"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -92508,7 +92508,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["dependabot-secret"])[];
+            secrets: components["schemas"]["dependabot-secret"][];
           };
         };
       };
@@ -92799,7 +92799,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["deployment"])[];
+          "application/json": components["schemas"]["deployment"][];
         };
       };
     };
@@ -92875,7 +92875,7 @@ export interface operations {
            */
           auto_merge?: boolean;
           /** @description The [status](https://docs.github.com/rest/commits/statuses) contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts. */
-          required_contexts?: (string)[];
+          required_contexts?: string[];
           payload?: OneOf<[{
             [key: string]: unknown;
           }, string]>;
@@ -92987,7 +92987,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["deployment-status"])[];
+          "application/json": components["schemas"]["deployment-status"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -93144,7 +93144,7 @@ export interface operations {
           "application/json": {
             /** @description The number of environments in this repository */
             total_count?: number;
-            environments?: (components["schemas"]["environment"])[];
+            environments?: components["schemas"]["environment"][];
           };
         };
       };
@@ -93198,11 +93198,11 @@ export interface operations {
         "application/json": ({
           wait_timer?: components["schemas"]["wait-timer"];
           /** @description The people or teams that may review jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
-          reviewers?: ({
+          reviewers?: {
               type?: components["schemas"]["deployment-reviewer-type"];
               /** @description The id of the user or team who can review the deployment */
               id?: number;
-            })[] | null;
+            }[] | null;
           deployment_branch_policy?: components["schemas"]["deployment-branch-policy-settings"];
         }) | null;
       };
@@ -93264,7 +93264,7 @@ export interface operations {
           "application/json": {
             /** @description The number of deployment branch policies for the environment. */
             total_count: number;
-            branch_policies: (components["schemas"]["deployment-branch-policy"])[];
+            branch_policies: components["schemas"]["deployment-branch-policy"][];
           };
         };
       };
@@ -93396,7 +93396,7 @@ export interface operations {
           "application/json": {
             /** @description The number of enabled custom deployment protection rules for this environment */
             total_count?: number;
-            custom_deployment_protection_rules?: (components["schemas"]["deployment-protection-rule"])[];
+            custom_deployment_protection_rules?: components["schemas"]["deployment-protection-rule"][];
           };
         };
       };
@@ -93462,7 +93462,7 @@ export interface operations {
           "application/json": {
             /** @description The total number of custom deployment protection rule integrations available for this environment. */
             total_count?: number;
-            available_custom_deployment_protection_rule_integrations?: (components["schemas"]["custom-deployment-rule-app"])[];
+            available_custom_deployment_protection_rule_integrations?: components["schemas"]["custom-deployment-rule-app"][];
           };
         };
       };
@@ -93531,7 +93531,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
     };
@@ -93557,7 +93557,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
       400: components["responses"]["bad_request"];
@@ -93715,7 +93715,7 @@ export interface operations {
           /** @description The SHA of the tree object this commit points to */
           tree: string;
           /** @description The SHAs of the commits that were the parents of this commit. If omitted or empty, the commit will be written as a root commit. For a single parent, an array of one SHA should be provided; for a merge commit, an array of more than one should be provided. */
-          parents?: (string)[];
+          parents?: string[];
           /** @description Information about the author of the commit. By default, the `author` will be the authenticated user and the current date. See the `author` and `committer` object below for details. */
           author?: {
             /** @description The name of the author (or committer) of the commit */
@@ -93838,7 +93838,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["git-ref"])[];
+          "application/json": components["schemas"]["git-ref"][];
         };
       };
     };
@@ -94208,7 +94208,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["hook"])[];
+          "application/json": components["schemas"]["hook"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -94246,7 +94246,7 @@ export interface operations {
            *   "push"
            * ]
            */
-          events?: (string)[];
+          events?: string[];
           /**
            * @description Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
            * @default true
@@ -94338,11 +94338,11 @@ export interface operations {
            *   "push"
            * ]
            */
-          events?: (string)[];
+          events?: string[];
           /** @description Determines a list of events to be added to the list of events that the Hook triggers for. */
-          add_events?: (string)[];
+          add_events?: string[];
           /** @description Determines a list of events to be removed from the list of events that the Hook triggers for. */
-          remove_events?: (string)[];
+          remove_events?: string[];
           /**
            * @description Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
            * @default true
@@ -94439,7 +94439,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["hook-delivery-item"])[];
+          "application/json": components["schemas"]["hook-delivery-item"][];
         };
       };
       400: components["responses"]["bad_request"];
@@ -94725,7 +94725,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["porter-author"])[];
+          "application/json": components["schemas"]["porter-author"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -94790,7 +94790,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["porter-large-file"])[];
+          "application/json": components["schemas"]["porter-large-file"][];
         };
       };
       503: components["responses"]["porter_maintenance"];
@@ -94948,7 +94948,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["repository-invitation"])[];
+          "application/json": components["schemas"]["repository-invitation"][];
         };
       };
     };
@@ -95038,7 +95038,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["issue"])[];
+          "application/json": components["schemas"]["issue"][];
         };
       };
       301: components["responses"]["moved_permanently"];
@@ -95077,7 +95077,7 @@ export interface operations {
               color?: string | null;
             }]>)[];
           /** @description Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._ */
-          assignees?: (string)[];
+          assignees?: string[];
         };
       };
     };
@@ -95128,7 +95128,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["issue-comment"])[];
+          "application/json": components["schemas"]["issue-comment"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -95229,7 +95229,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -95316,7 +95316,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["issue-event"])[];
+          "application/json": components["schemas"]["issue-event"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -95421,7 +95421,7 @@ export interface operations {
               color?: string | null;
             }]>)[];
           /** @description Usernames to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this issue. Send an empty array (`[]`) to clear all assignees from the issue. Only users with push access can set assignees for new issues. Without push access to the repository, assignee changes are silently dropped. */
-          assignees?: (string)[];
+          assignees?: string[];
         };
       };
     };
@@ -95456,7 +95456,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._ */
-          assignees?: (string)[];
+          assignees?: string[];
         };
       };
     };
@@ -95485,7 +95485,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description Usernames of assignees to remove from an issue. _NOTE: Only users with push access can remove assignees from an issue. Assignees are silently ignored otherwise._ */
-          assignees?: (string)[];
+          assignees?: string[];
         };
       };
     };
@@ -95552,7 +95552,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["issue-comment"])[];
+          "application/json": components["schemas"]["issue-comment"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -95626,7 +95626,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["issue-event-for-issue"])[];
+          "application/json": components["schemas"]["issue-event-for-issue"][];
         };
       };
       410: components["responses"]["gone"];
@@ -95655,7 +95655,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["label"])[];
+          "application/json": components["schemas"]["label"][];
         };
       };
       301: components["responses"]["moved_permanently"];
@@ -95679,21 +95679,21 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The names of the labels to set for the issue. The labels you set replace any existing labels. You can pass an empty array to remove all labels. Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. You can also add labels to the existing labels for an issue. For more information, see "[Add labels to an issue](https://docs.github.com/rest/reference/issues#add-labels-to-an-issue)." */
-          labels?: (string)[];
-        }, (string)[], {
-          labels?: ({
+          labels?: string[];
+        }, string[], {
+          labels?: {
               name: string;
-            })[];
-        }, ({
+            }[];
+        }, {
             name: string;
-          })[], string]>;
+          }[], string]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["label"])[];
+          "application/json": components["schemas"]["label"][];
         };
       };
       301: components["responses"]["moved_permanently"];
@@ -95718,21 +95718,21 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description The names of the labels to add to the issue's existing labels. You can pass an empty array to remove all labels. Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. You can also replace all of the labels for an issue. For more information, see "[Set labels for an issue](https://docs.github.com/rest/reference/issues#set-labels-for-an-issue)." */
-          labels?: (string)[];
-        }, (string)[], {
-          labels?: ({
+          labels?: string[];
+        }, string[], {
+          labels?: {
               name: string;
-            })[];
-        }, ({
+            }[];
+        }, {
             name: string;
-          })[], string]>;
+          }[], string]>;
       };
     };
     responses: {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["label"])[];
+          "application/json": components["schemas"]["label"][];
         };
       };
       301: components["responses"]["moved_permanently"];
@@ -95778,7 +95778,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["label"])[];
+          "application/json": components["schemas"]["label"][];
         };
       };
       301: components["responses"]["moved_permanently"];
@@ -95868,7 +95868,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -95957,7 +95957,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["timeline-issue-events"])[];
+          "application/json": components["schemas"]["timeline-issue-events"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -95983,7 +95983,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["deploy-key"])[];
+          "application/json": components["schemas"]["deploy-key"][];
         };
       };
     };
@@ -96087,7 +96087,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["label"])[];
+          "application/json": components["schemas"]["label"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -96381,7 +96381,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["milestone"])[];
+          "application/json": components["schemas"]["milestone"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -96536,7 +96536,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["label"])[];
+          "application/json": components["schemas"]["label"][];
         };
       };
     };
@@ -96567,7 +96567,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["thread"])[];
+          "application/json": components["schemas"]["thread"][];
         };
       };
     };
@@ -96767,7 +96767,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["page-build"])[];
+          "application/json": components["schemas"]["page-build"][];
         };
       };
     };
@@ -96943,7 +96943,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["project"])[];
+          "application/json": components["schemas"]["project"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -97020,7 +97020,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["pull-request-simple"])[];
+          "application/json": components["schemas"]["pull-request-simple"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -97111,7 +97111,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["pull-request-review-comment"])[];
+          "application/json": components["schemas"]["pull-request-review-comment"][];
         };
       };
     };
@@ -97210,7 +97210,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -97449,7 +97449,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["pull-request-review-comment"])[];
+          "application/json": components["schemas"]["pull-request-review-comment"][];
         };
       };
     };
@@ -97586,7 +97586,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["commit"])[];
+          "application/json": components["schemas"]["commit"][];
         };
       };
     };
@@ -97614,7 +97614,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["diff-entry"])[];
+          "application/json": components["schemas"]["diff-entry"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -97742,9 +97742,9 @@ export interface operations {
       content: {
         "application/json": {
           /** @description An array of user `login`s that will be requested. */
-          reviewers?: (string)[];
+          reviewers?: string[];
           /** @description An array of team `slug`s that will be requested. */
-          team_reviewers?: (string)[];
+          team_reviewers?: string[];
         };
       };
     };
@@ -97776,9 +97776,9 @@ export interface operations {
       content: {
         "application/json": {
           /** @description An array of user `login`s that will be removed. */
-          reviewers: (string)[];
+          reviewers: string[];
           /** @description An array of team `slug`s that will be removed. */
-          team_reviewers?: (string)[];
+          team_reviewers?: string[];
         };
       };
     };
@@ -97815,7 +97815,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["pull-request-review"])[];
+          "application/json": components["schemas"]["pull-request-review"][];
         };
       };
     };
@@ -97851,7 +97851,7 @@ export interface operations {
            */
           event?: "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
           /** @description Use the following table to specify the location, destination, and contents of the draft review comment. */
-          comments?: ({
+          comments?: {
               /** @description The relative path to the file that necessitates a review comment. */
               path: string;
               /** @description The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below. */
@@ -97862,7 +97862,7 @@ export interface operations {
               side?: string;
               start_line?: number;
               start_side?: string;
-            })[];
+            }[];
         };
       };
     };
@@ -97979,7 +97979,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["review-comment"])[];
+          "application/json": components["schemas"]["review-comment"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -98173,7 +98173,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["release"])[];
+          "application/json": components["schemas"]["release"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -98511,7 +98511,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["release-asset"])[];
+          "application/json": components["schemas"]["release-asset"][];
         };
       };
     };
@@ -98591,7 +98591,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -98678,7 +98678,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["repository-rule"])[];
+          "application/json": components["schemas"]["repository-rule"][];
         };
       };
     };
@@ -98704,7 +98704,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["repository-ruleset"])[];
+          "application/json": components["schemas"]["repository-ruleset"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -98735,10 +98735,10 @@ export interface operations {
           target?: "branch" | "tag";
           enforcement: components["schemas"]["repository-rule-enforcement"];
           /** @description The actors that can bypass the rules in this ruleset */
-          bypass_actors?: (components["schemas"]["repository-ruleset-bypass-actor"])[];
+          bypass_actors?: components["schemas"]["repository-ruleset-bypass-actor"][];
           conditions?: components["schemas"]["repository-ruleset-conditions"];
           /** @description An array of rules within the ruleset. */
-          rules?: (components["schemas"]["repository-rule"])[];
+          rules?: components["schemas"]["repository-rule"][];
         };
       };
     };
@@ -98807,10 +98807,10 @@ export interface operations {
           target?: "branch" | "tag";
           enforcement?: components["schemas"]["repository-rule-enforcement"];
           /** @description The actors that can bypass the rules in this ruleset */
-          bypass_actors?: (components["schemas"]["repository-ruleset-bypass-actor"])[];
+          bypass_actors?: components["schemas"]["repository-ruleset-bypass-actor"][];
           conditions?: components["schemas"]["repository-ruleset-conditions"];
           /** @description An array of rules within the ruleset. */
-          rules?: (components["schemas"]["repository-rule"])[];
+          rules?: components["schemas"]["repository-rule"][];
         };
       };
     };
@@ -98875,7 +98875,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["secret-scanning-alert"])[];
+          "application/json": components["schemas"]["secret-scanning-alert"][];
         };
       };
       /** @description Repository is public or secret scanning is disabled for the repository */
@@ -98980,7 +98980,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["secret-scanning-location"])[];
+          "application/json": components["schemas"]["secret-scanning-location"][];
         };
       };
       /** @description Repository is public, or secret scanning is disabled for the repository, or the resource is not found */
@@ -99018,7 +99018,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["repository-advisory"])[];
+          "application/json": components["schemas"]["repository-advisory"][];
         };
       };
       400: components["responses"]["bad_request"];
@@ -99176,7 +99176,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[] | (components["schemas"]["stargazer"])[];
+          "application/json": components["schemas"]["simple-user"][] | components["schemas"]["stargazer"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -99197,7 +99197,7 @@ export interface operations {
       /** @description Returns a weekly aggregate of the number of additions and deletions pushed to a repository. */
       200: {
         content: {
-          "application/json": (components["schemas"]["code-frequency-stat"])[];
+          "application/json": components["schemas"]["code-frequency-stat"][];
         };
       };
       202: components["responses"]["accepted"];
@@ -99219,7 +99219,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["commit-activity"])[];
+          "application/json": components["schemas"]["commit-activity"][];
         };
       };
       202: components["responses"]["accepted"];
@@ -99247,7 +99247,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["contributor-activity"])[];
+          "application/json": components["schemas"]["contributor-activity"][];
         };
       };
       202: components["responses"]["accepted"];
@@ -99300,7 +99300,7 @@ export interface operations {
       /** @description For example, `[2, 14, 25]` indicates that there were 25 total commits, during the 2:00pm hour on Tuesdays. All times are based on the time zone of individual commits. */
       200: {
         content: {
-          "application/json": (components["schemas"]["code-frequency-stat"])[];
+          "application/json": components["schemas"]["code-frequency-stat"][];
         };
       };
       204: components["responses"]["no_content"];
@@ -99379,7 +99379,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
     };
@@ -99472,7 +99472,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["tag"])[];
+          "application/json": components["schemas"]["tag"][];
         };
       };
     };
@@ -99494,7 +99494,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["tag-protection"])[];
+          "application/json": components["schemas"]["tag-protection"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -99602,7 +99602,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -99642,7 +99642,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository. **Note:** Topic `names` cannot contain uppercase letters. */
-          names: (string)[];
+          names: string[];
         };
       };
     };
@@ -99696,7 +99696,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["content-traffic"])[];
+          "application/json": components["schemas"]["content-traffic"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -99717,7 +99717,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["referrer-traffic"])[];
+          "application/json": components["schemas"]["referrer-traffic"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -99766,7 +99766,7 @@ export interface operations {
           /** @description The new name to be given to the repository. */
           new_name?: string;
           /** @description ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories. */
-          team_ids?: (number)[];
+          team_ids?: number[];
         };
       };
     };
@@ -99927,7 +99927,7 @@ export interface operations {
           Link?: string;
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -99958,7 +99958,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["actions-secret"])[];
+            secrets: components["schemas"]["actions-secret"][];
           };
         };
       };
@@ -100154,7 +100154,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            variables: (components["schemas"]["actions-variable"])[];
+            variables: components["schemas"]["actions-variable"][];
           };
         };
       };
@@ -100310,7 +100310,7 @@ export interface operations {
           "application/json": {
             total_count: number;
             incomplete_results: boolean;
-            items: (components["schemas"]["code-search-result-item"])[];
+            items: components["schemas"]["code-search-result-item"][];
           };
         };
       };
@@ -100350,7 +100350,7 @@ export interface operations {
           "application/json": {
             total_count: number;
             incomplete_results: boolean;
-            items: (components["schemas"]["commit-search-result-item"])[];
+            items: components["schemas"]["commit-search-result-item"][];
           };
         };
       };
@@ -100391,7 +100391,7 @@ export interface operations {
           "application/json": {
             total_count: number;
             incomplete_results: boolean;
-            items: (components["schemas"]["issue-search-result-item"])[];
+            items: components["schemas"]["issue-search-result-item"][];
           };
         };
       };
@@ -100434,7 +100434,7 @@ export interface operations {
           "application/json": {
             total_count: number;
             incomplete_results: boolean;
-            items: (components["schemas"]["label-search-result-item"])[];
+            items: components["schemas"]["label-search-result-item"][];
           };
         };
       };
@@ -100475,7 +100475,7 @@ export interface operations {
           "application/json": {
             total_count: number;
             incomplete_results: boolean;
-            items: (components["schemas"]["repo-search-result-item"])[];
+            items: components["schemas"]["repo-search-result-item"][];
           };
         };
       };
@@ -100512,7 +100512,7 @@ export interface operations {
           "application/json": {
             total_count: number;
             incomplete_results: boolean;
-            items: (components["schemas"]["topic-search-result-item"])[];
+            items: components["schemas"]["topic-search-result-item"][];
           };
         };
       };
@@ -100552,7 +100552,7 @@ export interface operations {
           "application/json": {
             total_count: number;
             incomplete_results: boolean;
-            items: (components["schemas"]["user-search-result-item"])[];
+            items: components["schemas"]["user-search-result-item"][];
           };
         };
       };
@@ -100697,7 +100697,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team-discussion"])[];
+          "application/json": components["schemas"]["team-discussion"][];
         };
       };
     };
@@ -100842,7 +100842,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team-discussion-comment"])[];
+          "application/json": components["schemas"]["team-discussion-comment"][];
         };
       };
     };
@@ -100984,7 +100984,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
     };
@@ -101051,7 +101051,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["reaction"])[];
+          "application/json": components["schemas"]["reaction"][];
         };
       };
     };
@@ -101114,7 +101114,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-invitation"])[];
+          "application/json": components["schemas"]["organization-invitation"][];
         };
       };
     };
@@ -101145,7 +101145,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -101361,7 +101361,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team-project"])[];
+          "application/json": components["schemas"]["team-project"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -101476,7 +101476,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -101589,7 +101589,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team"])[];
+          "application/json": components["schemas"]["team"][];
         };
       };
       403: components["responses"]["forbidden"];
@@ -101672,7 +101672,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -101766,7 +101766,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            codespaces: (components["schemas"]["codespace"])[];
+            codespaces: components["schemas"]["codespace"][];
           };
         };
       };
@@ -101888,7 +101888,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            secrets: (components["schemas"]["codespaces-secret"])[];
+            secrets: components["schemas"]["codespaces-secret"][];
           };
         };
       };
@@ -102086,7 +102086,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            repositories: (components["schemas"]["minimal-repository"])[];
+            repositories: components["schemas"]["minimal-repository"][];
           };
         };
       };
@@ -102114,7 +102114,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description An array of repository ids for which a codespace can access the secret. You can manage the list of selected repositories using the [List selected repositories for a user secret](https://docs.github.com/rest/reference/codespaces#list-selected-repositories-for-a-user-secret), [Add a selected repository to a user secret](https://docs.github.com/rest/reference/codespaces#add-a-selected-repository-to-a-user-secret), and [Remove a selected repository from a user secret](https://docs.github.com/rest/reference/codespaces#remove-a-selected-repository-from-a-user-secret) endpoints. */
-          selected_repository_ids: (number)[];
+          selected_repository_ids: number[];
         };
       };
     };
@@ -102246,7 +102246,7 @@ export interface operations {
           /** @description Display name for this codespace */
           display_name?: string;
           /** @description Recently opened folders inside the codespace. It is currently used by the clients to determine the folder path to load the codespace in. */
-          recent_folders?: (string)[];
+          recent_folders?: string[];
         };
       };
     };
@@ -102337,7 +102337,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            machines: (components["schemas"]["codespace-machine"])[];
+            machines: components["schemas"]["codespace-machine"][];
           };
         };
       };
@@ -102465,7 +102465,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package"])[];
+          "application/json": components["schemas"]["package"][];
         };
       };
     };
@@ -102490,7 +102490,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["email"])[];
+          "application/json": components["schemas"]["email"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -102518,7 +102518,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["email"])[];
+          "application/json": components["schemas"]["email"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -102536,15 +102536,15 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description Adds one or more email addresses to your GitHub account. Must contain at least one email address. **Note:** Alternatively, you can pass a single email address or an `array` of emails addresses directly, but we recommend that you pass an object using the `emails` key. */
-          emails: (string)[];
-        }, (string)[], string]>;
+          emails: string[];
+        }, string[], string]>;
       };
     };
     responses: {
       /** @description Response */
       201: {
         content: {
-          "application/json": (components["schemas"]["email"])[];
+          "application/json": components["schemas"]["email"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -102563,8 +102563,8 @@ export interface operations {
       content: {
         "application/json": OneOf<[{
           /** @description Email addresses associated with the GitHub user account. */
-          emails: (string)[];
-        }, (string)[], string]>;
+          emails: string[];
+        }, string[], string]>;
       };
     };
     responses: {
@@ -102595,7 +102595,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -102621,7 +102621,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -102708,7 +102708,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["gpg-key"])[];
+          "application/json": components["schemas"]["gpg-key"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -102815,7 +102815,7 @@ export interface operations {
         content: {
           "application/json": {
             total_count: number;
-            installations: (components["schemas"]["installation"])[];
+            installations: components["schemas"]["installation"][];
           };
         };
       };
@@ -102854,7 +102854,7 @@ export interface operations {
           "application/json": {
             total_count: number;
             repository_selection?: string;
-            repositories: (components["schemas"]["repository"])[];
+            repositories: components["schemas"]["repository"][];
           };
         };
       };
@@ -102985,7 +102985,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["issue"])[];
+          "application/json": components["schemas"]["issue"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103010,7 +103010,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["key"])[];
+          "application/json": components["schemas"]["key"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103108,7 +103108,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["user-marketplace-purchase"])[];
+          "application/json": components["schemas"]["user-marketplace-purchase"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103134,7 +103134,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["user-marketplace-purchase"])[];
+          "application/json": components["schemas"]["user-marketplace-purchase"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103161,7 +103161,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["org-membership"])[];
+          "application/json": components["schemas"]["org-membership"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103242,7 +103242,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["migration"])[];
+          "application/json": components["schemas"]["migration"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103276,8 +103276,8 @@ export interface operations {
            */
           org_metadata_only?: boolean;
           /** @description Exclude attributes from the API response to improve performance */
-          exclude?: ("repositories")[];
-          repositories: (string)[];
+          exclude?: "repositories"[];
+          repositories: string[];
         };
       };
     };
@@ -103308,7 +103308,7 @@ export interface operations {
   "migrations/get-status-for-authenticated-user": {
     parameters: {
       query?: {
-        exclude?: (string)[];
+        exclude?: string[];
       };
       path: {
         migration_id: components["parameters"]["migration-id"];
@@ -103425,7 +103425,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
       404: components["responses"]["not_found"];
@@ -103453,7 +103453,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-simple"])[];
+          "application/json": components["schemas"]["organization-simple"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103481,7 +103481,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package"])[];
+          "application/json": components["schemas"]["package"][];
         };
       };
       400: components["responses"]["package_es_list_error"];
@@ -103583,7 +103583,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package-version"])[];
+          "application/json": components["schemas"]["package-version"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -103709,7 +103709,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["email"])[];
+          "application/json": components["schemas"]["email"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103752,7 +103752,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["repository"])[];
+          "application/json": components["schemas"]["repository"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103927,7 +103927,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["repository-invitation"])[];
+          "application/json": components["schemas"]["repository-invitation"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -103986,7 +103986,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["social-account"])[];
+          "application/json": components["schemas"]["social-account"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -104004,7 +104004,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description Full URLs for the social media profiles to add. */
-          account_urls: (string)[];
+          account_urls: string[];
         };
       };
     };
@@ -104012,7 +104012,7 @@ export interface operations {
       /** @description Response */
       201: {
         content: {
-          "application/json": (components["schemas"]["social-account"])[];
+          "application/json": components["schemas"]["social-account"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -104031,7 +104031,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description Full URLs for the social media profiles to delete. */
-          account_urls: (string)[];
+          account_urls: string[];
         };
       };
     };
@@ -104063,7 +104063,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["ssh-signing-key"])[];
+          "application/json": components["schemas"]["ssh-signing-key"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -104165,8 +104165,8 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["repository"])[];
-          "application/vnd.github.v3.star+json": (components["schemas"]["starred-repository"])[];
+          "application/json": components["schemas"]["repository"][];
+          "application/vnd.github.v3.star+json": components["schemas"]["starred-repository"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -104257,7 +104257,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -104283,7 +104283,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["team-full"])[];
+          "application/json": components["schemas"]["team-full"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -104312,7 +104312,7 @@ export interface operations {
           Link?: string;
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
       304: components["responses"]["not_modified"];
@@ -104359,7 +104359,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package"])[];
+          "application/json": components["schemas"]["package"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -104384,7 +104384,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
     };
@@ -104408,7 +104408,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
     };
@@ -104428,7 +104428,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
     };
@@ -104454,7 +104454,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
     };
@@ -104480,7 +104480,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["simple-user"])[];
+          "application/json": components["schemas"]["simple-user"][];
         };
       };
     };
@@ -104522,7 +104522,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["base-gist"])[];
+          "application/json": components["schemas"]["base-gist"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -104549,7 +104549,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["gpg-key"])[];
+          "application/json": components["schemas"]["gpg-key"][];
         };
       };
     };
@@ -104630,7 +104630,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["key-simple"])[];
+          "application/json": components["schemas"]["key-simple"][];
         };
       };
     };
@@ -104658,7 +104658,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["organization-simple"])[];
+          "application/json": components["schemas"]["organization-simple"][];
         };
       };
     };
@@ -104686,7 +104686,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package"])[];
+          "application/json": components["schemas"]["package"][];
         };
       };
       400: components["responses"]["package_es_list_error"];
@@ -104791,7 +104791,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["package-version"])[];
+          "application/json": components["schemas"]["package-version"][];
         };
       };
       401: components["responses"]["requires_authentication"];
@@ -104900,7 +104900,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["project"])[];
+          "application/json": components["schemas"]["project"][];
         };
       };
       422: components["responses"]["validation_failed"];
@@ -104924,7 +104924,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
     };
@@ -104944,7 +104944,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (components["schemas"]["event"])[];
+          "application/json": components["schemas"]["event"][];
         };
       };
     };
@@ -104976,7 +104976,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
     };
@@ -105071,7 +105071,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["social-account"])[];
+          "application/json": components["schemas"]["social-account"][];
         };
       };
     };
@@ -105097,7 +105097,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["ssh-signing-key"])[];
+          "application/json": components["schemas"]["ssh-signing-key"][];
         };
       };
     };
@@ -105127,7 +105127,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["starred-repository"])[] | (components["schemas"]["repository"])[];
+          "application/json": components["schemas"]["starred-repository"][] | components["schemas"]["repository"][];
         };
       };
     };
@@ -105153,7 +105153,7 @@ export interface operations {
           Link: components["headers"]["link"];
         };
         content: {
-          "application/json": (components["schemas"]["minimal-repository"])[];
+          "application/json": components["schemas"]["minimal-repository"][];
         };
       };
     };
@@ -105167,7 +105167,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "application/json": (string)[];
+          "application/json": string[];
         };
       };
       404: components["responses"]["not_found"];
