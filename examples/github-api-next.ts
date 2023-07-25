@@ -13715,7 +13715,7 @@ export interface components {
         [key: string]: unknown;
       } & (components["schemas"]["simple-user"] | components["schemas"]["team"] | components["schemas"]["organization"]);
       /** @description The team that granted access to GitHub Copilot to the assignee. This will be null if the user was assigned a seat individually. */
-      assigning_team?: components["schemas"]["team"];
+      assigning_team?: components["schemas"]["team"] | null | Record<string, never>;
       /**
        * Format: date
        * @description The pending cancellation date for the seat, in `YYYY-MM-DD` format. This will be null unless the assignee's Copilot access has been canceled during the current billing cycle. If the seat has been cancelled, this corresponds to the start of the organization's next billing cycle.
@@ -23378,7 +23378,7 @@ export interface components {
         id: number;
         node_id: string;
         original_environment: string;
-        payload: string | Record<string, never>;
+        payload: string | Record<string, never> | null;
         /**
          * App
          * @description GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
@@ -25032,7 +25032,7 @@ export interface components {
         public?: boolean;
         /** Format: uri-template */
         pulls_url: string;
-        pushed_at: number | string;
+        pushed_at: number | string | null;
         /** Format: uri-template */
         releases_url: string;
         role_name?: string | null;
@@ -31972,7 +31972,7 @@ export interface components {
           public?: boolean;
           /** Format: uri-template */
           pulls_url: string;
-          pushed_at: number | string;
+          pushed_at: number | string | null;
           /** Format: uri-template */
           releases_url: string;
           role_name?: string | null;
@@ -33939,7 +33939,7 @@ export interface components {
           public?: boolean;
           /** Format: uri-template */
           pulls_url: string;
-          pushed_at: number | string;
+          pushed_at: number | string | null;
           /** Format: uri-template */
           releases_url: string;
           role_name?: string | null;
@@ -40211,7 +40211,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -40551,7 +40551,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -41399,7 +41399,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -41739,7 +41739,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -42588,7 +42588,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -42928,7 +42928,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -43900,7 +43900,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -44240,7 +44240,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -45088,7 +45088,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -45428,7 +45428,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -46357,7 +46357,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -46697,7 +46697,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -47562,7 +47562,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -47902,7 +47902,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -48751,7 +48751,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -49091,7 +49091,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -49940,7 +49940,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -50280,7 +50280,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -51453,7 +51453,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -51786,7 +51786,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -52725,7 +52725,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -53058,7 +53058,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -54004,7 +54004,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -54337,7 +54337,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -55132,7 +55132,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -55465,7 +55465,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -56317,7 +56317,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -56604,7 +56604,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -57450,7 +57450,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -57783,7 +57783,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -58667,7 +58667,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -59007,7 +59007,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -59911,7 +59911,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -60251,7 +60251,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -61135,7 +61135,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -61475,7 +61475,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -62376,7 +62376,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -62709,7 +62709,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -63559,7 +63559,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -63853,7 +63853,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -64753,7 +64753,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -65047,7 +65047,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -65969,7 +65969,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -66302,7 +66302,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -67188,7 +67188,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -67528,7 +67528,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -68393,7 +68393,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -68726,7 +68726,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -69575,7 +69575,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -69915,7 +69915,7 @@ export interface components {
             public?: boolean;
             /** Format: uri-template */
             pulls_url: string;
-            pushed_at: number | string;
+            pushed_at: number | string | null;
             /** Format: uri-template */
             releases_url: string;
             role_name?: string | null;
@@ -70692,7 +70692,7 @@ export interface components {
         public?: boolean;
         /** Format: uri-template */
         pulls_url: string;
-        pushed_at: number | string;
+        pushed_at: number | string | null;
         /** Format: uri-template */
         releases_url: string;
         role_name?: string | null;
@@ -70814,19 +70814,19 @@ export interface components {
             name?: string;
             version?: string;
             npm_user?: string;
-            author?: string | Record<string, never>;
-            bugs?: string | Record<string, never>;
+            author?: string | Record<string, never> | null;
+            bugs?: string | Record<string, never> | null;
             dependencies?: Record<string, never>;
             dev_dependencies?: Record<string, never>;
             peer_dependencies?: Record<string, never>;
             optional_dependencies?: Record<string, never>;
             description?: string;
-            dist?: string | Record<string, never>;
+            dist?: string | Record<string, never> | null;
             git_head?: string;
             homepage?: string;
             license?: string;
             main?: string;
-            repository?: string | Record<string, never>;
+            repository?: string | Record<string, never> | null;
             scripts?: Record<string, never>;
             id?: string;
             node_version?: string;
@@ -70839,7 +70839,7 @@ export interface components {
             files?: string[];
             bin?: Record<string, never>;
             man?: Record<string, never>;
-            directories?: string | Record<string, never>;
+            directories?: string | Record<string, never> | null;
             os?: string[];
             cpu?: string[];
             readme?: string;
@@ -70850,7 +70850,7 @@ export interface components {
             deleted_by_id?: number;
           }) | null;
           nuget_metadata?: (({
-              id?: string | Record<string, never> | number;
+              id?: string | Record<string, never> | number | null;
               name?: string;
               value?: OneOf<[boolean, string, number, {
                 url?: string;
@@ -74399,7 +74399,7 @@ export interface components {
         public?: boolean;
         /** Format: uri-template */
         pulls_url: string;
-        pushed_at: number | string;
+        pushed_at: number | string | null;
         /** Format: uri-template */
         releases_url: string;
         role_name?: string | null;
@@ -74708,7 +74708,7 @@ export interface components {
         public?: boolean;
         /** Format: uri-template */
         pulls_url: string;
-        pushed_at: number | string;
+        pushed_at: number | string | null;
         /** Format: uri-template */
         releases_url: string;
         role_name?: string | null;
@@ -75017,7 +75017,7 @@ export interface components {
         public?: boolean;
         /** Format: uri-template */
         pulls_url: string;
-        pushed_at: number | string;
+        pushed_at: number | string | null;
         /** Format: uri-template */
         releases_url: string;
         role_name?: string | null;
@@ -75357,7 +75357,7 @@ export interface components {
         public?: boolean;
         /** Format: uri-template */
         pulls_url: string;
-        pushed_at: number | string;
+        pushed_at: number | string | null;
         /** Format: uri-template */
         releases_url: string;
         role_name?: string | null;
@@ -75666,7 +75666,7 @@ export interface components {
         public?: boolean;
         /** Format: uri-template */
         pulls_url: string;
-        pushed_at: number | string;
+        pushed_at: number | string | null;
         /** Format: uri-template */
         releases_url: string;
         role_name?: string | null;
@@ -95617,7 +95617,7 @@ export interface operations {
           body?: string;
           /** @description Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is deprecated.**_ */
           assignee?: string | null;
-          milestone?: string | number;
+          milestone?: string | number | null;
           /** @description Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._ */
           labels?: (OneOf<[string, {
               id?: number;
@@ -95946,7 +95946,7 @@ export interface operations {
       content: {
         "application/json": {
           /** @description The title of the issue. */
-          title?: string | number;
+          title?: string | number | null;
           /** @description The contents of the issue. */
           body?: string | null;
           /** @description Username to assign to this issue. **This field is deprecated.** */
@@ -95961,7 +95961,7 @@ export interface operations {
            * @enum {string|null}
            */
           state_reason?: "completed" | "not_planned" | "reopened" | null;
-          milestone?: string | number;
+          milestone?: string | number | null;
           /** @description Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
           labels?: (OneOf<[string, {
               id?: number;
