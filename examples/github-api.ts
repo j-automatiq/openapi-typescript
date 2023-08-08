@@ -17,6 +17,20 @@ export interface paths {
      */
     get: operations["meta/root"];
   };
+  "/advisories": {
+    /**
+     * List global security advisories
+     * @description List global security advisories and filter using parameters such as ecosystem, GHSA ID, CVE ID, etc.
+     */
+    get: operations["security-advisories/list-global-advisories"];
+  };
+  "/advisories/{ghsa_id}": {
+    /**
+     * Get a global security advisory
+     * @description Gets a global security advisory using its GitHub Security Advisory (GHSA) identifier.
+     */
+    get: operations["security-advisories/get-global-advisory"];
+  };
   "/app": {
     /**
      * Get the authenticated app
@@ -671,6 +685,9 @@ export interface paths {
      * @description Lists all self-hosted runners configured in an organization.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     get: operations["actions/list-self-hosted-runners-for-org"];
   };
@@ -680,6 +697,9 @@ export interface paths {
      * @description Lists binaries for the runner application that you can download and run.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     get: operations["actions/list-runner-applications-for-org"];
   };
@@ -689,6 +709,9 @@ export interface paths {
      * @description Generates a configuration that can be passed to the runner application at startup.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     post: operations["actions/generate-runner-jitconfig-for-org"];
   };
@@ -698,6 +721,9 @@ export interface paths {
      * @description Returns a token that you can pass to the `config` script. The token expires after one hour.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      *
      * Example using registration token:
      *
@@ -715,6 +741,9 @@ export interface paths {
      * @description Returns a token that you can pass to the `config` script to remove a self-hosted runner from an organization. The token expires after one hour.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      *
      * Example using remove token:
      *
@@ -733,6 +762,9 @@ export interface paths {
      * @description Gets a specific self-hosted runner configured in an organization.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     get: operations["actions/get-self-hosted-runner-for-org"];
     /**
@@ -740,6 +772,9 @@ export interface paths {
      * @description Forces the removal of a self-hosted runner from an organization. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     delete: operations["actions/delete-self-hosted-runner-from-org"];
   };
@@ -749,6 +784,9 @@ export interface paths {
      * @description Lists all labels for a self-hosted runner configured in an organization.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     get: operations["actions/list-labels-for-self-hosted-runner-for-org"];
     /**
@@ -757,6 +795,9 @@ export interface paths {
      * self-hosted runner configured in an organization.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     put: operations["actions/set-custom-labels-for-self-hosted-runner-for-org"];
     /**
@@ -764,6 +805,9 @@ export interface paths {
      * @description Add custom labels to a self-hosted runner configured in an organization.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     post: operations["actions/add-custom-labels-to-self-hosted-runner-for-org"];
     /**
@@ -772,6 +816,9 @@ export interface paths {
      * organization. Returns the remaining read-only labels from the runner.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     delete: operations["actions/remove-all-custom-labels-from-self-hosted-runner-for-org"];
   };
@@ -785,195 +832,220 @@ export interface paths {
      * present on the runner.
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     delete: operations["actions/remove-custom-label-from-self-hosted-runner-for-org"];
   };
   "/orgs/{org}/actions/secrets": {
     /**
      * List organization secrets
-     * @description Lists all secrets available in an organization without revealing their encrypted values. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * @description Lists all secrets available in an organization without revealing their
+     * encrypted values.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/list-org-secrets"];
   };
   "/orgs/{org}/actions/secrets/public-key": {
     /**
      * Get an organization public key
-     * @description Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * @description Gets your public key, which you need to encrypt secrets. You need to
+     * encrypt a secret before you can create or update secrets.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/get-org-public-key"];
   };
   "/orgs/{org}/actions/secrets/{secret_name}": {
     /**
      * Get an organization secret
-     * @description Gets a single organization secret without revealing its encrypted value. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * @description Gets a single organization secret without revealing its encrypted value.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/get-org-secret"];
     /**
      * Create or update an organization secret
      * @description Creates or updates an organization secret with an encrypted value. Encrypt your secret using
-     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
-     * token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to
-     * use this endpoint.
+     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
      *
-     * **Example encrypting a secret using Node.js*
-     *
-     * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-     *
-     * ```
-     * const sodium = require('libsodium-wrappers')
-     * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-     * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-     *
-     * //Check if libsodium is ready and then proceed.
-     * sodium.ready.then(() => {
-     *   // Convert Secret & Base64 key to Uint8Array.
-     *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-     *   let binsec = sodium.from_string(secret)
-     *
-     *   //Encrypt the secret using LibSodium
-     *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-     *
-     *   // Convert encrypted Uint8Array to Base64
-     *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-     *
-     *   console.log(output)
-     * });
-     * ```
-     *
-     * **Example encrypting a secret using Python**
-     *
-     * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-     *
-     * ```
-     * from base64 import b64encode
-     * from nacl import encoding, public
-     *
-     * def encrypt(public_key: str, secret_value: str) -> str:
-     *   """Encrypt a Unicode string using the public key."""
-     *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-     *   sealed_box = public.SealedBox(public_key)
-     *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-     *   return b64encode(encrypted).decode("utf-8")
-     * ```
-     *
-     * **Example encrypting a secret using C#**
-     *
-     * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-     *
-     * ```
-     * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-     * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-     *
-     * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-     *
-     * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-     * ```
-     *
-     * **Example encrypting a secret using Ruby**
-     *
-     * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-     *
-     * ```ruby
-     * require "rbnacl"
-     * require "base64"
-     *
-     * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-     * public_key = RbNaCl::PublicKey.new(key)
-     *
-     * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-     * encrypted_secret = box.encrypt("my_secret")
-     *
-     * # Print the base64 encoded secret
-     * puts Base64.strict_encode64(encrypted_secret)
-     * ```
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     put: operations["actions/create-or-update-org-secret"];
     /**
      * Delete an organization secret
-     * @description Deletes a secret in an organization using the secret name. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * @description Deletes a secret in an organization using the secret name.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     delete: operations["actions/delete-org-secret"];
   };
   "/orgs/{org}/actions/secrets/{secret_name}/repositories": {
     /**
      * List selected repositories for an organization secret
-     * @description Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * @description Lists all repositories that have been selected when the `visibility`
+     * for repository access to a secret is set to `selected`.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/list-selected-repos-for-org-secret"];
     /**
      * Set selected repositories for an organization secret
-     * @description Replaces all repositories for an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * @description Replaces all repositories for an organization secret when the `visibility`
+     * for repository access is set to `selected`. The visibility is set when you [Create
+     * or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     put: operations["actions/set-selected-repos-for-org-secret"];
   };
   "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}": {
     /**
      * Add selected repository to an organization secret
-     * @description Adds a repository to an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * @description Adds a repository to an organization secret when the `visibility` for
+     * repository access is set to `selected`. The visibility is set when you [Create or
+     * update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     put: operations["actions/add-selected-repo-to-org-secret"];
     /**
      * Remove selected repository from an organization secret
-     * @description Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * @description Removes a repository from an organization secret when the `visibility`
+     * for repository access is set to `selected`. The visibility is set when you [Create
+     * or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     delete: operations["actions/remove-selected-repo-from-org-secret"];
   };
   "/orgs/{org}/actions/variables": {
     /**
      * List organization variables
-     * @description Lists all organization variables. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+     * @description Lists all organization variables.
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint. Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     get: operations["actions/list-org-variables"];
     /**
      * Create an organization variable
      * @description Creates an organization variable that you can reference in a GitHub Actions workflow.
+     *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     post: operations["actions/create-org-variable"];
   };
   "/orgs/{org}/actions/variables/{name}": {
     /**
      * Get an organization variable
-     * @description Gets a specific variable in an organization. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+     * @description Gets a specific variable in an organization.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     get: operations["actions/get-org-variable"];
     /**
      * Delete an organization variable
      * @description Deletes an organization variable using the variable name.
+     *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     delete: operations["actions/delete-org-variable"];
     /**
      * Update an organization variable
      * @description Updates an organization variable that you can reference in a GitHub Actions workflow.
+     *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     patch: operations["actions/update-org-variable"];
   };
   "/orgs/{org}/actions/variables/{name}/repositories": {
     /**
      * List selected repositories for an organization variable
-     * @description Lists all repositories that can access an organization variable that is available to selected repositories. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+     * @description Lists all repositories that can access an organization variable
+     * that is available to selected repositories.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     get: operations["actions/list-selected-repos-for-org-variable"];
     /**
      * Set selected repositories for an organization variable
-     * @description Replaces all repositories for an organization variable that is available to selected repositories. Organization variables that are available to selected repositories have their `visibility` field set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+     * @description Replaces all repositories for an organization variable that is available
+     * to selected repositories. Organization variables that are available to selected
+     * repositories have their `visibility` field set to `selected`.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this
+     * endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     put: operations["actions/set-selected-repos-for-org-variable"];
   };
   "/orgs/{org}/actions/variables/{name}/repositories/{repository_id}": {
     /**
      * Add selected repository to an organization variable
-     * @description Adds a repository to an organization variable that is available to selected repositories. Organization variables that are available to selected repositories have their `visibility` field set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+     * @description Adds a repository to an organization variable that is available to selected repositories.
+     * Organization variables that are available to selected repositories have their `visibility` field set to `selected`.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     put: operations["actions/add-selected-repo-to-org-variable"];
     /**
      * Remove selected repository from an organization variable
-     * @description Removes a repository from an organization variable that is available to selected repositories. Organization variables that are available to selected repositories have their `visibility` field set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+     * @description Removes a repository from an organization variable that is
+     * available to selected repositories. Organization variables that are available to
+     * selected repositories have their `visibility` field set to `selected`.
+     *
+     * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     delete: operations["actions/remove-selected-repo-from-org-variable"];
   };
@@ -1023,38 +1095,38 @@ export interface paths {
      */
     get: operations["codespaces/list-in-organization"];
   };
-  "/orgs/{org}/codespaces/billing": {
+  "/orgs/{org}/codespaces/access": {
     /**
      * Manage access control for organization codespaces
      * @deprecated
-     * @description Sets which users can access codespaces in an organization. This is synonymous with granting or revoking codespaces billing permissions for users according to the visibility.
+     * @description Sets which users can access codespaces in an organization. This is synonymous with granting or revoking codespaces access permissions for users according to the visibility.
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
      */
-    put: operations["codespaces/set-codespaces-billing"];
+    put: operations["codespaces/set-codespaces-access"];
   };
-  "/orgs/{org}/codespaces/billing/selected_users": {
+  "/orgs/{org}/codespaces/access/selected_users": {
     /**
-     * Add users to Codespaces billing for an organization
+     * Add users to Codespaces access for an organization
      * @deprecated
      * @description Codespaces for the specified users will be billed to the organization.
      *
-     * To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+     * To use this endpoint, the access settings for the organization must be set to `selected_members`.
      * For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
      */
-    post: operations["codespaces/set-codespaces-billing-users"];
+    post: operations["codespaces/set-codespaces-access-users"];
     /**
-     * Remove users from Codespaces billing for an organization
+     * Remove users from Codespaces access for an organization
      * @deprecated
      * @description Codespaces for the specified users will no longer be billed to the organization.
      *
-     * To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+     * To use this endpoint, the access settings for the organization must be set to `selected_members`.
      * For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
      *
      * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
      */
-    delete: operations["codespaces/delete-codespaces-billing-users"];
+    delete: operations["codespaces/delete-codespaces-access-users"];
   };
   "/orgs/{org}/codespaces/secrets": {
     /**
@@ -1081,80 +1153,10 @@ export interface paths {
     /**
      * Create or update an organization secret
      * @description Creates or updates an organization secret with an encrypted value. Encrypt your secret using
-     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
+     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+     *
+     * You must authenticate using an access
      * token with the `admin:org` scope to use this endpoint.
-     *
-     * **Example encrypting a secret using Node.js**
-     *
-     * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-     *
-     * ```
-     * const sodium = require('libsodium-wrappers')
-     * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-     * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-     *
-     * //Check if libsodium is ready and then proceed.
-     * sodium.ready.then(() => {
-     *   // Convert Secret & Base64 key to Uint8Array.
-     *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-     *   let binsec = sodium.from_string(secret)
-     *
-     *   //Encrypt the secret using LibSodium
-     *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-     *
-     *   // Convert encrypted Uint8Array to Base64
-     *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-     *
-     *   console.log(output)
-     * });
-     * ```
-     *
-     * **Example encrypting a secret using Python**
-     *
-     * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-     *
-     * ```
-     * from base64 import b64encode
-     * from nacl import encoding, public
-     *
-     * def encrypt(public_key: str, secret_value: str) -> str:
-     *   """Encrypt a Unicode string using the public key."""
-     *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-     *   sealed_box = public.SealedBox(public_key)
-     *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-     *   return b64encode(encrypted).decode("utf-8")
-     * ```
-     *
-     * **Example encrypting a secret using C#**
-     *
-     * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-     *
-     * ```
-     * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-     * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-     *
-     * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-     *
-     * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-     * ```
-     *
-     * **Example encrypting a secret using Ruby**
-     *
-     * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-     *
-     * ```ruby
-     * require "rbnacl"
-     * require "base64"
-     *
-     * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-     * public_key = RbNaCl::PublicKey.new(key)
-     *
-     * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-     * encrypted_secret = box.encrypt("my_secret")
-     *
-     * # Print the base64 encoded secret
-     * puts Base64.strict_encode64(encrypted_secret)
-     * ```
      */
     put: operations["codespaces/create-or-update-org-secret"];
     /**
@@ -1313,81 +1315,11 @@ export interface paths {
     /**
      * Create or update an organization secret
      * @description Creates or updates an organization secret with an encrypted value. Encrypt your secret using
-     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
+     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+     *
+     * You must authenticate using an access
      * token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization
      * permission to use this endpoint.
-     *
-     * **Example encrypting a secret using Node.js**
-     *
-     * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-     *
-     * ```
-     * const sodium = require('libsodium-wrappers')
-     * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-     * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-     *
-     * //Check if libsodium is ready and then proceed.
-     * sodium.ready.then(() => {
-     *   // Convert Secret & Base64 key to Uint8Array.
-     *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-     *   let binsec = sodium.from_string(secret)
-     *
-     *   //Encrypt the secret using LibSodium
-     *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-     *
-     *   // Convert encrypted Uint8Array to Base64
-     *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-     *
-     *   console.log(output)
-     * });
-     * ```
-     *
-     * **Example encrypting a secret using Python**
-     *
-     * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-     *
-     * ```
-     * from base64 import b64encode
-     * from nacl import encoding, public
-     *
-     * def encrypt(public_key: str, secret_value: str) -> str:
-     *   """Encrypt a Unicode string using the public key."""
-     *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-     *   sealed_box = public.SealedBox(public_key)
-     *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-     *   return b64encode(encrypted).decode("utf-8")
-     * ```
-     *
-     * **Example encrypting a secret using C#**
-     *
-     * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-     *
-     * ```
-     * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-     * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-     *
-     * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-     *
-     * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-     * ```
-     *
-     * **Example encrypting a secret using Ruby**
-     *
-     * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-     *
-     * ```ruby
-     * require "rbnacl"
-     * require "base64"
-     *
-     * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-     * public_key = RbNaCl::PublicKey.new(key)
-     *
-     * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-     * encrypted_secret = box.encrypt("my_secret")
-     *
-     * # Print the base64 encoded secret
-     * puts Base64.strict_encode64(encrypted_secret)
-     * ```
      */
     put: operations["dependabot/create-or-update-org-secret"];
     /**
@@ -2262,7 +2194,7 @@ export interface paths {
      * **Note:**
      * The response contains the `state` of the membership and the member's `role`.
      *
-     * The `role` for organization owners is set to `maintainer`. For more information about `maintainer` roles, see see [Create a team](https://docs.github.com/rest/teams/teams#create-a-team).
+     * The `role` for organization owners is set to `maintainer`. For more information about `maintainer` roles, see [Create a team](https://docs.github.com/rest/teams/teams#create-a-team).
      */
     get: operations["teams/get-membership-for-user-in-org"];
     /**
@@ -2539,8 +2471,9 @@ export interface paths {
     /**
      * Download an artifact
      * @description Gets a redirect URL to download an archive for a repository. This URL expires after 1 minute. Look for `Location:` in
-     * the response header to find the URL for the download. The `:archive_format` must be `zip`. Anyone with read access to
-     * the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope.
+     * the response header to find the URL for the download. The `:archive_format` must be `zip`.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
      * GitHub Apps must have the `actions:read` permission to use this endpoint.
      */
     get: operations["actions/download-artifact"];
@@ -2603,7 +2536,11 @@ export interface paths {
   "/repos/{owner}/{repo}/actions/jobs/{job_id}/rerun": {
     /**
      * Re-run a job from a workflow run
-     * @description Re-run a job and its dependent jobs in a workflow run. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
+     * @description Re-run a job and its dependent jobs in a workflow run.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `actions:write` permission to use this endpoint.
      */
     post: operations["actions/re-run-job-for-workflow-run"];
   };
@@ -2626,14 +2563,24 @@ export interface paths {
   "/repos/{owner}/{repo}/actions/organization-secrets": {
     /**
      * List repository organization secrets
-     * @description Lists all organization secrets shared with a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Lists all organization secrets shared with a repository without revealing their encrypted
+     * values.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/list-repo-organization-secrets"];
   };
   "/repos/{owner}/{repo}/actions/organization-variables": {
     /**
      * List repository organization variables
-     * @description Lists all organiation variables shared with a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+     * @description Lists all organiation variables shared with a repository.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     get: operations["actions/list-repo-organization-variables"];
   };
@@ -2714,7 +2661,12 @@ export interface paths {
   "/repos/{owner}/{repo}/actions/runners": {
     /**
      * List self-hosted runners for a repository
-     * @description Lists all self-hosted runners configured in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * @description Lists all self-hosted runners configured in a repository.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     get: operations["actions/list-self-hosted-runners-for-repo"];
   };
@@ -2724,6 +2676,9 @@ export interface paths {
      * @description Lists binaries for the runner application that you can download and run.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     get: operations["actions/list-runner-applications-for-repo"];
   };
@@ -2733,37 +2688,49 @@ export interface paths {
      * @description Generates a configuration that can be passed to the runner application at startup.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     post: operations["actions/generate-runner-jitconfig-for-repo"];
   };
   "/repos/{owner}/{repo}/actions/runners/registration-token": {
     /**
      * Create a registration token for a repository
-     * @description Returns a token that you can pass to the `config` script. The token expires after one hour. You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * @description Returns a token that you can pass to the `config` script. The token
+     * expires after one hour.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      *
      * Example using registration token:
      *
-     * Configure your self-hosted runner, replacing `TOKEN` with the registration token provided by this endpoint.
+     * Configure your self-hosted runner, replacing `TOKEN` with the registration token provided
+     * by this endpoint.
      *
-     * ```
-     * ./config.sh --url https://github.com/octo-org/octo-repo-artifacts --token TOKEN
-     * ```
+     * ```config.sh --url https://github.com/octo-org/octo-repo-artifacts --token TOKEN```
      */
     post: operations["actions/create-registration-token-for-repo"];
   };
   "/repos/{owner}/{repo}/actions/runners/remove-token": {
     /**
      * Create a remove token for a repository
-     * @description Returns a token that you can pass to remove a self-hosted runner from a repository. The token expires after one hour.
+     * @description Returns a token that you can pass to remove a self-hosted runner from
+     * a repository. The token expires after one hour.
+     *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      *
      * Example using remove token:
      *
-     * To remove your self-hosted runner from a repository, replace TOKEN with the remove token provided by this endpoint.
+     * To remove your self-hosted runner from a repository, replace TOKEN with
+     * the remove token provided by this endpoint.
      *
-     * ```
-     * ./config.sh remove --token TOKEN
-     * ```
+     * ```config.sh remove --token TOKEN```
      */
     post: operations["actions/create-remove-token-for-repo"];
   };
@@ -2772,16 +2739,20 @@ export interface paths {
      * Get a self-hosted runner for a repository
      * @description Gets a specific self-hosted runner configured in a repository.
      *
-     * You must authenticate using an access token with the `repo` scope to use this
-     * endpoint.
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     get: operations["actions/get-self-hosted-runner-for-repo"];
     /**
      * Delete a self-hosted runner from a repository
      * @description Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
      *
-     * You must authenticate using an access token with the `repo`
-     * scope to use this endpoint.
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     delete: operations["actions/delete-self-hosted-runner-from-repo"];
   };
@@ -2790,8 +2761,10 @@ export interface paths {
      * List labels for a self-hosted runner for a repository
      * @description Lists all labels for a self-hosted runner configured in a repository.
      *
-     * You must authenticate using an access token with the `repo` scope to use this
-     * endpoint.
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     get: operations["actions/list-labels-for-self-hosted-runner-for-repo"];
     /**
@@ -2799,16 +2772,20 @@ export interface paths {
      * @description Remove all previous custom labels and set the new custom labels for a specific
      * self-hosted runner configured in a repository.
      *
-     * You must authenticate using an access token with the `repo` scope to use this
-     * endpoint.
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     put: operations["actions/set-custom-labels-for-self-hosted-runner-for-repo"];
     /**
      * Add custom labels to a self-hosted runner for a repository
      * @description Add custom labels to a self-hosted runner configured in a repository.
      *
-     * You must authenticate using an access token with the `repo` scope to use this
-     * endpoint.
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     post: operations["actions/add-custom-labels-to-self-hosted-runner-for-repo"];
     /**
@@ -2816,8 +2793,10 @@ export interface paths {
      * @description Remove all custom labels from a self-hosted runner configured in a
      * repository. Returns the remaining read-only labels from the runner.
      *
-     * You must authenticate using an access token with the `repo` scope to use this
-     * endpoint.
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     delete: operations["actions/remove-all-custom-labels-from-self-hosted-runner-for-repo"];
   };
@@ -2830,8 +2809,10 @@ export interface paths {
      * This endpoint returns a `404 Not Found` status if the custom label is not
      * present on the runner.
      *
-     * You must authenticate using an access token with the `repo` scope to use this
-     * endpoint.
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+     * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
     delete: operations["actions/remove-custom-label-from-self-hosted-runner-for-repo"];
   };
@@ -2911,7 +2892,11 @@ export interface paths {
   "/repos/{owner}/{repo}/actions/runs/{run_id}/cancel": {
     /**
      * Cancel a workflow run
-     * @description Cancels a workflow run using its `id`. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
+     * @description Cancels a workflow run using its `id`.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `actions:write` permission to use this endpoint.
      */
     post: operations["actions/cancel-workflow-run"];
   };
@@ -2923,6 +2908,7 @@ export interface paths {
      * **Note:** GitHub Apps can only review their own custom deployment protection rules.
      * To approve or reject pending deployments that are waiting for review from a specific person or team, see [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments`](/rest/actions/workflow-runs#review-pending-deployments-for-a-workflow-run).
      *
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have read and write permission for **Deployments** to use this endpoint.
      */
     post: operations["actions/review-custom-gates-for-run"];
@@ -2991,141 +2977,108 @@ export interface paths {
   "/repos/{owner}/{repo}/actions/secrets": {
     /**
      * List repository secrets
-     * @description Lists all secrets available in a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Lists all secrets available in a repository without revealing their encrypted
+     * values.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/list-repo-secrets"];
   };
   "/repos/{owner}/{repo}/actions/secrets/public-key": {
     /**
      * Get a repository public key
-     * @description Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Gets your public key, which you need to encrypt secrets. You need to
+     * encrypt a secret before you can create or update secrets.
+     *
+     * Anyone with read access to the repository can use this endpoint.
+     * If the repository is private you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/get-repo-public-key"];
   };
   "/repos/{owner}/{repo}/actions/secrets/{secret_name}": {
     /**
      * Get a repository secret
-     * @description Gets a single repository secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Gets a single repository secret without revealing its encrypted value.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/get-repo-secret"];
     /**
      * Create or update a repository secret
      * @description Creates or updates a repository secret with an encrypted value. Encrypt your secret using
-     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
-     * token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use
-     * this endpoint.
+     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
      *
-     * **Example encrypting a secret using Node.js**
-     *
-     * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-     *
-     * ```
-     * const sodium = require('libsodium-wrappers')
-     * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-     * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-     *
-     * //Check if libsodium is ready and then proceed.
-     * sodium.ready.then(() => {
-     *   // Convert Secret & Base64 key to Uint8Array.
-     *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-     *   let binsec = sodium.from_string(secret)
-     *
-     *   //Encrypt the secret using LibSodium
-     *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-     *
-     *   // Convert encrypted Uint8Array to Base64
-     *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-     *
-     *   console.log(output)
-     * });
-     * ```
-     *
-     * **Example encrypting a secret using Python**
-     *
-     * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-     *
-     * ```
-     * from base64 import b64encode
-     * from nacl import encoding, public
-     *
-     * def encrypt(public_key: str, secret_value: str) -> str:
-     *   """Encrypt a Unicode string using the public key."""
-     *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-     *   sealed_box = public.SealedBox(public_key)
-     *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-     *   return b64encode(encrypted).decode("utf-8")
-     * ```
-     *
-     * **Example encrypting a secret using C#**
-     *
-     * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-     *
-     * ```
-     * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-     * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-     *
-     * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-     *
-     * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-     * ```
-     *
-     * **Example encrypting a secret using Ruby**
-     *
-     * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-     *
-     * ```ruby
-     * require "rbnacl"
-     * require "base64"
-     *
-     * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-     * public_key = RbNaCl::PublicKey.new(key)
-     *
-     * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-     * encrypted_secret = box.encrypt("my_secret")
-     *
-     * # Print the base64 encoded secret
-     * puts Base64.strict_encode64(encrypted_secret)
-     * ```
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     put: operations["actions/create-or-update-repo-secret"];
     /**
      * Delete a repository secret
-     * @description Deletes a secret in a repository using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Deletes a secret in a repository using the secret name.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     delete: operations["actions/delete-repo-secret"];
   };
   "/repos/{owner}/{repo}/actions/variables": {
     /**
      * List repository variables
-     * @description Lists all repository variables. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+     * @description Lists all repository variables.
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     get: operations["actions/list-repo-variables"];
     /**
      * Create a repository variable
      * @description Creates a repository variable that you can reference in a GitHub Actions workflow.
+     *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     post: operations["actions/create-repo-variable"];
   };
   "/repos/{owner}/{repo}/actions/variables/{name}": {
     /**
      * Get a repository variable
-     * @description Gets a specific variable in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+     * @description Gets a specific variable in a repository.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     get: operations["actions/get-repo-variable"];
     /**
      * Delete a repository variable
      * @description Deletes a repository variable using the variable name.
+     *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     delete: operations["actions/delete-repo-variable"];
     /**
      * Update a repository variable
      * @description Updates a repository variable that you can reference in a GitHub Actions workflow.
+     *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     patch: operations["actions/update-repo-variable"];
   };
@@ -3189,6 +3142,16 @@ export interface paths {
      * You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
      */
     get: operations["actions/get-workflow-usage"];
+  };
+  "/repos/{owner}/{repo}/activity": {
+    /**
+     * List repository activities
+     * @description Lists a detailed history of changes to a repository, such as pushes, merges, force pushes, and branch changes, and associates these changes with commits and users.
+     *
+     * For more information about viewing repository activity,
+     * see "[Viewing repository activity](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository/viewing-repository-activity)."
+     */
+    get: operations["repos/list-activities"];
   };
   "/repos/{owner}/{repo}/assignees": {
     /**
@@ -3953,81 +3916,11 @@ export interface paths {
     /**
      * Create or update a repository secret
      * @description Creates or updates a repository secret with an encrypted value. Encrypt your secret using
-     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
+     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+     *
+     * You must authenticate using an access
      * token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets`
      * repository permission to use this endpoint.
-     *
-     * Example of encrypting a secret using Node.js:
-     *
-     * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-     *
-     * ```
-     * const sodium = require('libsodium-wrappers')
-     * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-     * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-     *
-     * //Check if libsodium is ready and then proceed.
-     * sodium.ready.then(() => {
-     *   // Convert Secret & Base64 key to Uint8Array.
-     *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-     *   let binsec = sodium.from_string(secret)
-     *
-     *   //Encrypt the secret using LibSodium
-     *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-     *
-     *   // Convert encrypted Uint8Array to Base64
-     *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-     *
-     *   console.log(output)
-     * });
-     * ```
-     *
-     * Example of encrypting a secret using Python:
-     *
-     * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-     *
-     * ```
-     * from base64 import b64encode
-     * from nacl import encoding, public
-     *
-     * def encrypt(public_key: str, secret_value: str) -> str:
-     *   """Encrypt a Unicode string using the public key."""
-     *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-     *   sealed_box = public.SealedBox(public_key)
-     *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-     *   return b64encode(encrypted).decode("utf-8")
-     * ```
-     *
-     * Example of encrypting a secret using C#:
-     *
-     * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-     *
-     * ```
-     * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-     * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-     *
-     * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-     *
-     * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-     * ```
-     *
-     * Example of encrypting a secret using Ruby:
-     *
-     * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-     *
-     * ```ruby
-     * require "rbnacl"
-     * require "base64"
-     *
-     * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-     * public_key = RbNaCl::PublicKey.new(key)
-     *
-     * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-     * encrypted_secret = box.encrypt("my_secret")
-     *
-     * # Print the base64 encoded secret
-     * puts Base64.strict_encode64(encrypted_secret)
-     * ```
      */
     put: operations["codespaces/create-or-update-repo-secret"];
     /**
@@ -4505,81 +4398,11 @@ export interface paths {
     /**
      * Create or update a repository secret
      * @description Creates or updates a repository secret with an encrypted value. Encrypt your secret using
-     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
+     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+     *
+     * You must authenticate using an access
      * token with the `repo` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` repository
      * permission to use this endpoint.
-     *
-     * **Example encrypting a secret using Node.js**
-     *
-     * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-     *
-     * ```
-     * const sodium = require('libsodium-wrappers')
-     * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-     * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-     *
-     * //Check if libsodium is ready and then proceed.
-     * sodium.ready.then(() => {
-     *   // Convert Secret & Base64 key to Uint8Array.
-     *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-     *   let binsec = sodium.from_string(secret)
-     *
-     *   //Encrypt the secret using LibSodium
-     *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-     *
-     *   // Convert encrypted Uint8Array to Base64
-     *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-     *
-     *   console.log(output)
-     * });
-     * ```
-     *
-     * **Example encrypting a secret using Python**
-     *
-     * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-     *
-     * ```
-     * from base64 import b64encode
-     * from nacl import encoding, public
-     *
-     * def encrypt(public_key: str, secret_value: str) -> str:
-     *   """Encrypt a Unicode string using the public key."""
-     *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-     *   sealed_box = public.SealedBox(public_key)
-     *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-     *   return b64encode(encrypted).decode("utf-8")
-     * ```
-     *
-     * **Example encrypting a secret using C#**
-     *
-     * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-     *
-     * ```
-     * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-     * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-     *
-     * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-     *
-     * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-     * ```
-     *
-     * **Example encrypting a secret using Ruby**
-     *
-     * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-     *
-     * ```ruby
-     * require "rbnacl"
-     * require "base64"
-     *
-     * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-     * public_key = RbNaCl::PublicKey.new(key)
-     *
-     * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-     * encrypted_secret = box.encrypt("my_secret")
-     *
-     * # Print the base64 encoded secret
-     * puts Base64.strict_encode64(encrypted_secret)
-     * ```
      */
     put: operations["dependabot/create-or-update-repo-secret"];
     /**
@@ -6516,141 +6339,109 @@ export interface paths {
   "/repositories/{repository_id}/environments/{environment_name}/secrets": {
     /**
      * List environment secrets
-     * @description Lists all secrets available in an environment without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Lists all secrets available in an environment without revealing their
+     * encrypted values.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/list-environment-secrets"];
   };
   "/repositories/{repository_id}/environments/{environment_name}/secrets/public-key": {
     /**
      * Get an environment public key
-     * @description Get the public key for an environment, which you need to encrypt environment secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Get the public key for an environment, which you need to encrypt environment
+     * secrets. You need to encrypt a secret before you can create or update secrets.
+     *
+     * Anyone with read access to the repository can use this endpoint.
+     * If the repository is private you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/get-environment-public-key"];
   };
   "/repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}": {
     /**
      * Get an environment secret
-     * @description Gets a single environment secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Gets a single environment secret without revealing its encrypted value.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     get: operations["actions/get-environment-secret"];
     /**
      * Create or update an environment secret
      * @description Creates or updates an environment secret with an encrypted value. Encrypt your secret using
-     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
-     * token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use
-     * this endpoint.
+     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
      *
-     * **Example encrypting a secret using Node.js**
-     *
-     * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-     *
-     * ```
-     * const sodium = require('libsodium-wrappers')
-     * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-     * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-     *
-     * //Check if libsodium is ready and then proceed.
-     * sodium.ready.then(() => {
-     *   // Convert Secret & Base64 key to Uint8Array.
-     *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-     *   let binsec = sodium.from_string(secret)
-     *
-     *   //Encrypt the secret using LibSodium
-     *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-     *
-     *   // Convert encrypted Uint8Array to Base64
-     *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-     *
-     *   console.log(output)
-     * });
-     * ```
-     *
-     * **Example encrypting a secret using Python**
-     *
-     * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-     *
-     * ```
-     * from base64 import b64encode
-     * from nacl import encoding, public
-     *
-     * def encrypt(public_key: str, secret_value: str) -> str:
-     *   """Encrypt a Unicode string using the public key."""
-     *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-     *   sealed_box = public.SealedBox(public_key)
-     *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-     *   return b64encode(encrypted).decode("utf-8")
-     * ```
-     *
-     * **Example encrypting a secret using C#**
-     *
-     * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-     *
-     * ```
-     * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-     * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-     *
-     * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-     *
-     * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-     * ```
-     *
-     * **Example encrypting a secret using Ruby**
-     *
-     * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-     *
-     * ```ruby
-     * require "rbnacl"
-     * require "base64"
-     *
-     * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-     * public_key = RbNaCl::PublicKey.new(key)
-     *
-     * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-     * encrypted_secret = box.encrypt("my_secret")
-     *
-     * # Print the base64 encoded secret
-     * puts Base64.strict_encode64(encrypted_secret)
-     * ```
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     put: operations["actions/create-or-update-environment-secret"];
     /**
      * Delete an environment secret
-     * @description Deletes a secret in an environment using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * @description Deletes a secret in an environment using the secret name.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
      */
     delete: operations["actions/delete-environment-secret"];
   };
   "/repositories/{repository_id}/environments/{environment_name}/variables": {
     /**
      * List environment variables
-     * @description Lists all environment variables. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+     * @description Lists all environment variables.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     get: operations["actions/list-environment-variables"];
     /**
      * Create an environment variable
      * @description Create an environment variable that you can reference in a GitHub Actions workflow.
+     *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     post: operations["actions/create-environment-variable"];
   };
   "/repositories/{repository_id}/environments/{environment_name}/variables/{name}": {
     /**
      * Get an environment variable
-     * @description Gets a specific variable in an environment. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+     * @description Gets a specific variable in an environment.
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
+     * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     get: operations["actions/get-environment-variable"];
     /**
      * Delete an environment variable
      * @description Deletes an environment variable using the variable name.
+     *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     delete: operations["actions/delete-environment-variable"];
     /**
      * Update an environment variable
      * @description Updates an environment variable that you can reference in a GitHub Actions workflow.
+     *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+     * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
     patch: operations["actions/update-environment-variable"];
   };
@@ -7215,83 +7006,11 @@ export interface paths {
     /**
      * Create or update a secret for the authenticated user
      * @description Creates or updates a secret for a user's codespace with an encrypted value. Encrypt your secret using
-     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages).
+     * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
      *
      * You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must also have Codespaces access to use this endpoint.
      *
      * GitHub Apps must have write access to the `codespaces_user_secrets` user permission and `codespaces_secrets` repository permission on all referenced repositories to use this endpoint.
-     *
-     * **Example encrypting a secret using Node.js**
-     *
-     * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-     *
-     * ```
-     * const sodium = require('libsodium-wrappers')
-     * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-     * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-     *
-     * //Check if libsodium is ready and then proceed.
-     * sodium.ready.then(() => {
-     *   // Convert Secret & Base64 key to Uint8Array.
-     *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-     *   let binsec = sodium.from_string(secret)
-     *
-     *   //Encrypt the secret using LibSodium
-     *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-     *
-     *   // Convert encrypted Uint8Array to Base64
-     *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-     *
-     *   console.log(output)
-     * });
-     * ```
-     *
-     * **Example encrypting a secret using Python**
-     *
-     * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-     *
-     * ```
-     * from base64 import b64encode
-     * from nacl import encoding, public
-     *
-     * def encrypt(public_key: str, secret_value: str) -> str:
-     *   """Encrypt a Unicode string using the public key."""
-     *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-     *   sealed_box = public.SealedBox(public_key)
-     *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-     *   return b64encode(encrypted).decode("utf-8")
-     * ```
-     *
-     * **Example encrypting a secret using C#**
-     *
-     * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-     *
-     * ```
-     * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-     * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-     *
-     * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-     *
-     * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-     * ```
-     *
-     * **Example encrypting a secret using Ruby**
-     *
-     * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-     *
-     * ```ruby
-     * require "rbnacl"
-     * require "base64"
-     *
-     * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-     * public_key = RbNaCl::PublicKey.new(key)
-     *
-     * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-     * encrypted_secret = box.encrypt("my_secret")
-     *
-     * # Print the base64 encoded secret
-     * puts Base64.strict_encode64(encrypted_secret)
-     * ```
      */
     put: operations["codespaces/create-or-update-secret-for-authenticated-user"];
     /**
@@ -8327,6 +8046,208 @@ export interface components {
       user_search_url: string;
     };
     /**
+     * @description The package's language or package management ecosystem.
+     * @enum {string}
+     */
+    "security-advisory-ecosystems": "rubygems" | "npm" | "pip" | "maven" | "nuget" | "composer" | "go" | "rust" | "erlang" | "actions" | "pub" | "other" | "swift";
+    /**
+     * Simple User
+     * @description A GitHub user.
+     */
+    "simple-user": {
+      name?: string | null;
+      email?: string | null;
+      /** @example octocat */
+      login: string;
+      /** @example 1 */
+      id: number;
+      /** @example MDQ6VXNlcjE= */
+      node_id: string;
+      /**
+       * Format: uri
+       * @example https://github.com/images/error/octocat_happy.gif
+       */
+      avatar_url: string;
+      /** @example 41d064eb2195891e12d0413f63227ea7 */
+      gravatar_id: string | null;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat
+       */
+      url: string;
+      /**
+       * Format: uri
+       * @example https://github.com/octocat
+       */
+      html_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/followers
+       */
+      followers_url: string;
+      /** @example https://api.github.com/users/octocat/following{/other_user} */
+      following_url: string;
+      /** @example https://api.github.com/users/octocat/gists{/gist_id} */
+      gists_url: string;
+      /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
+      starred_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/subscriptions
+       */
+      subscriptions_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/orgs
+       */
+      organizations_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/repos
+       */
+      repos_url: string;
+      /** @example https://api.github.com/users/octocat/events{/privacy} */
+      events_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/received_events
+       */
+      received_events_url: string;
+      /** @example User */
+      type: string;
+      site_admin: boolean;
+      /** @example "2020-07-09T00:17:55Z" */
+      starred_at?: string;
+    };
+    /**
+     * @description The type of credit the user is receiving.
+     * @enum {string}
+     */
+    "security-advisory-credit-types": "analyst" | "finder" | "reporter" | "coordinator" | "remediation_developer" | "remediation_reviewer" | "remediation_verifier" | "tool" | "sponsor" | "other";
+    /** @description A GitHub Security Advisory. */
+    "global-advisory": {
+      /** @description The GitHub Security Advisory ID. */
+      ghsa_id: string;
+      /** @description The Common Vulnerabilities and Exposures (CVE) ID. */
+      cve_id: string | null;
+      /** @description The API URL for the advisory. */
+      url: string;
+      /**
+       * Format: uri
+       * @description The URL for the advisory.
+       */
+      html_url: string;
+      /**
+       * Format: uri
+       * @description The API URL for the repository advisory.
+       */
+      repository_advisory_url: string | null;
+      /** @description A short summary of the advisory. */
+      summary: string;
+      /** @description A detailed description of what the advisory entails. */
+      description: string | null;
+      /**
+       * @description The type of advisory.
+       * @enum {string}
+       */
+      type: "reviewed" | "unreviewed" | "malware";
+      /**
+       * @description The severity of the advisory.
+       * @enum {string}
+       */
+      severity: "critical" | "high" | "medium" | "low" | "unknown";
+      /**
+       * Format: uri
+       * @description The URL of the advisory's source code.
+       */
+      source_code_location: string | null;
+      identifiers: (readonly ({
+          /**
+           * @description The type of identifier.
+           * @enum {string}
+           */
+          type: "CVE" | "GHSA";
+          /** @description The identifier value. */
+          value: string;
+        })[]) | null;
+      references: string[] | null;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was published, in ISO 8601 format.
+       */
+      published_at: string;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was last updated, in ISO 8601 format.
+       */
+      updated_at: string;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was reviewed by GitHub, in ISO 8601 format.
+       */
+      github_reviewed_at: string | null;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was published in the National Vulnerability Database, in ISO 8601 format.
+       */
+      nvd_published_at: string | null;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was withdrawn, in ISO 8601 format.
+       */
+      withdrawn_at: string | null;
+      /** @description The products and respective version ranges affected by the advisory. */
+      vulnerabilities: (({
+          /** @description The name of the package affected by the vulnerability. */
+          package: ({
+            ecosystem: components["schemas"]["security-advisory-ecosystems"];
+            /** @description The unique package name within its ecosystem. */
+            name: string | null;
+          }) | null;
+          /** @description The range of the package versions affected by the vulnerability. */
+          vulnerable_version_range: string | null;
+          /** @description The package version that resolve the vulnerability. */
+          first_patched_version: string | null;
+          /** @description The functions in the package that are affected by the vulnerability. */
+          vulnerable_functions: readonly string[] | null;
+        })[]) | null;
+      cvss: ({
+        /** @description The CVSS vector. */
+        vector_string: string | null;
+        /** @description The CVSS score. */
+        score: number | null;
+      }) | null;
+      cwes: {
+          /** @description The Common Weakness Enumeration (CWE) identifier. */
+          cwe_id: string;
+          /** @description The name of the CWE. */
+          name: string;
+        }[] | null;
+      credits: readonly {
+          user: components["schemas"]["simple-user"];
+          type: components["schemas"]["security-advisory-credit-types"];
+        }[] | null;
+    };
+    /**
+     * Basic Error
+     * @description Basic Error
+     */
+    "basic-error": {
+      message?: string;
+      documentation_url?: string;
+      url?: string;
+      status?: string;
+    };
+    /**
+     * Validation Error Simple
+     * @description Validation Error Simple
+     */
+    "validation-error-simple": {
+      message: string;
+      documentation_url: string;
+      errors?: string[];
+    };
+    /**
      * Simple User
      * @description A GitHub user.
      */
@@ -8476,25 +8397,6 @@ export interface components {
       webhook_secret?: string | null;
       /** @example "-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEArYxrNYD/iT5CZVpRJu4rBKmmze3PVmT/gCo2ATUvDvZTPTey\nxcGJ3vvrJXazKk06pN05TN29o98jrYz4cengG3YGsXPNEpKsIrEl8NhbnxapEnM9\nJCMRe0P5JcPsfZlX6hmiT7136GRWiGOUba2X9+HKh8QJVLG5rM007TBER9/z9mWm\nrJuNh+m5l320oBQY/Qq3A7wzdEfZw8qm/mIN0FCeoXH1L6B8xXWaAYBwhTEh6SSn\nZHlO1Xu1JWDmAvBCi0RO5aRSKM8q9QEkvvHP4yweAtK3N8+aAbZ7ovaDhyGz8r6r\nzhU1b8Uo0Z2ysf503WqzQgIajr7Fry7/kUwpgQIDAQABAoIBADwJp80Ko1xHPZDy\nfcCKBDfIuPvkmSW6KumbsLMaQv1aGdHDwwTGv3t0ixSay8CGlxMRtRDyZPib6SvQ\n6OH/lpfpbMdW2ErkksgtoIKBVrDilfrcAvrNZu7NxRNbhCSvN8q0s4ICecjbbVQh\nnueSdlA6vGXbW58BHMq68uRbHkP+k+mM9U0mDJ1HMch67wlg5GbayVRt63H7R2+r\nVxcna7B80J/lCEjIYZznawgiTvp3MSanTglqAYi+m1EcSsP14bJIB9vgaxS79kTu\noiSo93leJbBvuGo8QEiUqTwMw4tDksmkLsoqNKQ1q9P7LZ9DGcujtPy4EZsamSJT\ny8OJt0ECgYEA2lxOxJsQk2kI325JgKFjo92mQeUObIvPfSNWUIZQDTjniOI6Gv63\nGLWVFrZcvQBWjMEQraJA9xjPbblV8PtfO87MiJGLWCHFxmPz2dzoedN+2Coxom8m\nV95CLz8QUShuao6u/RYcvUaZEoYs5bHcTmy5sBK80JyEmafJPtCQVxMCgYEAy3ar\nZr3yv4xRPEPMat4rseswmuMooSaK3SKub19WFI5IAtB/e7qR1Rj9JhOGcZz+OQrl\nT78O2OFYlgOIkJPvRMrPpK5V9lslc7tz1FSh3BZMRGq5jSyD7ETSOQ0c8T2O/s7v\nbeEPbVbDe4mwvM24XByH0GnWveVxaDl51ABD65sCgYB3ZAspUkOA5egVCh8kNpnd\nSd6SnuQBE3ySRlT2WEnCwP9Ph6oPgn+oAfiPX4xbRqkL8q/k0BdHQ4h+zNwhk7+h\nWtPYRAP1Xxnc/F+jGjb+DVaIaKGU18MWPg7f+FI6nampl3Q0KvfxwX0GdNhtio8T\nTj1E+SnFwh56SRQuxSh2gwKBgHKjlIO5NtNSflsUYFM+hyQiPiqnHzddfhSG+/3o\nm5nNaSmczJesUYreH5San7/YEy2UxAugvP7aSY2MxB+iGsiJ9WD2kZzTUlDZJ7RV\nUzWsoqBR+eZfVJ2FUWWvy8TpSG6trh4dFxImNtKejCR1TREpSiTV3Zb1dmahK9GV\nrK9NAoGAbBxRLoC01xfxCTgt5BDiBcFVh4fp5yYKwavJPLzHSpuDOrrI9jDn1oKN\nonq5sDU1i391zfQvdrbX4Ova48BN+B7p63FocP/MK5tyyBoT8zQEk2+vWDOw7H/Z\nu5dTCPxTIsoIwUw1I+7yIxqJzLPFgR2gVBwY1ra/8iAqCj+zeBw=\n-----END RSA PRIVATE KEY-----\n" */
       pem?: string;
-    };
-    /**
-     * Basic Error
-     * @description Basic Error
-     */
-    "basic-error": {
-      message?: string;
-      documentation_url?: string;
-      url?: string;
-      status?: string;
-    };
-    /**
-     * Validation Error Simple
-     * @description Validation Error Simple
-     */
-    "validation-error-simple": {
-      message: string;
-      documentation_url: string;
-      errors?: string[];
     };
     /**
      * Format: uri
@@ -8697,75 +8599,6 @@ export interface components {
         /** @description The response payload received. */
         payload: string | null;
       };
-    };
-    /**
-     * Simple User
-     * @description A GitHub user.
-     */
-    "simple-user": {
-      name?: string | null;
-      email?: string | null;
-      /** @example octocat */
-      login: string;
-      /** @example 1 */
-      id: number;
-      /** @example MDQ6VXNlcjE= */
-      node_id: string;
-      /**
-       * Format: uri
-       * @example https://github.com/images/error/octocat_happy.gif
-       */
-      avatar_url: string;
-      /** @example 41d064eb2195891e12d0413f63227ea7 */
-      gravatar_id: string | null;
-      /**
-       * Format: uri
-       * @example https://api.github.com/users/octocat
-       */
-      url: string;
-      /**
-       * Format: uri
-       * @example https://github.com/octocat
-       */
-      html_url: string;
-      /**
-       * Format: uri
-       * @example https://api.github.com/users/octocat/followers
-       */
-      followers_url: string;
-      /** @example https://api.github.com/users/octocat/following{/other_user} */
-      following_url: string;
-      /** @example https://api.github.com/users/octocat/gists{/gist_id} */
-      gists_url: string;
-      /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
-      starred_url: string;
-      /**
-       * Format: uri
-       * @example https://api.github.com/users/octocat/subscriptions
-       */
-      subscriptions_url: string;
-      /**
-       * Format: uri
-       * @example https://api.github.com/users/octocat/orgs
-       */
-      organizations_url: string;
-      /**
-       * Format: uri
-       * @example https://api.github.com/users/octocat/repos
-       */
-      repos_url: string;
-      /** @example https://api.github.com/users/octocat/events{/privacy} */
-      events_url: string;
-      /**
-       * Format: uri
-       * @example https://api.github.com/users/octocat/received_events
-       */
-      received_events_url: string;
-      /** @example User */
-      type: string;
-      site_admin: boolean;
-      /** @example "2020-07-09T00:17:55Z" */
-      starred_at?: string;
     };
     /**
      * Enterprise
@@ -16170,6 +16003,44 @@ export interface components {
       };
     };
     /**
+     * Activity
+     * @description Activity
+     */
+    activity: {
+      /** @example 1296269 */
+      id: number;
+      /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+      node_id: string;
+      /**
+       * @description The SHA of the commit before the activity.
+       * @example 6dcb09b5b57875f334f61aebed695e2e4193db5e
+       */
+      before: string;
+      /**
+       * @description The SHA of the commit after the activity.
+       * @example 827efc6d56897b048c772eb4087f854f46256132
+       */
+      after: string;
+      /**
+       * @description The full Git reference, formatted as `refs/heads/<branch name>`.
+       * @example refs/heads/main
+       */
+      ref: string;
+      /**
+       * Format: date-time
+       * @description The time when the activity occurred.
+       * @example 2011-01-26T19:06:43Z
+       */
+      timestamp: string;
+      /**
+       * @description The type of the activity that was performed.
+       * @example force_push
+       * @enum {string}
+       */
+      activity_type: "push" | "force_push" | "branch_deletion" | "branch_creation" | "pr_merge" | "merge_queue_merge";
+      actor: components["schemas"]["nullable-simple-user"];
+    };
+    /**
      * Autolink reference
      * @description An autolink reference.
      */
@@ -17151,7 +17022,7 @@ export interface components {
        * @enum {string}
        */
       query_suite?: "default" | "extended";
-      /** @description CodeQL languages to be analyzed. Supported values are: `c-cpp`, `csharp`, `go`, `java-kotlin`, `javascript-typescript`, `python`, and `ruby`. */
+      /** @description CodeQL languages to be analyzed. Supported values are: `c-cpp`, `csharp`, `go`, `java-kotlin`, `javascript-typescript`, `python`, `ruby`, and `swift`. */
       languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "python" | "ruby" | "swift")[];
     };
     /**
@@ -21218,11 +21089,6 @@ export interface components {
       type: "commit" | "issue_title" | "issue_body" | "issue_comment";
       details: components["schemas"]["secret-scanning-location-commit"] | components["schemas"]["secret-scanning-location-issue-title"] | components["schemas"]["secret-scanning-location-issue-body"] | components["schemas"]["secret-scanning-location-issue-comment"];
     };
-    /**
-     * @description The package's language or package management ecosystem.
-     * @enum {string}
-     */
-    "security-advisory-ecosystems": "rubygems" | "npm" | "pip" | "maven" | "nuget" | "composer" | "go" | "rust" | "erlang" | "actions" | "pub" | "other" | "swift";
     /** @description A product affected by the vulnerability detailed in a repository security advisory. */
     "repository-advisory-vulnerability": {
       /** @description The name of the package affected by the vulnerability. */
@@ -21238,11 +21104,6 @@ export interface components {
       /** @description The functions in the package that are affected. */
       vulnerable_functions: string[] | null;
     };
-    /**
-     * @description The type of credit the user is receiving.
-     * @enum {string}
-     */
-    "security-advisory-credit-types": "analyst" | "finder" | "reporter" | "coordinator" | "remediation_developer" | "remediation_reviewer" | "remediation_verifier" | "tool" | "sponsor" | "other";
     /** @description A credit given to a user for a repository security advisory. */
     "repository-advisory-credit": {
       user: components["schemas"]["simple-user"];
@@ -23024,6 +22885,42 @@ export interface components {
        * @example 2022-04-28T12:00:00Z
        */
       archived_at: string | null;
+    };
+    /**
+     * @description The reason for resolving the alert.
+     * @enum {string|null}
+     */
+    "secret-scanning-alert-resolution-webhook": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "pattern_deleted" | "pattern_edited" | null;
+    "secret-scanning-alert-webhook": {
+      number?: components["schemas"]["alert-number"];
+      created_at?: components["schemas"]["alert-created-at"];
+      updated_at?: components["schemas"]["nullable-alert-updated-at"];
+      url?: components["schemas"]["alert-url"];
+      html_url?: components["schemas"]["alert-html-url"];
+      /**
+       * Format: uri
+       * @description The REST API URL of the code locations for this alert.
+       */
+      locations_url?: string;
+      resolution?: components["schemas"]["secret-scanning-alert-resolution-webhook"];
+      /**
+       * Format: date-time
+       * @description The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+       */
+      resolved_at?: string | null;
+      resolved_by?: components["schemas"]["nullable-simple-user"];
+      /** @description An optional comment to resolve an alert. */
+      resolution_comment?: string | null;
+      /** @description The type of secret that secret scanning detected. */
+      secret_type?: string;
+      /** @description Whether push protection was bypassed for the detected secret. */
+      push_protection_bypassed?: boolean | null;
+      push_protection_bypassed_by?: components["schemas"]["nullable-simple-user"];
+      /**
+       * Format: date-time
+       * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+       */
+      push_protection_bypassed_at?: string | null;
     };
     /** branch protection rule created event */
     "webhook-branch-protection-rule-created": {
@@ -75049,7 +74946,7 @@ export interface components {
     "webhook-secret-scanning-alert-created": {
       /** @enum {string} */
       action: "created";
-      alert: components["schemas"]["secret-scanning-alert"];
+      alert: components["schemas"]["secret-scanning-alert-webhook"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple"];
@@ -75060,7 +74957,7 @@ export interface components {
     "webhook-secret-scanning-alert-location-created": {
       /** @enum {string} */
       action?: "created";
-      alert: components["schemas"]["secret-scanning-alert"];
+      alert: components["schemas"]["secret-scanning-alert-webhook"];
       installation?: components["schemas"]["simple-installation"];
       location: components["schemas"]["secret-scanning-location"];
       organization?: components["schemas"]["organization-simple"];
@@ -75076,7 +74973,7 @@ export interface components {
     "webhook-secret-scanning-alert-reopened": {
       /** @enum {string} */
       action: "reopened";
-      alert: components["schemas"]["secret-scanning-alert"];
+      alert: components["schemas"]["secret-scanning-alert-webhook"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple"];
@@ -75087,49 +74984,7 @@ export interface components {
     "webhook-secret-scanning-alert-resolved": {
       /** @enum {string} */
       action: "resolved";
-      alert: {
-        created_at?: components["schemas"]["alert-created-at"];
-        html_url?: components["schemas"]["alert-html-url"];
-        /**
-         * Format: uri
-         * @description The REST API URL of the code locations for this alert.
-         */
-        locations_url?: string;
-        number?: components["schemas"]["alert-number"];
-        /** @description Whether push protection was bypassed for the detected secret. */
-        push_protection_bypassed?: boolean | null;
-        /**
-         * Format: date-time
-         * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-         */
-        push_protection_bypassed_at?: string | null;
-        push_protection_bypassed_by?: components["schemas"]["nullable-simple-user"];
-        /**
-         * @description **Required when the `state` is `resolved`.** The reason for resolving the alert.
-         * @enum {string|null}
-         */
-        resolution?: null | "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "pattern_deleted" | "pattern_edited";
-        /**
-         * Format: date-time
-         * @description The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-         */
-        resolved_at?: string | null;
-        resolved_by?: components["schemas"]["nullable-simple-user"];
-        /** @description An optional comment to resolve an alert. */
-        resolution_comment?: string | null;
-        /** @description The secret that was detected. */
-        secret?: string;
-        /** @description The type of secret that secret scanning detected. */
-        secret_type?: string;
-        /**
-         * @description User-friendly name for the detected secret, matching the `secret_type`.
-         * For a list of built-in patterns, see "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)."
-         */
-        secret_type_display_name?: string;
-        state?: components["schemas"]["secret-scanning-alert-state"];
-        updated_at?: components["schemas"]["alert-updated-at"];
-        url?: components["schemas"]["alert-url"];
-      };
+      alert: components["schemas"]["secret-scanning-alert-webhook"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple"];
@@ -75140,7 +74995,7 @@ export interface components {
     "webhook-secret-scanning-alert-revoked": {
       /** @enum {string} */
       action: "revoked";
-      alert: components["schemas"]["secret-scanning-alert"];
+      alert: components["schemas"]["secret-scanning-alert-webhook"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple"];
@@ -80099,16 +79954,16 @@ export interface components {
     };
   };
   responses: {
-    /** @description Resource not found */
-    not_found: {
-      content: {
-        "application/json": components["schemas"]["basic-error"];
-      };
-    };
     /** @description Validation failed, or the endpoint has been spammed. */
     validation_failed_simple: {
       content: {
         "application/json": components["schemas"]["validation-error-simple"];
+      };
+    };
+    /** @description Resource not found */
+    not_found: {
+      content: {
+        "application/json": components["schemas"]["basic-error"];
       };
     };
     /** @description Bad Request */
@@ -80250,6 +80105,12 @@ export interface components {
         "application/json": components["schemas"]["basic-error"];
       };
     };
+    /** @description Response if GitHub Advanced Security is not enabled for this repository */
+    dependency_review_forbidden: {
+      content: {
+        "application/json": components["schemas"]["basic-error"];
+      };
+    };
     /** @description Unavailable due to service under maintenance. */
     porter_maintenance: {
       content: {
@@ -80258,6 +80119,14 @@ export interface components {
     };
   };
   parameters: {
+    /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. */
+    "pagination-before"?: string;
+    /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. */
+    "pagination-after"?: string;
+    /** @description The direction to sort the results by. */
+    direction?: "asc" | "desc";
+    /** @description The GHSA (GitHub Security Advisory) identifier of the advisory. */
+    ghsa_id: string;
     /** @description The number of results per page (max 100). */
     "per-page"?: number;
     /** @description Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors. */
@@ -80302,12 +80171,6 @@ export interface components {
      * `updated` means when the alert's state last changed.
      */
     "dependabot-alert-sort"?: "created" | "updated";
-    /** @description The direction to sort the results by. */
-    direction?: "asc" | "desc";
-    /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. */
-    "pagination-before"?: string;
-    /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. */
-    "pagination-after"?: string;
     /**
      * @description **Deprecated**. The number of results per page (max 100), starting from the first matching result.
      * This parameter must not be used in combination with `last`.
@@ -80533,8 +80396,6 @@ export interface components {
     "asset-id": number;
     /** @description The unique identifier of the release. */
     "release-id": number;
-    /** @description The GHSA (GitHub Security Advisory) identifier of the advisory. */
-    ghsa_id: string;
     /** @description The unique identifier of the tag protection. */
     "tag-protection-id": number;
     /** @description The time frame to display results for. */
@@ -80596,6 +80457,92 @@ export interface operations {
           "application/json": components["schemas"]["root"];
         };
       };
+    };
+  };
+  /**
+   * List global security advisories
+   * @description List global security advisories and filter using parameters such as ecosystem, GHSA ID, CVE ID, etc.
+   */
+  "security-advisories/list-global-advisories": {
+    parameters: {
+      query?: {
+        /** @description If specified, only advisories with this GHSA (GitHub Security Advisory) identifier will be returned. */
+        ghsa_id?: string;
+        /** @description If specified, only advisories of this type will be returned. By default, a request with no other parameters defined will only return reviewed advisories that are not malware. */
+        type?: "reviewed" | "malware" | "unreviewed";
+        /** @description If specified, only advisories with this CVE (Common Vulnerabilities and Exposures) identifier will be returned. */
+        cve_id?: string;
+        /** @description If specified, only advisories for these ecosystems will be returned. */
+        ecosystem?: "actions" | "composer" | "erlang" | "go" | "maven" | "npm" | "nuget" | "other" | "pip" | "pub" | "rubygems" | "rust";
+        /** @description If specified, only advisories with these severities will be returned. */
+        severity?: "unknown" | "low" | "medium" | "high" | "critical";
+        /** @description If specified, only advisories with these Common Weakness Enumerations (CWEs) will be returned. */
+        cwes?: string | string[];
+        /** @description Whether to only return advisories that have been withdrawn. */
+        is_withdrawn?: boolean;
+        /** @description If specified, return advisories that affect any of `package` or `package@version`. A maximum of 1000 packages can be specified. If the query parameter causes the URL to exceed the maximum URL length supported by your client, you must specify fewer packages. */
+        affects?: string | string[];
+        /**
+         * @description If specified, only return advisories that were published on a date or date range.
+         *
+         * For more information on the syntax of the date range, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
+         */
+        published?: string;
+        /**
+         * @description If specified, only return advisories that were updated on a date or date range.
+         *
+         * For more information on the syntax of the date range, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
+         */
+        updated?: string;
+        /**
+         * @description If specified, only show advisories that were updated or published on a date or date range.
+         *
+         * For more information on the syntax of the date range, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
+         */
+        modified?: string;
+        before?: components["parameters"]["pagination-before"];
+        after?: components["parameters"]["pagination-after"];
+        direction?: components["parameters"]["direction"];
+        /** @description The number of results per page (max 100). */
+        per_page?: number;
+        /** @description The property to sort the results by. */
+        sort?: "updated" | "published";
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["global-advisory"][];
+        };
+      };
+      422: components["responses"]["validation_failed_simple"];
+      /** @description Too many requests */
+      429: {
+        content: {
+          "application/json": components["schemas"]["basic-error"];
+        };
+      };
+    };
+  };
+  /**
+   * Get a global security advisory
+   * @description Gets a global security advisory using its GitHub Security Advisory (GHSA) identifier.
+   */
+  "security-advisories/get-global-advisory": {
+    parameters: {
+      path: {
+        ghsa_id: components["parameters"]["ghsa_id"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["global-advisory"];
+        };
+      };
+      404: components["responses"]["not_found"];
     };
   };
   /**
@@ -82973,6 +82920,9 @@ export interface operations {
    * @description Lists all self-hosted runners configured in an organization.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/list-self-hosted-runners-for-org": {
     parameters: {
@@ -83004,6 +82954,9 @@ export interface operations {
    * @description Lists binaries for the runner application that you can download and run.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/list-runner-applications-for-org": {
     parameters: {
@@ -83025,6 +82978,9 @@ export interface operations {
    * @description Generates a configuration that can be passed to the runner application at startup.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/generate-runner-jitconfig-for-org": {
     parameters: {
@@ -83060,6 +83016,9 @@ export interface operations {
    * @description Returns a token that you can pass to the `config` script. The token expires after one hour.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    *
    * Example using registration token:
    *
@@ -83089,6 +83048,9 @@ export interface operations {
    * @description Returns a token that you can pass to the `config` script to remove a self-hosted runner from an organization. The token expires after one hour.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    *
    * Example using remove token:
    *
@@ -83119,6 +83081,9 @@ export interface operations {
    * @description Gets a specific self-hosted runner configured in an organization.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/get-self-hosted-runner-for-org": {
     parameters: {
@@ -83141,6 +83106,9 @@ export interface operations {
    * @description Forces the removal of a self-hosted runner from an organization. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/delete-self-hosted-runner-from-org": {
     parameters: {
@@ -83159,6 +83127,9 @@ export interface operations {
    * @description Lists all labels for a self-hosted runner configured in an organization.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/list-labels-for-self-hosted-runner-for-org": {
     parameters: {
@@ -83178,6 +83149,9 @@ export interface operations {
    * self-hosted runner configured in an organization.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/set-custom-labels-for-self-hosted-runner-for-org": {
     parameters: {
@@ -83205,6 +83179,9 @@ export interface operations {
    * @description Add custom labels to a self-hosted runner configured in an organization.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/add-custom-labels-to-self-hosted-runner-for-org": {
     parameters: {
@@ -83233,6 +83210,9 @@ export interface operations {
    * organization. Returns the remaining read-only labels from the runner.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/remove-all-custom-labels-from-self-hosted-runner-for-org": {
     parameters: {
@@ -83255,6 +83235,9 @@ export interface operations {
    * present on the runner.
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/remove-custom-label-from-self-hosted-runner-for-org": {
     parameters: {
@@ -83272,7 +83255,13 @@ export interface operations {
   };
   /**
    * List organization secrets
-   * @description Lists all secrets available in an organization without revealing their encrypted values. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * @description Lists all secrets available in an organization without revealing their
+   * encrypted values.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/list-org-secrets": {
     parameters: {
@@ -83301,7 +83290,13 @@ export interface operations {
   };
   /**
    * Get an organization public key
-   * @description Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * @description Gets your public key, which you need to encrypt secrets. You need to
+   * encrypt a secret before you can create or update secrets.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/get-org-public-key": {
     parameters: {
@@ -83320,7 +83315,12 @@ export interface operations {
   };
   /**
    * Get an organization secret
-   * @description Gets a single organization secret without revealing its encrypted value. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * @description Gets a single organization secret without revealing its encrypted value.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/get-org-secret": {
     parameters: {
@@ -83341,81 +83341,12 @@ export interface operations {
   /**
    * Create or update an organization secret
    * @description Creates or updates an organization secret with an encrypted value. Encrypt your secret using
-   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
-   * token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to
-   * use this endpoint.
+   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
    *
-   * **Example encrypting a secret using Node.js*
-   *
-   * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-   *
-   * ```
-   * const sodium = require('libsodium-wrappers')
-   * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-   * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-   *
-   * //Check if libsodium is ready and then proceed.
-   * sodium.ready.then(() => {
-   *   // Convert Secret & Base64 key to Uint8Array.
-   *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-   *   let binsec = sodium.from_string(secret)
-   *
-   *   //Encrypt the secret using LibSodium
-   *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-   *
-   *   // Convert encrypted Uint8Array to Base64
-   *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-   *
-   *   console.log(output)
-   * });
-   * ```
-   *
-   * **Example encrypting a secret using Python**
-   *
-   * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-   *
-   * ```
-   * from base64 import b64encode
-   * from nacl import encoding, public
-   *
-   * def encrypt(public_key: str, secret_value: str) -> str:
-   *   """Encrypt a Unicode string using the public key."""
-   *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-   *   sealed_box = public.SealedBox(public_key)
-   *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-   *   return b64encode(encrypted).decode("utf-8")
-   * ```
-   *
-   * **Example encrypting a secret using C#**
-   *
-   * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-   *
-   * ```
-   * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-   * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-   *
-   * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-   *
-   * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-   * ```
-   *
-   * **Example encrypting a secret using Ruby**
-   *
-   * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-   *
-   * ```ruby
-   * require "rbnacl"
-   * require "base64"
-   *
-   * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-   * public_key = RbNaCl::PublicKey.new(key)
-   *
-   * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-   * encrypted_secret = box.encrypt("my_secret")
-   *
-   * # Print the base64 encoded secret
-   * puts Base64.strict_encode64(encrypted_secret)
-   * ```
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/create-or-update-org-secret": {
     parameters: {
@@ -83454,7 +83385,12 @@ export interface operations {
   };
   /**
    * Delete an organization secret
-   * @description Deletes a secret in an organization using the secret name. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * @description Deletes a secret in an organization using the secret name.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/delete-org-secret": {
     parameters: {
@@ -83470,7 +83406,13 @@ export interface operations {
   };
   /**
    * List selected repositories for an organization secret
-   * @description Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * @description Lists all repositories that have been selected when the `visibility`
+   * for repository access to a secret is set to `selected`.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/list-selected-repos-for-org-secret": {
     parameters: {
@@ -83497,7 +83439,14 @@ export interface operations {
   };
   /**
    * Set selected repositories for an organization secret
-   * @description Replaces all repositories for an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * @description Replaces all repositories for an organization secret when the `visibility`
+   * for repository access is set to `selected`. The visibility is set when you [Create
+   * or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/set-selected-repos-for-org-secret": {
     parameters: {
@@ -83521,7 +83470,14 @@ export interface operations {
   };
   /**
    * Add selected repository to an organization secret
-   * @description Adds a repository to an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * @description Adds a repository to an organization secret when the `visibility` for
+   * repository access is set to `selected`. The visibility is set when you [Create or
+   * update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/add-selected-repo-to-org-secret": {
     parameters: {
@@ -83540,7 +83496,14 @@ export interface operations {
   };
   /**
    * Remove selected repository from an organization secret
-   * @description Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * @description Removes a repository from an organization secret when the `visibility`
+   * for repository access is set to `selected`. The visibility is set when you [Create
+   * or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/remove-selected-repo-from-org-secret": {
     parameters: {
@@ -83559,7 +83522,8 @@ export interface operations {
   };
   /**
    * List organization variables
-   * @description Lists all organization variables. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+   * @description Lists all organization variables.
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint. Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/list-org-variables": {
     parameters: {
@@ -83589,8 +83553,11 @@ export interface operations {
   /**
    * Create an organization variable
    * @description Creates an organization variable that you can reference in a GitHub Actions workflow.
+   *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/create-org-variable": {
     parameters: {
@@ -83626,7 +83593,12 @@ export interface operations {
   };
   /**
    * Get an organization variable
-   * @description Gets a specific variable in an organization. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+   * @description Gets a specific variable in an organization.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/get-org-variable": {
     parameters: {
@@ -83647,8 +83619,11 @@ export interface operations {
   /**
    * Delete an organization variable
    * @description Deletes an organization variable using the variable name.
+   *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/delete-org-variable": {
     parameters: {
@@ -83665,8 +83640,11 @@ export interface operations {
   /**
    * Update an organization variable
    * @description Updates an organization variable that you can reference in a GitHub Actions workflow.
+   *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/update-org-variable": {
     parameters: {
@@ -83699,7 +83677,13 @@ export interface operations {
   };
   /**
    * List selected repositories for an organization variable
-   * @description Lists all repositories that can access an organization variable that is available to selected repositories. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+   * @description Lists all repositories that can access an organization variable
+   * that is available to selected repositories.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/list-selected-repos-for-org-variable": {
     parameters: {
@@ -83728,7 +83712,15 @@ export interface operations {
   };
   /**
    * Set selected repositories for an organization variable
-   * @description Replaces all repositories for an organization variable that is available to selected repositories. Organization variables that are available to selected repositories have their `visibility` field set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+   * @description Replaces all repositories for an organization variable that is available
+   * to selected repositories. Organization variables that are available to selected
+   * repositories have their `visibility` field set to `selected`.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this
+   * endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/set-selected-repos-for-org-variable": {
     parameters: {
@@ -83754,7 +83746,13 @@ export interface operations {
   };
   /**
    * Add selected repository to an organization variable
-   * @description Adds a repository to an organization variable that is available to selected repositories. Organization variables that are available to selected repositories have their `visibility` field set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+   * @description Adds a repository to an organization variable that is available to selected repositories.
+   * Organization variables that are available to selected repositories have their `visibility` field set to `selected`.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/add-selected-repo-to-org-variable": {
     parameters: {
@@ -83773,7 +83771,14 @@ export interface operations {
   };
   /**
    * Remove selected repository from an organization variable
-   * @description Removes a repository from an organization variable that is available to selected repositories. Organization variables that are available to selected repositories have their `visibility` field set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+   * @description Removes a repository from an organization variable that is
+   * available to selected repositories. Organization variables that are available to
+   * selected repositories have their `visibility` field set to `selected`.
+   *
+   * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/remove-selected-repo-from-org-variable": {
     parameters: {
@@ -83949,10 +83954,10 @@ export interface operations {
   /**
    * Manage access control for organization codespaces
    * @deprecated
-   * @description Sets which users can access codespaces in an organization. This is synonymous with granting or revoking codespaces billing permissions for users according to the visibility.
+   * @description Sets which users can access codespaces in an organization. This is synonymous with granting or revoking codespaces access permissions for users according to the visibility.
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
    */
-  "codespaces/set-codespaces-billing": {
+  "codespaces/set-codespaces-access": {
     parameters: {
       path: {
         org: components["parameters"]["org"];
@@ -83983,16 +83988,16 @@ export interface operations {
     };
   };
   /**
-   * Add users to Codespaces billing for an organization
+   * Add users to Codespaces access for an organization
    * @deprecated
    * @description Codespaces for the specified users will be billed to the organization.
    *
-   * To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+   * To use this endpoint, the access settings for the organization must be set to `selected_members`.
    * For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
    */
-  "codespaces/set-codespaces-billing-users": {
+  "codespaces/set-codespaces-access-users": {
     parameters: {
       path: {
         org: components["parameters"]["org"];
@@ -84018,16 +84023,16 @@ export interface operations {
     };
   };
   /**
-   * Remove users from Codespaces billing for an organization
+   * Remove users from Codespaces access for an organization
    * @deprecated
    * @description Codespaces for the specified users will no longer be billed to the organization.
    *
-   * To use this endpoint, the billing settings for the organization must be set to `selected_members`.
+   * To use this endpoint, the access settings for the organization must be set to `selected_members`.
    * For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
    *
    * You must authenticate using an access token with the `admin:org` scope to use this endpoint.
    */
-  "codespaces/delete-codespaces-billing-users": {
+  "codespaces/delete-codespaces-access-users": {
     parameters: {
       path: {
         org: components["parameters"]["org"];
@@ -84128,80 +84133,10 @@ export interface operations {
   /**
    * Create or update an organization secret
    * @description Creates or updates an organization secret with an encrypted value. Encrypt your secret using
-   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
+   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+   *
+   * You must authenticate using an access
    * token with the `admin:org` scope to use this endpoint.
-   *
-   * **Example encrypting a secret using Node.js**
-   *
-   * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-   *
-   * ```
-   * const sodium = require('libsodium-wrappers')
-   * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-   * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-   *
-   * //Check if libsodium is ready and then proceed.
-   * sodium.ready.then(() => {
-   *   // Convert Secret & Base64 key to Uint8Array.
-   *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-   *   let binsec = sodium.from_string(secret)
-   *
-   *   //Encrypt the secret using LibSodium
-   *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-   *
-   *   // Convert encrypted Uint8Array to Base64
-   *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-   *
-   *   console.log(output)
-   * });
-   * ```
-   *
-   * **Example encrypting a secret using Python**
-   *
-   * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-   *
-   * ```
-   * from base64 import b64encode
-   * from nacl import encoding, public
-   *
-   * def encrypt(public_key: str, secret_value: str) -> str:
-   *   """Encrypt a Unicode string using the public key."""
-   *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-   *   sealed_box = public.SealedBox(public_key)
-   *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-   *   return b64encode(encrypted).decode("utf-8")
-   * ```
-   *
-   * **Example encrypting a secret using C#**
-   *
-   * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-   *
-   * ```
-   * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-   * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-   *
-   * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-   *
-   * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-   * ```
-   *
-   * **Example encrypting a secret using Ruby**
-   *
-   * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-   *
-   * ```ruby
-   * require "rbnacl"
-   * require "base64"
-   *
-   * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-   * public_key = RbNaCl::PublicKey.new(key)
-   *
-   * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-   * encrypted_secret = box.encrypt("my_secret")
-   *
-   * # Print the base64 encoded secret
-   * puts Base64.strict_encode64(encrypted_secret)
-   * ```
    */
   "codespaces/create-or-update-org-secret": {
     parameters: {
@@ -84716,81 +84651,11 @@ export interface operations {
   /**
    * Create or update an organization secret
    * @description Creates or updates an organization secret with an encrypted value. Encrypt your secret using
-   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
+   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+   *
+   * You must authenticate using an access
    * token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization
    * permission to use this endpoint.
-   *
-   * **Example encrypting a secret using Node.js**
-   *
-   * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-   *
-   * ```
-   * const sodium = require('libsodium-wrappers')
-   * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-   * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-   *
-   * //Check if libsodium is ready and then proceed.
-   * sodium.ready.then(() => {
-   *   // Convert Secret & Base64 key to Uint8Array.
-   *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-   *   let binsec = sodium.from_string(secret)
-   *
-   *   //Encrypt the secret using LibSodium
-   *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-   *
-   *   // Convert encrypted Uint8Array to Base64
-   *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-   *
-   *   console.log(output)
-   * });
-   * ```
-   *
-   * **Example encrypting a secret using Python**
-   *
-   * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-   *
-   * ```
-   * from base64 import b64encode
-   * from nacl import encoding, public
-   *
-   * def encrypt(public_key: str, secret_value: str) -> str:
-   *   """Encrypt a Unicode string using the public key."""
-   *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-   *   sealed_box = public.SealedBox(public_key)
-   *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-   *   return b64encode(encrypted).decode("utf-8")
-   * ```
-   *
-   * **Example encrypting a secret using C#**
-   *
-   * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-   *
-   * ```
-   * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-   * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-   *
-   * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-   *
-   * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-   * ```
-   *
-   * **Example encrypting a secret using Ruby**
-   *
-   * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-   *
-   * ```ruby
-   * require "rbnacl"
-   * require "base64"
-   *
-   * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-   * public_key = RbNaCl::PublicKey.new(key)
-   *
-   * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-   * encrypted_secret = box.encrypt("my_secret")
-   *
-   * # Print the base64 encoded secret
-   * puts Base64.strict_encode64(encrypted_secret)
-   * ```
    */
   "dependabot/create-or-update-org-secret": {
     parameters: {
@@ -88063,7 +87928,7 @@ export interface operations {
    * **Note:**
    * The response contains the `state` of the membership and the member's `role`.
    *
-   * The `role` for organization owners is set to `maintainer`. For more information about `maintainer` roles, see see [Create a team](https://docs.github.com/rest/teams/teams#create-a-team).
+   * The `role` for organization owners is set to `maintainer`. For more information about `maintainer` roles, see [Create a team](https://docs.github.com/rest/teams/teams#create-a-team).
    */
   "teams/get-membership-for-user-in-org": {
     parameters: {
@@ -89417,8 +89282,9 @@ export interface operations {
   /**
    * Download an artifact
    * @description Gets a redirect URL to download an archive for a repository. This URL expires after 1 minute. Look for `Location:` in
-   * the response header to find the URL for the download. The `:archive_format` must be `zip`. Anyone with read access to
-   * the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope.
+   * the response header to find the URL for the download. The `:archive_format` must be `zip`.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
    * GitHub Apps must have the `actions:read` permission to use this endpoint.
    */
   "actions/download-artifact": {
@@ -89583,7 +89449,11 @@ export interface operations {
   };
   /**
    * Re-run a job from a workflow run
-   * @description Re-run a job and its dependent jobs in a workflow run. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
+   * @description Re-run a job and its dependent jobs in a workflow run.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `actions:write` permission to use this endpoint.
    */
   "actions/re-run-job-for-workflow-run": {
     parameters: {
@@ -89675,7 +89545,12 @@ export interface operations {
   };
   /**
    * List repository organization secrets
-   * @description Lists all organization secrets shared with a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Lists all organization secrets shared with a repository without revealing their encrypted
+   * values.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/list-repo-organization-secrets": {
     parameters: {
@@ -89705,7 +89580,12 @@ export interface operations {
   };
   /**
    * List repository organization variables
-   * @description Lists all organiation variables shared with a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+   * @description Lists all organiation variables shared with a repository.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/list-repo-organization-variables": {
     parameters: {
@@ -89930,7 +89810,12 @@ export interface operations {
   };
   /**
    * List self-hosted runners for a repository
-   * @description Lists all self-hosted runners configured in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * @description Lists all self-hosted runners configured in a repository.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/list-self-hosted-runners-for-repo": {
     parameters: {
@@ -89963,6 +89848,9 @@ export interface operations {
    * @description Lists binaries for the runner application that you can download and run.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/list-runner-applications-for-repo": {
     parameters: {
@@ -89985,6 +89873,9 @@ export interface operations {
    * @description Generates a configuration that can be passed to the runner application at startup.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/generate-runner-jitconfig-for-repo": {
     parameters: {
@@ -90018,15 +89909,20 @@ export interface operations {
   };
   /**
    * Create a registration token for a repository
-   * @description Returns a token that you can pass to the `config` script. The token expires after one hour. You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * @description Returns a token that you can pass to the `config` script. The token
+   * expires after one hour.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    *
    * Example using registration token:
    *
-   * Configure your self-hosted runner, replacing `TOKEN` with the registration token provided by this endpoint.
+   * Configure your self-hosted runner, replacing `TOKEN` with the registration token provided
+   * by this endpoint.
    *
-   * ```
-   * ./config.sh --url https://github.com/octo-org/octo-repo-artifacts --token TOKEN
-   * ```
+   * ```config.sh --url https://github.com/octo-org/octo-repo-artifacts --token TOKEN```
    */
   "actions/create-registration-token-for-repo": {
     parameters: {
@@ -90046,16 +89942,20 @@ export interface operations {
   };
   /**
    * Create a remove token for a repository
-   * @description Returns a token that you can pass to remove a self-hosted runner from a repository. The token expires after one hour.
+   * @description Returns a token that you can pass to remove a self-hosted runner from
+   * a repository. The token expires after one hour.
+   *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    *
    * Example using remove token:
    *
-   * To remove your self-hosted runner from a repository, replace TOKEN with the remove token provided by this endpoint.
+   * To remove your self-hosted runner from a repository, replace TOKEN with
+   * the remove token provided by this endpoint.
    *
-   * ```
-   * ./config.sh remove --token TOKEN
-   * ```
+   * ```config.sh remove --token TOKEN```
    */
   "actions/create-remove-token-for-repo": {
     parameters: {
@@ -90077,8 +89977,10 @@ export interface operations {
    * Get a self-hosted runner for a repository
    * @description Gets a specific self-hosted runner configured in a repository.
    *
-   * You must authenticate using an access token with the `repo` scope to use this
-   * endpoint.
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/get-self-hosted-runner-for-repo": {
     parameters: {
@@ -90101,8 +90003,10 @@ export interface operations {
    * Delete a self-hosted runner from a repository
    * @description Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
    *
-   * You must authenticate using an access token with the `repo`
-   * scope to use this endpoint.
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/delete-self-hosted-runner-from-repo": {
     parameters: {
@@ -90121,8 +90025,10 @@ export interface operations {
    * List labels for a self-hosted runner for a repository
    * @description Lists all labels for a self-hosted runner configured in a repository.
    *
-   * You must authenticate using an access token with the `repo` scope to use this
-   * endpoint.
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/list-labels-for-self-hosted-runner-for-repo": {
     parameters: {
@@ -90142,8 +90048,10 @@ export interface operations {
    * @description Remove all previous custom labels and set the new custom labels for a specific
    * self-hosted runner configured in a repository.
    *
-   * You must authenticate using an access token with the `repo` scope to use this
-   * endpoint.
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/set-custom-labels-for-self-hosted-runner-for-repo": {
     parameters: {
@@ -90171,8 +90079,10 @@ export interface operations {
    * Add custom labels to a self-hosted runner for a repository
    * @description Add custom labels to a self-hosted runner configured in a repository.
    *
-   * You must authenticate using an access token with the `repo` scope to use this
-   * endpoint.
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/add-custom-labels-to-self-hosted-runner-for-repo": {
     parameters: {
@@ -90201,8 +90111,10 @@ export interface operations {
    * @description Remove all custom labels from a self-hosted runner configured in a
    * repository. Returns the remaining read-only labels from the runner.
    *
-   * You must authenticate using an access token with the `repo` scope to use this
-   * endpoint.
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/remove-all-custom-labels-from-self-hosted-runner-for-repo": {
     parameters: {
@@ -90225,8 +90137,10 @@ export interface operations {
    * This endpoint returns a `404 Not Found` status if the custom label is not
    * present on the runner.
    *
-   * You must authenticate using an access token with the `repo` scope to use this
-   * endpoint.
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+   * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
   "actions/remove-custom-label-from-self-hosted-runner-for-repo": {
     parameters: {
@@ -90487,7 +90401,11 @@ export interface operations {
   };
   /**
    * Cancel a workflow run
-   * @description Cancels a workflow run using its `id`. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
+   * @description Cancels a workflow run using its `id`.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `actions:write` permission to use this endpoint.
    */
   "actions/cancel-workflow-run": {
     parameters: {
@@ -90514,6 +90432,7 @@ export interface operations {
    * **Note:** GitHub Apps can only review their own custom deployment protection rules.
    * To approve or reject pending deployments that are waiting for review from a specific person or team, see [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments`](/rest/actions/workflow-runs#review-pending-deployments-for-a-workflow-run).
    *
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have read and write permission for **Deployments** to use this endpoint.
    */
   "actions/review-custom-gates-for-run": {
@@ -90766,7 +90685,12 @@ export interface operations {
   };
   /**
    * List repository secrets
-   * @description Lists all secrets available in a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Lists all secrets available in a repository without revealing their encrypted
+   * values.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/list-repo-secrets": {
     parameters: {
@@ -90796,7 +90720,13 @@ export interface operations {
   };
   /**
    * Get a repository public key
-   * @description Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Gets your public key, which you need to encrypt secrets. You need to
+   * encrypt a secret before you can create or update secrets.
+   *
+   * Anyone with read access to the repository can use this endpoint.
+   * If the repository is private you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/get-repo-public-key": {
     parameters: {
@@ -90816,7 +90746,11 @@ export interface operations {
   };
   /**
    * Get a repository secret
-   * @description Gets a single repository secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Gets a single repository secret without revealing its encrypted value.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/get-repo-secret": {
     parameters: {
@@ -90838,81 +90772,11 @@ export interface operations {
   /**
    * Create or update a repository secret
    * @description Creates or updates a repository secret with an encrypted value. Encrypt your secret using
-   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
-   * token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use
-   * this endpoint.
+   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
    *
-   * **Example encrypting a secret using Node.js**
-   *
-   * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-   *
-   * ```
-   * const sodium = require('libsodium-wrappers')
-   * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-   * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-   *
-   * //Check if libsodium is ready and then proceed.
-   * sodium.ready.then(() => {
-   *   // Convert Secret & Base64 key to Uint8Array.
-   *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-   *   let binsec = sodium.from_string(secret)
-   *
-   *   //Encrypt the secret using LibSodium
-   *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-   *
-   *   // Convert encrypted Uint8Array to Base64
-   *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-   *
-   *   console.log(output)
-   * });
-   * ```
-   *
-   * **Example encrypting a secret using Python**
-   *
-   * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-   *
-   * ```
-   * from base64 import b64encode
-   * from nacl import encoding, public
-   *
-   * def encrypt(public_key: str, secret_value: str) -> str:
-   *   """Encrypt a Unicode string using the public key."""
-   *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-   *   sealed_box = public.SealedBox(public_key)
-   *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-   *   return b64encode(encrypted).decode("utf-8")
-   * ```
-   *
-   * **Example encrypting a secret using C#**
-   *
-   * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-   *
-   * ```
-   * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-   * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-   *
-   * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-   *
-   * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-   * ```
-   *
-   * **Example encrypting a secret using Ruby**
-   *
-   * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-   *
-   * ```ruby
-   * require "rbnacl"
-   * require "base64"
-   *
-   * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-   * public_key = RbNaCl::PublicKey.new(key)
-   *
-   * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-   * encrypted_secret = box.encrypt("my_secret")
-   *
-   * # Print the base64 encoded secret
-   * puts Base64.strict_encode64(encrypted_secret)
-   * ```
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/create-or-update-repo-secret": {
     parameters: {
@@ -90945,7 +90809,11 @@ export interface operations {
   };
   /**
    * Delete a repository secret
-   * @description Deletes a secret in a repository using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Deletes a secret in a repository using the secret name.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/delete-repo-secret": {
     parameters: {
@@ -90962,7 +90830,11 @@ export interface operations {
   };
   /**
    * List repository variables
-   * @description Lists all repository variables. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+   * @description Lists all repository variables.
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/list-repo-variables": {
     parameters: {
@@ -90993,8 +90865,11 @@ export interface operations {
   /**
    * Create a repository variable
    * @description Creates a repository variable that you can reference in a GitHub Actions workflow.
+   *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/create-repo-variable": {
     parameters: {
@@ -91024,7 +90899,12 @@ export interface operations {
   };
   /**
    * Get a repository variable
-   * @description Gets a specific variable in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+   * @description Gets a specific variable in a repository.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/get-repo-variable": {
     parameters: {
@@ -91046,8 +90926,11 @@ export interface operations {
   /**
    * Delete a repository variable
    * @description Deletes a repository variable using the variable name.
+   *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/delete-repo-variable": {
     parameters: {
@@ -91065,8 +90948,11 @@ export interface operations {
   /**
    * Update a repository variable
    * @description Updates a repository variable that you can reference in a GitHub Actions workflow.
+   *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/update-repo-variable": {
     parameters: {
@@ -91275,6 +91161,59 @@ export interface operations {
           "application/json": components["schemas"]["workflow-usage"];
         };
       };
+    };
+  };
+  /**
+   * List repository activities
+   * @description Lists a detailed history of changes to a repository, such as pushes, merges, force pushes, and branch changes, and associates these changes with commits and users.
+   *
+   * For more information about viewing repository activity,
+   * see "[Viewing repository activity](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository/viewing-repository-activity)."
+   */
+  "repos/list-activities": {
+    parameters: {
+      query?: {
+        direction?: components["parameters"]["direction"];
+        per_page?: components["parameters"]["per-page"];
+        before?: components["parameters"]["pagination-before"];
+        after?: components["parameters"]["pagination-after"];
+        /**
+         * @description The Git reference for the activities you want to list.
+         *
+         * The `ref` for a branch can be formatted either as `refs/heads/BRANCH_NAME` or `BRANCH_NAME`, where `BRANCH_NAME` is the name of your branch.
+         */
+        ref?: string;
+        /** @description The GitHub username to use to filter by the actor who performed the activity. */
+        actor?: string;
+        /**
+         * @description The time period to filter by.
+         *
+         * For example, `day` will filter for activity that occurred in the past 24 hours, and `week` will filter for activity that occurred in the past 7 days (168 hours).
+         */
+        time_period?: "day" | "week" | "month" | "quarter" | "year";
+        /**
+         * @description The activity type to filter by.
+         *
+         * For example, you can choose to filter by "force_push", to see all force pushes to the repository.
+         */
+        activity_type?: "push" | "force_push" | "branch_creation" | "branch_deletion" | "pr_merge" | "merge_queue_merge";
+      };
+      path: {
+        owner: components["parameters"]["owner"];
+        repo: components["parameters"]["repo"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        headers: {
+          Link: components["headers"]["link"];
+        };
+        content: {
+          "application/json": components["schemas"]["activity"][];
+        };
+      };
+      422: components["responses"]["validation_failed_simple"];
     };
   };
   /**
@@ -93960,81 +93899,11 @@ export interface operations {
   /**
    * Create or update a repository secret
    * @description Creates or updates a repository secret with an encrypted value. Encrypt your secret using
-   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
+   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+   *
+   * You must authenticate using an access
    * token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets`
    * repository permission to use this endpoint.
-   *
-   * Example of encrypting a secret using Node.js:
-   *
-   * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-   *
-   * ```
-   * const sodium = require('libsodium-wrappers')
-   * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-   * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-   *
-   * //Check if libsodium is ready and then proceed.
-   * sodium.ready.then(() => {
-   *   // Convert Secret & Base64 key to Uint8Array.
-   *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-   *   let binsec = sodium.from_string(secret)
-   *
-   *   //Encrypt the secret using LibSodium
-   *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-   *
-   *   // Convert encrypted Uint8Array to Base64
-   *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-   *
-   *   console.log(output)
-   * });
-   * ```
-   *
-   * Example of encrypting a secret using Python:
-   *
-   * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-   *
-   * ```
-   * from base64 import b64encode
-   * from nacl import encoding, public
-   *
-   * def encrypt(public_key: str, secret_value: str) -> str:
-   *   """Encrypt a Unicode string using the public key."""
-   *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-   *   sealed_box = public.SealedBox(public_key)
-   *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-   *   return b64encode(encrypted).decode("utf-8")
-   * ```
-   *
-   * Example of encrypting a secret using C#:
-   *
-   * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-   *
-   * ```
-   * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-   * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-   *
-   * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-   *
-   * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-   * ```
-   *
-   * Example of encrypting a secret using Ruby:
-   *
-   * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-   *
-   * ```ruby
-   * require "rbnacl"
-   * require "base64"
-   *
-   * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-   * public_key = RbNaCl::PublicKey.new(key)
-   *
-   * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-   * encrypted_secret = box.encrypt("my_secret")
-   *
-   * # Print the base64 encoded secret
-   * puts Base64.strict_encode64(encrypted_secret)
-   * ```
    */
   "codespaces/create-or-update-repo-secret": {
     parameters: {
@@ -95384,81 +95253,11 @@ export interface operations {
   /**
    * Create or update a repository secret
    * @description Creates or updates a repository secret with an encrypted value. Encrypt your secret using
-   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
+   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+   *
+   * You must authenticate using an access
    * token with the `repo` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` repository
    * permission to use this endpoint.
-   *
-   * **Example encrypting a secret using Node.js**
-   *
-   * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-   *
-   * ```
-   * const sodium = require('libsodium-wrappers')
-   * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-   * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-   *
-   * //Check if libsodium is ready and then proceed.
-   * sodium.ready.then(() => {
-   *   // Convert Secret & Base64 key to Uint8Array.
-   *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-   *   let binsec = sodium.from_string(secret)
-   *
-   *   //Encrypt the secret using LibSodium
-   *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-   *
-   *   // Convert encrypted Uint8Array to Base64
-   *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-   *
-   *   console.log(output)
-   * });
-   * ```
-   *
-   * **Example encrypting a secret using Python**
-   *
-   * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-   *
-   * ```
-   * from base64 import b64encode
-   * from nacl import encoding, public
-   *
-   * def encrypt(public_key: str, secret_value: str) -> str:
-   *   """Encrypt a Unicode string using the public key."""
-   *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-   *   sealed_box = public.SealedBox(public_key)
-   *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-   *   return b64encode(encrypted).decode("utf-8")
-   * ```
-   *
-   * **Example encrypting a secret using C#**
-   *
-   * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-   *
-   * ```
-   * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-   * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-   *
-   * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-   *
-   * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-   * ```
-   *
-   * **Example encrypting a secret using Ruby**
-   *
-   * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-   *
-   * ```ruby
-   * require "rbnacl"
-   * require "base64"
-   *
-   * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-   * public_key = RbNaCl::PublicKey.new(key)
-   *
-   * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-   * encrypted_secret = box.encrypt("my_secret")
-   *
-   * # Print the base64 encoded secret
-   * puts Base64.strict_encode64(encrypted_secret)
-   * ```
    */
   "dependabot/create-or-update-repo-secret": {
     parameters: {
@@ -95532,7 +95331,7 @@ export interface operations {
           "application/json": components["schemas"]["dependency-graph-diff"];
         };
       };
-      403: components["responses"]["forbidden"];
+      403: components["responses"]["dependency_review_forbidden"];
       404: components["responses"]["not_found"];
     };
   };
@@ -100365,7 +100164,7 @@ export interface operations {
            * @description The level at which the comment is targeted.
            * @enum {string}
            */
-          subject_type?: "LINE" | "FILE";
+          subject_type?: "line" | "file";
         };
       };
     };
@@ -102803,7 +102602,12 @@ export interface operations {
   };
   /**
    * List environment secrets
-   * @description Lists all secrets available in an environment without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Lists all secrets available in an environment without revealing their
+   * encrypted values.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/list-environment-secrets": {
     parameters: {
@@ -102833,7 +102637,13 @@ export interface operations {
   };
   /**
    * Get an environment public key
-   * @description Get the public key for an environment, which you need to encrypt environment secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Get the public key for an environment, which you need to encrypt environment
+   * secrets. You need to encrypt a secret before you can create or update secrets.
+   *
+   * Anyone with read access to the repository can use this endpoint.
+   * If the repository is private you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/get-environment-public-key": {
     parameters: {
@@ -102853,7 +102663,11 @@ export interface operations {
   };
   /**
    * Get an environment secret
-   * @description Gets a single environment secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Gets a single environment secret without revealing its encrypted value.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/get-environment-secret": {
     parameters: {
@@ -102875,81 +102689,11 @@ export interface operations {
   /**
    * Create or update an environment secret
    * @description Creates or updates an environment secret with an encrypted value. Encrypt your secret using
-   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). You must authenticate using an access
-   * token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use
-   * this endpoint.
+   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
    *
-   * **Example encrypting a secret using Node.js**
-   *
-   * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-   *
-   * ```
-   * const sodium = require('libsodium-wrappers')
-   * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-   * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-   *
-   * //Check if libsodium is ready and then proceed.
-   * sodium.ready.then(() => {
-   *   // Convert Secret & Base64 key to Uint8Array.
-   *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-   *   let binsec = sodium.from_string(secret)
-   *
-   *   //Encrypt the secret using LibSodium
-   *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-   *
-   *   // Convert encrypted Uint8Array to Base64
-   *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-   *
-   *   console.log(output)
-   * });
-   * ```
-   *
-   * **Example encrypting a secret using Python**
-   *
-   * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-   *
-   * ```
-   * from base64 import b64encode
-   * from nacl import encoding, public
-   *
-   * def encrypt(public_key: str, secret_value: str) -> str:
-   *   """Encrypt a Unicode string using the public key."""
-   *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-   *   sealed_box = public.SealedBox(public_key)
-   *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-   *   return b64encode(encrypted).decode("utf-8")
-   * ```
-   *
-   * **Example encrypting a secret using C#**
-   *
-   * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-   *
-   * ```
-   * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-   * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-   *
-   * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-   *
-   * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-   * ```
-   *
-   * **Example encrypting a secret using Ruby**
-   *
-   * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-   *
-   * ```ruby
-   * require "rbnacl"
-   * require "base64"
-   *
-   * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-   * public_key = RbNaCl::PublicKey.new(key)
-   *
-   * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-   * encrypted_secret = box.encrypt("my_secret")
-   *
-   * # Print the base64 encoded secret
-   * puts Base64.strict_encode64(encrypted_secret)
-   * ```
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/create-or-update-environment-secret": {
     parameters: {
@@ -102982,7 +102726,11 @@ export interface operations {
   };
   /**
    * Delete an environment secret
-   * @description Deletes a secret in an environment using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * @description Deletes a secret in an environment using the secret name.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `secrets` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read secrets.
    */
   "actions/delete-environment-secret": {
     parameters: {
@@ -102999,7 +102747,12 @@ export interface operations {
   };
   /**
    * List environment variables
-   * @description Lists all environment variables. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+   * @description Lists all environment variables.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/list-environment-variables": {
     parameters: {
@@ -103030,8 +102783,11 @@ export interface operations {
   /**
    * Create an environment variable
    * @description Create an environment variable that you can reference in a GitHub Actions workflow.
+   *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/create-environment-variable": {
     parameters: {
@@ -103061,7 +102817,12 @@ export interface operations {
   };
   /**
    * Get an environment variable
-   * @description Gets a specific variable in an environment. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+   * @description Gets a specific variable in an environment.
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
+   * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/get-environment-variable": {
     parameters: {
@@ -103083,8 +102844,11 @@ export interface operations {
   /**
    * Delete an environment variable
    * @description Deletes an environment variable using the variable name.
+   *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/delete-environment-variable": {
     parameters: {
@@ -103102,8 +102866,11 @@ export interface operations {
   /**
    * Update an environment variable
    * @description Updates an environment variable that you can reference in a GitHub Actions workflow.
+   *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+   * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
   "actions/update-environment-variable": {
     parameters: {
@@ -104823,83 +104590,11 @@ export interface operations {
   /**
    * Create or update a secret for the authenticated user
    * @description Creates or updates a secret for a user's codespace with an encrypted value. Encrypt your secret using
-   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages).
+   * [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
    *
    * You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must also have Codespaces access to use this endpoint.
    *
    * GitHub Apps must have write access to the `codespaces_user_secrets` user permission and `codespaces_secrets` repository permission on all referenced repositories to use this endpoint.
-   *
-   * **Example encrypting a secret using Node.js**
-   *
-   * Encrypt your secret using the [libsodium-wrappers](https://www.npmjs.com/package/libsodium-wrappers) library.
-   *
-   * ```
-   * const sodium = require('libsodium-wrappers')
-   * const secret = 'plain-text-secret' // replace with the secret you want to encrypt
-   * const key = 'base64-encoded-public-key' // replace with the Base64 encoded public key
-   *
-   * //Check if libsodium is ready and then proceed.
-   * sodium.ready.then(() => {
-   *   // Convert Secret & Base64 key to Uint8Array.
-   *   let binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
-   *   let binsec = sodium.from_string(secret)
-   *
-   *   //Encrypt the secret using LibSodium
-   *   let encBytes = sodium.crypto_box_seal(binsec, binkey)
-   *
-   *   // Convert encrypted Uint8Array to Base64
-   *   let output = sodium.to_base64(encBytes, sodium.base64_variants.ORIGINAL)
-   *
-   *   console.log(output)
-   * });
-   * ```
-   *
-   * **Example encrypting a secret using Python**
-   *
-   * Encrypt your secret using [pynacl](https://pynacl.readthedocs.io/en/latest/public/#nacl-public-sealedbox) with Python 3.
-   *
-   * ```
-   * from base64 import b64encode
-   * from nacl import encoding, public
-   *
-   * def encrypt(public_key: str, secret_value: str) -> str:
-   *   """Encrypt a Unicode string using the public key."""
-   *   public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-   *   sealed_box = public.SealedBox(public_key)
-   *   encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-   *   return b64encode(encrypted).decode("utf-8")
-   * ```
-   *
-   * **Example encrypting a secret using C#**
-   *
-   * Encrypt your secret using the [Sodium.Core](https://www.nuget.org/packages/Sodium.Core/) package.
-   *
-   * ```
-   * var secretValue = System.Text.Encoding.UTF8.GetBytes("mySecret");
-   * var publicKey = Convert.FromBase64String("2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvvcCU=");
-   *
-   * var sealedPublicKeyBox = Sodium.SealedPublicKeyBox.Create(secretValue, publicKey);
-   *
-   * Console.WriteLine(Convert.ToBase64String(sealedPublicKeyBox));
-   * ```
-   *
-   * **Example encrypting a secret using Ruby**
-   *
-   * Encrypt your secret using the [rbnacl](https://github.com/RubyCrypto/rbnacl) gem.
-   *
-   * ```ruby
-   * require "rbnacl"
-   * require "base64"
-   *
-   * key = Base64.decode64("+ZYvJDZMHUfBkJdyq5Zm9SKqeuBQ4sj+6sfjlH4CgG0=")
-   * public_key = RbNaCl::PublicKey.new(key)
-   *
-   * box = RbNaCl::Boxes::Sealed.from_public_key(public_key)
-   * encrypted_secret = box.encrypt("my_secret")
-   *
-   * # Print the base64 encoded secret
-   * puts Base64.strict_encode64(encrypted_secret)
-   * ```
    */
   "codespaces/create-or-update-secret-for-authenticated-user": {
     parameters: {
