@@ -1,8 +1,8 @@
-import transformRequestBodyObject, { TransformRequestBodyObjectOptions } from "../src/transform/request-body-object.js";
-import type { RequestBodyObject } from "../src/types.js";
+import transformResponseObject, { TransformResponseObjectOptions } from "../src/transform/response-object.js";
+import type { ResponseObject } from "../src/types.js";
 
-const options: TransformRequestBodyObjectOptions = {
-  path: "#/test/request-body-object",
+const options: TransformResponseObjectOptions = {
+  path: "#/test/response-object",
   ctx: {
     additionalProperties: false,
     alphabetize: false,
@@ -22,9 +22,15 @@ const options: TransformRequestBodyObjectOptions = {
   },
 };
 
-describe("Request Body Object", () => {
+describe("Response Object", () => {
   test("basic", () => {
-    const schema: RequestBodyObject = {
+    const schema: ResponseObject = {
+      description: "basic",
+      headers: {
+        foo: {
+          schema: { type: "string" }
+        }
+      },
       content: {
         "application/json": {
           schema: {
@@ -38,8 +44,11 @@ describe("Request Body Object", () => {
         },
       },
     };
-    const generated = transformRequestBodyObject(schema, options);
+    const generated = transformResponseObject(schema, options);
     expect(generated).toBe(`{
+  headers: {
+    foo?: string;
+  };
   content: {
     "application/json": {
       url: string;
@@ -50,12 +59,20 @@ describe("Request Body Object", () => {
   });
 
   test("empty", () => {
-    const schema: RequestBodyObject = { content: {} };
-    const generated = transformRequestBodyObject(schema, options);
+    const schema: ResponseObject = {
+      description: "empty",
+      headers: {
+        "some-header": {
+          schema: { type: "string" }
+        }
+      }
+    };
+    const generated = transformResponseObject(schema, options);
     expect(generated).toBe(`{
-  content: {
-    "*/*": never;
+  headers: {
+    "some-header"?: string;
   };
+  content: never;
 }`)
   });
 });

@@ -79986,7 +79986,9 @@ export interface components {
       };
     };
     /** @description Not modified */
-    not_modified: never;
+    not_modified: {
+      content: never;
+    };
     /** @description Requires authentication */
     requires_authentication: {
       content: {
@@ -80070,9 +80072,13 @@ export interface components {
       };
     };
     /** @description The value of `per_page` multiplied by `page` cannot be greater than 10000. */
-    package_es_list_error: never;
+    package_es_list_error: {
+      content: never;
+    };
     /** @description A header with no content is returned. */
-    no_content: never;
+    no_content: {
+      content: never;
+    };
     /** @description Gone */
     gone: {
       content: {
@@ -80098,7 +80104,9 @@ export interface components {
       };
     };
     /** @description Found */
-    found: never;
+    found: {
+      content: never;
+    };
     /** @description Response if there is already a validation run in progress with a different default setup configuration */
     code_scanning_conflict: {
       content: {
@@ -80781,7 +80789,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -80840,7 +80850,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -80858,7 +80870,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -80883,7 +80897,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -80936,7 +80952,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -81380,7 +81398,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -81528,7 +81548,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -81649,7 +81671,9 @@ export interface operations {
     };
     responses: {
       /** @description Response if gist is starred */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       /** @description Not Found if gist is not starred */
@@ -81672,7 +81696,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -81687,7 +81713,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -81793,7 +81821,9 @@ export interface operations {
   "apps/revoke-installation-access-token": {
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -82050,7 +82080,9 @@ export interface operations {
       };
       401: components["responses"]["requires_authentication"];
       /** @description Not Found when the account has not purchased the listing */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -82217,7 +82249,9 @@ export interface operations {
         };
       };
       /** @description Reset Content */
-      205: never;
+      205: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -82257,7 +82291,9 @@ export interface operations {
     };
     responses: {
       /** @description Reset Content */
-      205: never;
+      205: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
     };
@@ -82335,7 +82371,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -82733,7 +82771,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -82786,7 +82826,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -82804,7 +82846,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -82822,7 +82866,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -82865,7 +82911,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -82912,7 +82960,9 @@ export interface operations {
     };
     responses: {
       /** @description Success response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -83119,7 +83169,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -83380,7 +83432,9 @@ export interface operations {
         };
       };
       /** @description Response when updating a secret */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -83401,7 +83455,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -83465,7 +83521,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -83489,9 +83547,13 @@ export interface operations {
     };
     responses: {
       /** @description No Content when repository was added to the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Conflict when visibility type is not set to selected */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -83515,9 +83577,13 @@ export interface operations {
     };
     responses: {
       /** @description Response when repository was removed from the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Conflict when visibility type not set to selected */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -83634,7 +83700,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -83672,7 +83740,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -83707,7 +83777,9 @@ export interface operations {
         };
       };
       /** @description Response when the visibility of the variable is not set to `selected` */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -83739,9 +83811,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Response when the visibility of the variable is not set to `selected` */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -83764,9 +83840,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Response when the visibility of the variable is not set to `selected` */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -83790,9 +83870,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Response when the visibility of the variable is not set to `selected` */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -83831,7 +83915,9 @@ export interface operations {
     };
     responses: {
       /** @description If the user is blocked */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description If the user is not blocked */
       404: {
         content: {
@@ -83853,7 +83939,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -83870,7 +83958,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -83978,10 +84068,14 @@ export interface operations {
     };
     responses: {
       /** @description Response when successfully modifying permissions. */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       /** @description Users are neither members nor collaborators of this organization. */
-      400: never;
+      400: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed"];
       500: components["responses"]["internal_error"];
@@ -84013,10 +84107,14 @@ export interface operations {
     };
     responses: {
       /** @description Response when successfully modifying permissions. */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       /** @description Users are neither members nor collaborators of this organization. */
-      400: never;
+      400: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed"];
       500: components["responses"]["internal_error"];
@@ -84048,10 +84146,14 @@ export interface operations {
     };
     responses: {
       /** @description Response when successfully modifying permissions. */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       /** @description Users are neither members nor collaborators of this organization. */
-      400: never;
+      400: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed"];
       500: components["responses"]["internal_error"];
@@ -84170,7 +84272,9 @@ export interface operations {
         };
       };
       /** @description Response when updating a secret */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed"];
     };
@@ -84188,7 +84292,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -84241,10 +84347,14 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       /** @description Conflict when visibility type not set to selected */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -84261,10 +84371,14 @@ export interface operations {
     };
     responses: {
       /** @description No Content when repository was added to the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       /** @description Conflict when visibility type is not set to selected */
-      409: never;
+      409: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -84282,10 +84396,14 @@ export interface operations {
     };
     responses: {
       /** @description Response when repository was removed from the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       /** @description Conflict when visibility type not set to selected */
-      409: never;
+      409: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -84397,7 +84515,9 @@ export interface operations {
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
       /** @description Copilot for Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
-      422: never;
+      422: {
+        content: never;
+      };
       500: components["responses"]["internal_error"];
     };
   };
@@ -84442,7 +84562,9 @@ export interface operations {
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
       /** @description Copilot for Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
-      422: never;
+      422: {
+        content: never;
+      };
       500: components["responses"]["internal_error"];
     };
   };
@@ -84487,7 +84609,9 @@ export interface operations {
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
       /** @description Copilot for Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
-      422: never;
+      422: {
+        content: never;
+      };
       500: components["responses"]["internal_error"];
     };
   };
@@ -84532,7 +84656,9 @@ export interface operations {
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
       /** @description Copilot for Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, the seat management setting is set to enable Copilot for all users or is unconfigured, or a user's seat cannot be cancelled because it was assigned to them via a team. */
-      422: never;
+      422: {
+        content: never;
+      };
       500: components["responses"]["internal_error"];
     };
   };
@@ -84689,7 +84815,9 @@ export interface operations {
         };
       };
       /** @description Response when updating a secret */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -84705,7 +84833,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -84756,7 +84886,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -84773,9 +84905,13 @@ export interface operations {
     };
     responses: {
       /** @description No Content when repository was added to the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Conflict when visibility type is not set to selected */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -84792,9 +84928,13 @@ export interface operations {
     };
     responses: {
       /** @description Response when repository was removed from the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Conflict when visibility type not set to selected */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -84977,7 +85117,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -85165,7 +85307,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -85275,7 +85419,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -85368,7 +85514,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed"];
     };
@@ -85486,11 +85634,21 @@ export interface operations {
     };
     responses: {
       /** @description Response if requester is an organization member and user is a member */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Response if requester is not an organization member */
-      302: never;
+      302: {
+        headers: {
+          /** @example https://api.github.com/orgs/github/public_members/pezra */
+          Location?: string;
+        };
+        content: never;
+      };
       /** @description Not Found if requester is an organization member and user is not a member */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -85506,7 +85664,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
     };
   };
@@ -85621,7 +85781,9 @@ export interface operations {
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
       /** @description Copilot for Business is not enabled for this organization or the user has a pending organization invitation. */
-      422: never;
+      422: {
+        content: never;
+      };
       500: components["responses"]["internal_error"];
     };
   };
@@ -85706,7 +85868,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
     };
@@ -85862,7 +86026,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      302: never;
+      302: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -85879,7 +86045,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -85897,7 +86065,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -85987,9 +86157,13 @@ export interface operations {
         };
       };
       /** @description User was converted */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Forbidden if user is the last owner of the organization, not a member of the organization, or if the enterprise enforces a policy for inviting outside collaborators. For more information, see "[Enforcing repository management policies in your enterprise](https://docs.github.com/admin/policies/enforcing-policies-for-your-enterprise/enforcing-repository-management-policies-in-your-enterprise#enforcing-a-policy-for-inviting-outside-collaborators-to-repositories)." */
-      403: never;
+      403: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -86006,7 +86180,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Unprocessable Entity if user is a member of the organization */
       422: {
         content: {
@@ -86092,7 +86268,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -86124,7 +86302,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -86205,7 +86385,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -86234,7 +86416,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -86629,9 +86813,13 @@ export interface operations {
     };
     responses: {
       /** @description Response if user is a public member */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Not Found if user is not a public member */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -86649,7 +86837,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
     };
   };
@@ -86666,7 +86856,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -87005,7 +87197,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       500: components["responses"]["internal_error"];
     };
@@ -87089,9 +87283,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description The organization has reached the maximum number of security manager teams. */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -87111,7 +87309,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -87315,7 +87515,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -87494,7 +87696,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -87635,7 +87839,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -87762,7 +87968,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -87854,7 +88062,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -87946,7 +88156,9 @@ export interface operations {
         };
       };
       /** @description if user has no team membership */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -87991,9 +88203,13 @@ export interface operations {
         };
       };
       /** @description Forbidden if team synchronization is set up */
-      403: never;
+      403: {
+        content: never;
+      };
       /** @description Unprocessable Entity if you attempt to add an organization to a team */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /**
@@ -88016,9 +88232,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Forbidden if team synchronization is set up */
-      403: never;
+      403: {
+        content: never;
+      };
     };
   };
   /**
@@ -88072,7 +88292,9 @@ export interface operations {
         };
       };
       /** @description Not Found if project is not managed by this team */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -88102,7 +88324,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Forbidden if the project is not owned by the organization */
       403: {
         content: {
@@ -88130,7 +88354,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -88189,9 +88415,13 @@ export interface operations {
         };
       };
       /** @description Response if team has permission for the repository. This is the response when the repository media type hasn't been provded in the Accept header. */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Not Found if team does not have permission for the repository */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -88224,7 +88454,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -88244,7 +88476,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -88309,9 +88543,13 @@ export interface operations {
     };
     responses: {
       /** @description Action started */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description The action could not be taken due to an in progress enablement, or a policy is preventing enablement */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /**
@@ -88349,7 +88587,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       /** @description Forbidden */
@@ -88501,7 +88741,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -88694,7 +88936,9 @@ export interface operations {
     };
     responses: {
       /** @description Delete Success */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       /** @description Forbidden */
@@ -88769,7 +89013,9 @@ export interface operations {
         };
       };
       /** @description Not Found if the authenticated user does not have access to the project */
-      404: never;
+      404: {
+        content: never;
+      };
       410: components["responses"]["gone"];
       422: components["responses"]["validation_failed_simple"];
     };
@@ -88833,7 +89079,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -88854,7 +89102,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -89014,7 +89264,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       307: components["responses"]["temporary_redirect"];
       /** @description If an organization owner has configured the organization to prevent members from deleting organization-owned repositories, a member will get this response: */
       403: {
@@ -89276,7 +89528,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -89298,7 +89552,12 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      302: never;
+      302: {
+        headers: {
+          Location: components["headers"]["location"];
+        };
+        content: never;
+      };
       410: components["responses"]["gone"];
     };
   };
@@ -89403,7 +89662,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -89444,7 +89705,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      302: never;
+      302: {
+        headers: {
+          /** @example https://pipelines.actions.githubusercontent.com/ab1f3cCFPB34Nd6imvFxpGZH5hNlDp2wijMwl2gDoO0bcrrlJj/_apis/pipelines/1/jobs/19/signedlogcontent?urlExpires=2020-01-22T22%3A44%3A54.1389777Z&urlSigningMethod=HMACV1&urlSignature=2TUDfIg4fm36OJmfPy6km5QD5DLCOkBVzvhWZM8B%2BUY%3D */
+          Location?: string;
+        };
+        content: never;
+      };
     };
   };
   /**
@@ -89658,7 +89925,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -89709,7 +89978,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -89754,7 +90025,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -89803,9 +90076,13 @@ export interface operations {
     };
     responses: {
       /** @description Success response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Conflict response when changing a setting is prevented by the owning organization */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -90018,7 +90295,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -90237,7 +90516,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -90396,7 +90677,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      302: never;
+      302: {
+        headers: {
+          /** @example https://pipelines.actions.githubusercontent.com/ab1f3cCFPB34Nd6imvFxpGZH5hNlDp2wijMwl2gDoO0bcrrlJj/_apis/pipelines/1/runs/19/signedlogcontent?urlExpires=2020-01-22T22%3A44%3A54.1389777Z&urlSigningMethod=HMACV1&urlSignature=2TUDfIg4fm36OJmfPy6km5QD5DLCOkBVzvhWZM8B%2BUY%3D */
+          Location?: string;
+        };
+        content: never;
+      };
     };
   };
   /**
@@ -90450,7 +90737,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -90503,7 +90792,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      302: never;
+      302: {
+        headers: {
+          /** @example https://pipelines.actions.githubusercontent.com/ab1f3cCFPB34Nd6imvFxpGZH5hNlDp2wijMwl2gDoO0bcrrlJj/_apis/pipelines/1/runs/19/signedlogcontent?urlExpires=2020-01-22T22%3A44%3A54.1389777Z&urlSigningMethod=HMACV1&urlSignature=2TUDfIg4fm36OJmfPy6km5QD5DLCOkBVzvhWZM8B%2BUY%3D */
+          Location?: string;
+        };
+        content: never;
+      };
     };
   };
   /**
@@ -90520,7 +90815,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       500: components["responses"]["internal_error"];
     };
@@ -90804,7 +91101,9 @@ export interface operations {
         };
       };
       /** @description Response when updating a secret */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -90825,7 +91124,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -90942,7 +91243,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -90974,7 +91277,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -91044,7 +91349,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -91077,7 +91384,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -91096,7 +91405,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -91262,7 +91573,9 @@ export interface operations {
     };
     responses: {
       /** @description If the `assignee` can be assigned to issues in the repository, a `204` header with no content is returned. */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Otherwise a `404` status code is returned. */
       404: {
         content: {
@@ -91376,7 +91689,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -91399,7 +91714,9 @@ export interface operations {
         };
       };
       /** @description Not Found if dependabot is not enabled for the repository */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -91415,7 +91732,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -91431,7 +91750,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /** List branches */
@@ -91633,7 +91954,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
     };
   };
@@ -91697,7 +92020,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -91736,7 +92061,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -91867,7 +92194,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -91907,7 +92236,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -92113,7 +92444,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -93542,11 +93875,15 @@ export interface operations {
         };
       };
       /** @description Bad Request if the sarif field is invalid */
-      400: never;
+      400: {
+        content: never;
+      };
       403: components["responses"]["code_scanning_forbidden_write"];
       404: components["responses"]["not_found"];
       /** @description Payload Too Large if the sarif field is too large */
-      413: never;
+      413: {
+        content: never;
+      };
       503: components["responses"]["service_unavailable"];
     };
   };
@@ -93572,7 +93909,9 @@ export interface operations {
       };
       403: components["responses"]["code_scanning_forbidden_read"];
       /** @description Not Found if the sarif id does not match any upload */
-      404: never;
+      404: {
+        content: never;
+      };
       503: components["responses"]["service_unavailable"];
     };
   };
@@ -93603,7 +93942,9 @@ export interface operations {
         };
       };
       /** @description Resource not found */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -93931,7 +94272,9 @@ export interface operations {
         };
       };
       /** @description Response when updating a secret */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -93948,7 +94291,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -94010,9 +94355,13 @@ export interface operations {
     };
     responses: {
       /** @description Response if user is a collaborator */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Not Found if user is not a collaborator */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -94071,7 +94420,9 @@ export interface operations {
        * - an organization member is added as an individual collaborator
        * - an existing team member (whose team is also a repository collaborator) is added as an individual collaborator
        */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       422: components["responses"]["validation_failed"];
     };
@@ -94110,7 +94461,9 @@ export interface operations {
     };
     responses: {
       /** @description No Content when collaborator was removed from the repository. */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       422: components["responses"]["validation_failed"];
     };
@@ -94202,7 +94555,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -94320,7 +94675,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -95048,7 +95405,9 @@ export interface operations {
         };
       };
       /** @description Response if repository is empty */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
     };
@@ -95285,7 +95644,9 @@ export interface operations {
         };
       };
       /** @description Response when updating a secret */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -95302,7 +95663,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -95543,7 +95906,9 @@ export interface operations {
         };
       };
       /** @description Conflict when there is a merge conflict or the commit's status checks failed */
-      409: never;
+      409: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -95587,7 +95952,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed_simple"];
     };
@@ -95744,7 +96111,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -95870,7 +96239,9 @@ export interface operations {
     };
     responses: {
       /** @description Default response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -95934,9 +96305,13 @@ export interface operations {
         };
       };
       /** @description Response if the same branch name pattern already exists */
-      303: never;
+      303: {
+        content: never;
+      };
       /** @description Not Found or `deployment_branch_policy.custom_branch_policies` property for the environment is set to false */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -96009,7 +96384,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -96152,7 +96529,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -96556,7 +96935,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -96949,7 +97330,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -97150,7 +97533,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -97170,7 +97555,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -97297,7 +97684,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       503: components["responses"]["porter_maintenance"];
     };
   };
@@ -97556,7 +97945,9 @@ export interface operations {
         };
       };
       /** @description Response */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -97572,9 +97963,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Response */
-      409: never;
+      409: {
+        content: never;
+      };
     };
   };
   /**
@@ -97615,7 +98010,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /** Update a repository invitation */
@@ -97822,7 +98219,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -97942,7 +98341,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -98169,7 +98570,9 @@ export interface operations {
     };
     responses: {
       /** @description Response if `assignee` can be assigned to `issue_number` */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Response if `assignee` can not be assigned to `issue_number` */
       404: {
         content: {
@@ -98407,7 +98810,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       301: components["responses"]["moved_permanently"];
       404: components["responses"]["not_found"];
       410: components["responses"]["gone"];
@@ -98469,7 +98874,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
       410: components["responses"]["gone"];
@@ -98490,7 +98897,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
     };
@@ -98583,7 +98992,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -98714,7 +99125,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -98819,7 +99232,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -98895,7 +99310,9 @@ export interface operations {
        * - Git LFS support not enabled because Git LFS is disabled for the root repository in the network.
        * - Git LFS support not enabled because Git LFS is disabled for <owner>.
        */
-      403: never;
+      403: {
+        content: never;
+      };
     };
   };
   /**
@@ -98911,7 +99328,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -98963,9 +99382,13 @@ export interface operations {
         };
       };
       /** @description The branch could not be synced because of a merge conflict */
-      409: never;
+      409: {
+        content: never;
+      };
       /** @description The branch could not be synced for some other reason */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /** Merge a branch */
@@ -98996,12 +99419,18 @@ export interface operations {
         };
       };
       /** @description Response when already merged */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       /** @description Not Found when the base or head does not exist */
-      404: never;
+      404: {
+        content: never;
+      };
       /** @description Conflict when there is a merge conflict */
-      409: never;
+      409: {
+        content: never;
+      };
       422: components["responses"]["validation_failed"];
     };
   };
@@ -99122,7 +99551,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -99257,7 +99688,9 @@ export interface operations {
         };
       };
       /** @description Reset Content */
-      205: never;
+      205: {
+        content: never;
+      };
     };
   };
   /**
@@ -99322,7 +99755,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       400: components["responses"]["bad_request"];
       409: components["responses"]["conflict"];
       422: components["responses"]["validation_failed"];
@@ -99389,7 +99824,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       409: components["responses"]["conflict"];
       422: components["responses"]["validation_failed"];
@@ -99565,10 +100002,14 @@ export interface operations {
         };
       };
       /** @description Custom domains are not available for GitHub Pages */
-      400: never;
+      400: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       /** @description There isn't a CNAME for this page */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /**
@@ -99806,7 +100247,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
     };
   };
@@ -99926,7 +100369,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -100293,9 +100738,13 @@ export interface operations {
     };
     responses: {
       /** @description Response if pull request has been merged */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Not Found if pull request has not been merged */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -100414,7 +100863,9 @@ export interface operations {
       };
       403: components["responses"]["forbidden"];
       /** @description Unprocessable Entity if user is not a collaborator */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /**
@@ -100947,7 +101398,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -101083,7 +101536,9 @@ export interface operations {
         };
       };
       /** @description Unauthorized */
-      401: never;
+      401: {
+        content: never;
+      };
     };
   };
   /**
@@ -101100,7 +101555,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -101228,7 +101685,9 @@ export interface operations {
         };
       };
       /** @description Response if you upload an asset with the same filename as another uploaded asset */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /**
@@ -101318,7 +101777,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -101505,7 +101966,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       500: components["responses"]["internal_error"];
     };
@@ -101544,7 +102007,9 @@ export interface operations {
         };
       };
       /** @description Repository is public or secret scanning is disabled for the repository */
-      404: never;
+      404: {
+        content: never;
+      };
       503: components["responses"]["service_unavailable"];
     };
   };
@@ -101573,7 +102038,9 @@ export interface operations {
       };
       304: components["responses"]["not_modified"];
       /** @description Repository is public, or secret scanning is disabled for the repository, or the resource is not found */
-      404: never;
+      404: {
+        content: never;
+      };
       503: components["responses"]["service_unavailable"];
     };
   };
@@ -101610,11 +102077,17 @@ export interface operations {
         };
       };
       /** @description Bad request, resolution comment is invalid or the resolution was not changed. */
-      400: never;
+      400: {
+        content: never;
+      };
       /** @description Repository is public, or secret scanning is disabled for the repository, or the resource is not found */
-      404: never;
+      404: {
+        content: never;
+      };
       /** @description State does not match the resolution or resolution comment */
-      422: never;
+      422: {
+        content: never;
+      };
       503: components["responses"]["service_unavailable"];
     };
   };
@@ -101649,7 +102122,9 @@ export interface operations {
         };
       };
       /** @description Repository is public, or secret scanning is disabled for the repository, or the resource is not found */
-      404: never;
+      404: {
+        content: never;
+      };
       503: components["responses"]["service_unavailable"];
     };
   };
@@ -102069,7 +102544,9 @@ export interface operations {
       };
       403: components["responses"]["forbidden"];
       /** @description Not Found if you don't subscribe to the repository */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -102115,7 +102592,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /** List repository tags */
@@ -102212,7 +102691,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
     };
@@ -102234,7 +102715,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      302: never;
+      302: {
+        headers: {
+          /** @example https://codeload.github.com/me/myprivate/legacy.zip/master?login=me&token=thistokenexpires */
+          Location?: string;
+        };
+        content: never;
+      };
     };
   };
   /**
@@ -102458,9 +102945,13 @@ export interface operations {
     };
     responses: {
       /** @description Response if repository is enabled with vulnerability alerts */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Not Found if repository is not enabled with vulnerability alerts */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -102476,7 +102967,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -102494,7 +102987,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -102515,7 +103010,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      302: never;
+      302: {
+        headers: {
+          /** @example https://codeload.github.com/me/myprivate/legacy.zip/master?login=me&token=thistokenexpires */
+          Location?: string;
+        };
+        content: never;
+      };
     };
   };
   /**
@@ -102721,7 +103222,9 @@ export interface operations {
         };
       };
       /** @description Response when updating a secret */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -102742,7 +103245,9 @@ export interface operations {
     };
     responses: {
       /** @description Default response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -102860,7 +103365,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -102892,7 +103399,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -103233,7 +103742,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed"];
     };
@@ -103414,7 +103925,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -103555,7 +104068,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -103803,9 +104318,13 @@ export interface operations {
     };
     responses: {
       /** @description if user is a member */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description if user is not a member */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -103832,12 +104351,18 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       /** @description Not Found if team synchronization is set up */
-      404: never;
+      404: {
+        content: never;
+      };
       /** @description Unprocessable Entity if you attempt to add an organization to a team or you attempt to add a user to a team when they are not a member of at least one other team in the same organization */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /**
@@ -103862,9 +104387,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Not Found if team synchronization is setup */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -103940,10 +104469,14 @@ export interface operations {
         };
       };
       /** @description Forbidden if team synchronization is set up */
-      403: never;
+      403: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       /** @description Unprocessable Entity if you attempt to add an organization to a team */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /**
@@ -103966,9 +104499,13 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description if team synchronization is set up */
-      403: never;
+      403: {
+        content: never;
+      };
     };
   };
   /**
@@ -104023,7 +104560,9 @@ export interface operations {
         };
       };
       /** @description Not Found if project is not managed by this team */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -104053,7 +104592,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Forbidden if the project is not owned by the organization */
       403: {
         content: {
@@ -104083,7 +104624,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed"];
     };
@@ -104141,9 +104684,13 @@ export interface operations {
         };
       };
       /** @description Response if repository is managed by this team */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description Not Found if repository is not managed by this team */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -104176,7 +104723,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       403: components["responses"]["forbidden"];
       422: components["responses"]["validation_failed"];
     };
@@ -104198,7 +104747,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -104345,7 +104896,9 @@ export interface operations {
     };
     responses: {
       /** @description If the user is blocked */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -104369,7 +104922,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -104389,7 +104944,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -104622,7 +105179,9 @@ export interface operations {
         };
       };
       /** @description Response after successfully updating a secret */
-      204: never;
+      204: {
+        content: never;
+      };
       404: components["responses"]["not_found"];
       422: components["responses"]["validation_failed"];
     };
@@ -104643,7 +105202,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -104700,7 +105261,9 @@ export interface operations {
     };
     responses: {
       /** @description No Content when repositories were added to the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -104722,7 +105285,9 @@ export interface operations {
     };
     responses: {
       /** @description No Content when repository was added to the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -104744,7 +105309,9 @@ export interface operations {
     };
     responses: {
       /** @description No Content when repository was removed from the selected list */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -105152,7 +105719,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -105221,7 +105790,9 @@ export interface operations {
     };
     responses: {
       /** @description if the person is followed by the authenticated user */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -105247,7 +105818,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -105266,7 +105839,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -105364,7 +105939,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -105461,7 +106038,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -105482,12 +106061,16 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
       /** @description Returned when the application is installed on `all` repositories in the organization, or if this request would remove the last repository that the application has access to in the organization. */
-      422: never;
+      422: {
+        content: never;
+      };
     };
   };
   /**
@@ -105503,7 +106086,9 @@ export interface operations {
         };
       };
       /** @description Response when there are no restrictions */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -105533,7 +106118,9 @@ export interface operations {
   "interactions/remove-restrictions-for-authenticated-user": {
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
     };
   };
   /**
@@ -105669,7 +106256,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -105969,7 +106558,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      302: never;
+      302: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -105987,7 +106578,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -106007,7 +106600,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -106135,7 +106730,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -106164,7 +106761,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -106241,7 +106840,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -106267,7 +106868,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -106581,7 +107184,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -106597,7 +107202,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -106679,7 +107286,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -106781,7 +107390,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -106832,7 +107443,9 @@ export interface operations {
     };
     responses: {
       /** @description Response if this repository is starred by you */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -106857,7 +107470,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -106877,7 +107492,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       304: components["responses"]["not_modified"];
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
@@ -107140,9 +107757,13 @@ export interface operations {
     };
     responses: {
       /** @description if the user follows the target user */
-      204: never;
+      204: {
+        content: never;
+      };
       /** @description if the user does not follow the target user */
-      404: never;
+      404: {
+        content: never;
+      };
     };
   };
   /**
@@ -107380,7 +108001,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -107412,7 +108035,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -107487,7 +108112,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
@@ -107516,7 +108143,9 @@ export interface operations {
     };
     responses: {
       /** @description Response */
-      204: never;
+      204: {
+        content: never;
+      };
       401: components["responses"]["requires_authentication"];
       403: components["responses"]["forbidden"];
       404: components["responses"]["not_found"];
