@@ -10489,7 +10489,7 @@ export interface components {
           language?: string;
           raw_url?: string;
           size?: number;
-        } | undefined;
+        };
       };
       public: boolean;
       /** Format: date-time */
@@ -10634,7 +10634,7 @@ export interface components {
             language?: string;
             raw_url?: string;
             size?: number;
-          } | undefined;
+          };
         };
         public: boolean;
         /** Format: date-time */
@@ -10660,7 +10660,7 @@ export interface components {
       git_push_url?: string;
       html_url?: string;
       files?: {
-        [key: string]: ({
+        [key: string]: {
           filename?: string;
           type?: string;
           language?: string;
@@ -10668,7 +10668,7 @@ export interface components {
           size?: number;
           truncated?: boolean;
           content?: string;
-        } | null) | undefined;
+        } | null;
       };
       public?: boolean;
       created_at?: string;
@@ -12974,13 +12974,13 @@ export interface components {
       /** @description Permissions requested, categorized by type of permission. */
       permissions: {
         organization?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         repository?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         other?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
       };
       /** @description Date and time when the request for access was created. */
@@ -13010,13 +13010,13 @@ export interface components {
       /** @description Permissions requested, categorized by type of permission. */
       permissions: {
         organization?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         repository?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         other?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
       };
       /** @description Date and time when the fine-grained personal access token was approved to access the organization. */
@@ -18171,7 +18171,7 @@ export interface components {
      * @description User-defined metadata to store domain-specific information limited to 8 keys with scalar values.
      */
     metadata: {
-      [key: string]: ((string | number | boolean) | null) | undefined;
+      [key: string]: (string | number | boolean) | null;
     };
     dependency: {
       /**
@@ -18214,7 +18214,7 @@ export interface components {
       metadata?: components["schemas"]["metadata"];
       /** @description A collection of resolved package dependencies. */
       resolved?: {
-        [key: string]: components["schemas"]["dependency"] | undefined;
+        [key: string]: components["schemas"]["dependency"];
       };
     };
     /**
@@ -18272,7 +18272,7 @@ export interface components {
       metadata?: components["schemas"]["metadata"];
       /** @description A collection of package manifests, which are a collection of related dependencies declared in a file or representing a logical group of dependencies. */
       manifests?: {
-        [key: string]: components["schemas"]["manifest"] | undefined;
+        [key: string]: components["schemas"]["manifest"];
       };
       /**
        * Format: date-time
@@ -19863,7 +19863,7 @@ export interface components {
      * @description Language
      */
     language: {
-      [key: string]: number | undefined;
+      [key: string]: number;
     };
     /**
      * License Content
@@ -22757,37 +22757,37 @@ export interface components {
       /** @description New requested permissions, categorized by type of permission. */
       permissions_added: {
         organization?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         repository?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         other?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
       };
       /** @description Requested permissions that elevate access for a previously approved request for access, categorized by type of permission. */
       permissions_upgraded: {
         organization?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         repository?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         other?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
       };
       /** @description Permissions requested, categorized by type of permission. This field incorporates `permissions_added` and `permissions_upgraded`. */
       permissions_result: {
         organization?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         repository?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
         other?: {
-          [key: string]: string | undefined;
+          [key: string]: string;
         };
       };
       /**
@@ -40144,12 +40144,12 @@ export interface components {
       };
       platform?: string;
       metadata?: {
-        [key: string]: string | undefined;
+        [key: string]: string;
       };
       repo?: string;
-      dependencies?: ({
-          [key: string]: string | undefined;
-        })[];
+      dependencies?: {
+          [key: string]: string;
+        }[];
       commit_oid?: string;
     };
     /** package published event */
@@ -81109,7 +81109,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            [key: string]: string | undefined;
+            [key: string]: string;
           };
         };
       };
@@ -81291,7 +81291,7 @@ export interface operations {
             [key: string]: {
               /** @description Content of the file */
               content: string;
-            } | undefined;
+            };
           };
           public?: boolean | ("true" | "false");
         };
@@ -81437,12 +81437,12 @@ export interface operations {
            * }
            */
           files?: {
-            [key: string]: (({
+            [key: string]: ({
               /** @description The new content of the file. */
               content?: string;
               /** @description The new filename for the file. */
               filename?: string | null;
-            }) | null) | undefined;
+            }) | null;
           };
         }) | null;
       };
