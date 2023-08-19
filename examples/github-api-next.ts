@@ -20,7 +20,9 @@ export interface paths {
   "/advisories": {
     /**
      * List global security advisories
-     * @description List global security advisories and filter using parameters such as ecosystem, GHSA ID, CVE ID, etc.
+     * @description Lists all global security advisories that match the specified parameters. If no other parameters are defined, the request will return only GitHub-reviewed advisories that are not malware.
+     *
+     * By default, all responses will exclude advisories for malware, because malware are not standard vulnerabilities. To list advisories for malware, you must include the `type` parameter in your request, with the value `malware`. For more information about the different types of security advisories, see "[About the GitHub Advisory database](https://docs.github.com/code-security/security-advisories/global-security-advisories/about-the-github-advisory-database#about-types-of-security-advisories)."
      */
     get: operations["security-advisories/list-global-advisories"];
   };
@@ -116,7 +118,7 @@ export interface paths {
     get: operations["apps/get-installation"];
     /**
      * Delete an installation for the authenticated app
-     * @description Uninstalls a GitHub App on a user, organization, or business account. If you prefer to temporarily suspend an app's access to your account's resources, then we recommend the "[Suspend an app installation](https://docs.github.com/rest/reference/apps/#suspend-an-app-installation)" endpoint.
+     * @description Uninstalls a GitHub App on a user, organization, or business account. If you prefer to temporarily suspend an app's access to your account's resources, then we recommend the "[Suspend an app installation](https://docs.github.com/rest/apps/apps#suspend-an-app-installation)" endpoint.
      *
      * You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
      */
@@ -360,7 +362,7 @@ export interface paths {
      * Revoke an installation access token
      * @description Revokes the installation token you're using to authenticate as an installation and access this endpoint.
      *
-     * Once an installation token is revoked, the token is invalidated and cannot be used. Other endpoints that require the revoked installation token must have a new installation token to work. You can create a new token using the "[Create an installation access token for an app](https://docs.github.com/rest/reference/apps#create-an-installation-access-token-for-an-app)" endpoint.
+     * Once an installation token is revoked, the token is invalidated and cannot be used. Other endpoints that require the revoked installation token must have a new installation token to work. You can create a new token using the "[Create an installation access token for an app](https://docs.github.com/rest/apps/apps#create-an-installation-access-token-for-an-app)" endpoint.
      *
      * You must use an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
      */
@@ -382,11 +384,17 @@ export interface paths {
     get: operations["issues/list"];
   };
   "/licenses": {
-    /** Get all commonly used licenses */
+    /**
+     * Get all commonly used licenses
+     * @description Lists the most commonly used licenses on GitHub. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
+     */
     get: operations["licenses/get-all-commonly-used"];
   };
   "/licenses/{license}": {
-    /** Get a license */
+    /**
+     * Get a license
+     * @description Gets information about a specific license. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
+     */
     get: operations["licenses/get"];
   };
   "/markdown": {
@@ -1929,6 +1937,15 @@ export interface paths {
      */
     get: operations["secret-scanning/list-alerts-for-org"];
   };
+  "/orgs/{org}/security-advisories": {
+    /**
+     * List repository security advisories for an organization
+     * @description Lists repository security advisories for an organization.
+     *
+     * To use this endpoint, you must be an owner or security manager for the organization, and you must use an access token with the `repo` scope or `repository_advisories:write` permission.
+     */
+    get: operations["security-advisories/list-org-repository-advisories"];
+  };
   "/orgs/{org}/security-managers": {
     /**
      * List security manager teams
@@ -2117,14 +2134,14 @@ export interface paths {
   "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions": {
     /**
      * List reactions for a team discussion comment
-     * @description List the reactions to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments/). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+     * @description List the reactions to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
      *
      * **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions`.
      */
     get: operations["reactions/list-for-team-discussion-comment-in-org"];
     /**
      * Create reaction for a team discussion comment
-     * @description Create a reaction to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion comment.
+     * @description Create a reaction to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion comment.
      *
      * **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions`.
      */
@@ -2135,21 +2152,21 @@ export interface paths {
      * Delete team discussion comment reaction
      * @description **Note:** You can also specify a team or organization with `team_id` and `org_id` using the route `DELETE /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions/:reaction_id`.
      *
-     * Delete a reaction to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+     * Delete a reaction to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
      */
     delete: operations["reactions/delete-for-team-discussion-comment"];
   };
   "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions": {
     /**
      * List reactions for a team discussion
-     * @description List the reactions to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+     * @description List the reactions to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
      *
      * **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions`.
      */
     get: operations["reactions/list-for-team-discussion-in-org"];
     /**
      * Create reaction for a team discussion
-     * @description Create a reaction to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion.
+     * @description Create a reaction to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion.
      *
      * **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions`.
      */
@@ -2160,7 +2177,7 @@ export interface paths {
      * Delete team discussion reaction
      * @description **Note:** You can also specify a team or organization with `team_id` and `org_id` using the route `DELETE /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions/:reaction_id`.
      *
-     * Delete a reaction to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+     * Delete a reaction to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
      */
     delete: operations["reactions/delete-for-team-discussion"];
   };
@@ -2421,6 +2438,17 @@ export interface paths {
     /**
      * Get rate limit status for the authenticated user
      * @description **Note:** Accessing this endpoint does not count against your REST API rate limit.
+     *
+     * Some categories of endpoints have custom rate limits that are separate from the rate limit governing the other REST API endpoints. For this reason, the API response categorizes your rate limit. Under `resources`, you'll see objects relating to different categories:
+     * * The `core` object provides your rate limit status for all non-search-related resources in the REST API.
+     * * The `search` object provides your rate limit status for the REST API for searching (excluding code searches). For more information, see "[Search](https://docs.github.com/rest/search)."
+     * * The `code_search` object provides your rate limit status for the REST API for searching code. For more information, see "[Search code](https://docs.github.com/rest/search/search#search-code)."
+     * * The `graphql` object provides your rate limit status for the GraphQL API. For more information, see "[Resource limitations](https://docs.github.com/graphql/overview/resource-limitations#rate-limit)."
+     * * The `integration_manifest` object provides your rate limit status for the `POST /app-manifests/{code}/conversions` operation. For more information, see "[Creating a GitHub App from a manifest](https://docs.github.com/apps/creating-github-apps/setting-up-a-github-app/creating-a-github-app-from-a-manifest#3-you-exchange-the-temporary-code-to-retrieve-the-app-configuration)."
+     * * The `dependency_snapshots` object provides your rate limit status for submitting snapshots to the dependency graph. For more information, see "[Dependency graph](https://docs.github.com/rest/dependency-graph)."
+     * * The `code_scanning_upload` object provides your rate limit status for uploading SARIF results to code scanning. For more information, see "[Uploading a SARIF file to GitHub](https://docs.github.com/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github)."
+     * * The `actions_runner_registration` object provides your rate limit status for registering self-hosted runners in GitHub Actions. For more information, see "[Self-hosted runners](https://docs.github.com/rest/actions/self-hosted-runners)."
+     * * The `source_import` object is no longer in use for any API endpoints, and it will be removed in the next API version. For more information about API versions, see "[API Versions](https://docs.github.com/rest/overview/api-versions)."
      *
      * **Note:** The `rate` object is deprecated. If you're writing new API client code or updating existing code, you should use the `core` object instead of the `rate` object. The `core` object contains the same information that is present in the `rate` object.
      */
@@ -3548,7 +3576,7 @@ export interface paths {
      * Create a check suite
      * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
      *
-     * By default, check suites are automatically created when you create a [check run](https://docs.github.com/rest/reference/checks#check-runs). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "[Update repository preferences for check suites](https://docs.github.com/rest/checks/suites#update-repository-preferences-for-check-suites)". Your GitHub App must have the `checks:write` permission to create check suites.
+     * By default, check suites are automatically created when you create a [check run](https://docs.github.com/rest/checks/runs). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "[Update repository preferences for check suites](https://docs.github.com/rest/checks/suites#update-repository-preferences-for-check-suites)". Your GitHub App must have the `checks:write` permission to create check suites.
      */
     post: operations["checks/create-suite"];
   };
@@ -3788,7 +3816,7 @@ export interface paths {
   "/repos/{owner}/{repo}/code-scanning/sarifs": {
     /**
      * Upload an analysis as SARIF data
-     * @description Uploads SARIF data containing the results of a code scanning analysis to make the results available in a repository. You must use an access token with the `security_events` scope to use this endpoint for private repositories. You can also use tokens with the `public_repo` scope for public repositories only. GitHub Apps must have the `security_events` write permission to use this endpoint.
+     * @description Uploads SARIF data containing the results of a code scanning analysis to make the results available in a repository. You must use an access token with the `security_events` scope to use this endpoint for private repositories. You can also use tokens with the `public_repo` scope for public repositories only. GitHub Apps must have the `security_events` write permission to use this endpoint. For troubleshooting information, see "[Troubleshooting SARIF uploads](https://docs.github.com/code-security/code-scanning/troubleshooting-sarif)."
      *
      * There are two places where you can upload code scanning results.
      *  - If you upload to a pull request, for example `--ref refs/pull/42/merge` or `--ref refs/pull/42/head`, then the results appear as alerts in a pull request check. For more information, see "[Triaging code scanning alerts in pull requests](/code-security/secure-coding/triaging-code-scanning-alerts-in-pull-requests)."
@@ -3801,7 +3829,7 @@ export interface paths {
      * ```
      * <br>
      * SARIF upload supports a maximum number of entries per the following data objects, and an analysis will be rejected if any of these objects is above its maximum value. For some objects, there are additional values over which the entries will be ignored while keeping the most important entries whenever applicable.
-     * To get the most out of your analysis when it includes data above the supported limits, try to optimize the analysis configuration. For example, for the CodeQL tool, identify and remove the most noisy queries.
+     * To get the most out of your analysis when it includes data above the supported limits, try to optimize the analysis configuration. For example, for the CodeQL tool, identify and remove the most noisy queries. For more information, see "[SARIF results exceed one or more limits](https://docs.github.com/code-security/code-scanning/troubleshooting-sarif/results-exceed-limit)."
      *
      *
      * | **SARIF data**                   | **Maximum values** | **Additional limits**                                                            |
@@ -3969,7 +3997,7 @@ export interface paths {
      *
      * Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
      *
-     * The invitee will receive a notification that they have been invited to the repository, which they must accept or decline. They may do this via the notifications page, the email they receive, or by using the [repository invitations API endpoints](https://docs.github.com/rest/reference/repos#invitations).
+     * The invitee will receive a notification that they have been invited to the repository, which they must accept or decline. They may do this via the notifications page, the email they receive, or by using the [API](https://docs.github.com/rest/collaborators/invitations).
      *
      * **Updating an existing collaborator's permission level**
      *
@@ -4022,7 +4050,7 @@ export interface paths {
   "/repos/{owner}/{repo}/comments": {
     /**
      * List commit comments for a repository
-     * @description Commit Comments use [these custom media types](https://docs.github.com/rest/reference/repos#custom-media-types). You can read more about the use of media types in the API [here](https://docs.github.com/rest/overview/media-types/).
+     * @description Commit Comments use [these custom media types](https://docs.github.com/rest/overview/media-types). You can read more about the use of media types in the API [here](https://docs.github.com/rest/overview/media-types/).
      *
      * Comments are ordered by ascending ID.
      */
@@ -4039,12 +4067,12 @@ export interface paths {
   "/repos/{owner}/{repo}/comments/{comment_id}/reactions": {
     /**
      * List reactions for a commit comment
-     * @description List the reactions to a [commit comment](https://docs.github.com/rest/reference/repos#comments).
+     * @description List the reactions to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment).
      */
     get: operations["reactions/list-for-commit-comment"];
     /**
      * Create reaction for a commit comment
-     * @description Create a reaction to a [commit comment](https://docs.github.com/rest/reference/repos#comments). A response with an HTTP `200` status means that you already added the reaction type to this commit comment.
+     * @description Create a reaction to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment). A response with an HTTP `200` status means that you already added the reaction type to this commit comment.
      */
     post: operations["reactions/create-for-commit-comment"];
   };
@@ -4053,7 +4081,7 @@ export interface paths {
      * Delete a commit comment reaction
      * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE /repositories/:repository_id/comments/:comment_id/reactions/:reaction_id`.
      *
-     * Delete a reaction to a [commit comment](https://docs.github.com/rest/reference/repos#comments).
+     * Delete a reaction to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment).
      */
     delete: operations["reactions/delete-for-commit-comment"];
   };
@@ -4282,13 +4310,13 @@ export interface paths {
      * @description Gets the contents of a file or directory in a repository. Specify the file path or directory in `:path`. If you omit
      * `:path`, you will receive the contents of the repository's root directory. See the description below regarding what the API response includes for directories.
      *
-     * Files and symlinks support [a custom media type](https://docs.github.com/rest/reference/repos#custom-media-types) for
+     * Files and symlinks support [a custom media type](https://docs.github.com/rest/overview/media-types) for
      * retrieving the raw content or rendered HTML (when supported). All content types support [a custom media
-     * type](https://docs.github.com/rest/reference/repos#custom-media-types) to ensure the content is returned in a consistent
+     * type](https://docs.github.com/rest/overview/media-types) to ensure the content is returned in a consistent
      * object format.
      *
      * **Notes**:
-     * *   To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/reference/git#trees).
+     * *   To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/git/trees#get-a-tree).
      * *   This API has an upper limit of 1,000 files for a directory. If you need to retrieve more files, use the [Git Trees
      * API](https://docs.github.com/rest/git/trees#get-a-tree).
      *  *  Download URLs expire and are meant to be used just once. To ensure the download URL does not expire, please use the contents API to obtain a fresh download URL for each download.
@@ -4322,7 +4350,7 @@ export interface paths {
      * Create or update file contents
      * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `workflow` scope to use this endpoint.
      *
-     * **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/reference/repos/#delete-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
+     * **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/repos/contents/#delete-a-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
      */
     put: operations["repos/create-or-update-file-contents"];
     /**
@@ -4335,7 +4363,7 @@ export interface paths {
      *
      * You must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.
      *
-     * **Note:** If you use this endpoint and the "[Create or update file contents](https://docs.github.com/rest/reference/repos/#create-or-update-file-contents)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
+     * **Note:** If you use this endpoint and the "[Create or update file contents](https://docs.github.com/rest/repos/contents/#create-or-update-file-contents)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
      */
     delete: operations["repos/delete-file"];
   };
@@ -4569,7 +4597,7 @@ export interface paths {
      *
      * **Note:** To create or update name patterns that branches must match in order to deploy to this environment, see "[Deployment branch policies](/rest/deployments/branch-policies)."
      *
-     * **Note:** To create or update secrets for an environment, see "[Secrets](/rest/reference/actions#secrets)."
+     * **Note:** To create or update secrets for an environment, see "[GitHub Actions secrets](/rest/actions/secrets)."
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
      */
@@ -4890,7 +4918,7 @@ export interface paths {
   "/repos/{owner}/{repo}/git/trees/{tree_sha}": {
     /**
      * Get a tree
-     * @description Returns a single tree using the SHA1 value for that tree.
+     * @description Returns a single tree using the SHA1 value or ref name for that tree.
      *
      * If `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.
      *
@@ -4915,28 +4943,28 @@ export interface paths {
   "/repos/{owner}/{repo}/hooks/{hook_id}": {
     /**
      * Get a repository webhook
-     * @description Returns a webhook configured in a repository. To get only the webhook `config` properties, see "[Get a webhook configuration for a repository](/rest/reference/repos#get-a-webhook-configuration-for-a-repository)."
+     * @description Returns a webhook configured in a repository. To get only the webhook `config` properties, see "[Get a webhook configuration for a repository](/rest/webhooks/repo-config#get-a-webhook-configuration-for-a-repository)."
      */
     get: operations["repos/get-webhook"];
     /** Delete a repository webhook */
     delete: operations["repos/delete-webhook"];
     /**
      * Update a repository webhook
-     * @description Updates a webhook configured in a repository. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for a repository](/rest/reference/repos#update-a-webhook-configuration-for-a-repository)."
+     * @description Updates a webhook configured in a repository. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for a repository](/rest/webhooks/repo-config#update-a-webhook-configuration-for-a-repository)."
      */
     patch: operations["repos/update-webhook"];
   };
   "/repos/{owner}/{repo}/hooks/{hook_id}/config": {
     /**
      * Get a webhook configuration for a repository
-     * @description Returns the webhook configuration for a repository. To get more information about the webhook, including the `active` state and `events`, use "[Get a repository webhook](/rest/reference/orgs#get-a-repository-webhook)."
+     * @description Returns the webhook configuration for a repository. To get more information about the webhook, including the `active` state and `events`, use "[Get a repository webhook](/rest/webhooks/repos#get-a-repository-webhook)."
      *
      * Access tokens must have the `read:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:read` permission.
      */
     get: operations["repos/get-webhook-config-for-repo"];
     /**
      * Update a webhook configuration for a repository
-     * @description Updates the webhook configuration for a repository. To update more information about the webhook, including the `active` state and `events`, use "[Update a repository webhook](/rest/reference/orgs#update-a-repository-webhook)."
+     * @description Updates the webhook configuration for a repository. To update more information about the webhook, including the `active` state and `events`, use "[Update a repository webhook](/rest/webhooks/repos#update-a-repository-webhook)."
      *
      * Access tokens must have the `write:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:write` permission.
      */
@@ -5190,12 +5218,12 @@ export interface paths {
   "/repos/{owner}/{repo}/issues/comments/{comment_id}/reactions": {
     /**
      * List reactions for an issue comment
-     * @description List the reactions to an [issue comment](https://docs.github.com/rest/reference/issues#comments).
+     * @description List the reactions to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment).
      */
     get: operations["reactions/list-for-issue-comment"];
     /**
      * Create reaction for an issue comment
-     * @description Create a reaction to an [issue comment](https://docs.github.com/rest/reference/issues#comments). A response with an HTTP `200` status means that you already added the reaction type to this issue comment.
+     * @description Create a reaction to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment). A response with an HTTP `200` status means that you already added the reaction type to this issue comment.
      */
     post: operations["reactions/create-for-issue-comment"];
   };
@@ -5204,7 +5232,7 @@ export interface paths {
      * Delete an issue comment reaction
      * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE delete /repositories/:repository_id/issues/comments/:comment_id/reactions/:reaction_id`.
      *
-     * Delete a reaction to an [issue comment](https://docs.github.com/rest/reference/issues#comments).
+     * Delete a reaction to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment).
      */
     delete: operations["reactions/delete-for-issue-comment"];
   };
@@ -5341,12 +5369,12 @@ export interface paths {
   "/repos/{owner}/{repo}/issues/{issue_number}/reactions": {
     /**
      * List reactions for an issue
-     * @description List the reactions to an [issue](https://docs.github.com/rest/reference/issues).
+     * @description List the reactions to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue).
      */
     get: operations["reactions/list-for-issue"];
     /**
      * Create reaction for an issue
-     * @description Create a reaction to an [issue](https://docs.github.com/rest/reference/issues/). A response with an HTTP `200` status means that you already added the reaction type to this issue.
+     * @description Create a reaction to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue). A response with an HTTP `200` status means that you already added the reaction type to this issue.
      */
     post: operations["reactions/create-for-issue"];
   };
@@ -5355,7 +5383,7 @@ export interface paths {
      * Delete an issue reaction
      * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE /repositories/:repository_id/issues/:issue_number/reactions/:reaction_id`.
      *
-     * Delete a reaction to an [issue](https://docs.github.com/rest/reference/issues/).
+     * Delete a reaction to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue).
      */
     delete: operations["reactions/delete-for-issue"];
   };
@@ -5419,18 +5447,6 @@ export interface paths {
      * @description Lists languages for the specified repository. The value shown for each language is the number of bytes of code written in that language.
      */
     get: operations["repos/list-languages"];
-  };
-  "/repos/{owner}/{repo}/lfs": {
-    /**
-     * Enable Git LFS for a repository
-     * @description Enables Git LFS for a repository. Access tokens must have the `admin:enterprise` scope.
-     */
-    put: operations["repos/enable-lfs-for-repo"];
-    /**
-     * Disable Git LFS for a repository
-     * @description Disables Git LFS for a repository. Access tokens must have the `admin:enterprise` scope.
-     */
-    delete: operations["repos/disable-lfs-for-repo"];
   };
   "/repos/{owner}/{repo}/license": {
     /**
@@ -5581,6 +5597,18 @@ export interface paths {
      */
     get: operations["repos/get-pages-health-check"];
   };
+  "/repos/{owner}/{repo}/private-vulnerability-reporting": {
+    /**
+     * Enable private vulnerability reporting for a repository
+     * @description Enables private vulnerability reporting for a repository. The authenticated user must have admin access to the repository. For more information, see "[Privately reporting a security vulnerability](https://docs.github.com/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability)."
+     */
+    put: operations["repos/enable-private-vulnerability-reporting"];
+    /**
+     * Disable private vulnerability reporting for a repository
+     * @description Disables private vulnerability reporting for a repository. The authenticated user must have admin access to the repository. For more information, see "[Privately reporting a security vulnerability](https://docs.github.com/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability)".
+     */
+    delete: operations["repos/disable-private-vulnerability-reporting"];
+  };
   "/repos/{owner}/{repo}/projects": {
     /**
      * List repository projects
@@ -5636,12 +5664,12 @@ export interface paths {
   "/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions": {
     /**
      * List reactions for a pull request review comment
-     * @description List the reactions to a [pull request review comment](https://docs.github.com/rest/reference/pulls#review-comments).
+     * @description List the reactions to a [pull request review comment](https://docs.github.com/pulls/comments#get-a-review-comment-for-a-pull-request).
      */
     get: operations["reactions/list-for-pull-request-review-comment"];
     /**
      * Create reaction for a pull request review comment
-     * @description Create a reaction to a [pull request review comment](https://docs.github.com/rest/reference/pulls#comments). A response with an HTTP `200` status means that you already added the reaction type to this pull request review comment.
+     * @description Create a reaction to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request). A response with an HTTP `200` status means that you already added the reaction type to this pull request review comment.
      */
     post: operations["reactions/create-for-pull-request-review-comment"];
   };
@@ -5650,7 +5678,7 @@ export interface paths {
      * Delete a pull request comment reaction
      * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE /repositories/:repository_id/pulls/comments/:comment_id/reactions/:reaction_id.`
      *
-     * Delete a reaction to a [pull request review comment](https://docs.github.com/rest/reference/pulls#review-comments).
+     * Delete a reaction to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request).
      */
     delete: operations["reactions/delete-for-pull-request-comment"];
   };
@@ -5661,7 +5689,7 @@ export interface paths {
      *
      * Lists details of a pull request by providing its number.
      *
-     * When you get, [create](https://docs.github.com/rest/reference/pulls/#create-a-pull-request), or [edit](https://docs.github.com/rest/reference/pulls#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)".
+     * When you get, [create](https://docs.github.com/rest/pulls/pulls/#create-a-pull-request), or [edit](https://docs.github.com/rest/pulls/pulls#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)".
      *
      * The value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergeable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit.
      *
@@ -5724,7 +5752,7 @@ export interface paths {
   "/repos/{owner}/{repo}/pulls/{pull_number}/commits": {
     /**
      * List commits on a pull request
-     * @description Lists a maximum of 250 commits for a pull request. To receive a complete commit list for pull requests with more than 250 commits, use the [List commits](https://docs.github.com/rest/reference/repos#list-commits) endpoint.
+     * @description Lists a maximum of 250 commits for a pull request. To receive a complete commit list for pull requests with more than 250 commits, use the [List commits](https://docs.github.com/rest/commits/commits#list-commits) endpoint.
      */
     get: operations["pulls/list-commits"];
   };
@@ -5776,7 +5804,7 @@ export interface paths {
      * Create a review for a pull request
      * @description This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
      *
-     * Pull request reviews created in the `PENDING` state are not submitted and therefore do not include the `submitted_at` property in the response. To create a pending review for a pull request, leave the `event` parameter blank. For more information about submitting a `PENDING` review, see "[Submit a review for a pull request](https://docs.github.com/rest/pulls#submit-a-review-for-a-pull-request)."
+     * Pull request reviews created in the `PENDING` state are not submitted and therefore do not include the `submitted_at` property in the response. To create a pending review for a pull request, leave the `event` parameter blank. For more information about submitting a `PENDING` review, see "[Submit a review for a pull request](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request)."
      *
      * **Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API offers the `application/vnd.github.v3.diff` [media type](https://docs.github.com/rest/overview/media-types#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://docs.github.com/rest/pulls/pulls#get-a-pull-request) endpoint.
      *
@@ -5811,14 +5839,14 @@ export interface paths {
   "/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals": {
     /**
      * Dismiss a review for a pull request
-     * @description **Note:** To dismiss a pull request review on a [protected branch](https://docs.github.com/rest/reference/repos#branches), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.
+     * @description **Note:** To dismiss a pull request review on a [protected branch](https://docs.github.com/rest/branches/branch-protection), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.
      */
     put: operations["pulls/dismiss-review"];
   };
   "/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events": {
     /**
      * Submit a review for a pull request
-     * @description Submits a pending review for a pull request. For more information about creating a pending review for a pull request, see "[Create a review for a pull request](https://docs.github.com/rest/pulls#create-a-review-for-a-pull-request)."
+     * @description Submits a pending review for a pull request. For more information about creating a pending review for a pull request, see "[Create a review for a pull request](https://docs.github.com/rest/pulls/reviews#create-a-review-for-a-pull-request)."
      */
     post: operations["pulls/submit-review"];
   };
@@ -5834,7 +5862,7 @@ export interface paths {
      * Get a repository README
      * @description Gets the preferred README for a repository.
      *
-     * READMEs support [custom media types](https://docs.github.com/rest/reference/repos#custom-media-types) for retrieving the raw content or rendered HTML.
+     * READMEs support [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw content or rendered HTML.
      */
     get: operations["repos/get-readme"];
   };
@@ -5843,7 +5871,7 @@ export interface paths {
      * Get a repository README for a directory
      * @description Gets the README from a repository directory.
      *
-     * READMEs support [custom media types](https://docs.github.com/rest/reference/repos#custom-media-types) for retrieving the raw content or rendered HTML.
+     * READMEs support [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw content or rendered HTML.
      */
     get: operations["repos/get-readme-in-directory"];
   };
@@ -5880,7 +5908,7 @@ export interface paths {
   "/repos/{owner}/{repo}/releases/generate-notes": {
     /**
      * Generate release notes content for a release
-     * @description Generate a name and body describing a [release](https://docs.github.com/rest/reference/repos#releases). The body content will be markdown formatted and contain information like the changes since last release and users who contributed. The generated release notes are not saved anywhere. They are intended to be generated and used when creating a new release.
+     * @description Generate a name and body describing a [release](https://docs.github.com/rest/releases/releases#get-a-release). The body content will be markdown formatted and contain information like the changes since last release and users who contributed. The generated release notes are not saved anywhere. They are intended to be generated and used when creating a new release.
      */
     post: operations["repos/generate-release-notes"];
   };
@@ -5937,7 +5965,7 @@ export interface paths {
      * When an upstream failure occurs, you will receive a `502 Bad Gateway` status. This may leave an empty asset with a state of `starter`. It can be safely deleted.
      *
      * **Notes:**
-     * *   GitHub renames asset filenames that have special characters, non-alphanumeric characters, and leading or trailing periods. The "[List assets for a release](https://docs.github.com/rest/reference/repos#list-assets-for-a-release)"
+     * *   GitHub renames asset filenames that have special characters, non-alphanumeric characters, and leading or trailing periods. The "[List release assets](https://docs.github.com/rest/releases/assets#list-release-assets)"
      * endpoint lists the renamed filenames. For more information and help, contact [GitHub Support](https://support.github.com/contact?tags=dotcom-rest-api).
      * *   To find the `release_id` query the [`GET /repos/{owner}/{repo}/releases/latest` endpoint](https://docs.github.com/rest/releases/releases#get-the-latest-release).
      * *   If you upload an asset with the same filename as another uploaded asset, you'll receive an error and must delete the old file before you can re-upload the new asset.
@@ -5947,12 +5975,12 @@ export interface paths {
   "/repos/{owner}/{repo}/releases/{release_id}/reactions": {
     /**
      * List reactions for a release
-     * @description List the reactions to a [release](https://docs.github.com/rest/reference/repos#releases).
+     * @description List the reactions to a [release](https://docs.github.com/rest/releases/releases#get-a-release).
      */
     get: operations["reactions/list-for-release"];
     /**
      * Create reaction for a release
-     * @description Create a reaction to a [release](https://docs.github.com/rest/reference/repos#releases). A response with a `Status: 200 OK` means that you already added the reaction type to this release.
+     * @description Create a reaction to a [release](https://docs.github.com/rest/releases/releases#get-a-release). A response with a `Status: 200 OK` means that you already added the reaction type to this release.
      */
     post: operations["reactions/create-for-release"];
   };
@@ -5961,7 +5989,7 @@ export interface paths {
      * Delete a release reaction
      * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE delete /repositories/:repository_id/releases/:release_id/reactions/:reaction_id`.
      *
-     * Delete a reaction to a [release](https://docs.github.com/rest/reference/repos#releases).
+     * Delete a reaction to a [release](https://docs.github.com/rest/releases/releases#get-a-release).
      */
     delete: operations["reactions/delete-for-release"];
   };
@@ -6093,6 +6121,19 @@ export interface paths {
      * or a collaborator on the repository security advisory.
      */
     patch: operations["security-advisories/update-repository-advisory"];
+  };
+  "/repos/{owner}/{repo}/security-advisories/{ghsa_id}/cve": {
+    /**
+     * Request a CVE for a repository security advisory
+     * @description If you want a CVE identification number for the security vulnerability in your project, and don't already have one, you can request a CVE identification number from GitHub. For more information see "[Requesting a CVE identification number](https://docs.github.com/code-security/security-advisories/repository-security-advisories/publishing-a-repository-security-advisory#requesting-a-cve-identification-number-optional)."
+     *
+     * You may request a CVE for public repositories, but cannot do so for private repositories.
+     *
+     * You must authenticate using an access token with the `repo` scope or `repository_advisories:write` permission to use this endpoint.
+     *
+     * In order to request a CVE for a repository security advisory, you must be a security manager or administrator of that repository.
+     */
+    post: operations["security-advisories/create-repository-advisory-cve-request"];
   };
   "/repos/{owner}/{repo}/stargazers": {
     /**
@@ -6450,7 +6491,7 @@ export interface paths {
      * Search code
      * @description Searches for query terms inside of a file. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
      *
-     * When searching for code, you can get text match metadata for the file **content** and file **path** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+     * When searching for code, you can get text match metadata for the file **content** and file **path** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
      *
      * For example, if you want to find the definition of the `addClass` function inside [jQuery](https://github.com/jquery/jquery) repository, your query would look something like this:
      *
@@ -6477,7 +6518,7 @@ export interface paths {
      * @description Find commits via various criteria on the default branch (usually `main`). This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
      *
      * When searching for commits, you can get text match metadata for the **message** field when you provide the `text-match` media type. For more details about how to receive highlighted search results, see [Text match
-     * metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+     * metadata](https://docs.github.com/rest/search/search#text-match-metadata).
      *
      * For example, if you want to find commits related to CSS in the [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife) repository. Your query would look something like this:
      *
@@ -6491,7 +6532,7 @@ export interface paths {
      * @description Find issues by state and keyword. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
      *
      * When searching for issues, you can get text match metadata for the issue **title**, issue **body**, and issue **comment body** fields when you pass the `text-match` media type. For more details about how to receive highlighted
-     * search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+     * search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
      *
      * For example, if you want to find the oldest unresolved Python bugs on Windows. Your query might look something like this.
      *
@@ -6508,7 +6549,7 @@ export interface paths {
      * Search labels
      * @description Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
      *
-     * When searching for labels, you can get text match metadata for the label **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+     * When searching for labels, you can get text match metadata for the label **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
      *
      * For example, if you want to find labels in the `linguist` repository that match `bug`, `defect`, or `enhancement`. Your query might look like this:
      *
@@ -6523,7 +6564,7 @@ export interface paths {
      * Search repositories
      * @description Find repositories via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
      *
-     * When searching for repositories, you can get text match metadata for the **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+     * When searching for repositories, you can get text match metadata for the **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
      *
      * For example, if you want to search for popular Tetris repositories written in assembly code, your query might look like this:
      *
@@ -6538,7 +6579,7 @@ export interface paths {
      * Search topics
      * @description Find topics via various criteria. Results are sorted by best match. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination). See "[Searching topics](https://docs.github.com/articles/searching-topics/)" for a detailed list of qualifiers.
      *
-     * When searching for topics, you can get text match metadata for the topic's **short\_description**, **description**, **name**, or **display\_name** field when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+     * When searching for topics, you can get text match metadata for the topic's **short\_description**, **description**, **name**, or **display\_name** field when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
      *
      * For example, if you want to search for topics related to Ruby that are featured on https://github.com/topics. Your query might look like this:
      *
@@ -6553,7 +6594,7 @@ export interface paths {
      * Search users
      * @description Find users via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
      *
-     * When searching for users, you can get text match metadata for the issue **login**, public **email**, and **name** fields when you pass the `text-match` media type. For more details about highlighting search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata). For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+     * When searching for users, you can get text match metadata for the issue **login**, public **email**, and **name** fields when you pass the `text-match` media type. For more details about highlighting search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata). For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
      *
      * For example, if you're looking for a list of popular users, you might try this query:
      *
@@ -6691,7 +6732,7 @@ export interface paths {
      * @deprecated
      * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List reactions for a team discussion comment`](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion-comment) endpoint.
      *
-     * List the reactions to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+     * List the reactions to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
      */
     get: operations["reactions/list-for-team-discussion-comment-legacy"];
     /**
@@ -6699,7 +6740,7 @@ export interface paths {
      * @deprecated
      * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Create reaction for a team discussion comment](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion-comment)" endpoint.
      *
-     * Create a reaction to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion comment.
+     * Create a reaction to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion comment.
      */
     post: operations["reactions/create-for-team-discussion-comment-legacy"];
   };
@@ -6709,7 +6750,7 @@ export interface paths {
      * @deprecated
      * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List reactions for a team discussion`](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion) endpoint.
      *
-     * List the reactions to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+     * List the reactions to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
      */
     get: operations["reactions/list-for-team-discussion-legacy"];
     /**
@@ -6717,7 +6758,7 @@ export interface paths {
      * @deprecated
      * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create reaction for a team discussion`](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion) endpoint.
      *
-     * Create a reaction to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion.
+     * Create a reaction to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion.
      */
     post: operations["reactions/create-for-team-discussion-legacy"];
   };
@@ -6878,7 +6919,7 @@ export interface paths {
      * @deprecated
      * @description **Note**: Repositories inherited through a parent team will also be checked.
      *
-     * **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a repository](https://docs.github.com/rest/reference/teams#check-team-permissions-for-a-repository) endpoint.
+     * **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a repository](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-repository) endpoint.
      *
      * You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header:
      */
@@ -6886,7 +6927,7 @@ export interface paths {
     /**
      * Add or update team repository permissions (Legacy)
      * @deprecated
-     * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Add or update team repository permissions](https://docs.github.com/rest/reference/teams#add-or-update-team-repository-permissions)" endpoint.
+     * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Add or update team repository permissions](https://docs.github.com/rest/teams/teams#add-or-update-team-repository-permissions)" endpoint.
      *
      * To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a `422 Unprocessable Entity` status if you attempt to add a repository to a team that is not owned by the organization.
      *
@@ -6896,7 +6937,7 @@ export interface paths {
     /**
      * Remove a repository from a team (Legacy)
      * @deprecated
-     * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a repository from a team](https://docs.github.com/rest/reference/teams#remove-a-repository-from-a-team) endpoint.
+     * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a repository from a team](https://docs.github.com/rest/teams/teams#remove-a-repository-from-a-team) endpoint.
      *
      * If the authenticated user is an organization owner or a team maintainer, they can remove any repositories from the team. To remove a repository from a team as an organization member, the authenticated user must have admin access to the repository and must be able to see the team. NOTE: This does not delete the repository, it just removes it from the team.
      */
@@ -7684,7 +7725,7 @@ export interface paths {
      *
      * The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/overview/resources-in-the-rest-api#authentication).
      *
-     * The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/reference/users#emails)".
+     * The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/users/emails)".
      */
     get: operations["users/get-by-username"];
   };
@@ -7978,7 +8019,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to branch protection rules. For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)." For information about the APIs to manage branch protection rules, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#branchprotectionrule) or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
      *
-     * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
      * @description A branch protection rule was created.
      */
     post: operations["branch-protection-rule/created"];
@@ -8320,6 +8361,39 @@ export interface webhooks {
      */
     post: operations["deployment-protection-rule/requested"];
   };
+  "deployment-review-approved": {
+    /**
+     * This event occurs when there is activity relating to deployment reviews. For more information, see "[About deployments](https://docs.github.com/actions/deployment/about-deployments)." For information about the APIs to manage deployments, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deployment) or "[Deployments](https://docs.github.com/rest/deployments/deployments)" in the REST API documentation.
+     *
+     * For activity relating to deployment creation or deployment status, use the `deployment` or `deployment_status` event.
+     *
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Deployments" repository permission.
+     * @description A deployment review was approved.
+     */
+    post: operations["deployment-review/approved"];
+  };
+  "deployment-review-rejected": {
+    /**
+     * This event occurs when there is activity relating to deployment reviews. For more information, see "[About deployments](https://docs.github.com/actions/deployment/about-deployments)." For information about the APIs to manage deployments, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deployment) or "[Deployments](https://docs.github.com/rest/deployments/deployments)" in the REST API documentation.
+     *
+     * For activity relating to deployment creation or deployment status, use the `deployment` or `deployment_status` event.
+     *
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Deployments" repository permission.
+     * @description A deployment review was rejected.
+     */
+    post: operations["deployment-review/rejected"];
+  };
+  "deployment-review-requested": {
+    /**
+     * This event occurs when there is activity relating to deployment reviews. For more information, see "[About deployments](https://docs.github.com/actions/deployment/about-deployments)." For information about the APIs to manage deployments, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deployment) or "[Deployments](https://docs.github.com/rest/deployments/deployments)" in the REST API documentation.
+     *
+     * For activity relating to deployment creation or deployment status, use the `deployment` or `deployment_status` event.
+     *
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Deployments" repository permission.
+     * @description A deployment review was requested.
+     */
+    post: operations["deployment-review/requested"];
+  };
   "deployment-status-created": {
     /**
      * This event occurs when there is activity relating to deployment statuses. For more information, see "[About deployments](https://docs.github.com/actions/deployment/about-deployments)." For information about the APIs to manage deployments, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deployment) or "[Deployments](https://docs.github.com/rest/deployments/deployments)" in the REST API documentation.
@@ -8596,7 +8670,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
      *
-     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
      * @description Someone installed a GitHub App on a user or organization account.
      */
     post: operations["installation/created"];
@@ -8605,7 +8679,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
      *
-     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
      * @description Someone uninstalled a GitHub App from their user or organization account.
      */
     post: operations["installation/deleted"];
@@ -8614,7 +8688,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
      *
-     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
      * @description Someone granted new permissions to a GitHub App.
      */
     post: operations["installation/new-permissions-accepted"];
@@ -8623,7 +8697,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to which repositories a GitHub App installation can access. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
      *
-     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
      * @description A GitHub App installation was granted access to one or more repositories.
      */
     post: operations["installation-repositories/added"];
@@ -8632,7 +8706,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to which repositories a GitHub App installation can access. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
      *
-     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
      * @description Access to one or more repositories was revoked for a GitHub App installation.
      */
     post: operations["installation-repositories/removed"];
@@ -8641,14 +8715,14 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
      *
-     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
      * @description Someone blocked access by a GitHub App to their user or organization account.
      */
     post: operations["installation/suspend"];
   };
   "installation-target-renamed": {
     /**
-     * This event occurs when there is activity relating to the user or organization account that a GitHub App is installed on. For more information, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+     * This event occurs when there is activity relating to the user or organization account that a GitHub App is installed on. For more information, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
      * @description Somebody renamed the user or organization account that a GitHub App is installed on.
      */
     post: operations["installation-target/renamed"];
@@ -8657,7 +8731,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
      *
-     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+     * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
      * @description A GitHub App that was blocked from accessing a user or organization account was given access the account again.
      */
     post: operations["installation/unsuspend"];
@@ -8977,7 +9051,7 @@ export interface webhooks {
   };
   "membership-removed": {
     /**
-     * This event occurs when there is activity relating to team membership. For more information, see "[About teams](https://docs.github.com/organizations/organizing-members-into-teams/about-teams)." For more information about the API to manage team memberships, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#team) or "[Team members](https://docs.github.com/rest/teams/members)" in the REST API documentation.
+     * This event occurs when there is activity relating to team membership. For more information, see "[About teams](https://docs.github.com/organizations/organizing-members-into-teams/about-teams)." For more information about the APIs to manage team memberships, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#team) or "[Team members](https://docs.github.com/rest/teams/members)" in the REST API documentation.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Members" organization permission.
      * @description An organization member was removed from a team.
@@ -9697,7 +9771,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity on a pull request. For more information, see "[About pull requests](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)." For information about the APIs to manage pull requests, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#pullrequest) or "[Pulls](https://docs.github.com/rest/pulls/pulls)" in the REST API documentation.
      *
-     * For activity related to pull request reviews, pull request review comments, pull request comments,or pull request review threads, use the `pull_request_review`, `pull_request_review_comment`, `issue_comment`, or `pull_request_review_thread` events instead.
+     * For activity related to pull request reviews, pull request review comments, pull request comments, or pull request review threads, use the `pull_request_review`, `pull_request_review_comment`, `issue_comment`, or `pull_request_review_thread` events instead.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Pull requests" repository permission.
      * @description A previously closed pull request was reopened.
@@ -9794,7 +9868,7 @@ export interface webhooks {
   };
   "pull-request-review-thread-resolved": {
     /**
-     * This event occurs when there is activity relating to a comment thread on a pull request. For more information, see "[About pull request reviews](https://docs.github.com/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews)." For information about the APIs to manage pull request review comment threads, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#pullrequestreviewthread) or "[Pull request reviews](https://docs.github.com/rest/pulls/reviews)" in the REST API documentation.
+     * This event occurs when there is activity relating to a comment thread on a pull request. For more information, see "[About pull request reviews](https://docs.github.com/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews)." For information about the APIs to manage pull request reviews, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#pullrequestreviewthread) or "[Pull request review comments](https://docs.github.com/rest/pulls/comments)" in the REST API documentation.
      *
      * For activity related to pull request review comments, pull request comments, or pull request reviews, use the `pull_request_review_comment`, `issue_comment`, or `pull_request_review` events instead.
      *
@@ -9860,7 +9934,7 @@ export interface webhooks {
   };
   "push": {
     /**
-     * This event occurs when a commit or tag is pushed.
+     * This event occurs when a commit or tag is pushed, or when a repository is cloned.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
      *
@@ -9885,7 +9959,7 @@ export interface webhooks {
      *
      * To install this event on a GitHub App, the app must have at least read-level access for the "Packages" repository permission.
      *
-     * **Note**: GitHub recommends that you use the newer `package` event instead
+     * **Note**: GitHub recommends that you use the newer `package` event instead.
      * @description A package that was previously published to a registry was updated.
      */
     post: operations["registry-package/updated"];
@@ -9901,7 +9975,7 @@ export interface webhooks {
   };
   "release-deleted": {
     /**
-     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
      * @description A release, pre-release, or draft release was deleted.
@@ -9910,7 +9984,7 @@ export interface webhooks {
   };
   "release-edited": {
     /**
-     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
      * @description The details of a release, pre-release, or draft release were edited. For more information, see "[Managing releases in a repository](https://docs.github.com/repositories/releasing-projects-on-github/managing-releases-in-a-repository#editing-a-release)."
@@ -9919,7 +9993,7 @@ export interface webhooks {
   };
   "release-prereleased": {
     /**
-     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
      * @description A release was created and identified as a pre-release. A pre-release is a release that is not ready for production and may be unstable.
@@ -9928,7 +10002,7 @@ export interface webhooks {
   };
   "release-published": {
     /**
-     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
      * @description A release, pre-release, or draft of a release was published.
@@ -9937,7 +10011,7 @@ export interface webhooks {
   };
   "release-released": {
     /**
-     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
      * @description A release was published, or a pre-release was changed to a release.
@@ -9946,7 +10020,7 @@ export interface webhooks {
   };
   "release-unpublished": {
     /**
-     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+     * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
      * @description A release or pre-release was unpublished.
@@ -10046,6 +10120,39 @@ export interface webhooks {
      * @description The name of a repository was changed.
      */
     post: operations["repository/renamed"];
+  };
+  "repository-ruleset-created": {
+    /**
+     * This event occurs when there is activity relating to repository rulesets.
+     * For more information about repository rulesets, see "[Managing rulesets](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets)."
+     * For more information on managing rulesets via the APIs, see [Repository ruleset](https://docs.github.com/graphql/reference/objects#repositoryruleset) in the GraphQL documentation or "[Repository rules](https://docs.github.com/rest/repos/rules)" and "[Organization rules](https://docs.github.com/rest/orgs/rules) in the REST API documentation."
+     *
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+     * @description A repository ruleset was created.
+     */
+    post: operations["repository-ruleset/created"];
+  };
+  "repository-ruleset-deleted": {
+    /**
+     * This event occurs when there is activity relating to repository rulesets.
+     * For more information about repository rulesets, see "[Managing rulesets](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets)."
+     * For more information on managing rulesets via the APIs, see [Repository ruleset](https://docs.github.com/graphql/reference/objects#repositoryruleset) in the GraphQL documentation or "[Repository rules](https://docs.github.com/rest/repos/rules)" and "[Organization rules](https://docs.github.com/rest/orgs/rules) in the REST API documentation."
+     *
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+     * @description A repository ruleset was deleted.
+     */
+    post: operations["repository-ruleset/deleted"];
+  };
+  "repository-ruleset-edited": {
+    /**
+     * This event occurs when there is activity relating to repository rulesets.
+     * For more information about repository rulesets, see "[Managing rulesets](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets)."
+     * For more information on managing rulesets via the APIs, see [Repository ruleset](https://docs.github.com/graphql/reference/objects#repositoryruleset) in the GraphQL documentation or "[Repository rules](https://docs.github.com/rest/repos/rules)" and "[Organization rules](https://docs.github.com/rest/orgs/rules) in the REST API documentation."
+     *
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+     * @description A repository ruleset was edited.
+     */
+    post: operations["repository-ruleset/edited"];
   };
   "repository-transferred": {
     /**
@@ -10271,7 +10378,7 @@ export interface webhooks {
   };
   "status": {
     /**
-     * This event occurs when the status of a Git commit changes. For example, commits can be marked as `error`, `failure`, `pending`, or `success`. For more information, see "[About status checks](https://docs.github.com/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks)." For information about the APIs to manage commit statuses, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#status) or "[Statuses](https://docs.github.com/rest/reference/commits#commit-statuses)" in the REST API documentation.
+     * This event occurs when the status of a Git commit changes. For example, commits can be marked as `error`, `failure`, `pending`, or `success`. For more information, see "[About status checks](https://docs.github.com/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks)." For information about the APIs to manage commit statuses, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#status) or "[Commit statuses](https://docs.github.com/rest/commits/statuses)" in the REST API documentation.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Commit statuses" repository permission.
      */
@@ -10392,13 +10499,11 @@ export interface webhooks {
   };
   "workflow-job-waiting": {
     /**
-     * This event occurs when there is activity relating to a job in a GitHub Actions workflow.
+     * This event occurs when there is activity relating to a job in a GitHub Actions workflow. For more information, see "[Using jobs in a workflow](https://docs.github.com/actions/using-jobs/using-jobs-in-a-workflow)." For information about the API to manage workflow jobs, see "[Workflow jobs](https://docs.github.com/rest/actions/workflow-jobs)" in the REST API documentation.
      *
-     * For more information, see "[Using jobs in a workflow](https://docs.github.com/actions/using-jobs/using-jobs-in-a-workflow)." For information about the API to manage workflow jobs, see [the REST API documentation](https://docs.github.com/rest/actions/workflow-jobs).
+     * For activity relating to a workflow run instead of a job in a workflow run, use the `workflow_run` event.
      *
-     * For activity relating to a workflow run instead of a job in a workflow run, see the `workflow_run` event.
-     *
-     * To install this event on a GitHub App, the app must have at least read-level access for the Actions metadata permission.
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Actions" repository permission.
      * @description A job in a workflow run was created and is waiting for approvals.
      */
     post: operations["workflow-job/waiting"];
@@ -10617,7 +10722,8 @@ export interface components {
       github_reviewed_at: string | null;
       /**
        * Format: date-time
-       * @description The date and time of when the advisory was published in the National Vulnerability Database, in ISO 8601 format.
+       * @description The date and time when the advisory was published in the National Vulnerability Database, in ISO 8601 format.
+       * This field is only populated when the advisory is imported from the National Vulnerability Database.
        */
       nvd_published_at: string | null;
       /**
@@ -12535,6 +12641,7 @@ export interface components {
       };
       ssh_keys?: string[];
       hooks?: string[];
+      github_enterprise_importer?: string[];
       web?: string[];
       api?: string[];
       git?: string[];
@@ -14225,6 +14332,128 @@ export interface components {
       created_at?: string;
       /** Format: date-time */
       updated_at?: string;
+    };
+    /** @description A product affected by the vulnerability detailed in a repository security advisory. */
+    "repository-advisory-vulnerability": {
+      /** @description The name of the package affected by the vulnerability. */
+      package: ({
+        ecosystem: components["schemas"]["security-advisory-ecosystems"];
+        /** @description The unique package name within its ecosystem. */
+        name: string | null;
+      }) | null;
+      /** @description The range of the package versions affected by the vulnerability. */
+      vulnerable_version_range: string | null;
+      /** @description The package version(s) that resolve the vulnerability. */
+      patched_versions: string | null;
+      /** @description The functions in the package that are affected. */
+      vulnerable_functions: string[] | null;
+    };
+    /** @description A credit given to a user for a repository security advisory. */
+    "repository-advisory-credit": {
+      user: components["schemas"]["simple-user"];
+      type: components["schemas"]["security-advisory-credit-types"];
+      /**
+       * @description The state of the user's acceptance of the credit.
+       * @enum {string}
+       */
+      state: "accepted" | "declined" | "pending";
+    };
+    /** @description A repository security advisory. */
+    "repository-advisory": {
+      /** @description The GitHub Security Advisory ID. */
+      ghsa_id: string;
+      /** @description The Common Vulnerabilities and Exposures (CVE) ID. */
+      cve_id: string | null;
+      /** @description The API URL for the advisory. */
+      url: string;
+      /**
+       * Format: uri
+       * @description The URL for the advisory.
+       */
+      html_url: string;
+      /** @description A short summary of the advisory. */
+      summary: string;
+      /** @description A detailed description of what the advisory entails. */
+      description: string | null;
+      /**
+       * @description The severity of the advisory.
+       * @enum {string|null}
+       */
+      severity: "critical" | "high" | "medium" | "low" | null;
+      /** @description The author of the advisory. */
+      author: null;
+      /** @description The publisher of the advisory. */
+      publisher: null;
+      identifiers: readonly ({
+          /**
+           * @description The type of identifier.
+           * @enum {string}
+           */
+          type: "CVE" | "GHSA";
+          /** @description The identifier value. */
+          value: string;
+        })[];
+      /**
+       * @description The state of the advisory.
+       * @enum {string}
+       */
+      state: "published" | "closed" | "withdrawn" | "draft" | "triage";
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was created, in ISO 8601 format.
+       */
+      created_at: string | null;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was last updated, in ISO 8601 format.
+       */
+      updated_at: string | null;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was published, in ISO 8601 format.
+       */
+      published_at: string | null;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was closed, in ISO 8601 format.
+       */
+      closed_at: string | null;
+      /**
+       * Format: date-time
+       * @description The date and time of when the advisory was withdrawn, in ISO 8601 format.
+       */
+      withdrawn_at: string | null;
+      submission: {
+        /** @description Whether a private vulnerability report was accepted by the repository's administrators. */
+        readonly accepted: boolean;
+      } | null;
+      vulnerabilities: components["schemas"]["repository-advisory-vulnerability"][] | null;
+      cvss: ({
+        /** @description The CVSS vector. */
+        vector_string: string | null;
+        /** @description The CVSS score. */
+        score: number | null;
+      }) | null;
+      cwes: readonly {
+          /** @description The Common Weakness Enumeration (CWE) identifier. */
+          cwe_id: string;
+          /** @description The name of the CWE. */
+          name: string;
+        }[] | null;
+      /** @description A list of only the CWE IDs. */
+      cwe_ids: string[] | null;
+      credits: {
+          /** @description The username of the user credited. */
+          login?: string;
+          type?: components["schemas"]["security-advisory-credit-types"];
+        }[] | null;
+      credits_detailed: readonly components["schemas"]["repository-advisory-credit"][] | null;
+      /** @description A list of users that collaborate on the advisory. */
+      collaborating_users: components["schemas"]["simple-user"][] | null;
+      /** @description A list of teams that collaborate on the advisory. */
+      collaborating_teams: components["schemas"]["team"][] | null;
+      /** @description A temporary private fork of the advisory's repository for collaborating on a fix. */
+      private_fork: null;
     };
     "actions-billing-usage": {
       /** @description The sum of the free and paid GitHub Actions minutes used. */
@@ -16236,6 +16465,11 @@ export interface components {
        * @description Timestamp of latest configuration update.
        */
       updated_at?: string | null;
+      /**
+       * @description The frequency of the periodic analysis.
+       * @enum {string|null}
+       */
+      schedule?: "weekly" | null;
     };
     /** @description Configuration for code scanning default setup. */
     "code-scanning-default-setup-update": {
@@ -19221,128 +19455,6 @@ export interface components {
       type: "commit" | "issue_title" | "issue_body" | "issue_comment";
       details: components["schemas"]["secret-scanning-location-commit"] | components["schemas"]["secret-scanning-location-issue-title"] | components["schemas"]["secret-scanning-location-issue-body"] | components["schemas"]["secret-scanning-location-issue-comment"];
     };
-    /** @description A product affected by the vulnerability detailed in a repository security advisory. */
-    "repository-advisory-vulnerability": {
-      /** @description The name of the package affected by the vulnerability. */
-      package: ({
-        ecosystem: components["schemas"]["security-advisory-ecosystems"];
-        /** @description The unique package name within its ecosystem. */
-        name: string | null;
-      }) | null;
-      /** @description The range of the package versions affected by the vulnerability. */
-      vulnerable_version_range: string | null;
-      /** @description The package version(s) that resolve the vulnerability. */
-      patched_versions: string | null;
-      /** @description The functions in the package that are affected. */
-      vulnerable_functions: string[] | null;
-    };
-    /** @description A credit given to a user for a repository security advisory. */
-    "repository-advisory-credit": {
-      user: components["schemas"]["simple-user"];
-      type: components["schemas"]["security-advisory-credit-types"];
-      /**
-       * @description The state of the user's acceptance of the credit.
-       * @enum {string}
-       */
-      state: "accepted" | "declined" | "pending";
-    };
-    /** @description A repository security advisory. */
-    "repository-advisory": {
-      /** @description The GitHub Security Advisory ID. */
-      ghsa_id: string;
-      /** @description The Common Vulnerabilities and Exposures (CVE) ID. */
-      cve_id: string | null;
-      /** @description The API URL for the advisory. */
-      url: string;
-      /**
-       * Format: uri
-       * @description The URL for the advisory.
-       */
-      html_url: string;
-      /** @description A short summary of the advisory. */
-      summary: string;
-      /** @description A detailed description of what the advisory entails. */
-      description: string | null;
-      /**
-       * @description The severity of the advisory.
-       * @enum {string|null}
-       */
-      severity: "critical" | "high" | "medium" | "low" | null;
-      /** @description The author of the advisory. */
-      author: null;
-      /** @description The publisher of the advisory. */
-      publisher: null;
-      identifiers: readonly ({
-          /**
-           * @description The type of identifier.
-           * @enum {string}
-           */
-          type: "CVE" | "GHSA";
-          /** @description The identifier value. */
-          value: string;
-        })[];
-      /**
-       * @description The state of the advisory.
-       * @enum {string}
-       */
-      state: "published" | "closed" | "withdrawn" | "draft" | "triage";
-      /**
-       * Format: date-time
-       * @description The date and time of when the advisory was created, in ISO 8601 format.
-       */
-      created_at: string | null;
-      /**
-       * Format: date-time
-       * @description The date and time of when the advisory was last updated, in ISO 8601 format.
-       */
-      updated_at: string | null;
-      /**
-       * Format: date-time
-       * @description The date and time of when the advisory was published, in ISO 8601 format.
-       */
-      published_at: string | null;
-      /**
-       * Format: date-time
-       * @description The date and time of when the advisory was closed, in ISO 8601 format.
-       */
-      closed_at: string | null;
-      /**
-       * Format: date-time
-       * @description The date and time of when the advisory was withdrawn, in ISO 8601 format.
-       */
-      withdrawn_at: string | null;
-      submission: {
-        /** @description Whether a private vulnerability report was accepted by the repository's administrators. */
-        readonly accepted: boolean;
-      } | null;
-      vulnerabilities: components["schemas"]["repository-advisory-vulnerability"][] | null;
-      cvss: ({
-        /** @description The CVSS vector. */
-        vector_string: string | null;
-        /** @description The CVSS score. */
-        score: number | null;
-      }) | null;
-      cwes: readonly {
-          /** @description The Common Weakness Enumeration (CWE) identifier. */
-          cwe_id: string;
-          /** @description The name of the CWE. */
-          name: string;
-        }[] | null;
-      /** @description A list of only the CWE IDs. */
-      cwe_ids: string[] | null;
-      credits: {
-          /** @description The username of the user credited. */
-          login?: string;
-          type?: components["schemas"]["security-advisory-credit-types"];
-        }[] | null;
-      credits_detailed: readonly components["schemas"]["repository-advisory-credit"][] | null;
-      /** @description A list of users that collaborate on the advisory. */
-      collaborating_users: components["schemas"]["simple-user"][] | null;
-      /** @description A list of teams that collaborate on the advisory. */
-      collaborating_teams: components["schemas"]["team"][] | null;
-      /** @description A temporary private fork of the advisory's repository for collaborating on a fix. */
-      private_fork: null;
-    };
     "repository-advisory-create": {
       /** @description A short summary of the advisory. */
       summary: string;
@@ -21007,7 +21119,7 @@ export interface components {
     "webhook-check-suite-completed": {
       /** @enum {string} */
       action: "completed";
-      /** @description The [check_suite](https://docs.github.com/rest/reference/checks#suites). */
+      /** @description The [check_suite](https://docs.github.com/rest/checks/suites#get-a-check-suite). */
       check_suite: {
         after: string | null;
         /**
@@ -21248,7 +21360,7 @@ export interface components {
     "webhook-check-suite-requested": {
       /** @enum {string} */
       action: "requested";
-      /** @description The [check_suite](https://docs.github.com/rest/reference/checks#suites). */
+      /** @description The [check_suite](https://docs.github.com/rest/checks/suites#get-a-check-suite). */
       check_suite: {
         after: string | null;
         /**
@@ -21489,7 +21601,7 @@ export interface components {
     "webhook-check-suite-rerequested": {
       /** @enum {string} */
       action: "rerequested";
-      /** @description The [check_suite](https://docs.github.com/rest/reference/checks#suites). */
+      /** @description The [check_suite](https://docs.github.com/rest/checks/suites#get-a-check-suite). */
       check_suite: {
         after: string | null;
         /**
@@ -22409,7 +22521,7 @@ export interface components {
        * @enum {string}
        */
       action: "created";
-      /** @description The [commit comment](https://docs.github.com/rest/reference/repos#get-a-commit-comment) resource. */
+      /** @description The [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment) resource. */
       comment: {
         /**
          * AuthorAssociation
@@ -22616,7 +22728,7 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      /** @description The [`deploy key`](https://docs.github.com/rest/reference/deployments#get-a-deploy-key) resource. */
+      /** @description The [`deploy key`](https://docs.github.com/rest/deploy-keys/deploy-keys#get-a-deploy-key) resource. */
       key: {
         added_by?: string | null;
         created_at: string;
@@ -22639,7 +22751,7 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      /** @description The [`deploy key`](https://docs.github.com/rest/reference/deployments#get-a-deploy-key) resource. */
+      /** @description The [`deploy key`](https://docs.github.com/rest/deploy-keys/deploy-keys#get-a-deploy-key) resource. */
       key: {
         added_by?: string | null;
         created_at: string;
@@ -22662,7 +22774,7 @@ export interface components {
       action: "created";
       /**
        * Deployment
-       * @description The [deployment](https://docs.github.com/rest/reference/deployments#list-deployments).
+       * @description The [deployment](https://docs.github.com/rest/deployments/deployments#list-deployments).
        */
       deployment: {
         created_at: string;
@@ -23180,6 +23292,1129 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       sender?: components["schemas"]["simple-user"];
     };
+    "webhook-deployment-review-approved": {
+      /** @enum {string} */
+      action: "approved";
+      approver?: {
+        avatar_url?: string;
+        events_url?: string;
+        followers_url?: string;
+        following_url?: string;
+        gists_url?: string;
+        gravatar_id?: string;
+        html_url?: string;
+        id?: number;
+        login?: string;
+        node_id?: string;
+        organizations_url?: string;
+        received_events_url?: string;
+        repos_url?: string;
+        site_admin?: boolean;
+        starred_url?: string;
+        subscriptions_url?: string;
+        type?: string;
+        url?: string;
+      };
+      comment?: string;
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization: components["schemas"]["organization-simple"];
+      repository: components["schemas"]["repository"];
+      reviewers?: ({
+          /** User */
+          reviewer?: ({
+            /** Format: uri */
+            avatar_url?: string;
+            deleted?: boolean;
+            email?: string | null;
+            /** Format: uri-template */
+            events_url?: string;
+            /** Format: uri */
+            followers_url?: string;
+            /** Format: uri-template */
+            following_url?: string;
+            /** Format: uri-template */
+            gists_url?: string;
+            gravatar_id?: string;
+            /** Format: uri */
+            html_url?: string;
+            id: number;
+            login: string;
+            name?: string;
+            node_id?: string;
+            /** Format: uri */
+            organizations_url?: string;
+            /** Format: uri */
+            received_events_url?: string;
+            /** Format: uri */
+            repos_url?: string;
+            site_admin?: boolean;
+            /** Format: uri-template */
+            starred_url?: string;
+            /** Format: uri */
+            subscriptions_url?: string;
+            /** @enum {string} */
+            type?: "Bot" | "User" | "Organization";
+            /** Format: uri */
+            url?: string;
+          }) | null;
+          /** @enum {string} */
+          type?: "User";
+        })[];
+      sender: components["schemas"]["simple-user"];
+      since: string;
+      workflow_job_run?: {
+        conclusion: null;
+        created_at: string;
+        environment: string;
+        html_url: string;
+        id: number;
+        name: null;
+        status: string;
+        updated_at: string;
+      };
+      workflow_job_runs?: ({
+          conclusion?: null;
+          created_at?: string;
+          environment?: string;
+          html_url?: string;
+          id?: number;
+          name?: string | null;
+          status?: string;
+          updated_at?: string;
+        })[];
+      /** Deployment Workflow Run */
+      workflow_run: ({
+        /** User */
+        actor: ({
+          /** Format: uri */
+          avatar_url?: string;
+          deleted?: boolean;
+          email?: string | null;
+          /** Format: uri-template */
+          events_url?: string;
+          /** Format: uri */
+          followers_url?: string;
+          /** Format: uri-template */
+          following_url?: string;
+          /** Format: uri-template */
+          gists_url?: string;
+          gravatar_id?: string;
+          /** Format: uri */
+          html_url?: string;
+          id: number;
+          login: string;
+          name?: string;
+          node_id?: string;
+          /** Format: uri */
+          organizations_url?: string;
+          /** Format: uri */
+          received_events_url?: string;
+          /** Format: uri */
+          repos_url?: string;
+          site_admin?: boolean;
+          /** Format: uri-template */
+          starred_url?: string;
+          /** Format: uri */
+          subscriptions_url?: string;
+          /** @enum {string} */
+          type?: "Bot" | "User" | "Organization";
+          /** Format: uri */
+          url?: string;
+        }) | null;
+        artifacts_url?: string;
+        cancel_url?: string;
+        check_suite_id: number;
+        check_suite_node_id: string;
+        check_suite_url?: string;
+        /** @enum {string|null} */
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null;
+        /** Format: date-time */
+        created_at: string;
+        display_title: string;
+        event: string;
+        head_branch: string;
+        head_commit?: Record<string, never> | null;
+        head_repository?: {
+          archive_url?: string;
+          assignees_url?: string;
+          blobs_url?: string;
+          branches_url?: string;
+          collaborators_url?: string;
+          comments_url?: string;
+          commits_url?: string;
+          compare_url?: string;
+          contents_url?: string;
+          contributors_url?: string;
+          deployments_url?: string;
+          description?: string | null;
+          downloads_url?: string;
+          events_url?: string;
+          fork?: boolean;
+          forks_url?: string;
+          full_name?: string;
+          git_commits_url?: string;
+          git_refs_url?: string;
+          git_tags_url?: string;
+          hooks_url?: string;
+          html_url?: string;
+          id?: number;
+          issue_comment_url?: string;
+          issue_events_url?: string;
+          issues_url?: string;
+          keys_url?: string;
+          labels_url?: string;
+          languages_url?: string;
+          merges_url?: string;
+          milestones_url?: string;
+          name?: string;
+          node_id?: string;
+          notifications_url?: string;
+          owner?: {
+            avatar_url?: string;
+            events_url?: string;
+            followers_url?: string;
+            following_url?: string;
+            gists_url?: string;
+            gravatar_id?: string;
+            html_url?: string;
+            id?: number;
+            login?: string;
+            node_id?: string;
+            organizations_url?: string;
+            received_events_url?: string;
+            repos_url?: string;
+            site_admin?: boolean;
+            starred_url?: string;
+            subscriptions_url?: string;
+            type?: string;
+            url?: string;
+          };
+          private?: boolean;
+          pulls_url?: string;
+          releases_url?: string;
+          stargazers_url?: string;
+          statuses_url?: string;
+          subscribers_url?: string;
+          subscription_url?: string;
+          tags_url?: string;
+          teams_url?: string;
+          trees_url?: string;
+          url?: string;
+        };
+        head_sha: string;
+        /** Format: uri */
+        html_url: string;
+        id: number;
+        jobs_url?: string;
+        logs_url?: string;
+        name: string;
+        node_id: string;
+        path: string;
+        previous_attempt_url?: string | null;
+        pull_requests: {
+            base: {
+              ref: string;
+              /** Repo Ref */
+              repo: {
+                id: number;
+                name: string;
+                /** Format: uri */
+                url: string;
+              };
+              sha: string;
+            };
+            head: {
+              ref: string;
+              /** Repo Ref */
+              repo: {
+                id: number;
+                name: string;
+                /** Format: uri */
+                url: string;
+              };
+              sha: string;
+            };
+            id: number;
+            number: number;
+            /** Format: uri */
+            url: string;
+          }[];
+        referenced_workflows?: {
+            path: string;
+            ref?: string;
+            sha: string;
+          }[] | null;
+        repository?: {
+          archive_url?: string;
+          assignees_url?: string;
+          blobs_url?: string;
+          branches_url?: string;
+          collaborators_url?: string;
+          comments_url?: string;
+          commits_url?: string;
+          compare_url?: string;
+          contents_url?: string;
+          contributors_url?: string;
+          deployments_url?: string;
+          description?: string | null;
+          downloads_url?: string;
+          events_url?: string;
+          fork?: boolean;
+          forks_url?: string;
+          full_name?: string;
+          git_commits_url?: string;
+          git_refs_url?: string;
+          git_tags_url?: string;
+          hooks_url?: string;
+          html_url?: string;
+          id?: number;
+          issue_comment_url?: string;
+          issue_events_url?: string;
+          issues_url?: string;
+          keys_url?: string;
+          labels_url?: string;
+          languages_url?: string;
+          merges_url?: string;
+          milestones_url?: string;
+          name?: string;
+          node_id?: string;
+          notifications_url?: string;
+          owner?: {
+            avatar_url?: string;
+            events_url?: string;
+            followers_url?: string;
+            following_url?: string;
+            gists_url?: string;
+            gravatar_id?: string;
+            html_url?: string;
+            id?: number;
+            login?: string;
+            node_id?: string;
+            organizations_url?: string;
+            received_events_url?: string;
+            repos_url?: string;
+            site_admin?: boolean;
+            starred_url?: string;
+            subscriptions_url?: string;
+            type?: string;
+            url?: string;
+          };
+          private?: boolean;
+          pulls_url?: string;
+          releases_url?: string;
+          stargazers_url?: string;
+          statuses_url?: string;
+          subscribers_url?: string;
+          subscription_url?: string;
+          tags_url?: string;
+          teams_url?: string;
+          trees_url?: string;
+          url?: string;
+        };
+        rerun_url?: string;
+        run_attempt: number;
+        run_number: number;
+        /** Format: date-time */
+        run_started_at: string;
+        /** @enum {string} */
+        status: "requested" | "in_progress" | "completed" | "queued" | "waiting" | "pending";
+        /** User */
+        triggering_actor: ({
+          /** Format: uri */
+          avatar_url?: string;
+          deleted?: boolean;
+          email?: string | null;
+          /** Format: uri-template */
+          events_url?: string;
+          /** Format: uri */
+          followers_url?: string;
+          /** Format: uri-template */
+          following_url?: string;
+          /** Format: uri-template */
+          gists_url?: string;
+          gravatar_id?: string;
+          /** Format: uri */
+          html_url?: string;
+          id: number;
+          login: string;
+          name?: string;
+          node_id?: string;
+          /** Format: uri */
+          organizations_url?: string;
+          /** Format: uri */
+          received_events_url?: string;
+          /** Format: uri */
+          repos_url?: string;
+          site_admin?: boolean;
+          /** Format: uri-template */
+          starred_url?: string;
+          /** Format: uri */
+          subscriptions_url?: string;
+          /** @enum {string} */
+          type?: "Bot" | "User" | "Organization";
+          /** Format: uri */
+          url?: string;
+        }) | null;
+        /** Format: date-time */
+        updated_at: string;
+        /** Format: uri */
+        url: string;
+        workflow_id: number;
+        workflow_url?: string;
+      }) | null;
+    };
+    "webhook-deployment-review-rejected": {
+      /** @enum {string} */
+      action: "rejected";
+      approver?: {
+        avatar_url?: string;
+        events_url?: string;
+        followers_url?: string;
+        following_url?: string;
+        gists_url?: string;
+        gravatar_id?: string;
+        html_url?: string;
+        id?: number;
+        login?: string;
+        node_id?: string;
+        organizations_url?: string;
+        received_events_url?: string;
+        repos_url?: string;
+        site_admin?: boolean;
+        starred_url?: string;
+        subscriptions_url?: string;
+        type?: string;
+        url?: string;
+      };
+      comment?: string;
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization: components["schemas"]["organization-simple"];
+      repository: components["schemas"]["repository"];
+      reviewers?: ({
+          /** User */
+          reviewer?: ({
+            /** Format: uri */
+            avatar_url?: string;
+            deleted?: boolean;
+            email?: string | null;
+            /** Format: uri-template */
+            events_url?: string;
+            /** Format: uri */
+            followers_url?: string;
+            /** Format: uri-template */
+            following_url?: string;
+            /** Format: uri-template */
+            gists_url?: string;
+            gravatar_id?: string;
+            /** Format: uri */
+            html_url?: string;
+            id: number;
+            login: string;
+            name?: string;
+            node_id?: string;
+            /** Format: uri */
+            organizations_url?: string;
+            /** Format: uri */
+            received_events_url?: string;
+            /** Format: uri */
+            repos_url?: string;
+            site_admin?: boolean;
+            /** Format: uri-template */
+            starred_url?: string;
+            /** Format: uri */
+            subscriptions_url?: string;
+            /** @enum {string} */
+            type?: "Bot" | "User" | "Organization";
+            /** Format: uri */
+            url?: string;
+          }) | null;
+          /** @enum {string} */
+          type?: "User";
+        })[];
+      sender: components["schemas"]["simple-user"];
+      since: string;
+      workflow_job_run?: {
+        conclusion: null;
+        created_at: string;
+        environment: string;
+        html_url: string;
+        id: number;
+        name: null;
+        status: string;
+        updated_at: string;
+      };
+      workflow_job_runs?: ({
+          conclusion?: string | null;
+          created_at?: string;
+          environment?: string;
+          html_url?: string;
+          id?: number;
+          name?: string | null;
+          status?: string;
+          updated_at?: string;
+        })[];
+      /** Deployment Workflow Run */
+      workflow_run: ({
+        /** User */
+        actor: ({
+          /** Format: uri */
+          avatar_url?: string;
+          deleted?: boolean;
+          email?: string | null;
+          /** Format: uri-template */
+          events_url?: string;
+          /** Format: uri */
+          followers_url?: string;
+          /** Format: uri-template */
+          following_url?: string;
+          /** Format: uri-template */
+          gists_url?: string;
+          gravatar_id?: string;
+          /** Format: uri */
+          html_url?: string;
+          id: number;
+          login: string;
+          name?: string;
+          node_id?: string;
+          /** Format: uri */
+          organizations_url?: string;
+          /** Format: uri */
+          received_events_url?: string;
+          /** Format: uri */
+          repos_url?: string;
+          site_admin?: boolean;
+          /** Format: uri-template */
+          starred_url?: string;
+          /** Format: uri */
+          subscriptions_url?: string;
+          /** @enum {string} */
+          type?: "Bot" | "User" | "Organization";
+          /** Format: uri */
+          url?: string;
+        }) | null;
+        artifacts_url?: string;
+        cancel_url?: string;
+        check_suite_id: number;
+        check_suite_node_id: string;
+        check_suite_url?: string;
+        /** @enum {string|null} */
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null;
+        /** Format: date-time */
+        created_at: string;
+        event: string;
+        head_branch: string;
+        head_commit?: Record<string, never> | null;
+        head_repository?: {
+          archive_url?: string;
+          assignees_url?: string;
+          blobs_url?: string;
+          branches_url?: string;
+          collaborators_url?: string;
+          comments_url?: string;
+          commits_url?: string;
+          compare_url?: string;
+          contents_url?: string;
+          contributors_url?: string;
+          deployments_url?: string;
+          description?: string | null;
+          downloads_url?: string;
+          events_url?: string;
+          fork?: boolean;
+          forks_url?: string;
+          full_name?: string;
+          git_commits_url?: string;
+          git_refs_url?: string;
+          git_tags_url?: string;
+          hooks_url?: string;
+          html_url?: string;
+          id?: number;
+          issue_comment_url?: string;
+          issue_events_url?: string;
+          issues_url?: string;
+          keys_url?: string;
+          labels_url?: string;
+          languages_url?: string;
+          merges_url?: string;
+          milestones_url?: string;
+          name?: string;
+          node_id?: string;
+          notifications_url?: string;
+          owner?: {
+            avatar_url?: string;
+            events_url?: string;
+            followers_url?: string;
+            following_url?: string;
+            gists_url?: string;
+            gravatar_id?: string;
+            html_url?: string;
+            id?: number;
+            login?: string;
+            node_id?: string;
+            organizations_url?: string;
+            received_events_url?: string;
+            repos_url?: string;
+            site_admin?: boolean;
+            starred_url?: string;
+            subscriptions_url?: string;
+            type?: string;
+            url?: string;
+          };
+          private?: boolean;
+          pulls_url?: string;
+          releases_url?: string;
+          stargazers_url?: string;
+          statuses_url?: string;
+          subscribers_url?: string;
+          subscription_url?: string;
+          tags_url?: string;
+          teams_url?: string;
+          trees_url?: string;
+          url?: string;
+        };
+        head_sha: string;
+        /** Format: uri */
+        html_url: string;
+        id: number;
+        jobs_url?: string;
+        logs_url?: string;
+        name: string;
+        node_id: string;
+        path: string;
+        previous_attempt_url?: string | null;
+        pull_requests: {
+            base: {
+              ref: string;
+              /** Repo Ref */
+              repo: {
+                id: number;
+                name: string;
+                /** Format: uri */
+                url: string;
+              };
+              sha: string;
+            };
+            head: {
+              ref: string;
+              /** Repo Ref */
+              repo: {
+                id: number;
+                name: string;
+                /** Format: uri */
+                url: string;
+              };
+              sha: string;
+            };
+            id: number;
+            number: number;
+            /** Format: uri */
+            url: string;
+          }[];
+        referenced_workflows?: {
+            path: string;
+            ref?: string;
+            sha: string;
+          }[] | null;
+        repository?: {
+          archive_url?: string;
+          assignees_url?: string;
+          blobs_url?: string;
+          branches_url?: string;
+          collaborators_url?: string;
+          comments_url?: string;
+          commits_url?: string;
+          compare_url?: string;
+          contents_url?: string;
+          contributors_url?: string;
+          deployments_url?: string;
+          description?: string | null;
+          downloads_url?: string;
+          events_url?: string;
+          fork?: boolean;
+          forks_url?: string;
+          full_name?: string;
+          git_commits_url?: string;
+          git_refs_url?: string;
+          git_tags_url?: string;
+          hooks_url?: string;
+          html_url?: string;
+          id?: number;
+          issue_comment_url?: string;
+          issue_events_url?: string;
+          issues_url?: string;
+          keys_url?: string;
+          labels_url?: string;
+          languages_url?: string;
+          merges_url?: string;
+          milestones_url?: string;
+          name?: string;
+          node_id?: string;
+          notifications_url?: string;
+          owner?: {
+            avatar_url?: string;
+            events_url?: string;
+            followers_url?: string;
+            following_url?: string;
+            gists_url?: string;
+            gravatar_id?: string;
+            html_url?: string;
+            id?: number;
+            login?: string;
+            node_id?: string;
+            organizations_url?: string;
+            received_events_url?: string;
+            repos_url?: string;
+            site_admin?: boolean;
+            starred_url?: string;
+            subscriptions_url?: string;
+            type?: string;
+            url?: string;
+          };
+          private?: boolean;
+          pulls_url?: string;
+          releases_url?: string;
+          stargazers_url?: string;
+          statuses_url?: string;
+          subscribers_url?: string;
+          subscription_url?: string;
+          tags_url?: string;
+          teams_url?: string;
+          trees_url?: string;
+          url?: string;
+        };
+        rerun_url?: string;
+        run_attempt: number;
+        run_number: number;
+        /** Format: date-time */
+        run_started_at: string;
+        /** @enum {string} */
+        status: "requested" | "in_progress" | "completed" | "queued" | "waiting";
+        /** User */
+        triggering_actor: ({
+          /** Format: uri */
+          avatar_url?: string;
+          deleted?: boolean;
+          email?: string | null;
+          /** Format: uri-template */
+          events_url?: string;
+          /** Format: uri */
+          followers_url?: string;
+          /** Format: uri-template */
+          following_url?: string;
+          /** Format: uri-template */
+          gists_url?: string;
+          gravatar_id?: string;
+          /** Format: uri */
+          html_url?: string;
+          id: number;
+          login: string;
+          name?: string;
+          node_id?: string;
+          /** Format: uri */
+          organizations_url?: string;
+          /** Format: uri */
+          received_events_url?: string;
+          /** Format: uri */
+          repos_url?: string;
+          site_admin?: boolean;
+          /** Format: uri-template */
+          starred_url?: string;
+          /** Format: uri */
+          subscriptions_url?: string;
+          /** @enum {string} */
+          type?: "Bot" | "User" | "Organization";
+          /** Format: uri */
+          url?: string;
+        }) | null;
+        /** Format: date-time */
+        updated_at: string;
+        /** Format: uri */
+        url: string;
+        workflow_id: number;
+        workflow_url?: string;
+        display_title: string;
+      }) | null;
+    };
+    "webhook-deployment-review-requested": {
+      /** @enum {string} */
+      action: "requested";
+      enterprise?: components["schemas"]["enterprise"];
+      environment: string;
+      installation?: components["schemas"]["simple-installation"];
+      organization: components["schemas"]["organization-simple"];
+      repository: components["schemas"]["repository"];
+      /** User */
+      requestor: ({
+        /** Format: uri */
+        avatar_url?: string;
+        deleted?: boolean;
+        email?: string | null;
+        /** Format: uri-template */
+        events_url?: string;
+        /** Format: uri */
+        followers_url?: string;
+        /** Format: uri-template */
+        following_url?: string;
+        /** Format: uri-template */
+        gists_url?: string;
+        gravatar_id?: string;
+        /** Format: uri */
+        html_url?: string;
+        id: number;
+        login: string;
+        name?: string;
+        node_id?: string;
+        /** Format: uri */
+        organizations_url?: string;
+        /** Format: uri */
+        received_events_url?: string;
+        /** Format: uri */
+        repos_url?: string;
+        site_admin?: boolean;
+        /** Format: uri-template */
+        starred_url?: string;
+        /** Format: uri */
+        subscriptions_url?: string;
+        /** @enum {string} */
+        type?: "Bot" | "User" | "Organization";
+        /** Format: uri */
+        url?: string;
+      }) | null;
+      reviewers: ({
+          /** User */
+          reviewer?: ({
+            /** Format: uri */
+            avatar_url?: string;
+            deleted?: boolean;
+            email?: string | null;
+            /** Format: uri-template */
+            events_url?: string;
+            /** Format: uri */
+            followers_url?: string;
+            /** Format: uri-template */
+            following_url?: string;
+            /** Format: uri-template */
+            gists_url?: string;
+            gravatar_id?: string;
+            /** Format: uri */
+            html_url?: string;
+            id: number;
+            login?: string;
+            name?: string;
+            node_id?: string;
+            /** Format: uri */
+            organizations_url?: string;
+            /** Format: uri */
+            received_events_url?: string;
+            /** Format: uri */
+            repos_url?: string;
+            site_admin?: boolean;
+            /** Format: uri-template */
+            starred_url?: string;
+            /** Format: uri */
+            subscriptions_url?: string;
+            /** @enum {string} */
+            type?: "Bot" | "User" | "Organization";
+            /** Format: uri */
+            url?: string;
+          }) | null;
+          /** @enum {string} */
+          type?: "User" | "Team";
+        })[];
+      sender: components["schemas"]["simple-user"];
+      since: string;
+      workflow_job_run: {
+        conclusion: null;
+        created_at: string;
+        environment: string;
+        html_url: string;
+        id: number;
+        name: string | null;
+        status: string;
+        updated_at: string;
+      };
+      /** Deployment Workflow Run */
+      workflow_run: ({
+        /** User */
+        actor: ({
+          /** Format: uri */
+          avatar_url?: string;
+          deleted?: boolean;
+          email?: string | null;
+          /** Format: uri-template */
+          events_url?: string;
+          /** Format: uri */
+          followers_url?: string;
+          /** Format: uri-template */
+          following_url?: string;
+          /** Format: uri-template */
+          gists_url?: string;
+          gravatar_id?: string;
+          /** Format: uri */
+          html_url?: string;
+          id: number;
+          login: string;
+          name?: string;
+          node_id?: string;
+          /** Format: uri */
+          organizations_url?: string;
+          /** Format: uri */
+          received_events_url?: string;
+          /** Format: uri */
+          repos_url?: string;
+          site_admin?: boolean;
+          /** Format: uri-template */
+          starred_url?: string;
+          /** Format: uri */
+          subscriptions_url?: string;
+          /** @enum {string} */
+          type?: "Bot" | "User" | "Organization";
+          /** Format: uri */
+          url?: string;
+        }) | null;
+        artifacts_url?: string;
+        cancel_url?: string;
+        check_suite_id: number;
+        check_suite_node_id: string;
+        check_suite_url?: string;
+        /** @enum {string|null} */
+        conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null;
+        /** Format: date-time */
+        created_at: string;
+        event: string;
+        head_branch: string;
+        head_commit?: Record<string, never> | null;
+        head_repository?: {
+          archive_url?: string;
+          assignees_url?: string;
+          blobs_url?: string;
+          branches_url?: string;
+          collaborators_url?: string;
+          comments_url?: string;
+          commits_url?: string;
+          compare_url?: string;
+          contents_url?: string;
+          contributors_url?: string;
+          deployments_url?: string;
+          description?: string | null;
+          downloads_url?: string;
+          events_url?: string;
+          fork?: boolean;
+          forks_url?: string;
+          full_name?: string;
+          git_commits_url?: string;
+          git_refs_url?: string;
+          git_tags_url?: string;
+          hooks_url?: string;
+          html_url?: string;
+          id?: number;
+          issue_comment_url?: string;
+          issue_events_url?: string;
+          issues_url?: string;
+          keys_url?: string;
+          labels_url?: string;
+          languages_url?: string;
+          merges_url?: string;
+          milestones_url?: string;
+          name?: string;
+          node_id?: string;
+          notifications_url?: string;
+          owner?: {
+            avatar_url?: string;
+            events_url?: string;
+            followers_url?: string;
+            following_url?: string;
+            gists_url?: string;
+            gravatar_id?: string;
+            html_url?: string;
+            id?: number;
+            login?: string;
+            node_id?: string;
+            organizations_url?: string;
+            received_events_url?: string;
+            repos_url?: string;
+            site_admin?: boolean;
+            starred_url?: string;
+            subscriptions_url?: string;
+            type?: string;
+            url?: string;
+          };
+          private?: boolean;
+          pulls_url?: string;
+          releases_url?: string;
+          stargazers_url?: string;
+          statuses_url?: string;
+          subscribers_url?: string;
+          subscription_url?: string;
+          tags_url?: string;
+          teams_url?: string;
+          trees_url?: string;
+          url?: string;
+        };
+        head_sha: string;
+        /** Format: uri */
+        html_url: string;
+        id: number;
+        jobs_url?: string;
+        logs_url?: string;
+        name: string;
+        node_id: string;
+        path: string;
+        previous_attempt_url?: string | null;
+        pull_requests: {
+            base: {
+              ref: string;
+              /** Repo Ref */
+              repo: {
+                id: number;
+                name: string;
+                /** Format: uri */
+                url: string;
+              };
+              sha: string;
+            };
+            head: {
+              ref: string;
+              /** Repo Ref */
+              repo: {
+                id: number;
+                name: string;
+                /** Format: uri */
+                url: string;
+              };
+              sha: string;
+            };
+            id: number;
+            number: number;
+            /** Format: uri */
+            url: string;
+          }[];
+        referenced_workflows?: {
+            path: string;
+            ref?: string;
+            sha: string;
+          }[] | null;
+        repository?: {
+          archive_url?: string;
+          assignees_url?: string;
+          blobs_url?: string;
+          branches_url?: string;
+          collaborators_url?: string;
+          comments_url?: string;
+          commits_url?: string;
+          compare_url?: string;
+          contents_url?: string;
+          contributors_url?: string;
+          deployments_url?: string;
+          description?: string | null;
+          downloads_url?: string;
+          events_url?: string;
+          fork?: boolean;
+          forks_url?: string;
+          full_name?: string;
+          git_commits_url?: string;
+          git_refs_url?: string;
+          git_tags_url?: string;
+          hooks_url?: string;
+          html_url?: string;
+          id?: number;
+          issue_comment_url?: string;
+          issue_events_url?: string;
+          issues_url?: string;
+          keys_url?: string;
+          labels_url?: string;
+          languages_url?: string;
+          merges_url?: string;
+          milestones_url?: string;
+          name?: string;
+          node_id?: string;
+          notifications_url?: string;
+          owner?: {
+            avatar_url?: string;
+            events_url?: string;
+            followers_url?: string;
+            following_url?: string;
+            gists_url?: string;
+            gravatar_id?: string;
+            html_url?: string;
+            id?: number;
+            login?: string;
+            node_id?: string;
+            organizations_url?: string;
+            received_events_url?: string;
+            repos_url?: string;
+            site_admin?: boolean;
+            starred_url?: string;
+            subscriptions_url?: string;
+            type?: string;
+            url?: string;
+          };
+          private?: boolean;
+          pulls_url?: string;
+          releases_url?: string;
+          stargazers_url?: string;
+          statuses_url?: string;
+          subscribers_url?: string;
+          subscription_url?: string;
+          tags_url?: string;
+          teams_url?: string;
+          trees_url?: string;
+          url?: string;
+        };
+        rerun_url?: string;
+        run_attempt: number;
+        run_number: number;
+        /** Format: date-time */
+        run_started_at: string;
+        /** @enum {string} */
+        status: "requested" | "in_progress" | "completed" | "queued" | "waiting" | "pending";
+        /** User */
+        triggering_actor: ({
+          /** Format: uri */
+          avatar_url?: string;
+          deleted?: boolean;
+          email?: string | null;
+          /** Format: uri-template */
+          events_url?: string;
+          /** Format: uri */
+          followers_url?: string;
+          /** Format: uri-template */
+          following_url?: string;
+          /** Format: uri-template */
+          gists_url?: string;
+          gravatar_id?: string;
+          /** Format: uri */
+          html_url?: string;
+          id: number;
+          login: string;
+          name?: string;
+          node_id?: string;
+          /** Format: uri */
+          organizations_url?: string;
+          /** Format: uri */
+          received_events_url?: string;
+          /** Format: uri */
+          repos_url?: string;
+          site_admin?: boolean;
+          /** Format: uri-template */
+          starred_url?: string;
+          /** Format: uri */
+          subscriptions_url?: string;
+          /** @enum {string} */
+          type?: "Bot" | "User" | "Organization";
+          /** Format: uri */
+          url?: string;
+        }) | null;
+        /** Format: date-time */
+        updated_at: string;
+        /** Format: uri */
+        url: string;
+        workflow_id: number;
+        workflow_url?: string;
+        display_title: string;
+      }) | null;
+    };
     /** deployment_status created event */
     "webhook-deployment-status-created": {
       /** @enum {string} */
@@ -23216,7 +24451,7 @@ export interface components {
       }) | null;
       /**
        * Deployment
-       * @description The [deployment](https://docs.github.com/rest/reference/deployments#list-deployments).
+       * @description The [deployment](https://docs.github.com/rest/deployments/deployments#list-deployments).
        */
       deployment: {
         created_at: string;
@@ -23410,7 +24645,7 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      /** @description The [deployment status](https://docs.github.com/rest/reference/deployments#list-deployment-statuses). */
+      /** @description The [deployment status](https://docs.github.com/rest/deployments/statuses#list-deployment-statuses). */
       deployment_status: {
         created_at: string;
         /** User */
@@ -25405,7 +26640,8 @@ export interface components {
         url?: string;
         website_url?: null;
       };
-      action: string;
+      /** @enum {string} */
+      action: "renamed";
       changes: {
         login?: {
           from: string;
@@ -25449,7 +26685,7 @@ export interface components {
       action: "created";
       /**
        * issue comment
-       * @description The [comment](https://docs.github.com/rest/reference/issues#comments) itself.
+       * @description The [comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment) itself.
        */
       comment: {
         /**
@@ -25534,7 +26770,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      /** @description The [issue](https://docs.github.com/rest/reference/issues) the comment belongs to. */
+      /** @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) the comment belongs to. */
       issue: ({
         /** @enum {string|null} */
         active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
@@ -26063,7 +27299,7 @@ export interface components {
       action: "deleted";
       /**
        * issue comment
-       * @description The [comment](https://docs.github.com/rest/reference/issues#comments) itself.
+       * @description The [comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment) itself.
        */
       comment: {
         /**
@@ -26148,7 +27384,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      /** @description The [issue](https://docs.github.com/rest/reference/issues) the comment belongs to. */
+      /** @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) the comment belongs to. */
       issue: ({
         /** @enum {string|null} */
         active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
@@ -26684,7 +27920,7 @@ export interface components {
       };
       /**
        * issue comment
-       * @description The [comment](https://docs.github.com/rest/reference/issues#comments) itself.
+       * @description The [comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment) itself.
        */
       comment: {
         /**
@@ -26769,7 +28005,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      /** @description The [issue](https://docs.github.com/rest/reference/issues) the comment belongs to. */
+      /** @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) the comment belongs to. */
       issue: ({
         /** @enum {string|null} */
         active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
@@ -27340,7 +28576,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -27761,7 +28997,7 @@ export interface components {
       action: "closed";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      /** @description The [issue](https://docs.github.com/rest/reference/issues) itself. */
+      /** @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself. */
       issue: ({
         /** @enum {string|null} */
         active_lock_reason: "resolved" | "off-topic" | "too heated" | "spam" | null;
@@ -28239,7 +29475,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -29285,7 +30521,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -29721,7 +30957,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -31247,7 +32483,7 @@ export interface components {
       changes?: {
         /**
          * Issue
-         * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+         * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
          */
         old_issue: ({
           /** @enum {string|null} */
@@ -31895,7 +33131,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -32315,7 +33551,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -33209,7 +34445,7 @@ export interface components {
       changes: {
         /**
          * Issue
-         * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+         * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
          */
         new_issue: {
           /** @enum {string|null} */
@@ -33864,7 +35100,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -34324,7 +35560,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -34744,7 +35980,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -35655,7 +36891,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
-       * @description The [issue](https://docs.github.com/rest/reference/issues) itself.
+       * @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
        */
       issue: {
         /** @enum {string|null} */
@@ -38428,7 +39664,7 @@ export interface components {
     };
     /** page_build event */
     "webhook-page-build": {
-      /** @description The [List GitHub Pages builds](https://docs.github.com/rest/reference/repos#list-github-pages-builds) itself. */
+      /** @description The [List GitHub Pages builds](https://docs.github.com/rest/pages/pages#list-github-pages-builds) itself. */
       build: {
         commit: string | null;
         created_at: string;
@@ -50789,7 +52025,7 @@ export interface components {
       action: "created";
       /**
        * Pull Request Review Comment
-       * @description The [comment](https://docs.github.com/rest/reference/pulls#comments) itself.
+       * @description The [comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request) itself.
        */
       comment: {
         _links: {
@@ -52061,7 +53297,7 @@ export interface components {
       action: "deleted";
       /**
        * Pull Request Review Comment
-       * @description The [comment](https://docs.github.com/rest/reference/pulls#comments) itself.
+       * @description The [comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request) itself.
        */
       comment: {
         _links: {
@@ -53340,7 +54576,7 @@ export interface components {
       };
       /**
        * Pull Request Review Comment
-       * @description The [comment](https://docs.github.com/rest/reference/pulls#comments) itself.
+       * @description The [comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request) itself.
        */
       comment: {
         _links: {
@@ -70242,7 +71478,7 @@ export interface components {
       base_ref: string | null;
       /** @description The SHA of the most recent commit on `ref` before the push. */
       before: string;
-      /** @description An array of commit objects describing the pushed commits. (Pushed commits are all commits that are included in the `compare` between the `before` commit and the `after` commit.) The array includes a maximum of 20 commits. If necessary, you can use the [Commits API](https://docs.github.com/rest/reference/repos#commits) to fetch additional commits. This limit is applied to timeline events only and isn't applied to webhook deliveries. */
+      /** @description An array of commit objects describing the pushed commits. (Pushed commits are all commits that are included in the `compare` between the `before` commit and the `after` commit.) The array includes a maximum of 20 commits. If necessary, you can use the [Commits API](https://docs.github.com/rest/commits) to fetch additional commits. This limit is applied to timeline events only and isn't applied to webhook deliveries. */
       commits: ({
           /** @description An array of files added in the commit. */
           added?: string[];
@@ -70811,7 +72047,8 @@ export interface components {
       sender: components["schemas"]["simple-user"];
     };
     "webhook-registry-package-updated": {
-      action: string;
+      /** @enum {string} */
+      action: "updated";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple"];
@@ -70951,7 +72188,7 @@ export interface components {
       organization?: components["schemas"]["organization-simple"];
       /**
        * Release
-       * @description The [release](https://docs.github.com/rest/reference/repos/#get-a-release) object.
+       * @description The [release](https://docs.github.com/rest/releases/releases/#get-a-release) object.
        */
       release: {
         assets: ({
@@ -71108,7 +72345,7 @@ export interface components {
       organization?: components["schemas"]["organization-simple"];
       /**
        * Release
-       * @description The [release](https://docs.github.com/rest/reference/repos/#get-a-release) object.
+       * @description The [release](https://docs.github.com/rest/releases/releases/#get-a-release) object.
        */
       release: {
         assets: ({
@@ -71279,7 +72516,7 @@ export interface components {
       organization?: components["schemas"]["organization-simple"];
       /**
        * Release
-       * @description The [release](https://docs.github.com/rest/reference/repos/#get-a-release) object.
+       * @description The [release](https://docs.github.com/rest/releases/releases/#get-a-release) object.
        */
       release: {
         assets: ({
@@ -71823,7 +73060,7 @@ export interface components {
       organization?: components["schemas"]["organization-simple"];
       /**
        * Release
-       * @description The [release](https://docs.github.com/rest/reference/repos/#get-a-release) object.
+       * @description The [release](https://docs.github.com/rest/releases/releases/#get-a-release) object.
        */
       release: {
         assets: ({
@@ -72216,7 +73453,8 @@ export interface components {
     };
     /** repository_dispatch event */
     "webhook-repository-dispatch-sample": {
-      action: string;
+      /** @enum {string} */
+      action: "sample.collected";
       branch: string;
       client_payload: {
         [key: string]: unknown;
@@ -72296,6 +73534,86 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple"];
       repository: components["schemas"]["repository"];
+      sender: components["schemas"]["simple-user"];
+    };
+    /** repository ruleset created event */
+    "webhook-repository-ruleset-created": {
+      /** @enum {string} */
+      action: "created";
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization?: components["schemas"]["organization-simple"];
+      repository?: components["schemas"]["repository"];
+      repository_ruleset: components["schemas"]["repository-ruleset"];
+      sender: components["schemas"]["simple-user"];
+    };
+    /** repository ruleset deleted event */
+    "webhook-repository-ruleset-deleted": {
+      /** @enum {string} */
+      action: "deleted";
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization?: components["schemas"]["organization-simple"];
+      repository?: components["schemas"]["repository"];
+      repository_ruleset: components["schemas"]["repository-ruleset"];
+      sender: components["schemas"]["simple-user"];
+    };
+    /** repository ruleset edited event */
+    "webhook-repository-ruleset-edited": {
+      /** @enum {string} */
+      action: "edited";
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization?: components["schemas"]["organization-simple"];
+      repository?: components["schemas"]["repository"];
+      repository_ruleset: components["schemas"]["repository-ruleset"];
+      changes?: {
+        name?: {
+          from?: string;
+        };
+        enforcement?: {
+          from?: string;
+        };
+        conditions?: {
+          added?: components["schemas"]["repository-ruleset-conditions"][];
+          deleted?: components["schemas"]["repository-ruleset-conditions"][];
+          updated?: {
+              condition?: components["schemas"]["repository-ruleset-conditions"];
+              changes?: {
+                condition_type?: {
+                  from?: string;
+                };
+                target?: {
+                  from?: string;
+                };
+                include?: {
+                  from?: string[];
+                };
+                exclude?: {
+                  from?: string[];
+                };
+              };
+            }[];
+        };
+        rules?: {
+          added?: components["schemas"]["repository-rule"][];
+          deleted?: components["schemas"]["repository-rule"][];
+          updated?: {
+              rule?: components["schemas"]["repository-rule"];
+              changes?: {
+                configuration?: {
+                  from?: string;
+                };
+                rule_type?: {
+                  from?: string;
+                };
+                pattern?: {
+                  from?: string;
+                };
+              };
+            }[];
+        };
+      };
       sender: components["schemas"]["simple-user"];
     };
     /** repository transferred event */
@@ -78285,7 +79603,9 @@ export interface operations {
   };
   /**
    * List global security advisories
-   * @description List global security advisories and filter using parameters such as ecosystem, GHSA ID, CVE ID, etc.
+   * @description Lists all global security advisories that match the specified parameters. If no other parameters are defined, the request will return only GitHub-reviewed advisories that are not malware.
+   *
+   * By default, all responses will exclude advisories for malware, because malware are not standard vulnerabilities. To list advisories for malware, you must include the `type` parameter in your request, with the value `malware`. For more information about the different types of security advisories, see "[About the GitHub Advisory database](https://docs.github.com/code-security/security-advisories/global-security-advisories/about-the-github-advisory-database#about-types-of-security-advisories)."
    */
   "security-advisories/list-global-advisories": {
     parameters: {
@@ -78300,11 +79620,20 @@ export interface operations {
         ecosystem?: "actions" | "composer" | "erlang" | "go" | "maven" | "npm" | "nuget" | "other" | "pip" | "pub" | "rubygems" | "rust";
         /** @description If specified, only advisories with these severities will be returned. */
         severity?: "unknown" | "low" | "medium" | "high" | "critical";
-        /** @description If specified, only advisories with these Common Weakness Enumerations (CWEs) will be returned. */
+        /**
+         * @description If specified, only advisories with these Common Weakness Enumerations (CWEs) will be returned.
+         *
+         * Example: `cwes=79,284,22` or `cwes[]=79&cwes[]=284&cwes[]=22`
+         */
         cwes?: string | string[];
         /** @description Whether to only return advisories that have been withdrawn. */
         is_withdrawn?: boolean;
-        /** @description If specified, return advisories that affect any of `package` or `package@version`. A maximum of 1000 packages can be specified. If the query parameter causes the URL to exceed the maximum URL length supported by your client, you must specify fewer packages. */
+        /**
+         * @description If specified, only return advisories that affect any of `package` or `package@version`. A maximum of 1000 packages can be specified.
+         * If the query parameter causes the URL to exceed the maximum URL length supported by your client, you must specify fewer packages.
+         *
+         * Example: `affects=package1,package2@1.0.0,package3@^2.0.0` or `affects[]=package1&affects[]=package2@1.0.0`
+         */
         affects?: string | string[];
         /**
          * @description If specified, only return advisories that were published on a date or date range.
@@ -78593,7 +79922,7 @@ export interface operations {
   };
   /**
    * Delete an installation for the authenticated app
-   * @description Uninstalls a GitHub App on a user, organization, or business account. If you prefer to temporarily suspend an app's access to your account's resources, then we recommend the "[Suspend an app installation](https://docs.github.com/rest/reference/apps/#suspend-an-app-installation)" endpoint.
+   * @description Uninstalls a GitHub App on a user, organization, or business account. If you prefer to temporarily suspend an app's access to your account's resources, then we recommend the "[Suspend an app installation](https://docs.github.com/rest/apps/apps#suspend-an-app-installation)" endpoint.
    *
    * You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
    */
@@ -79585,7 +80914,7 @@ export interface operations {
    * Revoke an installation access token
    * @description Revokes the installation token you're using to authenticate as an installation and access this endpoint.
    *
-   * Once an installation token is revoked, the token is invalidated and cannot be used. Other endpoints that require the revoked installation token must have a new installation token to work. You can create a new token using the "[Create an installation access token for an app](https://docs.github.com/rest/reference/apps#create-an-installation-access-token-for-an-app)" endpoint.
+   * Once an installation token is revoked, the token is invalidated and cannot be used. Other endpoints that require the revoked installation token must have a new installation token to work. You can create a new token using the "[Create an installation access token for an app](https://docs.github.com/rest/apps/apps#create-an-installation-access-token-for-an-app)" endpoint.
    *
    * You must use an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
    */
@@ -79644,7 +80973,10 @@ export interface operations {
       422: components["responses"]["validation_failed"];
     };
   };
-  /** Get all commonly used licenses */
+  /**
+   * Get all commonly used licenses
+   * @description Lists the most commonly used licenses on GitHub. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
+   */
   "licenses/get-all-commonly-used": {
     parameters: {
       query?: {
@@ -79663,7 +80995,10 @@ export interface operations {
       304: components["responses"]["not_modified"];
     };
   };
-  /** Get a license */
+  /**
+   * Get a license
+   * @description Gets information about a specific license. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
+   */
   "licenses/get": {
     parameters: {
       path: {
@@ -82814,7 +84149,7 @@ export interface operations {
         "application/json": {
           /** @description Must be passed as "web". */
           name: string;
-          /** @description Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.github.com/rest/reference/orgs#create-hook-config-params). */
+          /** @description Key/value pairs to provide settings for this webhook. */
           config: {
             url: components["schemas"]["webhook-config-url"];
             content_type?: components["schemas"]["webhook-config-content-type"];
@@ -82904,7 +84239,7 @@ export interface operations {
     requestBody?: {
       content: {
         "application/json": {
-          /** @description Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.github.com/rest/reference/orgs#update-hook-config-params). */
+          /** @description Key/value pairs to provide settings for this webhook. */
           config?: {
             url: components["schemas"]["webhook-config-url"];
             content_type?: components["schemas"]["webhook-config-content-type"];
@@ -85004,6 +86339,40 @@ export interface operations {
     };
   };
   /**
+   * List repository security advisories for an organization
+   * @description Lists repository security advisories for an organization.
+   *
+   * To use this endpoint, you must be an owner or security manager for the organization, and you must use an access token with the `repo` scope or `repository_advisories:write` permission.
+   */
+  "security-advisories/list-org-repository-advisories": {
+    parameters: {
+      query?: {
+        direction?: components["parameters"]["direction"];
+        /** @description The property to sort the results by. */
+        sort?: "created" | "updated" | "published";
+        before?: components["parameters"]["pagination-before"];
+        after?: components["parameters"]["pagination-after"];
+        /** @description The number of advisories to return per page. */
+        per_page?: number;
+        /** @description Filter by the state of the repository advisories. Only advisories of this state will be returned. */
+        state?: "triage" | "draft" | "published" | "closed";
+      };
+      path: {
+        org: components["parameters"]["org"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["repository-advisory"][];
+        };
+      };
+      400: components["responses"]["bad_request"];
+      404: components["responses"]["not_found"];
+    };
+  };
+  /**
    * List security manager teams
    * @description Lists teams that are security managers for an organization. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."
    *
@@ -85638,14 +87007,14 @@ export interface operations {
   };
   /**
    * List reactions for a team discussion comment
-   * @description List the reactions to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments/). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+   * @description List the reactions to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    *
    * **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions`.
    */
   "reactions/list-for-team-discussion-comment-in-org": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion comment. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a team discussion comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -85671,7 +87040,7 @@ export interface operations {
   };
   /**
    * Create reaction for a team discussion comment
-   * @description Create a reaction to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion comment.
+   * @description Create a reaction to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion comment.
    *
    * **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions`.
    */
@@ -85688,7 +87057,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion comment.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the team discussion comment.
            * @enum {string}
            */
           content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
@@ -85714,7 +87083,7 @@ export interface operations {
    * Delete team discussion comment reaction
    * @description **Note:** You can also specify a team or organization with `team_id` and `org_id` using the route `DELETE /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions/:reaction_id`.
    *
-   * Delete a reaction to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+   * Delete a reaction to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "reactions/delete-for-team-discussion-comment": {
     parameters: {
@@ -85735,14 +87104,14 @@ export interface operations {
   };
   /**
    * List reactions for a team discussion
-   * @description List the reactions to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+   * @description List the reactions to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    *
    * **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions`.
    */
   "reactions/list-for-team-discussion-in-org": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a team discussion. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -85767,7 +87136,7 @@ export interface operations {
   };
   /**
    * Create reaction for a team discussion
-   * @description Create a reaction to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion.
+   * @description Create a reaction to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion.
    *
    * **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions`.
    */
@@ -85783,7 +87152,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the team discussion.
            * @enum {string}
            */
           content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
@@ -85809,7 +87178,7 @@ export interface operations {
    * Delete team discussion reaction
    * @description **Note:** You can also specify a team or organization with `team_id` and `org_id` using the route `DELETE /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions/:reaction_id`.
    *
-   * Delete a reaction to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+   * Delete a reaction to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "reactions/delete-for-team-discussion": {
     parameters: {
@@ -86923,6 +88292,17 @@ export interface operations {
   /**
    * Get rate limit status for the authenticated user
    * @description **Note:** Accessing this endpoint does not count against your REST API rate limit.
+   *
+   * Some categories of endpoints have custom rate limits that are separate from the rate limit governing the other REST API endpoints. For this reason, the API response categorizes your rate limit. Under `resources`, you'll see objects relating to different categories:
+   * * The `core` object provides your rate limit status for all non-search-related resources in the REST API.
+   * * The `search` object provides your rate limit status for the REST API for searching (excluding code searches). For more information, see "[Search](https://docs.github.com/rest/search)."
+   * * The `code_search` object provides your rate limit status for the REST API for searching code. For more information, see "[Search code](https://docs.github.com/rest/search/search#search-code)."
+   * * The `graphql` object provides your rate limit status for the GraphQL API. For more information, see "[Resource limitations](https://docs.github.com/graphql/overview/resource-limitations#rate-limit)."
+   * * The `integration_manifest` object provides your rate limit status for the `POST /app-manifests/{code}/conversions` operation. For more information, see "[Creating a GitHub App from a manifest](https://docs.github.com/apps/creating-github-apps/setting-up-a-github-app/creating-a-github-app-from-a-manifest#3-you-exchange-the-temporary-code-to-retrieve-the-app-configuration)."
+   * * The `dependency_snapshots` object provides your rate limit status for submitting snapshots to the dependency graph. For more information, see "[Dependency graph](https://docs.github.com/rest/dependency-graph)."
+   * * The `code_scanning_upload` object provides your rate limit status for uploading SARIF results to code scanning. For more information, see "[Uploading a SARIF file to GitHub](https://docs.github.com/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github)."
+   * * The `actions_runner_registration` object provides your rate limit status for registering self-hosted runners in GitHub Actions. For more information, see "[Self-hosted runners](https://docs.github.com/rest/actions/self-hosted-runners)."
+   * * The `source_import` object is no longer in use for any API endpoints, and it will be removed in the next API version. For more information about API versions, see "[API Versions](https://docs.github.com/rest/overview/api-versions)."
    *
    * **Note:** The `rate` object is deprecated. If you're writing new API client code or updating existing code, you should use the `core` object instead of the `rate` object. The `core` object contains the same information that is present in the `rate` object.
    */
@@ -90667,7 +92047,7 @@ export interface operations {
                 caption?: string;
               }[];
           };
-          /** @description Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." */
+          /** @description Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/guides/using-the-rest-api-to-interact-with-checks#check-runs-and-requested-actions)." */
           actions?: {
               /** @description The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
               label: string;
@@ -90805,7 +92185,7 @@ export interface operations {
                 caption?: string;
               }[];
           };
-          /** @description Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://docs.github.com/rest/reference/checks#actions-object) description. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions)." */
+          /** @description Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/guides/using-the-rest-api-to-interact-with-checks#check-runs-and-requested-actions)." */
           actions?: {
               /** @description The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
               label: string;
@@ -90904,7 +92284,7 @@ export interface operations {
    * Create a check suite
    * @description **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
    *
-   * By default, check suites are automatically created when you create a [check run](https://docs.github.com/rest/reference/checks#check-runs). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "[Update repository preferences for check suites](https://docs.github.com/rest/checks/suites#update-repository-preferences-for-check-suites)". Your GitHub App must have the `checks:write` permission to create check suites.
+   * By default, check suites are automatically created when you create a [check run](https://docs.github.com/rest/checks/runs). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "[Update repository preferences for check suites](https://docs.github.com/rest/checks/suites#update-repository-preferences-for-check-suites)". Your GitHub App must have the `checks:write` permission to create check suites.
    */
   "checks/create-suite": {
     parameters: {
@@ -91511,7 +92891,7 @@ export interface operations {
   };
   /**
    * Upload an analysis as SARIF data
-   * @description Uploads SARIF data containing the results of a code scanning analysis to make the results available in a repository. You must use an access token with the `security_events` scope to use this endpoint for private repositories. You can also use tokens with the `public_repo` scope for public repositories only. GitHub Apps must have the `security_events` write permission to use this endpoint.
+   * @description Uploads SARIF data containing the results of a code scanning analysis to make the results available in a repository. You must use an access token with the `security_events` scope to use this endpoint for private repositories. You can also use tokens with the `public_repo` scope for public repositories only. GitHub Apps must have the `security_events` write permission to use this endpoint. For troubleshooting information, see "[Troubleshooting SARIF uploads](https://docs.github.com/code-security/code-scanning/troubleshooting-sarif)."
    *
    * There are two places where you can upload code scanning results.
    *  - If you upload to a pull request, for example `--ref refs/pull/42/merge` or `--ref refs/pull/42/head`, then the results appear as alerts in a pull request check. For more information, see "[Triaging code scanning alerts in pull requests](/code-security/secure-coding/triaging-code-scanning-alerts-in-pull-requests)."
@@ -91524,7 +92904,7 @@ export interface operations {
    * ```
    * <br>
    * SARIF upload supports a maximum number of entries per the following data objects, and an analysis will be rejected if any of these objects is above its maximum value. For some objects, there are additional values over which the entries will be ignored while keeping the most important entries whenever applicable.
-   * To get the most out of your analysis when it includes data above the supported limits, try to optimize the analysis configuration. For example, for the CodeQL tool, identify and remove the most noisy queries.
+   * To get the most out of your analysis when it includes data above the supported limits, try to optimize the analysis configuration. For example, for the CodeQL tool, identify and remove the most noisy queries. For more information, see "[SARIF results exceed one or more limits](https://docs.github.com/code-security/code-scanning/troubleshooting-sarif/results-exceed-limit)."
    *
    *
    * | **SARIF data**                   | **Maximum values** | **Additional limits**                                                            |
@@ -92087,7 +93467,7 @@ export interface operations {
    *
    * Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
    *
-   * The invitee will receive a notification that they have been invited to the repository, which they must accept or decline. They may do this via the notifications page, the email they receive, or by using the [repository invitations API endpoints](https://docs.github.com/rest/reference/repos#invitations).
+   * The invitee will receive a notification that they have been invited to the repository, which they must accept or decline. They may do this via the notifications page, the email they receive, or by using the [API](https://docs.github.com/rest/collaborators/invitations).
    *
    * **Updating an existing collaborator's permission level**
    *
@@ -92207,7 +93587,7 @@ export interface operations {
   };
   /**
    * List commit comments for a repository
-   * @description Commit Comments use [these custom media types](https://docs.github.com/rest/reference/repos#custom-media-types). You can read more about the use of media types in the API [here](https://docs.github.com/rest/overview/media-types/).
+   * @description Commit Comments use [these custom media types](https://docs.github.com/rest/overview/media-types). You can read more about the use of media types in the API [here](https://docs.github.com/rest/overview/media-types/).
    *
    * Comments are ordered by ascending ID.
    */
@@ -92299,12 +93679,12 @@ export interface operations {
   };
   /**
    * List reactions for a commit comment
-   * @description List the reactions to a [commit comment](https://docs.github.com/rest/reference/repos#comments).
+   * @description List the reactions to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment).
    */
   "reactions/list-for-commit-comment": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a commit comment. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a commit comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -92330,7 +93710,7 @@ export interface operations {
   };
   /**
    * Create reaction for a commit comment
-   * @description Create a reaction to a [commit comment](https://docs.github.com/rest/reference/repos#comments). A response with an HTTP `200` status means that you already added the reaction type to this commit comment.
+   * @description Create a reaction to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment). A response with an HTTP `200` status means that you already added the reaction type to this commit comment.
    */
   "reactions/create-for-commit-comment": {
     parameters: {
@@ -92344,7 +93724,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the commit comment.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the commit comment.
            * @enum {string}
            */
           content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
@@ -92371,7 +93751,7 @@ export interface operations {
    * Delete a commit comment reaction
    * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE /repositories/:repository_id/comments/:comment_id/reactions/:reaction_id`.
    *
-   * Delete a reaction to a [commit comment](https://docs.github.com/rest/reference/repos#comments).
+   * Delete a reaction to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment).
    */
   "reactions/delete-for-commit-comment": {
     parameters: {
@@ -92898,13 +94278,13 @@ export interface operations {
    * @description Gets the contents of a file or directory in a repository. Specify the file path or directory in `:path`. If you omit
    * `:path`, you will receive the contents of the repository's root directory. See the description below regarding what the API response includes for directories.
    *
-   * Files and symlinks support [a custom media type](https://docs.github.com/rest/reference/repos#custom-media-types) for
+   * Files and symlinks support [a custom media type](https://docs.github.com/rest/overview/media-types) for
    * retrieving the raw content or rendered HTML (when supported). All content types support [a custom media
-   * type](https://docs.github.com/rest/reference/repos#custom-media-types) to ensure the content is returned in a consistent
+   * type](https://docs.github.com/rest/overview/media-types) to ensure the content is returned in a consistent
    * object format.
    *
    * **Notes**:
-   * *   To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/reference/git#trees).
+   * *   To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/git/trees#get-a-tree).
    * *   This API has an upper limit of 1,000 files for a directory. If you need to retrieve more files, use the [Git Trees
    * API](https://docs.github.com/rest/git/trees#get-a-tree).
    *  *  Download URLs expire and are meant to be used just once. To ensure the download URL does not expire, please use the contents API to obtain a fresh download URL for each download.
@@ -92963,7 +94343,7 @@ export interface operations {
    * Create or update file contents
    * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `workflow` scope to use this endpoint.
    *
-   * **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/reference/repos/#delete-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
+   * **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/repos/contents/#delete-a-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
    */
   "repos/create-or-update-file-contents": {
     parameters: {
@@ -93032,7 +94412,7 @@ export interface operations {
    *
    * You must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.
    *
-   * **Note:** If you use this endpoint and the "[Create or update file contents](https://docs.github.com/rest/reference/repos/#create-or-update-file-contents)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
+   * **Note:** If you use this endpoint and the "[Create or update file contents](https://docs.github.com/rest/repos/contents/#create-or-update-file-contents)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
    */
   "repos/delete-file": {
     parameters: {
@@ -93885,7 +95265,7 @@ export interface operations {
    *
    * **Note:** To create or update name patterns that branches must match in order to deploy to this environment, see "[Deployment branch policies](/rest/deployments/branch-policies)."
    *
-   * **Note:** To create or update secrets for an environment, see "[Secrets](/rest/reference/actions#secrets)."
+   * **Note:** To create or update secrets for an environment, see "[GitHub Actions secrets](/rest/actions/secrets)."
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
    */
@@ -94640,8 +96020,8 @@ export interface operations {
         owner: components["parameters"]["owner"];
         repo: components["parameters"]["repo"];
         /**
-         * @description The name of the fully qualified reference to update. For example, `refs/heads/master`. If the value doesn't start with `refs` and have at least two slashes, it will be rejected.
-         * @example refs/head/master
+         * @description The name of the reference to update (for example, `heads/featureA`). Can be a branch name (`heads/BRANCH_NAME`) or tag name (`tags/TAG_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation.
+         * @example heads/featureA
          */
         ref: string;
       };
@@ -94872,7 +96252,7 @@ export interface operations {
   };
   /**
    * Get a tree
-   * @description Returns a single tree using the SHA1 value for that tree.
+   * @description Returns a single tree using the SHA1 value or ref name for that tree.
    *
    * If `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.
    *
@@ -94888,6 +96268,7 @@ export interface operations {
       path: {
         owner: components["parameters"]["owner"];
         repo: components["parameters"]["repo"];
+        /** @description The SHA1 value or ref (branch or tag) name of the tree. */
         tree_sha: string;
       };
     };
@@ -94947,7 +96328,7 @@ export interface operations {
         "application/json": {
           /** @description Use `web` to create a webhook. Default: `web`. This parameter only accepts the value `web`. */
           name?: string;
-          /** @description Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.github.com/rest/reference/repos#create-hook-config-params). */
+          /** @description Key/value pairs to provide settings for this webhook. */
           config?: {
             url?: components["schemas"]["webhook-config-url"];
             content_type?: components["schemas"]["webhook-config-content-type"];
@@ -94989,7 +96370,7 @@ export interface operations {
   };
   /**
    * Get a repository webhook
-   * @description Returns a webhook configured in a repository. To get only the webhook `config` properties, see "[Get a webhook configuration for a repository](/rest/reference/repos#get-a-webhook-configuration-for-a-repository)."
+   * @description Returns a webhook configured in a repository. To get only the webhook `config` properties, see "[Get a webhook configuration for a repository](/rest/webhooks/repo-config#get-a-webhook-configuration-for-a-repository)."
    */
   "repos/get-webhook": {
     parameters: {
@@ -95028,7 +96409,7 @@ export interface operations {
   };
   /**
    * Update a repository webhook
-   * @description Updates a webhook configured in a repository. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for a repository](/rest/reference/repos#update-a-webhook-configuration-for-a-repository)."
+   * @description Updates a webhook configured in a repository. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for a repository](/rest/webhooks/repo-config#update-a-webhook-configuration-for-a-repository)."
    */
   "repos/update-webhook": {
     parameters: {
@@ -95041,7 +96422,7 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": {
-          /** @description Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.github.com/rest/reference/repos#create-hook-config-params). */
+          /** @description Key/value pairs to provide settings for this webhook. */
           config?: {
             url: components["schemas"]["webhook-config-url"];
             content_type?: components["schemas"]["webhook-config-content-type"];
@@ -95082,7 +96463,7 @@ export interface operations {
   };
   /**
    * Get a webhook configuration for a repository
-   * @description Returns the webhook configuration for a repository. To get more information about the webhook, including the `active` state and `events`, use "[Get a repository webhook](/rest/reference/orgs#get-a-repository-webhook)."
+   * @description Returns the webhook configuration for a repository. To get more information about the webhook, including the `active` state and `events`, use "[Get a repository webhook](/rest/webhooks/repos#get-a-repository-webhook)."
    *
    * Access tokens must have the `read:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:read` permission.
    */
@@ -95105,7 +96486,7 @@ export interface operations {
   };
   /**
    * Update a webhook configuration for a repository
-   * @description Updates the webhook configuration for a repository. To update more information about the webhook, including the `active` state and `events`, use "[Update a repository webhook](/rest/reference/orgs#update-a-repository-webhook)."
+   * @description Updates the webhook configuration for a repository. To update more information about the webhook, including the `active` state and `events`, use "[Update a repository webhook](/rest/webhooks/repos#update-a-repository-webhook)."
    *
    * Access tokens must have the `write:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:write` permission.
    */
@@ -95940,12 +97321,12 @@ export interface operations {
   };
   /**
    * List reactions for an issue comment
-   * @description List the reactions to an [issue comment](https://docs.github.com/rest/reference/issues#comments).
+   * @description List the reactions to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment).
    */
   "reactions/list-for-issue-comment": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to an issue comment. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to an issue comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -95971,7 +97352,7 @@ export interface operations {
   };
   /**
    * Create reaction for an issue comment
-   * @description Create a reaction to an [issue comment](https://docs.github.com/rest/reference/issues#comments). A response with an HTTP `200` status means that you already added the reaction type to this issue comment.
+   * @description Create a reaction to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment). A response with an HTTP `200` status means that you already added the reaction type to this issue comment.
    */
   "reactions/create-for-issue-comment": {
     parameters: {
@@ -95985,7 +97366,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the issue comment.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the issue comment.
            * @enum {string}
            */
           content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
@@ -96012,7 +97393,7 @@ export interface operations {
    * Delete an issue comment reaction
    * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE delete /repositories/:repository_id/issues/comments/:comment_id/reactions/:reaction_id`.
    *
-   * Delete a reaction to an [issue comment](https://docs.github.com/rest/reference/issues#comments).
+   * Delete a reaction to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment).
    */
   "reactions/delete-for-issue-comment": {
     parameters: {
@@ -96589,12 +97970,12 @@ export interface operations {
   };
   /**
    * List reactions for an issue
-   * @description List the reactions to an [issue](https://docs.github.com/rest/reference/issues).
+   * @description List the reactions to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue).
    */
   "reactions/list-for-issue": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to an issue. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to an issue. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -96621,7 +98002,7 @@ export interface operations {
   };
   /**
    * Create reaction for an issue
-   * @description Create a reaction to an [issue](https://docs.github.com/rest/reference/issues/). A response with an HTTP `200` status means that you already added the reaction type to this issue.
+   * @description Create a reaction to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue). A response with an HTTP `200` status means that you already added the reaction type to this issue.
    */
   "reactions/create-for-issue": {
     parameters: {
@@ -96635,7 +98016,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the issue.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the issue.
            * @enum {string}
            */
           content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
@@ -96662,7 +98043,7 @@ export interface operations {
    * Delete an issue reaction
    * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE /repositories/:repository_id/issues/:issue_number/reactions/:reaction_id`.
    *
-   * Delete a reaction to an [issue](https://docs.github.com/rest/reference/issues/).
+   * Delete a reaction to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue).
    */
   "reactions/delete-for-issue": {
     parameters: {
@@ -96970,49 +98351,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["language"];
         };
-      };
-    };
-  };
-  /**
-   * Enable Git LFS for a repository
-   * @description Enables Git LFS for a repository. Access tokens must have the `admin:enterprise` scope.
-   */
-  "repos/enable-lfs-for-repo": {
-    parameters: {
-      path: {
-        owner: components["parameters"]["owner"];
-        repo: components["parameters"]["repo"];
-      };
-    };
-    responses: {
-      202: components["responses"]["accepted"];
-      /**
-       * @description We will return a 403 with one of the following messages:
-       *
-       * - Git LFS support not enabled because Git LFS is globally disabled.
-       * - Git LFS support not enabled because Git LFS is disabled for the root repository in the network.
-       * - Git LFS support not enabled because Git LFS is disabled for <owner>.
-       */
-      403: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * Disable Git LFS for a repository
-   * @description Disables Git LFS for a repository. Access tokens must have the `admin:enterprise` scope.
-   */
-  "repos/disable-lfs-for-repo": {
-    parameters: {
-      path: {
-        owner: components["parameters"]["owner"];
-        repo: components["parameters"]["repo"];
-      };
-    };
-    responses: {
-      /** @description Response */
-      204: {
-        content: never;
       };
     };
   };
@@ -97696,6 +99034,38 @@ export interface operations {
     };
   };
   /**
+   * Enable private vulnerability reporting for a repository
+   * @description Enables private vulnerability reporting for a repository. The authenticated user must have admin access to the repository. For more information, see "[Privately reporting a security vulnerability](https://docs.github.com/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability)."
+   */
+  "repos/enable-private-vulnerability-reporting": {
+    parameters: {
+      path: {
+        owner: components["parameters"]["owner"];
+        repo: components["parameters"]["repo"];
+      };
+    };
+    responses: {
+      204: components["responses"]["no_content"];
+      422: components["responses"]["bad_request"];
+    };
+  };
+  /**
+   * Disable private vulnerability reporting for a repository
+   * @description Disables private vulnerability reporting for a repository. The authenticated user must have admin access to the repository. For more information, see "[Privately reporting a security vulnerability](https://docs.github.com/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability)".
+   */
+  "repos/disable-private-vulnerability-reporting": {
+    parameters: {
+      path: {
+        owner: components["parameters"]["owner"];
+        repo: components["parameters"]["repo"];
+      };
+    };
+    responses: {
+      204: components["responses"]["no_content"];
+      422: components["responses"]["bad_request"];
+    };
+  };
+  /**
    * List repository projects
    * @description Lists the projects in a repository. Returns a `404 Not Found` status if projects are disabled in the repository. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
    */
@@ -97965,12 +99335,12 @@ export interface operations {
   };
   /**
    * List reactions for a pull request review comment
-   * @description List the reactions to a [pull request review comment](https://docs.github.com/rest/reference/pulls#review-comments).
+   * @description List the reactions to a [pull request review comment](https://docs.github.com/pulls/comments#get-a-review-comment-for-a-pull-request).
    */
   "reactions/list-for-pull-request-review-comment": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a pull request review comment. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a pull request review comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -97996,7 +99366,7 @@ export interface operations {
   };
   /**
    * Create reaction for a pull request review comment
-   * @description Create a reaction to a [pull request review comment](https://docs.github.com/rest/reference/pulls#comments). A response with an HTTP `200` status means that you already added the reaction type to this pull request review comment.
+   * @description Create a reaction to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request). A response with an HTTP `200` status means that you already added the reaction type to this pull request review comment.
    */
   "reactions/create-for-pull-request-review-comment": {
     parameters: {
@@ -98010,7 +99380,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the pull request review comment.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the pull request review comment.
            * @enum {string}
            */
           content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
@@ -98037,7 +99407,7 @@ export interface operations {
    * Delete a pull request comment reaction
    * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE /repositories/:repository_id/pulls/comments/:comment_id/reactions/:reaction_id.`
    *
-   * Delete a reaction to a [pull request review comment](https://docs.github.com/rest/reference/pulls#review-comments).
+   * Delete a reaction to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request).
    */
   "reactions/delete-for-pull-request-comment": {
     parameters: {
@@ -98061,7 +99431,7 @@ export interface operations {
    *
    * Lists details of a pull request by providing its number.
    *
-   * When you get, [create](https://docs.github.com/rest/reference/pulls/#create-a-pull-request), or [edit](https://docs.github.com/rest/reference/pulls#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)".
+   * When you get, [create](https://docs.github.com/rest/pulls/pulls/#create-a-pull-request), or [edit](https://docs.github.com/rest/pulls/pulls#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)".
    *
    * The value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergeable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit.
    *
@@ -98345,7 +99715,7 @@ export interface operations {
   };
   /**
    * List commits on a pull request
-   * @description Lists a maximum of 250 commits for a pull request. To receive a complete commit list for pull requests with more than 250 commits, use the [List commits](https://docs.github.com/rest/reference/repos#list-commits) endpoint.
+   * @description Lists a maximum of 250 commits for a pull request. To receive a complete commit list for pull requests with more than 250 commits, use the [List commits](https://docs.github.com/rest/commits/commits#list-commits) endpoint.
    */
   "pulls/list-commits": {
     parameters: {
@@ -98610,7 +99980,7 @@ export interface operations {
    * Create a review for a pull request
    * @description This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
    *
-   * Pull request reviews created in the `PENDING` state are not submitted and therefore do not include the `submitted_at` property in the response. To create a pending review for a pull request, leave the `event` parameter blank. For more information about submitting a `PENDING` review, see "[Submit a review for a pull request](https://docs.github.com/rest/pulls#submit-a-review-for-a-pull-request)."
+   * Pull request reviews created in the `PENDING` state are not submitted and therefore do not include the `submitted_at` property in the response. To create a pending review for a pull request, leave the `event` parameter blank. For more information about submitting a `PENDING` review, see "[Submit a review for a pull request](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request)."
    *
    * **Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API offers the `application/vnd.github.v3.diff` [media type](https://docs.github.com/rest/overview/media-types#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://docs.github.com/rest/pulls/pulls#get-a-pull-request) endpoint.
    *
@@ -98632,7 +100002,7 @@ export interface operations {
           /** @description **Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review. */
           body?: string;
           /**
-           * @description The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](https://docs.github.com/rest/pulls#submit-a-review-for-a-pull-request) when you are ready.
+           * @description The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request) when you are ready.
            * @enum {string}
            */
           event?: "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
@@ -98773,7 +100143,7 @@ export interface operations {
   };
   /**
    * Dismiss a review for a pull request
-   * @description **Note:** To dismiss a pull request review on a [protected branch](https://docs.github.com/rest/reference/repos#branches), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.
+   * @description **Note:** To dismiss a pull request review on a [protected branch](https://docs.github.com/rest/branches/branch-protection), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.
    */
   "pulls/dismiss-review": {
     parameters: {
@@ -98807,7 +100177,7 @@ export interface operations {
   };
   /**
    * Submit a review for a pull request
-   * @description Submits a pending review for a pull request. For more information about creating a pending review for a pull request, see "[Create a review for a pull request](https://docs.github.com/rest/pulls#create-a-review-for-a-pull-request)."
+   * @description Submits a pending review for a pull request. For more information about creating a pending review for a pull request, see "[Create a review for a pull request](https://docs.github.com/rest/pulls/reviews#create-a-review-for-a-pull-request)."
    */
   "pulls/submit-review": {
     parameters: {
@@ -98858,7 +100228,7 @@ export interface operations {
     requestBody?: {
       content: {
         "application/json": {
-          /** @description The expected SHA of the pull request's HEAD ref. This is the most recent commit on the pull request's branch. If the expected SHA does not match the pull request's HEAD, you will receive a `422 Unprocessable Entity` status. You can use the "[List commits](https://docs.github.com/rest/reference/repos#list-commits)" endpoint to find the most recent commit SHA. Default: SHA of the pull request's current HEAD ref. */
+          /** @description The expected SHA of the pull request's HEAD ref. This is the most recent commit on the pull request's branch. If the expected SHA does not match the pull request's HEAD, you will receive a `422 Unprocessable Entity` status. You can use the "[List commits](https://docs.github.com/rest/commits/commits#list-commits)" endpoint to find the most recent commit SHA. Default: SHA of the pull request's current HEAD ref. */
           expected_head_sha?: string;
         } | null;
       };
@@ -98881,7 +100251,7 @@ export interface operations {
    * Get a repository README
    * @description Gets the preferred README for a repository.
    *
-   * READMEs support [custom media types](https://docs.github.com/rest/reference/repos#custom-media-types) for retrieving the raw content or rendered HTML.
+   * READMEs support [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw content or rendered HTML.
    */
   "repos/get-readme": {
     parameters: {
@@ -98909,7 +100279,7 @@ export interface operations {
    * Get a repository README for a directory
    * @description Gets the README from a repository directory.
    *
-   * READMEs support [custom media types](https://docs.github.com/rest/reference/repos#custom-media-types) for retrieving the raw content or rendered HTML.
+   * READMEs support [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw content or rendered HTML.
    */
   "repos/get-readme-in-directory": {
     parameters: {
@@ -99108,7 +100478,7 @@ export interface operations {
   };
   /**
    * Generate release notes content for a release
-   * @description Generate a name and body describing a [release](https://docs.github.com/rest/reference/repos#releases). The body content will be markdown formatted and contain information like the changes since last release and users who contributed. The generated release notes are not saved anywhere. They are intended to be generated and used when creating a new release.
+   * @description Generate a name and body describing a [release](https://docs.github.com/rest/releases/releases#get-a-release). The body content will be markdown formatted and contain information like the changes since last release and users who contributed. The generated release notes are not saved anywhere. They are intended to be generated and used when creating a new release.
    */
   "repos/generate-release-notes": {
     parameters: {
@@ -99325,7 +100695,7 @@ export interface operations {
    * When an upstream failure occurs, you will receive a `502 Bad Gateway` status. This may leave an empty asset with a state of `starter`. It can be safely deleted.
    *
    * **Notes:**
-   * *   GitHub renames asset filenames that have special characters, non-alphanumeric characters, and leading or trailing periods. The "[List assets for a release](https://docs.github.com/rest/reference/repos#list-assets-for-a-release)"
+   * *   GitHub renames asset filenames that have special characters, non-alphanumeric characters, and leading or trailing periods. The "[List release assets](https://docs.github.com/rest/releases/assets#list-release-assets)"
    * endpoint lists the renamed filenames. For more information and help, contact [GitHub Support](https://support.github.com/contact?tags=dotcom-rest-api).
    * *   To find the `release_id` query the [`GET /repos/{owner}/{repo}/releases/latest` endpoint](https://docs.github.com/rest/releases/releases#get-the-latest-release).
    * *   If you upload an asset with the same filename as another uploaded asset, you'll receive an error and must delete the old file before you can re-upload the new asset.
@@ -99362,12 +100732,12 @@ export interface operations {
   };
   /**
    * List reactions for a release
-   * @description List the reactions to a [release](https://docs.github.com/rest/reference/repos#releases).
+   * @description List the reactions to a [release](https://docs.github.com/rest/releases/releases#get-a-release).
    */
   "reactions/list-for-release": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a release. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a release. */
         content?: "+1" | "laugh" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -99393,7 +100763,7 @@ export interface operations {
   };
   /**
    * Create reaction for a release
-   * @description Create a reaction to a [release](https://docs.github.com/rest/reference/repos#releases). A response with a `Status: 200 OK` means that you already added the reaction type to this release.
+   * @description Create a reaction to a [release](https://docs.github.com/rest/releases/releases#get-a-release). A response with a `Status: 200 OK` means that you already added the reaction type to this release.
    */
   "reactions/create-for-release": {
     parameters: {
@@ -99407,7 +100777,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the release.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the release.
            * @enum {string}
            */
           content: "+1" | "laugh" | "heart" | "hooray" | "rocket" | "eyes";
@@ -99434,7 +100804,7 @@ export interface operations {
    * Delete a release reaction
    * @description **Note:** You can also specify a repository by `repository_id` using the route `DELETE delete /repositories/:repository_id/releases/:release_id/reactions/:reaction_id`.
    *
-   * Delete a reaction to a [release](https://docs.github.com/rest/reference/repos#releases).
+   * Delete a reaction to a [release](https://docs.github.com/rest/releases/releases#get-a-release).
    */
   "reactions/delete-for-release": {
     parameters: {
@@ -99960,6 +101330,32 @@ export interface operations {
           "application/json": components["schemas"]["validation-error"];
         };
       };
+    };
+  };
+  /**
+   * Request a CVE for a repository security advisory
+   * @description If you want a CVE identification number for the security vulnerability in your project, and don't already have one, you can request a CVE identification number from GitHub. For more information see "[Requesting a CVE identification number](https://docs.github.com/code-security/security-advisories/repository-security-advisories/publishing-a-repository-security-advisory#requesting-a-cve-identification-number-optional)."
+   *
+   * You may request a CVE for public repositories, but cannot do so for private repositories.
+   *
+   * You must authenticate using an access token with the `repo` scope or `repository_advisories:write` permission to use this endpoint.
+   *
+   * In order to request a CVE for a repository security advisory, you must be a security manager or administrator of that repository.
+   */
+  "security-advisories/create-repository-advisory-cve-request": {
+    parameters: {
+      path: {
+        owner: components["parameters"]["owner"];
+        repo: components["parameters"]["repo"];
+        ghsa_id: components["parameters"]["ghsa_id"];
+      };
+    };
+    responses: {
+      202: components["responses"]["accepted"];
+      400: components["responses"]["bad_request"];
+      403: components["responses"]["forbidden"];
+      404: components["responses"]["not_found"];
+      422: components["responses"]["validation_failed"];
     };
   };
   /**
@@ -101078,7 +102474,7 @@ export interface operations {
    * Search code
    * @description Searches for query terms inside of a file. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
    *
-   * When searching for code, you can get text match metadata for the file **content** and file **path** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+   * When searching for code, you can get text match metadata for the file **content** and file **path** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
    *
    * For example, if you want to find the definition of the `addClass` function inside [jQuery](https://github.com/jquery/jquery) repository, your query would look something like this:
    *
@@ -101100,11 +102496,11 @@ export interface operations {
   "search/code": {
     parameters: {
       query: {
-        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching code](https://docs.github.com/search-github/searching-on-github/searching-code)" for a detailed list of qualifiers. */
+        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching code](https://docs.github.com/search-github/searching-on-github/searching-code)" for a detailed list of qualifiers. */
         q: string;
         /**
          * @deprecated
-         * @description **This field is deprecated.** Sorts the results of your query. Can only be `indexed`, which indicates how recently a file has been indexed by the GitHub search infrastructure. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results)
+         * @description **This field is deprecated.** Sorts the results of your query. Can only be `indexed`, which indicates how recently a file has been indexed by the GitHub search infrastructure. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)
          */
         sort?: "indexed";
         /**
@@ -101138,7 +102534,7 @@ export interface operations {
    * @description Find commits via various criteria on the default branch (usually `main`). This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
    *
    * When searching for commits, you can get text match metadata for the **message** field when you provide the `text-match` media type. For more details about how to receive highlighted search results, see [Text match
-   * metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+   * metadata](https://docs.github.com/rest/search/search#text-match-metadata).
    *
    * For example, if you want to find commits related to CSS in the [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife) repository. Your query would look something like this:
    *
@@ -101147,9 +102543,9 @@ export interface operations {
   "search/commits": {
     parameters: {
       query: {
-        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching commits](https://docs.github.com/search-github/searching-on-github/searching-commits)" for a detailed list of qualifiers. */
+        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching commits](https://docs.github.com/search-github/searching-on-github/searching-commits)" for a detailed list of qualifiers. */
         q: string;
-        /** @description Sorts the results of your query by `author-date` or `committer-date`. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
+        /** @description Sorts the results of your query by `author-date` or `committer-date`. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results) */
         sort?: "author-date" | "committer-date";
         order?: components["parameters"]["order"];
         per_page?: components["parameters"]["per-page"];
@@ -101175,7 +102571,7 @@ export interface operations {
    * @description Find issues by state and keyword. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
    *
    * When searching for issues, you can get text match metadata for the issue **title**, issue **body**, and issue **comment body** fields when you pass the `text-match` media type. For more details about how to receive highlighted
-   * search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+   * search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
    *
    * For example, if you want to find the oldest unresolved Python bugs on Windows. Your query might look something like this.
    *
@@ -101188,9 +102584,9 @@ export interface operations {
   "search/issues-and-pull-requests": {
     parameters: {
       query: {
-        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching issues and pull requests](https://docs.github.com/search-github/searching-on-github/searching-issues-and-pull-requests)" for a detailed list of qualifiers. */
+        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching issues and pull requests](https://docs.github.com/search-github/searching-on-github/searching-issues-and-pull-requests)" for a detailed list of qualifiers. */
         q: string;
-        /** @description Sorts the results of your query by the number of `comments`, `reactions`, `reactions-+1`, `reactions--1`, `reactions-smile`, `reactions-thinking_face`, `reactions-heart`, `reactions-tada`, or `interactions`. You can also sort results by how recently the items were `created` or `updated`, Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
+        /** @description Sorts the results of your query by the number of `comments`, `reactions`, `reactions-+1`, `reactions--1`, `reactions-smile`, `reactions-thinking_face`, `reactions-heart`, `reactions-tada`, or `interactions`. You can also sort results by how recently the items were `created` or `updated`, Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results) */
         sort?: "comments" | "reactions" | "reactions-+1" | "reactions--1" | "reactions-smile" | "reactions-thinking_face" | "reactions-heart" | "reactions-tada" | "interactions" | "created" | "updated";
         order?: components["parameters"]["order"];
         per_page?: components["parameters"]["per-page"];
@@ -101218,7 +102614,7 @@ export interface operations {
    * Search labels
    * @description Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
    *
-   * When searching for labels, you can get text match metadata for the label **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+   * When searching for labels, you can get text match metadata for the label **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
    *
    * For example, if you want to find labels in the `linguist` repository that match `bug`, `defect`, or `enhancement`. Your query might look like this:
    *
@@ -101231,9 +102627,9 @@ export interface operations {
       query: {
         /** @description The id of the repository. */
         repository_id: number;
-        /** @description The search keywords. This endpoint does not accept qualifiers in the query. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). */
+        /** @description The search keywords. This endpoint does not accept qualifiers in the query. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). */
         q: string;
-        /** @description Sorts the results of your query by when the label was `created` or `updated`. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
+        /** @description Sorts the results of your query by when the label was `created` or `updated`. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results) */
         sort?: "created" | "updated";
         order?: components["parameters"]["order"];
         per_page?: components["parameters"]["per-page"];
@@ -101261,7 +102657,7 @@ export interface operations {
    * Search repositories
    * @description Find repositories via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
    *
-   * When searching for repositories, you can get text match metadata for the **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+   * When searching for repositories, you can get text match metadata for the **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
    *
    * For example, if you want to search for popular Tetris repositories written in assembly code, your query might look like this:
    *
@@ -101272,9 +102668,9 @@ export interface operations {
   "search/repos": {
     parameters: {
       query: {
-        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching for repositories](https://docs.github.com/articles/searching-for-repositories/)" for a detailed list of qualifiers. */
+        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching for repositories](https://docs.github.com/articles/searching-for-repositories/)" for a detailed list of qualifiers. */
         q: string;
-        /** @description Sorts the results of your query by number of `stars`, `forks`, or `help-wanted-issues` or how recently the items were `updated`. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
+        /** @description Sorts the results of your query by number of `stars`, `forks`, or `help-wanted-issues` or how recently the items were `updated`. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results) */
         sort?: "stars" | "forks" | "help-wanted-issues" | "updated";
         order?: components["parameters"]["order"];
         per_page?: components["parameters"]["per-page"];
@@ -101301,7 +102697,7 @@ export interface operations {
    * Search topics
    * @description Find topics via various criteria. Results are sorted by best match. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination). See "[Searching topics](https://docs.github.com/articles/searching-topics/)" for a detailed list of qualifiers.
    *
-   * When searching for topics, you can get text match metadata for the topic's **short\_description**, **description**, **name**, or **display\_name** field when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+   * When searching for topics, you can get text match metadata for the topic's **short\_description**, **description**, **name**, or **display\_name** field when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
    *
    * For example, if you want to search for topics related to Ruby that are featured on https://github.com/topics. Your query might look like this:
    *
@@ -101312,7 +102708,7 @@ export interface operations {
   "search/topics": {
     parameters: {
       query: {
-        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). */
+        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). */
         q: string;
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -101336,7 +102732,7 @@ export interface operations {
    * Search users
    * @description Find users via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
    *
-   * When searching for users, you can get text match metadata for the issue **login**, public **email**, and **name** fields when you pass the `text-match` media type. For more details about highlighting search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata). For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/reference/search#text-match-metadata).
+   * When searching for users, you can get text match metadata for the issue **login**, public **email**, and **name** fields when you pass the `text-match` media type. For more details about highlighting search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata). For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
    *
    * For example, if you're looking for a list of popular users, you might try this query:
    *
@@ -101349,9 +102745,9 @@ export interface operations {
   "search/users": {
     parameters: {
       query: {
-        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See "[Searching users](https://docs.github.com/search-github/searching-on-github/searching-users)" for a detailed list of qualifiers. */
+        /** @description The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching users](https://docs.github.com/search-github/searching-on-github/searching-users)" for a detailed list of qualifiers. */
         q: string;
-        /** @description Sorts the results of your query by number of `followers` or `repositories`, or when the person `joined` GitHub. Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results) */
+        /** @description Sorts the results of your query by number of `followers` or `repositories`, or when the person `joined` GitHub. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results) */
         sort?: "followers" | "repositories" | "joined";
         order?: components["parameters"]["order"];
         per_page?: components["parameters"]["per-page"];
@@ -101780,12 +103176,12 @@ export interface operations {
    * @deprecated
    * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List reactions for a team discussion comment`](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion-comment) endpoint.
    *
-   * List the reactions to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+   * List the reactions to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "reactions/list-for-team-discussion-comment-legacy": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion comment. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a team discussion comment. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -101813,7 +103209,7 @@ export interface operations {
    * @deprecated
    * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Create reaction for a team discussion comment](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion-comment)" endpoint.
    *
-   * Create a reaction to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion comment.
+   * Create a reaction to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion comment.
    */
   "reactions/create-for-team-discussion-comment-legacy": {
     parameters: {
@@ -101827,7 +103223,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion comment.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the team discussion comment.
            * @enum {string}
            */
           content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
@@ -101848,12 +103244,12 @@ export interface operations {
    * @deprecated
    * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List reactions for a team discussion`](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion) endpoint.
    *
-   * List the reactions to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+   * List the reactions to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "reactions/list-for-team-discussion-legacy": {
     parameters: {
       query?: {
-        /** @description Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion. */
+        /** @description Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a team discussion. */
         content?: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -101880,7 +103276,7 @@ export interface operations {
    * @deprecated
    * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create reaction for a team discussion`](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion) endpoint.
    *
-   * Create a reaction to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion.
+   * Create a reaction to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with an HTTP `200` status means that you already added the reaction type to this team discussion.
    */
   "reactions/create-for-team-discussion-legacy": {
     parameters: {
@@ -101893,7 +103289,7 @@ export interface operations {
       content: {
         "application/json": {
           /**
-           * @description The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the team discussion.
+           * @description The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the team discussion.
            * @enum {string}
            */
           content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
@@ -102334,7 +103730,7 @@ export interface operations {
    * @deprecated
    * @description **Note**: Repositories inherited through a parent team will also be checked.
    *
-   * **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a repository](https://docs.github.com/rest/reference/teams#check-team-permissions-for-a-repository) endpoint.
+   * **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a repository](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-repository) endpoint.
    *
    * You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header:
    */
@@ -102366,7 +103762,7 @@ export interface operations {
   /**
    * Add or update team repository permissions (Legacy)
    * @deprecated
-   * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Add or update team repository permissions](https://docs.github.com/rest/reference/teams#add-or-update-team-repository-permissions)" endpoint.
+   * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Add or update team repository permissions](https://docs.github.com/rest/teams/teams#add-or-update-team-repository-permissions)" endpoint.
    *
    * To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a `422 Unprocessable Entity` status if you attempt to add a repository to a team that is not owned by the organization.
    *
@@ -102403,7 +103799,7 @@ export interface operations {
   /**
    * Remove a repository from a team (Legacy)
    * @deprecated
-   * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a repository from a team](https://docs.github.com/rest/reference/teams#remove-a-repository-from-a-team) endpoint.
+   * @description **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a repository from a team](https://docs.github.com/rest/teams/teams#remove-a-repository-from-a-team) endpoint.
    *
    * If the authenticated user is an organization owner or a team maintainer, they can remove any repositories from the team. To remove a repository from a team as an organization member, the authenticated user must have admin access to the repository and must be able to see the team. NOTE: This does not delete the repository, it just removes it from the team.
    */
@@ -102814,7 +104210,7 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": {
-          /** @description Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get the public key for the authenticated user](https://docs.github.com/rest/reference/codespaces#get-the-public-key-for-the-authenticated-user) endpoint. */
+          /** @description Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get the public key for the authenticated user](https://docs.github.com/rest/codespaces/secrets#get-public-key-for-the-authenticated-user) endpoint. */
           encrypted_value?: string;
           /** @description ID of the key you used to encrypt the secret. */
           key_id: string;
@@ -105175,7 +106571,7 @@ export interface operations {
    *
    * The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/overview/resources-in-the-rest-api#authentication).
    *
-   * The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/reference/users#emails)".
+   * The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/users/emails)".
    */
   "users/get-by-username": {
     parameters: {
@@ -106043,7 +107439,7 @@ export interface operations {
       /** @description Response */
       200: {
         content: {
-          "text/plain": string;
+          "application/json": string;
         };
       };
     };
@@ -106051,7 +107447,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to branch protection rules. For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)." For information about the APIs to manage branch protection rules, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#branchprotectionrule) or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
    *
-   * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
    * @description A branch protection rule was created.
    */
   "branch-protection-rule/created": {
@@ -107239,6 +108635,123 @@ export interface operations {
     };
   };
   /**
+   * This event occurs when there is activity relating to deployment reviews. For more information, see "[About deployments](https://docs.github.com/actions/deployment/about-deployments)." For information about the APIs to manage deployments, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deployment) or "[Deployments](https://docs.github.com/rest/deployments/deployments)" in the REST API documentation.
+   *
+   * For activity relating to deployment creation or deployment status, use the `deployment` or `deployment_status` event.
+   *
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Deployments" repository permission.
+   * @description A deployment review was approved.
+   */
+  "deployment-review/approved": {
+    parameters: {
+      header?: {
+        /** @example GitHub-Hookshot/123abc */
+        "User-Agent"?: string;
+        /** @example 12312312 */
+        "X-Github-Hook-Id"?: string;
+        /** @example issues */
+        "X-Github-Event"?: string;
+        /** @example 123123 */
+        "X-Github-Hook-Installation-Target-Id"?: string;
+        /** @example repository */
+        "X-Github-Hook-Installation-Target-Type"?: string;
+        /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+        "X-GitHub-Delivery"?: string;
+        /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+        "X-Hub-Signature-256"?: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["webhook-deployment-review-approved"];
+      };
+    };
+    responses: {
+      /** @description Return a 200 status to indicate that the data was received successfully */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * This event occurs when there is activity relating to deployment reviews. For more information, see "[About deployments](https://docs.github.com/actions/deployment/about-deployments)." For information about the APIs to manage deployments, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deployment) or "[Deployments](https://docs.github.com/rest/deployments/deployments)" in the REST API documentation.
+   *
+   * For activity relating to deployment creation or deployment status, use the `deployment` or `deployment_status` event.
+   *
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Deployments" repository permission.
+   * @description A deployment review was rejected.
+   */
+  "deployment-review/rejected": {
+    parameters: {
+      header?: {
+        /** @example GitHub-Hookshot/123abc */
+        "User-Agent"?: string;
+        /** @example 12312312 */
+        "X-Github-Hook-Id"?: string;
+        /** @example issues */
+        "X-Github-Event"?: string;
+        /** @example 123123 */
+        "X-Github-Hook-Installation-Target-Id"?: string;
+        /** @example repository */
+        "X-Github-Hook-Installation-Target-Type"?: string;
+        /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+        "X-GitHub-Delivery"?: string;
+        /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+        "X-Hub-Signature-256"?: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["webhook-deployment-review-rejected"];
+      };
+    };
+    responses: {
+      /** @description Return a 200 status to indicate that the data was received successfully */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * This event occurs when there is activity relating to deployment reviews. For more information, see "[About deployments](https://docs.github.com/actions/deployment/about-deployments)." For information about the APIs to manage deployments, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deployment) or "[Deployments](https://docs.github.com/rest/deployments/deployments)" in the REST API documentation.
+   *
+   * For activity relating to deployment creation or deployment status, use the `deployment` or `deployment_status` event.
+   *
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Deployments" repository permission.
+   * @description A deployment review was requested.
+   */
+  "deployment-review/requested": {
+    parameters: {
+      header?: {
+        /** @example GitHub-Hookshot/123abc */
+        "User-Agent"?: string;
+        /** @example 12312312 */
+        "X-Github-Hook-Id"?: string;
+        /** @example issues */
+        "X-Github-Event"?: string;
+        /** @example 123123 */
+        "X-Github-Hook-Installation-Target-Id"?: string;
+        /** @example repository */
+        "X-Github-Hook-Installation-Target-Type"?: string;
+        /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+        "X-GitHub-Delivery"?: string;
+        /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+        "X-Hub-Signature-256"?: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["webhook-deployment-review-requested"];
+      };
+    };
+    responses: {
+      /** @description Return a 200 status to indicate that the data was received successfully */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /**
    * This event occurs when there is activity relating to deployment statuses. For more information, see "[About deployments](https://docs.github.com/actions/deployment/about-deployments)." For information about the APIs to manage deployments, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#deployment) or "[Deployments](https://docs.github.com/rest/deployments/deployments)" in the REST API documentation.
    *
    * For activity relating to deployment creation, use the `deployment` event.
@@ -108129,7 +109642,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
    *
-   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
    * @description Someone installed a GitHub App on a user or organization account.
    */
   "installation/created": {
@@ -108166,7 +109679,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
    *
-   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
    * @description Someone uninstalled a GitHub App from their user or organization account.
    */
   "installation/deleted": {
@@ -108203,7 +109716,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
    *
-   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
    * @description Someone granted new permissions to a GitHub App.
    */
   "installation/new-permissions-accepted": {
@@ -108240,7 +109753,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to which repositories a GitHub App installation can access. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
    *
-   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
    * @description A GitHub App installation was granted access to one or more repositories.
    */
   "installation-repositories/added": {
@@ -108277,7 +109790,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to which repositories a GitHub App installation can access. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
    *
-   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
    * @description Access to one or more repositories was revoked for a GitHub App installation.
    */
   "installation-repositories/removed": {
@@ -108314,7 +109827,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
    *
-   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
    * @description Someone blocked access by a GitHub App to their user or organization account.
    */
   "installation/suspend": {
@@ -108349,7 +109862,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to the user or organization account that a GitHub App is installed on. For more information, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+   * This event occurs when there is activity relating to the user or organization account that a GitHub App is installed on. For more information, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
    * @description Somebody renamed the user or organization account that a GitHub App is installed on.
    */
   "installation-target/renamed": {
@@ -108386,7 +109899,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to a GitHub App installation. All GitHub Apps receive this event by default. You cannot manually subscribe to this event.
    *
-   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/reference/apps)" in the REST API documentation.
+   * For more information about GitHub Apps, see "[About apps](https://docs.github.com/developers/apps/getting-started-with-apps/about-apps#about-github-apps)." For information about the APIs to manage GitHub Apps, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#app) or "[Apps](https://docs.github.com/rest/apps)" in the REST API documentation.
    * @description A GitHub App that was blocked from accessing a user or organization account was given access the account again.
    */
   "installation/unsuspend": {
@@ -109602,7 +111115,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to team membership. For more information, see "[About teams](https://docs.github.com/organizations/organizing-members-into-teams/about-teams)." For more information about the API to manage team memberships, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#team) or "[Team members](https://docs.github.com/rest/teams/members)" in the REST API documentation.
+   * This event occurs when there is activity relating to team membership. For more information, see "[About teams](https://docs.github.com/organizations/organizing-members-into-teams/about-teams)." For more information about the APIs to manage team memberships, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#team) or "[Team members](https://docs.github.com/rest/teams/members)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Members" organization permission.
    * @description An organization member was removed from a team.
@@ -112143,7 +113656,7 @@ export interface operations {
   /**
    * This event occurs when there is activity on a pull request. For more information, see "[About pull requests](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)." For information about the APIs to manage pull requests, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#pullrequest) or "[Pulls](https://docs.github.com/rest/pulls/pulls)" in the REST API documentation.
    *
-   * For activity related to pull request reviews, pull request review comments, pull request comments,or pull request review threads, use the `pull_request_review`, `pull_request_review_comment`, `issue_comment`, or `pull_request_review_thread` events instead.
+   * For activity related to pull request reviews, pull request review comments, pull request comments, or pull request review threads, use the `pull_request_review`, `pull_request_review_comment`, `issue_comment`, or `pull_request_review_thread` events instead.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Pull requests" repository permission.
    * @description A previously closed pull request was reopened.
@@ -112492,7 +114005,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to a comment thread on a pull request. For more information, see "[About pull request reviews](https://docs.github.com/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews)." For information about the APIs to manage pull request review comment threads, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#pullrequestreviewthread) or "[Pull request reviews](https://docs.github.com/rest/pulls/reviews)" in the REST API documentation.
+   * This event occurs when there is activity relating to a comment thread on a pull request. For more information, see "[About pull request reviews](https://docs.github.com/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews)." For information about the APIs to manage pull request reviews, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#pullrequestreviewthread) or "[Pull request review comments](https://docs.github.com/rest/pulls/comments)" in the REST API documentation.
    *
    * For activity related to pull request review comments, pull request comments, or pull request reviews, use the `pull_request_review_comment`, `issue_comment`, or `pull_request_review` events instead.
    *
@@ -112726,7 +114239,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when a commit or tag is pushed.
+   * This event occurs when a commit or tag is pushed, or when a repository is cloned.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    *
@@ -112807,7 +114320,7 @@ export interface operations {
    *
    * To install this event on a GitHub App, the app must have at least read-level access for the "Packages" repository permission.
    *
-   * **Note**: GitHub recommends that you use the newer `package` event instead
+   * **Note**: GitHub recommends that you use the newer `package` event instead.
    * @description A package that was previously published to a registry was updated.
    */
   "registry-package/updated": {
@@ -112879,7 +114392,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    * @description A release, pre-release, or draft release was deleted.
@@ -112916,7 +114429,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    * @description The details of a release, pre-release, or draft release were edited. For more information, see "[Managing releases in a repository](https://docs.github.com/repositories/releasing-projects-on-github/managing-releases-in-a-repository#editing-a-release)."
@@ -112953,7 +114466,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    * @description A release was created and identified as a pre-release. A pre-release is a release that is not ready for production and may be unstable.
@@ -112990,7 +114503,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    * @description A release, pre-release, or draft of a release was published.
@@ -113027,7 +114540,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    * @description A release was published, or a pre-release was changed to a release.
@@ -113064,7 +114577,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/packages)" in the REST API documentation.
+   * This event occurs when there is activity relating to releases. For more information, see "[About releases](https://docs.github.com/repositories/releasing-projects-on-github/about-releases)." For information about the APIs to manage releases, see [the GraphQL API documentation](https://docs.github.com/graphql/reference/objects#release) or "[Releases](https://docs.github.com/rest/releases)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    * @description A release or pre-release was unpublished.
@@ -113493,6 +115006,123 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["webhook-repository-renamed"];
+      };
+    };
+    responses: {
+      /** @description Return a 200 status to indicate that the data was received successfully */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * This event occurs when there is activity relating to repository rulesets.
+   * For more information about repository rulesets, see "[Managing rulesets](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets)."
+   * For more information on managing rulesets via the APIs, see [Repository ruleset](https://docs.github.com/graphql/reference/objects#repositoryruleset) in the GraphQL documentation or "[Repository rules](https://docs.github.com/rest/repos/rules)" and "[Organization rules](https://docs.github.com/rest/orgs/rules) in the REST API documentation."
+   *
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+   * @description A repository ruleset was created.
+   */
+  "repository-ruleset/created": {
+    parameters: {
+      header?: {
+        /** @example GitHub-Hookshot/123abc */
+        "User-Agent"?: string;
+        /** @example 12312312 */
+        "X-Github-Hook-Id"?: string;
+        /** @example issues */
+        "X-Github-Event"?: string;
+        /** @example 123123 */
+        "X-Github-Hook-Installation-Target-Id"?: string;
+        /** @example repository */
+        "X-Github-Hook-Installation-Target-Type"?: string;
+        /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+        "X-GitHub-Delivery"?: string;
+        /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+        "X-Hub-Signature-256"?: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["webhook-repository-ruleset-created"];
+      };
+    };
+    responses: {
+      /** @description Return a 200 status to indicate that the data was received successfully */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * This event occurs when there is activity relating to repository rulesets.
+   * For more information about repository rulesets, see "[Managing rulesets](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets)."
+   * For more information on managing rulesets via the APIs, see [Repository ruleset](https://docs.github.com/graphql/reference/objects#repositoryruleset) in the GraphQL documentation or "[Repository rules](https://docs.github.com/rest/repos/rules)" and "[Organization rules](https://docs.github.com/rest/orgs/rules) in the REST API documentation."
+   *
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+   * @description A repository ruleset was deleted.
+   */
+  "repository-ruleset/deleted": {
+    parameters: {
+      header?: {
+        /** @example GitHub-Hookshot/123abc */
+        "User-Agent"?: string;
+        /** @example 12312312 */
+        "X-Github-Hook-Id"?: string;
+        /** @example issues */
+        "X-Github-Event"?: string;
+        /** @example 123123 */
+        "X-Github-Hook-Installation-Target-Id"?: string;
+        /** @example repository */
+        "X-Github-Hook-Installation-Target-Type"?: string;
+        /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+        "X-GitHub-Delivery"?: string;
+        /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+        "X-Hub-Signature-256"?: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["webhook-repository-ruleset-deleted"];
+      };
+    };
+    responses: {
+      /** @description Return a 200 status to indicate that the data was received successfully */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * This event occurs when there is activity relating to repository rulesets.
+   * For more information about repository rulesets, see "[Managing rulesets](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets)."
+   * For more information on managing rulesets via the APIs, see [Repository ruleset](https://docs.github.com/graphql/reference/objects#repositoryruleset) in the GraphQL documentation or "[Repository rules](https://docs.github.com/rest/repos/rules)" and "[Organization rules](https://docs.github.com/rest/orgs/rules) in the REST API documentation."
+   *
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+   * @description A repository ruleset was edited.
+   */
+  "repository-ruleset/edited": {
+    parameters: {
+      header?: {
+        /** @example GitHub-Hookshot/123abc */
+        "User-Agent"?: string;
+        /** @example 12312312 */
+        "X-Github-Hook-Id"?: string;
+        /** @example issues */
+        "X-Github-Event"?: string;
+        /** @example 123123 */
+        "X-Github-Hook-Installation-Target-Id"?: string;
+        /** @example repository */
+        "X-Github-Hook-Installation-Target-Type"?: string;
+        /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+        "X-GitHub-Delivery"?: string;
+        /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+        "X-Hub-Signature-256"?: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["webhook-repository-ruleset-edited"];
       };
     };
     responses: {
@@ -114370,7 +116000,7 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when the status of a Git commit changes. For example, commits can be marked as `error`, `failure`, `pending`, or `success`. For more information, see "[About status checks](https://docs.github.com/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks)." For information about the APIs to manage commit statuses, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#status) or "[Statuses](https://docs.github.com/rest/reference/commits#commit-statuses)" in the REST API documentation.
+   * This event occurs when the status of a Git commit changes. For example, commits can be marked as `error`, `failure`, `pending`, or `success`. For more information, see "[About status checks](https://docs.github.com/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks)." For information about the APIs to manage commit statuses, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#status) or "[Commit statuses](https://docs.github.com/rest/commits/statuses)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Commit statuses" repository permission.
    */
@@ -114827,13 +116457,11 @@ export interface operations {
     };
   };
   /**
-   * This event occurs when there is activity relating to a job in a GitHub Actions workflow.
+   * This event occurs when there is activity relating to a job in a GitHub Actions workflow. For more information, see "[Using jobs in a workflow](https://docs.github.com/actions/using-jobs/using-jobs-in-a-workflow)." For information about the API to manage workflow jobs, see "[Workflow jobs](https://docs.github.com/rest/actions/workflow-jobs)" in the REST API documentation.
    *
-   * For more information, see "[Using jobs in a workflow](https://docs.github.com/actions/using-jobs/using-jobs-in-a-workflow)." For information about the API to manage workflow jobs, see [the REST API documentation](https://docs.github.com/rest/actions/workflow-jobs).
+   * For activity relating to a workflow run instead of a job in a workflow run, use the `workflow_run` event.
    *
-   * For activity relating to a workflow run instead of a job in a workflow run, see the `workflow_run` event.
-   *
-   * To install this event on a GitHub App, the app must have at least read-level access for the Actions metadata permission.
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Actions" repository permission.
    * @description A job in a workflow run was created and is waiting for approvals.
    */
   "workflow-job/waiting": {
