@@ -10744,7 +10744,7 @@ export interface components {
           /** @description The package version that resolve the vulnerability. */
           first_patched_version: string | null;
           /** @description The functions in the package that are affected by the vulnerability. */
-          vulnerable_functions: readonly string[] | null;
+          vulnerable_functions: (readonly string[]) | null;
         })[]) | null;
       cvss: ({
         /** @description The CVSS vector. */
@@ -10758,10 +10758,10 @@ export interface components {
           /** @description The name of the CWE. */
           name: string;
         }[] | null;
-      credits: readonly {
+      credits: (readonly {
           user: components["schemas"]["simple-user"];
           type: components["schemas"]["security-advisory-credit-types"];
-        }[] | null;
+        }[]) | null;
     };
     /**
      * Basic Error
@@ -14434,12 +14434,12 @@ export interface components {
         /** @description The CVSS score. */
         score: number | null;
       }) | null;
-      cwes: readonly {
+      cwes: (readonly {
           /** @description The Common Weakness Enumeration (CWE) identifier. */
           cwe_id: string;
           /** @description The name of the CWE. */
           name: string;
-        }[] | null;
+        }[]) | null;
       /** @description A list of only the CWE IDs. */
       cwe_ids: string[] | null;
       credits: {
@@ -14447,7 +14447,7 @@ export interface components {
           login?: string;
           type?: components["schemas"]["security-advisory-credit-types"];
         }[] | null;
-      credits_detailed: readonly components["schemas"]["repository-advisory-credit"][] | null;
+      credits_detailed: (readonly components["schemas"]["repository-advisory-credit"][]) | null;
       /** @description A list of users that collaborate on the advisory. */
       collaborating_users: components["schemas"]["simple-user"][] | null;
       /** @description A list of teams that collaborate on the advisory. */
@@ -16518,7 +16518,7 @@ export interface components {
        */
       analyses_url?: string | null;
       /** @description Any errors that ocurred during processing of the delivery. */
-      errors?: readonly string[] | null;
+      errors?: (readonly string[]) | null;
     };
     /**
      * CODEOWNERS errors
