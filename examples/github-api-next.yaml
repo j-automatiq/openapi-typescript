@@ -10442,6 +10442,13 @@ paths:
                       - refs/heads/master
                       exclude:
                       - refs/heads/dev*
+                    repository_name:
+                      include:
+                      - important_repository
+                      - another_important_repository
+                      exclude:
+                      - unimportant_repository
+                      protected: true
                   rules:
                   - type: commit_author_email_pattern
                     parameters:
@@ -10568,6 +10575,13 @@ paths:
                       - refs/heads/master
                       exclude:
                       - refs/heads/dev*
+                    repository_name:
+                      include:
+                      - important_repository
+                      - another_important_repository
+                      exclude:
+                      - unimportant_repository
+                      protected: true
                   rules:
                   - type: commit_author_email_pattern
                     parameters:
@@ -13983,12 +13997,7 @@ paths:
       - "$ref": "#/components/parameters/repo"
       - "$ref": "#/components/parameters/per-page"
       - "$ref": "#/components/parameters/page"
-      - name: name
-        description: Filters artifacts by exact match on their name field.
-        in: query
-        required: false
-        schema:
-          type: string
+      - "$ref": "#/components/parameters/artifact-name"
       responses:
         '200':
           description: Response
@@ -15533,6 +15542,7 @@ paths:
       - "$ref": "#/components/parameters/run-id"
       - "$ref": "#/components/parameters/per-page"
       - "$ref": "#/components/parameters/page"
+      - "$ref": "#/components/parameters/artifact-name"
       responses:
         '200':
           description: Response
@@ -20104,7 +20114,7 @@ paths:
       description: |-
         Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
 
-        To rerequest a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
+        To rerequest a check suite, your GitHub App must have the `checks:write` permission on a private repository or pull access to a public repository.
       tags:
       - checks
       operationId: checks/rerequest-suite
@@ -21286,6 +21296,14 @@ paths:
         in: query
         schema:
           type: string
+      - name: ref
+        description: The branch or commit to check for prebuild availability and devcontainer
+          restrictions.
+        in: query
+        schema:
+          type: string
+          examples:
+          - main
       responses:
         '200':
           description: Response
@@ -22940,7 +22958,7 @@ paths:
     put:
       summary: Create or update file contents
       description: |-
-        Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `workflow` scope to use this endpoint.
+        Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. If you want to modify files in the `.github/workflows` directory, you must authenticate using an access token with the `workflow` scope.
 
         **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/repos/contents/#delete-a-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
       tags:
@@ -23196,7 +23214,7 @@ paths:
       - "$ref": "#/components/parameters/page"
       responses:
         '200':
-          description: if repository contains content
+          description: If repository contains content
           content:
             application/json:
               schema:
@@ -24025,7 +24043,7 @@ paths:
         *   Create a new deployment that is active so that the system has a record of the current state, then delete the previously active deployment.
         *   Mark the active deployment as inactive by adding any non-successful deployment status.
 
-        For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/deployment-statuses#create-a-deployment-status)."
+        For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/statuses#create-a-deployment-status)."
       tags:
       - repos
       operationId: repos/delete-deployment
@@ -35231,11 +35249,15 @@ paths:
         url: https://docs.github.com/rest/repos/repos#create-a-repository-using-a-template
       parameters:
       - name: template_owner
+        description: The account owner of the template repository. The name is not
+          case sensitive.
         in: path
         required: true
         schema:
           type: string
       - name: template_repo
+        description: The name of the template repository without the `.git` extension.
+          The name is not case sensitive.
         in: path
         required: true
         schema:
@@ -43652,6 +43674,138 @@ paths:
         category: meta
         subcategory: meta
 webhooks:
+  branch-protection-configuration-disabled:
+    post:
+      summary: |-
+        This event occurs when there is a change to branch protection configurations for a repository.
+        For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)."
+        For information about using the APIs to manage branch protection rules, see "[Branch protection rule](https://docs.github.com/graphql/reference/objects#branchprotectionrule)" in the GraphQL documentation or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
+
+        To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+      description: All branch protections were disabled for a repository.
+      operationId: branch-protection-configuration/disabled
+      externalDocs:
+        url: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#branch-protection-configuration
+      parameters:
+      - name: User-Agent
+        in: header
+        example: GitHub-Hookshot/123abc
+        schema:
+          type: string
+      - name: X-Github-Hook-Id
+        in: header
+        example: 12312312
+        schema:
+          type: string
+      - name: X-Github-Event
+        in: header
+        example: issues
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Id
+        in: header
+        example: 123123
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Type
+        in: header
+        example: repository
+        schema:
+          type: string
+      - name: X-GitHub-Delivery
+        in: header
+        example: 0b989ba4-242f-11e5-81e1-c7b6966d2516
+        schema:
+          type: string
+      - name: X-Hub-Signature-256
+        in: header
+        example: sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/webhook-branch-protection-configuration-disabled"
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received
+            successfully
+      x-github:
+        githubCloudOnly: false
+        category: webhooks
+        subcategory: branch-protection-configuration
+        supported-webhook-types:
+        - repository
+        - organization
+        - app
+  branch-protection-configuration-enabled:
+    post:
+      summary: |-
+        This event occurs when there is a change to branch protection configurations for a repository.
+        For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)."
+        For information about using the APIs to manage branch protection rules, see "[Branch protection rule](https://docs.github.com/graphql/reference/objects#branchprotectionrule)" in the GraphQL documentation or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
+
+        To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+      description: All branch protections were enabled for a repository.
+      operationId: branch-protection-configuration/enabled
+      externalDocs:
+        url: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#branch-protection-configuration
+      parameters:
+      - name: User-Agent
+        in: header
+        example: GitHub-Hookshot/123abc
+        schema:
+          type: string
+      - name: X-Github-Hook-Id
+        in: header
+        example: 12312312
+        schema:
+          type: string
+      - name: X-Github-Event
+        in: header
+        example: issues
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Id
+        in: header
+        example: 123123
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Type
+        in: header
+        example: repository
+        schema:
+          type: string
+      - name: X-GitHub-Delivery
+        in: header
+        example: 0b989ba4-242f-11e5-81e1-c7b6966d2516
+        schema:
+          type: string
+      - name: X-Hub-Signature-256
+        in: header
+        example: sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/webhook-branch-protection-configuration-enabled"
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received
+            successfully
+      x-github:
+        githubCloudOnly: false
+        category: webhooks
+        subcategory: branch-protection-configuration
+        supported-webhook-types:
+        - repository
+        - organization
+        - app
   branch-protection-rule-created:
     post:
       summary: |-
@@ -52433,7 +52587,7 @@ webhooks:
       summary: |-
         This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
 
-        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
 
@@ -52500,7 +52654,7 @@ webhooks:
       summary: |-
         This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
 
-        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
 
@@ -52567,7 +52721,7 @@ webhooks:
       summary: |-
         This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
 
-        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
 
@@ -52634,7 +52788,7 @@ webhooks:
       summary: |-
         This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
 
-        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
 
@@ -53177,7 +53331,7 @@ webhooks:
       summary: |-
         This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
 
-        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+        For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
 
@@ -66271,6 +66425,7 @@ components:
           - assign_all
           - assign_selected
           - disabled
+          - unconfigured
       required:
       - seat_breakdown
       - public_code_suggestions
@@ -67502,7 +67657,11 @@ components:
     org-ruleset-conditions:
       title: Organization ruleset conditions
       type: object
-      description: Conditions for an organization ruleset
+      description: 'Conditions for an organization ruleset. The conditions object
+        should contain both `repository_name` and `ref_name` properties or both `repository_id`
+        and `ref_name` properties.
+
+'
       oneOf:
       - type: object
         title: repository_name_and_ref_name
@@ -84328,6 +84487,50 @@ components:
           format: date-time
           description: 'The time that push protection was bypassed in ISO 8601 format:
             `YYYY-MM-DDTHH:MM:SSZ`.'
+    webhook-branch-protection-configuration-disabled:
+      title: branch protection configuration disabled event
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+          - disabled
+        enterprise:
+          "$ref": "#/components/schemas/enterprise"
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
+        organization:
+          "$ref": "#/components/schemas/organization-simple"
+        repository:
+          "$ref": "#/components/schemas/repository"
+        sender:
+          "$ref": "#/components/schemas/simple-user"
+      required:
+      - action
+      - repository
+      - sender
+    webhook-branch-protection-configuration-enabled:
+      title: branch protection configuration enabled event
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+          - enabled
+        enterprise:
+          "$ref": "#/components/schemas/enterprise"
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
+        organization:
+          "$ref": "#/components/schemas/organization-simple"
+        repository:
+          "$ref": "#/components/schemas/repository"
+        sender:
+          "$ref": "#/components/schemas/simple-user"
+      required:
+      - action
+      - repository
+      - sender
     webhook-branch-protection-rule-created:
       title: branch protection rule created event
       type: object
@@ -231672,6 +231875,14 @@ components:
       required: true
       schema:
         type: integer
+    artifact-name:
+      name: name
+      description: The name field of an artifact. When specified, only artifacts with
+        this name will be returned.
+      in: query
+      required: false
+      schema:
+        type: string
     artifact-id:
       name: artifact_id
       description: The unique identifier of the artifact.

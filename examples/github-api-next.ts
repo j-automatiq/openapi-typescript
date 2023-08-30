@@ -3610,7 +3610,7 @@ export interface paths {
      * Rerequest a check suite
      * @description Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
      *
-     * To rerequest a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
+     * To rerequest a check suite, your GitHub App must have the `checks:write` permission on a private repository or pull access to a public repository.
      */
     post: operations["checks/rerequest-suite"];
   };
@@ -4348,7 +4348,7 @@ export interface paths {
     get: operations["repos/get-content"];
     /**
      * Create or update file contents
-     * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `workflow` scope to use this endpoint.
+     * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. If you want to modify files in the `.github/workflows` directory, you must authenticate using an access token with the `workflow` scope.
      *
      * **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/repos/contents/#delete-a-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
      */
@@ -4531,7 +4531,7 @@ export interface paths {
      * *   Create a new deployment that is active so that the system has a record of the current state, then delete the previously active deployment.
      * *   Mark the active deployment as inactive by adding any non-successful deployment status.
      *
-     * For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/deployment-statuses#create-a-deployment-status)."
+     * For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/statuses#create-a-deployment-status)."
      */
     delete: operations["repos/delete-deployment"];
   };
@@ -8015,6 +8015,28 @@ export interface paths {
 }
 
 export interface webhooks {
+  "branch-protection-configuration-disabled": {
+    /**
+     * This event occurs when there is a change to branch protection configurations for a repository.
+     * For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)."
+     * For information about using the APIs to manage branch protection rules, see "[Branch protection rule](https://docs.github.com/graphql/reference/objects#branchprotectionrule)" in the GraphQL documentation or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
+     *
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+     * @description All branch protections were disabled for a repository.
+     */
+    post: operations["branch-protection-configuration/disabled"];
+  };
+  "branch-protection-configuration-enabled": {
+    /**
+     * This event occurs when there is a change to branch protection configurations for a repository.
+     * For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)."
+     * For information about using the APIs to manage branch protection rules, see "[Branch protection rule](https://docs.github.com/graphql/reference/objects#branchprotectionrule)" in the GraphQL documentation or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
+     *
+     * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+     * @description All branch protections were enabled for a repository.
+     */
+    post: operations["branch-protection-configuration/enabled"];
+  };
   "branch-protection-rule-created": {
     /**
      * This event occurs when there is activity relating to branch protection rules. For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)." For information about the APIs to manage branch protection rules, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#branchprotectionrule) or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
@@ -9453,7 +9475,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
      *
-     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
      *
@@ -9466,7 +9488,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
      *
-     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
      *
@@ -9479,7 +9501,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
      *
-     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
      *
@@ -9492,7 +9514,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
      *
-     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
      *
@@ -9596,7 +9618,7 @@ export interface webhooks {
     /**
      * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
      *
-     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+     * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
      *
      * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
      *
@@ -13514,7 +13536,7 @@ export interface components {
        * @description The mode of assigning new seats.
        * @enum {string}
        */
-      seat_management_setting: "assign_all" | "assign_selected" | "disabled";
+      seat_management_setting: "assign_all" | "assign_selected" | "disabled" | "unconfigured";
       [key: string]: unknown;
     };
     /**
@@ -14064,7 +14086,7 @@ export interface components {
     };
     /**
      * Organization ruleset conditions
-     * @description Conditions for an organization ruleset
+     * @description Conditions for an organization ruleset. The conditions object should contain both `repository_name` and `ref_name` properties or both `repository_id` and `ref_name` properties.
      */
     "org-ruleset-conditions": (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-name-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-id-target"]);
     /**
@@ -20849,6 +20871,26 @@ export interface components {
        * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
        */
       push_protection_bypassed_at?: string | null;
+    };
+    /** branch protection configuration disabled event */
+    "webhook-branch-protection-configuration-disabled": {
+      /** @enum {string} */
+      action: "disabled";
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization?: components["schemas"]["organization-simple"];
+      repository: components["schemas"]["repository"];
+      sender: components["schemas"]["simple-user"];
+    };
+    /** branch protection configuration enabled event */
+    "webhook-branch-protection-configuration-enabled": {
+      /** @enum {string} */
+      action: "enabled";
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization?: components["schemas"]["organization-simple"];
+      repository: components["schemas"]["repository"];
+      sender: components["schemas"]["simple-user"];
     };
     /** branch protection rule created event */
     "webhook-branch-protection-rule-created": {
@@ -79447,6 +79489,8 @@ export interface components {
     "card-id": number;
     /** @description The unique identifier of the column. */
     "column-id": number;
+    /** @description The name field of an artifact. When specified, only artifacts with this name will be returned. */
+    "artifact-name"?: string;
     /** @description The unique identifier of the artifact. */
     "artifact-id": number;
     /** @description The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
@@ -88572,8 +88616,7 @@ export interface operations {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
-        /** @description Filters artifacts by exact match on their name field. */
-        name?: string;
+        name?: components["parameters"]["artifact-name"];
       };
       path: {
         owner: components["parameters"]["owner"];
@@ -89678,6 +89721,7 @@ export interface operations {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
+        name?: components["parameters"]["artifact-name"];
       };
       path: {
         owner: components["parameters"]["owner"];
@@ -92418,7 +92462,7 @@ export interface operations {
    * Rerequest a check suite
    * @description Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
    *
-   * To rerequest a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
+   * To rerequest a check suite, your GitHub App must have the `checks:write` permission on a private repository or pull access to a public repository.
    */
   "checks/rerequest-suite": {
     parameters: {
@@ -93195,6 +93239,8 @@ export interface operations {
         location?: string;
         /** @description IP for location auto-detection when proxying a request */
         client_ip?: string;
+        /** @description The branch or commit to check for prebuild availability and devcontainer restrictions. */
+        ref?: string;
       };
       path: {
         owner: components["parameters"]["owner"];
@@ -94343,7 +94389,7 @@ export interface operations {
   };
   /**
    * Create or update file contents
-   * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `workflow` scope to use this endpoint.
+   * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. If you want to modify files in the `.github/workflows` directory, you must authenticate using an access token with the `workflow` scope.
    *
    * **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/repos/contents/#delete-a-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
    */
@@ -94484,7 +94530,7 @@ export interface operations {
       };
     };
     responses: {
-      /** @description if repository contains content */
+      /** @description If repository contains content */
       200: {
         headers: {
           Link: components["headers"]["link"];
@@ -95029,7 +95075,7 @@ export interface operations {
    * *   Create a new deployment that is active so that the system has a record of the current state, then delete the previously active deployment.
    * *   Mark the active deployment as inactive by adding any non-successful deployment status.
    *
-   * For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/deployment-statuses#create-a-deployment-status)."
+   * For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/statuses#create-a-deployment-status)."
    */
   "repos/delete-deployment": {
     parameters: {
@@ -102101,7 +102147,9 @@ export interface operations {
   "repos/create-using-template": {
     parameters: {
       path: {
+        /** @description The account owner of the template repository. The name is not case sensitive. */
         template_owner: string;
+        /** @description The name of the template repository without the `.git` extension. The name is not case sensitive. */
         template_repo: string;
       };
     };
@@ -107447,6 +107495,84 @@ export interface operations {
     };
   };
   /**
+   * This event occurs when there is a change to branch protection configurations for a repository.
+   * For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)."
+   * For information about using the APIs to manage branch protection rules, see "[Branch protection rule](https://docs.github.com/graphql/reference/objects#branchprotectionrule)" in the GraphQL documentation or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
+   *
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+   * @description All branch protections were disabled for a repository.
+   */
+  "branch-protection-configuration/disabled": {
+    parameters: {
+      header?: {
+        /** @example GitHub-Hookshot/123abc */
+        "User-Agent"?: string;
+        /** @example 12312312 */
+        "X-Github-Hook-Id"?: string;
+        /** @example issues */
+        "X-Github-Event"?: string;
+        /** @example 123123 */
+        "X-Github-Hook-Installation-Target-Id"?: string;
+        /** @example repository */
+        "X-Github-Hook-Installation-Target-Type"?: string;
+        /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+        "X-GitHub-Delivery"?: string;
+        /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+        "X-Hub-Signature-256"?: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["webhook-branch-protection-configuration-disabled"];
+      };
+    };
+    responses: {
+      /** @description Return a 200 status to indicate that the data was received successfully */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * This event occurs when there is a change to branch protection configurations for a repository.
+   * For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)."
+   * For information about using the APIs to manage branch protection rules, see "[Branch protection rule](https://docs.github.com/graphql/reference/objects#branchprotectionrule)" in the GraphQL documentation or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
+   *
+   * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
+   * @description All branch protections were enabled for a repository.
+   */
+  "branch-protection-configuration/enabled": {
+    parameters: {
+      header?: {
+        /** @example GitHub-Hookshot/123abc */
+        "User-Agent"?: string;
+        /** @example 12312312 */
+        "X-Github-Hook-Id"?: string;
+        /** @example issues */
+        "X-Github-Event"?: string;
+        /** @example 123123 */
+        "X-Github-Hook-Installation-Target-Id"?: string;
+        /** @example repository */
+        "X-Github-Hook-Installation-Target-Type"?: string;
+        /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+        "X-GitHub-Delivery"?: string;
+        /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+        "X-Hub-Signature-256"?: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["webhook-branch-protection-configuration-enabled"];
+      };
+    };
+    responses: {
+      /** @description Return a 200 status to indicate that the data was received successfully */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /**
    * This event occurs when there is activity relating to branch protection rules. For more information, see "[About protected branches](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)." For information about the APIs to manage branch protection rules, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#branchprotectionrule) or "[Branch protection](https://docs.github.com/rest/branches/branch-protection)" in the REST API documentation.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
@@ -112584,7 +112710,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
    *
-   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
    *
@@ -112625,7 +112751,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
    *
-   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
    *
@@ -112666,7 +112792,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
    *
-   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
    *
@@ -112707,7 +112833,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
    *
-   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
    *
@@ -113035,7 +113161,7 @@ export interface operations {
   /**
    * This event occurs when there is activity relating to an organization-level project. For more information, see "[About Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)." For information about the Projects API, see [the GraphQL documentation](https://docs.github.com/graphql/reference/objects#projectv2).
    *
-   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, project_card`, and `project_column` events instead.
+   * For activity relating to a item on a project, use the `projects_v2_item` event. For activity relating to Projects (classic), use the `project`, `project_card`, and `project_column` events instead.
    *
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Projects" organization permission.
    *

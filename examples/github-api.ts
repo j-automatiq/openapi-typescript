@@ -3610,7 +3610,7 @@ export interface paths {
      * Rerequest a check suite
      * @description Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
      *
-     * To rerequest a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
+     * To rerequest a check suite, your GitHub App must have the `checks:write` permission on a private repository or pull access to a public repository.
      */
     post: operations["checks/rerequest-suite"];
   };
@@ -4348,7 +4348,7 @@ export interface paths {
     get: operations["repos/get-content"];
     /**
      * Create or update file contents
-     * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `workflow` scope to use this endpoint.
+     * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. If you want to modify files in the `.github/workflows` directory, you must authenticate using an access token with the `workflow` scope.
      *
      * **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/repos/contents/#delete-a-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
      */
@@ -4531,7 +4531,7 @@ export interface paths {
      * *   Create a new deployment that is active so that the system has a record of the current state, then delete the previously active deployment.
      * *   Mark the active deployment as inactive by adding any non-successful deployment status.
      *
-     * For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/deployment-statuses#create-a-deployment-status)."
+     * For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/statuses#create-a-deployment-status)."
      */
     delete: operations["repos/delete-deployment"];
   };
@@ -12253,7 +12253,7 @@ export interface components {
        * @description The mode of assigning new seats.
        * @enum {string}
        */
-      seat_management_setting: "assign_all" | "assign_selected" | "disabled";
+      seat_management_setting: "assign_all" | "assign_selected" | "disabled" | "unconfigured";
       [key: string]: unknown;
     };
     /**
@@ -13202,7 +13202,7 @@ export interface components {
     };
     /**
      * Organization ruleset conditions
-     * @description Conditions for an organization ruleset
+     * @description Conditions for an organization ruleset. The conditions object should contain both `repository_name` and `ref_name` properties or both `repository_id` and `ref_name` properties.
      */
     "org-ruleset-conditions": (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-name-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-id-target"]);
     /**
@@ -22974,6 +22974,26 @@ export interface components {
        * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
        */
       push_protection_bypassed_at?: string | null;
+    };
+    /** branch protection configuration disabled event */
+    "webhook-branch-protection-configuration-disabled": {
+      /** @enum {string} */
+      action: "disabled";
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization?: components["schemas"]["organization-simple"];
+      repository: components["schemas"]["repository"];
+      sender: components["schemas"]["simple-user"];
+    };
+    /** branch protection configuration enabled event */
+    "webhook-branch-protection-configuration-enabled": {
+      /** @enum {string} */
+      action: "enabled";
+      enterprise?: components["schemas"]["enterprise"];
+      installation?: components["schemas"]["simple-installation"];
+      organization?: components["schemas"]["organization-simple"];
+      repository: components["schemas"]["repository"];
+      sender: components["schemas"]["simple-user"];
     };
     /** branch protection rule created event */
     "webhook-branch-protection-rule-created": {
@@ -81572,6 +81592,8 @@ export interface components {
     "card-id": number;
     /** @description The unique identifier of the column. */
     "column-id": number;
+    /** @description The name field of an artifact. When specified, only artifacts with this name will be returned. */
+    "artifact-name"?: string;
     /** @description The unique identifier of the artifact. */
     "artifact-id": number;
     /** @description The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
@@ -90793,8 +90815,7 @@ export interface operations {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
-        /** @description Filters artifacts by exact match on their name field. */
-        name?: string;
+        name?: components["parameters"]["artifact-name"];
       };
       path: {
         owner: components["parameters"]["owner"];
@@ -91899,6 +91920,7 @@ export interface operations {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
+        name?: components["parameters"]["artifact-name"];
       };
       path: {
         owner: components["parameters"]["owner"];
@@ -94649,7 +94671,7 @@ export interface operations {
    * Rerequest a check suite
    * @description Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
    *
-   * To rerequest a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
+   * To rerequest a check suite, your GitHub App must have the `checks:write` permission on a private repository or pull access to a public repository.
    */
   "checks/rerequest-suite": {
     parameters: {
@@ -95427,6 +95449,8 @@ export interface operations {
         location?: string;
         /** @description IP for location auto-detection when proxying a request */
         client_ip?: string;
+        /** @description The branch or commit to check for prebuild availability and devcontainer restrictions. */
+        ref?: string;
       };
       path: {
         owner: components["parameters"]["owner"];
@@ -96575,7 +96599,7 @@ export interface operations {
   };
   /**
    * Create or update file contents
-   * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `workflow` scope to use this endpoint.
+   * @description Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. If you want to modify files in the `.github/workflows` directory, you must authenticate using an access token with the `workflow` scope.
    *
    * **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/repos/contents/#delete-a-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
    */
@@ -96718,7 +96742,7 @@ export interface operations {
       };
     };
     responses: {
-      /** @description if repository contains content */
+      /** @description If repository contains content */
       200: {
         headers: {
           Link: components["headers"]["link"];
@@ -97263,7 +97287,7 @@ export interface operations {
    * *   Create a new deployment that is active so that the system has a record of the current state, then delete the previously active deployment.
    * *   Mark the active deployment as inactive by adding any non-successful deployment status.
    *
-   * For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/deployment-statuses#create-a-deployment-status)."
+   * For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/statuses#create-a-deployment-status)."
    */
   "repos/delete-deployment": {
     parameters: {
@@ -104372,7 +104396,9 @@ export interface operations {
   "repos/create-using-template": {
     parameters: {
       path: {
+        /** @description The account owner of the template repository. The name is not case sensitive. */
         template_owner: string;
+        /** @description The name of the template repository without the `.git` extension. The name is not case sensitive. */
         template_repo: string;
       };
     };
