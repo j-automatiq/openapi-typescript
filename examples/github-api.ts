@@ -190,6 +190,48 @@ export interface paths {
      */
     get: operations["apps/get-by-slug"];
   };
+  "/assignments/{assignment_id}": {
+    /**
+     * Get an assignment
+     * @description Gets a GitHub Classroom assignment. Assignment will only be returned if the current user is an administrator of the GitHub Classroom for the assignment.
+     */
+    get: operations["classroom/get-an-assignment"];
+  };
+  "/assignments/{assignment_id}/accepted_assignments": {
+    /**
+     * List accepted assignments for an assignment
+     * @description Lists any assignment repositories that have been created by students accepting a GitHub Classroom assignment. Accepted assignments will only be returned if the current user is an administrator of the GitHub Classroom for the assignment.
+     */
+    get: operations["classroom/list-accepted-assigments-for-an-assignment"];
+  };
+  "/assignments/{assignment_id}/grades": {
+    /**
+     * Get assignment grades
+     * @description Gets grades for a GitHub Classroom assignment. Grades will only be returned if the current user is an administrator of the GitHub Classroom for the assignment.
+     */
+    get: operations["classroom/get-assignment-grades"];
+  };
+  "/classrooms": {
+    /**
+     * List classrooms
+     * @description Lists GitHub Classroom classrooms for the current user. Classrooms will only be returned if the current user is an administrator of one or more GitHub Classrooms.
+     */
+    get: operations["classroom/list-classrooms"];
+  };
+  "/classrooms/{classroom_id}": {
+    /**
+     * Get a classroom
+     * @description Gets a GitHub Classroom classroom for the current user. Classroom will only be returned if the current user is an administrator of the GitHub Classroom.
+     */
+    get: operations["classroom/get-a-classroom"];
+  };
+  "/classrooms/{classroom_id}/assignments": {
+    /**
+     * List assignments for a classroom
+     * @description Lists GitHub Classroom assignments for a classroom. Assignments will only be returned if the current user is an administrator of the GitHub Classroom.
+     */
+    get: operations["classroom/list-assignments-for-a-classroom"];
+  };
   "/codes_of_conduct": {
     /**
      * Get all codes of conduct
@@ -291,6 +333,7 @@ export interface paths {
     /**
      * Update a gist
      * @description Allows you to update a gist's description and to update, delete, or rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged.
+     * At least one of `description` or `files` is required.
      */
     patch: operations["gists/update"];
   };
@@ -5996,9 +6039,10 @@ export interface paths {
   "/repos/{owner}/{repo}/rules/branches/{branch}": {
     /**
      * Get rules for a branch
-     * @description Returns all rules that apply to the specified branch. The branch does not need to exist; rules that would apply to a
-     * branch with that name will be returned. All rules that apply will be returned, regardless of the level at which they
-     * are configured.
+     * @description Returns all active rules that apply to the specified branch. The branch does not need to exist; rules that would apply
+     * to a branch with that name will be returned. All active rules that apply will be returned, regardless of the level
+     * at which they are configured (e.g. repository or organization). Rules in rulesets with "evaluate" or "disabled"
+     * enforcement statuses are not returned.
      */
     get: operations["repos/get-branch-rules"];
   };
@@ -8265,6 +8309,7 @@ export interface components {
           /** @description The name of the CWE. */
           name: string;
         }[] | null;
+      /** @description The users who contributed to the advisory. */
       credits: (readonly {
           user: components["schemas"]["simple-user"];
           type: components["schemas"]["security-advisory-credit-types"];
@@ -8909,7 +8954,7 @@ export interface components {
       repository_selection: "all" | "selected";
       /**
        * Format: uri
-       * @example https://api.github.com/installations/1/access_tokens
+       * @example https://api.github.com/app/installations/1/access_tokens
        */
       access_tokens_url: string;
       /**
@@ -9200,6 +9245,7 @@ export interface components {
       has_wiki: boolean;
       has_pages: boolean;
       /**
+       * @deprecated
        * @description Whether downloads are enabled.
        * @default true
        * @example true
@@ -9556,6 +9602,385 @@ export interface components {
       installation?: components["schemas"]["nullable-scoped-installation"];
       /** Format: date-time */
       expires_at: string | null;
+    };
+    /**
+     * Simple Classroom Repository
+     * @description A GitHub repository view for Classroom
+     */
+    "simple-classroom-repository": {
+      /**
+       * @description A unique identifier of the repository.
+       * @example 1296269
+       */
+      id: number;
+      /**
+       * @description The full, globally unique name of the repository.
+       * @example octocat/Hello-World
+       */
+      full_name: string;
+      /**
+       * Format: uri
+       * @description The URL to view the repository on GitHub.com.
+       * @example https://github.com/octocat/Hello-World
+       */
+      html_url: string;
+      /**
+       * @description The GraphQL identifier of the repository.
+       * @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5
+       */
+      node_id: string;
+      /** @description Whether the repository is private. */
+      private: boolean;
+      /**
+       * @description The default branch for the repository.
+       * @example main
+       */
+      default_branch: string;
+    };
+    /**
+     * Organization Simple for Classroom
+     * @description A GitHub organization.
+     */
+    "simple-classroom-organization": {
+      /** @example 1 */
+      id: number;
+      /** @example github */
+      login: string;
+      /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
+      node_id: string;
+      /**
+       * Format: uri
+       * @example https://github.com/github
+       */
+      html_url: string;
+      /** @example Github - Code thigns happen here */
+      name: string | null;
+      /** @example https://github.com/images/error/octocat_happy.gif */
+      avatar_url: string;
+    };
+    /**
+     * Classroom
+     * @description A GitHub Classroom classroom
+     */
+    classroom: {
+      /**
+       * @description Unique identifier of the classroom.
+       * @example 42
+       */
+      id: number;
+      /**
+       * @description The name of the classroom.
+       * @example Programming Elixir
+       */
+      name: string;
+      /**
+       * @description Whether classroom is archived.
+       * @example false
+       */
+      archived: boolean;
+      organization: components["schemas"]["simple-classroom-organization"];
+      /**
+       * @description The URL of the classroom on GitHub Classroom.
+       * @example https://classroom.github.com/classrooms/1-programming-elixir
+       */
+      url: string;
+    };
+    /**
+     * Classroom Assignment
+     * @description A GitHub Classroom assignment
+     */
+    "classroom-assignment": {
+      /**
+       * @description Unique identifier of the repository.
+       * @example 42
+       */
+      id: number;
+      /**
+       * @description Whether an accepted assignment creates a public repository.
+       * @example true
+       */
+      public_repo: boolean;
+      /**
+       * @description Assignment title.
+       * @example Intro to Binaries
+       */
+      title: string;
+      /**
+       * @description Whether it's a group assignment or individual assignment.
+       * @example individual
+       * @enum {string}
+       */
+      type: "individual" | "group";
+      /**
+       * @description The link that a student can use to accept the assignment.
+       * @example https://classroom.github.com/a/Lx7jiUgx
+       */
+      invite_link: string;
+      /**
+       * @description Whether the invitation link is enabled. Visiting an enabled invitation link will accept the assignment.
+       * @example true
+       */
+      invitations_enabled: boolean;
+      /**
+       * @description Sluggified name of the assignment.
+       * @example intro-to-binaries
+       */
+      slug: string;
+      /**
+       * @description Whether students are admins on created repository when a student accepts the assignment.
+       * @example true
+       */
+      students_are_repo_admins: boolean;
+      /**
+       * @description Whether feedback pull request will be created when a student accepts the assignment.
+       * @example true
+       */
+      feedback_pull_requests_enabled: boolean;
+      /**
+       * @description The maximum allowable teams for the assignment.
+       * @example 0
+       */
+      max_teams: number | null;
+      /**
+       * @description The maximum allowable members per team.
+       * @example 0
+       */
+      max_members: number | null;
+      /**
+       * @description The selected editor for the assignment.
+       * @example codespaces
+       */
+      editor: string;
+      /**
+       * @description The number of students that have accepted the assignment.
+       * @example 25
+       */
+      accepted: number;
+      /**
+       * @description The number of students that have submitted the assignment.
+       * @example 10
+       */
+      submitted: number;
+      /**
+       * @description The number of students that have passed the assignment.
+       * @example 10
+       */
+      passing: number;
+      /**
+       * @description The programming language used in the assignment.
+       * @example elixir
+       */
+      language: string;
+      /**
+       * Format: date-time
+       * @description The time at which the assignment is due.
+       * @example 2011-01-26T19:06:43Z
+       */
+      deadline: string | null;
+      starter_code_repository: components["schemas"]["simple-classroom-repository"];
+      classroom: components["schemas"]["classroom"];
+    };
+    /**
+     * Simple Classroom User
+     * @description A GitHub user simplified for Classroom.
+     */
+    "simple-classroom-user": {
+      /** @example 1 */
+      id: number;
+      /** @example octocat */
+      login: string;
+      /**
+       * Format: uri
+       * @example https://github.com/images/error/octocat_happy.gif
+       */
+      avatar_url: string;
+      /**
+       * Format: uri
+       * @example https://github.com/octocat
+       */
+      html_url: string;
+    };
+    /**
+     * Simple Classroom
+     * @description A GitHub Classroom classroom
+     */
+    "simple-classroom": {
+      /**
+       * @description Unique identifier of the classroom.
+       * @example 42
+       */
+      id: number;
+      /**
+       * @description The name of the classroom.
+       * @example Programming Elixir
+       */
+      name: string;
+      /**
+       * @description Returns whether classroom is archived or not.
+       * @example false
+       */
+      archived: boolean;
+      /**
+       * @description The url of the classroom on GitHub Classroom.
+       * @example https://classroom.github.com/classrooms/1-programming-elixir
+       */
+      url: string;
+    };
+    /**
+     * Simple Classroom Assignment
+     * @description A GitHub Classroom assignment
+     */
+    "simple-classroom-assignment": {
+      /**
+       * @description Unique identifier of the repository.
+       * @example 42
+       */
+      id: number;
+      /**
+       * @description Whether an accepted assignment creates a public repository.
+       * @example true
+       */
+      public_repo: boolean;
+      /**
+       * @description Assignment title.
+       * @example Intro to Binaries
+       */
+      title: string;
+      /**
+       * @description Whether it's a Group Assignment or Individual Assignment.
+       * @example individual
+       * @enum {string}
+       */
+      type: "individual" | "group";
+      /**
+       * @description The link that a student can use to accept the assignment.
+       * @example https://classroom.github.com/a/Lx7jiUgx
+       */
+      invite_link: string;
+      /**
+       * @description Whether the invitation link is enabled. Visiting an enabled invitation link will accept the assignment.
+       * @example true
+       */
+      invitations_enabled: boolean;
+      /**
+       * @description Sluggified name of the assignment.
+       * @example intro-to-binaries
+       */
+      slug: string;
+      /**
+       * @description Whether students are admins on created repository on accepted assignment.
+       * @example true
+       */
+      students_are_repo_admins: boolean;
+      /**
+       * @description Whether feedback pull request will be created on assignment acceptance.
+       * @example true
+       */
+      feedback_pull_requests_enabled: boolean;
+      /**
+       * @description The maximum allowable teams for the assignment.
+       * @example 0
+       */
+      max_teams?: number | null;
+      /**
+       * @description The maximum allowable members per team.
+       * @example 0
+       */
+      max_members?: number | null;
+      /**
+       * @description The selected editor for the assignment.
+       * @example codespaces
+       */
+      editor: string;
+      /**
+       * @description The number of students that have accepted the assignment.
+       * @example 25
+       */
+      accepted: number;
+      /**
+       * @description The number of students that have submitted the assignment.
+       * @example 10
+       */
+      submitted: number;
+      /**
+       * @description The number of students that have passed the assignment.
+       * @example 10
+       */
+      passing: number;
+      /**
+       * @description The programming language used in the assignment.
+       * @example elixir
+       */
+      language: string;
+      /**
+       * Format: date-time
+       * @description The time at which the assignment is due.
+       * @example 2011-01-26T19:06:43Z
+       */
+      deadline: string | null;
+      classroom: components["schemas"]["simple-classroom"];
+    };
+    /**
+     * Classroom Accepted Assignment
+     * @description A GitHub Classroom accepted assignment
+     */
+    "classroom-accepted-assignment": {
+      /**
+       * @description Unique identifier of the repository.
+       * @example 42
+       */
+      id: number;
+      /**
+       * @description Whether an accepted assignment has been submitted.
+       * @example true
+       */
+      submitted: boolean;
+      /**
+       * @description Whether a submission passed.
+       * @example true
+       */
+      passing: boolean;
+      /**
+       * @description Count of student commits.
+       * @example 5
+       */
+      commit_count: number;
+      /**
+       * @description Most recent grade.
+       * @example 10/10
+       */
+      grade: string;
+      students: components["schemas"]["simple-classroom-user"][];
+      repository: components["schemas"]["simple-classroom-repository"];
+      assignment: components["schemas"]["simple-classroom-assignment"];
+    };
+    /**
+     * Classroom Assignment Grade
+     * @description Grade for a student or groups GitHub Classroom assignment
+     */
+    "classroom-assignment-grade": {
+      /** @description Name of the assignment */
+      assignment_name: string;
+      /** @description URL of the assignment */
+      assignment_url: string;
+      /** @description URL of the starter code for the assignment */
+      starter_code_url: string;
+      /** @description GitHub username of the student */
+      github_username: string;
+      /** @description Roster identifier of the student */
+      roster_identifier: string;
+      /** @description Name of the student's assignment repository */
+      student_repository_name: string;
+      /** @description URL of the student's assignment repository */
+      student_repository_url: string;
+      /** @description Timestamp of the student's assignment submission */
+      submission_timestamp: string;
+      /** @description Number of points awarded to the student */
+      points_awarded: number;
+      /** @description Number of points available for the assignment */
+      points_available: number;
+      /** @description If a group assignment, name of the group the student is in */
+      group_name?: string;
     };
     /**
      * Code Of Conduct
@@ -14348,6 +14773,7 @@ export interface components {
       has_wiki: boolean;
       has_pages: boolean;
       /**
+       * @deprecated
        * @description Whether downloads are enabled.
        * @default true
        * @example true
@@ -22526,7 +22952,9 @@ export interface components {
     };
     /**
      * Simple Installation
-     * @description The GitHub App installation. This property is included when the event is configured for and sent to a GitHub App.
+     * @description The GitHub App installation. Webhook payloads contain the `installation` property when the event is configured
+     * for and sent to a GitHub App. For more information,
+     * see "[Using webhooks with GitHub Apps](https://docs.github.com/apps/creating-github-apps/registering-a-github-app/using-webhooks-with-github-apps)."
      */
     "simple-installation": {
       /**
@@ -22539,6 +22967,618 @@ export interface components {
        * @example MDQ6VXNlcjU4MzIzMQ==
        */
       node_id: string;
+    };
+    /**
+     * Organization Simple
+     * @description A GitHub organization. Webhook payloads contain the `organization` property when the webhook is configured for an
+     * organization, or when the event occurs from activity in a repository owned by an organization.
+     */
+    "organization-simple-webhooks": {
+      /** @example github */
+      login: string;
+      /** @example 1 */
+      id: number;
+      /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
+      node_id: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/orgs/github
+       */
+      url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/orgs/github/repos
+       */
+      repos_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/orgs/github/events
+       */
+      events_url: string;
+      /** @example https://api.github.com/orgs/github/hooks */
+      hooks_url: string;
+      /** @example https://api.github.com/orgs/github/issues */
+      issues_url: string;
+      /** @example https://api.github.com/orgs/github/members{/member} */
+      members_url: string;
+      /** @example https://api.github.com/orgs/github/public_members{/member} */
+      public_members_url: string;
+      /** @example https://github.com/images/error/octocat_happy.gif */
+      avatar_url: string;
+      /** @example A great organization */
+      description: string | null;
+    };
+    /**
+     * Repository
+     * @description The repository on GitHub where the event occurred. Webhook payloads contain the `repository` property
+     * when the event occurs from activity in a repository.
+     */
+    "repository-webhooks": {
+      /**
+       * @description Unique identifier of the repository
+       * @example 42
+       */
+      id: number;
+      /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+      node_id: string;
+      /**
+       * @description The name of the repository.
+       * @example Team Environment
+       */
+      name: string;
+      /** @example octocat/Hello-World */
+      full_name: string;
+      license: components["schemas"]["nullable-license-simple"];
+      organization?: components["schemas"]["nullable-simple-user"];
+      forks: number;
+      permissions?: {
+        admin: boolean;
+        pull: boolean;
+        triage?: boolean;
+        push: boolean;
+        maintain?: boolean;
+      };
+      owner: components["schemas"]["simple-user"];
+      /**
+       * @description Whether the repository is private or public.
+       * @default false
+       */
+      private: boolean;
+      /**
+       * Format: uri
+       * @example https://github.com/octocat/Hello-World
+       */
+      html_url: string;
+      /** @example This your first repo! */
+      description: string | null;
+      fork: boolean;
+      /**
+       * Format: uri
+       * @example https://api.github.com/repos/octocat/Hello-World
+       */
+      url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
+      archive_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
+      assignees_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
+      blobs_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
+      branches_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
+      collaborators_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
+      comments_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
+      commits_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
+      compare_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
+      contents_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/contributors
+       */
+      contributors_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/deployments
+       */
+      deployments_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/downloads
+       */
+      downloads_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/events
+       */
+      events_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/forks
+       */
+      forks_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
+      git_commits_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
+      git_refs_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
+      git_tags_url: string;
+      /** @example git:github.com/octocat/Hello-World.git */
+      git_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
+      issue_comment_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
+      issue_events_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
+      issues_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
+      keys_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
+      labels_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/languages
+       */
+      languages_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/merges
+       */
+      merges_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
+      milestones_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
+      notifications_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
+      pulls_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
+      releases_url: string;
+      /** @example git@github.com:octocat/Hello-World.git */
+      ssh_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+       */
+      stargazers_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
+      statuses_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+       */
+      subscribers_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/subscription
+       */
+      subscription_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/tags
+       */
+      tags_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/teams
+       */
+      teams_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
+      trees_url: string;
+      /** @example https://github.com/octocat/Hello-World.git */
+      clone_url: string;
+      /**
+       * Format: uri
+       * @example git:git.example.com/octocat/Hello-World
+       */
+      mirror_url: string | null;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/hooks
+       */
+      hooks_url: string;
+      /**
+       * Format: uri
+       * @example https://svn.github.com/octocat/Hello-World
+       */
+      svn_url: string;
+      /**
+       * Format: uri
+       * @example https://github.com
+       */
+      homepage: string | null;
+      language: string | null;
+      /** @example 9 */
+      forks_count: number;
+      /** @example 80 */
+      stargazers_count: number;
+      /** @example 80 */
+      watchers_count: number;
+      /**
+       * @description The size of the repository. Size is calculated hourly. When a repository is initially created, the size is 0.
+       * @example 108
+       */
+      size: number;
+      /**
+       * @description The default branch of the repository.
+       * @example master
+       */
+      default_branch: string;
+      /** @example 0 */
+      open_issues_count: number;
+      /**
+       * @description Whether this repository acts as a template that can be used to generate new repositories.
+       * @default false
+       * @example true
+       */
+      is_template?: boolean;
+      topics?: string[];
+      /**
+       * @description Whether issues are enabled.
+       * @default true
+       * @example true
+       */
+      has_issues: boolean;
+      /**
+       * @description Whether projects are enabled.
+       * @default true
+       * @example true
+       */
+      has_projects: boolean;
+      /**
+       * @description Whether the wiki is enabled.
+       * @default true
+       * @example true
+       */
+      has_wiki: boolean;
+      has_pages: boolean;
+      /**
+       * @description Whether downloads are enabled.
+       * @default true
+       * @example true
+       */
+      has_downloads: boolean;
+      /**
+       * @description Whether discussions are enabled.
+       * @default false
+       * @example true
+       */
+      has_discussions?: boolean;
+      /**
+       * @description Whether the repository is archived.
+       * @default false
+       */
+      archived: boolean;
+      /** @description Returns whether or not this repository disabled. */
+      disabled: boolean;
+      /**
+       * @description The repository visibility: public, private, or internal.
+       * @default public
+       */
+      visibility?: string;
+      /**
+       * Format: date-time
+       * @example 2011-01-26T19:06:43Z
+       */
+      pushed_at: string | null;
+      /**
+       * Format: date-time
+       * @example 2011-01-26T19:01:12Z
+       */
+      created_at: string | null;
+      /**
+       * Format: date-time
+       * @example 2011-01-26T19:14:43Z
+       */
+      updated_at: string | null;
+      /**
+       * @description Whether to allow rebase merges for pull requests.
+       * @default true
+       * @example true
+       */
+      allow_rebase_merge?: boolean;
+      template_repository?: ({
+        id?: number;
+        node_id?: string;
+        name?: string;
+        full_name?: string;
+        owner?: {
+          login?: string;
+          id?: number;
+          node_id?: string;
+          avatar_url?: string;
+          gravatar_id?: string;
+          url?: string;
+          html_url?: string;
+          followers_url?: string;
+          following_url?: string;
+          gists_url?: string;
+          starred_url?: string;
+          subscriptions_url?: string;
+          organizations_url?: string;
+          repos_url?: string;
+          events_url?: string;
+          received_events_url?: string;
+          type?: string;
+          site_admin?: boolean;
+        };
+        private?: boolean;
+        html_url?: string;
+        description?: string;
+        fork?: boolean;
+        url?: string;
+        archive_url?: string;
+        assignees_url?: string;
+        blobs_url?: string;
+        branches_url?: string;
+        collaborators_url?: string;
+        comments_url?: string;
+        commits_url?: string;
+        compare_url?: string;
+        contents_url?: string;
+        contributors_url?: string;
+        deployments_url?: string;
+        downloads_url?: string;
+        events_url?: string;
+        forks_url?: string;
+        git_commits_url?: string;
+        git_refs_url?: string;
+        git_tags_url?: string;
+        git_url?: string;
+        issue_comment_url?: string;
+        issue_events_url?: string;
+        issues_url?: string;
+        keys_url?: string;
+        labels_url?: string;
+        languages_url?: string;
+        merges_url?: string;
+        milestones_url?: string;
+        notifications_url?: string;
+        pulls_url?: string;
+        releases_url?: string;
+        ssh_url?: string;
+        stargazers_url?: string;
+        statuses_url?: string;
+        subscribers_url?: string;
+        subscription_url?: string;
+        tags_url?: string;
+        teams_url?: string;
+        trees_url?: string;
+        clone_url?: string;
+        mirror_url?: string;
+        hooks_url?: string;
+        svn_url?: string;
+        homepage?: string;
+        language?: string;
+        forks_count?: number;
+        stargazers_count?: number;
+        watchers_count?: number;
+        size?: number;
+        default_branch?: string;
+        open_issues_count?: number;
+        is_template?: boolean;
+        topics?: string[];
+        has_issues?: boolean;
+        has_projects?: boolean;
+        has_wiki?: boolean;
+        has_pages?: boolean;
+        has_downloads?: boolean;
+        archived?: boolean;
+        disabled?: boolean;
+        visibility?: string;
+        pushed_at?: string;
+        created_at?: string;
+        updated_at?: string;
+        permissions?: {
+          admin?: boolean;
+          maintain?: boolean;
+          push?: boolean;
+          triage?: boolean;
+          pull?: boolean;
+        };
+        allow_rebase_merge?: boolean;
+        temp_clone_token?: string;
+        allow_squash_merge?: boolean;
+        allow_auto_merge?: boolean;
+        delete_branch_on_merge?: boolean;
+        allow_update_branch?: boolean;
+        use_squash_pr_title_as_default?: boolean;
+        /**
+         * @description The default value for a squash merge commit title:
+         *
+         * - `PR_TITLE` - default to the pull request's title.
+         * - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
+         * @enum {string}
+         */
+        squash_merge_commit_title?: "PR_TITLE" | "COMMIT_OR_PR_TITLE";
+        /**
+         * @description The default value for a squash merge commit message:
+         *
+         * - `PR_BODY` - default to the pull request's body.
+         * - `COMMIT_MESSAGES` - default to the branch's commit messages.
+         * - `BLANK` - default to a blank commit message.
+         * @enum {string}
+         */
+        squash_merge_commit_message?: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
+        /**
+         * @description The default value for a merge commit title.
+         *
+         * - `PR_TITLE` - default to the pull request's title.
+         * - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).
+         * @enum {string}
+         */
+        merge_commit_title?: "PR_TITLE" | "MERGE_MESSAGE";
+        /**
+         * @description The default value for a merge commit message.
+         *
+         * - `PR_TITLE` - default to the pull request's title.
+         * - `PR_BODY` - default to the pull request's body.
+         * - `BLANK` - default to a blank commit message.
+         * @enum {string}
+         */
+        merge_commit_message?: "PR_BODY" | "PR_TITLE" | "BLANK";
+        allow_merge_commit?: boolean;
+        subscribers_count?: number;
+        network_count?: number;
+      }) | null;
+      temp_clone_token?: string;
+      /**
+       * @description Whether to allow squash merges for pull requests.
+       * @default true
+       * @example true
+       */
+      allow_squash_merge?: boolean;
+      /**
+       * @description Whether to allow Auto-merge to be used on pull requests.
+       * @default false
+       * @example false
+       */
+      allow_auto_merge?: boolean;
+      /**
+       * @description Whether to delete head branches when pull requests are merged
+       * @default false
+       * @example false
+       */
+      delete_branch_on_merge?: boolean;
+      /**
+       * @description Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging.
+       * @default false
+       * @example false
+       */
+      allow_update_branch?: boolean;
+      /**
+       * @deprecated
+       * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+       * @default false
+       */
+      use_squash_pr_title_as_default?: boolean;
+      /**
+       * @description The default value for a squash merge commit title:
+       *
+       * - `PR_TITLE` - default to the pull request's title.
+       * - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
+       * @enum {string}
+       */
+      squash_merge_commit_title?: "PR_TITLE" | "COMMIT_OR_PR_TITLE";
+      /**
+       * @description The default value for a squash merge commit message:
+       *
+       * - `PR_BODY` - default to the pull request's body.
+       * - `COMMIT_MESSAGES` - default to the branch's commit messages.
+       * - `BLANK` - default to a blank commit message.
+       * @enum {string}
+       */
+      squash_merge_commit_message?: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
+      /**
+       * @description The default value for a merge commit title.
+       *
+       * - `PR_TITLE` - default to the pull request's title.
+       * - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).
+       * @enum {string}
+       */
+      merge_commit_title?: "PR_TITLE" | "MERGE_MESSAGE";
+      /**
+       * @description The default value for a merge commit message.
+       *
+       * - `PR_TITLE` - default to the pull request's title.
+       * - `PR_BODY` - default to the pull request's body.
+       * - `BLANK` - default to a blank commit message.
+       * @enum {string}
+       */
+      merge_commit_message?: "PR_BODY" | "PR_TITLE" | "BLANK";
+      /**
+       * @description Whether to allow merge commits for pull requests.
+       * @default true
+       * @example true
+       */
+      allow_merge_commit?: boolean;
+      /** @description Whether to allow forking this repo */
+      allow_forking?: boolean;
+      /**
+       * @description Whether to require contributors to sign off on web-based commits
+       * @default false
+       */
+      web_commit_signoff_required?: boolean;
+      subscribers_count?: number;
+      network_count?: number;
+      open_issues: number;
+      watchers: number;
+      master_branch?: string;
+      /** @example "2020-07-09T00:17:42Z" */
+      starred_at?: string;
+      /** @description Whether anonymous git access is enabled for this repository */
+      anonymous_access_enabled?: boolean;
+    };
+    /**
+     * Simple User
+     * @description The GitHub user that triggered the event. This property is included in every webhook payload.
+     */
+    "simple-user-webhooks": {
+      name?: string | null;
+      email?: string | null;
+      /** @example octocat */
+      login: string;
+      /** @example 1 */
+      id: number;
+      /** @example MDQ6VXNlcjE= */
+      node_id: string;
+      /**
+       * Format: uri
+       * @example https://github.com/images/error/octocat_happy.gif
+       */
+      avatar_url: string;
+      /** @example 41d064eb2195891e12d0413f63227ea7 */
+      gravatar_id: string | null;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat
+       */
+      url: string;
+      /**
+       * Format: uri
+       * @example https://github.com/octocat
+       */
+      html_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/followers
+       */
+      followers_url: string;
+      /** @example https://api.github.com/users/octocat/following{/other_user} */
+      following_url: string;
+      /** @example https://api.github.com/users/octocat/gists{/gist_id} */
+      gists_url: string;
+      /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
+      starred_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/subscriptions
+       */
+      subscriptions_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/orgs
+       */
+      organizations_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/repos
+       */
+      repos_url: string;
+      /** @example https://api.github.com/users/octocat/events{/privacy} */
+      events_url: string;
+      /**
+       * Format: uri
+       * @example https://api.github.com/users/octocat/received_events
+       */
+      received_events_url: string;
+      /** @example User */
+      type: string;
+      site_admin: boolean;
+      /** @example "2020-07-09T00:17:55Z" */
+      starred_at?: string;
     };
     /** @description A suite of checks performed on the code of a given code change */
     "simple-check-suite": {
@@ -22800,6 +23840,509 @@ export interface components {
       head_commit: components["schemas"]["simple-commit"];
     };
     /**
+     * Repository
+     * @description The repository on GitHub where the event occurred. Webhook payloads contain the `repository` property
+     * when the event occurs from activity in a repository.
+     */
+    "nullable-repository-webhooks": ({
+      /**
+       * @description Unique identifier of the repository
+       * @example 42
+       */
+      id: number;
+      /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+      node_id: string;
+      /**
+       * @description The name of the repository.
+       * @example Team Environment
+       */
+      name: string;
+      /** @example octocat/Hello-World */
+      full_name: string;
+      license: components["schemas"]["nullable-license-simple"];
+      organization?: components["schemas"]["nullable-simple-user"];
+      forks: number;
+      permissions?: {
+        admin: boolean;
+        pull: boolean;
+        triage?: boolean;
+        push: boolean;
+        maintain?: boolean;
+      };
+      owner: components["schemas"]["simple-user"];
+      /**
+       * @description Whether the repository is private or public.
+       * @default false
+       */
+      private: boolean;
+      /**
+       * Format: uri
+       * @example https://github.com/octocat/Hello-World
+       */
+      html_url: string;
+      /** @example This your first repo! */
+      description: string | null;
+      fork: boolean;
+      /**
+       * Format: uri
+       * @example https://api.github.com/repos/octocat/Hello-World
+       */
+      url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
+      archive_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
+      assignees_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
+      blobs_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
+      branches_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
+      collaborators_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
+      comments_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
+      commits_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
+      compare_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
+      contents_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/contributors
+       */
+      contributors_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/deployments
+       */
+      deployments_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/downloads
+       */
+      downloads_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/events
+       */
+      events_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/forks
+       */
+      forks_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
+      git_commits_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
+      git_refs_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
+      git_tags_url: string;
+      /** @example git:github.com/octocat/Hello-World.git */
+      git_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
+      issue_comment_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
+      issue_events_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
+      issues_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
+      keys_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
+      labels_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/languages
+       */
+      languages_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/merges
+       */
+      merges_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
+      milestones_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
+      notifications_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
+      pulls_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
+      releases_url: string;
+      /** @example git@github.com:octocat/Hello-World.git */
+      ssh_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+       */
+      stargazers_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
+      statuses_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+       */
+      subscribers_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/subscription
+       */
+      subscription_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/tags
+       */
+      tags_url: string;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/teams
+       */
+      teams_url: string;
+      /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
+      trees_url: string;
+      /** @example https://github.com/octocat/Hello-World.git */
+      clone_url: string;
+      /**
+       * Format: uri
+       * @example git:git.example.com/octocat/Hello-World
+       */
+      mirror_url: string | null;
+      /**
+       * Format: uri
+       * @example http://api.github.com/repos/octocat/Hello-World/hooks
+       */
+      hooks_url: string;
+      /**
+       * Format: uri
+       * @example https://svn.github.com/octocat/Hello-World
+       */
+      svn_url: string;
+      /**
+       * Format: uri
+       * @example https://github.com
+       */
+      homepage: string | null;
+      language: string | null;
+      /** @example 9 */
+      forks_count: number;
+      /** @example 80 */
+      stargazers_count: number;
+      /** @example 80 */
+      watchers_count: number;
+      /**
+       * @description The size of the repository. Size is calculated hourly. When a repository is initially created, the size is 0.
+       * @example 108
+       */
+      size: number;
+      /**
+       * @description The default branch of the repository.
+       * @example master
+       */
+      default_branch: string;
+      /** @example 0 */
+      open_issues_count: number;
+      /**
+       * @description Whether this repository acts as a template that can be used to generate new repositories.
+       * @default false
+       * @example true
+       */
+      is_template?: boolean;
+      topics?: string[];
+      /**
+       * @description Whether issues are enabled.
+       * @default true
+       * @example true
+       */
+      has_issues: boolean;
+      /**
+       * @description Whether projects are enabled.
+       * @default true
+       * @example true
+       */
+      has_projects: boolean;
+      /**
+       * @description Whether the wiki is enabled.
+       * @default true
+       * @example true
+       */
+      has_wiki: boolean;
+      has_pages: boolean;
+      /**
+       * @description Whether downloads are enabled.
+       * @default true
+       * @example true
+       */
+      has_downloads: boolean;
+      /**
+       * @description Whether discussions are enabled.
+       * @default false
+       * @example true
+       */
+      has_discussions?: boolean;
+      /**
+       * @description Whether the repository is archived.
+       * @default false
+       */
+      archived: boolean;
+      /** @description Returns whether or not this repository disabled. */
+      disabled: boolean;
+      /**
+       * @description The repository visibility: public, private, or internal.
+       * @default public
+       */
+      visibility?: string;
+      /**
+       * Format: date-time
+       * @example 2011-01-26T19:06:43Z
+       */
+      pushed_at: string | null;
+      /**
+       * Format: date-time
+       * @example 2011-01-26T19:01:12Z
+       */
+      created_at: string | null;
+      /**
+       * Format: date-time
+       * @example 2011-01-26T19:14:43Z
+       */
+      updated_at: string | null;
+      /**
+       * @description Whether to allow rebase merges for pull requests.
+       * @default true
+       * @example true
+       */
+      allow_rebase_merge?: boolean;
+      template_repository?: ({
+        id?: number;
+        node_id?: string;
+        name?: string;
+        full_name?: string;
+        owner?: {
+          login?: string;
+          id?: number;
+          node_id?: string;
+          avatar_url?: string;
+          gravatar_id?: string;
+          url?: string;
+          html_url?: string;
+          followers_url?: string;
+          following_url?: string;
+          gists_url?: string;
+          starred_url?: string;
+          subscriptions_url?: string;
+          organizations_url?: string;
+          repos_url?: string;
+          events_url?: string;
+          received_events_url?: string;
+          type?: string;
+          site_admin?: boolean;
+        };
+        private?: boolean;
+        html_url?: string;
+        description?: string;
+        fork?: boolean;
+        url?: string;
+        archive_url?: string;
+        assignees_url?: string;
+        blobs_url?: string;
+        branches_url?: string;
+        collaborators_url?: string;
+        comments_url?: string;
+        commits_url?: string;
+        compare_url?: string;
+        contents_url?: string;
+        contributors_url?: string;
+        deployments_url?: string;
+        downloads_url?: string;
+        events_url?: string;
+        forks_url?: string;
+        git_commits_url?: string;
+        git_refs_url?: string;
+        git_tags_url?: string;
+        git_url?: string;
+        issue_comment_url?: string;
+        issue_events_url?: string;
+        issues_url?: string;
+        keys_url?: string;
+        labels_url?: string;
+        languages_url?: string;
+        merges_url?: string;
+        milestones_url?: string;
+        notifications_url?: string;
+        pulls_url?: string;
+        releases_url?: string;
+        ssh_url?: string;
+        stargazers_url?: string;
+        statuses_url?: string;
+        subscribers_url?: string;
+        subscription_url?: string;
+        tags_url?: string;
+        teams_url?: string;
+        trees_url?: string;
+        clone_url?: string;
+        mirror_url?: string;
+        hooks_url?: string;
+        svn_url?: string;
+        homepage?: string;
+        language?: string;
+        forks_count?: number;
+        stargazers_count?: number;
+        watchers_count?: number;
+        size?: number;
+        default_branch?: string;
+        open_issues_count?: number;
+        is_template?: boolean;
+        topics?: string[];
+        has_issues?: boolean;
+        has_projects?: boolean;
+        has_wiki?: boolean;
+        has_pages?: boolean;
+        has_downloads?: boolean;
+        archived?: boolean;
+        disabled?: boolean;
+        visibility?: string;
+        pushed_at?: string;
+        created_at?: string;
+        updated_at?: string;
+        permissions?: {
+          admin?: boolean;
+          maintain?: boolean;
+          push?: boolean;
+          triage?: boolean;
+          pull?: boolean;
+        };
+        allow_rebase_merge?: boolean;
+        temp_clone_token?: string;
+        allow_squash_merge?: boolean;
+        allow_auto_merge?: boolean;
+        delete_branch_on_merge?: boolean;
+        allow_update_branch?: boolean;
+        use_squash_pr_title_as_default?: boolean;
+        /**
+         * @description The default value for a squash merge commit title:
+         *
+         * - `PR_TITLE` - default to the pull request's title.
+         * - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
+         * @enum {string}
+         */
+        squash_merge_commit_title?: "PR_TITLE" | "COMMIT_OR_PR_TITLE";
+        /**
+         * @description The default value for a squash merge commit message:
+         *
+         * - `PR_BODY` - default to the pull request's body.
+         * - `COMMIT_MESSAGES` - default to the branch's commit messages.
+         * - `BLANK` - default to a blank commit message.
+         * @enum {string}
+         */
+        squash_merge_commit_message?: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
+        /**
+         * @description The default value for a merge commit title.
+         *
+         * - `PR_TITLE` - default to the pull request's title.
+         * - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).
+         * @enum {string}
+         */
+        merge_commit_title?: "PR_TITLE" | "MERGE_MESSAGE";
+        /**
+         * @description The default value for a merge commit message.
+         *
+         * - `PR_TITLE` - default to the pull request's title.
+         * - `PR_BODY` - default to the pull request's body.
+         * - `BLANK` - default to a blank commit message.
+         * @enum {string}
+         */
+        merge_commit_message?: "PR_BODY" | "PR_TITLE" | "BLANK";
+        allow_merge_commit?: boolean;
+        subscribers_count?: number;
+        network_count?: number;
+      }) | null;
+      temp_clone_token?: string;
+      /**
+       * @description Whether to allow squash merges for pull requests.
+       * @default true
+       * @example true
+       */
+      allow_squash_merge?: boolean;
+      /**
+       * @description Whether to allow Auto-merge to be used on pull requests.
+       * @default false
+       * @example false
+       */
+      allow_auto_merge?: boolean;
+      /**
+       * @description Whether to delete head branches when pull requests are merged
+       * @default false
+       * @example false
+       */
+      delete_branch_on_merge?: boolean;
+      /**
+       * @description Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging.
+       * @default false
+       * @example false
+       */
+      allow_update_branch?: boolean;
+      /**
+       * @deprecated
+       * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+       * @default false
+       */
+      use_squash_pr_title_as_default?: boolean;
+      /**
+       * @description The default value for a squash merge commit title:
+       *
+       * - `PR_TITLE` - default to the pull request's title.
+       * - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
+       * @enum {string}
+       */
+      squash_merge_commit_title?: "PR_TITLE" | "COMMIT_OR_PR_TITLE";
+      /**
+       * @description The default value for a squash merge commit message:
+       *
+       * - `PR_BODY` - default to the pull request's body.
+       * - `COMMIT_MESSAGES` - default to the branch's commit messages.
+       * - `BLANK` - default to a blank commit message.
+       * @enum {string}
+       */
+      squash_merge_commit_message?: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
+      /**
+       * @description The default value for a merge commit title.
+       *
+       * - `PR_TITLE` - default to the pull request's title.
+       * - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).
+       * @enum {string}
+       */
+      merge_commit_title?: "PR_TITLE" | "MERGE_MESSAGE";
+      /**
+       * @description The default value for a merge commit message.
+       *
+       * - `PR_TITLE` - default to the pull request's title.
+       * - `PR_BODY` - default to the pull request's body.
+       * - `BLANK` - default to a blank commit message.
+       * @enum {string}
+       */
+      merge_commit_message?: "PR_BODY" | "PR_TITLE" | "BLANK";
+      /**
+       * @description Whether to allow merge commits for pull requests.
+       * @default true
+       * @example true
+       */
+      allow_merge_commit?: boolean;
+      /** @description Whether to allow forking this repo */
+      allow_forking?: boolean;
+      /**
+       * @description Whether to require contributors to sign off on web-based commits
+       * @default false
+       */
+      web_commit_signoff_required?: boolean;
+      subscribers_count?: number;
+      network_count?: number;
+      open_issues: number;
+      watchers: number;
+      master_branch?: string;
+      /** @example "2020-07-09T00:17:42Z" */
+      starred_at?: string;
+      /** @description Whether anonymous git access is enabled for this repository */
+      anonymous_access_enabled?: boolean;
+    }) | null;
+    /**
      * Personal Access Token Request
      * @description Details of a Personal Access Token Request.
      */
@@ -22981,9 +24524,9 @@ export interface components {
       action: "disabled";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** branch protection configuration enabled event */
     "webhook-branch-protection-configuration-enabled": {
@@ -22991,9 +24534,9 @@ export interface components {
       action: "enabled";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** branch protection rule created event */
     "webhook-branch-protection-rule-created": {
@@ -23001,8 +24544,8 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       /**
        * branch protection rule
        * @description The branch protection rule. Includes a `name` and all the [branch protection settings](https://docs.github.com/github/administering-a-repository/defining-the-mergeability-of-pull-requests/about-protected-branches#about-branch-protection-settings) applied to branches that match the name. Binary settings are boolean. Multi-level configurations are one of `off`, `non_admins`, or `everyone`. Actor and build lists are arrays of strings.
@@ -23047,7 +24590,7 @@ export interface components {
         /** Format: date-time */
         updated_at: string;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** branch protection rule deleted event */
     "webhook-branch-protection-rule-deleted": {
@@ -23055,8 +24598,8 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       /**
        * branch protection rule
        * @description The branch protection rule. Includes a `name` and all the [branch protection settings](https://docs.github.com/github/administering-a-repository/defining-the-mergeability-of-pull-requests/about-protected-branches#about-branch-protection-settings) applied to branches that match the name. Binary settings are boolean. Multi-level configurations are one of `off`, `non_admins`, or `everyone`. Actor and build lists are arrays of strings.
@@ -23101,7 +24644,7 @@ export interface components {
         /** Format: date-time */
         updated_at: string;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** branch protection rule edited event */
     "webhook-branch-protection-rule-edited": {
@@ -23135,8 +24678,8 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       /**
        * branch protection rule
        * @description The branch protection rule. Includes a `name` and all the [branch protection settings](https://docs.github.com/github/administering-a-repository/defining-the-mergeability-of-pull-requests/about-protected-branches#about-branch-protection-settings) applied to branches that match the name. Binary settings are boolean. Multi-level configurations are one of `off`, `non_admins`, or `everyone`. Actor and build lists are arrays of strings.
@@ -23181,7 +24724,7 @@ export interface components {
         /** Format: date-time */
         updated_at: string;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Check Run Completed Event */
     "webhook-check-run-completed": {
@@ -23189,9 +24732,9 @@ export interface components {
       action?: "completed";
       check_run: components["schemas"]["check-run-with-simple-check-suite"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /**
      * Check Run Completed Event
@@ -23207,9 +24750,9 @@ export interface components {
       action?: "created";
       check_run: components["schemas"]["check-run-with-simple-check-suite"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /**
      * Check Run Created Event
@@ -23225,14 +24768,14 @@ export interface components {
       action: "requested_action";
       check_run: components["schemas"]["check-run-with-simple-check-suite"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       /** @description The action requested by the user. */
       requested_action?: {
         /** @description The integrator reference of the action requested by the user. */
         identifier?: string;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /**
      * Check Run Requested Action Event
@@ -23248,9 +24791,9 @@ export interface components {
       action?: "rerequested";
       check_run: components["schemas"]["check-run-with-simple-check-suite"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /**
      * Check Run Re-Requested Event
@@ -23497,9 +25040,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** check_suite requested event */
     "webhook-check-suite-requested": {
@@ -23738,9 +25281,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** check_suite rerequested event */
     "webhook-check-suite-rerequested": {
@@ -23979,9 +25522,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** code_scanning_alert appeared_in_branch event */
     "webhook-code-scanning-alert-appeared-in-branch": {
@@ -24105,11 +25648,11 @@ export interface components {
       commit_oid: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       ref: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** code_scanning_alert closed_by_user event */
     "webhook-code-scanning-alert-closed-by-user": {
@@ -24240,11 +25783,11 @@ export interface components {
       commit_oid: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       ref: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** code_scanning_alert created event */
     "webhook-code-scanning-alert-created": {
@@ -24337,11 +25880,11 @@ export interface components {
       commit_oid: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       ref: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** code_scanning_alert fixed event */
     "webhook-code-scanning-alert-fixed": {
@@ -24474,11 +26017,11 @@ export interface components {
       commit_oid: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       ref: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** code_scanning_alert reopened event */
     "webhook-code-scanning-alert-reopened": {
@@ -24567,11 +26110,11 @@ export interface components {
       commit_oid: string | null;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       ref: string | null;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** code_scanning_alert reopened_by_user event */
     "webhook-code-scanning-alert-reopened-by-user": {
@@ -24653,11 +26196,11 @@ export interface components {
       commit_oid: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       ref: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** commit_comment created event */
     "webhook-commit-comment-created": {
@@ -24748,9 +26291,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** create event */
     "webhook-create": {
@@ -24760,7 +26303,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The name of the repository's default branch (usually `main`). */
       master_branch: string;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The pusher type for the event. Can be either `user` or a deploy key. */
       pusher_type: string;
       /** @description The [`git ref`](https://docs.github.com/rest/git/refs#get-a-reference) resource. */
@@ -24770,14 +26313,14 @@ export interface components {
        * @enum {string}
        */
       ref_type: "tag" | "branch";
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** delete event */
     "webhook-delete": {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The pusher type for the event. Can be either `user` or a deploy key. */
       pusher_type: string;
       /** @description The [`git ref`](https://docs.github.com/rest/git/refs#get-a-reference) resource. */
@@ -24787,8 +26330,8 @@ export interface components {
        * @enum {string}
        */
       ref_type: "tag" | "branch";
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Dependabot alert auto-dismissed event */
     "webhook-dependabot-alert-auto-dismissed": {
@@ -24796,10 +26339,10 @@ export interface components {
       action: "auto_dismissed";
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       enterprise?: components["schemas"]["enterprise"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Dependabot alert auto-reopened event */
     "webhook-dependabot-alert-auto-reopened": {
@@ -24807,10 +26350,10 @@ export interface components {
       action: "auto_reopened";
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       enterprise?: components["schemas"]["enterprise"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Dependabot alert created event */
     "webhook-dependabot-alert-created": {
@@ -24818,10 +26361,10 @@ export interface components {
       action: "created";
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       enterprise?: components["schemas"]["enterprise"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Dependabot alert dismissed event */
     "webhook-dependabot-alert-dismissed": {
@@ -24829,10 +26372,10 @@ export interface components {
       action: "dismissed";
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       enterprise?: components["schemas"]["enterprise"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Dependabot alert fixed event */
     "webhook-dependabot-alert-fixed": {
@@ -24840,10 +26383,10 @@ export interface components {
       action: "fixed";
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       enterprise?: components["schemas"]["enterprise"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Dependabot alert reintroduced event */
     "webhook-dependabot-alert-reintroduced": {
@@ -24851,10 +26394,10 @@ export interface components {
       action: "reintroduced";
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       enterprise?: components["schemas"]["enterprise"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Dependabot alert reopened event */
     "webhook-dependabot-alert-reopened": {
@@ -24862,10 +26405,10 @@ export interface components {
       action: "reopened";
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       enterprise?: components["schemas"]["enterprise"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** deploy_key created event */
     "webhook-deploy-key-created": {
@@ -24886,9 +26429,9 @@ export interface components {
         url: string;
         verified: boolean;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** deploy_key deleted event */
     "webhook-deploy-key-deleted": {
@@ -24909,9 +26452,9 @@ export interface components {
         url: string;
         verified: boolean;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** deployment created event */
     "webhook-deployment-created": {
@@ -25115,9 +26658,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** Workflow */
       workflow: {
         /** Format: uri */
@@ -25432,10 +26975,10 @@ export interface components {
       deployment_callback_url?: string;
       deployment?: components["schemas"]["deployment"];
       pull_requests?: components["schemas"]["pull-request"][];
-      repository?: components["schemas"]["repository"];
-      organization?: components["schemas"]["organization-simple"];
+      repository?: components["schemas"]["repository-webhooks"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       installation?: components["schemas"]["simple-installation"];
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     "webhook-deployment-review-approved": {
       /** @enum {string} */
@@ -25463,8 +27006,8 @@ export interface components {
       comment?: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       reviewers?: ({
           /** User */
           reviewer?: ({
@@ -25506,7 +27049,7 @@ export interface components {
           /** @enum {string} */
           type?: "User";
         })[];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
       since: string;
       workflow_job_run?: {
         conclusion: Record<string, unknown> | null;
@@ -25835,8 +27378,8 @@ export interface components {
       comment?: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       reviewers?: ({
           /** User */
           reviewer?: ({
@@ -25878,7 +27421,7 @@ export interface components {
           /** @enum {string} */
           type?: "User";
         })[];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
       since: string;
       workflow_job_run?: {
         conclusion: Record<string, unknown> | null;
@@ -26187,8 +27730,8 @@ export interface components {
       enterprise?: components["schemas"]["enterprise"];
       environment: string;
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       /** User */
       requestor: ({
         /** Format: uri */
@@ -26267,7 +27810,7 @@ export interface components {
           /** @enum {string} */
           type?: "User" | "Team";
         })[];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
       since: string;
       workflow_job_run: {
         conclusion: Record<string, unknown> | null;
@@ -26987,9 +28530,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** Workflow */
       workflow?: {
         /** Format: uri */
@@ -27367,9 +28910,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion category changed event */
     "webhook-discussion-category-changed": {
@@ -27395,9 +28938,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion closed event */
     "webhook-discussion-closed": {
@@ -27406,9 +28949,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion_comment created event */
     "webhook-discussion-comment-created": {
@@ -27486,9 +29029,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion_comment deleted event */
     "webhook-discussion-comment-deleted": {
@@ -27566,9 +29109,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion_comment edited event */
     "webhook-discussion-comment-edited": {
@@ -27651,9 +29194,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion created event */
     "webhook-discussion-created": {
@@ -27854,9 +29397,9 @@ export interface components {
       });
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion deleted event */
     "webhook-discussion-deleted": {
@@ -27865,9 +29408,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion edited event */
     "webhook-discussion-edited": {
@@ -27884,9 +29427,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion labeled event */
     "webhook-discussion-labeled": {
@@ -27911,9 +29454,9 @@ export interface components {
          */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion locked event */
     "webhook-discussion-locked": {
@@ -27922,9 +29465,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion pinned event */
     "webhook-discussion-pinned": {
@@ -27933,9 +29476,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion reopened event */
     "webhook-discussion-reopened": {
@@ -27944,9 +29487,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion transferred event */
     "webhook-discussion-transferred": {
@@ -27954,14 +29497,14 @@ export interface components {
       action: "transferred";
       changes: {
         new_discussion: components["schemas"]["discussion"];
-        new_repository: components["schemas"]["repository"];
+        new_repository: components["schemas"]["repository-webhooks"];
       };
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion unanswered event */
     "webhook-discussion-unanswered": {
@@ -28039,9 +29582,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion unlabeled event */
     "webhook-discussion-unlabeled": {
@@ -28066,9 +29609,9 @@ export interface components {
          */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion unlocked event */
     "webhook-discussion-unlocked": {
@@ -28077,9 +29620,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** discussion unpinned event */
     "webhook-discussion-unpinned": {
@@ -28088,9 +29631,9 @@ export interface components {
       discussion: components["schemas"]["discussion"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /**
      * fork event
@@ -28432,9 +29975,9 @@ export interface components {
         watchers_count?: number;
       });
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** github_app_authorization revoked event */
     "webhook-github-app-authorization-revoked": {
@@ -28442,15 +29985,15 @@ export interface components {
       action: "revoked";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** gollum event */
     "webhook-gollum": {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The pages that were updated. */
       pages: ({
           /**
@@ -28471,8 +30014,8 @@ export interface components {
           /** @description The current page title. */
           title: string;
         })[];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** installation created event */
     "webhook-installation-created": {
@@ -28480,7 +30023,7 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
       repositories?: {
           full_name: string;
@@ -28492,7 +30035,7 @@ export interface components {
           /** @description Whether the repository is private or public. */
           private: boolean;
         }[];
-      repository?: components["schemas"]["repository"];
+      repository?: components["schemas"]["repository-webhooks"];
       /** User */
       requester?: ({
         /** Format: uri */
@@ -28530,7 +30073,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** installation deleted event */
     "webhook-installation-deleted": {
@@ -28538,7 +30081,7 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
       repositories?: {
           full_name: string;
@@ -28550,9 +30093,9 @@ export interface components {
           /** @description Whether the repository is private or public. */
           private: boolean;
         }[];
-      repository?: components["schemas"]["repository"];
+      repository?: components["schemas"]["repository-webhooks"];
       requester?: Record<string, unknown> | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** installation new_permissions_accepted event */
     "webhook-installation-new-permissions-accepted": {
@@ -28560,7 +30103,7 @@ export interface components {
       action: "new_permissions_accepted";
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
       repositories?: {
           full_name: string;
@@ -28572,9 +30115,9 @@ export interface components {
           /** @description Whether the repository is private or public. */
           private: boolean;
         }[];
-      repository?: components["schemas"]["repository"];
+      repository?: components["schemas"]["repository-webhooks"];
       requester?: Record<string, unknown> | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** installation_repositories added event */
     "webhook-installation-repositories-added": {
@@ -28582,7 +30125,7 @@ export interface components {
       action: "added";
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects, which were added to the installation. */
       repositories_added: {
           full_name: string;
@@ -28605,7 +30148,7 @@ export interface components {
           /** @description Whether the repository is private or public. */
           private?: boolean;
         }[];
-      repository?: components["schemas"]["repository"];
+      repository?: components["schemas"]["repository-webhooks"];
       /**
        * @description Describe whether all repositories have been selected or there's a selection involved
        * @enum {string}
@@ -28648,7 +30191,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** installation_repositories removed event */
     "webhook-installation-repositories-removed": {
@@ -28656,7 +30199,7 @@ export interface components {
       action: "removed";
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects, which were added to the installation. */
       repositories_added: {
           full_name: string;
@@ -28679,7 +30222,7 @@ export interface components {
           /** @description Whether the repository is private or public. */
           private: boolean;
         }[];
-      repository?: components["schemas"]["repository"];
+      repository?: components["schemas"]["repository-webhooks"];
       /**
        * @description Describe whether all repositories have been selected or there's a selection involved
        * @enum {string}
@@ -28722,7 +30265,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** installation suspend event */
     "webhook-installation-suspend": {
@@ -28730,7 +30273,7 @@ export interface components {
       action: "suspend";
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
       repositories?: {
           full_name: string;
@@ -28742,9 +30285,9 @@ export interface components {
           /** @description Whether the repository is private or public. */
           private: boolean;
         }[];
-      repository?: components["schemas"]["repository"];
+      repository?: components["schemas"]["repository-webhooks"];
       requester?: Record<string, unknown> | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     "webhook-installation-target-renamed": {
       account: {
@@ -28797,9 +30340,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
       target_type: string;
     };
     /** installation unsuspend event */
@@ -28808,7 +30351,7 @@ export interface components {
       action: "unsuspend";
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
       repositories?: {
           full_name: string;
@@ -28820,9 +30363,9 @@ export interface components {
           /** @description Whether the repository is private or public. */
           private: boolean;
         }[];
-      repository?: components["schemas"]["repository"];
+      repository?: components["schemas"]["repository-webhooks"];
       requester?: Record<string, unknown> | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issue_comment created event */
     "webhook-issue-comment-created": {
@@ -29434,9 +30977,9 @@ export interface components {
           url?: string;
         };
       });
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issue_comment deleted event */
     "webhook-issue-comment-deleted": {
@@ -30048,9 +31591,9 @@ export interface components {
           url?: string;
         };
       });
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issue_comment edited event */
     "webhook-issue-comment-edited": {
@@ -30669,9 +32212,9 @@ export interface components {
           url?: string;
         };
       });
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues assigned event */
     "webhook-issues-assigned": {
@@ -31129,9 +32672,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues closed event */
     "webhook-issues-closed": {
@@ -31608,9 +33151,9 @@ export interface components {
           url?: string;
         };
       });
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues deleted event */
     "webhook-issues-deleted": {
@@ -32028,9 +33571,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues demilestoned event */
     "webhook-issues-demilestoned": {
@@ -32643,9 +34186,9 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues edited event */
     "webhook-issues-edited": {
@@ -33090,9 +34633,9 @@ export interface components {
          */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues labeled event */
     "webhook-issues-labeled": {
@@ -33526,9 +35069,9 @@ export interface components {
          */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues locked event */
     "webhook-issues-locked": {
@@ -34002,9 +35545,9 @@ export interface components {
           url?: string;
         };
       });
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues milestoned event */
     "webhook-issues-milestoned": {
@@ -34617,9 +36160,9 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues opened event */
     "webhook-issues-opened": {
@@ -35684,9 +37227,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues pinned event */
     "webhook-issues-pinned": {
@@ -36104,9 +37647,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues reopened event */
     "webhook-issues-reopened": {
@@ -36579,9 +38122,9 @@ export interface components {
           url?: string;
         };
       });
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues transferred event */
     "webhook-issues-transferred": {
@@ -37653,9 +39196,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues unassigned event */
     "webhook-issues-unassigned": {
@@ -38113,9 +39656,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues unlabeled event */
     "webhook-issues-unlabeled": {
@@ -38549,9 +40092,9 @@ export interface components {
          */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues unlocked event */
     "webhook-issues-unlocked": {
@@ -39024,9 +40567,9 @@ export interface components {
           url?: string;
         };
       });
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** issues unpinned event */
     "webhook-issues-unpinned": {
@@ -39444,9 +40987,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** label created event */
     "webhook-label-created": {
@@ -39470,9 +41013,9 @@ export interface components {
          */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** label deleted event */
     "webhook-label-deleted": {
@@ -39496,9 +41039,9 @@ export interface components {
          */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** label edited event */
     "webhook-label-edited": {
@@ -39537,9 +41080,9 @@ export interface components {
          */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** marketplace_purchase cancelled event */
     "webhook-marketplace-purchase-cancelled": {
@@ -39599,7 +41142,7 @@ export interface components {
         };
         unit_count?: number;
       });
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Marketplace Purchase */
       previous_marketplace_purchase?: {
         account: {
@@ -39627,8 +41170,8 @@ export interface components {
         };
         unit_count: number;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** marketplace_purchase changed event */
     "webhook-marketplace-purchase-changed": {
@@ -39688,7 +41231,7 @@ export interface components {
         };
         unit_count?: number;
       });
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Marketplace Purchase */
       previous_marketplace_purchase?: {
         account: {
@@ -39716,8 +41259,8 @@ export interface components {
         };
         unit_count: number;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** marketplace_purchase pending_change event */
     "webhook-marketplace-purchase-pending-change": {
@@ -39777,7 +41320,7 @@ export interface components {
         };
         unit_count?: number;
       });
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Marketplace Purchase */
       previous_marketplace_purchase?: {
         account: {
@@ -39805,8 +41348,8 @@ export interface components {
         };
         unit_count: number;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** marketplace_purchase pending_change_cancelled event */
     "webhook-marketplace-purchase-pending-change-cancelled": {
@@ -39843,7 +41386,7 @@ export interface components {
       }) & {
         next_billing_date: string;
       };
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Marketplace Purchase */
       previous_marketplace_purchase?: {
         account: {
@@ -39871,8 +41414,8 @@ export interface components {
         };
         unit_count: number;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** marketplace_purchase purchased event */
     "webhook-marketplace-purchase-purchased": {
@@ -39932,7 +41475,7 @@ export interface components {
         };
         unit_count?: number;
       });
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Marketplace Purchase */
       previous_marketplace_purchase?: {
         account: {
@@ -39960,8 +41503,8 @@ export interface components {
         };
         unit_count: number;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** member added event */
     "webhook-member-added": {
@@ -40012,9 +41555,9 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** member edited event */
     "webhook-member-edited": {
@@ -40070,9 +41613,9 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** member removed event */
     "webhook-member-removed": {
@@ -40117,9 +41660,9 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** membership added event */
     "webhook-membership-added": {
@@ -40164,8 +41707,8 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
       /**
        * @description The scope of the membership. Currently, can only be `team`.
        * @enum {string}
@@ -40314,8 +41857,8 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
       /**
        * @description The scope of the membership. Currently, can only be `team`.
        * @enum {string}
@@ -40426,9 +41969,9 @@ export interface components {
       action: "checks_requested";
       installation?: components["schemas"]["simple-installation"];
       merge_group: components["schemas"]["merge-group"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     "webhook-merge-group-destroyed": {
       /** @enum {string} */
@@ -40440,9 +41983,9 @@ export interface components {
       reason?: "merged" | "invalidated" | "dequeued";
       installation?: components["schemas"]["simple-installation"];
       merge_group: components["schemas"]["merge-group"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** meta deleted event */
     "webhook-meta-deleted": {
@@ -40470,9 +42013,9 @@ export interface components {
       /** @description The id of the modified webhook. */
       hook_id: number;
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["nullable-repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["nullable-repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** milestone closed event */
     "webhook-milestone-closed": {
@@ -40551,9 +42094,9 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** milestone created event */
     "webhook-milestone-created": {
@@ -40632,9 +42175,9 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** milestone deleted event */
     "webhook-milestone-deleted": {
@@ -40713,9 +42256,9 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** milestone edited event */
     "webhook-milestone-edited": {
@@ -40809,9 +42352,9 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** milestone opened event */
     "webhook-milestone-opened": {
@@ -40890,9 +42433,9 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** org_block blocked event */
     "webhook-org-block-blocked": {
@@ -40937,9 +42480,9 @@ export interface components {
       }) | null;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** org_block unblocked event */
     "webhook-org-block-unblocked": {
@@ -40984,9 +42527,9 @@ export interface components {
       }) | null;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** organization deleted event */
     "webhook-organization-deleted": {
@@ -41043,9 +42586,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** organization member_added event */
     "webhook-organization-member-added": {
@@ -41102,9 +42645,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** organization member_invited event */
     "webhook-organization-member-invited": {
@@ -41166,9 +42709,9 @@ export interface components {
         team_count: number;
         invitation_source?: string;
       };
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** User */
       user?: ({
         /** Format: uri */
@@ -41262,9 +42805,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** organization renamed event */
     "webhook-organization-renamed": {
@@ -41326,9 +42869,9 @@ export interface components {
           url?: string;
         }) | null;
       };
-      organization: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Ruby Gems metadata */
     "webhook-rubygems-metadata": {
@@ -41355,7 +42898,7 @@ export interface components {
       action: "published";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description Information about the package. */
       package: {
         created_at: string | null;
@@ -41603,8 +43146,8 @@ export interface components {
         } | null;
         updated_at: string | null;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** package updated event */
     "webhook-package-updated": {
@@ -41612,7 +43155,7 @@ export interface components {
       action: "updated";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description Information about the package. */
       package: {
         created_at: string;
@@ -41804,8 +43347,8 @@ export interface components {
         } | null;
         updated_at: string;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** page_build event */
     "webhook-page-build": {
@@ -41862,17 +43405,17 @@ export interface components {
       enterprise?: components["schemas"]["enterprise"];
       id: number;
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** personal_access_token_request approved event */
     "webhook-personal-access-token-request-approved": {
       /** @enum {string} */
       action: "approved";
       personal_access_token_request: components["schemas"]["personal-access-token-request"];
-      organization: components["schemas"]["organization-simple"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       installation: components["schemas"]["simple-installation"];
     };
     /** personal_access_token_request cancelled event */
@@ -41880,8 +43423,8 @@ export interface components {
       /** @enum {string} */
       action: "cancelled";
       personal_access_token_request: components["schemas"]["personal-access-token-request"];
-      organization: components["schemas"]["organization-simple"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       installation: components["schemas"]["simple-installation"];
     };
     /** personal_access_token_request created event */
@@ -41889,8 +43432,8 @@ export interface components {
       /** @enum {string} */
       action: "created";
       personal_access_token_request: components["schemas"]["personal-access-token-request"];
-      organization: components["schemas"]["organization-simple"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       installation: components["schemas"]["simple-installation"];
     };
     /** personal_access_token_request denied event */
@@ -41898,8 +43441,8 @@ export interface components {
       /** @enum {string} */
       action: "denied";
       personal_access_token_request: components["schemas"]["personal-access-token-request"];
-      organization: components["schemas"]["organization-simple"];
-      sender: components["schemas"]["simple-user"];
+      organization: components["schemas"]["organization-simple-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       installation: components["schemas"]["simple-installation"];
     };
     "webhook-ping": {
@@ -41944,9 +43487,9 @@ export interface components {
       };
       /** @description The ID of the webhook that triggered the ping. */
       hook_id?: number;
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
       /** @description Random string of GitHub zen. */
       zen?: string;
     };
@@ -41966,7 +43509,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Card */
       project_card: {
         after_id?: number | null;
@@ -42027,8 +43570,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** project_card created event */
     "webhook-project-card-created": {
@@ -42036,7 +43579,7 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Card */
       project_card: {
         after_id?: number | null;
@@ -42097,8 +43640,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** project_card deleted event */
     "webhook-project-card-deleted": {
@@ -42106,7 +43649,7 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Card */
       project_card: {
         after_id?: number | null;
@@ -42167,8 +43710,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["nullable-repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["nullable-repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** project_card edited event */
     "webhook-project-card-edited": {
@@ -42181,7 +43724,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Card */
       project_card: {
         after_id?: number | null;
@@ -42242,8 +43785,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** project_card moved event */
     "webhook-project-card-moved": {
@@ -42256,7 +43799,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       project_card: ({
         after_id?: number | null;
         /** @description Whether or not the card is archived */
@@ -42348,8 +43891,8 @@ export interface components {
         updated_at?: string;
         url?: string;
       });
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** project closed event */
     "webhook-project-closed": {
@@ -42357,7 +43900,7 @@ export interface components {
       action: "closed";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
       project: {
         /** @description Body of the project */
@@ -42422,8 +43965,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** project_column created event */
     "webhook-project-column-created": {
@@ -42431,7 +43974,7 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Column */
       project_column: {
         after_id?: number | null;
@@ -42451,8 +43994,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** project_column deleted event */
     "webhook-project-column-deleted": {
@@ -42460,7 +44003,7 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Column */
       project_column: {
         after_id?: number | null;
@@ -42480,8 +44023,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["nullable-repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["nullable-repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** project_column edited event */
     "webhook-project-column-edited": {
@@ -42494,7 +44037,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Column */
       project_column: {
         after_id?: number | null;
@@ -42514,8 +44057,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** project_column moved event */
     "webhook-project-column-moved": {
@@ -42523,7 +44066,7 @@ export interface components {
       action: "moved";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Column */
       project_column: {
         after_id?: number | null;
@@ -42543,8 +44086,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** project created event */
     "webhook-project-created": {
@@ -42552,7 +44095,7 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
       project: {
         /** @description Body of the project */
@@ -42617,8 +44160,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** project deleted event */
     "webhook-project-deleted": {
@@ -42626,7 +44169,7 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
       project: {
         /** @description Body of the project */
@@ -42691,8 +44234,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["nullable-repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["nullable-repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** project edited event */
     "webhook-project-edited": {
@@ -42711,7 +44254,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
       project: {
         /** @description Body of the project */
@@ -42776,8 +44319,8 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** project reopened event */
     "webhook-project-reopened": {
@@ -42785,7 +44328,7 @@ export interface components {
       action: "reopened";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
       project: {
         /** @description Body of the project */
@@ -42850,35 +44393,35 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Project Closed Event */
     "webhook-projects-v2-project-closed": {
       /** @enum {string} */
       action: "closed";
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2: components["schemas"]["projects-v2"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** @description A project was created */
     "webhook-projects-v2-project-created": {
       /** @enum {string} */
       action: "created";
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2: components["schemas"]["projects-v2"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Project Deleted Event */
     "webhook-projects-v2-project-deleted": {
       /** @enum {string} */
       action: "deleted";
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2: components["schemas"]["projects-v2"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Project Edited Event */
     "webhook-projects-v2-project-edited": {
@@ -42903,9 +44446,9 @@ export interface components {
         };
       };
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2: components["schemas"]["projects-v2"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Item Archived Event */
     "webhook-projects-v2-item-archived": {
@@ -42920,9 +44463,9 @@ export interface components {
         };
       };
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2_item: components["schemas"]["projects-v2-item"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Item Converted Event */
     "webhook-projects-v2-item-converted": {
@@ -42935,27 +44478,27 @@ export interface components {
         };
       };
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2_item: components["schemas"]["projects-v2-item"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Item Created Event */
     "webhook-projects-v2-item-created": {
       /** @enum {string} */
       action: "created";
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2_item: components["schemas"]["projects-v2-item"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Item Deleted Event */
     "webhook-projects-v2-item-deleted": {
       /** @enum {string} */
       action: "deleted";
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2_item: components["schemas"]["projects-v2-item"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Item Edited Event */
     "webhook-projects-v2-item-edited": {
@@ -42973,9 +44516,9 @@ export interface components {
         };
       }]>;
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2_item: components["schemas"]["projects-v2-item"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Item Reordered Event */
     "webhook-projects-v2-item-reordered": {
@@ -42988,9 +44531,9 @@ export interface components {
         };
       };
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2_item: components["schemas"]["projects-v2-item"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Item Restored Event */
     "webhook-projects-v2-item-restored": {
@@ -43005,26 +44548,26 @@ export interface components {
         };
       };
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2_item: components["schemas"]["projects-v2-item"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Projects v2 Project Reopened Event */
     "webhook-projects-v2-project-reopened": {
       /** @enum {string} */
       action: "reopened";
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       projects_v2: components["schemas"]["projects-v2"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** public event */
     "webhook-public": {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request assigned event */
     "webhook-pull-request-assigned": {
@@ -43071,7 +44614,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -44249,8 +45792,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request auto_merge_disabled event */
     "webhook-pull-request-auto-merge-disabled": {
@@ -44259,7 +45802,7 @@ export interface components {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -45438,8 +46981,8 @@ export interface components {
         }) | null;
       };
       reason: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request auto_merge_enabled event */
     "webhook-pull-request-auto-merge-enabled": {
@@ -45448,7 +46991,7 @@ export interface components {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -46627,8 +48170,8 @@ export interface components {
         }) | null;
       };
       reason?: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request closed event */
     "webhook-pull-request-closed": {
@@ -46638,7 +48181,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: components["schemas"]["pull-request"] & ({
         /**
          * @description Whether to allow auto-merge for pull requests.
@@ -46688,8 +48231,8 @@ export interface components {
          */
         use_squash_pr_title_as_default?: boolean;
       });
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request converted_to_draft event */
     "webhook-pull-request-converted-to-draft": {
@@ -46699,7 +48242,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: components["schemas"]["pull-request"] & ({
         /**
          * @description Whether to allow auto-merge for pull requests.
@@ -46749,8 +48292,8 @@ export interface components {
          */
         use_squash_pr_title_as_default?: boolean;
       });
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request demilestoned event */
     "webhook-pull-request-demilestoned": {
@@ -46760,7 +48303,7 @@ export interface components {
       milestone?: components["schemas"]["milestone"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -47938,8 +49481,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request dequeued event */
     "webhook-pull-request-dequeued": {
@@ -47948,7 +49491,7 @@ export interface components {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -49127,8 +50670,8 @@ export interface components {
         }) | null;
       };
       reason: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request edited event */
     "webhook-pull-request-edited": {
@@ -49157,7 +50700,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: components["schemas"]["pull-request"] & ({
         /**
          * @description Whether to allow auto-merge for pull requests.
@@ -49207,8 +50750,8 @@ export interface components {
          */
         use_squash_pr_title_as_default?: boolean;
       });
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request enqueued event */
     "webhook-pull-request-enqueued": {
@@ -49217,7 +50760,7 @@ export interface components {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -50395,8 +51938,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request labeled event */
     "webhook-pull-request-labeled": {
@@ -50422,7 +51965,7 @@ export interface components {
       };
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -51600,8 +53143,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request locked event */
     "webhook-pull-request-locked": {
@@ -51611,7 +53154,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -52789,8 +54332,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request milestoned event */
     "webhook-pull-request-milestoned": {
@@ -52800,7 +54343,7 @@ export interface components {
       milestone?: components["schemas"]["milestone"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -53978,8 +55521,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request opened event */
     "webhook-pull-request-opened": {
@@ -53989,7 +55532,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: components["schemas"]["pull-request"] & ({
         /**
          * @description Whether to allow auto-merge for pull requests.
@@ -54039,8 +55582,8 @@ export interface components {
          */
         use_squash_pr_title_as_default?: boolean;
       });
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request ready_for_review event */
     "webhook-pull-request-ready-for-review": {
@@ -54050,7 +55593,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: components["schemas"]["pull-request"] & ({
         /**
          * @description Whether to allow auto-merge for pull requests.
@@ -54100,8 +55643,8 @@ export interface components {
          */
         use_squash_pr_title_as_default?: boolean;
       });
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request reopened event */
     "webhook-pull-request-reopened": {
@@ -54111,7 +55654,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: components["schemas"]["pull-request"] & ({
         /**
          * @description Whether to allow auto-merge for pull requests.
@@ -54161,8 +55704,8 @@ export interface components {
          */
         use_squash_pr_title_as_default?: boolean;
       });
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request_review_comment created event */
     "webhook-pull-request-review-comment-created": {
@@ -54315,7 +55858,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: {
         _links: {
           /** Link */
@@ -55433,8 +56976,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request_review_comment deleted event */
     "webhook-pull-request-review-comment-deleted": {
@@ -55587,7 +57130,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: {
         _links: {
           /** Link */
@@ -56705,8 +58248,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request_review_comment edited event */
     "webhook-pull-request-review-comment-edited": {
@@ -56866,7 +58409,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: {
         _links: {
           /** Link */
@@ -57984,8 +59527,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request_review dismissed event */
     "webhook-pull-request-review-dismissed": {
@@ -57993,7 +59536,7 @@ export interface components {
       action: "dismissed";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
       pull_request: {
         _links: {
@@ -59112,7 +60655,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
+      repository: components["schemas"]["repository-webhooks"];
       /** @description The review that was affected. */
       review: {
         _links: {
@@ -59186,7 +60729,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request_review edited event */
     "webhook-pull-request-review-edited": {
@@ -59200,7 +60743,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
       pull_request: {
         _links: {
@@ -60227,7 +61770,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
+      repository: components["schemas"]["repository-webhooks"];
       /** @description The review that was affected. */
       review: {
         _links: {
@@ -60300,7 +61843,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request review_request_removed event */
     "webhook-pull-request-review-request-removed": OneOf<[{
@@ -60310,7 +61853,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -61481,7 +63024,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
+      repository: components["schemas"]["repository-webhooks"];
       /** User */
       requested_reviewer: ({
         /** Format: uri */
@@ -61519,7 +63062,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     }, {
       /** @enum {string} */
       action: "review_request_removed";
@@ -61527,7 +63070,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -62705,7 +64248,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
+      repository: components["schemas"]["repository-webhooks"];
       /**
        * Team
        * @description Groups of organization members that gives permissions on specified repositories.
@@ -62761,7 +64304,7 @@ export interface components {
          */
         url: string;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     }]>;
     /** pull_request review_requested event */
     "webhook-pull-request-review-requested": OneOf<[{
@@ -62771,7 +64314,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -63949,7 +65492,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
+      repository: components["schemas"]["repository-webhooks"];
       /** User */
       requested_reviewer: ({
         /** Format: uri */
@@ -63987,7 +65530,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     }, {
       /** @enum {string} */
       action: "review_requested";
@@ -63995,7 +65538,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -65173,7 +66716,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
+      repository: components["schemas"]["repository-webhooks"];
       /**
        * Team
        * @description Groups of organization members that gives permissions on specified repositories.
@@ -65229,7 +66772,7 @@ export interface components {
          */
         url?: string;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     }]>;
     /** pull_request_review submitted event */
     "webhook-pull-request-review-submitted": {
@@ -65237,7 +66780,7 @@ export interface components {
       action: "submitted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
       pull_request: {
         _links: {
@@ -66356,7 +67899,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
+      repository: components["schemas"]["repository-webhooks"];
       /** @description The review that was affected. */
       review: {
         _links: {
@@ -66429,7 +67972,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request_review_thread resolved event */
     "webhook-pull-request-review-thread-resolved": {
@@ -66437,7 +67980,7 @@ export interface components {
       action: "resolved";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
       pull_request: {
         _links: {
@@ -67478,8 +69021,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
       thread: {
         comments: ({
             _links: {
@@ -67631,7 +69174,7 @@ export interface components {
       action: "unresolved";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
       pull_request: {
         _links: {
@@ -68672,8 +70215,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
       thread: {
         comments: ({
             _links: {
@@ -68829,7 +70372,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -70000,8 +71543,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request unassigned event */
     "webhook-pull-request-unassigned": {
@@ -70048,7 +71591,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -71226,8 +72769,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request unlabeled event */
     "webhook-pull-request-unlabeled": {
@@ -71253,7 +72796,7 @@ export interface components {
       };
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -72424,8 +73967,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** pull_request unlocked event */
     "webhook-pull-request-unlocked": {
@@ -72435,7 +73978,7 @@ export interface components {
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /** Pull Request */
       pull_request: {
         _links: {
@@ -73613,8 +75156,8 @@ export interface components {
           url?: string;
         }) | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** push event */
     "webhook-push": {
@@ -73735,7 +75278,7 @@ export interface components {
         url: string;
       }) | null;
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /**
        * Committer
        * @description Metaproperties for Git author/committer information.
@@ -73993,14 +75536,14 @@ export interface components {
         /** @description Whether to require contributors to sign off on web-based commits */
         web_commit_signoff_required?: boolean;
       };
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     "webhook-registry-package-published": {
       /** @enum {string} */
       action: "published";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       registry_package: {
         created_at: string | null;
         description: string | null;
@@ -74188,15 +75731,15 @@ export interface components {
         } | null;
         updated_at: string | null;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     "webhook-registry-package-updated": {
       /** @enum {string} */
       action: "updated";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       registry_package: {
         created_at: string;
         description: Record<string, unknown> | null;
@@ -74321,8 +75864,8 @@ export interface components {
         registry: Record<string, unknown> | null;
         updated_at: string;
       };
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** release created event */
     "webhook-release-created": {
@@ -74330,7 +75873,7 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /**
        * Release
        * @description The [release](https://docs.github.com/rest/releases/releases/#get-a-release) object.
@@ -74478,8 +76021,8 @@ export interface components {
         /** Format: uri */
         zipball_url: string | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** release deleted event */
     "webhook-release-deleted": {
@@ -74487,7 +76030,7 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /**
        * Release
        * @description The [release](https://docs.github.com/rest/releases/releases/#get-a-release) object.
@@ -74635,8 +76178,8 @@ export interface components {
         /** Format: uri */
         zipball_url: string | null;
       };
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** release edited event */
     "webhook-release-edited": {
@@ -74658,7 +76201,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /**
        * Release
        * @description The [release](https://docs.github.com/rest/releases/releases/#get-a-release) object.
@@ -74806,8 +76349,8 @@ export interface components {
         /** Format: uri */
         zipball_url: string | null;
       };
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** release prereleased event */
     "webhook-release-prereleased": {
@@ -74815,7 +76358,7 @@ export interface components {
       action: "prereleased";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       release: ({
         assets: ({
             /** Format: uri */
@@ -75001,8 +76544,8 @@ export interface components {
         url?: string;
         zipball_url?: string | null;
       });
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** release published event */
     "webhook-release-published": {
@@ -75010,7 +76553,7 @@ export interface components {
       action: "published";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       release: ({
         assets: ({
             /** Format: uri */
@@ -75193,8 +76736,8 @@ export interface components {
         url?: string;
         zipball_url?: string | null;
       });
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** release released event */
     "webhook-release-released": {
@@ -75202,7 +76745,7 @@ export interface components {
       action: "released";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       /**
        * Release
        * @description The [release](https://docs.github.com/rest/releases/releases/#get-a-release) object.
@@ -75350,8 +76893,8 @@ export interface components {
         /** Format: uri */
         zipball_url: string | null;
       };
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** release unpublished event */
     "webhook-release-unpublished": {
@@ -75359,7 +76902,7 @@ export interface components {
       action: "unpublished";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       release: ({
         assets: ({
             /** Format: uri */
@@ -75541,8 +77084,8 @@ export interface components {
         url?: string;
         zipball_url?: string | null;
       });
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** Repository advisory published event */
     "webhook-repository-advisory-published": {
@@ -75550,10 +77093,10 @@ export interface components {
       action: "published";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       repository_advisory: components["schemas"]["repository-advisory"];
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** Repository advisory reported event */
     "webhook-repository-advisory-reported": {
@@ -75561,10 +77104,10 @@ export interface components {
       action: "reported";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
       repository_advisory: components["schemas"]["repository-advisory"];
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** repository archived event */
     "webhook-repository-archived": {
@@ -75572,9 +77115,9 @@ export interface components {
       action: "archived";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository created event */
     "webhook-repository-created": {
@@ -75582,9 +77125,9 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository deleted event */
     "webhook-repository-deleted": {
@@ -75592,9 +77135,9 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository_dispatch event */
     "webhook-repository-dispatch-sample": {
@@ -75606,9 +77149,9 @@ export interface components {
       } | null;
       enterprise?: components["schemas"]["enterprise"];
       installation: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository edited event */
     "webhook-repository-edited": {
@@ -75630,17 +77173,17 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository_import event */
     "webhook-repository-import": {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** @enum {string} */
       status: "success" | "cancelled" | "failure";
     };
@@ -75650,9 +77193,9 @@ export interface components {
       action: "privatized";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository publicized event */
     "webhook-repository-publicized": {
@@ -75660,9 +77203,9 @@ export interface components {
       action: "publicized";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository renamed event */
     "webhook-repository-renamed": {
@@ -75677,9 +77220,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository ruleset created event */
     "webhook-repository-ruleset-created": {
@@ -75687,10 +77230,10 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
       repository_ruleset: components["schemas"]["repository-ruleset"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository ruleset deleted event */
     "webhook-repository-ruleset-deleted": {
@@ -75698,10 +77241,10 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
       repository_ruleset: components["schemas"]["repository-ruleset"];
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository ruleset edited event */
     "webhook-repository-ruleset-edited": {
@@ -75709,8 +77252,8 @@ export interface components {
       action: "edited";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
       repository_ruleset: components["schemas"]["repository-ruleset"];
       changes?: {
         name?: {
@@ -75759,7 +77302,7 @@ export interface components {
             }[];
         };
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository transferred event */
     "webhook-repository-transferred": {
@@ -75835,9 +77378,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository unarchived event */
     "webhook-repository-unarchived": {
@@ -75845,9 +77388,9 @@ export interface components {
       action: "unarchived";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository_vulnerability_alert create event */
     "webhook-repository-vulnerability-alert-create": {
@@ -75927,9 +77470,9 @@ export interface components {
       });
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository_vulnerability_alert dismiss event */
     "webhook-repository-vulnerability-alert-dismiss": {
@@ -76050,9 +77593,9 @@ export interface components {
       });
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository_vulnerability_alert reopen event */
     "webhook-repository-vulnerability-alert-reopen": {
@@ -76132,9 +77675,9 @@ export interface components {
       });
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** repository_vulnerability_alert resolve event */
     "webhook-repository-vulnerability-alert-resolve": {
@@ -76217,9 +77760,9 @@ export interface components {
       });
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** secret_scanning_alert created event */
     "webhook-secret-scanning-alert-created": {
@@ -76228,9 +77771,9 @@ export interface components {
       alert: components["schemas"]["secret-scanning-alert-webhook"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** Secret Scanning Alert Location Created Event */
     "webhook-secret-scanning-alert-location-created": {
@@ -76239,9 +77782,9 @@ export interface components {
       alert: components["schemas"]["secret-scanning-alert-webhook"];
       installation?: components["schemas"]["simple-installation"];
       location: components["schemas"]["secret-scanning-location"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** Secret Scanning Alert Location Created Event */
     "webhook-secret-scanning-alert-location-created-form-encoded": {
@@ -76255,9 +77798,9 @@ export interface components {
       alert: components["schemas"]["secret-scanning-alert-webhook"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** secret_scanning_alert resolved event */
     "webhook-secret-scanning-alert-resolved": {
@@ -76266,9 +77809,9 @@ export interface components {
       alert: components["schemas"]["secret-scanning-alert-webhook"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** secret_scanning_alert revoked event */
     "webhook-secret-scanning-alert-revoked": {
@@ -76277,9 +77820,9 @@ export interface components {
       alert: components["schemas"]["secret-scanning-alert-webhook"];
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender?: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** security_advisory published event */
     "webhook-security-advisory-published": {
@@ -76287,8 +77830,8 @@ export interface components {
       action: "published";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
       /** @description The details of the security advisory, including summary, description, and severity. */
       security_advisory: {
         cvss: {
@@ -76326,7 +77869,7 @@ export interface components {
           })[];
         withdrawn_at: string | null;
       };
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** security_advisory updated event */
     "webhook-security-advisory-updated": {
@@ -76334,8 +77877,8 @@ export interface components {
       action: "updated";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
       /** @description The details of the security advisory, including summary, description, and severity. */
       security_advisory: {
         cvss: {
@@ -76373,7 +77916,7 @@ export interface components {
           })[];
         withdrawn_at: string | null;
       };
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** security_advisory withdrawn event */
     "webhook-security-advisory-withdrawn": {
@@ -76381,8 +77924,8 @@ export interface components {
       action: "withdrawn";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
       /** @description The details of the security advisory, including summary, description, and severity. */
       security_advisory: {
         cvss: {
@@ -76420,7 +77963,7 @@ export interface components {
           })[];
         withdrawn_at: string;
       };
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** security_and_analysis event */
     "webhook-security-and-analysis": {
@@ -76431,9 +77974,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["full-repository"];
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
     };
     /** sponsorship cancelled event */
     "webhook-sponsorship-cancelled": {
@@ -76441,9 +77984,9 @@ export interface components {
       action: "cancelled";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       sponsorship: {
         created_at: string;
         maintainer?: {
@@ -76565,9 +78108,9 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       sponsorship: {
         created_at: string;
         maintainer?: {
@@ -76695,9 +78238,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       sponsorship: {
         created_at: string;
         maintainer?: {
@@ -76821,9 +78364,9 @@ export interface components {
       effective_date?: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       sponsorship: {
         created_at: string;
         maintainer?: {
@@ -76966,9 +78509,9 @@ export interface components {
       effective_date?: string;
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       sponsorship: {
         created_at: string;
         maintainer?: {
@@ -77109,9 +78652,9 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository?: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository?: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       sponsorship: {
         created_at: string;
         maintainer?: {
@@ -77233,9 +78776,9 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** @description The time the star was created. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Will be `null` for the `deleted` action. */
       starred_at: string | null;
     };
@@ -77245,9 +78788,9 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** @description The time the star was created. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Will be `null` for the `deleted` action. */
       starred_at: Record<string, unknown> | null;
     };
@@ -77409,9 +78952,9 @@ export interface components {
       id: number;
       installation?: components["schemas"]["simple-installation"];
       name: string;
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** @description The Commit SHA. */
       sha: string;
       /**
@@ -77427,9 +78970,9 @@ export interface components {
     "webhook-team-add": {
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /**
        * Team
        * @description Groups of organization members that gives permissions on specified repositories.
@@ -77502,7 +79045,7 @@ export interface components {
       action: "added_to_repository";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       /**
        * Repository
        * @description A git repository
@@ -77738,7 +79281,7 @@ export interface components {
         watchers: number;
         watchers_count: number;
       };
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
       /**
        * Team
        * @description Groups of organization members that gives permissions on specified repositories.
@@ -77811,7 +79354,7 @@ export interface components {
       action: "created";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       /**
        * Repository
        * @description A git repository
@@ -78047,7 +79590,7 @@ export interface components {
         watchers: number;
         watchers_count: number;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /**
        * Team
        * @description Groups of organization members that gives permissions on specified repositories.
@@ -78120,7 +79663,7 @@ export interface components {
       action: "deleted";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       /**
        * Repository
        * @description A git repository
@@ -78356,7 +79899,7 @@ export interface components {
         watchers: number;
         watchers_count: number;
       };
-      sender?: components["schemas"]["simple-user"];
+      sender?: components["schemas"]["simple-user-webhooks"];
       /**
        * Team
        * @description Groups of organization members that gives permissions on specified repositories.
@@ -78460,7 +80003,7 @@ export interface components {
       };
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       /**
        * Repository
        * @description A git repository
@@ -78696,7 +80239,7 @@ export interface components {
         watchers: number;
         watchers_count: number;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /**
        * Team
        * @description Groups of organization members that gives permissions on specified repositories.
@@ -78769,7 +80312,7 @@ export interface components {
       action: "removed_from_repository";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization: components["schemas"]["organization-simple"];
+      organization: components["schemas"]["organization-simple-webhooks"];
       /**
        * Repository
        * @description A git repository
@@ -79005,7 +80548,7 @@ export interface components {
         watchers: number;
         watchers_count: number;
       };
-      sender: components["schemas"]["simple-user"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /**
        * Team
        * @description Groups of organization members that gives permissions on specified repositories.
@@ -79078,9 +80621,9 @@ export interface components {
       action: "started";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
     };
     /** workflow_dispatch event */
     "webhook-workflow-dispatch": {
@@ -79089,10 +80632,10 @@ export interface components {
         [key: string]: unknown;
       } | null;
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
       ref: string;
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       workflow: string;
     };
     /** workflow_job completed event */
@@ -79101,9 +80644,9 @@ export interface components {
       action: "completed";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       workflow_job: ({
         /** Format: uri */
         check_run_url: string;
@@ -79191,9 +80734,9 @@ export interface components {
       action: "in_progress";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       workflow_job: ({
         /** Format: uri */
         check_run_url: string;
@@ -79289,9 +80832,9 @@ export interface components {
       action: "queued";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       workflow_job: {
         /** Format: uri */
         check_run_url: string;
@@ -79343,9 +80886,9 @@ export interface components {
       action: "waiting";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       workflow_job: {
         /** Format: uri */
         check_run_url: string;
@@ -79397,9 +80940,9 @@ export interface components {
       action: "completed";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** Workflow */
       workflow: {
         /** Format: uri */
@@ -80084,9 +81627,9 @@ export interface components {
       action: "in_progress";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** Workflow */
       workflow: {
         /** Format: uri */
@@ -80771,9 +82314,9 @@ export interface components {
       action: "requested";
       enterprise?: components["schemas"]["enterprise"];
       installation?: components["schemas"]["simple-installation"];
-      organization?: components["schemas"]["organization-simple"];
-      repository: components["schemas"]["repository"];
-      sender: components["schemas"]["simple-user"];
+      organization?: components["schemas"]["organization-simple-webhooks"];
+      repository: components["schemas"]["repository-webhooks"];
+      sender: components["schemas"]["simple-user-webhooks"];
       /** Workflow */
       workflow: {
         /** Format: uri */
@@ -81428,6 +82971,10 @@ export interface components {
     /** @description The client ID of the GitHub app. */
     "client-id": string;
     "app-slug": string;
+    /** @description The unique identifier of the classroom assignment. */
+    "assignment-id": number;
+    /** @description The unique identifier of the classroom. */
+    "classroom-id": number;
     /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
     enterprise: string;
     /**
@@ -82358,6 +83905,132 @@ export interface operations {
     };
   };
   /**
+   * Get an assignment
+   * @description Gets a GitHub Classroom assignment. Assignment will only be returned if the current user is an administrator of the GitHub Classroom for the assignment.
+   */
+  "classroom/get-an-assignment": {
+    parameters: {
+      path: {
+        assignment_id: components["parameters"]["assignment-id"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["classroom-assignment"];
+        };
+      };
+      404: components["responses"]["not_found"];
+    };
+  };
+  /**
+   * List accepted assignments for an assignment
+   * @description Lists any assignment repositories that have been created by students accepting a GitHub Classroom assignment. Accepted assignments will only be returned if the current user is an administrator of the GitHub Classroom for the assignment.
+   */
+  "classroom/list-accepted-assigments-for-an-assignment": {
+    parameters: {
+      query?: {
+        page?: components["parameters"]["page"];
+        per_page?: components["parameters"]["per-page"];
+      };
+      path: {
+        assignment_id: components["parameters"]["assignment-id"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["classroom-accepted-assignment"][];
+        };
+      };
+    };
+  };
+  /**
+   * Get assignment grades
+   * @description Gets grades for a GitHub Classroom assignment. Grades will only be returned if the current user is an administrator of the GitHub Classroom for the assignment.
+   */
+  "classroom/get-assignment-grades": {
+    parameters: {
+      path: {
+        assignment_id: components["parameters"]["assignment-id"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["classroom-assignment-grade"][];
+        };
+      };
+      404: components["responses"]["not_found"];
+    };
+  };
+  /**
+   * List classrooms
+   * @description Lists GitHub Classroom classrooms for the current user. Classrooms will only be returned if the current user is an administrator of one or more GitHub Classrooms.
+   */
+  "classroom/list-classrooms": {
+    parameters: {
+      query?: {
+        page?: components["parameters"]["page"];
+        per_page?: components["parameters"]["per-page"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["simple-classroom"][];
+        };
+      };
+    };
+  };
+  /**
+   * Get a classroom
+   * @description Gets a GitHub Classroom classroom for the current user. Classroom will only be returned if the current user is an administrator of the GitHub Classroom.
+   */
+  "classroom/get-a-classroom": {
+    parameters: {
+      path: {
+        classroom_id: components["parameters"]["classroom-id"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["classroom"];
+        };
+      };
+      404: components["responses"]["not_found"];
+    };
+  };
+  /**
+   * List assignments for a classroom
+   * @description Lists GitHub Classroom assignments for a classroom. Assignments will only be returned if the current user is an administrator of the GitHub Classroom.
+   */
+  "classroom/list-assignments-for-a-classroom": {
+    parameters: {
+      query?: {
+        page?: components["parameters"]["page"];
+        per_page?: components["parameters"]["per-page"];
+      };
+      path: {
+        classroom_id: components["parameters"]["classroom-id"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["simple-classroom-assignment"][];
+        };
+      };
+    };
+  };
+  /**
    * Get all codes of conduct
    * @description Returns array of all GitHub's codes of conduct.
    */
@@ -82703,6 +84376,7 @@ export interface operations {
   /**
    * Update a gist
    * @description Allows you to update a gist's description and to update, delete, or rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged.
+   * At least one of `description` or `files` is required.
    */
   "gists/update": {
     parameters: {
@@ -82722,7 +84396,8 @@ export interface operations {
            * @description The gist files to be updated, renamed, or deleted. Each `key` must match the current filename
            * (including extension) of the targeted gist file. For example: `hello.py`.
            *
-           * To delete a file, set the whole file to null. For example: `hello.py : null`.
+           * To delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be
+           * deleted if the specified object does not contain at least one of `content` or `filename`.
            * @example {
            *   "hello.rb": {
            *     "content": "blah",
@@ -84277,6 +85952,8 @@ export interface operations {
   "actions/list-self-hosted-runners-for-org": {
     parameters: {
       query?: {
+        /** @description The name of a self-hosted runner. */
+        name?: string;
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
       };
@@ -91441,6 +93118,8 @@ export interface operations {
   "actions/list-self-hosted-runners-for-repo": {
     parameters: {
       query?: {
+        /** @description The name of a self-hosted runner. */
+        name?: string;
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
       };
@@ -97372,11 +99051,8 @@ export interface operations {
            * @default
            */
           description?: string;
-          /**
-           * @description Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`.
-           * @enum {string}
-           */
-          environment?: "production" | "staging" | "qa";
+          /** @description Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. If not defined, the environment of the previous status on the deployment will be used, if it exists. Otherwise, the environment of the deployment will be used. */
+          environment?: string;
           /**
            * @description Sets the URL for accessing your environment. Default: `""`
            * @default
@@ -103121,9 +104797,10 @@ export interface operations {
   };
   /**
    * Get rules for a branch
-   * @description Returns all rules that apply to the specified branch. The branch does not need to exist; rules that would apply to a
-   * branch with that name will be returned. All rules that apply will be returned, regardless of the level at which they
-   * are configured.
+   * @description Returns all active rules that apply to the specified branch. The branch does not need to exist; rules that would apply
+   * to a branch with that name will be returned. All active rules that apply will be returned, regardless of the level
+   * at which they are configured (e.g. repository or organization). Rules in rulesets with "evaluate" or "disabled"
+   * enforcement statuses are not returned.
    */
   "repos/get-branch-rules": {
     parameters: {
