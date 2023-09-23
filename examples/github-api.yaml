@@ -6519,6 +6519,9 @@ paths:
               examples:
                 default:
                   "$ref": "#/components/examples/copilot-seats-list"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
         '500':
           "$ref": "#/components/responses/internal_error"
         '401':
@@ -45019,7 +45022,9 @@ x-webhooks:
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
 
-        **Note**: This event will not occur when more than three tags are created at once.
+        **Notes**:
+        - This event will not occur when more than three tags are created at once.
+        - Payloads are capped at 25 MB. If an event generates a larger payload, GitHub will not deliver a payload for that webhook event. This may happen, for example, if many branches or tags are pushed at once. We suggest monitoring your payload size to ensure delivery.
       operationId: create
       externalDocs:
         url: https://docs.github.com/webhooks/webhook-events-and-payloads#create
@@ -55407,7 +55412,7 @@ x-webhooks:
     post:
       summary: |-
         This event occurs when there is a push to a repository branch. This includes when a commit is pushed, when a commit tag is pushed,
-        when a branch is deleted, when a tag is deleted, or when a repository is cloned. To subscribe to only branch
+        when a branch is deleted, when a tag is deleted, or when a repository is created from a template. To subscribe to only branch
         and tag deletions, use the [`delete`](#delete) webhook event.
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
@@ -83521,6 +83526,64 @@ components:
       required:
       - key
       - id
+    enterprise-webhooks:
+      title: Enterprise
+      description: |
+        An enterprise on GitHub. Webhook payloads contain the `enterprise` property when the webhook is configured
+        on an enterprise account or an organization that's part of an enterprise account. For more information,
+        see "[About enterprise accounts](https://docs.github.com/admin/overview/about-enterprise-accounts)."
+      type: object
+      properties:
+        description:
+          description: A short description of the enterprise.
+          type: string
+          nullable: true
+        html_url:
+          type: string
+          format: uri
+          example: https://github.com/enterprises/octo-business
+        website_url:
+          description: The enterprise's website URL.
+          type: string
+          nullable: true
+          format: uri
+        id:
+          description: Unique identifier of the enterprise
+          example: 42
+          type: integer
+        node_id:
+          type: string
+          example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
+        name:
+          description: The name of the enterprise.
+          type: string
+          example: Octo Business
+        slug:
+          description: The slug url identifier for the enterprise.
+          type: string
+          example: octo-business
+        created_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2019-01-26T19:01:12Z'
+        updated_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2019-01-26T19:14:43Z'
+        avatar_url:
+          type: string
+          format: uri
+      required:
+      - id
+      - node_id
+      - name
+      - slug
+      - html_url
+      - created_at
+      - updated_at
+      - avatar_url
     simple-installation:
       title: Simple Installation
       description: |-
@@ -85990,7 +86053,7 @@ components:
           enum:
           - disabled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -86012,7 +86075,7 @@ components:
           enum:
           - enabled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -86034,7 +86097,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -86187,7 +86250,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -86408,7 +86471,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -87278,7 +87341,7 @@ components:
           - check_runs_url
           - head_commit
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -87876,7 +87939,7 @@ components:
           - check_runs_url
           - head_commit
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -88468,7 +88531,7 @@ components:
           - check_runs_url
           - head_commit
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -88714,7 +88777,7 @@ components:
             the `sender` and this value will be empty.
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -88985,7 +89048,7 @@ components:
             the `sender` and this value will be empty.
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -89195,7 +89258,7 @@ components:
             the `sender` and this value will be empty.
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -89469,7 +89532,7 @@ components:
             the `sender` and this value will be empty.
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -89674,7 +89737,7 @@ components:
           type: string
           nullable: true
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -89854,7 +89917,7 @@ components:
             the `sender` and this value will be empty.
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -90055,7 +90118,7 @@ components:
           - author_association
           - body
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -90078,7 +90141,7 @@ components:
           type: string
           nullable: true
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         master_branch:
@@ -90117,7 +90180,7 @@ components:
       type: object
       properties:
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -90161,7 +90224,7 @@ components:
         organization:
           "$ref": "#/components/schemas/organization-simple-webhooks"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         repository:
           "$ref": "#/components/schemas/repository-webhooks"
         sender:
@@ -90186,7 +90249,7 @@ components:
         organization:
           "$ref": "#/components/schemas/organization-simple-webhooks"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         repository:
           "$ref": "#/components/schemas/repository-webhooks"
         sender:
@@ -90211,7 +90274,7 @@ components:
         organization:
           "$ref": "#/components/schemas/organization-simple-webhooks"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         repository:
           "$ref": "#/components/schemas/repository-webhooks"
         sender:
@@ -90236,7 +90299,7 @@ components:
         organization:
           "$ref": "#/components/schemas/organization-simple-webhooks"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         repository:
           "$ref": "#/components/schemas/repository-webhooks"
         sender:
@@ -90261,7 +90324,7 @@ components:
         organization:
           "$ref": "#/components/schemas/organization-simple-webhooks"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         repository:
           "$ref": "#/components/schemas/repository-webhooks"
         sender:
@@ -90286,7 +90349,7 @@ components:
         organization:
           "$ref": "#/components/schemas/organization-simple-webhooks"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         repository:
           "$ref": "#/components/schemas/repository-webhooks"
         sender:
@@ -90311,7 +90374,7 @@ components:
         organization:
           "$ref": "#/components/schemas/organization-simple-webhooks"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         repository:
           "$ref": "#/components/schemas/repository-webhooks"
         sender:
@@ -90330,7 +90393,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         key:
@@ -90387,7 +90450,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         key:
@@ -90921,7 +90984,7 @@ components:
           - statuses_url
           - repository_url
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -91652,7 +91715,7 @@ components:
         comment:
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -92442,7 +92505,7 @@ components:
         comment:
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -93191,7 +93254,7 @@ components:
           enum:
           - requested
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         environment:
           type: string
         installation:
@@ -95013,7 +95076,7 @@ components:
           - deployment_url
           - repository_url
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -95828,7 +95891,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -95898,7 +95961,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -95924,7 +95987,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -96103,7 +96166,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -96283,7 +96346,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -96475,7 +96538,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -96922,7 +96985,7 @@ components:
             - answer_chosen_at
             - answer_chosen_by
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -96947,7 +97010,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -96989,7 +97052,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -97014,7 +97077,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         label:
@@ -97072,7 +97135,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -97097,7 +97160,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -97122,7 +97185,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -97157,7 +97220,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -97358,7 +97421,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         label:
@@ -97416,7 +97479,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -97441,7 +97504,7 @@ components:
         discussion:
           "$ref": "#/components/schemas/discussion"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -97461,7 +97524,7 @@ components:
       type: object
       properties:
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         forkee:
           description: The created [`repository`](https://docs.github.com/rest/repos/repos#get-a-repository)
             resource.
@@ -98139,7 +98202,7 @@ components:
           enum:
           - revoked
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -98156,7 +98219,7 @@ components:
       type: object
       properties:
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -98214,7 +98277,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/installation"
         organization:
@@ -98328,7 +98391,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/installation"
         organization:
@@ -98377,7 +98440,7 @@ components:
           enum:
           - new_permissions_accepted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/installation"
         organization:
@@ -98426,7 +98489,7 @@ components:
           enum:
           - added
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/installation"
         organization:
@@ -98571,7 +98634,7 @@ components:
           enum:
           - removed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/installation"
         organization:
@@ -98722,7 +98785,7 @@ components:
           enum:
           - suspend
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/installation"
         organization:
@@ -98868,7 +98931,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -98894,7 +98957,7 @@ components:
           enum:
           - unsuspend
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/installation"
         organization:
@@ -99105,7 +99168,7 @@ components:
           - body
           - reactions
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -100418,7 +100481,7 @@ components:
           - body
           - reactions
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -101739,7 +101802,7 @@ components:
           - body
           - reactions
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -102957,7 +103020,7 @@ components:
           - login
           - id
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -103873,7 +103936,7 @@ components:
           enum:
           - closed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -104925,7 +104988,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -105834,7 +105897,7 @@ components:
           enum:
           - demilestoned
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -107167,7 +107230,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -108116,7 +108179,7 @@ components:
           enum:
           - labeled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -109063,7 +109126,7 @@ components:
           enum:
           - locked
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -110112,7 +110175,7 @@ components:
           enum:
           - milestoned
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -112763,7 +112826,7 @@ components:
           - old_issue
           - old_repository
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -113676,7 +113739,7 @@ components:
           enum:
           - pinned
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -114584,7 +114647,7 @@ components:
           enum:
           - reopened
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -116980,7 +117043,7 @@ components:
           - new_issue
           - new_repository
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -117958,7 +118021,7 @@ components:
           - login
           - id
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -118873,7 +118936,7 @@ components:
           enum:
           - unlabeled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -119820,7 +119883,7 @@ components:
           enum:
           - unlocked
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -120859,7 +120922,7 @@ components:
           enum:
           - unpinned
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         issue:
@@ -121767,7 +121830,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         label:
@@ -121821,7 +121884,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         label:
@@ -121907,7 +121970,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         label:
@@ -121964,7 +122027,7 @@ components:
         effective_date:
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         marketplace_purchase:
@@ -122210,7 +122273,7 @@ components:
         effective_date:
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         marketplace_purchase:
@@ -122458,7 +122521,7 @@ components:
         effective_date:
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         marketplace_purchase:
@@ -122705,7 +122768,7 @@ components:
         effective_date:
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         marketplace_purchase:
@@ -122897,7 +122960,7 @@ components:
         effective_date:
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         marketplace_purchase:
@@ -123155,7 +123218,7 @@ components:
               required:
               - to
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         member:
@@ -123267,7 +123330,7 @@ components:
                   type: string
                   nullable: true
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         member:
@@ -123358,7 +123421,7 @@ components:
           enum:
           - removed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         member:
@@ -123448,7 +123511,7 @@ components:
           enum:
           - added
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         member:
@@ -123722,7 +123785,7 @@ components:
           enum:
           - removed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         member:
@@ -124046,7 +124109,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         hook:
           description: 'The modified webhook. This will contain different keys based
             on the type of webhook it is: repository, organization, business, app,
@@ -124175,7 +124238,7 @@ components:
           enum:
           - closed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         milestone:
@@ -124334,7 +124397,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         milestone:
@@ -124492,7 +124555,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         milestone:
@@ -124682,7 +124745,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         milestone:
@@ -124842,7 +124905,7 @@ components:
           enum:
           - opened
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         milestone:
@@ -125067,7 +125130,7 @@ components:
           - login
           - id
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -125157,7 +125220,7 @@ components:
           - login
           - id
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -125180,7 +125243,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         membership:
@@ -125291,7 +125354,7 @@ components:
           enum:
           - member_added
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         membership:
@@ -125403,7 +125466,7 @@ components:
           enum:
           - member_invited
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         invitation:
@@ -125605,7 +125668,7 @@ components:
           enum:
           - member_removed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         membership:
@@ -125725,7 +125788,7 @@ components:
                 from:
                   type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         membership:
@@ -125869,7 +125932,7 @@ components:
           enum:
           - published
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -126447,7 +126510,7 @@ components:
           enum:
           - updated
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -126986,7 +127049,7 @@ components:
           - created_at
           - updated_at
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         id:
           type: integer
         installation:
@@ -127207,7 +127270,7 @@ components:
           required:
           - note
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -127347,7 +127410,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -127486,7 +127549,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -127640,7 +127703,7 @@ components:
           required:
           - note
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -127792,7 +127855,7 @@ components:
           required:
           - column_id
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128001,7 +128064,7 @@ components:
           enum:
           - closed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128145,7 +128208,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128205,7 +128268,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128275,7 +128338,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128336,7 +128399,7 @@ components:
           enum:
           - moved
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128397,7 +128460,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128541,7 +128604,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128705,7 +128768,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -128848,7 +128911,7 @@ components:
           enum:
           - reopened
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -129357,7 +129420,7 @@ components:
       type: object
       properties:
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -129445,7 +129508,7 @@ components:
           - login
           - id
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -131713,7 +131776,7 @@ components:
           enum:
           - auto_merge_disabled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -133977,7 +134040,7 @@ components:
           enum:
           - auto_merge_enabled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -136241,7 +136304,7 @@ components:
           enum:
           - closed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -136331,7 +136394,7 @@ components:
           enum:
           - converted_to_draft
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -136421,7 +136484,7 @@ components:
           enum:
           - demilestoned
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         milestone:
           "$ref": "#/components/schemas/milestone"
         number:
@@ -138674,7 +138737,7 @@ components:
           enum:
           - dequeued
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -140971,7 +141034,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -141061,7 +141124,7 @@ components:
           enum:
           - enqueued
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -143313,7 +143376,7 @@ components:
           enum:
           - labeled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         label:
@@ -145613,7 +145676,7 @@ components:
           enum:
           - locked
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -147879,7 +147942,7 @@ components:
           enum:
           - milestoned
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         milestone:
           "$ref": "#/components/schemas/milestone"
         number:
@@ -150132,7 +150195,7 @@ components:
           enum:
           - opened
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -150222,7 +150285,7 @@ components:
           enum:
           - ready_for_review
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -150312,7 +150375,7 @@ components:
           enum:
           - reopened
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -150682,7 +150745,7 @@ components:
           - side
           - reactions
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -153118,7 +153181,7 @@ components:
           - side
           - reactions
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -155554,7 +155617,7 @@ components:
           - side
           - reactions
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -157701,7 +157764,7 @@ components:
           enum:
           - dismissed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -160021,7 +160084,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -162210,7 +162273,7 @@ components:
             enum:
             - review_request_removed
           enterprise:
-            "$ref": "#/components/schemas/enterprise"
+            "$ref": "#/components/schemas/enterprise-webhooks"
           installation:
             "$ref": "#/components/schemas/simple-installation"
           number:
@@ -164537,7 +164600,7 @@ components:
             enum:
             - review_request_removed
           enterprise:
-            "$ref": "#/components/schemas/enterprise"
+            "$ref": "#/components/schemas/enterprise-webhooks"
           installation:
             "$ref": "#/components/schemas/simple-installation"
           number:
@@ -166917,7 +166980,7 @@ components:
             enum:
             - review_requested
           enterprise:
-            "$ref": "#/components/schemas/enterprise"
+            "$ref": "#/components/schemas/enterprise-webhooks"
           installation:
             "$ref": "#/components/schemas/simple-installation"
           number:
@@ -169249,7 +169312,7 @@ components:
             enum:
             - review_requested
           enterprise:
-            "$ref": "#/components/schemas/enterprise"
+            "$ref": "#/components/schemas/enterprise-webhooks"
           installation:
             "$ref": "#/components/schemas/simple-installation"
           number:
@@ -171605,7 +171668,7 @@ components:
           enum:
           - submitted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -173911,7 +173974,7 @@ components:
           enum:
           - resolved
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -176262,7 +176325,7 @@ components:
           enum:
           - unresolved
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -178601,7 +178664,7 @@ components:
         before:
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -180927,7 +180990,7 @@ components:
           - login
           - id
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -183195,7 +183258,7 @@ components:
           enum:
           - unlabeled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         label:
@@ -185485,7 +185548,7 @@ components:
           enum:
           - unlocked
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         number:
@@ -187849,7 +187912,7 @@ components:
           description: Whether this push deleted the `ref`.
           type: boolean
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         forced:
           description: Whether this push was a force push of the `ref`.
           type: boolean
@@ -188447,7 +188510,7 @@ components:
           enum:
           - published
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -188962,7 +189025,7 @@ components:
           enum:
           - updated
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -189335,7 +189398,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -189661,7 +189724,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -190017,7 +190080,7 @@ components:
               required:
               - to
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -190343,7 +190406,7 @@ components:
           enum:
           - prereleased
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -190758,7 +190821,7 @@ components:
           enum:
           - published
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -191170,7 +191233,7 @@ components:
           enum:
           - released
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -191495,7 +191558,7 @@ components:
           enum:
           - unpublished
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -191906,7 +191969,7 @@ components:
           enum:
           - published
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -191930,7 +191993,7 @@ components:
           enum:
           - reported
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -191954,7 +192017,7 @@ components:
           enum:
           - archived
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -191976,7 +192039,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -191998,7 +192061,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192026,7 +192089,7 @@ components:
           nullable: true
           additionalProperties: true
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192085,7 +192148,7 @@ components:
                   items:
                     type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192104,7 +192167,7 @@ components:
       type: object
       properties:
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192132,7 +192195,7 @@ components:
           enum:
           - privatized
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192154,7 +192217,7 @@ components:
           enum:
           - publicized
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192193,7 +192256,7 @@ components:
           required:
           - repository
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192216,7 +192279,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192240,7 +192303,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192264,7 +192327,7 @@ components:
           enum:
           - edited
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192515,7 +192578,7 @@ components:
           required:
           - owner
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192538,7 +192601,7 @@ components:
           enum:
           - unarchived
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192715,7 +192778,7 @@ components:
             required:
             - state
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -192973,7 +193036,7 @@ components:
             - dismissed_at
             - state
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193151,7 +193214,7 @@ components:
             required:
             - state
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193335,7 +193398,7 @@ components:
             required:
             - state
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193360,7 +193423,7 @@ components:
         alert:
           "$ref": "#/components/schemas/secret-scanning-alert-webhook"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193419,7 +193482,7 @@ components:
         alert:
           "$ref": "#/components/schemas/secret-scanning-alert-webhook"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193443,7 +193506,7 @@ components:
         alert:
           "$ref": "#/components/schemas/secret-scanning-alert-webhook"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193467,7 +193530,7 @@ components:
         alert:
           "$ref": "#/components/schemas/secret-scanning-alert-webhook"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193489,7 +193552,7 @@ components:
           enum:
           - published
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193620,7 +193683,7 @@ components:
           enum:
           - updated
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193751,7 +193814,7 @@ components:
           enum:
           - withdrawn
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193885,7 +193948,7 @@ components:
                 security_and_analysis:
                   "$ref": "#/components/schemas/security-and-analysis"
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -193906,7 +193969,7 @@ components:
           enum:
           - cancelled
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -194150,7 +194213,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -194406,7 +194469,7 @@ components:
               required:
               - from
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -194656,7 +194719,7 @@ components:
             effect.
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -194948,7 +195011,7 @@ components:
             effect.
           type: string
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -195236,7 +195299,7 @@ components:
           required:
           - tier
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -195481,7 +195544,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -195510,7 +195573,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -195871,7 +195934,7 @@ components:
           type: string
           nullable: true
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         id:
           description: The unique identifier of the status.
           type: integer
@@ -195921,7 +195984,7 @@ components:
       type: object
       properties:
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -196057,7 +196120,7 @@ components:
           enum:
           - added_to_repository
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -196638,7 +196701,7 @@ components:
           enum:
           - created
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -197220,7 +197283,7 @@ components:
           enum:
           - deleted
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -197866,7 +197929,7 @@ components:
               required:
               - permissions
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -198449,7 +198512,7 @@ components:
           enum:
           - removed_from_repository
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -199031,7 +199094,7 @@ components:
           enum:
           - started
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -199049,7 +199112,7 @@ components:
       type: object
       properties:
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         inputs:
           type: object
           nullable: true
@@ -199081,7 +199144,7 @@ components:
           enum:
           - completed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -199337,7 +199400,7 @@ components:
           enum:
           - in_progress
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -199616,7 +199679,7 @@ components:
           enum:
           - queued
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -199774,7 +199837,7 @@ components:
           enum:
           - waiting
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -199933,7 +199996,7 @@ components:
           enum:
           - completed
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -201363,7 +201426,7 @@ components:
           enum:
           - in_progress
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:
@@ -202793,7 +202856,7 @@ components:
           enum:
           - requested
         enterprise:
-          "$ref": "#/components/schemas/enterprise"
+          "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
           "$ref": "#/components/schemas/simple-installation"
         organization:

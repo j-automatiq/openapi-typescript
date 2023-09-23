@@ -22951,6 +22951,55 @@ export interface components {
       key: string;
     };
     /**
+     * Enterprise
+     * @description An enterprise on GitHub. Webhook payloads contain the `enterprise` property when the webhook is configured
+     * on an enterprise account or an organization that's part of an enterprise account. For more information,
+     * see "[About enterprise accounts](https://docs.github.com/admin/overview/about-enterprise-accounts)."
+     */
+    "enterprise-webhooks": {
+      /** @description A short description of the enterprise. */
+      description?: string | null;
+      /**
+       * Format: uri
+       * @example https://github.com/enterprises/octo-business
+       */
+      html_url: string;
+      /**
+       * Format: uri
+       * @description The enterprise's website URL.
+       */
+      website_url?: string | null;
+      /**
+       * @description Unique identifier of the enterprise
+       * @example 42
+       */
+      id: number;
+      /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+      node_id: string;
+      /**
+       * @description The name of the enterprise.
+       * @example Octo Business
+       */
+      name: string;
+      /**
+       * @description The slug url identifier for the enterprise.
+       * @example octo-business
+       */
+      slug: string;
+      /**
+       * Format: date-time
+       * @example 2019-01-26T19:01:12Z
+       */
+      created_at: string | null;
+      /**
+       * Format: date-time
+       * @example 2019-01-26T19:14:43Z
+       */
+      updated_at: string | null;
+      /** Format: uri */
+      avatar_url: string;
+    };
+    /**
      * Simple Installation
      * @description The GitHub App installation. Webhook payloads contain the `installation` property when the event is configured
      * for and sent to a GitHub App. For more information,
@@ -24522,7 +24571,7 @@ export interface components {
     "webhook-branch-protection-configuration-disabled": {
       /** @enum {string} */
       action: "disabled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -24532,7 +24581,7 @@ export interface components {
     "webhook-branch-protection-configuration-enabled": {
       /** @enum {string} */
       action: "enabled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -24542,7 +24591,7 @@ export interface components {
     "webhook-branch-protection-rule-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -24596,7 +24645,7 @@ export interface components {
     "webhook-branch-protection-rule-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -24676,7 +24725,7 @@ export interface components {
           from: "off" | "non_admins" | "everyone";
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -25038,7 +25087,7 @@ export interface components {
          */
         url: string;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -25279,7 +25328,7 @@ export interface components {
          */
         url: string;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -25520,7 +25569,7 @@ export interface components {
          */
         url: string;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -25646,7 +25695,7 @@ export interface components {
       };
       /** @description The commit SHA of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       commit_oid: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
@@ -25781,7 +25830,7 @@ export interface components {
       };
       /** @description The commit SHA of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       commit_oid: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
@@ -25878,7 +25927,7 @@ export interface components {
       };
       /** @description The commit SHA of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       commit_oid: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
@@ -26015,7 +26064,7 @@ export interface components {
       };
       /** @description The commit SHA of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       commit_oid: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
@@ -26108,7 +26157,7 @@ export interface components {
       }) | null;
       /** @description The commit SHA of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       commit_oid: string | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
@@ -26194,7 +26243,7 @@ export interface components {
       };
       /** @description The commit SHA of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
       commit_oid: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
@@ -26289,7 +26338,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -26299,7 +26348,7 @@ export interface components {
     "webhook-create": {
       /** @description The repository's current description. */
       description: string | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The name of the repository's default branch (usually `main`). */
       master_branch: string;
@@ -26318,7 +26367,7 @@ export interface components {
     };
     /** delete event */
     "webhook-delete": {
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The pusher type for the event. Can be either `user` or a deploy key. */
@@ -26340,7 +26389,7 @@ export interface components {
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
       sender: components["schemas"]["simple-user-webhooks"];
     };
@@ -26351,7 +26400,7 @@ export interface components {
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
       sender: components["schemas"]["simple-user-webhooks"];
     };
@@ -26362,7 +26411,7 @@ export interface components {
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
       sender: components["schemas"]["simple-user-webhooks"];
     };
@@ -26373,7 +26422,7 @@ export interface components {
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
       sender: components["schemas"]["simple-user-webhooks"];
     };
@@ -26384,7 +26433,7 @@ export interface components {
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
       sender: components["schemas"]["simple-user-webhooks"];
     };
@@ -26395,7 +26444,7 @@ export interface components {
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
       sender: components["schemas"]["simple-user-webhooks"];
     };
@@ -26406,7 +26455,7 @@ export interface components {
       alert: components["schemas"]["dependabot-alert"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
       sender: components["schemas"]["simple-user-webhooks"];
     };
@@ -26414,7 +26463,7 @@ export interface components {
     "webhook-deploy-key-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The [`deploy key`](https://docs.github.com/rest/deploy-keys/deploy-keys#get-a-deploy-key) resource. */
       key: {
@@ -26437,7 +26486,7 @@ export interface components {
     "webhook-deploy-key-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The [`deploy key`](https://docs.github.com/rest/deploy-keys/deploy-keys#get-a-deploy-key) resource. */
       key: {
@@ -26656,7 +26705,7 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -27004,7 +27053,7 @@ export interface components {
         url?: string;
       };
       comment?: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -27376,7 +27425,7 @@ export interface components {
         url?: string;
       };
       comment?: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -27727,7 +27776,7 @@ export interface components {
     "webhook-deployment-review-requested": {
       /** @enum {string} */
       action: "requested";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       environment: string;
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
@@ -28528,7 +28577,7 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -28908,7 +28957,7 @@ export interface components {
         }) | null;
       };
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -28936,7 +28985,7 @@ export interface components {
         };
       };
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -28947,7 +28996,7 @@ export interface components {
       /** @enum {string} */
       action: "closed";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29027,7 +29076,7 @@ export interface components {
         }) | null;
       };
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29107,7 +29156,7 @@ export interface components {
         }) | null;
       };
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29192,7 +29241,7 @@ export interface components {
         }) | null;
       };
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29395,7 +29444,7 @@ export interface components {
           url?: string;
         };
       });
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29406,7 +29455,7 @@ export interface components {
       /** @enum {string} */
       action: "deleted";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29425,7 +29474,7 @@ export interface components {
         };
       };
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29436,7 +29485,7 @@ export interface components {
       /** @enum {string} */
       action: "labeled";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** Label */
       label: {
@@ -29463,7 +29512,7 @@ export interface components {
       /** @enum {string} */
       action: "locked";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29474,7 +29523,7 @@ export interface components {
       /** @enum {string} */
       action: "pinned";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29485,7 +29534,7 @@ export interface components {
       /** @enum {string} */
       action: "reopened";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29500,7 +29549,7 @@ export interface components {
         new_repository: components["schemas"]["repository-webhooks"];
       };
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29591,7 +29640,7 @@ export interface components {
       /** @enum {string} */
       action: "unlabeled";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** Label */
       label: {
@@ -29618,7 +29667,7 @@ export interface components {
       /** @enum {string} */
       action: "unlocked";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29629,7 +29678,7 @@ export interface components {
       /** @enum {string} */
       action: "unpinned";
       discussion: components["schemas"]["discussion"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -29640,7 +29689,7 @@ export interface components {
      * @description A user forks a repository.
      */
     "webhook-fork": {
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       /** @description The created [`repository`](https://docs.github.com/rest/repos/repos#get-a-repository) resource. */
       forkee: ({
         /**
@@ -29983,7 +30032,7 @@ export interface components {
     "webhook-github-app-authorization-revoked": {
       /** @enum {string} */
       action: "revoked";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -29991,7 +30040,7 @@ export interface components {
     };
     /** gollum event */
     "webhook-gollum": {
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description The pages that were updated. */
@@ -30021,7 +30070,7 @@ export interface components {
     "webhook-installation-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
@@ -30079,7 +30128,7 @@ export interface components {
     "webhook-installation-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
@@ -30101,7 +30150,7 @@ export interface components {
     "webhook-installation-new-permissions-accepted": {
       /** @enum {string} */
       action: "new_permissions_accepted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
@@ -30123,7 +30172,7 @@ export interface components {
     "webhook-installation-repositories-added": {
       /** @enum {string} */
       action: "added";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects, which were added to the installation. */
@@ -30197,7 +30246,7 @@ export interface components {
     "webhook-installation-repositories-removed": {
       /** @enum {string} */
       action: "removed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects, which were added to the installation. */
@@ -30271,7 +30320,7 @@ export interface components {
     "webhook-installation-suspend": {
       /** @enum {string} */
       action: "suspend";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
@@ -30338,7 +30387,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -30349,7 +30398,7 @@ export interface components {
     "webhook-installation-unsuspend": {
       /** @enum {string} */
       action: "unsuspend";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description An array of repository objects that the installation can access. */
@@ -30456,7 +30505,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) the comment belongs to. */
       issue: ({
@@ -31070,7 +31119,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) the comment belongs to. */
       issue: ({
@@ -31691,7 +31740,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) the comment belongs to. */
       issue: ({
@@ -32260,7 +32309,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -32683,7 +32732,7 @@ export interface components {
        * @enum {string}
        */
       action: "closed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself. */
       issue: ({
@@ -33159,7 +33208,7 @@ export interface components {
     "webhook-issues-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -33579,7 +33628,7 @@ export interface components {
     "webhook-issues-demilestoned": {
       /** @enum {string} */
       action: "demilestoned";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
@@ -34205,7 +34254,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -34641,7 +34690,7 @@ export interface components {
     "webhook-issues-labeled": {
       /** @enum {string} */
       action: "labeled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -35077,7 +35126,7 @@ export interface components {
     "webhook-issues-locked": {
       /** @enum {string} */
       action: "locked";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
@@ -35553,7 +35602,7 @@ export interface components {
     "webhook-issues-milestoned": {
       /** @enum {string} */
       action: "milestoned";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
@@ -36815,7 +36864,7 @@ export interface components {
           watchers_count: number;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -37235,7 +37284,7 @@ export interface components {
     "webhook-issues-pinned": {
       /** @enum {string} */
       action: "pinned";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -37655,7 +37704,7 @@ export interface components {
     "webhook-issues-reopened": {
       /** @enum {string} */
       action: "reopened";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
@@ -38784,7 +38833,7 @@ export interface components {
           web_commit_signoff_required?: boolean;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -39244,7 +39293,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -39664,7 +39713,7 @@ export interface components {
     "webhook-issues-unlabeled": {
       /** @enum {string} */
       action: "unlabeled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -40100,7 +40149,7 @@ export interface components {
     "webhook-issues-unlocked": {
       /** @enum {string} */
       action: "unlocked";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       issue: ({
         /** @enum {string|null} */
@@ -40575,7 +40624,7 @@ export interface components {
     "webhook-issues-unpinned": {
       /** @enum {string} */
       action: "unpinned";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Issue
@@ -40995,7 +41044,7 @@ export interface components {
     "webhook-label-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** Label */
       label: {
@@ -41021,7 +41070,7 @@ export interface components {
     "webhook-label-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** Label */
       label: {
@@ -41062,7 +41111,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** Label */
       label: {
@@ -41089,7 +41138,7 @@ export interface components {
       /** @enum {string} */
       action: "cancelled";
       effective_date: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       marketplace_purchase: ({
         account: {
@@ -41178,7 +41227,7 @@ export interface components {
       /** @enum {string} */
       action: "changed";
       effective_date: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       marketplace_purchase: ({
         account: {
@@ -41267,7 +41316,7 @@ export interface components {
       /** @enum {string} */
       action: "pending_change";
       effective_date: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       marketplace_purchase: ({
         account: {
@@ -41356,7 +41405,7 @@ export interface components {
       /** @enum {string} */
       action: "pending_change_cancelled";
       effective_date: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       marketplace_purchase: ({
         account: {
@@ -41422,7 +41471,7 @@ export interface components {
       /** @enum {string} */
       action: "purchased";
       effective_date: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       marketplace_purchase: ({
         account: {
@@ -41516,7 +41565,7 @@ export interface components {
           to: "write" | "admin" | "read";
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** User */
       member: ({
@@ -41574,7 +41623,7 @@ export interface components {
           to?: string | null;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** User */
       member: ({
@@ -41621,7 +41670,7 @@ export interface components {
     "webhook-member-removed": {
       /** @enum {string} */
       action: "removed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** User */
       member: ({
@@ -41668,7 +41717,7 @@ export interface components {
     "webhook-membership-added": {
       /** @enum {string} */
       action: "added";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** User */
       member: ({
@@ -41818,7 +41867,7 @@ export interface components {
     "webhook-membership-removed": {
       /** @enum {string} */
       action: "removed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** User */
       member: ({
@@ -41991,7 +42040,7 @@ export interface components {
     "webhook-meta-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       /** @description The modified webhook. This will contain different keys based on the type of webhook it is: repository, organization, business, app, or GitHub Marketplace. */
       hook: {
         active: boolean;
@@ -42021,7 +42070,7 @@ export interface components {
     "webhook-milestone-closed": {
       /** @enum {string} */
       action: "closed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Milestone
@@ -42102,7 +42151,7 @@ export interface components {
     "webhook-milestone-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Milestone
@@ -42183,7 +42232,7 @@ export interface components {
     "webhook-milestone-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Milestone
@@ -42279,7 +42328,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Milestone
@@ -42360,7 +42409,7 @@ export interface components {
     "webhook-milestone-opened": {
       /** @enum {string} */
       action: "opened";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Milestone
@@ -42478,7 +42527,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -42525,7 +42574,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -42535,7 +42584,7 @@ export interface components {
     "webhook-organization-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Membership
@@ -42594,7 +42643,7 @@ export interface components {
     "webhook-organization-member-added": {
       /** @enum {string} */
       action: "member_added";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Membership
@@ -42653,7 +42702,7 @@ export interface components {
     "webhook-organization-member-invited": {
       /** @enum {string} */
       action: "member_invited";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The invitation for the user or email if the action is `member_invited`. */
       invitation: {
@@ -42754,7 +42803,7 @@ export interface components {
     "webhook-organization-member-removed": {
       /** @enum {string} */
       action: "member_removed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Membership
@@ -42818,7 +42867,7 @@ export interface components {
           from?: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /**
        * Membership
@@ -42896,7 +42945,7 @@ export interface components {
     "webhook-package-published": {
       /** @enum {string} */
       action: "published";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description Information about the package. */
@@ -43153,7 +43202,7 @@ export interface components {
     "webhook-package-updated": {
       /** @enum {string} */
       action: "updated";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** @description Information about the package. */
@@ -43402,7 +43451,7 @@ export interface components {
         /** Format: uri */
         url: string;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       id: number;
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
@@ -43507,7 +43556,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Card */
@@ -43577,7 +43626,7 @@ export interface components {
     "webhook-project-card-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Card */
@@ -43647,7 +43696,7 @@ export interface components {
     "webhook-project-card-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Card */
@@ -43722,7 +43771,7 @@ export interface components {
           from: string | null;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Card */
@@ -43797,7 +43846,7 @@ export interface components {
           from: number;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       project_card: ({
@@ -43898,7 +43947,7 @@ export interface components {
     "webhook-project-closed": {
       /** @enum {string} */
       action: "closed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
@@ -43972,7 +44021,7 @@ export interface components {
     "webhook-project-column-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Column */
@@ -44001,7 +44050,7 @@ export interface components {
     "webhook-project-column-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Column */
@@ -44035,7 +44084,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Column */
@@ -44064,7 +44113,7 @@ export interface components {
     "webhook-project-column-moved": {
       /** @enum {string} */
       action: "moved";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project Column */
@@ -44093,7 +44142,7 @@ export interface components {
     "webhook-project-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
@@ -44167,7 +44216,7 @@ export interface components {
     "webhook-project-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
@@ -44252,7 +44301,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
@@ -44326,7 +44375,7 @@ export interface components {
     "webhook-project-reopened": {
       /** @enum {string} */
       action: "reopened";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Project */
@@ -44563,7 +44612,7 @@ export interface components {
     };
     /** public event */
     "webhook-public": {
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -44610,7 +44659,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -45799,7 +45848,7 @@ export interface components {
     "webhook-pull-request-auto-merge-disabled": {
       /** @enum {string} */
       action: "auto_merge_disabled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       number: number;
       organization?: components["schemas"]["organization-simple-webhooks"];
@@ -46988,7 +47037,7 @@ export interface components {
     "webhook-pull-request-auto-merge-enabled": {
       /** @enum {string} */
       action: "auto_merge_enabled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       number: number;
       organization?: components["schemas"]["organization-simple-webhooks"];
@@ -48177,7 +48226,7 @@ export interface components {
     "webhook-pull-request-closed": {
       /** @enum {string} */
       action: "closed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -48238,7 +48287,7 @@ export interface components {
     "webhook-pull-request-converted-to-draft": {
       /** @enum {string} */
       action: "converted_to_draft";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -48299,7 +48348,7 @@ export interface components {
     "webhook-pull-request-demilestoned": {
       /** @enum {string} */
       action: "demilestoned";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       milestone?: components["schemas"]["milestone"];
       /** @description The pull request number. */
       number: number;
@@ -49488,7 +49537,7 @@ export interface components {
     "webhook-pull-request-dequeued": {
       /** @enum {string} */
       action: "dequeued";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       number: number;
       organization?: components["schemas"]["organization-simple-webhooks"];
@@ -50696,7 +50745,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -50757,7 +50806,7 @@ export interface components {
     "webhook-pull-request-enqueued": {
       /** @enum {string} */
       action: "enqueued";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       number: number;
       organization?: components["schemas"]["organization-simple-webhooks"];
@@ -51945,7 +51994,7 @@ export interface components {
     "webhook-pull-request-labeled": {
       /** @enum {string} */
       action: "labeled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** Label */
       label?: {
@@ -53150,7 +53199,7 @@ export interface components {
     "webhook-pull-request-locked": {
       /** @enum {string} */
       action: "locked";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -54339,7 +54388,7 @@ export interface components {
     "webhook-pull-request-milestoned": {
       /** @enum {string} */
       action: "milestoned";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       milestone?: components["schemas"]["milestone"];
       /** @description The pull request number. */
       number: number;
@@ -55528,7 +55577,7 @@ export interface components {
     "webhook-pull-request-opened": {
       /** @enum {string} */
       action: "opened";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -55589,7 +55638,7 @@ export interface components {
     "webhook-pull-request-ready-for-review": {
       /** @enum {string} */
       action: "ready_for_review";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -55650,7 +55699,7 @@ export interface components {
     "webhook-pull-request-reopened": {
       /** @enum {string} */
       action: "reopened";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -55856,7 +55905,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: {
@@ -57128,7 +57177,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: {
@@ -58407,7 +58456,7 @@ export interface components {
           url?: string;
         }) | null;
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       pull_request: {
@@ -59534,7 +59583,7 @@ export interface components {
     "webhook-pull-request-review-dismissed": {
       /** @enum {string} */
       action: "dismissed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
@@ -60741,7 +60790,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
@@ -61849,7 +61898,7 @@ export interface components {
     "webhook-pull-request-review-request-removed": OneOf<[{
       /** @enum {string} */
       action: "review_request_removed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -63066,7 +63115,7 @@ export interface components {
     }, {
       /** @enum {string} */
       action: "review_request_removed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -64310,7 +64359,7 @@ export interface components {
     "webhook-pull-request-review-requested": OneOf<[{
       /** @enum {string} */
       action: "review_requested";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -65534,7 +65583,7 @@ export interface components {
     }, {
       /** @enum {string} */
       action: "review_requested";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -66778,7 +66827,7 @@ export interface components {
     "webhook-pull-request-review-submitted": {
       /** @enum {string} */
       action: "submitted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
@@ -67978,7 +68027,7 @@ export interface components {
     "webhook-pull-request-review-thread-resolved": {
       /** @enum {string} */
       action: "resolved";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
@@ -69172,7 +69221,7 @@ export interface components {
     "webhook-pull-request-review-thread-unresolved": {
       /** @enum {string} */
       action: "unresolved";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /** Simple Pull Request */
@@ -70368,7 +70417,7 @@ export interface components {
       action: "synchronize";
       after: string;
       before: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -71587,7 +71636,7 @@ export interface components {
         /** Format: uri */
         url?: string;
       }) | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -72776,7 +72825,7 @@ export interface components {
     "webhook-pull-request-unlabeled": {
       /** @enum {string} */
       action: "unlabeled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** Label */
       label?: {
@@ -73974,7 +74023,7 @@ export interface components {
     "webhook-pull-request-unlocked": {
       /** @enum {string} */
       action: "unlocked";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       /** @description The pull request number. */
       number: number;
@@ -75223,7 +75272,7 @@ export interface components {
       created: boolean;
       /** @description Whether this push deleted the `ref`. */
       deleted: boolean;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       /** @description Whether this push was a force push of the `ref`. */
       forced: boolean;
       /** Commit */
@@ -75541,7 +75590,7 @@ export interface components {
     "webhook-registry-package-published": {
       /** @enum {string} */
       action: "published";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       registry_package: {
@@ -75737,7 +75786,7 @@ export interface components {
     "webhook-registry-package-updated": {
       /** @enum {string} */
       action: "updated";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       registry_package: {
@@ -75871,7 +75920,7 @@ export interface components {
     "webhook-release-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -76028,7 +76077,7 @@ export interface components {
     "webhook-release-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -76199,7 +76248,7 @@ export interface components {
           to: boolean;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -76356,7 +76405,7 @@ export interface components {
     "webhook-release-prereleased": {
       /** @enum {string} */
       action: "prereleased";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       release: ({
@@ -76551,7 +76600,7 @@ export interface components {
     "webhook-release-published": {
       /** @enum {string} */
       action: "published";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       release: ({
@@ -76743,7 +76792,7 @@ export interface components {
     "webhook-release-released": {
       /** @enum {string} */
       action: "released";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -76900,7 +76949,7 @@ export interface components {
     "webhook-release-unpublished": {
       /** @enum {string} */
       action: "unpublished";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       release: ({
@@ -77091,7 +77140,7 @@ export interface components {
     "webhook-repository-advisory-published": {
       /** @enum {string} */
       action: "published";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77102,7 +77151,7 @@ export interface components {
     "webhook-repository-advisory-reported": {
       /** @enum {string} */
       action: "reported";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77113,7 +77162,7 @@ export interface components {
     "webhook-repository-archived": {
       /** @enum {string} */
       action: "archived";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77123,7 +77172,7 @@ export interface components {
     "webhook-repository-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77133,7 +77182,7 @@ export interface components {
     "webhook-repository-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77147,7 +77196,7 @@ export interface components {
       client_payload: {
         [key: string]: unknown;
       } | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77171,7 +77220,7 @@ export interface components {
           from?: string[] | null;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77179,7 +77228,7 @@ export interface components {
     };
     /** repository_import event */
     "webhook-repository-import": {
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77191,7 +77240,7 @@ export interface components {
     "webhook-repository-privatized": {
       /** @enum {string} */
       action: "privatized";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77201,7 +77250,7 @@ export interface components {
     "webhook-repository-publicized": {
       /** @enum {string} */
       action: "publicized";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77218,7 +77267,7 @@ export interface components {
           };
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77228,7 +77277,7 @@ export interface components {
     "webhook-repository-ruleset-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -77239,7 +77288,7 @@ export interface components {
     "webhook-repository-ruleset-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -77250,7 +77299,7 @@ export interface components {
     "webhook-repository-ruleset-edited": {
       /** @enum {string} */
       action: "edited";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -77376,7 +77425,7 @@ export interface components {
           };
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77386,7 +77435,7 @@ export interface components {
     "webhook-repository-unarchived": {
       /** @enum {string} */
       action: "unarchived";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77468,7 +77517,7 @@ export interface components {
         /** @enum {string} */
         state: "open";
       });
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77591,7 +77640,7 @@ export interface components {
         /** @enum {string} */
         state: "dismissed";
       });
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77673,7 +77722,7 @@ export interface components {
         /** @enum {string} */
         state: "open";
       });
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77758,7 +77807,7 @@ export interface components {
         /** @enum {string} */
         state: "fixed" | "open";
       });
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77769,7 +77818,7 @@ export interface components {
       /** @enum {string} */
       action: "created";
       alert: components["schemas"]["secret-scanning-alert-webhook"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77796,7 +77845,7 @@ export interface components {
       /** @enum {string} */
       action: "reopened";
       alert: components["schemas"]["secret-scanning-alert-webhook"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77807,7 +77856,7 @@ export interface components {
       /** @enum {string} */
       action: "resolved";
       alert: components["schemas"]["secret-scanning-alert-webhook"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77818,7 +77867,7 @@ export interface components {
       /** @enum {string} */
       action: "revoked";
       alert: components["schemas"]["secret-scanning-alert-webhook"];
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -77828,7 +77877,7 @@ export interface components {
     "webhook-security-advisory-published": {
       /** @enum {string} */
       action: "published";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -77875,7 +77924,7 @@ export interface components {
     "webhook-security-advisory-updated": {
       /** @enum {string} */
       action: "updated";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -77922,7 +77971,7 @@ export interface components {
     "webhook-security-advisory-withdrawn": {
       /** @enum {string} */
       action: "withdrawn";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -77972,7 +78021,7 @@ export interface components {
           security_and_analysis?: components["schemas"]["security-and-analysis"];
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["full-repository"];
@@ -77982,7 +78031,7 @@ export interface components {
     "webhook-sponsorship-cancelled": {
       /** @enum {string} */
       action: "cancelled";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -78106,7 +78155,7 @@ export interface components {
     "webhook-sponsorship-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -78236,7 +78285,7 @@ export interface components {
           from: string;
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -78362,7 +78411,7 @@ export interface components {
       action: "pending_cancellation";
       /** @description The `pending_cancellation` and `pending_tier_change` event types will include the date the cancellation or tier change will take effect. */
       effective_date?: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -78507,7 +78556,7 @@ export interface components {
       };
       /** @description The `pending_cancellation` and `pending_tier_change` event types will include the date the cancellation or tier change will take effect. */
       effective_date?: string;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -78650,7 +78699,7 @@ export interface components {
           };
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository?: components["schemas"]["repository-webhooks"];
@@ -78774,7 +78823,7 @@ export interface components {
     "webhook-star-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -78786,7 +78835,7 @@ export interface components {
     "webhook-star-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -78947,7 +78996,7 @@ export interface components {
       created_at: string;
       /** @description The optional human-readable description added to the status. */
       description: string | null;
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       /** @description The unique identifier of the status. */
       id: number;
       installation?: components["schemas"]["simple-installation"];
@@ -78968,7 +79017,7 @@ export interface components {
     };
     /** team_add event */
     "webhook-team-add": {
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -79043,7 +79092,7 @@ export interface components {
     "webhook-team-added-to-repository": {
       /** @enum {string} */
       action: "added_to_repository";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -79352,7 +79401,7 @@ export interface components {
     "webhook-team-created": {
       /** @enum {string} */
       action: "created";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -79661,7 +79710,7 @@ export interface components {
     "webhook-team-deleted": {
       /** @enum {string} */
       action: "deleted";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -80001,7 +80050,7 @@ export interface components {
           };
         };
       };
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -80310,7 +80359,7 @@ export interface components {
     "webhook-team-removed-from-repository": {
       /** @enum {string} */
       action: "removed_from_repository";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization: components["schemas"]["organization-simple-webhooks"];
       /**
@@ -80619,7 +80668,7 @@ export interface components {
     "webhook-watch-started": {
       /** @enum {string} */
       action: "started";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -80627,7 +80676,7 @@ export interface components {
     };
     /** workflow_dispatch event */
     "webhook-workflow-dispatch": {
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       inputs: {
         [key: string]: unknown;
       } | null;
@@ -80642,7 +80691,7 @@ export interface components {
     "webhook-workflow-job-completed": {
       /** @enum {string} */
       action: "completed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -80732,7 +80781,7 @@ export interface components {
     "webhook-workflow-job-in-progress": {
       /** @enum {string} */
       action: "in_progress";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -80830,7 +80879,7 @@ export interface components {
     "webhook-workflow-job-queued": {
       /** @enum {string} */
       action: "queued";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -80884,7 +80933,7 @@ export interface components {
     "webhook-workflow-job-waiting": {
       /** @enum {string} */
       action: "waiting";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -80938,7 +80987,7 @@ export interface components {
     "webhook-workflow-run-completed": {
       /** @enum {string} */
       action: "completed";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -81625,7 +81674,7 @@ export interface components {
     "webhook-workflow-run-in-progress": {
       /** @enum {string} */
       action: "in_progress";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -82312,7 +82361,7 @@ export interface components {
     "webhook-workflow-run-requested": {
       /** @enum {string} */
       action: "requested";
-      enterprise?: components["schemas"]["enterprise"];
+      enterprise?: components["schemas"]["enterprise-webhooks"];
       installation?: components["schemas"]["simple-installation"];
       organization?: components["schemas"]["organization-simple-webhooks"];
       repository: components["schemas"]["repository-webhooks"];
@@ -83304,7 +83353,7 @@ export interface operations {
    * By default, all responses will exclude advisories for malware, because malware are not standard vulnerabilities. To list advisories for malware, you must include the `type` parameter in your request, with the value `malware`. For more information about the different types of security advisories, see "[About the GitHub Advisory database](https://docs.github.com/code-security/security-advisories/global-security-advisories/about-the-github-advisory-database#about-types-of-security-advisories)."
    */
   "security-advisories/list-global-advisories": {
-    parameters: {
+    parameters?: {
       query?: {
         /** @description If specified, only advisories with this GHSA (GitHub Security Advisory) identifier will be returned. */
         ghsa_id?: string;
@@ -83486,7 +83535,7 @@ export interface operations {
    * You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
    */
   "apps/list-webhook-deliveries": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         cursor?: components["parameters"]["cursor"];
@@ -83550,7 +83599,7 @@ export interface operations {
    * @description Lists all the pending installation requests for the authenticated GitHub App.
    */
   "apps/list-installation-requests-for-authenticated-app": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -83574,7 +83623,7 @@ export interface operations {
    * The permissions the installation has are included under the `permissions` key.
    */
   "apps/list-installations": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -83972,7 +84021,7 @@ export interface operations {
    * @description Lists GitHub Classroom classrooms for the current user. Classrooms will only be returned if the current user is an administrator of one or more GitHub Classrooms.
    */
   "classroom/list-classrooms": {
-    parameters: {
+    parameters?: {
       query?: {
         page?: components["parameters"]["page"];
         per_page?: components["parameters"]["per-page"];
@@ -84163,7 +84212,7 @@ export interface operations {
    * @description We delay the public events feed by five minutes, which means the most recent event returned by the public events API actually occurred at least five minutes ago.
    */
   "activity/list-public-events": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -84210,7 +84259,7 @@ export interface operations {
    * @description Lists the authenticated user's gists or if called anonymously, this endpoint returns all public gists:
    */
   "gists/list": {
-    parameters: {
+    parameters?: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -84288,7 +84337,7 @@ export interface operations {
    * Note: With [pagination](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
    */
   "gists/list-public": {
-    parameters: {
+    parameters?: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -84315,7 +84364,7 @@ export interface operations {
    * @description List the authenticated user's starred gists:
    */
   "gists/list-starred": {
-    parameters: {
+    parameters?: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -84753,7 +84802,7 @@ export interface operations {
    * You must use an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
    */
   "apps/list-repos-accessible-to-installation": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -84808,7 +84857,7 @@ export interface operations {
    * request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
    */
   "issues/list": {
-    parameters: {
+    parameters?: {
       query?: {
         /** @description Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "repos" | "all";
@@ -84847,7 +84896,7 @@ export interface operations {
    * @description Lists the most commonly used licenses on GitHub. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
    */
   "licenses/get-all-commonly-used": {
-    parameters: {
+    parameters?: {
       query?: {
         featured?: boolean;
         per_page?: components["parameters"]["per-page"];
@@ -84980,7 +85029,7 @@ export interface operations {
    * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-plans": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -85067,7 +85116,7 @@ export interface operations {
    * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-plans-stubbed": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -85169,7 +85218,7 @@ export interface operations {
    * @description List all notifications for the current user, sorted by most recently updated.
    */
   "activity/list-notifications-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         all?: components["parameters"]["all"];
         participating?: components["parameters"]["participating"];
@@ -85359,7 +85408,7 @@ export interface operations {
    * @description Get the octocat as ASCII art
    */
   "meta/get-octocat": {
-    parameters: {
+    parameters?: {
       query?: {
         /** @description The words to show in Octocat's speech bubble */
         s?: string;
@@ -85381,7 +85430,7 @@ export interface operations {
    * **Note:** Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of organizations.
    */
   "orgs/list": {
-    parameters: {
+    parameters?: {
       query?: {
         since?: components["parameters"]["since-org"];
         per_page?: components["parameters"]["per-page"];
@@ -87437,6 +87486,9 @@ export interface operations {
     responses: {
       /** @description Response */
       200: {
+        headers: {
+          Link: components["headers"]["link"];
+        };
         content: {
           "application/json": {
             /** @description Total number of Copilot For Business seats for the organization currently being billed. */
@@ -106123,7 +106175,7 @@ export interface operations {
    * - Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of repositories.
    */
   "repos/list-public": {
-    parameters: {
+    parameters?: {
       query?: {
         since?: components["parameters"]["since-repo"];
       };
@@ -107907,7 +107959,7 @@ export interface operations {
    * @description List the users you've blocked on your personal account.
    */
   "users/list-blocked-by-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108004,7 +108056,7 @@ export interface operations {
    * GitHub Apps must have read access to the `codespaces` repository permission to use this endpoint.
    */
   "codespaces/list-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108124,7 +108176,7 @@ export interface operations {
    * GitHub Apps must have read access to the `codespaces_user_secrets` user permission to use this endpoint.
    */
   "codespaces/list-secrets-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108694,7 +108746,7 @@ export interface operations {
    * @description Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the `user:email` scope.
    */
   "users/list-emails-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108776,7 +108828,7 @@ export interface operations {
    * @description Lists the people following the authenticated user.
    */
   "users/list-followers-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108802,7 +108854,7 @@ export interface operations {
    * @description Lists the people who the authenticated user follows.
    */
   "users/list-followed-by-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108895,7 +108947,7 @@ export interface operations {
    * @description Lists the current user's GPG keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "users/list-gpg-keys-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109002,7 +109054,7 @@ export interface operations {
    * You can find the permissions for the installation under the `permissions` key.
    */
   "apps/list-installations-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109175,7 +109227,7 @@ export interface operations {
    * request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
    */
   "issues/list-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         /** @description Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "repos" | "all";
@@ -109209,7 +109261,7 @@ export interface operations {
    * @description Lists the public SSH keys for the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "users/list-public-ssh-keys-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109312,7 +109364,7 @@ export interface operations {
    * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
    */
   "apps/list-subscriptions-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109338,7 +109390,7 @@ export interface operations {
    * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
    */
   "apps/list-subscriptions-for-authenticated-user-stubbed": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109363,7 +109415,7 @@ export interface operations {
    * @description Lists all of the authenticated user's organization memberships.
    */
   "orgs/list-memberships-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         /** @description Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships. */
         state?: "active" | "pending";
@@ -109446,7 +109498,7 @@ export interface operations {
    * @description Lists all migrations a user has started.
    */
   "migrations/list-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109687,7 +109739,7 @@ export interface operations {
    * This only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.
    */
   "orgs/list-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109957,7 +110009,7 @@ export interface operations {
    * @description Lists your publicly visible email address, which you can set with the [Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user) endpoint. This endpoint is accessible with the `user:email` scope.
    */
   "users/list-public-emails-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109986,7 +110038,7 @@ export interface operations {
    * The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
    */
   "repos/list-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         /** @description Limit results to repositories with the specified visibility. */
         visibility?: "all" | "public" | "private";
@@ -110195,7 +110247,7 @@ export interface operations {
    * @description When authenticating as a user, this endpoint will list all currently open repository invitations for that user.
    */
   "repos/list-invitations-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110258,7 +110310,7 @@ export interface operations {
    * @description Lists all of your social accounts.
    */
   "users/list-social-accounts-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110343,7 +110395,7 @@ export interface operations {
    * @description Lists the SSH signing keys for the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `read:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
    */
   "users/list-ssh-signing-keys-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110448,7 +110500,7 @@ export interface operations {
    * You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header: `application/vnd.github.star+json`.
    */
   "activity/list-repos-starred-by-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         sort?: components["parameters"]["sort-starred"];
         direction?: components["parameters"]["direction"];
@@ -110548,7 +110600,7 @@ export interface operations {
    * @description Lists repositories the authenticated user is watching.
    */
   "activity/list-watched-repos-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110574,7 +110626,7 @@ export interface operations {
    * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires `user`, `repo`, or `read:org` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/) when authenticating via [OAuth](https://docs.github.com/apps/building-oauth-apps/). When using a fine-grained personal access token, the resource owner of the token [must be a single organization](https://docs.github.com/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#fine-grained-personal-access-tokens), and have at least read-only member organization permissions. The response payload only contains the teams from a single organization when using a fine-grained personal access token.
    */
   "teams/list-for-authenticated-user": {
-    parameters: {
+    parameters?: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110602,7 +110654,7 @@ export interface operations {
    * Note: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of users.
    */
   "users/list": {
-    parameters: {
+    parameters?: {
       query?: {
         since?: components["parameters"]["since-user"];
         per_page?: components["parameters"]["per-page"];

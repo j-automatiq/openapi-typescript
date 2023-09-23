@@ -2112,19 +2112,19 @@ components:
       description: >-
         Balance transactions represent funds moving through your Stripe account.
 
-        They're created for every type of transaction that comes into or flows
-        out of your Stripe account balance.
+        Stripe creates them for every type of transaction that enters or leaves
+        your Stripe account balance.
 
 
         Related guide: [Balance transaction
         types](https://stripe.com/docs/reports/balance-transaction-types)
       properties:
         amount:
-          description: 'Gross amount of the transaction, in cents (or local equivalent).'
+          description: Gross amount of the transaction (in cents (or local equivalent)).
           type: integer
         available_on:
           description: >-
-            The date the transaction's net funds will become available in the
+            The date that the transaction's net funds become available in the
             Stripe balance.
           format: unix-time
           type: integer
@@ -2150,15 +2150,14 @@ components:
           type: string
         exchange_rate:
           description: >-
-            The exchange rate used, if applicable, for this transaction.
-            Specifically, if money was converted from currency A to currency B,
-            then the `amount` in currency A, times `exchange_rate`, would be the
-            `amount` in currency B. For example, suppose you charged a customer
-            10.00 EUR. Then the PaymentIntent's `amount` would be `1000` and
-            `currency` would be `eur`. Suppose this was converted into 12.34 USD
-            in your Stripe account. Then the BalanceTransaction's `amount` would
-            be `1234`, `currency` would be `usd`, and `exchange_rate` would be
-            `1.234`.
+            If applicable, this transaction uses an exchange rate. If money
+            converts from currency A to currency B, then the `amount` in
+            currency A, multipled by the `exchange_rate`, equals the `amount` in
+            currency B. For example, if you charge a customer 10.00 EUR, the
+            PaymentIntent's `amount` is `1000` and `currency` is `eur`. If this
+            converts to 12.34 USD in your Stripe account, the
+            BalanceTransaction's `amount` is `1234`, its `currency` is `usd`,
+            and the `exchange_rate` is `1.234`.
           nullable: true
           type: number
         fee:
@@ -2176,7 +2175,7 @@ components:
           maxLength: 5000
           type: string
         net:
-          description: 'Net amount of the transaction, in cents (or local equivalent).'
+          description: Net amount of the transaction (in cents (or local equivalent)).
           type: integer
         object:
           description: >-
@@ -2187,9 +2186,9 @@ components:
           type: string
         reporting_category:
           description: >-
-            [Learn more](https://stripe.com/docs/reports/reporting-categories)
-            about how reporting categories can help you understand balance
-            transactions from an accounting perspective.
+            Learn more about how [reporting categories]
+            (https://stripe.com/docs/reports/reporting-categories) can help you
+            understand balance transactions from an accounting perspective.
           maxLength: 5000
           type: string
         source:
@@ -2213,7 +2212,7 @@ components:
             - $ref: '#/components/schemas/topup'
             - $ref: '#/components/schemas/transfer'
             - $ref: '#/components/schemas/transfer_reversal'
-          description: The Stripe object to which this transaction is related.
+          description: This transaction relates to the Stripe object.
           nullable: true
           x-expansionResources:
             oneOf:
@@ -2237,8 +2236,8 @@ components:
           x-stripeBypassValidation: true
         status:
           description: >-
-            If the transaction's net funds are available in the Stripe balance
-            yet. Either `available` or `pending`.
+            The transaction's net funds status in the Stripe balance, which are
+            either `available` or `pending`.
           maxLength: 5000
           type: string
         type:
@@ -2256,11 +2255,11 @@ components:
             `refund_failure`, `reserve_transaction`, `reserved_funds`,
             `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`,
             `transfer`, `transfer_cancel`, `transfer_failure`, or
-            `transfer_refund`. [Learn
-            more](https://stripe.com/docs/reports/balance-transaction-types)
-            about balance transaction types and what they represent. If you are
-            looking to classify transactions for accounting purposes, you might
-            want to consider `reporting_category` instead.
+            `transfer_refund`. Learn more about [balance transaction types and
+            what they
+            represent](https://stripe.com/docs/reports/balance-transaction-types).
+            To classify transactions for accounting purposes, consider
+            `reporting_category` instead.
           enum:
             - adjustment
             - advance
@@ -4324,6 +4323,14 @@ components:
             - if_required
           nullable: true
           type: string
+        payment_method_configuration_details:
+          anyOf:
+            - $ref: >-
+                #/components/schemas/payment_method_config_biz_payment_method_configuration_details
+          description: >-
+            Information about the payment method configuration used for this
+            Checkout session if using dynamic payment methods.
+          nullable: true
         payment_method_options:
           anyOf:
             - $ref: '#/components/schemas/checkout_session_payment_method_options'
@@ -4497,6 +4504,7 @@ components:
         - line_items
         - payment_intent
         - payment_link
+        - payment_method_configuration_details
         - payment_method_options
         - phone_number_collection
         - setup_intent
@@ -5559,14 +5567,14 @@ components:
       description: ''
       properties:
         account_onboarding:
-          $ref: '#/components/schemas/connect_embedded_base_config'
+          $ref: '#/components/schemas/connect_embedded_base_config_claim'
       required:
         - account_onboarding
       title: ConnectEmbeddedAccountSessionCreateComponents
       type: object
       x-expandableFields:
         - account_onboarding
-    connect_embedded_base_config:
+    connect_embedded_base_config_claim:
       description: ''
       properties:
         enabled:
@@ -5574,7 +5582,7 @@ components:
           type: boolean
       required:
         - enabled
-      title: ConnectEmbeddedBaseConfig
+      title: ConnectEmbeddedBaseConfigClaim
       type: object
       x-expandableFields: []
     country_spec:
@@ -6371,7 +6379,7 @@ components:
       x-expandableFields: []
     customer:
       description: >-
-        This object represents a customer of your business. It lets you create
+        This object represents a customer of your business. Use it to create
         recurring charges and track payments that belong to the same customer.
 
 
@@ -6385,22 +6393,22 @@ components:
           nullable: true
         balance:
           description: >-
-            Current balance, if any, being stored on the customer. If negative,
-            the customer has credit to apply to their next invoice. If positive,
-            the customer has an amount owed that will be added to their next
-            invoice. The balance does not refer to any unpaid invoices; it
-            solely takes into account amounts that have yet to be successfully
-            applied to any invoice. This balance is only taken into account as
-            invoices are finalized.
+            The current balance, if any, that's stored on the customer. If
+            negative, the customer has credit to apply to their next invoice. If
+            positive, the customer has an amount owed that's added to their next
+            invoice. The balance only considers amounts that Stripe hasn't
+            successfully applied to any invoice. It doesn't reflect unpaid
+            invoices. This balance is only taken into account after invoices
+            finalize.
           type: integer
         cash_balance:
           anyOf:
             - $ref: '#/components/schemas/cash_balance'
           description: >-
             The current funds being held by Stripe on behalf of the customer.
-            These funds can be applied towards payment intents with source
-            "cash_balance". The settings[reconciliation_mode] field describes
-            whether these funds are applied to such payment intents manually or
+            You can apply these funds towards payment intents when the source is
+            "cash_balance". The `settings[reconciliation_mode]` field describes
+            if these funds apply to these payment intents manually or
             automatically.
           nullable: true
         created:
@@ -6428,7 +6436,7 @@ components:
             ID of the default payment source for the customer.
 
 
-            If you are using payment methods created via the PaymentMethods API,
+            If you use payment methods created through the PaymentMethods API,
             see the
             [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/object#customer_object-invoice_settings-default_payment_method)
             field instead.
@@ -6441,16 +6449,15 @@ components:
           x-stripeBypassValidation: true
         delinquent:
           description: >-
-            When the customer's latest invoice is billed by charging
-            automatically, `delinquent` is `true` if the invoice's latest charge
-            failed. When the customer's latest invoice is billed by sending an
-            invoice, `delinquent` is `true` if the invoice isn't paid by its due
-            date.
+            If Stripe bills the customer's latest invoice by automatically
+            charging and the latest charge fails, it sets `delinquent`` to
+            `true``. If Stripe bills the invoice by sending it, and the invoice
+            isn't paid by the due date, it also sets `delinquent`` to `true`.
 
 
-            If an invoice is marked uncollectible by
+            If an invoice becomes uncollectible by
             [dunning](https://stripe.com/docs/billing/automatic-collection),
-            `delinquent` doesn't get reset to `false`.
+            `delinquent` doesn't reset to `false`.
           nullable: true
           type: boolean
         description:
@@ -6480,15 +6487,15 @@ components:
           additionalProperties:
             type: integer
           description: >-
-            The current multi-currency balances, if any, being stored on the
+            The current multi-currency balances, if any, that's stored on the
             customer. If positive in a currency, the customer has a credit to
             apply to their next invoice denominated in that currency. If
-            negative, the customer has an amount owed that will be added to
-            their next invoice denominated in that currency. These balances do
-            not refer to any unpaid invoices. They solely track amounts that
-            have yet to be successfully applied to any invoice. A balance in a
-            particular currency is only applied to any invoice as an invoice in
-            that currency is finalized.
+            negative, the customer has an amount owed that's added to their next
+            invoice denominated in that currency. These balances don't apply to
+            unpaid invoices. They solely track amounts that Stripe hasn't
+            successfully applied to any invoice. Stripe only applies a balance
+            in a specific currency to an invoice after that invoice (which is in
+            the same currency) finalizes.
           type: object
         invoice_prefix:
           description: The prefix for the customer used to generate unique invoice numbers.
@@ -6517,7 +6524,9 @@ components:
           nullable: true
           type: string
         next_invoice_sequence:
-          description: 'The suffix of the customer''s next invoice number, e.g., 0001.'
+          description: >-
+            The suffix of the customer's next invoice number (for example,
+            0001).
           type: integer
         object:
           description: >-
@@ -6620,9 +6629,9 @@ components:
           $ref: '#/components/schemas/customer_tax'
         tax_exempt:
           description: >-
-            Describes the customer's tax exemption status. One of `none`,
+            Describes the customer's tax exemption status, which is `none`,
             `exempt`, or `reverse`. When set to `reverse`, invoice and receipt
-            PDFs include the text **"Reverse charge"**.
+            PDFs include the following text: **"Reverse charge"**.
           enum:
             - exempt
             - none
@@ -6667,7 +6676,7 @@ components:
             - maxLength: 5000
               type: string
             - $ref: '#/components/schemas/test_helpers.test_clock'
-          description: ID of the test clock this customer belongs to.
+          description: ID of the test clock that this customer belongs to.
           nullable: true
           x-expansionResources:
             oneOf:
@@ -6696,7 +6705,7 @@ components:
       description: ''
       properties:
         accepted_at:
-          description: The time at which the customer accepted the Mandate.
+          description: The time that the customer accepts the mandate.
           format: unix-time
           nullable: true
           type: integer
@@ -6706,8 +6715,8 @@ components:
           $ref: '#/components/schemas/online_acceptance'
         type:
           description: >-
-            The type of customer acceptance information included with the
-            Mandate. One of `online` or `offline`.
+            The mandate includes the type of customer acceptance information,
+            such as: `online` or `offline`.
           enum:
             - offline
             - online
@@ -8160,21 +8169,17 @@ components:
         A dispute occurs when a customer questions your charge with their card
         issuer.
 
-        When this happens, you're given the opportunity to respond to the
-        dispute with
+        When this happens, you have the opportunity to respond to the dispute
+        with
 
-        evidence that shows that the charge is legitimate. You can find more
-
-        information about the dispute process in our [Disputes and
-
-        Fraud](/docs/disputes) documentation.
+        evidence that shows that the charge is legitimate.
 
 
         Related guide: [Disputes and fraud](https://stripe.com/docs/disputes)
       properties:
         amount:
           description: >-
-            Disputed amount. Usually the amount of the charge, but can differ
+            Disputed amount. Usually the amount of the charge, but it can differ
             (usually because of currency fluctuation or because only part of the
             order is disputed).
           type: integer
@@ -8191,7 +8196,7 @@ components:
             - maxLength: 5000
               type: string
             - $ref: '#/components/schemas/charge'
-          description: ID of the charge that was disputed.
+          description: ID of the charge that's disputed.
           x-expansionResources:
             oneOf:
               - $ref: '#/components/schemas/charge'
@@ -8218,9 +8223,9 @@ components:
           type: string
         is_charge_refundable:
           description: >-
-            If true, it is still possible to refund the disputed payment. Once
-            the payment has been fully refunded, no further funds will be
-            withdrawn from your Stripe account as a result of this dispute.
+            If true, it's still possible to refund the disputed payment. After
+            the payment has been fully refunded, no further funds are withdrawn
+            from your Stripe account as a result of this dispute.
           type: boolean
         livemode:
           description: >-
@@ -8248,7 +8253,7 @@ components:
             - maxLength: 5000
               type: string
             - $ref: '#/components/schemas/payment_intent'
-          description: ID of the PaymentIntent that was disputed.
+          description: ID of the PaymentIntent that's disputed.
           nullable: true
           x-expansionResources:
             oneOf:
@@ -8263,7 +8268,7 @@ components:
             `fraudulent`, `general`, `incorrect_account_details`,
             `insufficient_funds`, `product_not_received`,
             `product_unacceptable`, `subscription_canceled`, or `unrecognized`.
-            Read more about [dispute
+            Learn more about [dispute
             reasons](https://stripe.com/docs/disputes/categories).
           maxLength: 5000
           type: string
@@ -8714,29 +8719,26 @@ components:
         object. For example, when a charge succeeds, we create a
         `charge.succeeded`
 
-        event; and when an invoice payment attempt fails, we create an
+        event, and when an invoice payment attempt fails, we create an
 
-        `invoice.payment_failed` event. Note that many API requests may cause
+        `invoice.payment_failed` event. Certain API requests might create
         multiple
 
-        events to be created. For example, if you create a new subscription for
-        a
+        events. For example, if you create a new subscription for a
 
-        customer, you will receive both a `customer.subscription.created` event
-        and a
+        customer, you receive both a `customer.subscription.created` event and a
 
         `charge.succeeded` event.
 
 
-        Events occur when the state of another API resource changes. The state
-        of that
+        Events occur when the state of another API resource changes. The event's
+        data
 
-        resource at the time of the change is embedded in the event's data
-        field. For
+        field embeds the resource's state at the time of the change. For
 
-        example, a `charge.succeeded` event will contain a charge, and an
+        example, a `charge.succeeded` event contains a charge, and an
 
-        `invoice.payment_failed` event will contain an invoice.
+        `invoice.payment_failed` event contains an invoice.
 
 
         As with other API resources, you can use endpoints to retrieve an
@@ -8748,39 +8750,40 @@ components:
 
         [webhooks](http://en.wikipedia.org/wiki/Webhook) system for sending the
 
-        `Event` objects directly to an endpoint on your server. Webhooks are
-        managed
+        `Event` objects directly to an endpoint on your server. You can manage
 
-        in your
+        webhooks in your
 
-        [account settings](https://dashboard.stripe.com/account/webhooks),
+        [account settings](https://dashboard.stripe.com/account/webhooks). Learn
+        how
 
-        and our [Using Webhooks](https://stripe.com/docs/webhooks) guide will
-        help you get set up.
+        to [listen for events]
+
+        (/docs/webhooks) so that your integration can automatically trigger
+        reactions.
 
 
         When using [Connect](https://stripe.com/docs/connect), you can also
-        receive notifications of
+        receive event notifications
 
-        events that occur in connected accounts. For these events, there will be
-        an
+        that occur in connected accounts. For these events, there's an
 
         additional `account` attribute in the received `Event` object.
 
 
-        **NOTE:** Right now, access to events through the [Retrieve Event
-        API](https://stripe.com/docs/api#retrieve_event) is
+        We only guarantee access to events through the [Retrieve Event
+        API](https://stripe.com/docs/api#retrieve_event)
 
-        guaranteed only for 30 days.
+        for 30 days.
       properties:
         account:
-          description: The connected account that originated the event.
+          description: The connected account that originates the event.
           maxLength: 5000
           type: string
         api_version:
           description: >-
-            The Stripe API version used to render `data`. *Note: This property
-            is populated only for events on or after October 31, 2014*.
+            The Stripe API version used to render `data`. This property is
+            populated only for events on or after October 31, 2014.
           maxLength: 5000
           nullable: true
           type: string
@@ -8810,17 +8813,17 @@ components:
           type: string
         pending_webhooks:
           description: >-
-            Number of webhooks that have yet to be successfully delivered (i.e.,
-            to return a 20x response) to the URLs you've specified.
+            Number of webhooks that haven't been successfully delivered (for
+            example, to return a 20x response) to the URLs you specify.
           type: integer
         request:
           anyOf:
             - $ref: '#/components/schemas/notification_event_request'
-          description: Information on the API request that instigated the event.
+          description: Information on the API request that triggers the event.
           nullable: true
         type:
           description: >-
-            Description of the event (e.g., `invoice.created` or
+            Description of the event (for example, `invoice.created` or
             `charge.refunded`).
           maxLength: 5000
           type: string
@@ -9074,14 +9077,15 @@ components:
       x-resourceId: fee_refund
     file:
       description: >-
-        This is an object representing a file hosted on Stripe's servers. The
+        This object represents files hosted on Stripe's servers. You can upload
 
-        file may have been uploaded by yourself using the [create
-        file](https://stripe.com/docs/api#create_file)
+        files with the [create file](https://stripe.com/docs/api#create_file)
+        request
 
-        request (for example, when uploading dispute evidence) or it may have
+        (for example, when uploading dispute evidence). Stripe also
 
-        been created by Stripe (for example, the results of a [Sigma scheduled
+        creates files independetly (for example, the results of a [Sigma
+        scheduled
 
         query](#scheduled_queries)).
 
@@ -9095,14 +9099,12 @@ components:
           format: unix-time
           type: integer
         expires_at:
-          description: >-
-            The time at which the file expires and is no longer available in
-            epoch seconds.
+          description: The file expires and isn't available at this time in epoch seconds.
           format: unix-time
           nullable: true
           type: integer
         filename:
-          description: 'A filename for the file, suitable for saving to a filesystem.'
+          description: The suitable name for saving the file to a filesystem.
           maxLength: 5000
           nullable: true
           type: string
@@ -9177,22 +9179,20 @@ components:
           type: string
           x-stripeBypassValidation: true
         size:
-          description: The size in bytes of the file object.
+          description: The size of the file object in bytes.
           type: integer
         title:
-          description: A user friendly title for the document.
+          description: A suitable title for the document.
           maxLength: 5000
           nullable: true
           type: string
         type:
-          description: 'The type of the file returned (e.g., `csv`, `pdf`, `jpg`, or `png`).'
+          description: 'The returned file type (for example, `csv`, `pdf`, `jpg`, or `png`).'
           maxLength: 5000
           nullable: true
           type: string
         url:
-          description: >-
-            The URL from which the file can be downloaded using your live secret
-            API key.
+          description: Use your live secret API key to download the file from this URL.
           maxLength: 5000
           nullable: true
           type: string
@@ -9210,7 +9210,7 @@ components:
     file_link:
       description: |-
         To share the contents of a `File` object with non-Stripe users, you can
-        create a `FileLink`. `FileLink`s contain a URL that can be used to
+        create a `FileLink`. `FileLink`s contain a URL that you can use to
         retrieve the contents of the file without authentication.
       properties:
         created:
@@ -9220,10 +9220,10 @@ components:
           format: unix-time
           type: integer
         expired:
-          description: Whether this link is already expired.
+          description: Returns if the link is already expired.
           type: boolean
         expires_at:
-          description: Time at which the link expires.
+          description: Time that the link expires.
           format: unix-time
           nullable: true
           type: integer
@@ -11405,6 +11405,14 @@ components:
           maxLength: 5000
           nullable: true
           type: string
+        rendering:
+          anyOf:
+            - $ref: '#/components/schemas/invoices_invoice_rendering'
+          description: >-
+            The rendering-related settings that control how the invoice is
+            displayed on customer-facing surfaces such as PDF and Hosted Invoice
+            Page.
+          nullable: true
         rendering_options:
           anyOf:
             - $ref: '#/components/schemas/invoice_setting_rendering_options'
@@ -11598,6 +11606,7 @@ components:
         - payment_intent
         - payment_settings
         - quote
+        - rendering
         - rendering_options
         - shipping_cost
         - shipping_details
@@ -11865,6 +11874,23 @@ components:
           nullable: true
           type: array
       title: invoice_payment_method_options_us_bank_account_linked_account_options
+      type: object
+      x-expandableFields: []
+    invoice_rendering_pdf:
+      description: ''
+      properties:
+        page_size:
+          description: >-
+            Page size of invoice pdf. Options include a4, letter, and auto. If
+            set to auto, page size will be switched to a4 or letter based on
+            customer locale.
+          enum:
+            - a4
+            - auto
+            - letter
+          nullable: true
+          type: string
+      title: InvoiceRenderingPdf
       type: object
       x-expandableFields: []
     invoice_setting_custom_field:
@@ -12317,6 +12343,25 @@ components:
       type: object
       x-expandableFields:
         - invoice
+    invoices_invoice_rendering:
+      description: ''
+      properties:
+        amount_tax_display:
+          description: >-
+            How line-item prices and amounts will be displayed with respect to
+            tax on invoice PDFs.
+          maxLength: 5000
+          nullable: true
+          type: string
+        pdf:
+          anyOf:
+            - $ref: '#/components/schemas/invoice_rendering_pdf'
+          description: Invoice pdf rendering options
+          nullable: true
+      title: InvoicesInvoiceRendering
+      type: object
+      x-expandableFields:
+        - pdf
     invoices_payment_method_options:
       description: ''
       properties:
@@ -14570,9 +14615,11 @@ components:
           type: string
         phone_number:
           description: >-
-            The phone number of the receiver of the bulk shipment. This phone
-            number will be provided to the shipping company, who might use it to
-            contact the receiver in case of delivery issues.
+            The phone number of the receiver of the shipment. Our courier
+            partners will use this number to contact you in the event of card
+            delivery issues. For individual shipments to the EU/UK, if this
+            field is empty, we will provide them with the phone number provided
+            when the cardholder was initially created.
           maxLength: 5000
           nullable: true
           type: string
@@ -17552,7 +17599,7 @@ components:
       x-resourceId: login_link
     mandate:
       description: >-
-        A Mandate is a record of the permission a customer has given you to
+        A Mandate is a record of the permission that your customer gives you to
         debit their payment method.
       properties:
         customer_acceptance:
@@ -17576,7 +17623,7 @@ components:
             - mandate
           type: string
         on_behalf_of:
-          description: The account (if any) for which the mandate is intended.
+          description: The account (if any) that the mandate is intended for.
           maxLength: 5000
           type: string
         payment_method:
@@ -17594,7 +17641,7 @@ components:
           $ref: '#/components/schemas/mandate_single_use'
         status:
           description: >-
-            The status of the mandate, which indicates whether it can be used to
+            The mandate status indicates whether or not you can use it to
             initiate a payment.
           enum:
             - active
@@ -17746,9 +17793,9 @@ components:
           $ref: '#/components/schemas/mandate_sepa_debit'
         type:
           description: >-
-            The type of the payment method associated with this mandate. An
-            additional hash is included on `payment_method_details` with a name
-            matching this value. It contains mandate information specific to the
+            This mandate corresponds with a specific payment method type. The
+            `payment_method_details` includes an additional hash with the same
+            name and contains mandate information that's specific to that
             payment method.
           maxLength: 5000
           type: string
@@ -17813,10 +17860,10 @@ components:
       description: ''
       properties:
         amount:
-          description: 'On a single use mandate, the amount of the payment.'
+          description: The amount of the payment on a single use mandate.
           type: integer
         currency:
-          description: 'On a single use mandate, the currency of the payment.'
+          description: The currency of the payment on a single use mandate.
           type: string
       required:
         - amount
@@ -17907,14 +17954,14 @@ components:
       description: ''
       properties:
         ip_address:
-          description: The IP address from which the Mandate was accepted by the customer.
+          description: The customer accepts the mandate from this IP address.
           maxLength: 5000
           nullable: true
           type: string
         user_agent:
           description: >-
-            The user agent of the browser from which the Mandate was accepted by
-            the customer.
+            The customer accepts the mandate using the user agent of the
+            browser.
           maxLength: 5000
           nullable: true
           type: string
@@ -18505,6 +18552,14 @@ components:
           x-expansionResources:
             oneOf:
               - $ref: '#/components/schemas/payment_method'
+        payment_method_configuration_details:
+          anyOf:
+            - $ref: >-
+                #/components/schemas/payment_method_config_biz_payment_method_configuration_details
+          description: >-
+            Information about the payment method configuration used for this
+            PaymentIntent.
+          nullable: true
         payment_method_options:
           anyOf:
             - $ref: '#/components/schemas/payment_intent_payment_method_options'
@@ -18649,6 +18704,7 @@ components:
         - next_action
         - on_behalf_of
         - payment_method
+        - payment_method_configuration_details
         - payment_method_options
         - processing
         - review
@@ -20516,16 +20572,24 @@ components:
             Custom text that should be displayed alongside the payment
             confirmation button.
           nullable: true
+        terms_of_service_acceptance:
+          anyOf:
+            - $ref: '#/components/schemas/payment_links_resource_custom_text_position'
+          description: >-
+            Custom text that should be displayed in place of the default terms
+            of service agreement text.
+          nullable: true
       title: PaymentLinksResourceCustomText
       type: object
       x-expandableFields:
         - shipping_address
         - submit
+        - terms_of_service_acceptance
     payment_links_resource_custom_text_position:
       description: ''
       properties:
         message:
-          description: Text may be up to 1000 characters in length.
+          description: Text may be up to 1200 characters in length.
           maxLength: 500
           type: string
       required:
@@ -21754,6 +21818,271 @@ components:
       title: payment_method_cashapp
       type: object
       x-expandableFields: []
+    payment_method_config_biz_payment_method_configuration_details:
+      description: ''
+      properties:
+        id:
+          description: ID of the payment method configuration used.
+          maxLength: 5000
+          type: string
+        parent:
+          description: ID of the parent payment method configuration used.
+          maxLength: 5000
+          nullable: true
+          type: string
+      required:
+        - id
+      title: PaymentMethodConfigBizPaymentMethodConfigurationDetails
+      type: object
+      x-expandableFields: []
+    payment_method_config_resource_display_preference:
+      description: ''
+      properties:
+        overridable:
+          description: >-
+            For child configurations, whether or not the account's preference
+            will be observed. If `false`, the parent configuration's preference
+            is used.
+          nullable: true
+          type: boolean
+        preference:
+          description: The account's display preference.
+          enum:
+            - none
+            - 'off'
+            - 'on'
+          type: string
+        value:
+          description: The effective display preference value.
+          enum:
+            - 'off'
+            - 'on'
+          type: string
+      required:
+        - preference
+        - value
+      title: PaymentMethodConfigResourceDisplayPreference
+      type: object
+      x-expandableFields: []
+    payment_method_config_resource_payment_method_properties:
+      description: ''
+      properties:
+        available:
+          description: >-
+            Whether this payment method may be offered at checkout. True if
+            `display_preference` is `on` and the payment method's capability is
+            active.
+          type: boolean
+        display_preference:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_display_preference
+      required:
+        - available
+        - display_preference
+      title: PaymentMethodConfigResourcePaymentMethodProperties
+      type: object
+      x-expandableFields:
+        - display_preference
+    payment_method_configuration:
+      description: An object detailing payment method configurations.
+      properties:
+        acss_debit:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        active:
+          description: Whether the configuration can be used for new payments.
+          type: boolean
+        affirm:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        afterpay_clearpay:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        alipay:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        apple_pay:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        application:
+          description: The Connect application associated with this configuration.
+          maxLength: 5000
+          nullable: true
+          type: string
+        au_becs_debit:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        bacs_debit:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        bancontact:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        blik:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        boleto:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        card:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        cartes_bancaires:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        cashapp:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        eps:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        fpx:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        giropay:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        google_pay:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        grabpay:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        id:
+          description: Unique identifier for the object.
+          maxLength: 5000
+          type: string
+        id_bank_transfer:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        ideal:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        is_default:
+          description: >-
+            The default configuration is used whenever no payment method
+            configuration is specified.
+          type: boolean
+        jcb:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        klarna:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        konbini:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        link:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        livemode:
+          description: >-
+            Has the value `true` if the object exists in live mode or the value
+            `false` if the object exists in test mode.
+          type: boolean
+        multibanco:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        name:
+          description: Configuration name.
+          maxLength: 5000
+          type: string
+        netbanking:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        object:
+          description: >-
+            String representing the object's type. Objects of the same type
+            share the same value.
+          enum:
+            - payment_method_configuration
+          type: string
+        oxxo:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        p24:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        parent:
+          description: The configuration's parent configuration.
+          maxLength: 5000
+          nullable: true
+          type: string
+        pay_by_bank:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        paynow:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        paypal:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        promptpay:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        sepa_debit:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        sofort:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        upi:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        us_bank_account:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+        wechat_pay:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
+      required:
+        - active
+        - id
+        - is_default
+        - livemode
+        - name
+        - object
+      title: PaymentMethodConfigResourcePaymentMethodConfiguration
+      type: object
+      x-expandableFields:
+        - acss_debit
+        - affirm
+        - afterpay_clearpay
+        - alipay
+        - apple_pay
+        - au_becs_debit
+        - bacs_debit
+        - bancontact
+        - blik
+        - boleto
+        - card
+        - cartes_bancaires
+        - cashapp
+        - eps
+        - fpx
+        - giropay
+        - google_pay
+        - grabpay
+        - id_bank_transfer
+        - ideal
+        - jcb
+        - klarna
+        - konbini
+        - link
+        - multibanco
+        - netbanking
+        - oxxo
+        - p24
+        - pay_by_bank
+        - paynow
+        - paypal
+        - promptpay
+        - sepa_debit
+        - sofort
+        - upi
+        - us_bank_account
+        - wechat_pay
+      x-resourceId: payment_method_configuration
     payment_method_customer_balance:
       description: ''
       properties: {}
@@ -25656,16 +25985,25 @@ components:
             Custom text that should be displayed alongside the payment
             confirmation button.
           nullable: true
+        terms_of_service_acceptance:
+          anyOf:
+            - $ref: >-
+                #/components/schemas/payment_pages_checkout_session_custom_text_position
+          description: >-
+            Custom text that should be displayed in place of the default terms
+            of service agreement text.
+          nullable: true
       title: PaymentPagesCheckoutSessionCustomText
       type: object
       x-expandableFields:
         - shipping_address
         - submit
+        - terms_of_service_acceptance
     payment_pages_checkout_session_custom_text_position:
       description: ''
       properties:
         message:
-          description: Text may be up to 1000 characters in length.
+          description: Text may be up to 1200 characters in length.
           maxLength: 500
           type: string
       required:
@@ -26593,7 +26931,7 @@ components:
 
 
         Related guide: [Handling identity verification with the
-        API](https://stripe.com/docs/connect/identity-verification-api#person-information)
+        API](https://stripe.com/docs/connect/handling-api-verification#person-information)
       properties:
         account:
           description: The account the person is associated with.
@@ -30034,7 +30372,7 @@ components:
     setup_attempt:
       description: |-
         A SetupAttempt describes one attempted confirmation of a SetupIntent,
-        whether that confirmation was successful or unsuccessful. You can use
+        whether that confirmation is successful or unsuccessful. You can use
         SetupAttempts to inspect details of a specific attempt at setting up a
         payment method using a SetupIntent.
       properties:
@@ -30934,6 +31272,14 @@ components:
           x-expansionResources:
             oneOf:
               - $ref: '#/components/schemas/payment_method'
+        payment_method_configuration_details:
+          anyOf:
+            - $ref: >-
+                #/components/schemas/payment_method_config_biz_payment_method_configuration_details
+          description: >-
+            Information about the payment method configuration used for this
+            Setup Intent.
+          nullable: true
         payment_method_options:
           anyOf:
             - $ref: '#/components/schemas/setup_intent_payment_method_options'
@@ -31003,6 +31349,7 @@ components:
         - next_action
         - on_behalf_of
         - payment_method
+        - payment_method_configuration_details
         - payment_method_options
         - single_use_mandate
       x-resourceId: setup_intent
@@ -35023,14 +35370,15 @@ components:
     tax_id:
       description: >-
         You can add one or multiple tax IDs to a
-        [customer](https://stripe.com/docs/api/customers).
+        [customer](https://stripe.com/docs/api/customers) or account.
 
-        A customer's tax IDs are displayed on invoices and credit notes issued
-        for the customer.
+        Customer and account tax IDs get displayed on related invoices and
+        credit notes.
 
 
-        Related guide: [Customer tax identification
-        numbers](https://stripe.com/docs/billing/taxes/tax-ids)
+        Related guides: [Customer tax identification
+        numbers](https://stripe.com/docs/billing/taxes/tax-ids), [Account tax
+        IDs](https://stripe.com/docs/invoicing/connect#account-tax-ids)
       properties:
         country:
           description: Two-letter ISO code representing the country of the tax ID.
@@ -44084,7 +44432,7 @@ paths:
                     For example, a social security number in the U.S., social
                     insurance number in Canada, etc. Instead of the number
                     itself, you can also provide a [PII token provided by
-                    Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+                    Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
                   maxLength: 5000
                   type: string
                 id_number_secondary:
@@ -44094,7 +44442,7 @@ paths:
                     Thailand, this would be the laser code found on the back of
                     an ID card. Instead of the number itself, you can also
                     provide a [PII token provided by
-                    Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+                    Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
                   maxLength: 5000
                   type: string
                 last_name:
@@ -44587,7 +44935,7 @@ paths:
                     For example, a social security number in the U.S., social
                     insurance number in Canada, etc. Instead of the number
                     itself, you can also provide a [PII token provided by
-                    Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+                    Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
                   maxLength: 5000
                   type: string
                 id_number_secondary:
@@ -44597,7 +44945,7 @@ paths:
                     Thailand, this would be the laser code found on the back of
                     an ID card. Instead of the number itself, you can also
                     provide a [PII token provided by
-                    Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+                    Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
                   maxLength: 5000
                   type: string
                 last_name:
@@ -45118,7 +45466,7 @@ paths:
                     For example, a social security number in the U.S., social
                     insurance number in Canada, etc. Instead of the number
                     itself, you can also provide a [PII token provided by
-                    Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+                    Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
                   maxLength: 5000
                   type: string
                 id_number_secondary:
@@ -45128,7 +45476,7 @@ paths:
                     Thailand, this would be the laser code found on the back of
                     an ID card. Instead of the number itself, you can also
                     provide a [PII token provided by
-                    Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+                    Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
                   maxLength: 5000
                   type: string
                 last_name:
@@ -45621,7 +45969,7 @@ paths:
                     For example, a social security number in the U.S., social
                     insurance number in Canada, etc. Instead of the number
                     itself, you can also provide a [PII token provided by
-                    Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+                    Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
                   maxLength: 5000
                   type: string
                 id_number_secondary:
@@ -45631,7 +45979,7 @@ paths:
                     Thailand, this would be the laser code found on the back of
                     an ID card. Instead of the number itself, you can also
                     provide a [PII token provided by
-                    Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+                    Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
                   maxLength: 5000
                   type: string
                 last_name:
@@ -50383,7 +50731,7 @@ paths:
                       anyOf:
                         - properties:
                             message:
-                              maxLength: 1000
+                              maxLength: 1200
                               type: string
                           required:
                             - message
@@ -50396,7 +50744,20 @@ paths:
                       anyOf:
                         - properties:
                             message:
-                              maxLength: 1000
+                              maxLength: 1200
+                              type: string
+                          required:
+                            - message
+                          title: custom_text_position_param
+                          type: object
+                        - enum:
+                            - ''
+                          type: string
+                    terms_of_service_acceptance:
+                      anyOf:
+                        - properties:
+                            message:
+                              maxLength: 1200
                               type: string
                           required:
                             - message
@@ -50898,6 +51259,12 @@ paths:
                   enum:
                     - always
                     - if_required
+                  type: string
+                payment_method_configuration:
+                  description: >-
+                    The ID of the payment method configuration to use with this
+                    Checkout session.
+                  maxLength: 100
                   type: string
                 payment_method_options:
                   description: Payment-method-specific configuration.
@@ -60874,8 +61241,8 @@ paths:
             type: array
           style: deepObject
         - description: >-
-            Filter links by their expiration status. By default, all links are
-            returned.
+            Filter links by their expiration status. By default, Stripe returns
+            all links.
           in: query
           name: expired
           required: false
@@ -60988,9 +61355,7 @@ paths:
                     type: string
                   type: array
                 expires_at:
-                  description: >-
-                    A future timestamp after which the link will no longer be
-                    usable.
+                  description: The link isn't usable after this future timestamp.
                   format: unix-time
                   type: integer
                 file:
@@ -61163,9 +61528,9 @@ paths:
   /v1/files:
     get:
       description: >-
-        <p>Returns a list of the files that your account has access to. The
-        files are returned sorted by creation date, with the most recently
-        created files appearing first.</p>
+        <p>Returns a list of the files that your account has access to. Stripe
+        sorts and returns the files by their creation dates, placing the most
+        recently created files at the top.</p>
       operationId: GetFiles
       parameters:
         - explode: true
@@ -61221,8 +61586,8 @@ paths:
             type: integer
           style: form
         - description: >-
-            The file purpose to filter queries by. If none is provided, files
-            will not be filtered by purpose.
+            Filter queries by the file purpose. If you don't provide a purpose,
+            the queries return unfiltered files.
           in: query
           name: purpose
           required: false
@@ -61315,14 +61680,13 @@ paths:
           description: Error response.
     post:
       description: >-
-        <p>To upload a file to Stripe, you’ll need to send a request of type
-        <code>multipart/form-data</code>. The request should contain the file
-        you would like to upload, as well as the parameters for creating a
-        file.</p>
+        <p>To upload a file to Stripe, you need to send a request of type
+        <code>multipart/form-data</code>. Include the file you want to upload in
+        the request, and the parameters for creating a file.</p>
 
 
-        <p>All of Stripe’s officially supported Client libraries should have
-        support for sending <code>multipart/form-data</code>.</p>
+        <p>All of Stripe’s officially supported Client libraries support sending
+        <code>multipart/form-data</code>.</p>
       operationId: PostFiles
       requestBody:
         content:
@@ -61345,14 +61709,14 @@ paths:
                   type: array
                 file:
                   description: >-
-                    A file to upload. The file should follow the specifications
-                    of RFC 2388 (which defines file transfers for the
-                    `multipart/form-data` protocol).
+                    A file to upload. Make sure that the specifications follow
+                    RFC 2388, which defines file transfers for the
+                    `multipart/form-data` protocol.
                   format: binary
                   type: string
                 file_link_data:
                   description: >-
-                    Optional parameters to automatically create a [file
+                    Optional parameters that automatically create a [file
                     link](https://stripe.com/docs/api#file_links) for the newly
                     created file.
                   properties:
@@ -61414,11 +61778,10 @@ paths:
   '/v1/files/{file}':
     get:
       description: >-
-        <p>Retrieves the details of an existing file object. Supply the unique
-        file ID from a file, and Stripe will return the corresponding file
-        object. To access file contents, see the <a
-        href="/docs/file-upload#download-file-contents">File Upload
-        Guide</a>.</p>
+        <p>Retrieves the details of an existing file object. After you supply a
+        unique file ID, Stripe returns the corresponding file object. Learn how
+        to <a href="/docs/file-upload#download-file-contents">access file
+        contents</a>.</p>
       operationId: GetFilesFile
       parameters:
         - description: Specifies which fields in the response should be expanded.
@@ -63713,6 +64076,9 @@ paths:
               payment_settings:
                 explode: true
                 style: deepObject
+              rendering:
+                explode: true
+                style: deepObject
               rendering_options:
                 explode: true
                 style: deepObject
@@ -64151,6 +64517,30 @@ paths:
                     - include
                     - include_and_require
                   type: string
+                rendering:
+                  description: >-
+                    The rendering-related settings that control how the invoice
+                    is displayed on customer-facing surfaces such as PDF and
+                    Hosted Invoice Page.
+                  properties:
+                    amount_tax_display:
+                      enum:
+                        - ''
+                        - exclude_tax
+                        - include_inclusive_tax
+                      type: string
+                    pdf:
+                      properties:
+                        page_size:
+                          enum:
+                            - a4
+                            - auto
+                            - letter
+                          type: string
+                      title: rendering_pdf_param
+                      type: object
+                  title: rendering_param
+                  type: object
                 rendering_options:
                   anyOf:
                     - properties:
@@ -66079,6 +66469,9 @@ paths:
               payment_settings:
                 explode: true
                 style: deepObject
+              rendering:
+                explode: true
+                style: deepObject
               rendering_options:
                 explode: true
                 style: deepObject
@@ -66488,6 +66881,30 @@ paths:
                             - ''
                           type: string
                   title: payment_settings
+                  type: object
+                rendering:
+                  description: >-
+                    The rendering-related settings that control how the invoice
+                    is displayed on customer-facing surfaces such as PDF and
+                    Hosted Invoice Page.
+                  properties:
+                    amount_tax_display:
+                      enum:
+                        - ''
+                        - exclude_tax
+                        - include_inclusive_tax
+                      type: string
+                    pdf:
+                      properties:
+                        page_size:
+                          enum:
+                            - a4
+                            - auto
+                            - letter
+                          type: string
+                      title: rendering_pdf_param
+                      type: object
+                  title: rendering_param
                   type: object
                 rendering_options:
                   anyOf:
@@ -67387,14 +67804,14 @@ paths:
   '/v1/issuing/authorizations/{authorization}/approve':
     post:
       description: >-
-        <p>Approves a pending Issuing <code>Authorization</code> object. This
-        request should be made within the timeout window of the <a
+        <p>[Deprecated] Approves a pending Issuing <code>Authorization</code>
+        object. This request should be made within the timeout window of the <a
         href="/docs/issuing/controls/real-time-authorizations">real-time
         authorization</a> flow. 
 
-        You can also respond directly to the webhook request to approve an
-        authorization (preferred). More details can be found <a
-        href="/docs/issuing/controls/real-time-authorizations#authorization-handling">here</a>.</p>
+        This method is deprecated. Instead, <a
+        href="/docs/issuing/controls/real-time-authorizations#authorization-handling">respond
+        directly to the webhook request to approve an authorization</a>.</p>
       operationId: PostIssuingAuthorizationsAuthorizationApprove
       parameters:
         - in: path
@@ -67466,14 +67883,14 @@ paths:
   '/v1/issuing/authorizations/{authorization}/decline':
     post:
       description: >-
-        <p>Declines a pending Issuing <code>Authorization</code> object. This
-        request should be made within the timeout window of the <a
+        <p>[Deprecated] Declines a pending Issuing <code>Authorization</code>
+        object. This request should be made within the timeout window of the <a
         href="/docs/issuing/controls/real-time-authorizations">real time
         authorization</a> flow.
 
-        You can also respond directly to the webhook request to decline an
-        authorization (preferred). More details can be found <a
-        href="/docs/issuing/controls/real-time-authorizations#authorization-handling">here</a>.</p>
+        This method is deprecated. Instead, <a
+        href="/docs/issuing/controls/real-time-authorizations#authorization-handling">respond
+        directly to the webhook request to decline an authorization</a>.</p>
       operationId: PostIssuingAuthorizationsAuthorizationDecline
       parameters:
         - in: path
@@ -75106,6 +75523,12 @@ paths:
                     you explicitly provide the `payment_method` going forward.
                   maxLength: 5000
                   type: string
+                payment_method_configuration:
+                  description: >-
+                    The ID of the payment method configuration to use with this
+                    PaymentIntent.
+                  maxLength: 100
+                  type: string
                 payment_method_data:
                   description: >-
                     If provided, this hash will be used to create a
@@ -76750,15 +77173,16 @@ paths:
         <p>Updates properties on a PaymentIntent object without confirming.</p>
 
 
-        <p>Depending on which properties you update, you may need to confirm the
+        <p>Depending on which properties you update, you might need to confirm
+        the
 
         PaymentIntent again. For example, updating the
-        <code>payment_method</code> will
+        <code>payment_method</code>
 
-        always require you to confirm the PaymentIntent again. If you prefer to
+        always requires you to confirm the PaymentIntent again. If you prefer to
 
         update and confirm at the same time, we recommend updating properties
-        via
+        through
 
         the <a href="/docs/api/payment_intents/confirm">confirm API</a>
         instead.</p>
@@ -76900,6 +77324,12 @@ paths:
                     Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility)
                     object) to attach to this PaymentIntent.
                   maxLength: 5000
+                  type: string
+                payment_method_configuration:
+                  description: >-
+                    The ID of the payment method configuration to use with this
+                    PaymentIntent.
+                  maxLength: 100
                   type: string
                 payment_method_data:
                   description: >-
@@ -78189,10 +78619,9 @@ paths:
                   type: object
                 payment_method_types:
                   description: >-
-                    The list of payment method types (e.g. card) that this
-                    PaymentIntent is allowed to use. Use
-                    automatic_payment_methods to manage payment methods from the
-                    [Stripe
+                    The list of payment method types (for example, card) that
+                    this PaymentIntent can use. Use `automatic_payment_methods`
+                    to manage payment methods from the [Stripe
                     Dashboard](https://dashboard.stripe.com/settings/payment_methods).
                   items:
                     maxLength: 5000
@@ -78305,9 +78734,9 @@ paths:
                   type: string
                 transfer_data:
                   description: >-
-                    The parameters used to automatically create a Transfer when
-                    the payment succeeds. For more information, see the
-                    PaymentIntents [use case for connected
+                    Use this parameter to automatically create a Transfer when
+                    the payment succeeds. Learn more about the [use case for
+                    connected
                     accounts](https://stripe.com/docs/payments/connected-accounts).
                   properties:
                     amount:
@@ -78317,10 +78746,9 @@ paths:
                 transfer_group:
                   description: >-
                     A string that identifies the resulting payment as part of a
-                    group. `transfer_group` may only be provided if it has not
-                    been set. See the PaymentIntents [use case for connected
-                    accounts](https://stripe.com/docs/payments/connected-accounts)
-                    for details.
+                    group. You can only provide `transfer_group` if it hasn't
+                    been set. Learn more about the [use case for connected
+                    accounts](https://stripe.com/docs/payments/connected-accounts).
                   type: string
               type: object
         required: false
@@ -80821,7 +81249,7 @@ paths:
                       anyOf:
                         - properties:
                             message:
-                              maxLength: 1000
+                              maxLength: 1200
                               type: string
                           required:
                             - message
@@ -80834,7 +81262,20 @@ paths:
                       anyOf:
                         - properties:
                             message:
-                              maxLength: 1000
+                              maxLength: 1200
+                              type: string
+                          required:
+                            - message
+                          title: custom_text_position_param
+                          type: object
+                        - enum:
+                            - ''
+                          type: string
+                    terms_of_service_acceptance:
+                      anyOf:
+                        - properties:
+                            message:
+                              maxLength: 1200
                               type: string
                           required:
                             - message
@@ -81635,7 +82076,7 @@ paths:
                       anyOf:
                         - properties:
                             message:
-                              maxLength: 1000
+                              maxLength: 1200
                               type: string
                           required:
                             - message
@@ -81648,7 +82089,20 @@ paths:
                       anyOf:
                         - properties:
                             message:
-                              maxLength: 1000
+                              maxLength: 1200
+                              type: string
+                          required:
+                            - message
+                          title: custom_text_position_param
+                          type: object
+                        - enum:
+                            - ''
+                          type: string
+                    terms_of_service_acceptance:
+                      anyOf:
+                        - properties:
+                            message:
+                              maxLength: 1200
                               type: string
                           required:
                             - message
@@ -82229,6 +82683,1825 @@ paths:
                 type: object
                 x-expandableFields:
                   - data
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+          description: Error response.
+  /v1/payment_method_configurations:
+    get:
+      description: <p>List payment method configurations</p>
+      operationId: GetPaymentMethodConfigurations
+      parameters:
+        - description: The Connect application to filter by.
+          explode: true
+          in: query
+          name: application
+          required: false
+          schema:
+            anyOf:
+              - maxLength: 100
+                type: string
+              - enum:
+                  - ''
+                type: string
+          style: deepObject
+        - description: Specifies which fields in the response should be expanded.
+          explode: true
+          in: query
+          name: expand
+          required: false
+          schema:
+            items:
+              maxLength: 5000
+              type: string
+            type: array
+          style: deepObject
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              additionalProperties: false
+              properties: {}
+              type: object
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: ''
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/payment_method_configuration'
+                    type: array
+                  has_more:
+                    description: >-
+                      True if this list has another page of items after this one
+                      that can be fetched.
+                    type: boolean
+                  object:
+                    description: >-
+                      String representing the object's type. Objects of the same
+                      type share the same value. Always has the value `list`.
+                    enum:
+                      - list
+                    type: string
+                  url:
+                    description: The URL where this list can be accessed.
+                    maxLength: 5000
+                    type: string
+                required:
+                  - data
+                  - has_more
+                  - object
+                  - url
+                title: PaymentMethodConfigResourcePaymentMethodConfigurationsList
+                type: object
+                x-expandableFields:
+                  - data
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+          description: Error response.
+    post:
+      description: <p>Creates a payment method configuration</p>
+      operationId: PostPaymentMethodConfigurations
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding:
+              acss_debit:
+                explode: true
+                style: deepObject
+              affirm:
+                explode: true
+                style: deepObject
+              afterpay_clearpay:
+                explode: true
+                style: deepObject
+              alipay:
+                explode: true
+                style: deepObject
+              apple_pay:
+                explode: true
+                style: deepObject
+              apple_pay_later:
+                explode: true
+                style: deepObject
+              au_becs_debit:
+                explode: true
+                style: deepObject
+              bacs_debit:
+                explode: true
+                style: deepObject
+              bancontact:
+                explode: true
+                style: deepObject
+              blik:
+                explode: true
+                style: deepObject
+              boleto:
+                explode: true
+                style: deepObject
+              card:
+                explode: true
+                style: deepObject
+              cartes_bancaires:
+                explode: true
+                style: deepObject
+              cashapp:
+                explode: true
+                style: deepObject
+              eps:
+                explode: true
+                style: deepObject
+              expand:
+                explode: true
+                style: deepObject
+              fpx:
+                explode: true
+                style: deepObject
+              giropay:
+                explode: true
+                style: deepObject
+              google_pay:
+                explode: true
+                style: deepObject
+              grabpay:
+                explode: true
+                style: deepObject
+              ideal:
+                explode: true
+                style: deepObject
+              jcb:
+                explode: true
+                style: deepObject
+              klarna:
+                explode: true
+                style: deepObject
+              konbini:
+                explode: true
+                style: deepObject
+              link:
+                explode: true
+                style: deepObject
+              oxxo:
+                explode: true
+                style: deepObject
+              p24:
+                explode: true
+                style: deepObject
+              paynow:
+                explode: true
+                style: deepObject
+              paypal:
+                explode: true
+                style: deepObject
+              promptpay:
+                explode: true
+                style: deepObject
+              sepa_debit:
+                explode: true
+                style: deepObject
+              sofort:
+                explode: true
+                style: deepObject
+              us_bank_account:
+                explode: true
+                style: deepObject
+              wechat_pay:
+                explode: true
+                style: deepObject
+            schema:
+              additionalProperties: false
+              properties:
+                acss_debit:
+                  description: >-
+                    Canadian pre-authorized debit payments, check this
+                    [page](https://stripe.com/docs/payments/acss-debit) for more
+                    details like country availability.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                affirm:
+                  description: >-
+                    [Affirm](https://www.affirm.com/) gives your customers a way
+                    to split purchases over a series of payments. Depending on
+                    the purchase, they can pay with four interest-free payments
+                    (Split Pay) or pay over a longer term (Installments), which
+                    might include interest. Check this
+                    [page](https://stripe.com/docs/payments/affirm) for more
+                    details like country availability.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                afterpay_clearpay:
+                  description: >-
+                    Afterpay gives your customers a way to pay for purchases in
+                    installments, check this
+                    [page](https://stripe.com/docs/payments/afterpay-clearpay)
+                    for more details like country availability. Afterpay is
+                    particularly popular among businesses selling fashion,
+                    beauty, and sports products.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                alipay:
+                  description: >-
+                    Alipay is a digital wallet in China that has more than a
+                    billion active users worldwide. Alipay users can pay on the
+                    web or on a mobile device using login credentials or their
+                    Alipay app. Alipay has a low dispute rate and reduces fraud
+                    by authenticating payments using the customer's login
+                    credentials. Check this
+                    [page](https://stripe.com/docs/payments/alipay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                apple_pay:
+                  description: >-
+                    Stripe users can accept [Apple Pay](/payments/apple-pay) in
+                    iOS applications in iOS 9 and later, and on the web in
+                    Safari starting with iOS 10 or macOS Sierra. There are no
+                    additional fees to process Apple Pay payments, and the
+                    [pricing](/pricing) is the same as other card transactions.
+                    Check this [page](https://stripe.com/docs/apple-pay) for
+                    more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                apple_pay_later:
+                  description: >-
+                    Apple Pay Later, a payment method for customers to buy now
+                    and pay later, gives your customers a way to split purchases
+                    into four installments across six weeks.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                au_becs_debit:
+                  description: >-
+                    Stripe users in Australia can accept Bulk Electronic
+                    Clearing System (BECS) direct debit payments from customers
+                    with an Australian bank account. Check this
+                    [page](https://stripe.com/docs/payments/au-becs-debit) for
+                    more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                bacs_debit:
+                  description: >-
+                    Stripe users in the UK can accept Bacs Direct Debit payments
+                    from customers with a UK bank account, check this
+                    [page](https://stripe.com/docs/payments/payment-methods/bacs-debit)
+                    for more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                bancontact:
+                  description: >-
+                    Bancontact is the most popular online payment method in
+                    Belgium, with over 15 million cards in circulation.
+                    [Customers](https://stripe.com/docs/api/customers) use a
+                    Bancontact card or mobile app linked to a Belgian bank
+                    account to make online payments that are secure, guaranteed,
+                    and confirmed immediately. Check this
+                    [page](https://stripe.com/docs/payments/bancontact) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                blik:
+                  description: >-
+                    BLIK is a [single
+                    use](https://stripe.com/docs/payments/payment-methods#usage)
+                    payment method that requires customers to authenticate their
+                    payments. When customers want to pay online using BLIK, they
+                    request a six-digit code from their banking application and
+                    enter it into the payment collection form. Check this
+                    [page](https://stripe.com/docs/payments/blik) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                boleto:
+                  description: >-
+                    Boleto is an official (regulated by the Central Bank of
+                    Brazil) payment method in Brazil. Check this
+                    [page](https://stripe.com/docs/payments/boleto) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                card:
+                  description: >-
+                    Cards are a popular way for consumers and businesses to pay
+                    online or in person. Stripe supports global and local card
+                    networks.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                cartes_bancaires:
+                  description: >-
+                    Cartes Bancaires is France's local card network. More than
+                    95% of these cards are co-branded with either Visa or
+                    Mastercard, meaning you can process these cards over either
+                    Cartes Bancaires or the Visa or Mastercard networks. Check
+                    this
+                    [page](https://stripe.com/docs/payments/cartes-bancaires)
+                    for more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                cashapp:
+                  description: >-
+                    Cash App is a popular consumer app in the US that allows
+                    customers to bank, invest, send, and receive money using
+                    their digital wallet. Check this
+                    [page](https://stripe.com/docs/payments/cash-app-pay) for
+                    more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                eps:
+                  description: >-
+                    EPS is an Austria-based payment method that allows customers
+                    to complete transactions online using their bank
+                    credentials. EPS is supported by all Austrian banks and is
+                    accepted by over 80% of Austrian online retailers. Check
+                    this [page](https://stripe.com/docs/payments/eps) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                expand:
+                  description: Specifies which fields in the response should be expanded.
+                  items:
+                    maxLength: 5000
+                    type: string
+                  type: array
+                fpx:
+                  description: >-
+                    Financial Process Exchange (FPX) is a Malaysia-based payment
+                    method that allows customers to complete transactions online
+                    using their bank credentials. Bank Negara Malaysia (BNM),
+                    the Central Bank of Malaysia, and eleven other major
+                    Malaysian financial institutions are members of the PayNet
+                    Group, which owns and operates FPX. It is one of the most
+                    popular online payment methods in Malaysia, with nearly 90
+                    million transactions in 2018 according to BNM. Check this
+                    [page](https://stripe.com/docs/payments/fpx) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                giropay:
+                  description: >-
+                    giropay is a German payment method based on online banking,
+                    introduced in 2006. It allows customers to complete
+                    transactions online using their online banking environment,
+                    with funds debited from their bank account. Depending on
+                    their bank, customers confirm payments on giropay using a
+                    second factor of authentication or a PIN. giropay accounts
+                    for 10% of online checkouts in Germany. Check this
+                    [page](https://stripe.com/docs/payments/giropay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                google_pay:
+                  description: >-
+                    Google Pay allows customers to make payments in your app or
+                    website using any credit or debit card saved to their Google
+                    Account, including those from Google Play, YouTube, Chrome,
+                    or an Android device. Use the Google Pay API to request any
+                    credit or debit card stored in your customer's Google
+                    account. Check this
+                    [page](https://stripe.com/docs/google-pay) for more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                grabpay:
+                  description: >-
+                    GrabPay is a payment method developed by
+                    [Grab](https://www.grab.com/sg/consumer/finance/pay/).
+                    GrabPay is a digital wallet - customers maintain a balance
+                    in their wallets that they pay out with. Check this
+                    [page](https://stripe.com/docs/payments/grabpay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                ideal:
+                  description: >-
+                    iDEAL is a Netherlands-based payment method that allows
+                    customers to complete transactions online using their bank
+                    credentials. All major Dutch banks are members of Currence,
+                    the scheme that operates iDEAL, making it the most popular
+                    online payment method in the Netherlands with a share of
+                    online transactions close to 55%. Check this
+                    [page](https://stripe.com/docs/payments/ideal) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                jcb:
+                  description: >-
+                    JCB is a credit card company based in Japan. JCB is
+                    currently available in Japan to businesses approved by JCB,
+                    and available to all businesses in the US, Canada,
+                    Australia, New Zealand, UK, and Ireland. Check this
+                    [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments)
+                    for more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                klarna:
+                  description: >-
+                    Klarna gives customers a range of [payment
+                    options](https://stripe.com/docs/payments/klarna#payment-options)
+                    during checkout. Available payment options vary depending on
+                    the customer's billing address and the transaction amount.
+                    These payment options make it convenient for customers to
+                    purchase items in all price ranges. Check this
+                    [page](https://stripe.com/docs/payments/klarna) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                konbini:
+                  description: >-
+                    Konbini allows customers in Japan to pay for bills and
+                    online purchases at convenience stores with cash. Check this
+                    [page](https://stripe.com/docs/payments/konbini) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                link:
+                  description: >-
+                    [Link](https://stripe.com/docs/payments/link) is a payment
+                    method network. With Link, users save their payment details
+                    once, then reuse that information to pay with one click for
+                    any business on the network.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                name:
+                  description: Configuration name.
+                  maxLength: 100
+                  type: string
+                oxxo:
+                  description: >-
+                    OXXO is a Mexican chain of convenience stores with thousands
+                    of locations across Latin America and represents nearly 20%
+                    of online transactions in Mexico. OXXO allows customers to
+                    pay bills and online purchases in-store with cash. Check
+                    this [page](https://stripe.com/docs/payments/oxxo) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                p24:
+                  description: >-
+                    Przelewy24 is a Poland-based payment method aggregator that
+                    allows customers to complete transactions online using bank
+                    transfers and other methods. Bank transfers account for 30%
+                    of online payments in Poland and Przelewy24 provides a way
+                    for customers to pay with over 165 banks. Check this
+                    [page](https://stripe.com/docs/payments/p24) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                parent:
+                  description: >-
+                    Configuration's parent configuration. Specify to create a
+                    child configuration.
+                  maxLength: 100
+                  type: string
+                paynow:
+                  description: >-
+                    PayNow is a Singapore-based payment method that allows
+                    customers to make a payment using their preferred app from
+                    participating banks and participating non-bank financial
+                    institutions. Check this
+                    [page](https://stripe.com/docs/payments/paynow) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                paypal:
+                  description: >-
+                    PayPal, a digital wallet popular with customers in Europe,
+                    allows your customers worldwide to pay using their PayPal
+                    account. Check this
+                    [page](https://stripe.com/docs/payments/paypal) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                promptpay:
+                  description: >-
+                    PromptPay is a Thailand-based payment method that allows
+                    customers to make a payment using their preferred app from
+                    participating banks. Check this
+                    [page](https://stripe.com/docs/payments/promptpay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                sepa_debit:
+                  description: >-
+                    The [Single Euro Payments Area
+                    (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area)
+                    is an initiative of the European Union to simplify payments
+                    within and across member countries. SEPA established and
+                    enforced banking standards to allow for the direct debiting
+                    of every EUR-denominated bank account within the SEPA
+                    region, check this
+                    [page](https://stripe.com/docs/payments/sepa-debit) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                sofort:
+                  description: >-
+                    Stripe users in Europe and the United States can use the
+                    [Payment Intents
+                    API](https://stripe.com/docs/payments/payment-intents)—a
+                    single integration path for creating payments using any
+                    supported method—to accept [Sofort](https://www.sofort.com/)
+                    payments from customers. Check this
+                    [page](https://stripe.com/docs/payments/sofort) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                us_bank_account:
+                  description: >-
+                    Stripe users in the United States can accept ACH direct
+                    debit payments from customers with a US bank account using
+                    the Automated Clearing House (ACH) payments system operated
+                    by Nacha. Check this
+                    [page](https://stripe.com/docs/payments/ach-debit) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                wechat_pay:
+                  description: >-
+                    WeChat, owned by Tencent, is China's leading mobile app with
+                    over 1 billion monthly active users. Chinese consumers can
+                    use WeChat Pay to pay for goods and services inside of
+                    businesses' apps and websites. WeChat Pay users buy most
+                    frequently in gaming, e-commerce, travel, online education,
+                    and food/nutrition. Check this
+                    [page](https://stripe.com/docs/payments/wechat-pay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+              type: object
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payment_method_configuration'
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+          description: Error response.
+  '/v1/payment_method_configurations/{configuration}':
+    get:
+      description: <p>Retrieve payment method configuration</p>
+      operationId: GetPaymentMethodConfigurationsConfiguration
+      parameters:
+        - in: path
+          name: configuration
+          required: true
+          schema:
+            maxLength: 5000
+            type: string
+          style: simple
+        - description: Specifies which fields in the response should be expanded.
+          explode: true
+          in: query
+          name: expand
+          required: false
+          schema:
+            items:
+              maxLength: 5000
+              type: string
+            type: array
+          style: deepObject
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              additionalProperties: false
+              properties: {}
+              type: object
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payment_method_configuration'
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+          description: Error response.
+    post:
+      description: <p>Update payment method configuration</p>
+      operationId: PostPaymentMethodConfigurationsConfiguration
+      parameters:
+        - in: path
+          name: configuration
+          required: true
+          schema:
+            maxLength: 5000
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding:
+              acss_debit:
+                explode: true
+                style: deepObject
+              affirm:
+                explode: true
+                style: deepObject
+              afterpay_clearpay:
+                explode: true
+                style: deepObject
+              alipay:
+                explode: true
+                style: deepObject
+              apple_pay:
+                explode: true
+                style: deepObject
+              apple_pay_later:
+                explode: true
+                style: deepObject
+              au_becs_debit:
+                explode: true
+                style: deepObject
+              bacs_debit:
+                explode: true
+                style: deepObject
+              bancontact:
+                explode: true
+                style: deepObject
+              blik:
+                explode: true
+                style: deepObject
+              boleto:
+                explode: true
+                style: deepObject
+              card:
+                explode: true
+                style: deepObject
+              cartes_bancaires:
+                explode: true
+                style: deepObject
+              cashapp:
+                explode: true
+                style: deepObject
+              eps:
+                explode: true
+                style: deepObject
+              expand:
+                explode: true
+                style: deepObject
+              fpx:
+                explode: true
+                style: deepObject
+              giropay:
+                explode: true
+                style: deepObject
+              google_pay:
+                explode: true
+                style: deepObject
+              grabpay:
+                explode: true
+                style: deepObject
+              ideal:
+                explode: true
+                style: deepObject
+              jcb:
+                explode: true
+                style: deepObject
+              klarna:
+                explode: true
+                style: deepObject
+              konbini:
+                explode: true
+                style: deepObject
+              link:
+                explode: true
+                style: deepObject
+              oxxo:
+                explode: true
+                style: deepObject
+              p24:
+                explode: true
+                style: deepObject
+              paynow:
+                explode: true
+                style: deepObject
+              paypal:
+                explode: true
+                style: deepObject
+              promptpay:
+                explode: true
+                style: deepObject
+              sepa_debit:
+                explode: true
+                style: deepObject
+              sofort:
+                explode: true
+                style: deepObject
+              us_bank_account:
+                explode: true
+                style: deepObject
+              wechat_pay:
+                explode: true
+                style: deepObject
+            schema:
+              additionalProperties: false
+              properties:
+                acss_debit:
+                  description: >-
+                    Canadian pre-authorized debit payments, check this
+                    [page](https://stripe.com/docs/payments/acss-debit) for more
+                    details like country availability.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                active:
+                  description: Whether the configuration can be used for new payments.
+                  type: boolean
+                affirm:
+                  description: >-
+                    [Affirm](https://www.affirm.com/) gives your customers a way
+                    to split purchases over a series of payments. Depending on
+                    the purchase, they can pay with four interest-free payments
+                    (Split Pay) or pay over a longer term (Installments), which
+                    might include interest. Check this
+                    [page](https://stripe.com/docs/payments/affirm) for more
+                    details like country availability.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                afterpay_clearpay:
+                  description: >-
+                    Afterpay gives your customers a way to pay for purchases in
+                    installments, check this
+                    [page](https://stripe.com/docs/payments/afterpay-clearpay)
+                    for more details like country availability. Afterpay is
+                    particularly popular among businesses selling fashion,
+                    beauty, and sports products.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                alipay:
+                  description: >-
+                    Alipay is a digital wallet in China that has more than a
+                    billion active users worldwide. Alipay users can pay on the
+                    web or on a mobile device using login credentials or their
+                    Alipay app. Alipay has a low dispute rate and reduces fraud
+                    by authenticating payments using the customer's login
+                    credentials. Check this
+                    [page](https://stripe.com/docs/payments/alipay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                apple_pay:
+                  description: >-
+                    Stripe users can accept [Apple Pay](/payments/apple-pay) in
+                    iOS applications in iOS 9 and later, and on the web in
+                    Safari starting with iOS 10 or macOS Sierra. There are no
+                    additional fees to process Apple Pay payments, and the
+                    [pricing](/pricing) is the same as other card transactions.
+                    Check this [page](https://stripe.com/docs/apple-pay) for
+                    more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                apple_pay_later:
+                  description: >-
+                    Apple Pay Later, a payment method for customers to buy now
+                    and pay later, gives your customers a way to split purchases
+                    into four installments across six weeks.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                au_becs_debit:
+                  description: >-
+                    Stripe users in Australia can accept Bulk Electronic
+                    Clearing System (BECS) direct debit payments from customers
+                    with an Australian bank account. Check this
+                    [page](https://stripe.com/docs/payments/au-becs-debit) for
+                    more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                bacs_debit:
+                  description: >-
+                    Stripe users in the UK can accept Bacs Direct Debit payments
+                    from customers with a UK bank account, check this
+                    [page](https://stripe.com/docs/payments/payment-methods/bacs-debit)
+                    for more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                bancontact:
+                  description: >-
+                    Bancontact is the most popular online payment method in
+                    Belgium, with over 15 million cards in circulation.
+                    [Customers](https://stripe.com/docs/api/customers) use a
+                    Bancontact card or mobile app linked to a Belgian bank
+                    account to make online payments that are secure, guaranteed,
+                    and confirmed immediately. Check this
+                    [page](https://stripe.com/docs/payments/bancontact) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                blik:
+                  description: >-
+                    BLIK is a [single
+                    use](https://stripe.com/docs/payments/payment-methods#usage)
+                    payment method that requires customers to authenticate their
+                    payments. When customers want to pay online using BLIK, they
+                    request a six-digit code from their banking application and
+                    enter it into the payment collection form. Check this
+                    [page](https://stripe.com/docs/payments/blik) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                boleto:
+                  description: >-
+                    Boleto is an official (regulated by the Central Bank of
+                    Brazil) payment method in Brazil. Check this
+                    [page](https://stripe.com/docs/payments/boleto) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                card:
+                  description: >-
+                    Cards are a popular way for consumers and businesses to pay
+                    online or in person. Stripe supports global and local card
+                    networks.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                cartes_bancaires:
+                  description: >-
+                    Cartes Bancaires is France's local card network. More than
+                    95% of these cards are co-branded with either Visa or
+                    Mastercard, meaning you can process these cards over either
+                    Cartes Bancaires or the Visa or Mastercard networks. Check
+                    this
+                    [page](https://stripe.com/docs/payments/cartes-bancaires)
+                    for more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                cashapp:
+                  description: >-
+                    Cash App is a popular consumer app in the US that allows
+                    customers to bank, invest, send, and receive money using
+                    their digital wallet. Check this
+                    [page](https://stripe.com/docs/payments/cash-app-pay) for
+                    more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                eps:
+                  description: >-
+                    EPS is an Austria-based payment method that allows customers
+                    to complete transactions online using their bank
+                    credentials. EPS is supported by all Austrian banks and is
+                    accepted by over 80% of Austrian online retailers. Check
+                    this [page](https://stripe.com/docs/payments/eps) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                expand:
+                  description: Specifies which fields in the response should be expanded.
+                  items:
+                    maxLength: 5000
+                    type: string
+                  type: array
+                fpx:
+                  description: >-
+                    Financial Process Exchange (FPX) is a Malaysia-based payment
+                    method that allows customers to complete transactions online
+                    using their bank credentials. Bank Negara Malaysia (BNM),
+                    the Central Bank of Malaysia, and eleven other major
+                    Malaysian financial institutions are members of the PayNet
+                    Group, which owns and operates FPX. It is one of the most
+                    popular online payment methods in Malaysia, with nearly 90
+                    million transactions in 2018 according to BNM. Check this
+                    [page](https://stripe.com/docs/payments/fpx) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                giropay:
+                  description: >-
+                    giropay is a German payment method based on online banking,
+                    introduced in 2006. It allows customers to complete
+                    transactions online using their online banking environment,
+                    with funds debited from their bank account. Depending on
+                    their bank, customers confirm payments on giropay using a
+                    second factor of authentication or a PIN. giropay accounts
+                    for 10% of online checkouts in Germany. Check this
+                    [page](https://stripe.com/docs/payments/giropay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                google_pay:
+                  description: >-
+                    Google Pay allows customers to make payments in your app or
+                    website using any credit or debit card saved to their Google
+                    Account, including those from Google Play, YouTube, Chrome,
+                    or an Android device. Use the Google Pay API to request any
+                    credit or debit card stored in your customer's Google
+                    account. Check this
+                    [page](https://stripe.com/docs/google-pay) for more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                grabpay:
+                  description: >-
+                    GrabPay is a payment method developed by
+                    [Grab](https://www.grab.com/sg/consumer/finance/pay/).
+                    GrabPay is a digital wallet - customers maintain a balance
+                    in their wallets that they pay out with. Check this
+                    [page](https://stripe.com/docs/payments/grabpay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                ideal:
+                  description: >-
+                    iDEAL is a Netherlands-based payment method that allows
+                    customers to complete transactions online using their bank
+                    credentials. All major Dutch banks are members of Currence,
+                    the scheme that operates iDEAL, making it the most popular
+                    online payment method in the Netherlands with a share of
+                    online transactions close to 55%. Check this
+                    [page](https://stripe.com/docs/payments/ideal) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                jcb:
+                  description: >-
+                    JCB is a credit card company based in Japan. JCB is
+                    currently available in Japan to businesses approved by JCB,
+                    and available to all businesses in the US, Canada,
+                    Australia, New Zealand, UK, and Ireland. Check this
+                    [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments)
+                    for more details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                klarna:
+                  description: >-
+                    Klarna gives customers a range of [payment
+                    options](https://stripe.com/docs/payments/klarna#payment-options)
+                    during checkout. Available payment options vary depending on
+                    the customer's billing address and the transaction amount.
+                    These payment options make it convenient for customers to
+                    purchase items in all price ranges. Check this
+                    [page](https://stripe.com/docs/payments/klarna) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                konbini:
+                  description: >-
+                    Konbini allows customers in Japan to pay for bills and
+                    online purchases at convenience stores with cash. Check this
+                    [page](https://stripe.com/docs/payments/konbini) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                link:
+                  description: >-
+                    [Link](https://stripe.com/docs/payments/link) is a payment
+                    method network. With Link, users save their payment details
+                    once, then reuse that information to pay with one click for
+                    any business on the network.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                name:
+                  description: Configuration name.
+                  maxLength: 100
+                  type: string
+                oxxo:
+                  description: >-
+                    OXXO is a Mexican chain of convenience stores with thousands
+                    of locations across Latin America and represents nearly 20%
+                    of online transactions in Mexico. OXXO allows customers to
+                    pay bills and online purchases in-store with cash. Check
+                    this [page](https://stripe.com/docs/payments/oxxo) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                p24:
+                  description: >-
+                    Przelewy24 is a Poland-based payment method aggregator that
+                    allows customers to complete transactions online using bank
+                    transfers and other methods. Bank transfers account for 30%
+                    of online payments in Poland and Przelewy24 provides a way
+                    for customers to pay with over 165 banks. Check this
+                    [page](https://stripe.com/docs/payments/p24) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                paynow:
+                  description: >-
+                    PayNow is a Singapore-based payment method that allows
+                    customers to make a payment using their preferred app from
+                    participating banks and participating non-bank financial
+                    institutions. Check this
+                    [page](https://stripe.com/docs/payments/paynow) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                paypal:
+                  description: >-
+                    PayPal, a digital wallet popular with customers in Europe,
+                    allows your customers worldwide to pay using their PayPal
+                    account. Check this
+                    [page](https://stripe.com/docs/payments/paypal) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                promptpay:
+                  description: >-
+                    PromptPay is a Thailand-based payment method that allows
+                    customers to make a payment using their preferred app from
+                    participating banks. Check this
+                    [page](https://stripe.com/docs/payments/promptpay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                sepa_debit:
+                  description: >-
+                    The [Single Euro Payments Area
+                    (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area)
+                    is an initiative of the European Union to simplify payments
+                    within and across member countries. SEPA established and
+                    enforced banking standards to allow for the direct debiting
+                    of every EUR-denominated bank account within the SEPA
+                    region, check this
+                    [page](https://stripe.com/docs/payments/sepa-debit) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                sofort:
+                  description: >-
+                    Stripe users in Europe and the United States can use the
+                    [Payment Intents
+                    API](https://stripe.com/docs/payments/payment-intents)—a
+                    single integration path for creating payments using any
+                    supported method—to accept [Sofort](https://www.sofort.com/)
+                    payments from customers. Check this
+                    [page](https://stripe.com/docs/payments/sofort) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                us_bank_account:
+                  description: >-
+                    Stripe users in the United States can accept ACH direct
+                    debit payments from customers with a US bank account using
+                    the Automated Clearing House (ACH) payments system operated
+                    by Nacha. Check this
+                    [page](https://stripe.com/docs/payments/ach-debit) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+                wechat_pay:
+                  description: >-
+                    WeChat, owned by Tencent, is China's leading mobile app with
+                    over 1 billion monthly active users. Chinese consumers can
+                    use WeChat Pay to pay for goods and services inside of
+                    businesses' apps and websites. WeChat Pay users buy most
+                    frequently in gaming, e-commerce, travel, online education,
+                    and food/nutrition. Check this
+                    [page](https://stripe.com/docs/payments/wechat-pay) for more
+                    details.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
+              type: object
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payment_method_configuration'
           description: Successful response.
         default:
           content:
@@ -90714,13 +92987,13 @@ paths:
   /v1/setup_attempts:
     get:
       description: >-
-        <p>Returns a list of SetupAttempts associated with a provided
+        <p>Returns a list of SetupAttempts that associate with a provided
         SetupIntent.</p>
       operationId: GetSetupAttempts
       parameters:
         - description: |-
             A filter on the list, based on the object `created` field. The value
-            can be a string with an integer Unix timestamp, or it can be a
+            can be a string with an integer Unix timestamp or a
             dictionary with a number of different query options.
           explode: true
           in: query
@@ -91199,6 +93472,12 @@ paths:
                     ID of the payment method (a PaymentMethod, Card, or saved
                     Source object) to attach to this SetupIntent.
                   maxLength: 5000
+                  type: string
+                payment_method_configuration:
+                  description: >-
+                    The ID of the payment method configuration to use with this
+                    Setup Intent.
+                  maxLength: 100
                   type: string
                 payment_method_data:
                   description: >-
@@ -92055,6 +94334,12 @@ paths:
                     ID of the payment method (a PaymentMethod, Card, or saved
                     Source object) to attach to this SetupIntent.
                   maxLength: 5000
+                  type: string
+                payment_method_configuration:
+                  description: >-
+                    The ID of the payment method configuration to use with this
+                    SetupIntent.
+                  maxLength: 100
                   type: string
                 payment_method_data:
                   description: >-
@@ -111415,7 +113700,6 @@ paths:
                       - issuing_transaction.created
                       - issuing_transaction.updated
                       - mandate.updated
-                      - order.created
                       - payment_intent.amount_capturable_updated
                       - payment_intent.canceled
                       - payment_intent.created
@@ -111456,9 +113740,6 @@ paths:
                       - quote.finalized
                       - radar.early_fraud_warning.created
                       - radar.early_fraud_warning.updated
-                      - recipient.created
-                      - recipient.deleted
-                      - recipient.updated
                       - refund.created
                       - refund.updated
                       - reporting.report_run.failed
@@ -111472,9 +113753,6 @@ paths:
                       - setup_intent.setup_failed
                       - setup_intent.succeeded
                       - sigma.scheduled_query_run.created
-                      - sku.created
-                      - sku.deleted
-                      - sku.updated
                       - source.canceled
                       - source.chargeable
                       - source.failed
@@ -111816,7 +114094,6 @@ paths:
                       - issuing_transaction.created
                       - issuing_transaction.updated
                       - mandate.updated
-                      - order.created
                       - payment_intent.amount_capturable_updated
                       - payment_intent.canceled
                       - payment_intent.created
@@ -111857,9 +114134,6 @@ paths:
                       - quote.finalized
                       - radar.early_fraud_warning.created
                       - radar.early_fraud_warning.updated
-                      - recipient.created
-                      - recipient.deleted
-                      - recipient.updated
                       - refund.created
                       - refund.updated
                       - reporting.report_run.failed
@@ -111873,9 +114147,6 @@ paths:
                       - setup_intent.setup_failed
                       - setup_intent.succeeded
                       - sigma.scheduled_query_run.created
-                      - sku.created
-                      - sku.deleted
-                      - sku.updated
                       - source.canceled
                       - source.chargeable
                       - source.failed
