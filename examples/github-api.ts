@@ -2610,7 +2610,6 @@ export interface paths {
      * @description Re-run a job and its dependent jobs in a workflow run.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions:write` permission to use this endpoint.
      */
     post: operations["actions/re-run-job-for-workflow-run"];
@@ -2649,7 +2648,6 @@ export interface paths {
      * @description Lists all organiation variables shared with a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -2735,7 +2733,6 @@ export interface paths {
      * @description Lists all self-hosted runners configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2747,7 +2744,6 @@ export interface paths {
      * @description Lists binaries for the runner application that you can download and run.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2759,7 +2755,6 @@ export interface paths {
      * @description Generates a configuration that can be passed to the runner application at startup.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2772,7 +2767,6 @@ export interface paths {
      * expires after one hour.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      *
@@ -2792,7 +2786,6 @@ export interface paths {
      * a repository. The token expires after one hour.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      *
@@ -2811,7 +2804,6 @@ export interface paths {
      * @description Gets a specific self-hosted runner configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2821,7 +2813,6 @@ export interface paths {
      * @description Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2833,7 +2824,6 @@ export interface paths {
      * @description Lists all labels for a self-hosted runner configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2844,7 +2834,6 @@ export interface paths {
      * self-hosted runner configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2854,7 +2843,6 @@ export interface paths {
      * @description Add custom labels to a self-hosted runner configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2865,7 +2853,6 @@ export interface paths {
      * repository. Returns the remaining read-only labels from the runner.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2881,7 +2868,6 @@ export interface paths {
      * present on the runner.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2966,7 +2952,6 @@ export interface paths {
      * @description Cancels a workflow run using its `id`.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions:write` permission to use this endpoint.
      */
     post: operations["actions/cancel-workflow-run"];
@@ -2983,6 +2968,17 @@ export interface paths {
      * GitHub Apps must have read and write permission for **Deployments** to use this endpoint.
      */
     post: operations["actions/review-custom-gates-for-run"];
+  };
+  "/repos/{owner}/{repo}/actions/runs/{run_id}/force-cancel": {
+    /**
+     * Force cancel a workflow run
+     * @description Cancels a workflow run and bypasses conditions that would otherwise cause a workflow execution to continue, such as an `always()` condition on a job.
+     * You should only use this endpoint to cancel a workflow run when the workflow run is not responding to [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel`](/rest/actions/workflow-runs#cancel-a-workflow-run).
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `actions:write` permission to use this endpoint.
+     */
+    post: operations["actions/force-cancel-workflow-run"];
   };
   "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs": {
     /**
@@ -3105,7 +3101,6 @@ export interface paths {
      * List repository variables
      * @description Lists all repository variables.
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -3115,7 +3110,6 @@ export interface paths {
      * @description Creates a repository variable that you can reference in a GitHub Actions workflow.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -3127,7 +3121,6 @@ export interface paths {
      * @description Gets a specific variable in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -3137,7 +3130,6 @@ export interface paths {
      * @description Deletes a repository variable using the variable name.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -3147,7 +3139,6 @@ export interface paths {
      * @description Updates a repository variable that you can reference in a GitHub Actions workflow.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -4287,10 +4278,8 @@ export interface paths {
      * README, and CONTRIBUTING files.
      *
      * The `health_percentage` score is defined as a percentage of how many of
-     * these four documents are present: README, CONTRIBUTING, LICENSE, and
-     * CODE_OF_CONDUCT. For example, if all four documents are present, then
-     * the `health_percentage` is `100`. If only one is present, then the
-     * `health_percentage` is `25`.
+     * the recommended community health files are present. For more information, see
+     * "[About community profiles for public repositories](https://docs.github.com/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories)."
      *
      * `content_reports_enabled` is only returned for organization-owned repositories.
      */
@@ -6482,7 +6471,6 @@ export interface paths {
      * @description Lists all environment variables.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -6492,7 +6480,6 @@ export interface paths {
      * @description Create an environment variable that you can reference in a GitHub Actions workflow.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -6504,7 +6491,6 @@ export interface paths {
      * @description Gets a specific variable in an environment.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -6514,7 +6500,6 @@ export interface paths {
      * @description Deletes an environment variable using the variable name.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -6524,7 +6509,6 @@ export interface paths {
      * @description Updates an environment variable that you can reference in a GitHub Actions workflow.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -13660,7 +13644,7 @@ export interface components {
     };
     /**
      * required_linear_history
-     * @description Prevent merge commits from being pushed to matching branches.
+     * @description Prevent merge commits from being pushed to matching refs.
      */
     "repository-rule-required-linear-history": {
       /** @enum {string} */
@@ -13668,7 +13652,7 @@ export interface components {
     };
     /**
      * required_deployments
-     * @description Choose which environments must be successfully deployed to before branches can be merged into a branch that matches this rule.
+     * @description Choose which environments must be successfully deployed to before refs can be merged into a branch that matches this rule.
      */
     "repository-rule-required-deployments": {
       /** @enum {string} */
@@ -13680,7 +13664,7 @@ export interface components {
     };
     /**
      * required_signatures
-     * @description Commits pushed to matching branches must have verified signatures.
+     * @description Commits pushed to matching refs must have verified signatures.
      */
     "repository-rule-required-signatures": {
       /** @enum {string} */
@@ -13718,7 +13702,7 @@ export interface components {
     };
     /**
      * required_status_checks
-     * @description Choose which status checks must pass before branches can be merged into a branch that matches this rule. When enabled, commits must first be pushed to another branch, then merged or pushed directly to a branch that matches this rule after status checks have passed.
+     * @description Choose which status checks must pass before branches can be merged into a branch that matches this rule. When enabled, commits must first be pushed to another branch, then merged or pushed directly to a ref that matches this rule after status checks have passed.
      */
     "repository-rule-required-status-checks": {
       /** @enum {string} */
@@ -13732,7 +13716,7 @@ export interface components {
     };
     /**
      * non_fast_forward
-     * @description Prevent users with push access from force pushing to branches.
+     * @description Prevent users with push access from force pushing to refs.
      */
     "repository-rule-non-fast-forward": {
       /** @enum {string} */
@@ -19017,6 +19001,11 @@ export interface components {
           id: number;
           /** @example MDQ6R2F0ZTM3NTU= */
           node_id: string;
+          /**
+           * @description Whether deployments to this environment can be approved by the user who created the deployment.
+           * @example false
+           */
+          prevent_self_review?: boolean;
           /** @example required_reviewers */
           type: string;
           /** @description The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
@@ -83124,7 +83113,7 @@ export interface components {
     "tool-name"?: components["schemas"]["code-scanning-analysis-tool-name"];
     /** @description The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both. */
     "tool-guid"?: components["schemas"]["code-scanning-analysis-tool-guid"];
-    /** @description The unique identifier of the hook. */
+    /** @description The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
     "hook-id": number;
     /** @description The unique identifier of the invitation. */
     "invitation-id": number;
@@ -83353,7 +83342,7 @@ export interface operations {
    * By default, all responses will exclude advisories for malware, because malware are not standard vulnerabilities. To list advisories for malware, you must include the `type` parameter in your request, with the value `malware`. For more information about the different types of security advisories, see "[About the GitHub Advisory database](https://docs.github.com/code-security/security-advisories/global-security-advisories/about-the-github-advisory-database#about-types-of-security-advisories)."
    */
   "security-advisories/list-global-advisories": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description If specified, only advisories with this GHSA (GitHub Security Advisory) identifier will be returned. */
         ghsa_id?: string;
@@ -83535,7 +83524,7 @@ export interface operations {
    * You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
    */
   "apps/list-webhook-deliveries": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         cursor?: components["parameters"]["cursor"];
@@ -83599,7 +83588,7 @@ export interface operations {
    * @description Lists all the pending installation requests for the authenticated GitHub App.
    */
   "apps/list-installation-requests-for-authenticated-app": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -83623,7 +83612,7 @@ export interface operations {
    * The permissions the installation has are included under the `permissions` key.
    */
   "apps/list-installations": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -84021,7 +84010,7 @@ export interface operations {
    * @description Lists GitHub Classroom classrooms for the current user. Classrooms will only be returned if the current user is an administrator of one or more GitHub Classrooms.
    */
   "classroom/list-classrooms": {
-    parameters?: {
+    parameters: {
       query?: {
         page?: components["parameters"]["page"];
         per_page?: components["parameters"]["per-page"];
@@ -84212,7 +84201,7 @@ export interface operations {
    * @description We delay the public events feed by five minutes, which means the most recent event returned by the public events API actually occurred at least five minutes ago.
    */
   "activity/list-public-events": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -84259,7 +84248,7 @@ export interface operations {
    * @description Lists the authenticated user's gists or if called anonymously, this endpoint returns all public gists:
    */
   "gists/list": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -84337,7 +84326,7 @@ export interface operations {
    * Note: With [pagination](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
    */
   "gists/list-public": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -84364,7 +84353,7 @@ export interface operations {
    * @description List the authenticated user's starred gists:
    */
   "gists/list-starred": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -84802,7 +84791,7 @@ export interface operations {
    * You must use an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
    */
   "apps/list-repos-accessible-to-installation": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -84857,7 +84846,7 @@ export interface operations {
    * request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
    */
   "issues/list": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "repos" | "all";
@@ -84896,7 +84885,7 @@ export interface operations {
    * @description Lists the most commonly used licenses on GitHub. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
    */
   "licenses/get-all-commonly-used": {
-    parameters?: {
+    parameters: {
       query?: {
         featured?: boolean;
         per_page?: components["parameters"]["per-page"];
@@ -85029,7 +85018,7 @@ export interface operations {
    * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-plans": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -85116,7 +85105,7 @@ export interface operations {
    * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-plans-stubbed": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -85218,7 +85207,7 @@ export interface operations {
    * @description List all notifications for the current user, sorted by most recently updated.
    */
   "activity/list-notifications-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         all?: components["parameters"]["all"];
         participating?: components["parameters"]["participating"];
@@ -85408,7 +85397,7 @@ export interface operations {
    * @description Get the octocat as ASCII art
    */
   "meta/get-octocat": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description The words to show in Octocat's speech bubble */
         s?: string;
@@ -85430,7 +85419,7 @@ export interface operations {
    * **Note:** Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of organizations.
    */
   "orgs/list": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since-org"];
         per_page?: components["parameters"]["per-page"];
@@ -92792,7 +92781,6 @@ export interface operations {
    * @description Re-run a job and its dependent jobs in a workflow run.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions:write` permission to use this endpoint.
    */
   "actions/re-run-job-for-workflow-run": {
@@ -92923,7 +92911,6 @@ export interface operations {
    * @description Lists all organiation variables shared with a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -93163,7 +93150,6 @@ export interface operations {
    * @description Lists all self-hosted runners configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93200,7 +93186,6 @@ export interface operations {
    * @description Lists binaries for the runner application that you can download and run.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93225,7 +93210,6 @@ export interface operations {
    * @description Generates a configuration that can be passed to the runner application at startup.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93265,7 +93249,6 @@ export interface operations {
    * expires after one hour.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    *
@@ -93298,7 +93281,6 @@ export interface operations {
    * a repository. The token expires after one hour.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    *
@@ -93330,7 +93312,6 @@ export interface operations {
    * @description Gets a specific self-hosted runner configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93356,7 +93337,6 @@ export interface operations {
    * @description Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93380,7 +93360,6 @@ export interface operations {
    * @description Lists all labels for a self-hosted runner configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93403,7 +93382,6 @@ export interface operations {
    * self-hosted runner configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93434,7 +93412,6 @@ export interface operations {
    * @description Add custom labels to a self-hosted runner configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93466,7 +93443,6 @@ export interface operations {
    * repository. Returns the remaining read-only labels from the runner.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93492,7 +93468,6 @@ export interface operations {
    * present on the runner.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -93767,7 +93742,6 @@ export interface operations {
    * @description Cancels a workflow run using its `id`.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions:write` permission to use this endpoint.
    */
   "actions/cancel-workflow-run": {
@@ -93816,6 +93790,32 @@ export interface operations {
       204: {
         content: never;
       };
+    };
+  };
+  /**
+   * Force cancel a workflow run
+   * @description Cancels a workflow run and bypasses conditions that would otherwise cause a workflow execution to continue, such as an `always()` condition on a job.
+   * You should only use this endpoint to cancel a workflow run when the workflow run is not responding to [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel`](/rest/actions/workflow-runs#cancel-a-workflow-run).
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `actions:write` permission to use this endpoint.
+   */
+  "actions/force-cancel-workflow-run": {
+    parameters: {
+      path: {
+        owner: components["parameters"]["owner"];
+        repo: components["parameters"]["repo"];
+        run_id: components["parameters"]["run-id"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      202: {
+        content: {
+          "application/json": components["schemas"]["empty-object"];
+        };
+      };
+      409: components["responses"]["conflict"];
     };
   };
   /**
@@ -94209,7 +94209,6 @@ export interface operations {
    * List repository variables
    * @description Lists all repository variables.
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -94244,7 +94243,6 @@ export interface operations {
    * @description Creates a repository variable that you can reference in a GitHub Actions workflow.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -94279,7 +94277,6 @@ export interface operations {
    * @description Gets a specific variable in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -94305,7 +94302,6 @@ export interface operations {
    * @description Deletes a repository variable using the variable name.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -94329,7 +94325,6 @@ export interface operations {
    * @description Updates a repository variable that you can reference in a GitHub Actions workflow.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -98166,10 +98161,8 @@ export interface operations {
    * README, and CONTRIBUTING files.
    *
    * The `health_percentage` score is defined as a percentage of how many of
-   * these four documents are present: README, CONTRIBUTING, LICENSE, and
-   * CODE_OF_CONDUCT. For example, if all four documents are present, then
-   * the `health_percentage` is `100`. If only one is present, then the
-   * `health_percentage` is `25`.
+   * the recommended community health files are present. For more information, see
+   * "[About community profiles for public repositories](https://docs.github.com/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories)."
    *
    * `content_reports_enabled` is only returned for organization-owned repositories.
    */
@@ -106175,7 +106168,7 @@ export interface operations {
    * - Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of repositories.
    */
   "repos/list-public": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since-repo"];
       };
@@ -106349,7 +106342,6 @@ export interface operations {
    * @description Lists all environment variables.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -106384,7 +106376,6 @@ export interface operations {
    * @description Create an environment variable that you can reference in a GitHub Actions workflow.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -106419,7 +106410,6 @@ export interface operations {
    * @description Gets a specific variable in an environment.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -106445,7 +106435,6 @@ export interface operations {
    * @description Deletes an environment variable using the variable name.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -106469,7 +106458,6 @@ export interface operations {
    * @description Updates an environment variable that you can reference in a GitHub Actions workflow.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -107959,7 +107947,7 @@ export interface operations {
    * @description List the users you've blocked on your personal account.
    */
   "users/list-blocked-by-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108056,7 +108044,7 @@ export interface operations {
    * GitHub Apps must have read access to the `codespaces` repository permission to use this endpoint.
    */
   "codespaces/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108176,7 +108164,7 @@ export interface operations {
    * GitHub Apps must have read access to the `codespaces_user_secrets` user permission to use this endpoint.
    */
   "codespaces/list-secrets-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108746,7 +108734,7 @@ export interface operations {
    * @description Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the `user:email` scope.
    */
   "users/list-emails-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108828,7 +108816,7 @@ export interface operations {
    * @description Lists the people following the authenticated user.
    */
   "users/list-followers-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108854,7 +108842,7 @@ export interface operations {
    * @description Lists the people who the authenticated user follows.
    */
   "users/list-followed-by-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -108947,7 +108935,7 @@ export interface operations {
    * @description Lists the current user's GPG keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "users/list-gpg-keys-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109054,7 +109042,7 @@ export interface operations {
    * You can find the permissions for the installation under the `permissions` key.
    */
   "apps/list-installations-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109227,7 +109215,7 @@ export interface operations {
    * request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
    */
   "issues/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "repos" | "all";
@@ -109261,7 +109249,7 @@ export interface operations {
    * @description Lists the public SSH keys for the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "users/list-public-ssh-keys-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109364,7 +109352,7 @@ export interface operations {
    * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
    */
   "apps/list-subscriptions-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109390,7 +109378,7 @@ export interface operations {
    * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
    */
   "apps/list-subscriptions-for-authenticated-user-stubbed": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109415,7 +109403,7 @@ export interface operations {
    * @description Lists all of the authenticated user's organization memberships.
    */
   "orgs/list-memberships-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships. */
         state?: "active" | "pending";
@@ -109498,7 +109486,7 @@ export interface operations {
    * @description Lists all migrations a user has started.
    */
   "migrations/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -109739,7 +109727,7 @@ export interface operations {
    * This only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.
    */
   "orgs/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110009,7 +109997,7 @@ export interface operations {
    * @description Lists your publicly visible email address, which you can set with the [Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user) endpoint. This endpoint is accessible with the `user:email` scope.
    */
   "users/list-public-emails-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110038,7 +110026,7 @@ export interface operations {
    * The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
    */
   "repos/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description Limit results to repositories with the specified visibility. */
         visibility?: "all" | "public" | "private";
@@ -110247,7 +110235,7 @@ export interface operations {
    * @description When authenticating as a user, this endpoint will list all currently open repository invitations for that user.
    */
   "repos/list-invitations-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110310,7 +110298,7 @@ export interface operations {
    * @description Lists all of your social accounts.
    */
   "users/list-social-accounts-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110395,7 +110383,7 @@ export interface operations {
    * @description Lists the SSH signing keys for the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `read:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
    */
   "users/list-ssh-signing-keys-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110500,7 +110488,7 @@ export interface operations {
    * You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header: `application/vnd.github.star+json`.
    */
   "activity/list-repos-starred-by-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         sort?: components["parameters"]["sort-starred"];
         direction?: components["parameters"]["direction"];
@@ -110600,7 +110588,7 @@ export interface operations {
    * @description Lists repositories the authenticated user is watching.
    */
   "activity/list-watched-repos-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110626,7 +110614,7 @@ export interface operations {
    * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires `user`, `repo`, or `read:org` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/) when authenticating via [OAuth](https://docs.github.com/apps/building-oauth-apps/). When using a fine-grained personal access token, the resource owner of the token [must be a single organization](https://docs.github.com/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#fine-grained-personal-access-tokens), and have at least read-only member organization permissions. The response payload only contains the teams from a single organization when using a fine-grained personal access token.
    */
   "teams/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -110654,7 +110642,7 @@ export interface operations {
    * Note: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of users.
    */
   "users/list": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since-user"];
         per_page?: components["parameters"]["per-page"];

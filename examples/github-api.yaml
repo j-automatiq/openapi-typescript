@@ -14456,7 +14456,6 @@ paths:
         Re-run a job and its dependent jobs in a workflow run.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `actions:write` permission to use this endpoint.
       tags:
       - actions
@@ -14655,7 +14654,6 @@ paths:
         Lists all organiation variables shared with a repository.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -14980,7 +14978,6 @@ paths:
         Lists all self-hosted runners configured in a repository.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15034,7 +15031,6 @@ paths:
         Lists binaries for the runner application that you can download and run.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15070,7 +15066,6 @@ paths:
         Generates a configuration that can be passed to the runner application at startup.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15138,17 +15133,20 @@ paths:
   "/repos/{owner}/{repo}/actions/runners/registration-token":
     post:
       summary: Create a registration token for a repository
-      description: "Returns a token that you can pass to the `config` script. The
-        token\nexpires after one hour.\n\nYou must authenticate using an access token
-        with the `repo` scope to use this endpoint.\nIf the repository is private,
-        you must use an access token with the `repo` scope.\nGitHub Apps must have
-        the `administration` permission for repositories and the `organization_self_hosted_runners`
-        permission for organizations.\nAuthenticated users must have admin access
-        to repositories or organizations, or the `manage_runners:enterprise` scope
-        for enterprises, to use these endpoints.\n\nExample using registration token:
-        \n\nConfigure your self-hosted runner, replacing `TOKEN` with the registration
-        token provided\nby this endpoint.\n\n```config.sh --url https://github.com/octo-org/octo-repo-artifacts
-        --token TOKEN```"
+      description: |-
+        Returns a token that you can pass to the `config` script. The token
+        expires after one hour.
+
+        You must authenticate using an access token with the `repo` scope to use this endpoint.
+        GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+        Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
+        Example using registration token:
+
+        Configure your self-hosted runner, replacing `TOKEN` with the registration token provided
+        by this endpoint.
+
+        ```config.sh --url https://github.com/octo-org/octo-repo-artifacts --token TOKEN```
       tags:
       - actions
       operationId: actions/create-registration-token-for-repo
@@ -15181,7 +15179,6 @@ paths:
         a repository. The token expires after one hour.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -15222,7 +15219,6 @@ paths:
         Gets a specific self-hosted runner configured in a repository.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15256,7 +15252,6 @@ paths:
         Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15284,7 +15279,6 @@ paths:
         Lists all labels for a self-hosted runner configured in a repository.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15313,7 +15307,6 @@ paths:
         Add custom labels to a self-hosted runner configured in a repository.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15367,7 +15360,6 @@ paths:
         self-hosted runner configured in a repository.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15422,7 +15414,6 @@ paths:
         repository. Returns the remaining read-only labels from the runner.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15456,7 +15447,6 @@ paths:
         present on the runner.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
         Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
       tags:
@@ -15836,7 +15826,6 @@ paths:
         Cancels a workflow run using its `id`.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `actions:write` permission to use this endpoint.
       tags:
       - actions
@@ -15907,6 +15896,42 @@ paths:
         githubCloudOnly: false
         enabledForGitHubApps: true
         previews: []
+        category: actions
+        subcategory: workflow-runs
+  "/repos/{owner}/{repo}/actions/runs/{run_id}/force-cancel":
+    post:
+      summary: Force cancel a workflow run
+      description: |-
+        Cancels a workflow run and bypasses conditions that would otherwise cause a workflow execution to continue, such as an `always()` condition on a job.
+        You should only use this endpoint to cancel a workflow run when the workflow run is not responding to [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel`](/rest/actions/workflow-runs#cancel-a-workflow-run).
+
+        You must authenticate using an access token with the `repo` scope to use this endpoint.
+        GitHub Apps must have the `actions:write` permission to use this endpoint.
+      tags:
+      - actions
+      operationId: actions/force-cancel-workflow-run
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/workflow-runs#force-cancel-a-workflow-run
+      parameters:
+      - "$ref": "#/components/parameters/owner"
+      - "$ref": "#/components/parameters/repo"
+      - "$ref": "#/components/parameters/run-id"
+      responses:
+        '202':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/empty-object"
+              examples:
+                default:
+                  value: 
+        '409':
+          "$ref": "#/components/responses/conflict"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
         category: actions
         subcategory: workflow-runs
   "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs":
@@ -16465,7 +16490,6 @@ paths:
       description: |-
         Lists all repository variables.
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -16513,7 +16537,6 @@ paths:
         Creates a repository variable that you can reference in a GitHub Actions workflow.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -16568,7 +16591,6 @@ paths:
         Gets a specific variable in a repository.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -16602,7 +16624,6 @@ paths:
         Updates a repository variable that you can reference in a GitHub Actions workflow.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -16647,7 +16668,6 @@ paths:
         Deletes a repository variable using the variable name.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -22852,10 +22872,8 @@ paths:
         README, and CONTRIBUTING files.
 
         The `health_percentage` score is defined as a percentage of how many of
-        these four documents are present: README, CONTRIBUTING, LICENSE, and
-        CODE_OF_CONDUCT. For example, if all four documents are present, then
-        the `health_percentage` is `100`. If only one is present, then the
-        `health_percentage` is `25`.
+        the recommended community health files are present. For more information, see
+        "[About community profiles for public repositories](https://docs.github.com/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories)."
 
         `content_reports_enabled` is only returned for organization-owned repositories.
       tags:
@@ -35640,7 +35658,6 @@ paths:
         Lists all environment variables.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `environments:read` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -35688,7 +35705,6 @@ paths:
         Create an environment variable that you can reference in a GitHub Actions workflow.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `environment:write` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -35743,7 +35759,6 @@ paths:
         Gets a specific variable in an environment.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `environments:read` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -35777,7 +35792,6 @@ paths:
         Updates an environment variable that you can reference in a GitHub Actions workflow.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `environment:write` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -35822,7 +35836,6 @@ paths:
         Deletes an environment variable using the variable name.
 
         You must authenticate using an access token with the `repo` scope to use this endpoint.
-        If the repository is private, you must use an access token with the `repo` scope.
         GitHub Apps must have the `environment:write` repository permission to use this endpoint.
         Authenticated users must have collaborator access to a repository to create, update, or read variables.
       tags:
@@ -67948,7 +67961,7 @@ components:
           - deletion
     repository-rule-required-linear-history:
       title: required_linear_history
-      description: Prevent merge commits from being pushed to matching branches.
+      description: Prevent merge commits from being pushed to matching refs.
       type: object
       required:
       - type
@@ -67960,7 +67973,7 @@ components:
     repository-rule-required-deployments:
       title: required_deployments
       description: Choose which environments must be successfully deployed to before
-        branches can be merged into a branch that matches this rule.
+        refs can be merged into a branch that matches this rule.
       type: object
       required:
       - type
@@ -67982,7 +67995,7 @@ components:
           - required_deployment_environments
     repository-rule-required-signatures:
       title: required_signatures
-      description: Commits pushed to matching branches must have verified signatures.
+      description: Commits pushed to matching refs must have verified signatures.
       type: object
       required:
       - type
@@ -68052,8 +68065,8 @@ components:
       title: required_status_checks
       description: Choose which status checks must pass before branches can be merged
         into a branch that matches this rule. When enabled, commits must first be
-        pushed to another branch, then merged or pushed directly to a branch that
-        matches this rule after status checks have passed.
+        pushed to another branch, then merged or pushed directly to a ref that matches
+        this rule after status checks have passed.
       type: object
       required:
       - type
@@ -68080,7 +68093,7 @@ components:
           - strict_required_status_checks_policy
     repository-rule-non-fast-forward:
       title: non_fast_forward
-      description: Prevent users with push access from force pushing to branches.
+      description: Prevent users with push access from force pushing to refs.
       type: object
       required:
       - type
@@ -76408,6 +76421,11 @@ components:
                 node_id:
                   type: string
                   example: MDQ6R2F0ZTM3NTU=
+                prevent_self_review:
+                  type: boolean
+                  example: false
+                  description: Whether deployments to this environment can be approved
+                    by the user who created the deployment.
                 type:
                   type: string
                   example: required_reviewers
@@ -219013,6 +219031,7 @@ components:
             wait_timer: 30
           - id: 3755
             node_id: MDQ6R2F0ZTM3NTU=
+            prevent_self_review: false
             type: required_reviewers
             reviewers:
             - type: User
@@ -219072,6 +219091,7 @@ components:
           wait_timer: 30
         - id: 3755
           node_id: MDQ6R2F0ZTM3NTU=
+          prevent_self_review: false
           type: required_reviewers
           reviewers:
           - type: User
@@ -230087,7 +230107,8 @@ components:
         "$ref": "#/components/schemas/code-scanning-analysis-tool-guid"
     hook-id:
       name: hook_id
-      description: The unique identifier of the hook.
+      description: The unique identifier of the hook. You can find this value in the
+        `X-GitHub-Hook-ID` header of a webhook delivery.
       in: path
       required: true
       schema:

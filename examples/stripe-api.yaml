@@ -26635,7 +26635,7 @@ components:
         Stripe account](/docs/connect/bank-debit-card-payouts). You can retrieve
         individual payouts,
 
-        as well as list all payouts. Payouts are made on [varying
+        and list all payouts. Payouts are made on [varying
 
         schedules](/docs/connect/manage-payout-schedule), depending on your
         country and
@@ -26647,20 +26647,20 @@ components:
       properties:
         amount:
           description: >-
-            Amount (in cents (or local equivalent)) to be transferred to your
+            The amount (in cents (or local equivalent)) that transfers to your
             bank account or debit card.
           type: integer
         arrival_date:
           description: >-
-            Date the payout is expected to arrive in the bank. This factors in
-            delays like weekends or bank holidays.
+            Date that you can expect the payout to arrive in the bank. This
+            factors in delays to account for weekends or bank holidays.
           format: unix-time
           type: integer
         automatic:
           description: >-
-            Returns `true` if the payout was created by an [automated payout
-            schedule](https://stripe.com/docs/payouts#payout-schedule), and
-            `false` if it was [requested
+            Returns `true` if the payout is created by an [automated payout
+            schedule](https://stripe.com/docs/payouts#payout-schedule) and
+            `false` if it's [requested
             manually](https://stripe.com/docs/payouts#manual-payouts).
           type: boolean
         balance_transaction:
@@ -26703,7 +26703,7 @@ components:
             - $ref: '#/components/schemas/card'
             - $ref: '#/components/schemas/deleted_bank_account'
             - $ref: '#/components/schemas/deleted_card'
-          description: ID of the bank account or card the payout was sent to.
+          description: ID of the bank account or card the payout is sent to.
           nullable: true
           x-expansionResources:
             oneOf:
@@ -26718,26 +26718,23 @@ components:
               type: string
             - $ref: '#/components/schemas/balance_transaction'
           description: >-
-            If the payout failed or was canceled, this will be the ID of the
-            balance transaction that reversed the initial balance transaction,
-            and puts the funds from the failed payout back in your balance.
+            If the payout fails or cancels, this is the ID of the balance
+            transaction that reverses the initial balance transaction and
+            returns the funds from the failed payout back in your balance.
           nullable: true
           x-expansionResources:
             oneOf:
               - $ref: '#/components/schemas/balance_transaction'
         failure_code:
           description: >-
-            Error code explaining reason for payout failure if available. See
-            [Types of payout
-            failures](https://stripe.com/docs/api#payout_failures) for a list of
-            failure codes.
+            Error code that provides a reason for a payout failure, if
+            available. View our [list of failure
+            codes](https://stripe.com/docs/api#payout_failures).
           maxLength: 5000
           nullable: true
           type: string
         failure_message:
-          description: >-
-            Message to user further explaining reason for payout failure if
-            available.
+          description: 'Message that provides the reason for a payout failure, if available.'
           maxLength: 5000
           nullable: true
           type: string
@@ -26764,9 +26761,9 @@ components:
           description: >-
             The method used to send this payout, which can be `standard` or
             `instant`. `instant` is supported for payouts to debit cards and
-            bank accounts in certain countries. (See [Bank support for Instant
-            Payouts](https://stripe.com/docs/payouts/instant-payouts-banks) for
-            more information.)
+            bank accounts in certain countries. Learn more about [bank support
+            for Instant
+            Payouts](https://stripe.com/docs/payouts/instant-payouts-banks).
           maxLength: 5000
           type: string
         object:
@@ -26790,10 +26787,9 @@ components:
               - $ref: '#/components/schemas/payout'
         reconciliation_status:
           description: >-
-            If `completed`, the [Balance Transactions
+            If `completed`, you can use the [Balance Transactions
             API](https://stripe.com/docs/api/balance_transactions/list#balance_transaction_list-payout)
-            may be used to list all Balance Transactions that were paid out in
-            this payout.
+            to list all balance transactions that are paid out in this payout.
           enum:
             - completed
             - in_progress
@@ -26805,21 +26801,21 @@ components:
               type: string
             - $ref: '#/components/schemas/payout'
           description: >-
-            If the payout was reversed, this is the ID of the payout that
-            reverses this payout.
+            If the payout reverses, this is the ID of the payout that reverses
+            this payout.
           nullable: true
           x-expansionResources:
             oneOf:
               - $ref: '#/components/schemas/payout'
         source_type:
           description: >-
-            The source balance this payout came from. One of `card`, `fpx`, or
-            `bank_account`.
+            The source balance this payout came from, which can be one of the
+            following: `card`, `fpx`, or `bank_account`.
           maxLength: 5000
           type: string
         statement_descriptor:
           description: >-
-            Extra information about a payout to be displayed on the user's bank
+            Extra information about a payout that displays on the user's bank
             statement.
           maxLength: 5000
           nullable: true
@@ -26827,11 +26823,11 @@ components:
         status:
           description: >-
             Current status of the payout: `paid`, `pending`, `in_transit`,
-            `canceled` or `failed`. A payout is `pending` until it is submitted
-            to the bank, when it becomes `in_transit`. The status then changes
-            to `paid` if the transaction goes through, or to `failed` or
-            `canceled` (within 5 business days). Some failed payouts may
-            initially show as `paid` but then change to `failed`.
+            `canceled` or `failed`. A payout is `pending` until it's submitted
+            to the bank, when it becomes `in_transit`. The status changes to
+            `paid` if the transaction succeeds, or to `failed` or `canceled`
+            (within 5 business days). Some payouts that fail might initially
+            show as `paid`, then change to `failed`.
           maxLength: 5000
           type: string
         type:
@@ -49947,7 +49943,8 @@ paths:
         or when trying to refund more money than is left on a charge.</p>
       operationId: PostChargesChargeRefund
       parameters:
-        - in: path
+        - description: The identifier of the charge to refund.
+          in: path
           name: charge
           required: true
           schema:
@@ -49968,6 +49965,10 @@ paths:
               additionalProperties: false
               properties:
                 amount:
+                  description: >-
+                    A positive integer in cents (or local equivalent)
+                    representing how much of this charge to refund. Can refund
+                    only up to the remaining, unrefunded amount of the charge.
                   type: integer
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -49998,9 +49999,18 @@ paths:
                     value to them. All keys can be unset by posting an empty
                     value to `metadata`.
                 payment_intent:
+                  description: The identifier of the PaymentIntent to refund.
                   maxLength: 5000
                   type: string
                 reason:
+                  description: >-
+                    String indicating the reason for the refund. If set,
+                    possible values are `duplicate`, `fraudulent`, and
+                    `requested_by_customer`. If you believe the charge to be
+                    fraudulent, specifying `fraudulent` as the reason will add
+                    the associated card and email to your [block
+                    lists](https://stripe.com/docs/radar/lists), and will also
+                    help us improve our fraud detection algorithms.
                   enum:
                     - duplicate
                     - fraudulent
@@ -50008,8 +50018,22 @@ paths:
                   maxLength: 5000
                   type: string
                 refund_application_fee:
+                  description: >-
+                    Boolean indicating whether the application fee should be
+                    refunded when refunding this charge. If a full charge refund
+                    is given, the full application fee will be refunded.
+                    Otherwise, the application fee will be refunded in an amount
+                    proportional to the amount of the charge refunded. An
+                    application fee can be refunded only by the application that
+                    created the charge.
                   type: boolean
                 reverse_transfer:
+                  description: >-
+                    Boolean indicating whether the transfer should be reversed
+                    when refunding this charge. The transfer will be reversed
+                    proportionally to the amount being refunded (either the
+                    entire or partial amount).<br><br>A transfer can be reversed
+                    only by the application that created the charge.
                   type: boolean
               type: object
         required: false
@@ -50140,10 +50164,34 @@ paths:
                 $ref: '#/components/schemas/error'
           description: Error response.
     post:
-      description: <p>Create a refund.</p>
+      description: >-
+        <p>When you create a new refund, you must specify a Charge or a
+        PaymentIntent object on which to create it.</p>
+
+
+        <p>Creating a new refund will refund a charge that has previously been
+        created but not yet refunded.
+
+        Funds will be refunded to the credit or debit card that was originally
+        charged.</p>
+
+
+        <p>You can optionally refund only part of a charge.
+
+        You can do so multiple times, until the entire charge has been
+        refunded.</p>
+
+
+        <p>Once entirely refunded, a charge can’t be refunded again.
+
+        This method will raise an error when called on an already-refunded
+        charge,
+
+        or when trying to refund more money than is left on a charge.</p>
       operationId: PostChargesChargeRefunds
       parameters:
-        - in: path
+        - description: The identifier of the charge to refund.
+          in: path
           name: charge
           required: true
           schema:
@@ -50164,7 +50212,6 @@ paths:
               additionalProperties: false
               properties:
                 amount:
-                  description: A positive integer representing how much to refund.
                   type: integer
                 currency:
                   description: >-
@@ -50211,9 +50258,18 @@ paths:
                     - customer_balance
                   type: string
                 payment_intent:
+                  description: The identifier of the PaymentIntent to refund.
                   maxLength: 5000
                   type: string
                 reason:
+                  description: >-
+                    String indicating the reason for the refund. If set,
+                    possible values are `duplicate`, `fraudulent`, and
+                    `requested_by_customer`. If you believe the charge to be
+                    fraudulent, specifying `fraudulent` as the reason will add
+                    the associated card and email to your [block
+                    lists](https://stripe.com/docs/radar/lists), and will also
+                    help us improve our fraud detection algorithms.
                   enum:
                     - duplicate
                     - fraudulent
@@ -50221,8 +50277,22 @@ paths:
                   maxLength: 5000
                   type: string
                 refund_application_fee:
+                  description: >-
+                    Boolean indicating whether the application fee should be
+                    refunded when refunding this charge. If a full charge refund
+                    is given, the full application fee will be refunded.
+                    Otherwise, the application fee will be refunded in an amount
+                    proportional to the amount of the charge refunded. An
+                    application fee can be refunded only by the application that
+                    created the charge.
                   type: boolean
                 reverse_transfer:
+                  description: >-
+                    Boolean indicating whether the transfer should be reversed
+                    when refunding this charge. The transfer will be reversed
+                    proportionally to the amount being refunded (either the
+                    entire or partial amount).<br><br>A transfer can be reversed
+                    only by the application that created the charge.
                   type: boolean
               type: object
         required: false
@@ -86049,7 +86119,7 @@ paths:
     get:
       description: >-
         <p>Returns a list of existing payouts sent to third-party bank accounts
-        or that Stripe has sent you. The payouts are returned in sorted order,
+        or payouts that Stripe sent to you. The payouts return in sorted order,
         with the most recently created payouts appearing first.</p>
       operationId: GetPayouts
       parameters:
@@ -86211,20 +86281,19 @@ paths:
           description: Error response.
     post:
       description: >-
-        <p>To send funds to your own bank account, you create a new payout
-        object. Your <a href="#balance">Stripe balance</a> must be able to cover
-        the payout amount, or you’ll receive an “Insufficient Funds” error.</p>
+        <p>To send funds to your own bank account, create a new payout object.
+        Your <a href="#balance">Stripe balance</a> must cover the payout amount.
+        If it doesn’t, you receive an “Insufficient Funds” error.</p>
 
 
         <p>If your API key is in test mode, money won’t actually be sent, though
-        everything else will occur as if in live mode.</p>
+        every other action occurs as if you’re in live mode.</p>
 
 
-        <p>If you are creating a manual payout on a Stripe account that uses
-        multiple payment source types, you’ll need to specify the source type
-        balance that the payout should draw from. The <a
-        href="#balance_object">balance object</a> details available and pending
-        amounts by source type.</p>
+        <p>If you create a manual payout on a Stripe account that uses multiple
+        payment source types, you need to specify the source type balance that
+        the payout draws from. The <a href="#balance_object">balance object</a>
+        details available and pending amounts by source type.</p>
       operationId: PostPayouts
       requestBody:
         content:
@@ -86258,8 +86327,8 @@ paths:
                 destination:
                   description: >-
                     The ID of a bank account or a card to send the payout to. If
-                    no destination is supplied, the default external account for
-                    the specified currency will be used.
+                    you don't provide a destination, we use the default external
+                    account for the specified currency.
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -86281,12 +86350,11 @@ paths:
                   type: object
                 method:
                   description: >-
-                    The method used to send this payout, which can be `standard`
-                    or `instant`. `instant` is supported for payouts to debit
-                    cards and bank accounts in certain countries. (See [Bank
-                    support for Instant
-                    Payouts](https://stripe.com/docs/payouts/instant-payouts-banks)
-                    for more information.)
+                    The method used to send this payout, which is `standard` or
+                    `instant`. We support `instant` for payouts to debit cards
+                    and bank accounts in certain countries. Learn more about
+                    [bank support for Instant
+                    Payouts](https://stripe.com/docs/payouts/instant-payouts-banks).
                   enum:
                     - instant
                     - standard
@@ -86297,7 +86365,7 @@ paths:
                   description: >-
                     The balance type of your Stripe balance to draw this payout
                     from. Balances for different payment sources are kept
-                    separately. You can find the amounts with the balances API.
+                    separately. You can find the amounts with the Balances API.
                     One of `bank_account`, `card`, or `fpx`.
                   enum:
                     - bank_account
@@ -86308,12 +86376,11 @@ paths:
                   x-stripeBypassValidation: true
                 statement_descriptor:
                   description: >-
-                    A string to be displayed on the recipient's bank or card
-                    statement. This may be at most 22 characters. Attempting to
-                    use a `statement_descriptor` longer than 22 characters will
-                    return an error. Note: Most banks will truncate this
-                    information and/or display it inconsistently. Some may not
-                    display it at all.
+                    A string that displays on the recipient's bank or card
+                    statement (up to 22 characters). A `statement_descriptor`
+                    that's longer than 22 characters return an error. Most banks
+                    truncate this information and display it inconsistently.
+                    Some banks might not display it at all.
                   maxLength: 22
                   type: string
                   x-stripeBypassValidation: true
@@ -86339,8 +86406,8 @@ paths:
     get:
       description: >-
         <p>Retrieves the details of an existing payout. Supply the unique payout
-        ID from either a payout creation request or the payout list, and Stripe
-        will return the corresponding payout information.</p>
+        ID from either a payout creation request or the payout list. Stripe
+        returns the corresponding payout information.</p>
       operationId: GetPayoutsPayout
       parameters:
         - description: Specifies which fields in the response should be expanded.
@@ -86386,8 +86453,8 @@ paths:
     post:
       description: >-
         <p>Updates the specified payout by setting the values of the parameters
-        passed. Any parameters not provided will be left unchanged. This request
-        accepts only the metadata as arguments.</p>
+        you pass. We don’t change parameters that you don’t provide. This
+        request only accepts the metadata as arguments.</p>
       operationId: PostPayoutsPayout
       parameters:
         - in: path
@@ -86450,8 +86517,8 @@ paths:
   '/v1/payouts/{payout}/cancel':
     post:
       description: >-
-        <p>A previously created payout can be canceled if it has not yet been
-        paid out. Funds will be refunded to your available balance. You may not
+        <p>You can cancel a previously created payout if it hasn’t been paid out
+        yet. Stripe refunds the funds to your available balance. You can’t
         cancel automatic Stripe payouts.</p>
       operationId: PostPayoutsPayoutCancel
       parameters:
@@ -86496,16 +86563,16 @@ paths:
   '/v1/payouts/{payout}/reverse':
     post:
       description: >-
-        <p>Reverses a payout by debiting the destination bank account. Only
-        payouts for connected accounts to US bank accounts may be reversed at
-        this time. If the payout is in the <code>pending</code> status,
-        <code>/v1/payouts/:id/cancel</code> should be used instead.</p>
+        <p>Reverses a payout by debiting the destination bank account. At this
+        time, you can only reverse payouts for connected accounts to US bank
+        accounts. If the payout is in the <code>pending</code> status, use
+        <code>/v1/payouts/:id/cancel</code> instead.</p>
 
 
-        <p>By requesting a reversal via <code>/v1/payouts/:id/reverse</code>,
-        you confirm that the authorized signatory of the selected bank account
-        has authorized the debit on the bank account and that no other
-        authorization is required.</p>
+        <p>By requesting a reversal through
+        <code>/v1/payouts/:id/reverse</code>, you confirm that the authorized
+        signatory of the selected bank account authorizes the debit on the bank
+        account and that no other authorization is required.</p>
       operationId: PostPayoutsPayoutReverse
       parameters:
         - in: path
@@ -91514,7 +91581,30 @@ paths:
                 $ref: '#/components/schemas/error'
           description: Error response.
     post:
-      description: <p>Create a refund.</p>
+      description: >-
+        <p>When you create a new refund, you must specify a Charge or a
+        PaymentIntent object on which to create it.</p>
+
+
+        <p>Creating a new refund will refund a charge that has previously been
+        created but not yet refunded.
+
+        Funds will be refunded to the credit or debit card that was originally
+        charged.</p>
+
+
+        <p>You can optionally refund only part of a charge.
+
+        You can do so multiple times, until the entire charge has been
+        refunded.</p>
+
+
+        <p>Once entirely refunded, a charge can’t be refunded again.
+
+        This method will raise an error when called on an already-refunded
+        charge,
+
+        or when trying to refund more money than is left on a charge.</p>
       operationId: PostRefunds
       requestBody:
         content:
@@ -91530,9 +91620,9 @@ paths:
               additionalProperties: false
               properties:
                 amount:
-                  description: A positive integer representing how much to refund.
                   type: integer
                 charge:
+                  description: The identifier of the charge to refund.
                   maxLength: 5000
                   type: string
                 currency:
@@ -91580,9 +91670,18 @@ paths:
                     - customer_balance
                   type: string
                 payment_intent:
+                  description: The identifier of the PaymentIntent to refund.
                   maxLength: 5000
                   type: string
                 reason:
+                  description: >-
+                    String indicating the reason for the refund. If set,
+                    possible values are `duplicate`, `fraudulent`, and
+                    `requested_by_customer`. If you believe the charge to be
+                    fraudulent, specifying `fraudulent` as the reason will add
+                    the associated card and email to your [block
+                    lists](https://stripe.com/docs/radar/lists), and will also
+                    help us improve our fraud detection algorithms.
                   enum:
                     - duplicate
                     - fraudulent
@@ -91590,8 +91689,22 @@ paths:
                   maxLength: 5000
                   type: string
                 refund_application_fee:
+                  description: >-
+                    Boolean indicating whether the application fee should be
+                    refunded when refunding this charge. If a full charge refund
+                    is given, the full application fee will be refunded.
+                    Otherwise, the application fee will be refunded in an amount
+                    proportional to the amount of the charge refunded. An
+                    application fee can be refunded only by the application that
+                    created the charge.
                   type: boolean
                 reverse_transfer:
+                  description: >-
+                    Boolean indicating whether the transfer should be reversed
+                    when refunding this charge. The transfer will be reversed
+                    proportionally to the amount being refunded (either the
+                    entire or partial amount).<br><br>A transfer can be reversed
+                    only by the application that created the charge.
                   type: boolean
               type: object
         required: false

@@ -2610,7 +2610,6 @@ export interface paths {
      * @description Re-run a job and its dependent jobs in a workflow run.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions:write` permission to use this endpoint.
      */
     post: operations["actions/re-run-job-for-workflow-run"];
@@ -2649,7 +2648,6 @@ export interface paths {
      * @description Lists all organiation variables shared with a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -2735,7 +2733,6 @@ export interface paths {
      * @description Lists all self-hosted runners configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2747,7 +2744,6 @@ export interface paths {
      * @description Lists binaries for the runner application that you can download and run.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2759,7 +2755,6 @@ export interface paths {
      * @description Generates a configuration that can be passed to the runner application at startup.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2772,7 +2767,6 @@ export interface paths {
      * expires after one hour.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      *
@@ -2792,7 +2786,6 @@ export interface paths {
      * a repository. The token expires after one hour.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      *
@@ -2811,7 +2804,6 @@ export interface paths {
      * @description Gets a specific self-hosted runner configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2821,7 +2813,6 @@ export interface paths {
      * @description Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2833,7 +2824,6 @@ export interface paths {
      * @description Lists all labels for a self-hosted runner configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2844,7 +2834,6 @@ export interface paths {
      * self-hosted runner configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2854,7 +2843,6 @@ export interface paths {
      * @description Add custom labels to a self-hosted runner configured in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2865,7 +2853,6 @@ export interface paths {
      * repository. Returns the remaining read-only labels from the runner.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2881,7 +2868,6 @@ export interface paths {
      * present on the runner.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
      * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
      */
@@ -2966,7 +2952,6 @@ export interface paths {
      * @description Cancels a workflow run using its `id`.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions:write` permission to use this endpoint.
      */
     post: operations["actions/cancel-workflow-run"];
@@ -2983,6 +2968,17 @@ export interface paths {
      * GitHub Apps must have read and write permission for **Deployments** to use this endpoint.
      */
     post: operations["actions/review-custom-gates-for-run"];
+  };
+  "/repos/{owner}/{repo}/actions/runs/{run_id}/force-cancel": {
+    /**
+     * Force cancel a workflow run
+     * @description Cancels a workflow run and bypasses conditions that would otherwise cause a workflow execution to continue, such as an `always()` condition on a job.
+     * You should only use this endpoint to cancel a workflow run when the workflow run is not responding to [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel`](/rest/actions/workflow-runs#cancel-a-workflow-run).
+     *
+     * You must authenticate using an access token with the `repo` scope to use this endpoint.
+     * GitHub Apps must have the `actions:write` permission to use this endpoint.
+     */
+    post: operations["actions/force-cancel-workflow-run"];
   };
   "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs": {
     /**
@@ -3105,7 +3101,6 @@ export interface paths {
      * List repository variables
      * @description Lists all repository variables.
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -3115,7 +3110,6 @@ export interface paths {
      * @description Creates a repository variable that you can reference in a GitHub Actions workflow.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -3127,7 +3121,6 @@ export interface paths {
      * @description Gets a specific variable in a repository.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -3137,7 +3130,6 @@ export interface paths {
      * @description Deletes a repository variable using the variable name.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -3147,7 +3139,6 @@ export interface paths {
      * @description Updates a repository variable that you can reference in a GitHub Actions workflow.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -4287,10 +4278,8 @@ export interface paths {
      * README, and CONTRIBUTING files.
      *
      * The `health_percentage` score is defined as a percentage of how many of
-     * these four documents are present: README, CONTRIBUTING, LICENSE, and
-     * CODE_OF_CONDUCT. For example, if all four documents are present, then
-     * the `health_percentage` is `100`. If only one is present, then the
-     * `health_percentage` is `25`.
+     * the recommended community health files are present. For more information, see
+     * "[About community profiles for public repositories](https://docs.github.com/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories)."
      *
      * `content_reports_enabled` is only returned for organization-owned repositories.
      */
@@ -6482,7 +6471,6 @@ export interface paths {
      * @description Lists all environment variables.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -6492,7 +6480,6 @@ export interface paths {
      * @description Create an environment variable that you can reference in a GitHub Actions workflow.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -6504,7 +6491,6 @@ export interface paths {
      * @description Gets a specific variable in an environment.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -6514,7 +6500,6 @@ export interface paths {
      * @description Deletes an environment variable using the variable name.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -6524,7 +6509,6 @@ export interface paths {
      * @description Updates an environment variable that you can reference in a GitHub Actions workflow.
      *
      * You must authenticate using an access token with the `repo` scope to use this endpoint.
-     * If the repository is private, you must use an access token with the `repo` scope.
      * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
      * Authenticated users must have collaborator access to a repository to create, update, or read variables.
      */
@@ -14387,7 +14371,7 @@ export interface components {
     };
     /**
      * required_linear_history
-     * @description Prevent merge commits from being pushed to matching branches.
+     * @description Prevent merge commits from being pushed to matching refs.
      */
     "repository-rule-required-linear-history": {
       /** @enum {string} */
@@ -14395,7 +14379,7 @@ export interface components {
     };
     /**
      * required_deployments
-     * @description Choose which environments must be successfully deployed to before branches can be merged into a branch that matches this rule.
+     * @description Choose which environments must be successfully deployed to before refs can be merged into a branch that matches this rule.
      */
     "repository-rule-required-deployments": {
       /** @enum {string} */
@@ -14407,7 +14391,7 @@ export interface components {
     };
     /**
      * required_signatures
-     * @description Commits pushed to matching branches must have verified signatures.
+     * @description Commits pushed to matching refs must have verified signatures.
      */
     "repository-rule-required-signatures": {
       /** @enum {string} */
@@ -14445,7 +14429,7 @@ export interface components {
     };
     /**
      * required_status_checks
-     * @description Choose which status checks must pass before branches can be merged into a branch that matches this rule. When enabled, commits must first be pushed to another branch, then merged or pushed directly to a branch that matches this rule after status checks have passed.
+     * @description Choose which status checks must pass before branches can be merged into a branch that matches this rule. When enabled, commits must first be pushed to another branch, then merged or pushed directly to a ref that matches this rule after status checks have passed.
      */
     "repository-rule-required-status-checks": {
       /** @enum {string} */
@@ -14459,7 +14443,7 @@ export interface components {
     };
     /**
      * non_fast_forward
-     * @description Prevent users with push access from force pushing to branches.
+     * @description Prevent users with push access from force pushing to refs.
      */
     "repository-rule-non-fast-forward": {
       /** @enum {string} */
@@ -17736,6 +17720,8 @@ export interface components {
         } | ({
           id: number;
           node_id: string;
+          /** @description Whether deployments to this environment can be approved by the user who created the deployment. */
+          prevent_self_review?: boolean;
           type: string;
           /** @description The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
           reviewers?: ({
@@ -80168,7 +80154,7 @@ export interface components {
     "tool-name"?: components["schemas"]["code-scanning-analysis-tool-name"];
     /** @description The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both. */
     "tool-guid"?: components["schemas"]["code-scanning-analysis-tool-guid"];
-    /** @description The unique identifier of the hook. */
+    /** @description The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
     "hook-id": number;
     /** @description The unique identifier of the invitation. */
     "invitation-id": number;
@@ -80397,7 +80383,7 @@ export interface operations {
    * By default, all responses will exclude advisories for malware, because malware are not standard vulnerabilities. To list advisories for malware, you must include the `type` parameter in your request, with the value `malware`. For more information about the different types of security advisories, see "[About the GitHub Advisory database](https://docs.github.com/code-security/security-advisories/global-security-advisories/about-the-github-advisory-database#about-types-of-security-advisories)."
    */
   "security-advisories/list-global-advisories": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description If specified, only advisories with this GHSA (GitHub Security Advisory) identifier will be returned. */
         ghsa_id?: string;
@@ -80579,7 +80565,7 @@ export interface operations {
    * You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
    */
   "apps/list-webhook-deliveries": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         cursor?: components["parameters"]["cursor"];
@@ -80643,7 +80629,7 @@ export interface operations {
    * @description Lists all the pending installation requests for the authenticated GitHub App.
    */
   "apps/list-installation-requests-for-authenticated-app": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -80667,7 +80653,7 @@ export interface operations {
    * The permissions the installation has are included under the `permissions` key.
    */
   "apps/list-installations": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -81046,7 +81032,7 @@ export interface operations {
    * @description Lists GitHub Classroom classrooms for the current user. Classrooms will only be returned if the current user is an administrator of one or more GitHub Classrooms.
    */
   "classroom/list-classrooms": {
-    parameters?: {
+    parameters: {
       query?: {
         page?: components["parameters"]["page"];
         per_page?: components["parameters"]["per-page"];
@@ -81237,7 +81223,7 @@ export interface operations {
    * @description We delay the public events feed by five minutes, which means the most recent event returned by the public events API actually occurred at least five minutes ago.
    */
   "activity/list-public-events": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -81284,7 +81270,7 @@ export interface operations {
    * @description Lists the authenticated user's gists or if called anonymously, this endpoint returns all public gists:
    */
   "gists/list": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -81352,7 +81338,7 @@ export interface operations {
    * Note: With [pagination](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
    */
   "gists/list-public": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -81379,7 +81365,7 @@ export interface operations {
    * @description List the authenticated user's starred gists:
    */
   "gists/list-starred": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since"];
         per_page?: components["parameters"]["per-page"];
@@ -81802,7 +81788,7 @@ export interface operations {
    * You must use an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
    */
   "apps/list-repos-accessible-to-installation": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -81856,7 +81842,7 @@ export interface operations {
    * request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
    */
   "issues/list": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "repos" | "all";
@@ -81895,7 +81881,7 @@ export interface operations {
    * @description Lists the most commonly used licenses on GitHub. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
    */
   "licenses/get-all-commonly-used": {
-    parameters?: {
+    parameters: {
       query?: {
         featured?: boolean;
         per_page?: components["parameters"]["per-page"];
@@ -82027,7 +82013,7 @@ export interface operations {
    * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-plans": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -82114,7 +82100,7 @@ export interface operations {
    * GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
    */
   "apps/list-plans-stubbed": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -82216,7 +82202,7 @@ export interface operations {
    * @description List all notifications for the current user, sorted by most recently updated.
    */
   "activity/list-notifications-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         all?: components["parameters"]["all"];
         participating?: components["parameters"]["participating"];
@@ -82406,7 +82392,7 @@ export interface operations {
    * @description Get the octocat as ASCII art
    */
   "meta/get-octocat": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description The words to show in Octocat's speech bubble */
         s?: string;
@@ -82428,7 +82414,7 @@ export interface operations {
    * **Note:** Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of organizations.
    */
   "orgs/list": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since-org"];
         per_page?: components["parameters"]["per-page"];
@@ -89740,7 +89726,6 @@ export interface operations {
    * @description Re-run a job and its dependent jobs in a workflow run.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions:write` permission to use this endpoint.
    */
   "actions/re-run-job-for-workflow-run": {
@@ -89871,7 +89856,6 @@ export interface operations {
    * @description Lists all organiation variables shared with a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -90111,7 +90095,6 @@ export interface operations {
    * @description Lists all self-hosted runners configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90148,7 +90131,6 @@ export interface operations {
    * @description Lists binaries for the runner application that you can download and run.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90173,7 +90155,6 @@ export interface operations {
    * @description Generates a configuration that can be passed to the runner application at startup.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90213,7 +90194,6 @@ export interface operations {
    * expires after one hour.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    *
@@ -90246,7 +90226,6 @@ export interface operations {
    * a repository. The token expires after one hour.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    *
@@ -90278,7 +90257,6 @@ export interface operations {
    * @description Gets a specific self-hosted runner configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90304,7 +90282,6 @@ export interface operations {
    * @description Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90328,7 +90305,6 @@ export interface operations {
    * @description Lists all labels for a self-hosted runner configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90351,7 +90327,6 @@ export interface operations {
    * self-hosted runner configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90382,7 +90357,6 @@ export interface operations {
    * @description Add custom labels to a self-hosted runner configured in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90414,7 +90388,6 @@ export interface operations {
    * repository. Returns the remaining read-only labels from the runner.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90440,7 +90413,6 @@ export interface operations {
    * present on the runner.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
    * Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
    */
@@ -90715,7 +90687,6 @@ export interface operations {
    * @description Cancels a workflow run using its `id`.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions:write` permission to use this endpoint.
    */
   "actions/cancel-workflow-run": {
@@ -90764,6 +90735,32 @@ export interface operations {
       204: {
         content: never;
       };
+    };
+  };
+  /**
+   * Force cancel a workflow run
+   * @description Cancels a workflow run and bypasses conditions that would otherwise cause a workflow execution to continue, such as an `always()` condition on a job.
+   * You should only use this endpoint to cancel a workflow run when the workflow run is not responding to [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel`](/rest/actions/workflow-runs#cancel-a-workflow-run).
+   *
+   * You must authenticate using an access token with the `repo` scope to use this endpoint.
+   * GitHub Apps must have the `actions:write` permission to use this endpoint.
+   */
+  "actions/force-cancel-workflow-run": {
+    parameters: {
+      path: {
+        owner: components["parameters"]["owner"];
+        repo: components["parameters"]["repo"];
+        run_id: components["parameters"]["run-id"];
+      };
+    };
+    responses: {
+      /** @description Response */
+      202: {
+        content: {
+          "application/json": components["schemas"]["empty-object"];
+        };
+      };
+      409: components["responses"]["conflict"];
     };
   };
   /**
@@ -91147,7 +91144,6 @@ export interface operations {
    * List repository variables
    * @description Lists all repository variables.
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -91182,7 +91178,6 @@ export interface operations {
    * @description Creates a repository variable that you can reference in a GitHub Actions workflow.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -91217,7 +91212,6 @@ export interface operations {
    * @description Gets a specific variable in a repository.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -91243,7 +91237,6 @@ export interface operations {
    * @description Deletes a repository variable using the variable name.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -91267,7 +91260,6 @@ export interface operations {
    * @description Updates a repository variable that you can reference in a GitHub Actions workflow.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -95103,10 +95095,8 @@ export interface operations {
    * README, and CONTRIBUTING files.
    *
    * The `health_percentage` score is defined as a percentage of how many of
-   * these four documents are present: README, CONTRIBUTING, LICENSE, and
-   * CODE_OF_CONDUCT. For example, if all four documents are present, then
-   * the `health_percentage` is `100`. If only one is present, then the
-   * `health_percentage` is `25`.
+   * the recommended community health files are present. For more information, see
+   * "[About community profiles for public repositories](https://docs.github.com/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories)."
    *
    * `content_reports_enabled` is only returned for organization-owned repositories.
    */
@@ -103073,7 +103063,7 @@ export interface operations {
    * - Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of repositories.
    */
   "repos/list-public": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since-repo"];
       };
@@ -103247,7 +103237,6 @@ export interface operations {
    * @description Lists all environment variables.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -103282,7 +103271,6 @@ export interface operations {
    * @description Create an environment variable that you can reference in a GitHub Actions workflow.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -103317,7 +103305,6 @@ export interface operations {
    * @description Gets a specific variable in an environment.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environments:read` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -103343,7 +103330,6 @@ export interface operations {
    * @description Deletes an environment variable using the variable name.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -103367,7 +103353,6 @@ export interface operations {
    * @description Updates an environment variable that you can reference in a GitHub Actions workflow.
    *
    * You must authenticate using an access token with the `repo` scope to use this endpoint.
-   * If the repository is private, you must use an access token with the `repo` scope.
    * GitHub Apps must have the `environment:write` repository permission to use this endpoint.
    * Authenticated users must have collaborator access to a repository to create, update, or read variables.
    */
@@ -104839,7 +104824,7 @@ export interface operations {
    * @description List the users you've blocked on your personal account.
    */
   "users/list-blocked-by-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -104936,7 +104921,7 @@ export interface operations {
    * GitHub Apps must have read access to the `codespaces` repository permission to use this endpoint.
    */
   "codespaces/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -105056,7 +105041,7 @@ export interface operations {
    * GitHub Apps must have read access to the `codespaces_user_secrets` user permission to use this endpoint.
    */
   "codespaces/list-secrets-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -105626,7 +105611,7 @@ export interface operations {
    * @description Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the `user:email` scope.
    */
   "users/list-emails-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -105705,7 +105690,7 @@ export interface operations {
    * @description Lists the people following the authenticated user.
    */
   "users/list-followers-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -105731,7 +105716,7 @@ export interface operations {
    * @description Lists the people who the authenticated user follows.
    */
   "users/list-followed-by-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -105824,7 +105809,7 @@ export interface operations {
    * @description Lists the current user's GPG keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "users/list-gpg-keys-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -105931,7 +105916,7 @@ export interface operations {
    * You can find the permissions for the installation under the `permissions` key.
    */
   "apps/list-installations-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -106104,7 +106089,7 @@ export interface operations {
    * request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
    */
   "issues/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
         filter?: "assigned" | "created" | "mentioned" | "subscribed" | "repos" | "all";
@@ -106138,7 +106123,7 @@ export interface operations {
    * @description Lists the public SSH keys for the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
    */
   "users/list-public-ssh-keys-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -106238,7 +106223,7 @@ export interface operations {
    * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
    */
   "apps/list-subscriptions-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -106264,7 +106249,7 @@ export interface operations {
    * @description Lists the active subscriptions for the authenticated user. GitHub Apps must use a [user access token](https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app), created for a user who has authorized your GitHub App, to access this endpoint. OAuth apps must authenticate using an [OAuth token](https://docs.github.com/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps).
    */
   "apps/list-subscriptions-for-authenticated-user-stubbed": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -106289,7 +106274,7 @@ export interface operations {
    * @description Lists all of the authenticated user's organization memberships.
    */
   "orgs/list-memberships-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships. */
         state?: "active" | "pending";
@@ -106372,7 +106357,7 @@ export interface operations {
    * @description Lists all migrations a user has started.
    */
   "migrations/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -106589,7 +106574,7 @@ export interface operations {
    * This only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.
    */
   "orgs/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -106853,7 +106838,7 @@ export interface operations {
    * @description Lists your publicly visible email address, which you can set with the [Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user) endpoint. This endpoint is accessible with the `user:email` scope.
    */
   "users/list-public-emails-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -106882,7 +106867,7 @@ export interface operations {
    * The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
    */
   "repos/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         /** @description Limit results to repositories with the specified visibility. */
         visibility?: "all" | "public" | "private";
@@ -107071,7 +107056,7 @@ export interface operations {
    * @description When authenticating as a user, this endpoint will list all currently open repository invitations for that user.
    */
   "repos/list-invitations-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -107134,7 +107119,7 @@ export interface operations {
    * @description Lists all of your social accounts.
    */
   "users/list-social-accounts-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -107213,7 +107198,7 @@ export interface operations {
    * @description Lists the SSH signing keys for the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `read:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
    */
   "users/list-ssh-signing-keys-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -107315,7 +107300,7 @@ export interface operations {
    * You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header: `application/vnd.github.star+json`.
    */
   "activity/list-repos-starred-by-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         sort?: components["parameters"]["sort-starred"];
         direction?: components["parameters"]["direction"];
@@ -107415,7 +107400,7 @@ export interface operations {
    * @description Lists repositories the authenticated user is watching.
    */
   "activity/list-watched-repos-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -107441,7 +107426,7 @@ export interface operations {
    * @description List all of the teams across all of the organizations to which the authenticated user belongs. This method requires `user`, `repo`, or `read:org` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/) when authenticating via [OAuth](https://docs.github.com/apps/building-oauth-apps/). When using a fine-grained personal access token, the resource owner of the token [must be a single organization](https://docs.github.com/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#fine-grained-personal-access-tokens), and have at least read-only member organization permissions. The response payload only contains the teams from a single organization when using a fine-grained personal access token.
    */
   "teams/list-for-authenticated-user": {
-    parameters?: {
+    parameters: {
       query?: {
         per_page?: components["parameters"]["per-page"];
         page?: components["parameters"]["page"];
@@ -107469,7 +107454,7 @@ export interface operations {
    * Note: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of users.
    */
   "users/list": {
-    parameters?: {
+    parameters: {
       query?: {
         since?: components["parameters"]["since-user"];
         per_page?: components["parameters"]["per-page"];
@@ -108379,7 +108364,7 @@ export interface operations {
    * @description All branch protections were disabled for a repository.
    */
   "branch-protection-configuration/disabled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108418,7 +108403,7 @@ export interface operations {
    * @description All branch protections were enabled for a repository.
    */
   "branch-protection-configuration/enabled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108455,7 +108440,7 @@ export interface operations {
    * @description A branch protection rule was created.
    */
   "branch-protection-rule/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108492,7 +108477,7 @@ export interface operations {
    * @description A branch protection rule was deleted.
    */
   "branch-protection-rule/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108529,7 +108514,7 @@ export interface operations {
    * @description A branch protection rule was edited.
    */
   "branch-protection-rule/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108572,7 +108557,7 @@ export interface operations {
    * @description A check run was completed, and a conclusion is available.
    */
   "check-run/completed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108616,7 +108601,7 @@ export interface operations {
    * @description A new check run was created.
    */
   "check-run/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108660,7 +108645,7 @@ export interface operations {
    * @description A check run completed, and someone requested a followup action that your app provides. Only the GitHub App someone requests to perform an action will receive the `requested_action` payload. For more information, see "[Creating CI tests with the Checks API](https://docs.github.com/developers/apps/guides/creating-ci-tests-with-the-checks-api)."
    */
   "check-run/requested-action": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108704,7 +108689,7 @@ export interface operations {
    * @description Someone requested to re-run a check run. Only the GitHub App that someone requests to re-run the check will receive the `rerequested` payload.
    */
   "check-run/rerequested": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108748,7 +108733,7 @@ export interface operations {
    * @description All check runs in a check suite have completed, and a conclusion is available.
    */
   "check-suite/completed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108791,7 +108776,7 @@ export interface operations {
    * @description Someone requested to run a check suite. By default, check suites are automatically created when you create a check run. For more information, see [the GraphQL API documentation for creating a check run](https://docs.github.com/graphql/reference/mutations#createcheckrun) or "[Create a check run](https://docs.github.com/rest/checks/runs#create-a-check-run)" in the REST API documentation.
    */
   "check-suite/requested": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108834,7 +108819,7 @@ export interface operations {
    * @description Someone requested to re-run the check runs in a check suite. For more information, see [the GraphQL API documentation for creating a check suite](https://docs.github.com/graphql/reference/mutations#createchecksuite) or "[Create a check suite](https://docs.github.com/rest/checks/suites#create-a-check-suite)" in the REST API documentation.
    */
   "check-suite/rerequested": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108871,7 +108856,7 @@ export interface operations {
    * @description A previously created code scanning alert appeared in another branch. This can happen when a branch is merged into or created from a branch with a pre-existing code scanning alert.
    */
   "code-scanning-alert/appeared-in-branch": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108908,7 +108893,7 @@ export interface operations {
    * @description Someone closed a code scanning alert.
    */
   "code-scanning-alert/closed-by-user": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108945,7 +108930,7 @@ export interface operations {
    * @description A code scanning alert was created in a repository.
    */
   "code-scanning-alert/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -108982,7 +108967,7 @@ export interface operations {
    * @description A code scanning alert was fixed in a branch by a commit.
    */
   "code-scanning-alert/fixed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109019,7 +109004,7 @@ export interface operations {
    * @description A previously fixed code scanning alert reappeared in a branch.
    */
   "code-scanning-alert/reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109056,7 +109041,7 @@ export interface operations {
    * @description Someone reopened a code scanning alert.
    */
   "code-scanning-alert/reopened-by-user": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109095,7 +109080,7 @@ export interface operations {
    * @description Someone commented on a commit.
    */
   "commit-comment/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109135,7 +109120,7 @@ export interface operations {
    * - Payloads are capped at 25 MB. If an event generates a larger payload, GitHub will not deliver a payload for that webhook event. This may happen, for example, if many branches or tags are pushed at once. We suggest monitoring your payload size to ensure delivery.
    */
   create: {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109174,7 +109159,7 @@ export interface operations {
    * **Note**: This event will not occur when more than three tags are deleted at once.
    */
   delete: {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109215,7 +109200,7 @@ export interface operations {
    * @description A Dependabot alert was automatically closed.
    */
   "dependabot-alert/auto-dismissed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109256,7 +109241,7 @@ export interface operations {
    * @description A Dependabot alert was automatically reopened.
    */
   "dependabot-alert/auto-reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109297,7 +109282,7 @@ export interface operations {
    * @description A manifest file change introduced a vulnerable dependency, or a GitHub Security Advisory was published and an existing dependency was found to be vulnerable.
    */
   "dependabot-alert/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109338,7 +109323,7 @@ export interface operations {
    * @description A Dependabot alert was manually closed.
    */
   "dependabot-alert/dismissed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109379,7 +109364,7 @@ export interface operations {
    * @description A manifest file change removed a vulnerability.
    */
   "dependabot-alert/fixed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109420,7 +109405,7 @@ export interface operations {
    * @description A manifest file change introduced a vulnerable dependency that had previously been fixed.
    */
   "dependabot-alert/reintroduced": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109461,7 +109446,7 @@ export interface operations {
    * @description A Dependabot alert was manually reopened.
    */
   "dependabot-alert/reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109498,7 +109483,7 @@ export interface operations {
    * @description A deploy key was created.
    */
   "deploy-key/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109535,7 +109520,7 @@ export interface operations {
    * @description A deploy key was deleted.
    */
   "deploy-key/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109574,7 +109559,7 @@ export interface operations {
    * @description A deployment was created.
    */
   "deployment/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109611,7 +109596,7 @@ export interface operations {
    * @description A deployment protection rule was requested for an environment.
    */
   "deployment-protection-rule/requested": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109650,7 +109635,7 @@ export interface operations {
    * @description A deployment review was approved.
    */
   "deployment-review/approved": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109689,7 +109674,7 @@ export interface operations {
    * @description A deployment review was rejected.
    */
   "deployment-review/rejected": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109728,7 +109713,7 @@ export interface operations {
    * @description A deployment review was requested.
    */
   "deployment-review/requested": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109767,7 +109752,7 @@ export interface operations {
    * @description A new deployment status was created.
    */
   "deployment-status/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109808,7 +109793,7 @@ export interface operations {
    * @description A comment on the discussion was marked as the answer.
    */
   "discussion/answered": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109849,7 +109834,7 @@ export interface operations {
    * @description The category of a discussion was changed.
    */
   "discussion/category-changed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109890,7 +109875,7 @@ export interface operations {
    * @description A discussion was closed.
    */
   "discussion/closed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109931,7 +109916,7 @@ export interface operations {
    * @description A comment on a discussion was created.
    */
   "discussion-comment/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -109972,7 +109957,7 @@ export interface operations {
    * @description A comment on a discussion was deleted.
    */
   "discussion-comment/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110013,7 +109998,7 @@ export interface operations {
    * @description A comment on a discussion was edited.
    */
   "discussion-comment/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110054,7 +110039,7 @@ export interface operations {
    * @description A discussion was created.
    */
   "discussion/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110095,7 +110080,7 @@ export interface operations {
    * @description A discussion was deleted.
    */
   "discussion/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110136,7 +110121,7 @@ export interface operations {
    * @description The title or body on a discussion was edited, or the category of the discussion was changed.
    */
   "discussion/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110177,7 +110162,7 @@ export interface operations {
    * @description A label was added to a discussion.
    */
   "discussion/labeled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110218,7 +110203,7 @@ export interface operations {
    * @description A discussion was locked.
    */
   "discussion/locked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110259,7 +110244,7 @@ export interface operations {
    * @description A discussion was pinned.
    */
   "discussion/pinned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110300,7 +110285,7 @@ export interface operations {
    * @description A discussion was reopened.
    */
   "discussion/reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110341,7 +110326,7 @@ export interface operations {
    * @description A discussion was transferred to another repository.
    */
   "discussion/transferred": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110382,7 +110367,7 @@ export interface operations {
    * @description A comment on the discussion was unmarked as the answer.
    */
   "discussion/unanswered": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110423,7 +110408,7 @@ export interface operations {
    * @description A label was removed from a discussion.
    */
   "discussion/unlabeled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110464,7 +110449,7 @@ export interface operations {
    * @description A discussion was unlocked.
    */
   "discussion/unlocked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110505,7 +110490,7 @@ export interface operations {
    * @description A discussion was unpinned.
    */
   "discussion/unpinned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110541,7 +110526,7 @@ export interface operations {
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    */
   fork: {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110580,7 +110565,7 @@ export interface operations {
    * @description Someone revoked their authorization of a GitHub App.
    */
   "github-app-authorization/revoked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110616,7 +110601,7 @@ export interface operations {
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    */
   gollum: {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110653,7 +110638,7 @@ export interface operations {
    * @description Someone installed a GitHub App on a user or organization account.
    */
   "installation/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110690,7 +110675,7 @@ export interface operations {
    * @description Someone uninstalled a GitHub App from their user or organization account.
    */
   "installation/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110727,7 +110712,7 @@ export interface operations {
    * @description Someone granted new permissions to a GitHub App.
    */
   "installation/new-permissions-accepted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110764,7 +110749,7 @@ export interface operations {
    * @description A GitHub App installation was granted access to one or more repositories.
    */
   "installation-repositories/added": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110801,7 +110786,7 @@ export interface operations {
    * @description Access to one or more repositories was revoked for a GitHub App installation.
    */
   "installation-repositories/removed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110838,7 +110823,7 @@ export interface operations {
    * @description Someone blocked access by a GitHub App to their user or organization account.
    */
   "installation/suspend": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110873,7 +110858,7 @@ export interface operations {
    * @description Somebody renamed the user or organization account that a GitHub App is installed on.
    */
   "installation-target/renamed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110910,7 +110895,7 @@ export interface operations {
    * @description A GitHub App that was blocked from accessing a user or organization account was given access the account again.
    */
   "installation/unsuspend": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110949,7 +110934,7 @@ export interface operations {
    * @description A comment on an issue or pull request was created.
    */
   "issue-comment/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -110988,7 +110973,7 @@ export interface operations {
    * @description A comment on an issue or pull request was deleted.
    */
   "issue-comment/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111027,7 +111012,7 @@ export interface operations {
    * @description A comment on an issue or pull request was edited.
    */
   "issue-comment/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111066,7 +111051,7 @@ export interface operations {
    * @description An issue was assigned to a user.
    */
   "issues/assigned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111105,7 +111090,7 @@ export interface operations {
    * @description An issue was closed.
    */
   "issues/closed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111144,7 +111129,7 @@ export interface operations {
    * @description An issue was deleted.
    */
   "issues/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111183,7 +111168,7 @@ export interface operations {
    * @description An issue was removed from a milestone.
    */
   "issues/demilestoned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111222,7 +111207,7 @@ export interface operations {
    * @description The title or body on an issue was edited.
    */
   "issues/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111261,7 +111246,7 @@ export interface operations {
    * @description A label was added to an issue.
    */
   "issues/labeled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111300,7 +111285,7 @@ export interface operations {
    * @description Conversation on an issue was locked. For more information, see "[Locking conversations](https://docs.github.com/communities/moderating-comments-and-conversations/locking-conversations)."
    */
   "issues/locked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111339,7 +111324,7 @@ export interface operations {
    * @description An issue was added to a milestone.
    */
   "issues/milestoned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111378,7 +111363,7 @@ export interface operations {
    * @description An issue was created. When a closed issue is reopened, the action will be `reopened` instead.
    */
   "issues/opened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111417,7 +111402,7 @@ export interface operations {
    * @description An issue was pinned to a repository. For more information, see "[Pinning an issue to your repository](https://docs.github.com/issues/tracking-your-work-with-issues/pinning-an-issue-to-your-repository)."
    */
   "issues/pinned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111456,7 +111441,7 @@ export interface operations {
    * @description A closed issue was reopened.
    */
   "issues/reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111495,7 +111480,7 @@ export interface operations {
    * @description An issue was transferred to another repository. For more information, see "[Transferring an issue to another repository](https://docs.github.com/issues/tracking-your-work-with-issues/transferring-an-issue-to-another-repository)."
    */
   "issues/transferred": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111534,7 +111519,7 @@ export interface operations {
    * @description A user was unassigned from an issue.
    */
   "issues/unassigned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111573,7 +111558,7 @@ export interface operations {
    * @description A label was removed from an issue.
    */
   "issues/unlabeled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111612,7 +111597,7 @@ export interface operations {
    * @description Conversation on an issue was locked. For more information, see "[Locking conversations](https://docs.github.com/communities/moderating-comments-and-conversations/locking-conversations)."
    */
   "issues/unlocked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111651,7 +111636,7 @@ export interface operations {
    * @description An issue was unpinned from a repository. For more information, see "[Pinning an issue to your repository](https://docs.github.com/issues/tracking-your-work-with-issues/pinning-an-issue-to-your-repository)."
    */
   "issues/unpinned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111690,7 +111675,7 @@ export interface operations {
    * @description A label was created.
    */
   "label/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111729,7 +111714,7 @@ export interface operations {
    * @description A label was deleted.
    */
   "label/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111768,7 +111753,7 @@ export interface operations {
    * @description A label's name, description, or color was changed.
    */
   "label/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111803,7 +111788,7 @@ export interface operations {
    * @description Someone cancelled a GitHub Marketplace plan, and the last billing cycle has ended. The change will take effect on the account immediately.
    */
   "marketplace-purchase/cancelled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111838,7 +111823,7 @@ export interface operations {
    * @description Someone upgraded or downgraded a GitHub Marketplace plan, and the last billing cycle has ended. The change will take effect on the account immediately.
    */
   "marketplace-purchase/changed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111873,7 +111858,7 @@ export interface operations {
    * @description Someone downgraded or cancelled a GitHub Marketplace plan. The new plan or cancellation will take effect at the end of the current billing cycle. When the change takes effect, the `changed` or `cancelled` event will be sent.
    */
   "marketplace-purchase/pending-change": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111908,7 +111893,7 @@ export interface operations {
    * @description Someone cancelled a pending change to a GitHub Marketplace plan. Pending changes include plan cancellations and downgrades that will take effect at the end of a billing cycle.
    */
   "marketplace-purchase/pending-change-cancelled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111943,7 +111928,7 @@ export interface operations {
    * @description Someone purchased a GitHub Marketplace plan. The change will take effect on the account immediately.
    */
   "marketplace-purchase/purchased": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -111980,7 +111965,7 @@ export interface operations {
    * @description A GitHub user accepted an invitation to a repository.
    */
   "member/added": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112017,7 +112002,7 @@ export interface operations {
    * @description Permissions were changed for a collaborator on a repository.
    */
   "member/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112054,7 +112039,7 @@ export interface operations {
    * @description A collaborator was removed from a repository.
    */
   "member/removed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112091,7 +112076,7 @@ export interface operations {
    * @description An organization member was added to a team.
    */
   "membership/added": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112128,7 +112113,7 @@ export interface operations {
    * @description An organization member was removed from a team.
    */
   "membership/removed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112167,7 +112152,7 @@ export interface operations {
    * When you receive this event, you should perform checks on the head SHA and report status back using check runs or commit statuses.
    */
   "merge-group/checks-requested": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112206,7 +112191,7 @@ export interface operations {
    * When you receive this event, you may want to cancel any checks that are running on the head SHA to avoid wasting computing resources on a merge group that will not be used.
    */
   "merge-group/destroyed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112243,7 +112228,7 @@ export interface operations {
    * @description The webhook was deleted.
    */
   "meta/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112282,7 +112267,7 @@ export interface operations {
    * @description A milestone was closed.
    */
   "milestone/closed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112321,7 +112306,7 @@ export interface operations {
    * @description A milestone was created.
    */
   "milestone/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112360,7 +112345,7 @@ export interface operations {
    * @description A milestone was deleted.
    */
   "milestone/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112399,7 +112384,7 @@ export interface operations {
    * @description A milestone was edited.
    */
   "milestone/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112438,7 +112423,7 @@ export interface operations {
    * @description A milestone was opened.
    */
   "milestone/opened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112477,7 +112462,7 @@ export interface operations {
    * @description A user was blocked from the organization.
    */
   "org-block/blocked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112516,7 +112501,7 @@ export interface operations {
    * @description A previously blocked user was unblocked from the organization.
    */
   "org-block/unblocked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112555,7 +112540,7 @@ export interface operations {
    * @description An organization was deleted.
    */
   "organization/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112594,7 +112579,7 @@ export interface operations {
    * @description A member accepted an invitation to join an organization.
    */
   "organization/member-added": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112633,7 +112618,7 @@ export interface operations {
    * @description A member was invited to join the organization.
    */
   "organization/member-invited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112672,7 +112657,7 @@ export interface operations {
    * @description A member was removed from the organization.
    */
   "organization/member-removed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112711,7 +112696,7 @@ export interface operations {
    * @description The name of an organization was changed.
    */
   "organization/renamed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112748,7 +112733,7 @@ export interface operations {
    * @description A package was published to a registry.
    */
   "package/published": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112785,7 +112770,7 @@ export interface operations {
    * @description A previously published package was updated.
    */
   "package/updated": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112821,7 +112806,7 @@ export interface operations {
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Pages" repository permission.
    */
   "page-build": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112860,7 +112845,7 @@ export interface operations {
    * @description A fine-grained personal access token request was approved.
    */
   "personal-access-token-request/approved": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112899,7 +112884,7 @@ export interface operations {
    * @description A fine-grained personal access token request was cancelled by the requester.
    */
   "personal-access-token-request/cancelled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112938,7 +112923,7 @@ export interface operations {
    * @description A fine-grained personal access token request was created.
    */
   "personal-access-token-request/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -112977,7 +112962,7 @@ export interface operations {
    * @description A fine-grained personal access token request was denied.
    */
   "personal-access-token-request/denied": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113009,7 +112994,7 @@ export interface operations {
   };
   /** This event occurs when you create a new webhook. The ping event is a confirmation from GitHub that you configured the webhook correctly. */
   ping: {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113049,7 +113034,7 @@ export interface operations {
    * @description A note in a classic project was converted to an issue.
    */
   "project-card/converted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113088,7 +113073,7 @@ export interface operations {
    * @description A card was added to a classic project.
    */
   "project-card/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113127,7 +113112,7 @@ export interface operations {
    * @description A card on a classic project was deleted.
    */
   "project-card/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113166,7 +113151,7 @@ export interface operations {
    * @description A note on a classic project was edited.
    */
   "project-card/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113205,7 +113190,7 @@ export interface operations {
    * @description A card on a classic project was moved to another column or to another position in its column.
    */
   "project-card/moved": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113244,7 +113229,7 @@ export interface operations {
    * @description A classic project was closed.
    */
   "project/closed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113283,7 +113268,7 @@ export interface operations {
    * @description A column was added to a classic project.
    */
   "project-column/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113322,7 +113307,7 @@ export interface operations {
    * @description A column was deleted from a classic project.
    */
   "project-column/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113361,7 +113346,7 @@ export interface operations {
    * @description The name of a column on a classic project was changed.
    */
   "project-column/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113400,7 +113385,7 @@ export interface operations {
    * @description A column was moved to a new position on a classic project.
    */
   "project-column/moved": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113439,7 +113424,7 @@ export interface operations {
    * @description A classic project was created.
    */
   "project/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113478,7 +113463,7 @@ export interface operations {
    * @description A classic project was deleted.
    */
   "project/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113517,7 +113502,7 @@ export interface operations {
    * @description The name or description of a classic project was changed.
    */
   "project/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113556,7 +113541,7 @@ export interface operations {
    * @description A classic project was closed.
    */
   "project/reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113597,7 +113582,7 @@ export interface operations {
    * @description A project in the organization was closed.
    */
   "projects-v2/closed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113638,7 +113623,7 @@ export interface operations {
    * @description A project in the organization was created.
    */
   "projects-v2/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113679,7 +113664,7 @@ export interface operations {
    * @description A project in the organization was deleted.
    */
   "projects-v2/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113720,7 +113705,7 @@ export interface operations {
    * @description The title, description, or README of a project in the organization was changed.
    */
   "projects-v2/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113761,7 +113746,7 @@ export interface operations {
    * @description An item on an organization project was archived. For more information, see "[Archiving items from your project](https://docs.github.com/issues/planning-and-tracking-with-projects/managing-items-in-your-project/archiving-items-from-your-project)."
    */
   "projects-v2-item/archived": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113802,7 +113787,7 @@ export interface operations {
    * @description A draft issue in an organization project was converted to an issue.
    */
   "projects-v2-item/converted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113843,7 +113828,7 @@ export interface operations {
    * @description An item was added to a project in the organization.
    */
   "projects-v2-item/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113884,7 +113869,7 @@ export interface operations {
    * @description An item was deleted from a project in the organization.
    */
   "projects-v2-item/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113925,7 +113910,7 @@ export interface operations {
    * @description The values or state of an item in an organization project were changed. For example, the value of a field was updated, the body of a draft issue was changed, or a draft issue was converted to an issue.
    */
   "projects-v2-item/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -113966,7 +113951,7 @@ export interface operations {
    * @description The position of an item in an organization project was changed. For example, an item was moved above or below another item in the table or board layout.
    */
   "projects-v2-item/reordered": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114007,7 +113992,7 @@ export interface operations {
    * @description An archived item on an organization project was restored from the archive. For more information, see "[Archiving items from your project](https://docs.github.com/issues/planning-and-tracking-with-projects/managing-items-in-your-project/archiving-items-from-your-project)."
    */
   "projects-v2-item/restored": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114048,7 +114033,7 @@ export interface operations {
    * @description A project in the organization was reopened.
    */
   "projects-v2/reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114084,7 +114069,7 @@ export interface operations {
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Metadata" repository permission.
    */
   public: {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114123,7 +114108,7 @@ export interface operations {
    * @description A pull request was assigned to a user.
    */
   "pull-request/assigned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114162,7 +114147,7 @@ export interface operations {
    * @description Auto merge was disabled for a pull request. For more information, see "[Automatically merging a pull request](https://docs.github.com/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request)."
    */
   "pull-request/auto-merge-disabled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114201,7 +114186,7 @@ export interface operations {
    * @description Auto merge was enabled for a pull request. For more information, see "[Automatically merging a pull request](https://docs.github.com/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request)."
    */
   "pull-request/auto-merge-enabled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114240,7 +114225,7 @@ export interface operations {
    * @description A pull request was closed. If `merged` is false in the webhook payload, the pull request was closed with unmerged commits. If `merged` is true in the webhook payload, the pull request was merged.
    */
   "pull-request/closed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114279,7 +114264,7 @@ export interface operations {
    * @description A pull request was converted to a draft. For more information, see "[Changing the stage of a pull request](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-stage-of-a-pull-request)."
    */
   "pull-request/converted-to-draft": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114318,7 +114303,7 @@ export interface operations {
    * @description A pull request was removed from a milestone.
    */
   "pull-request/demilestoned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114357,7 +114342,7 @@ export interface operations {
    * @description A pull request was removed from the merge queue.
    */
   "pull-request/dequeued": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114396,7 +114381,7 @@ export interface operations {
    * @description The title or body of a pull request was edited.
    */
   "pull-request/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114435,7 +114420,7 @@ export interface operations {
    * @description A pull request was added to the merge queue.
    */
   "pull-request/enqueued": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114474,7 +114459,7 @@ export interface operations {
    * @description A label was added to a pull request.
    */
   "pull-request/labeled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114513,7 +114498,7 @@ export interface operations {
    * @description Conversation on a pull request was locked. For more information, see "[Locking conversations](https://docs.github.com/communities/moderating-comments-and-conversations/locking-conversations)."
    */
   "pull-request/locked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114552,7 +114537,7 @@ export interface operations {
    * @description A pull request was added to a milestone.
    */
   "pull-request/milestoned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114591,7 +114576,7 @@ export interface operations {
    * @description A pull request was created
    */
   "pull-request/opened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114630,7 +114615,7 @@ export interface operations {
    * @description A draft pull request was marked as ready for review. For more information, see "[Changing the stage of a pull request](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-stage-of-a-pull-request)."
    */
   "pull-request/ready-for-review": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114669,7 +114654,7 @@ export interface operations {
    * @description A previously closed pull request was reopened.
    */
   "pull-request/reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114708,7 +114693,7 @@ export interface operations {
    * @description A comment on a pull request diff was created.
    */
   "pull-request-review-comment/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114747,7 +114732,7 @@ export interface operations {
    * @description A comment on a pull request diff was deleted.
    */
   "pull-request-review-comment/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114786,7 +114771,7 @@ export interface operations {
    * @description The content of a comment on a pull request diff was changed.
    */
   "pull-request-review-comment/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114825,7 +114810,7 @@ export interface operations {
    * @description A review on a pull request was dismissed.
    */
   "pull-request-review/dismissed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114864,7 +114849,7 @@ export interface operations {
    * @description The body comment on a pull request review was edited.
    */
   "pull-request-review/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114903,7 +114888,7 @@ export interface operations {
    * @description A request for review by a person or team was removed from a pull request.
    */
   "pull-request/review-request-removed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114942,7 +114927,7 @@ export interface operations {
    * @description Review by a person or team was requested for a pull request. For more information, see "[Requesting a pull request review](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review)."
    */
   "pull-request/review-requested": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -114981,7 +114966,7 @@ export interface operations {
    * @description A review on a pull request was submitted.
    */
   "pull-request-review/submitted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115020,7 +115005,7 @@ export interface operations {
    * @description A comment thread on a pull request was marked as resolved.
    */
   "pull-request-review-thread/resolved": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115059,7 +115044,7 @@ export interface operations {
    * @description A previously resolved comment thread on a pull request was marked as unresolved.
    */
   "pull-request-review-thread/unresolved": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115098,7 +115083,7 @@ export interface operations {
    * @description A pull request's head branch was updated. For example, the head branch was updated from the base branch or new commits were pushed to the head branch.
    */
   "pull-request/synchronize": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115137,7 +115122,7 @@ export interface operations {
    * @description A user was unassigned from a pull request.
    */
   "pull-request/unassigned": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115176,7 +115161,7 @@ export interface operations {
    * @description A label was removed from a pull request.
    */
   "pull-request/unlabeled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115215,7 +115200,7 @@ export interface operations {
    * @description Conversation on a pull request was unlocked. For more information, see "[Locking conversations](https://docs.github.com/communities/moderating-comments-and-conversations/locking-conversations)."
    */
   "pull-request/unlocked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115255,7 +115240,7 @@ export interface operations {
    * **Note**: An event will not be created when more than three tags are pushed at once.
    */
   push: {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115294,7 +115279,7 @@ export interface operations {
    * @description A package was published to a registry.
    */
   "registry-package/published": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115333,7 +115318,7 @@ export interface operations {
    * @description A package that was previously published to a registry was updated.
    */
   "registry-package/updated": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115370,7 +115355,7 @@ export interface operations {
    * @description A draft was saved, or a release or pre-release was published without previously being saved as a draft.
    */
   "release/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115407,7 +115392,7 @@ export interface operations {
    * @description A release, pre-release, or draft release was deleted.
    */
   "release/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115444,7 +115429,7 @@ export interface operations {
    * @description The details of a release, pre-release, or draft release were edited. For more information, see "[Managing releases in a repository](https://docs.github.com/repositories/releasing-projects-on-github/managing-releases-in-a-repository#editing-a-release)."
    */
   "release/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115481,7 +115466,7 @@ export interface operations {
    * @description A release was created and identified as a pre-release. A pre-release is a release that is not ready for production and may be unstable.
    */
   "release/prereleased": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115518,7 +115503,7 @@ export interface operations {
    * @description A release, pre-release, or draft of a release was published.
    */
   "release/published": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115555,7 +115540,7 @@ export interface operations {
    * @description A release was published, or a pre-release was changed to a release.
    */
   "release/released": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115592,7 +115577,7 @@ export interface operations {
    * @description A release or pre-release was unpublished.
    */
   "release/unpublished": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115629,7 +115614,7 @@ export interface operations {
    * @description A repository security advisory was published.
    */
   "repository-advisory/published": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115666,7 +115651,7 @@ export interface operations {
    * @description A private vulnerability report was submitted.
    */
   "repository-advisory/reported": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115703,7 +115688,7 @@ export interface operations {
    * @description A repository was archived.
    */
   "repository/archived": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115740,7 +115725,7 @@ export interface operations {
    * @description A repository was created.
    */
   "repository/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115777,7 +115762,7 @@ export interface operations {
    * @description A repository was deleted. GitHub Apps and repository webhooks will not receive this event.
    */
   "repository/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115814,7 +115799,7 @@ export interface operations {
    * @description The `event_type` that was specified in the `POST /repos/{owner}/{repo}/dispatches` request body.
    */
   "repository-dispatch/sample.collected": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115851,7 +115836,7 @@ export interface operations {
    * @description The topics, default branch, description, or homepage of a repository was changed.
    */
   "repository/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115883,7 +115868,7 @@ export interface operations {
   };
   /** This event occurs when a repository is imported to GitHub. For more information, see "[Importing a repository with GitHub Importer](https://docs.github.com/get-started/importing-your-projects-to-github/importing-source-code-to-github/importing-a-repository-with-github-importer)." For more information about the API to manage imports, see [the REST API documentation](https://docs.github.com/rest/migrations/source-imports). */
   "repository-import": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115920,7 +115905,7 @@ export interface operations {
    * @description The visibility of a repository was changed to `private`.
    */
   "repository/privatized": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115957,7 +115942,7 @@ export interface operations {
    * @description The visibility of a repository was changed to `public`.
    */
   "repository/publicized": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -115994,7 +115979,7 @@ export interface operations {
    * @description The name of a repository was changed.
    */
   "repository/renamed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116033,7 +116018,7 @@ export interface operations {
    * @description A repository ruleset was created.
    */
   "repository-ruleset/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116072,7 +116057,7 @@ export interface operations {
    * @description A repository ruleset was deleted.
    */
   "repository-ruleset/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116111,7 +116096,7 @@ export interface operations {
    * @description A repository ruleset was edited.
    */
   "repository-ruleset/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116148,7 +116133,7 @@ export interface operations {
    * @description Ownership of the repository was transferred to a user or organization account. This event is only sent to the account where the ownership is transferred. To receive the `repository.transferred` event, the new owner account must have the GitHub App installed, and the App must be subscribed to "Repository" events.
    */
   "repository/transferred": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116185,7 +116170,7 @@ export interface operations {
    * @description A previously archived repository was unarchived.
    */
   "repository/unarchived": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116222,7 +116207,7 @@ export interface operations {
    * @description A repository vulnerability alert was created.
    */
   "repository-vulnerability-alert/create": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116259,7 +116244,7 @@ export interface operations {
    * @description A repository vulnerability alert was dismissed.
    */
   "repository-vulnerability-alert/dismiss": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116296,7 +116281,7 @@ export interface operations {
    * @description A previously dismissed or resolved repository vulnerability alert was reopened.
    */
   "repository-vulnerability-alert/reopen": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116333,7 +116318,7 @@ export interface operations {
    * @description A repository vulnerability alert was marked as resolved.
    */
   "repository-vulnerability-alert/resolve": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116372,7 +116357,7 @@ export interface operations {
    * @description A secret scanning alert was created.
    */
   "secret-scanning-alert/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116413,7 +116398,7 @@ export interface operations {
    * @description A new instance of a previously detected secret was detected in a repository, and the location of the secret was added to the existing alert.
    */
   "secret-scanning-alert-location/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116453,7 +116438,7 @@ export interface operations {
    * @description A previously closed secret scanning alert was reopened.
    */
   "secret-scanning-alert/reopened": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116492,7 +116477,7 @@ export interface operations {
    * @description A secret scanning alert was closed.
    */
   "secret-scanning-alert/resolved": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116531,7 +116516,7 @@ export interface operations {
    * @description A secret scanning alert was marked as revoked.
    */
   "secret-scanning-alert/revoked": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116568,7 +116553,7 @@ export interface operations {
    * @description A security advisory was published to the GitHub community.
    */
   "security-advisory/published": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116605,7 +116590,7 @@ export interface operations {
    * @description The metadata or description of a security advisory was changed, or the security advisory was withdrawn.
    */
   "security-advisory/updated": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116642,7 +116627,7 @@ export interface operations {
    * @description A previously published security advisory was withdrawn.
    */
   "security-advisory/withdrawn": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116678,7 +116663,7 @@ export interface operations {
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Administration" repository permission.
    */
   "security-and-analysis": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116717,7 +116702,7 @@ export interface operations {
    * This event is only sent when a recurring (monthly) sponsorship is cancelled; it is not sent for one-time sponsorships.
    */
   "sponsorship/cancelled": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116754,7 +116739,7 @@ export interface operations {
    * @description A sponsor created a sponsorship for a sponsored account. This event occurs once the payment is successfully processed.
    */
   "sponsorship/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116791,7 +116776,7 @@ export interface operations {
    * @description A monthly sponsor changed who can see their sponsorship. If you recognize your sponsors publicly, you may want to update your sponsor recognition to reflect the change when this event occurs.
    */
   "sponsorship/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116830,7 +116815,7 @@ export interface operations {
    * This event is only sent when a recurring (monthly) sponsorship is cancelled; it is not sent for one-time sponsorships.
    */
   "sponsorship/pending-cancellation": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116867,7 +116852,7 @@ export interface operations {
    * @description A sponsor scheduled a downgrade to a lower sponsorship tier. The new tier will become effective on their next billing date.
    */
   "sponsorship/pending-tier-change": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116904,7 +116889,7 @@ export interface operations {
    * @description A sponsor changed the tier of their sponsorship and the change has taken effect. If a sponsor upgraded their tier, the change took effect immediately. If a sponsor downgraded their tier, the change took effect at the beginning of the sponsor's next billing cycle.
    */
   "sponsorship/tier-changed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116941,7 +116926,7 @@ export interface operations {
    * @description Someone starred a repository.
    */
   "star/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -116978,7 +116963,7 @@ export interface operations {
    * @description Someone unstarred the repository.
    */
   "star/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117014,7 +116999,7 @@ export interface operations {
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Commit statuses" repository permission.
    */
   status: {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117053,7 +117038,7 @@ export interface operations {
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Members" organization permission.
    */
   "team-add": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117091,7 +117076,7 @@ export interface operations {
    * @description A team was granted access to a repository.
    */
   "team/added-to-repository": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117129,7 +117114,7 @@ export interface operations {
    * @description A team was created.
    */
   "team/created": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117167,7 +117152,7 @@ export interface operations {
    * @description A team was deleted.
    */
   "team/deleted": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117205,7 +117190,7 @@ export interface operations {
    * @description The name, description, or visibility of a team was changed.
    */
   "team/edited": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117243,7 +117228,7 @@ export interface operations {
    * @description A team's access to a repository was removed.
    */
   "team/removed-from-repository": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117280,7 +117265,7 @@ export interface operations {
    * @description Someone started watching the repository.
    */
   "watch/started": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117318,7 +117303,7 @@ export interface operations {
    * To subscribe to this event, a GitHub App must have at least read-level access for the "Contents" repository permission.
    */
   "workflow-dispatch": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117357,7 +117342,7 @@ export interface operations {
    * @description A job in a workflow run finished. This event occurs when a job in a workflow is completed, regardless of whether the job was successful or unsuccessful.
    */
   "workflow-job/completed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117396,7 +117381,7 @@ export interface operations {
    * @description A job in a workflow run started processing on a runner.
    */
   "workflow-job/in-progress": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117435,7 +117420,7 @@ export interface operations {
    * @description A job in a workflow run was created.
    */
   "workflow-job/queued": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117474,7 +117459,7 @@ export interface operations {
    * @description A job in a workflow run was created and is waiting for approvals.
    */
   "workflow-job/waiting": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117513,7 +117498,7 @@ export interface operations {
    * @description A workflow run finished. This event occurs when a workflow run is completed, regardless of whether the workflow was successful or unsuccessful.
    */
   "workflow-run/completed": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117552,7 +117537,7 @@ export interface operations {
    * @description A workflow run started processing on a runner.
    */
   "workflow-run/in-progress": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
@@ -117591,7 +117576,7 @@ export interface operations {
    * @description A workflow run was triggered.
    */
   "workflow-run/requested": {
-    parameters?: {
+    parameters: {
       header?: {
         /** @example GitHub-Hookshot/123abc */
         "User-Agent"?: string;
