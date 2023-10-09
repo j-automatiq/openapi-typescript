@@ -8885,9 +8885,8 @@ paths:
                   - true
                 exclude:
                   type: array
-                  description: 'Exclude related items from being returned in the response
-                    in order to improve performance of the request. The array can
-                    include any of: `"repositories"`.'
+                  description: Exclude related items from being returned in the response
+                    in order to improve performance of the request.
                   items:
                     type: string
                     enum:
@@ -17096,7 +17095,7 @@ paths:
         Lists a detailed history of changes to a repository, such as pushes, merges, force pushes, and branch changes, and associates these changes with commits and users.
 
         For more information about viewing repository activity,
-        see "[Viewing repository activity](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository/viewing-repository-activity)."
+        see "[Viewing activity and data for your repository](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository)."
       tags:
       - repos
       operationId: repos/list-activities
@@ -24766,6 +24765,8 @@ paths:
               properties:
                 wait_timer:
                   "$ref": "#/components/schemas/wait-timer"
+                prevent_self_review:
+                  "$ref": "#/components/schemas/prevent-self-review"
                 reviewers:
                   type:
                   - array
@@ -24793,6 +24794,7 @@ paths:
               default:
                 value:
                   wait_timer: 30
+                  prevent_self_review: false
                   reviewers:
                   - type: User
                     id: 1
@@ -31182,7 +31184,7 @@ paths:
   "/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions":
     get:
       summary: List reactions for a pull request review comment
-      description: List the reactions to a [pull request review comment](https://docs.github.com/pulls/comments#get-a-review-comment-for-a-pull-request).
+      description: List the reactions to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request).
       tags:
       - reactions
       operationId: reactions/list-for-pull-request-review-comment
@@ -71585,7 +71587,6 @@ components:
       - forks
       - forks_count
       - git_url
-      - has_downloads
       - has_issues
       - has_projects
       - has_wiki
@@ -74665,6 +74666,12 @@ components:
           format: uri
           description: The URL at which to download the CodeQL database. The `Accept`
             header must be set to the value of the `content_type` property.
+        commit_oid:
+          type:
+          - string
+          - 'null'
+          description: The commit SHA of the CodeQL databases repository at time of
+            database creation.
       required:
       - id
       - name
@@ -74686,7 +74693,7 @@ components:
           - configured
           - not-configured
         languages:
-          description: Languages to be analysed.
+          description: Languages to be analyzed.
           type: array
           items:
             type: string
@@ -74741,9 +74748,7 @@ components:
           - default
           - extended
         languages:
-          description: 'CodeQL languages to be analyzed. Supported values are: `c-cpp`,
-            `csharp`, `go`, `java-kotlin`, `javascript-typescript`, `python`, `ruby`,
-            and `swift`.'
+          description: CodeQL languages to be analyzed.
           type: array
           items:
             type: string
@@ -77225,6 +77230,12 @@ components:
       - html_url
       - created_at
       - updated_at
+    prevent-self-review:
+      type: boolean
+      description: Whether or not a user who created the job is prevented from approving
+        their own job.
+      examples:
+      - false
     deployment-branch-policy:
       title: Deployment branch policy
       description: Details of a deployment branch policy.
@@ -87798,9 +87809,8 @@ components:
               format: uri
             conclusion:
               description: The summary conclusion for all check runs that are part
-                of the check suite. Can be one of `success`, `failure`, `neutral`,
-                `cancelled`, `timed_out`, `action_required` or `stale`. This value
-                will be `null` until the check run has `completed`.
+                of the check suite. This value will be `null` until the check run
+                has `completed`.
               type:
               - string
               - 'null'
@@ -88412,9 +88422,8 @@ components:
               format: uri
             conclusion:
               description: The summary conclusion for all check runs that are part
-                of the check suite. Can be one of `success`, `failure`,` neutral`,
-                `cancelled`, `timed_out`, `action_required` or `stale`. This value
-                will be `null` until the check run has completed.
+                of the check suite. This value will be `null` until the check run
+                has completed.
               type:
               - string
               - 'null'
@@ -89019,9 +89028,8 @@ components:
               format: uri
             conclusion:
               description: The summary conclusion for all check runs that are part
-                of the check suite. Can be one of `success`, `failure`,` neutral`,
-                `cancelled`, `timed_out`, `action_required` or `stale`. This value
-                will be `null` until the check run has completed.
+                of the check suite. This value will be `null` until the check run
+                has completed.
               type:
               - string
               - 'null'
@@ -89337,8 +89345,7 @@ components:
               - login
               - id
             dismissed_reason:
-              description: 'The reason for dismissing or closing the alert. Can be
-                one of: `false positive`, `won''t fix`, and `used in tests`.'
+              description: The reason for dismissing or closing the alert.
               type:
               - string
               - 'null'
@@ -89595,8 +89602,7 @@ components:
               - login
               - id
             dismissed_reason:
-              description: 'The reason for dismissing or closing the alert. Can be
-                one of: `false positive`, `won''t fix`, and `used in tests`.'
+              description: The reason for dismissing or closing the alert.
               type:
               - string
               - 'null'
@@ -90102,8 +90108,7 @@ components:
               - login
               - id
             dismissed_reason:
-              description: 'The reason for dismissing or closing the alert. Can be
-                one of: `false positive`, `won''t fix`, and `used in tests`.'
+              description: The reason for dismissing or closing the alert.
               type:
               - string
               - 'null'
@@ -94909,9 +94914,8 @@ components:
               - 'null'
               format: date-time
             conclusion:
-              description: The result of the completed check run. Can be one of `success`,
-                `failure`, `neutral`, `cancelled`, `timed_out`, `action_required`
-                or `stale`. This value will be `null` until the check run has completed.
+              description: The result of the completed check run. This value will
+                be `null` until the check run has completed.
               type:
               - string
               - 'null'
@@ -217560,7 +217564,7 @@ components:
         node_id: MDEyOldvcmtmbG93IEpvYjM5OTQ0NDQ5Ng==
         head_sha: f83a356604ae3c5d03e1b46ef4d1ca77d64a90b0
         url: https://api.github.com/repos/octo-org/octo-repo/actions/jobs/399444496
-        html_url: https://github.com/octo-org/octo-repo/runs/399444496
+        html_url: https://github.com/octo-org/octo-repo/runs/29679449/jobs/399444496
         status: completed
         conclusion: success
         started_at: '2020-01-20T17:42:40Z'
@@ -218148,7 +218152,7 @@ components:
           node_id: MDEyOldvcmtmbG93IEpvYjM5OTQ0NDQ5Ng==
           head_sha: f83a356604ae3c5d03e1b46ef4d1ca77d64a90b0
           url: https://api.github.com/repos/octo-org/octo-repo/actions/jobs/399444496
-          html_url: https://github.com/octo-org/octo-repo/runs/399444496
+          html_url: https://github.com/octo-org/octo-repo/runs/29679449/jobs/399444496
           status: completed
           conclusion: success
           started_at: '2020-01-20T17:42:40Z'
@@ -220277,6 +220281,7 @@ components:
         created_at: '2022-09-12T12:14:32Z'
         updated_at: '2022-09-12T12:14:32Z'
         url: https://api.github.com/repos/octocat/Hello-World/code-scanning/codeql/databases/java
+        commit_oid: 12345678901234567890
       - id: 2
         name: database.zip
         language: ruby
@@ -220304,6 +220309,7 @@ components:
         created_at: '2022-09-12T12:14:32Z'
         updated_at: '2022-09-12T12:14:32Z'
         url: https://api.github.com/repos/octocat/Hello-World/code-scanning/codeql/databases/ruby
+        commit_oid: 23456789012345678901
     code-scanning-codeql-database:
       value:
         id: 1
@@ -220333,6 +220339,7 @@ components:
         created_at: '2022-09-12T12:14:32Z'
         updated_at: '2022-09-12T12:14:32Z'
         url: https://api.github.com/repos/octocat/Hello-World/code-scanning/codeql/databases/java
+        commit_oid: 12345678901234567890
     code-scanning-default-setup:
       value:
         state: configured

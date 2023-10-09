@@ -6379,7 +6379,7 @@ export interface paths {
          * @description Lists a detailed history of changes to a repository, such as pushes, merges, force pushes, and branch changes, and associates these changes with commits and users.
          *
          *     For more information about viewing repository activity,
-         *     see "[Viewing repository activity](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository/viewing-repository-activity)."
+         *     see "[Viewing activity and data for your repository](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository)."
          */
         get: operations["repos/list-activities"];
         put?: never;
@@ -10852,7 +10852,7 @@ export interface paths {
         };
         /**
          * List reactions for a pull request review comment
-         * @description List the reactions to a [pull request review comment](https://docs.github.com/pulls/comments#get-a-review-comment-for-a-pull-request).
+         * @description List the reactions to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request).
          */
         get: operations["reactions/list-for-pull-request-review-comment"];
         put?: never;
@@ -23201,7 +23201,7 @@ export interface components {
             has_wiki: boolean;
             has_pages: boolean;
             /** @example true */
-            has_downloads: boolean;
+            has_downloads?: boolean;
             /** @example true */
             has_discussions: boolean;
             archived: boolean;
@@ -25082,6 +25082,8 @@ export interface components {
              * @description The URL at which to download the CodeQL database. The `Accept` header must be set to the value of the `content_type` property.
              */
             url: string;
+            /** @description The commit SHA of the CodeQL databases repository at time of database creation. */
+            commit_oid?: string | null;
         };
         /** @description Configuration for code scanning default setup. */
         "code-scanning-default-setup": {
@@ -25090,7 +25092,7 @@ export interface components {
              * @enum {string}
              */
             state?: "configured" | "not-configured";
-            /** @description Languages to be analysed. */
+            /** @description Languages to be analyzed. */
             languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "javascript" | "python" | "ruby" | "typescript" | "swift")[];
             /**
              * @description CodeQL query suite to be used.
@@ -25121,7 +25123,7 @@ export interface components {
              * @enum {string}
              */
             query_suite?: "default" | "extended";
-            /** @description CodeQL languages to be analyzed. Supported values are: `c-cpp`, `csharp`, `go`, `java-kotlin`, `javascript-typescript`, `python`, `ruby`, and `swift`. */
+            /** @description CodeQL languages to be analyzed. */
             languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "python" | "ruby" | "swift")[];
         };
         /** @description You can use `run_url` to track the status of the run. This includes a property status and conclusion.
@@ -26546,6 +26548,11 @@ export interface components {
             })[];
             deployment_branch_policy?: components["schemas"]["deployment-branch-policy-settings"];
         };
+        /**
+         * @description Whether or not a user who created the job is prevented from approving their own job.
+         * @example false
+         */
+        "prevent-self-review": boolean;
         /**
          * Deployment branch policy
          * @description Details of a deployment branch policy.
@@ -32510,7 +32517,7 @@ export interface components {
                 /** Format: uri */
                 check_runs_url: string;
                 /**
-                 * @description The summary conclusion for all check runs that are part of the check suite. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, `action_required` or `stale`. This value will be `null` until the check run has `completed`.
+                 * @description The summary conclusion for all check runs that are part of the check suite. This value will be `null` until the check run has `completed`.
                  * @enum {string|null}
                  */
                 conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null | "skipped" | "startup_failure";
@@ -32751,7 +32758,7 @@ export interface components {
                 /** Format: uri */
                 check_runs_url: string;
                 /**
-                 * @description The summary conclusion for all check runs that are part of the check suite. Can be one of `success`, `failure`,` neutral`, `cancelled`, `timed_out`, `action_required` or `stale`. This value will be `null` until the check run has completed.
+                 * @description The summary conclusion for all check runs that are part of the check suite. This value will be `null` until the check run has completed.
                  * @enum {string|null}
                  */
                 conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null | "skipped";
@@ -32992,7 +32999,7 @@ export interface components {
                 /** Format: uri */
                 check_runs_url: string;
                 /**
-                 * @description The summary conclusion for all check runs that are part of the check suite. Can be one of `success`, `failure`,` neutral`, `cancelled`, `timed_out`, `action_required` or `stale`. This value will be `null` until the check run has completed.
+                 * @description The summary conclusion for all check runs that are part of the check suite. This value will be `null` until the check run has completed.
                  * @enum {string|null}
                  */
                 conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | null;
@@ -33142,7 +33149,7 @@ export interface components {
                     url?: string;
                 } | null;
                 /**
-                 * @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
+                 * @description The reason for dismissing or closing the alert.
                  * @enum {string|null}
                  */
                 dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
@@ -33270,7 +33277,7 @@ export interface components {
                     url?: string;
                 } | null;
                 /**
-                 * @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
+                 * @description The reason for dismissing or closing the alert.
                  * @enum {string|null}
                  */
                 dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
@@ -33502,7 +33509,7 @@ export interface components {
                     url?: string;
                 } | null;
                 /**
-                 * @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
+                 * @description The reason for dismissing or closing the alert.
                  * @enum {string|null}
                  */
                 dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
@@ -35673,7 +35680,7 @@ export interface components {
                 /** Format: date-time */
                 completed_at: string | null;
                 /**
-                 * @description The result of the completed check run. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, `action_required` or `stale`. This value will be `null` until the check run has completed.
+                 * @description The result of the completed check run. This value will be `null` until the check run has completed.
                  * @enum {string|null}
                  */
                 conclusion: "success" | "failure" | "neutral" | "cancelled" | "timed_out" | "action_required" | "stale" | "skipped" | null;
@@ -97097,7 +97104,7 @@ export interface operations {
                      * @example true
                      */
                     org_metadata_only: boolean;
-                    /** @description Exclude related items from being returned in the response in order to improve performance of the request. The array can include any of: `"repositories"`. */
+                    /** @description Exclude related items from being returned in the response in order to improve performance of the request. */
                     exclude?: "repositories"[];
                 };
             };
@@ -108147,6 +108154,7 @@ export interface operations {
             content: {
                 "application/json": {
                     wait_timer?: components["schemas"]["wait-timer"];
+                    prevent_self_review?: components["schemas"]["prevent-self-review"];
                     /** @description The people or teams that may review jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
                     reviewers?: {
                         type?: components["schemas"]["deployment-reviewer-type"];
