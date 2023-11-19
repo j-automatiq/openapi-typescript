@@ -724,7 +724,7 @@ export type paths = {
          * List public gists
          * @description List public gists sorted by most recently updated to least recently updated.
          *
-         *     Note: With [pagination](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
+         *     Note: With [pagination](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
          */
         readonly get: operations["gists/list-public"];
         readonly put?: never;
@@ -2274,8 +2274,6 @@ export type paths = {
          *     To use this endpoint, you must be an owner or security manager for the organization, and you must use an access token with the `repo` scope or `security_events` scope.
          *
          *     For public repositories, you may instead use the `public_repo` scope.
-         *
-         *     GitHub Apps must have the `security_events` read permission to use this endpoint.
          */
         readonly get: operations["code-scanning/list-alerts-for-org"];
         readonly put?: never;
@@ -2297,7 +2295,7 @@ export type paths = {
          * List codespaces for the organization
          * @description Lists the codespaces associated to a specified organization.
          *
-         *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         *     You must authenticate using an access token with the `admin:org` scope or the `Organization codespaces` read permission to use this endpoint.
          */
         readonly get: operations["codespaces/list-in-organization"];
         readonly put?: never;
@@ -2320,7 +2318,7 @@ export type paths = {
          * Manage access control for organization codespaces
          * @deprecated
          * @description Sets which users can access codespaces in an organization. This is synonymous with granting or revoking codespaces access permissions for users according to the visibility.
-         *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         *     You must authenticate using an access token with the `admin:org` scope or the `Organization codespaces settings` write permission to use this endpoint.
          */
         readonly put: operations["codespaces/set-codespaces-access"];
         readonly post?: never;
@@ -2347,7 +2345,7 @@ export type paths = {
          *     To use this endpoint, the access settings for the organization must be set to `selected_members`.
          *     For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
          *
-         *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         *     You must authenticate using an access token with the `admin:org` scope or the `Organization codespaces settings` write permission to use this endpoint.
          */
         readonly post: operations["codespaces/set-codespaces-access-users"];
         /**
@@ -2358,7 +2356,7 @@ export type paths = {
          *     To use this endpoint, the access settings for the organization must be set to `selected_members`.
          *     For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
          *
-         *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         *     You must authenticate using an access token with the `admin:org` scope or the `Organization codespaces settings` write permission to use this endpoint.
          */
         readonly delete: operations["codespaces/delete-codespaces-access-users"];
         readonly options?: never;
@@ -2375,7 +2373,7 @@ export type paths = {
         };
         /**
          * List organization secrets
-         * @description Lists all Codespaces secrets available at the organization-level without revealing their encrypted values.
+         * @description Lists all Codespaces development environment secrets available at the organization-level without revealing their encrypted values.
          *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
          */
         readonly get: operations["codespaces/list-org-secrets"];
@@ -2416,13 +2414,13 @@ export type paths = {
         };
         /**
          * Get an organization secret
-         * @description Gets an organization secret without revealing its encrypted value.
+         * @description Gets an organization development environment secret without revealing its encrypted value.
          *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
          */
         readonly get: operations["codespaces/get-org-secret"];
         /**
          * Create or update an organization secret
-         * @description Creates or updates an organization secret with an encrypted value. Encrypt your secret using
+         * @description Creates or updates an organization development environment secret with an encrypted value. Encrypt your secret using
          *     [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
          *
          *     You must authenticate using an access
@@ -2432,7 +2430,7 @@ export type paths = {
         readonly post?: never;
         /**
          * Delete an organization secret
-         * @description Deletes an organization secret using the secret name. You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         * @description Deletes an organization development environment secret using the secret name. You must authenticate using an access token with the `admin:org` scope to use this endpoint.
          */
         readonly delete: operations["codespaces/delete-org-secret"];
         readonly options?: never;
@@ -2454,7 +2452,7 @@ export type paths = {
         readonly get: operations["codespaces/list-selected-repos-for-org-secret"];
         /**
          * Set selected repositories for an organization secret
-         * @description Replaces all repositories for an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         * @description Replaces all repositories for an organization development environment secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
          */
         readonly put: operations["codespaces/set-selected-repos-for-org-secret"];
         readonly post?: never;
@@ -2474,13 +2472,13 @@ export type paths = {
         readonly get?: never;
         /**
          * Add selected repository to an organization secret
-         * @description Adds a repository to an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         * @description Adds a repository to an organization development environment secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
          */
         readonly put: operations["codespaces/add-selected-repo-to-org-secret"];
         readonly post?: never;
         /**
          * Remove selected repository from an organization secret
-         * @description Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         * @description Removes a repository from an organization development environment secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
          */
         readonly delete: operations["codespaces/remove-selected-repo-from-org-secret"];
         readonly options?: never;
@@ -2496,14 +2494,14 @@ export type paths = {
             readonly cookie?: never;
         };
         /**
-         * Get Copilot for Business seat information and settings for an organization
+         * Get Copilot Business seat information and settings for an organization
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
-         *     Gets information about an organization's Copilot for Business subscription, including seat breakdown
+         *     Gets information about an organization's Copilot Business subscription, including seat breakdown
          *     and code matching policies. To configure these settings, go to your organization's settings on GitHub.com.
-         *     For more information, see "[Configuring GitHub Copilot settings in your organization](https://docs.github.com/copilot/configuring-github-copilot/configuring-github-copilot-settings-in-your-organization)".
+         *     For more information, see "[Managing policies for Copilot Business in your organization](https://docs.github.com/copilot/managing-copilot-business/managing-policies-for-copilot-business-in-your-organization)".
          *
-         *     Only organization owners and members with admin permissions can configure and view details about the organization's Copilot for Business subscription. You must
+         *     Only organization owners and members with admin permissions can configure and view details about the organization's Copilot Business subscription. You must
          *     authenticate using an access token with the `manage_billing:copilot` scope to use this endpoint.
          */
         readonly get: operations["copilot/get-copilot-organization-details"];
@@ -2523,12 +2521,12 @@ export type paths = {
             readonly cookie?: never;
         };
         /**
-         * List all Copilot for Business seat assignments for an organization
+         * List all Copilot Business seat assignments for an organization
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
-         *     Lists all Copilot for Business seat assignments for an organization that are currently being billed (either active or pending cancellation at the start of the next billing cycle).
+         *     Lists all Copilot Business seat assignments for an organization that are currently being billed (either active or pending cancellation at the start of the next billing cycle).
          *
-         *     Only organization owners and members with admin permissions can configure and view details about the organization's Copilot for Business subscription. You must
+         *     Only organization owners and members with admin permissions can configure and view details about the organization's Copilot Business subscription. You must
          *     authenticate using an access token with the `manage_billing:copilot` scope to use this endpoint.
          */
         readonly get: operations["copilot/list-copilot-seats"];
@@ -2550,30 +2548,30 @@ export type paths = {
         readonly get?: never;
         readonly put?: never;
         /**
-         * Add teams to the Copilot for Business subscription for an organization
+         * Add teams to the Copilot Business subscription for an organization
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
-         *      Purchases a GitHub Copilot for Business seat for all users within each specified team.
-         *      The organization will be billed accordingly. For more information about Copilot for Business pricing, see "[About billing for GitHub Copilot for Business](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#pricing-for-github-copilot-for-business)".
+         *      Purchases a GitHub Copilot Business seat for all users within each specified team.
+         *      The organization will be billed accordingly. For more information about Copilot Business pricing, see "[Pricing for GitHub Copilot Business](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#pricing-for-github-copilot-business)".
          *
          *      Only organization owners and members with admin permissions can configure GitHub Copilot in their organization. You must
          *      authenticate using an access token with the `manage_billing:copilot` scope to use this endpoint.
          *
-         *      In order for an admin to use this endpoint, the organization must have a Copilot for Business subscription and a configured suggestion matching policy.
-         *      For more information about setting up a Copilot for Business subscription, see "[Setting up a Copilot for Business subscription for your organization](https://docs.github.com/billing/managing-billing-for-github-copilot/managing-your-github-copilot-subscription-for-your-organization-or-enterprise#setting-up-a-copilot-for-business-subscription-for-your-organization)".
-         *      For more information about setting a suggestion matching policy, see "[Configuring suggestion matching policies for GitHub Copilot in your organization](https://docs.github.com/copilot/configuring-github-copilot/configuring-github-copilot-settings-in-your-organization#configuring-suggestion-matching-policies-for-github-copilot-in-your-organization)".
+         *      In order for an admin to use this endpoint, the organization must have a Copilot Business subscription and a configured suggestion matching policy.
+         *      For more information about setting up a Copilot Business subscription, see "[Setting up a Copilot Business subscription for your organization](https://docs.github.com/billing/managing-billing-for-github-copilot/managing-your-github-copilot-subscription-for-your-organization-or-enterprise#setting-up-a-copilot-business-subscription-for-your-organization)".
+         *      For more information about setting a suggestion matching policy, see "[Configuring suggestion matching policies for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot-business/managing-policies-for-copilot-business-in-your-organization#configuring-suggestion-matching-policies-for-github-copilot-in-your-organization)".
          */
         readonly post: operations["copilot/add-copilot-for-business-seats-for-teams"];
         /**
-         * Remove teams from the Copilot for Business subscription for an organization
+         * Remove teams from the Copilot Business subscription for an organization
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
-         *     Cancels the Copilot for Business seat assignment for all members of each team specified.
+         *     Cancels the Copilot Business seat assignment for all members of each team specified.
          *     This will cause the members of the specified team(s) to lose access to GitHub Copilot at the end of the current billing cycle, and the organization will not be billed further for those users.
          *
-         *     For more information about Copilot for Business pricing, see "[About billing for GitHub Copilot for Business](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#pricing-for-github-copilot-for-business)".
+         *     For more information about Copilot Business pricing, see "[Pricing for GitHub Copilot Business](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#pricing-for-github-copilot-business)".
          *
-         *     For more information about disabling access to Copilot for Business, see "[Disabling access to GitHub Copilot for specific users in your organization](https://docs.github.com/copilot/configuring-github-copilot/configuring-github-copilot-settings-in-your-organization#disabling-access-to-github-copilot-for-specific-users-in-your-organization)".
+         *     For more information about disabling access to Copilot Business, see "[Revoking access to GitHub Copilot for specific users in your organization](https://docs.github.com/copilot/managing-copilot-business/managing-access-for-copilot-business-in-your-organization#revoking-access-to-github-copilot-for-specific-users-in-your-organization)".
          *
          *     Only organization owners and members with admin permissions can configure GitHub Copilot in their organization. You must
          *     authenticate using an access token with the `manage_billing:copilot` scope to use this endpoint.
@@ -2594,30 +2592,30 @@ export type paths = {
         readonly get?: never;
         readonly put?: never;
         /**
-         * Add users to the Copilot for Business subscription for an organization
+         * Add users to the Copilot Business subscription for an organization
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
-         *     Purchases a GitHub Copilot for Business seat for each user specified.
-         *     The organization will be billed accordingly. For more information about Copilot for Business pricing, see "[About billing for GitHub Copilot for Business](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#pricing-for-github-copilot-for-business)".
+         *     Purchases a GitHub Copilot Business seat for each user specified.
+         *     The organization will be billed accordingly. For more information about Copilot Business pricing, see "[Pricing for GitHub Copilot Business](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#pricing-for-github-copilot-business)".
          *
          *     Only organization owners and members with admin permissions can configure GitHub Copilot in their organization. You must
          *     authenticate using an access token with the `manage_billing:copilot` scope to use this endpoint.
          *
-         *     In order for an admin to use this endpoint, the organization must have a Copilot for Business subscription and a configured suggestion matching policy.
-         *     For more information about setting up a Copilot for Business subscription, see "[Setting up a Copilot for Business subscription for your organization](https://docs.github.com/billing/managing-billing-for-github-copilot/managing-your-github-copilot-subscription-for-your-organization-or-enterprise#setting-up-a-copilot-for-business-subscription-for-your-organization)".
-         *     For more information about setting a suggestion matching policy, see "[Configuring suggestion matching policies for GitHub Copilot in your organization](https://docs.github.com/copilot/configuring-github-copilot/configuring-github-copilot-settings-in-your-organization#configuring-suggestion-matching-policies-for-github-copilot-in-your-organization)".
+         *     In order for an admin to use this endpoint, the organization must have a Copilot Business subscription and a configured suggestion matching policy.
+         *     For more information about setting up a Copilot Business subscription, see "[Setting up a Copilot Business subscription for your organization](https://docs.github.com/billing/managing-billing-for-github-copilot/managing-your-github-copilot-subscription-for-your-organization-or-enterprise#setting-up-a-copilot-business-subscription-for-your-organization)".
+         *     For more information about setting a suggestion matching policy, see "[Configuring suggestion matching policies for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot-business/managing-policies-for-copilot-business-in-your-organization#configuring-suggestion-matching-policies-for-github-copilot-in-your-organization)".
          */
         readonly post: operations["copilot/add-copilot-for-business-seats-for-users"];
         /**
-         * Remove users from the Copilot for Business subscription for an organization
+         * Remove users from the Copilot Business subscription for an organization
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
-         *     Cancels the Copilot for Business seat assignment for each user specified.
+         *     Cancels the Copilot Business seat assignment for each user specified.
          *     This will cause the specified users to lose access to GitHub Copilot at the end of the current billing cycle, and the organization will not be billed further for those users.
          *
-         *     For more information about Copilot for Business pricing, see "[About billing for GitHub Copilot for Business](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#pricing-for-github-copilot-for-business)"
+         *     For more information about Copilot Business pricing, see "[Pricing for GitHub Copilot Business](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#pricing-for-github-copilot-business)"
          *
-         *     For more information about disabling access to Copilot for Business, see "[Disabling access to GitHub Copilot for specific users in your organization](https://docs.github.com/copilot/configuring-github-copilot/configuring-github-copilot-settings-in-your-organization#disabling-access-to-github-copilot-for-specific-users-in-your-organization)".
+         *     For more information about disabling access to Copilot Business, see "[Revoking access to GitHub Copilot for specific users in your organization](https://docs.github.com/copilot/managing-copilot-business/managing-access-for-copilot-business-in-your-organization#revoking-access-to-github-copilot-for-specific-users-in-your-organization)".
          *
          *     Only organization owners and members with admin permissions can configure GitHub Copilot in their organization. You must
          *     authenticate using an access token with the `manage_billing:copilot` scope to use this endpoint.
@@ -3074,7 +3072,8 @@ export type paths = {
          * Create an organization invitation
          * @description Invite people to an organization by using their GitHub user ID or their email address. In order to create invitations in an organization, the authenticated user must be an organization owner.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["orgs/create-invitation"];
         readonly delete?: never;
@@ -3205,7 +3204,7 @@ export type paths = {
          * List codespaces for a user in organization
          * @description Lists the codespaces that a member of an organization has for repositories in that organization.
          *
-         *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         *     You must authenticate using an access token with the `admin:org` scope or the `Organization codespaces` read permission to use this endpoint.
          */
         readonly get: operations["codespaces/get-codespaces-for-user-in-org"];
         readonly put?: never;
@@ -3230,7 +3229,10 @@ export type paths = {
          * Delete a codespace from the organization
          * @description Deletes a user's codespace.
          *
-         *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         *     To use this endpoint you must authenticate using one of the following methods:
+         *
+         *     - An access token with the `admin:org` scope
+         *     - An access token with write permissions for `Codespaces` on the specific repository and write permissions for `Organization codespaces`
          */
         readonly delete: operations["codespaces/delete-from-organization"];
         readonly options?: never;
@@ -3251,7 +3253,10 @@ export type paths = {
          * Stop a codespace for an organization user
          * @description Stops a user's codespace.
          *
-         *     You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+         *     To use this endpoint you must authenticate using one of the following methods:
+         *
+         *     - An access token with the `admin:org` scope
+         *     - An access token with write permissions for `Codespaces lifecycle admin` on the specific repository and write permissions for `Organization codespaces`
          */
         readonly post: operations["codespaces/stop-in-organization"];
         readonly delete?: never;
@@ -3268,14 +3273,14 @@ export type paths = {
             readonly cookie?: never;
         };
         /**
-         * Get Copilot for Business seat assignment details for a user
+         * Get Copilot Business seat assignment details for a user
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
-         *     Gets the GitHub Copilot for Business seat assignment details for a member of an organization who currently has access to GitHub Copilot.
+         *     Gets the GitHub Copilot Business seat assignment details for a member of an organization who currently has access to GitHub Copilot.
          *
          *     Organization owners and members with admin permissions can view GitHub Copilot seat assignment details for members in their organization. You must authenticate using an access token with the `manage_billing:copilot` scope to use this endpoint.
          */
-        readonly get: operations["copilot/get-copilot-seat-assignment-details-for-user"];
+        readonly get: operations["copilot/get-copilot-seat-details-for-user"];
         readonly put?: never;
         readonly post?: never;
         readonly delete?: never;
@@ -3431,6 +3436,306 @@ export type paths = {
          * @description List all the repositories for this organization migration.
          */
         readonly get: operations["migrations/list-repos-for-org"];
+        readonly put?: never;
+        readonly post?: never;
+        readonly delete?: never;
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-fine-grained-permissions": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * List organization fine-grained permissions for an organization
+         * @description **Note**: This operation is in beta and subject to change.
+         *
+         *     Lists the fine-grained permissions that can be used in custom organization roles for an organization. For more information, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         *
+         *     To list the fine-grained permissions that can be used in custom repository roles for an organization, see "[List repository fine-grained permissions for an organization](https://docs.github.com/rest/orgs/organization-roles#list-repository-fine-grained-permissions-for-an-organization)."
+         *
+         *     To use this endpoint, the authenticated user must be one of:
+         *
+         *     - An administrator for the organization.
+         *     - A user, or a user on a team, with the fine-grained permissions of `read_organization_custom_org_role` in the organization.
+         *
+         *     The authenticated user needs an access token with `admin:org` scope or a fine-grained personal access token with the `organization_custom_roles:read` permission to use this endpoint.
+         *     GitHub Apps must have the `organization_custom_org_roles:read` organization permission to use this endpoint.
+         */
+        readonly get: operations["orgs/list-organization-fine-grained-permissions"];
+        readonly put?: never;
+        readonly post?: never;
+        readonly delete?: never;
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-roles": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * Get all organization roles for an organization
+         * @description Lists the organization roles available in this organization.
+         *
+         *     To use this endpoint, the authenticated user must be one of:
+         *
+         *     - An administrator for the organization.
+         *     - A user, or a user on a team, with the fine-grained permissions of `read_organization_custom_org_role` in the organization.
+         *
+         *     The authenticated user needs an access token with `admin:org` scope or a fine-grained personal access token with the `organization_custom_roles:read` permission to use this endpoint.
+         *     GitHub Apps must have the `organization_custom_org_roles:read` organization permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly get: operations["orgs/list-org-roles"];
+        readonly put?: never;
+        /**
+         * Create a custom organization role
+         * @description Creates a custom organization role that can be assigned to users and teams, granting them specific permissions over the organization.
+         *
+         *     To use this endpoint, the authenticated user must be one of:
+         *
+         *     - An administrator for the organization.
+         *     - A user, or a user on a team, with the fine-grained permissions of `write_organization_custom_org_role` in the organization.
+         *
+         *     The authenticated user needs an access token with `admin:org` scope or a fine-grained personal access token with the `organization_custom_roles:write` permission to use this endpoint.
+         *     GitHub Apps must have the `organization_custom_org_roles:write` organization permission to use this endpoint.
+         *
+         *     For more information on custom organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly post: operations["orgs/create-custom-organization-role"];
+        readonly delete?: never;
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-roles/teams/{team_slug}": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        readonly get?: never;
+        readonly put?: never;
+        readonly post?: never;
+        /**
+         * Remove all organization roles for a team
+         * @description Removes all assigned organization roles from a team.
+         *
+         *     To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+         *     GitHub Apps must have the `members:write` organization permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly delete: operations["orgs/revoke-all-org-roles-team"];
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-roles/teams/{team_slug}/{role_id}": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        readonly get?: never;
+        /**
+         * Assign an organization role to a team
+         * @description Assigns an organization role to a team in an organization.
+         *     To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+         *     GitHub Apps must have the `members` organization read-write permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly put: operations["orgs/assign-team-to-org-role"];
+        readonly post?: never;
+        /**
+         * Remove an organization role from a team
+         * @description Removes an organization role from a team.
+         *
+         *     To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+         *     GitHub Apps must have the `members:write` organization permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly delete: operations["orgs/revoke-org-role-team"];
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-roles/users/{username}": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        readonly get?: never;
+        readonly put?: never;
+        readonly post?: never;
+        /**
+         * Remove all organization roles for a user
+         * @description Revokes all assigned organization roles from a user.
+         *
+         *     To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+         *     GitHub Apps must have the `members:write` organization permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly delete: operations["orgs/revoke-all-org-roles-user"];
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-roles/users/{username}/{role_id}": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        readonly get?: never;
+        /**
+         * Assign an organization role to a user
+         * @description Assigns an organization role to a member of an organization.
+         *     To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+         *     GitHub Apps must have the `members` organization read-write permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly put: operations["orgs/assign-user-to-org-role"];
+        readonly post?: never;
+        /**
+         * Remove an organization role from a user
+         * @description Remove an organization role from a user.
+         *
+         *     To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+         *     GitHub Apps must have the `members:write` organization permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly delete: operations["orgs/revoke-org-role-user"];
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-roles/{role_id}": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * Get an organization role
+         * @description Gets an organization role that is available to this organization.
+         *
+         *     To use this endpoint, the authenticated user must be one of:
+         *
+         *     - An administrator for the organization.
+         *     - A user, or a user on a team, with the fine-grained permissions of `read_organization_custom_org_role` in the organization.
+         *
+         *     The authenticated user needs an access token with `admin:org` scope or a fine-grained personal access token with the `organization_custom_roles:read` permission to use this endpoint.
+         *     GitHub Apps must have the `organization_custom_org_roles:read` organization permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly get: operations["orgs/get-org-role"];
+        readonly put?: never;
+        readonly post?: never;
+        /**
+         * Delete a custom organization role.
+         * @description Deletes a custom organization role.
+         *
+         *     To use this endpoint, the authenticated user must be one of:
+         *
+         *     - An administrator for the organization.
+         *     - A user, or a user on a team, with the fine-grained permissions of `write_organization_custom_org_role` in the organization.
+         *
+         *     The authenticated user needs an access token with `admin:org` scope or a fine-grained personal access token with the `organization_custom_roles:write` permission to use this endpoint.
+         *     GitHub Apps must have the `organization_custom_org_roles:write` organization permission to use this endpoint.
+         *
+         *     For more information on custom organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly delete: operations["orgs/delete-custom-organization-role"];
+        readonly options?: never;
+        readonly head?: never;
+        /**
+         * Update a custom organization role
+         * @description Updates an existing custom organization role. Permission changes will apply to all assignees.
+         *
+         *     To use this endpoint, the authenticated user must be one of:
+         *
+         *     - An administrator for the organization.
+         *     - A user, or a user on a team, with the fine-grained permissions of `write_organization_custom_org_role` in the organization.
+         *
+         *     The authenticated user needs an access token with `admin:org` scope or a fine-grained personal access token with the `organization_custom_roles:write` permission to use this endpoint.
+         *     GitHub Apps must have the `organization_custom_org_roles:write` organization permission to use this endpoint.
+         *
+         *     For more information on custom organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly patch: operations["orgs/patch-custom-organization-role"];
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-roles/{role_id}/teams": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * List teams that are assigned to an organization role
+         * @description Lists the teams that are assigned to an organization role.
+         *
+         *     To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+         *     GitHub Apps must have the `members` organization read permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly get: operations["orgs/list-org-role-teams"];
+        readonly put?: never;
+        readonly post?: never;
+        readonly delete?: never;
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/organization-roles/{role_id}/users": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * List users that are assigned to an organization role
+         * @description Lists organization members that are assigned to an organization role.
+         *
+         *     To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+         *     GitHub Apps must have the `members` organization read permission to use this endpoint.
+         *
+         *     For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+         */
+        readonly get: operations["orgs/list-org-role-users"];
         readonly put?: never;
         readonly post?: never;
         readonly delete?: never;
@@ -3817,6 +4122,95 @@ export type paths = {
         readonly options?: never;
         readonly head?: never;
         readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/properties/schema": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * Get all custom properties for an organization
+         * @description Gets all custom properties defined for an organization.
+         *     You must be an organization owner to use this endpoint.
+         */
+        readonly get: operations["orgs/get-all-custom-properties"];
+        readonly put?: never;
+        readonly post?: never;
+        readonly delete?: never;
+        readonly options?: never;
+        readonly head?: never;
+        /**
+         * Create or update custom properties for an organization
+         * @description Creates new or updates existing custom properties defined for an organization in a batch.
+         *     Only organization owners (or users with the proper permissions granted by them) can update these properties
+         */
+        readonly patch: operations["orgs/create-or-update-custom-properties"];
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/properties/schema/{custom_property_name}": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * Get a custom property for an organization
+         * @description Gets a custom property that is defined for an organization.
+         *     You must be an organization owner to use this endpoint.
+         */
+        readonly get: operations["orgs/get-custom-property"];
+        /**
+         * Create or update a custom property for an organization
+         * @description Creates a new or updates an existing custom property that is defined for an organization.
+         *     You must be an organization owner to use this endpoint.
+         */
+        readonly put: operations["orgs/create-or-update-custom-property"];
+        readonly post?: never;
+        /**
+         * Remove a custom property for an organization
+         * @description Removes a custom property that is defined for an organization.
+         *     You must be an organization owner to use this endpoint.
+         */
+        readonly delete: operations["orgs/remove-custom-property"];
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
+    readonly "/orgs/{org}/properties/values": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * List custom property values for organization repositories
+         * @description Lists organization repositories with all of their custom property values.
+         *     Organization members can read these properties.
+         */
+        readonly get: operations["orgs/list-custom-properties-values-for-repos"];
+        readonly put?: never;
+        readonly post?: never;
+        readonly delete?: never;
+        readonly options?: never;
+        readonly head?: never;
+        /**
+         * Create or update custom property values for organization repositories
+         * @description Create new or update existing custom property values for repositories in a batch that belong to an organization.
+         *     Each target repository will have its custom property values updated to match the values provided in the request.
+         *
+         *     A maximum of 30 repositories can be updated in a single request.
+         *
+         *     Using a value of `null` for a custom property will remove or 'unset' the property value from the repository.
+         *
+         *     Only organization owners (or users with the proper permissions granted by them) can update these properties
+         */
+        readonly patch: operations["orgs/create-or-update-custom-properties-values-for-repos"];
         readonly trace?: never;
     };
     readonly "/orgs/{org}/public_members": {
@@ -4251,7 +4645,7 @@ export type paths = {
          * Create a discussion
          * @description Creates a new discussion post on a team's page. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions`.
          */
@@ -4315,7 +4709,7 @@ export type paths = {
          * Create a discussion comment
          * @description Creates a new comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments`.
          */
@@ -4649,6 +5043,8 @@ export type paths = {
          *     You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `application/vnd.github.v3.repository+json` accept header.
          *
          *     If a team doesn't have permission for the repository, you will receive a `404 Not Found` response status.
+         *
+         *     If the repository is private, you must have at least `read` permission for that repository and your token must have the `repo` scope. Otherwise, you will receive a `404 Not Found` response status.
          *
          *     **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/repos/{owner}/{repo}`.
          */
@@ -7159,9 +7555,6 @@ export type paths = {
          *
          *     To use this endpoint, you must use an access token with the `security_events` scope or, for alerts from public repositories only, an access token with the `public_repo` scope.
          *
-         *     GitHub Apps must have the `security_events` read
-         *     permission to use this endpoint.
-         *
          *     The response includes a `most_recent_instance` object.
          *     This provides details of the most recent instance of this alert
          *     for the default branch (or for the specified Git reference if you used `ref` in the request).
@@ -7184,7 +7577,7 @@ export type paths = {
         };
         /**
          * Get a code scanning alert
-         * @description Gets a single code scanning alert. You must use an access token with the `security_events` scope to use this endpoint with private repos, the `public_repo` scope also grants permission to read security events on public repos only. GitHub Apps must have the `security_events` read permission to use this endpoint.
+         * @description Gets a single code scanning alert. You must use an access token with the `security_events` scope to use this endpoint with private repos, the `public_repo` scope also grants permission to read security events on public repos only.
          */
         readonly get: operations["code-scanning/get-alert"];
         readonly put?: never;
@@ -7194,7 +7587,7 @@ export type paths = {
         readonly head?: never;
         /**
          * Update a code scanning alert
-         * @description Updates the status of a single code scanning alert. You must use an access token with the `security_events` scope to use this endpoint with private repositories. You can also use tokens with the `public_repo` scope for public repositories only. GitHub Apps must have the `security_events` write permission to use this endpoint.
+         * @description Updates the status of a single code scanning alert. You must use an access token with the `security_events` scope to use this endpoint with private repositories. You can also use tokens with the `public_repo` scope for public repositories only.
          */
         readonly patch: operations["code-scanning/update-alert"];
         readonly trace?: never;
@@ -7211,7 +7604,6 @@ export type paths = {
          * @description Lists all instances of the specified code scanning alert.
          *     You must use an access token with the `security_events` scope to use this endpoint with private repos,
          *     the `public_repo` scope also grants permission to read security events on public repos only.
-         *     GitHub Apps must have the `security_events` read permission to use this endpoint.
          */
         readonly get: operations["code-scanning/list-alert-instances"];
         readonly put?: never;
@@ -7244,7 +7636,6 @@ export type paths = {
          *
          *     You must use an access token with the `security_events` scope to use this endpoint with private repos,
          *     the `public_repo` scope also grants permission to read security events on public repos only.
-         *     GitHub Apps must have the `security_events` read permission to use this endpoint.
          *
          *     **Deprecation notice**:
          *     The `tool_name` field is deprecated and will, in future, not be included in the response for this endpoint. The example response reflects this change. The tool name can now be found inside the `tool` field.
@@ -7270,7 +7661,6 @@ export type paths = {
          * @description Gets a specified code scanning analysis for a repository.
          *     You must use an access token with the `security_events` scope to use this endpoint with private repos,
          *     the `public_repo` scope also grants permission to read security events on public repos only.
-         *     GitHub Apps must have the `security_events` read permission to use this endpoint.
          *
          *     The default JSON response contains fields that describe the analysis.
          *     This includes the Git reference and commit SHA to which the analysis relates,
@@ -7377,7 +7767,6 @@ export type paths = {
          *
          *     For private repositories, you must use an access token with the `security_events` scope.
          *     For public repositories, you can use tokens with the `security_events` or `public_repo` scope.
-         *     GitHub Apps must have the `contents` read permission to use this endpoint.
          */
         readonly get: operations["code-scanning/list-codeql-databases"];
         readonly put?: never;
@@ -7407,7 +7796,6 @@ export type paths = {
          *
          *     For private repositories, you must use an access token with the `security_events` scope.
          *     For public repositories, you can use tokens with the `security_events` or `public_repo` scope.
-         *     GitHub Apps must have the `contents` read permission to use this endpoint.
          */
         readonly get: operations["code-scanning/get-codeql-database"];
         readonly put?: never;
@@ -7429,7 +7817,7 @@ export type paths = {
          * Get a code scanning default setup configuration
          * @description Gets a code scanning default setup configuration.
          *     You must use an access token with the `repo` scope to use this endpoint with private repos or the `public_repo`
-         *     scope for public repos. GitHub Apps must have the `repo` write permission to use this endpoint.
+         *     scope for public repos.
          */
         readonly get: operations["code-scanning/get-default-setup"];
         readonly put?: never;
@@ -7441,7 +7829,7 @@ export type paths = {
          * Update a code scanning default setup configuration
          * @description Updates a code scanning default setup configuration.
          *     You must use an access token with the `repo` scope to use this endpoint with private repos or the `public_repo`
-         *     scope for public repos. GitHub Apps must have the `repo` write permission to use this endpoint.
+         *     scope for public repos.
          */
         readonly patch: operations["code-scanning/update-default-setup"];
         readonly trace?: never;
@@ -7504,7 +7892,7 @@ export type paths = {
         };
         /**
          * Get information about a SARIF upload
-         * @description Gets information about a SARIF upload, including the status and the URL of the analysis that was uploaded so that you can retrieve details of the analysis. For more information, see "[Get a code scanning analysis for a repository](/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository)." You must use an access token with the `security_events` scope to use this endpoint with private repos, the `public_repo` scope also grants permission to read security events on public repos only. GitHub Apps must have the `security_events` read permission to use this endpoint.
+         * @description Gets information about a SARIF upload, including the status and the URL of the analysis that was uploaded so that you can retrieve details of the analysis. For more information, see "[Get a code scanning analysis for a repository](/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository)." You must use an access token with the `security_events` scope to use this endpoint with private repos, the `public_repo` scope also grants permission to read security events on public repos only.
          */
         readonly get: operations["code-scanning/get-sarif"];
         readonly put?: never;
@@ -7677,7 +8065,7 @@ export type paths = {
         };
         /**
          * List repository secrets
-         * @description Lists all secrets available in a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
+         * @description Lists all development environment secrets available in a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
          */
         readonly get: operations["codespaces/list-repo-secrets"];
         readonly put?: never;
@@ -7717,12 +8105,12 @@ export type paths = {
         };
         /**
          * Get a repository secret
-         * @description Gets a single repository secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
+         * @description Gets a single repository development environment secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
          */
         readonly get: operations["codespaces/get-repo-secret"];
         /**
          * Create or update a repository secret
-         * @description Creates or updates a repository secret with an encrypted value. Encrypt your secret using
+         * @description Creates or updates a repository development environment secret with an encrypted value. Encrypt your secret using
          *     [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
          *
          *     You must authenticate using an access
@@ -7733,7 +8121,7 @@ export type paths = {
         readonly post?: never;
         /**
          * Delete a repository secret
-         * @description Deletes a secret in a repository using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
+         * @description Deletes a development environment secret in a repository using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
          */
         readonly delete: operations["codespaces/delete-repo-secret"];
         readonly options?: never;
@@ -7788,7 +8176,7 @@ export type paths = {
         readonly get: operations["repos/check-collaborator"];
         /**
          * Add a repository collaborator
-         * @description This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         * @description This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     Adding an outside collaborator may be restricted by enterprise administrators. For more information, see "[Enforcing repository management policies in your enterprise](https://docs.github.com/admin/policies/enforcing-policies-for-your-enterprise/enforcing-repository-management-policies-in-your-enterprise#enforcing-a-policy-for-inviting-outside-collaborators-to-repositories)."
          *
@@ -8041,7 +8429,7 @@ export type paths = {
          * Create a commit comment
          * @description Create a comment for a commit using its `:commit_sha`.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["repos/create-commit-comment"];
         readonly delete?: never;
@@ -8848,7 +9236,7 @@ export type paths = {
         readonly put?: never;
         /**
          * Create a deployment branch policy
-         * @description Creates a deployment branch policy for an environment.
+         * @description Creates a deployment branch or tag policy for an environment.
          *
          *     You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
          */
@@ -8868,14 +9256,14 @@ export type paths = {
         };
         /**
          * Get a deployment branch policy
-         * @description Gets a deployment branch policy for an environment.
+         * @description Gets a deployment branch or tag policy for an environment.
          *
          *     Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
          */
         readonly get: operations["repos/get-deployment-branch-policy"];
         /**
          * Update a deployment branch policy
-         * @description Updates a deployment branch policy for an environment.
+         * @description Updates a deployment branch or tag policy for an environment.
          *
          *     You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
          */
@@ -8883,7 +9271,7 @@ export type paths = {
         readonly post?: never;
         /**
          * Delete a deployment branch policy
-         * @description Deletes a deployment branch policy for an environment.
+         * @description Deletes a deployment branch or tag policy for an environment.
          *
          *     You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
          */
@@ -9580,11 +9968,10 @@ export type paths = {
         };
         /**
          * Get an import status
+         * @deprecated
          * @description View the progress of an import.
          *
-         *     **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-         *     on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-         *     these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+         *     **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          *
          *     **Import status**
          *
@@ -9622,18 +10009,22 @@ export type paths = {
         readonly get: operations["migrations/get-import-status"];
         /**
          * Start an import
-         * @description Start a source import to a GitHub repository using GitHub Importer. Importing into a GitHub repository with GitHub Actions enabled is not supported and will return a status `422 Unprocessable Entity` response.
-         *     **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+         * @deprecated
+         * @description Start a source import to a GitHub repository using GitHub Importer.
+         *     Importing into a GitHub repository with GitHub Actions enabled is not supported and will
+         *     return a status `422 Unprocessable Entity` response.
+         *
+         *     **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *
          */
         readonly put: operations["migrations/start-import"];
         readonly post?: never;
         /**
          * Cancel an import
+         * @deprecated
          * @description Stop an import for a repository.
          *
-         *     **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-         *     on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-         *     these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+         *     **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          *
          */
         readonly delete: operations["migrations/cancel-import"];
@@ -9641,6 +10032,7 @@ export type paths = {
         readonly head?: never;
         /**
          * Update an import
+         * @deprecated
          * @description An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API
          *     request. If no parameters are provided, the import will be restarted.
          *
@@ -9648,9 +10040,7 @@ export type paths = {
          *     have the status `detection_found_multiple` and the Import Progress response will include a `project_choices` array.
          *     You can select the project to import by providing one of the objects in the `project_choices` array in the update request.
          *
-         *     **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-         *     on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-         *     these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+         *     **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         readonly patch: operations["migrations/update-import"];
         readonly trace?: never;
@@ -9664,13 +10054,12 @@ export type paths = {
         };
         /**
          * Get commit authors
+         * @deprecated
          * @description Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username `hubot` into something like `hubot <hubot@12341234-abab-fefe-8787-fedcba987654>`.
          *
          *     This endpoint and the [Map a commit author](https://docs.github.com/rest/migrations/source-imports#map-a-commit-author) endpoint allow you to provide correct Git author information.
          *
-         *     **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-         *     on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-         *     these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+         *     **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         readonly get: operations["migrations/get-commit-authors"];
         readonly put?: never;
@@ -9696,12 +10085,11 @@ export type paths = {
         readonly head?: never;
         /**
          * Map a commit author
+         * @deprecated
          * @description Update an author's identity for the import. Your application can continue updating authors any time before you push
          *     new commits to the repository.
          *
-         *     **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-         *     on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-         *     these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+         *     **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          *
          */
         readonly patch: operations["migrations/map-commit-author"];
@@ -9716,11 +10104,10 @@ export type paths = {
         };
         /**
          * Get large files
+         * @deprecated
          * @description List files larger than 100MB found during the import
          *
-         *     **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-         *     on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-         *     these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+         *     **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          *
          */
         readonly get: operations["migrations/get-large-files"];
@@ -9747,15 +10134,14 @@ export type paths = {
         readonly head?: never;
         /**
          * Update Git LFS preference
+         * @deprecated
          * @description You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability
          *     is powered by [Git LFS](https://git-lfs.com).
          *
          *     You can learn more about our LFS feature and working with large files [on our help
          *     site](https://docs.github.com/repositories/working-with-files/managing-large-files).
          *
-         *     **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-         *     on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-         *     these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+         *     **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          *
          */
         readonly patch: operations["migrations/set-lfs-preference"];
@@ -9871,7 +10257,8 @@ export type paths = {
          * Create an issue
          * @description Any user with pull access to a repository can create an issue. If [issues are disabled in the repository](https://docs.github.com/articles/disabling-issues/), the API returns a `410 Gone` status.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["issues/create"];
         readonly delete?: never;
@@ -10120,9 +10507,8 @@ export type paths = {
          *
          *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications).
          *     Creating content too quickly using this endpoint may result in secondary rate limiting.
-         *     See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)"
-         *     and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)"
-         *     for details.
+         *     For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["issues/create-comment"];
         readonly delete?: never;
@@ -10767,6 +11153,27 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
+    readonly "/repos/{owner}/{repo}/properties/values": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path?: never;
+            readonly cookie?: never;
+        };
+        /**
+         * Get all custom property values for a repository
+         * @description Gets all custom property values that are set for a repository.
+         *     Users with read access to the repository can use this endpoint.
+         */
+        readonly get: operations["repos/get-custom-properties-values"];
+        readonly put?: never;
+        readonly post?: never;
+        readonly delete?: never;
+        readonly options?: never;
+        readonly head?: never;
+        readonly patch?: never;
+        readonly trace?: never;
+    };
     readonly "/repos/{owner}/{repo}/pulls": {
         readonly parameters: {
             readonly query?: never;
@@ -10786,7 +11193,7 @@ export type paths = {
          *
          *     To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["pulls/create"];
         readonly delete?: never;
@@ -10975,7 +11382,8 @@ export type paths = {
          *
          *     **Note:** The position value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["pulls/create-review-comment"];
         readonly delete?: never;
@@ -10997,7 +11405,8 @@ export type paths = {
          * Create a reply for a review comment
          * @description Creates a reply to a review comment for a pull request. For the `comment_id`, provide the ID of the review comment you are replying to. This must be the ID of a _top-level review comment_, not a reply to that comment. Replies to replies are not supported.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["pulls/create-reply-for-review-comment"];
         readonly delete?: never;
@@ -11061,7 +11470,7 @@ export type paths = {
         /**
          * Merge a pull request
          * @description Merges a pull request into the base branch.
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly put: operations["pulls/merge"];
         readonly post?: never;
@@ -11087,7 +11496,7 @@ export type paths = {
         /**
          * Request reviewers for a pull request
          * @description Requests reviews for a pull request from a given set of users and/or teams.
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["pulls/request-reviewers"];
         /**
@@ -11115,7 +11524,7 @@ export type paths = {
         readonly put?: never;
         /**
          * Create a review for a pull request
-         * @description This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         * @description This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     Pull request reviews created in the `PENDING` state are not submitted and therefore do not include the `submitted_at` property in the response. To create a pending review for a pull request, leave the `event` parameter blank. For more information about submitting a `PENDING` review, see "[Submit a review for a pull request](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request)."
          *
@@ -11301,7 +11710,7 @@ export type paths = {
          * Create a release
          * @description Users with push access to the repository can create a release.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["repos/create-release"];
         readonly delete?: never;
@@ -12540,7 +12949,7 @@ export type paths = {
         };
         /**
          * Search code
-         * @description Searches for query terms inside of a file. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
+         * @description Searches for query terms inside of a file. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).
          *
          *     When searching for code, you can get text match metadata for the file **content** and file **path** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
          *
@@ -12579,7 +12988,7 @@ export type paths = {
         };
         /**
          * Search commits
-         * @description Find commits via various criteria on the default branch (usually `main`). This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
+         * @description Find commits via various criteria on the default branch (usually `main`). This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).
          *
          *     When searching for commits, you can get text match metadata for the **message** field when you provide the `text-match` media type. For more details about how to receive highlighted search results, see [Text match
          *     metadata](https://docs.github.com/rest/search/search#text-match-metadata).
@@ -12606,7 +13015,7 @@ export type paths = {
         };
         /**
          * Search issues and pull requests
-         * @description Find issues by state and keyword. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
+         * @description Find issues by state and keyword. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).
          *
          *     When searching for issues, you can get text match metadata for the issue **title**, issue **body**, and issue **comment body** fields when you pass the `text-match` media type. For more details about how to receive highlighted
          *     search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
@@ -12637,7 +13046,7 @@ export type paths = {
         };
         /**
          * Search labels
-         * @description Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
+         * @description Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).
          *
          *     When searching for labels, you can get text match metadata for the label **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
          *
@@ -12665,7 +13074,7 @@ export type paths = {
         };
         /**
          * Search repositories
-         * @description Find repositories via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
+         * @description Find repositories via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).
          *
          *     When searching for repositories, you can get text match metadata for the **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
          *
@@ -12693,7 +13102,7 @@ export type paths = {
         };
         /**
          * Search topics
-         * @description Find topics via various criteria. Results are sorted by best match. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination). See "[Searching topics](https://docs.github.com/articles/searching-topics/)" for a detailed list of qualifiers.
+         * @description Find topics via various criteria. Results are sorted by best match. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api). See "[Searching topics](https://docs.github.com/articles/searching-topics/)" for a detailed list of qualifiers.
          *
          *     When searching for topics, you can get text match metadata for the topic's **short\_description**, **description**, **name**, or **display\_name** field when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
          *
@@ -12721,7 +13130,7 @@ export type paths = {
         };
         /**
          * Search users
-         * @description Find users via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination).
+         * @description Find users via various criteria. This method returns up to 100 results [per page](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api).
          *
          *     When searching for users, you can get text match metadata for the issue **login**, public **email**, and **name** fields when you pass the `text-match` media type. For more details about highlighting search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata). For more details about how to receive highlighted search results, see [Text match metadata](https://docs.github.com/rest/search/search#text-match-metadata).
          *
@@ -12804,7 +13213,7 @@ export type paths = {
          *
          *     Creates a new discussion post on a team's page. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["teams/create-discussion-legacy"];
         readonly delete?: never;
@@ -12873,7 +13282,7 @@ export type paths = {
          *
          *     Creates a new comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         readonly post: operations["teams/create-discussion-comment-legacy"];
         readonly delete?: never;
@@ -13394,7 +13803,7 @@ export type paths = {
         };
         /**
          * List secrets for the authenticated user
-         * @description Lists all secrets available for a user's Codespaces without revealing their
+         * @description Lists all development environment secrets available for a user's codespaces without revealing their
          *     encrypted values.
          *
          *     You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
@@ -13443,7 +13852,7 @@ export type paths = {
         };
         /**
          * Get a secret for the authenticated user
-         * @description Gets a secret available to a user's codespaces without revealing its encrypted value.
+         * @description Gets a development environment secret available to a user's codespaces without revealing its encrypted value.
          *
          *     You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
          *
@@ -13452,7 +13861,7 @@ export type paths = {
         readonly get: operations["codespaces/get-secret-for-authenticated-user"];
         /**
          * Create or update a secret for the authenticated user
-         * @description Creates or updates a secret for a user's codespace with an encrypted value. Encrypt your secret using
+         * @description Creates or updates a development environment secret for a user's codespace with an encrypted value. Encrypt your secret using
          *     [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
          *
          *     You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must also have Codespaces access to use this endpoint.
@@ -13463,7 +13872,7 @@ export type paths = {
         readonly post?: never;
         /**
          * Delete a secret for the authenticated user
-         * @description Deletes a secret from a user's codespaces using the secret name. Deleting the secret will remove access from all codespaces that were allowed to access the secret.
+         * @description Deletes a development environment secret from a user's codespaces using the secret name. Deleting the secret will remove access from all codespaces that were allowed to access the secret.
          *
          *     You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
          *
@@ -13484,7 +13893,7 @@ export type paths = {
         };
         /**
          * List selected repositories for a user secret
-         * @description List the repositories that have been granted the ability to use a user's codespace secret.
+         * @description List the repositories that have been granted the ability to use a user's development environment secret.
          *
          *     You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
          *
@@ -13493,7 +13902,7 @@ export type paths = {
         readonly get: operations["codespaces/list-repositories-for-secret-for-authenticated-user"];
         /**
          * Set selected repositories for a user secret
-         * @description Select the repositories that will use a user's codespace secret.
+         * @description Select the repositories that will use a user's development environment secret.
          *
          *     You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
          *
@@ -13517,7 +13926,7 @@ export type paths = {
         readonly get?: never;
         /**
          * Add a selected repository to a user secret
-         * @description Adds a repository to the selected repositories for a user's codespace secret.
+         * @description Adds a repository to the selected repositories for a user's development environment secret.
          *     You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
          *     GitHub Apps must have write access to the `codespaces_user_secrets` user permission and write access to the `codespaces_secrets` repository permission on the referenced repository to use this endpoint.
          */
@@ -13525,7 +13934,7 @@ export type paths = {
         readonly post?: never;
         /**
          * Remove a selected repository from a user secret
-         * @description Removes a repository from the selected repositories for a user's codespace secret.
+         * @description Removes a repository from the selected repositories for a user's development environment secret.
          *     You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
          *     GitHub Apps must have write access to the `codespaces_user_secrets` user permission to use this endpoint.
          */
@@ -16334,6 +16743,11 @@ export type components = {
              */
             readonly organization_custom_roles?: "read" | "write";
             /**
+             * @description The level of permission to grant the access token for custom property management.
+             * @enum {string}
+             */
+            readonly organization_custom_properties?: "read" | "write" | "admin";
+            /**
              * @description The level of permission to grant the access token to view and manage announcement banners for an organization.
              * @enum {string}
              */
@@ -17487,10 +17901,7 @@ export type components = {
              *
              *     ## Attribution
              *
-             *     This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]
-             *
-             *     [homepage]: http://contributor-covenant.org
-             *     [version]: http://contributor-covenant.org/version/1/4/
+             *     This Code of Conduct is adapted from the [Contributor Covenant](http://contributor-covenant.org), version 1.4, available at [http://contributor-covenant.org/version/1/4](http://contributor-covenant.org/version/1/4/).
              *      */
             readonly body?: string;
             /** Format: uri */
@@ -17952,6 +18363,11 @@ export type components = {
             readonly push_protection_bypassed_at?: string | null;
             /** @description The comment that was optionally added when this alert was closed */
             readonly resolution_comment?: string | null;
+            /**
+             * @description The token status as of the latest validity check.
+             * @enum {string}
+             */
+            readonly validity?: "active" | "inactive" | "unknown";
         };
         /**
          * Actor
@@ -19739,8 +20155,8 @@ export type components = {
             readonly version?: components["schemas"]["code-scanning-analysis-tool-version"];
             readonly guid?: components["schemas"]["code-scanning-analysis-tool-guid"];
         };
-        /** @description The full Git reference, formatted as `refs/heads/<branch name>`,
-         *     `refs/pull/<number>/merge`, or `refs/pull/<number>/head`. */
+        /** @description The Git reference, formatted as `refs/pull/<number>/merge`, `refs/pull/<number>/head`,
+         *     `refs/heads/<branch name>` or simply `<branch name>`. */
         readonly "code-scanning-ref": string;
         /** @description Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name. */
         readonly "code-scanning-analysis-analysis-key": string;
@@ -20048,8 +20464,8 @@ export type components = {
             readonly created_at?: string;
         };
         /**
-         * Copilot for Business Seat Breakdown
-         * @description The breakdown of Copilot for Business seats for the organization.
+         * Copilot Business Seat Breakdown
+         * @description The breakdown of Copilot Business seats for the organization.
          */
         readonly "copilot-seat-breakdown": {
             /** @description The total number of seats being billed for the organization as of the current billing cycle. */
@@ -20066,8 +20482,8 @@ export type components = {
             readonly inactive_this_cycle?: number;
         };
         /**
-         * Copilot for Business Organization Details
-         * @description Information about the seat breakdown and policies set for an organization with a Copilot for Business subscription.
+         * Copilot Business Organization Details
+         * @description Information about the seat breakdown and policies set for an organization with a Copilot Business subscription.
          */
         readonly "copilot-organization-details": {
             readonly seat_breakdown: components["schemas"]["copilot-seat-breakdown"];
@@ -20263,8 +20679,8 @@ export type components = {
             };
         };
         /**
-         * Copilot for Business Seat Detail
-         * @description Information about a Copilot for Business seat assignment for a user, team, or organization.
+         * Copilot Business Seat Detail
+         * @description Information about a Copilot Business seat assignment for a user, team, or organization.
          */
         readonly "copilot-seat-details": {
             /** @description The assignee that has been granted access to GitHub Copilot. */
@@ -20774,6 +21190,39 @@ export type components = {
             readonly exclude?: string[];
         };
         /**
+         * Organization Fine-Grained Permission
+         * @description A fine-grained permission that protects organization resources.
+         */
+        readonly "organization-fine-grained-permission": {
+            readonly name: string;
+            readonly description: string;
+        };
+        /**
+         * Organization Role
+         * @description Organization roles
+         */
+        readonly "organization-role": {
+            /** @description The unique identifier of the role. */
+            readonly id: number;
+            /** @description The name of the role. */
+            readonly name: string;
+            /** @description A short description about who this role is for or what permissions it grants. */
+            readonly description?: string | null;
+            /** @description A list of permissions included in this role. */
+            readonly permissions: string[];
+            readonly organization: components["schemas"]["nullable-simple-user"];
+            /**
+             * Format: date-time
+             * @description The date and time the role was created.
+             */
+            readonly created_at: string;
+            /**
+             * Format: date-time
+             * @description The date and time the role was last updated.
+             */
+            readonly updated_at: string;
+        };
+        /**
          * Package Version
          * @description A version of a software package
          */
@@ -20969,6 +21418,52 @@ export type components = {
             readonly private?: boolean;
         };
         /**
+         * Organization Custom Property
+         * @description Custom property defined on an organization
+         */
+        readonly "org-custom-property": {
+            /** @description The name of the property */
+            readonly property_name: string;
+            /**
+             * @description The type of the value for the property
+             * @example single_select
+             * @enum {string}
+             */
+            readonly value_type: "string" | "single_select";
+            /** @description Whether the property is required. */
+            readonly required?: boolean;
+            /** @description Default value of the property */
+            readonly default_value?: string | null;
+            /** @description Short description of the property */
+            readonly description?: string | null;
+            /** @description Ordered list of allowed values of the property */
+            readonly allowed_values?: string[] | null;
+        };
+        /**
+         * Custom Property Value
+         * @description Custom property name and associated value
+         */
+        readonly "custom-property-value": {
+            /** @description The name of the property */
+            readonly property_name: string;
+            /** @description The value assigned to the property */
+            readonly value: string | null;
+        };
+        /**
+         * Organization Repository Custom Property Values
+         * @description List of custom property values for a repository
+         */
+        readonly "org-repo-custom-property-values": {
+            /** @example 1296269 */
+            readonly repository_id: number;
+            /** @example Hello-World */
+            readonly repository_name: string;
+            /** @example octocat/Hello-World */
+            readonly repository_full_name: string;
+            /** @description List of custom property names and associated values */
+            readonly properties: components["schemas"]["custom-property-value"][];
+        };
+        /**
          * @description The enforcement level of the ruleset. `evaluate` allows admins to test rules before enforcing them. Admins can view insights on the Rule Insights page (`evaluate` is only available with GitHub Enterprise).
          * @enum {string}
          */
@@ -20978,7 +21473,7 @@ export type components = {
          * @description An actor that can bypass rules in a ruleset
          */
         readonly "repository-ruleset-bypass-actor": {
-            /** @description The ID of the actor that can bypass a ruleset */
+            /** @description The ID of the actor that can bypass a ruleset. If `actor_type` is `OrganizationAdmin`, this should be `1`. */
             readonly actor_id: number;
             /**
              * @description The type of actor that can bypass a ruleset
@@ -21071,7 +21566,7 @@ export type components = {
         };
         /**
          * required_deployments
-         * @description Choose which environments must be successfully deployed to before refs can be merged into a branch that matches this rule.
+         * @description Choose which environments must be successfully deployed to before refs can be pushed into a ref that matches this rule.
          */
         readonly "repository-rule-required-deployments": {
             /** @enum {string} */
@@ -21121,7 +21616,7 @@ export type components = {
         };
         /**
          * required_status_checks
-         * @description Choose which status checks must pass before branches can be merged into a branch that matches this rule. When enabled, commits must first be pushed to another branch, then merged or pushed directly to a ref that matches this rule after status checks have passed.
+         * @description Choose which status checks must pass before the ref is updated. When enabled, commits must first be pushed to another ref where the checks pass.
          */
         readonly "repository-rule-required-status-checks": {
             /** @enum {string} */
@@ -21247,10 +21742,36 @@ export type components = {
             };
         };
         /**
+         * WorkflowFileReference
+         * @description A workflow that must run for this rule to pass
+         */
+        readonly "repository-rule-params-workflow-file-reference": {
+            /** @description The path to the workflow file */
+            readonly path: string;
+            /** @description The ref (branch or tag) of the workflow file to use */
+            readonly ref?: string;
+            /** @description The ID of the repository where the workflow is defined */
+            readonly repository_id: number;
+            /** @description The commit SHA of the workflow file to use */
+            readonly sha?: string;
+        };
+        /**
+         * workflows
+         * @description Require all changes made to a targeted branch to pass the specified workflows before they can be merged.
+         */
+        readonly "repository-rule-workflows": {
+            /** @enum {string} */
+            readonly type: "workflows";
+            readonly parameters?: {
+                /** @description Workflows that must pass for this rule to pass. */
+                readonly workflows: components["schemas"]["repository-rule-params-workflow-file-reference"][];
+            };
+        };
+        /**
          * Repository Rule
          * @description A repository rule.
          */
-        readonly "repository-rule": components["schemas"]["repository-rule-creation"] | components["schemas"]["repository-rule-update"] | components["schemas"]["repository-rule-deletion"] | components["schemas"]["repository-rule-required-linear-history"] | components["schemas"]["repository-rule-required-deployments"] | components["schemas"]["repository-rule-required-signatures"] | components["schemas"]["repository-rule-pull-request"] | components["schemas"]["repository-rule-required-status-checks"] | components["schemas"]["repository-rule-non-fast-forward"] | components["schemas"]["repository-rule-commit-message-pattern"] | components["schemas"]["repository-rule-commit-author-email-pattern"] | components["schemas"]["repository-rule-committer-email-pattern"] | components["schemas"]["repository-rule-branch-name-pattern"] | components["schemas"]["repository-rule-tag-name-pattern"];
+        readonly "repository-rule": components["schemas"]["repository-rule-creation"] | components["schemas"]["repository-rule-update"] | components["schemas"]["repository-rule-deletion"] | components["schemas"]["repository-rule-required-linear-history"] | components["schemas"]["repository-rule-required-deployments"] | components["schemas"]["repository-rule-required-signatures"] | components["schemas"]["repository-rule-pull-request"] | components["schemas"]["repository-rule-required-status-checks"] | components["schemas"]["repository-rule-non-fast-forward"] | components["schemas"]["repository-rule-commit-message-pattern"] | components["schemas"]["repository-rule-commit-author-email-pattern"] | components["schemas"]["repository-rule-committer-email-pattern"] | components["schemas"]["repository-rule-branch-name-pattern"] | components["schemas"]["repository-rule-tag-name-pattern"] | components["schemas"]["repository-rule-workflows"];
         /**
          * Repository ruleset
          * @description A set of rules to apply when specified conditions are met.
@@ -21429,7 +21950,10 @@ export type components = {
             readonly ghsa_id: string;
             /** @description The Common Vulnerabilities and Exposures (CVE) ID. */
             readonly cve_id: string | null;
-            /** @description The API URL for the advisory. */
+            /**
+             * Format: uri
+             * @description The API URL for the advisory.
+             */
             readonly url: string;
             /**
              * Format: uri
@@ -21899,7 +22423,7 @@ export type components = {
              */
             readonly pinned: boolean;
             /**
-             * @description Whether or not this discussion should be restricted to team members and organization administrators.
+             * @description Whether or not this discussion should be restricted to team members and organization owners.
              * @example true
              */
             readonly private: boolean;
@@ -22048,6 +22572,441 @@ export type components = {
                 readonly write: boolean;
                 readonly admin: boolean;
             };
+        };
+        /**
+         * Team Repository
+         * @description A team's access to a repository.
+         */
+        readonly "team-repository": {
+            /**
+             * @description Unique identifier of the repository
+             * @example 42
+             */
+            readonly id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
+            readonly node_id: string;
+            /**
+             * @description The name of the repository.
+             * @example Team Environment
+             */
+            readonly name: string;
+            /** @example octocat/Hello-World */
+            readonly full_name: string;
+            readonly license: components["schemas"]["nullable-license-simple"];
+            readonly forks: number;
+            readonly permissions?: {
+                readonly admin: boolean;
+                readonly pull: boolean;
+                readonly triage?: boolean;
+                readonly push: boolean;
+                readonly maintain?: boolean;
+            };
+            /** @example admin */
+            readonly role_name?: string;
+            readonly owner: components["schemas"]["nullable-simple-user"];
+            /**
+             * @description Whether the repository is private or public.
+             * @default false
+             */
+            readonly private: boolean;
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World
+             */
+            readonly html_url: string;
+            /** @example This your first repo! */
+            readonly description: string | null;
+            readonly fork: boolean;
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World
+             */
+            readonly url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
+            readonly archive_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
+            readonly assignees_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
+            readonly blobs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
+            readonly branches_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
+            readonly collaborators_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
+            readonly comments_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
+            readonly commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
+            readonly compare_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
+            readonly contents_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/contributors
+             */
+            readonly contributors_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/deployments
+             */
+            readonly deployments_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/downloads
+             */
+            readonly downloads_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/events
+             */
+            readonly events_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/forks
+             */
+            readonly forks_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
+            readonly git_commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
+            readonly git_refs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
+            readonly git_tags_url: string;
+            /** @example git:github.com/octocat/Hello-World.git */
+            readonly git_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
+            readonly issue_comment_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
+            readonly issue_events_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
+            readonly issues_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
+            readonly keys_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
+            readonly labels_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/languages
+             */
+            readonly languages_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/merges
+             */
+            readonly merges_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
+            readonly milestones_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
+            readonly notifications_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
+            readonly pulls_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
+            readonly releases_url: string;
+            /** @example git@github.com:octocat/Hello-World.git */
+            readonly ssh_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+             */
+            readonly stargazers_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
+            readonly statuses_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+             */
+            readonly subscribers_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscription
+             */
+            readonly subscription_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/tags
+             */
+            readonly tags_url: string;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/teams
+             */
+            readonly teams_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
+            readonly trees_url: string;
+            /** @example https://github.com/octocat/Hello-World.git */
+            readonly clone_url: string;
+            /**
+             * Format: uri
+             * @example git:git.example.com/octocat/Hello-World
+             */
+            readonly mirror_url: string | null;
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/hooks
+             */
+            readonly hooks_url: string;
+            /**
+             * Format: uri
+             * @example https://svn.github.com/octocat/Hello-World
+             */
+            readonly svn_url: string;
+            /**
+             * Format: uri
+             * @example https://github.com
+             */
+            readonly homepage: string | null;
+            readonly language: string | null;
+            /** @example 9 */
+            readonly forks_count: number;
+            /** @example 80 */
+            readonly stargazers_count: number;
+            /** @example 80 */
+            readonly watchers_count: number;
+            /** @example 108 */
+            readonly size: number;
+            /**
+             * @description The default branch of the repository.
+             * @example master
+             */
+            readonly default_branch: string;
+            /** @example 0 */
+            readonly open_issues_count: number;
+            /**
+             * @description Whether this repository acts as a template that can be used to generate new repositories.
+             * @default false
+             * @example true
+             */
+            readonly is_template: boolean;
+            readonly topics?: string[];
+            /**
+             * @description Whether issues are enabled.
+             * @default true
+             * @example true
+             */
+            readonly has_issues: boolean;
+            /**
+             * @description Whether projects are enabled.
+             * @default true
+             * @example true
+             */
+            readonly has_projects: boolean;
+            /**
+             * @description Whether the wiki is enabled.
+             * @default true
+             * @example true
+             */
+            readonly has_wiki: boolean;
+            readonly has_pages: boolean;
+            /**
+             * @description Whether downloads are enabled.
+             * @default true
+             * @example true
+             */
+            readonly has_downloads: boolean;
+            /**
+             * @description Whether the repository is archived.
+             * @default false
+             */
+            readonly archived: boolean;
+            /** @description Returns whether or not this repository disabled. */
+            readonly disabled: boolean;
+            /**
+             * @description The repository visibility: public, private, or internal.
+             * @default public
+             */
+            readonly visibility: string;
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:06:43Z
+             */
+            readonly pushed_at: string | null;
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
+            readonly created_at: string | null;
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:14:43Z
+             */
+            readonly updated_at: string | null;
+            /**
+             * @description Whether to allow rebase merges for pull requests.
+             * @default true
+             * @example true
+             */
+            readonly allow_rebase_merge: boolean;
+            readonly temp_clone_token?: string;
+            /**
+             * @description Whether to allow squash merges for pull requests.
+             * @default true
+             * @example true
+             */
+            readonly allow_squash_merge: boolean;
+            /**
+             * @description Whether to allow Auto-merge to be used on pull requests.
+             * @default false
+             * @example false
+             */
+            readonly allow_auto_merge: boolean;
+            /**
+             * @description Whether to delete head branches when pull requests are merged
+             * @default false
+             * @example false
+             */
+            readonly delete_branch_on_merge: boolean;
+            /**
+             * @description Whether to allow merge commits for pull requests.
+             * @default true
+             * @example true
+             */
+            readonly allow_merge_commit: boolean;
+            /**
+             * @description Whether to allow forking this repo
+             * @default false
+             * @example false
+             */
+            readonly allow_forking: boolean;
+            /**
+             * @description Whether to require contributors to sign off on web-based commits
+             * @default false
+             * @example false
+             */
+            readonly web_commit_signoff_required: boolean;
+            readonly subscribers_count?: number;
+            readonly network_count?: number;
+            readonly open_issues: number;
+            readonly watchers: number;
+            readonly master_branch?: string;
+        };
+        /**
+         * Project Card
+         * @description Project cards represent a scope of work.
+         */
+        readonly "project-card": {
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/columns/cards/1478
+             */
+            readonly url: string;
+            /**
+             * @description The project card's ID
+             * @example 42
+             */
+            readonly id: number;
+            /** @example MDExOlByb2plY3RDYXJkMTQ3OA== */
+            readonly node_id: string;
+            /** @example Add payload for delete Project column */
+            readonly note: string | null;
+            readonly creator: components["schemas"]["nullable-simple-user"];
+            /**
+             * Format: date-time
+             * @example 2016-09-05T14:21:06Z
+             */
+            readonly created_at: string;
+            /**
+             * Format: date-time
+             * @example 2016-09-05T14:20:22Z
+             */
+            readonly updated_at: string;
+            /**
+             * @description Whether or not the card is archived
+             * @example false
+             */
+            readonly archived?: boolean;
+            readonly column_name?: string;
+            readonly project_id?: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/columns/367
+             */
+            readonly column_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/api-playground/projects-test/issues/3
+             */
+            readonly content_url?: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/120
+             */
+            readonly project_url: string;
+        };
+        /**
+         * Project Column
+         * @description Project columns contain cards of work.
+         */
+        readonly "project-column": {
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/columns/367
+             */
+            readonly url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/120
+             */
+            readonly project_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/columns/367/cards
+             */
+            readonly cards_url: string;
+            /**
+             * @description The unique identifier of the project column
+             * @example 42
+             */
+            readonly id: number;
+            /** @example MDEzOlByb2plY3RDb2x1bW4zNjc= */
+            readonly node_id: string;
+            /**
+             * @description Name of the project column
+             * @example Remaining tasks
+             */
+            readonly name: string;
+            /**
+             * Format: date-time
+             * @example 2016-09-05T14:18:44Z
+             */
+            readonly created_at: string;
+            /**
+             * Format: date-time
+             * @example 2016-09-05T14:22:28Z
+             */
+            readonly updated_at: string;
+        };
+        /**
+         * Project Collaborator Permission
+         * @description Project Collaborator Permission
+         */
+        readonly "project-collaborator-permission": {
+            readonly permission: string;
+            readonly user: components["schemas"]["nullable-simple-user"];
+        };
+        /** Rate Limit */
+        readonly "rate-limit": {
+            readonly limit: number;
+            readonly remaining: number;
+            readonly reset: number;
+            readonly used: number;
+        };
+        /**
+         * Rate Limit Overview
+         * @description Rate Limit Overview
+         */
+        readonly "rate-limit-overview": {
+            readonly resources: {
+                readonly core: components["schemas"]["rate-limit"];
+                readonly graphql?: components["schemas"]["rate-limit"];
+                readonly search: components["schemas"]["rate-limit"];
+                readonly code_search?: components["schemas"]["rate-limit"];
+                readonly source_import?: components["schemas"]["rate-limit"];
+                readonly integration_manifest?: components["schemas"]["rate-limit"];
+                readonly code_scanning_upload?: components["schemas"]["rate-limit"];
+                readonly actions_runner_registration?: components["schemas"]["rate-limit"];
+                readonly scim?: components["schemas"]["rate-limit"];
+                readonly dependency_snapshots?: components["schemas"]["rate-limit"];
+            };
+            readonly rate: components["schemas"]["rate-limit"];
         };
         /**
          * Repository
@@ -22553,442 +23512,6 @@ export type components = {
             readonly anonymous_access_enabled?: boolean;
         } | null;
         /**
-         * Team Repository
-         * @description A team's access to a repository.
-         */
-        readonly "team-repository": {
-            /**
-             * @description Unique identifier of the repository
-             * @example 42
-             */
-            readonly id: number;
-            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
-            readonly node_id: string;
-            /**
-             * @description The name of the repository.
-             * @example Team Environment
-             */
-            readonly name: string;
-            /** @example octocat/Hello-World */
-            readonly full_name: string;
-            readonly license: components["schemas"]["nullable-license-simple"];
-            readonly forks: number;
-            readonly permissions?: {
-                readonly admin: boolean;
-                readonly pull: boolean;
-                readonly triage?: boolean;
-                readonly push: boolean;
-                readonly maintain?: boolean;
-            };
-            /** @example admin */
-            readonly role_name?: string;
-            readonly owner: components["schemas"]["nullable-simple-user"];
-            /**
-             * @description Whether the repository is private or public.
-             * @default false
-             */
-            readonly private: boolean;
-            /**
-             * Format: uri
-             * @example https://github.com/octocat/Hello-World
-             */
-            readonly html_url: string;
-            /** @example This your first repo! */
-            readonly description: string | null;
-            readonly fork: boolean;
-            /**
-             * Format: uri
-             * @example https://api.github.com/repos/octocat/Hello-World
-             */
-            readonly url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
-            readonly archive_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
-            readonly assignees_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
-            readonly blobs_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
-            readonly branches_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
-            readonly collaborators_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
-            readonly comments_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
-            readonly commits_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
-            readonly compare_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
-            readonly contents_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/contributors
-             */
-            readonly contributors_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/deployments
-             */
-            readonly deployments_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/downloads
-             */
-            readonly downloads_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/events
-             */
-            readonly events_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/forks
-             */
-            readonly forks_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
-            readonly git_commits_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
-            readonly git_refs_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
-            readonly git_tags_url: string;
-            /** @example git:github.com/octocat/Hello-World.git */
-            readonly git_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
-            readonly issue_comment_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
-            readonly issue_events_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
-            readonly issues_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
-            readonly keys_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
-            readonly labels_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/languages
-             */
-            readonly languages_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/merges
-             */
-            readonly merges_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
-            readonly milestones_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
-            readonly notifications_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
-            readonly pulls_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
-            readonly releases_url: string;
-            /** @example git@github.com:octocat/Hello-World.git */
-            readonly ssh_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/stargazers
-             */
-            readonly stargazers_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
-            readonly statuses_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/subscribers
-             */
-            readonly subscribers_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/subscription
-             */
-            readonly subscription_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/tags
-             */
-            readonly tags_url: string;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/teams
-             */
-            readonly teams_url: string;
-            /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
-            readonly trees_url: string;
-            /** @example https://github.com/octocat/Hello-World.git */
-            readonly clone_url: string;
-            /**
-             * Format: uri
-             * @example git:git.example.com/octocat/Hello-World
-             */
-            readonly mirror_url: string | null;
-            /**
-             * Format: uri
-             * @example http://api.github.com/repos/octocat/Hello-World/hooks
-             */
-            readonly hooks_url: string;
-            /**
-             * Format: uri
-             * @example https://svn.github.com/octocat/Hello-World
-             */
-            readonly svn_url: string;
-            /**
-             * Format: uri
-             * @example https://github.com
-             */
-            readonly homepage: string | null;
-            readonly language: string | null;
-            /** @example 9 */
-            readonly forks_count: number;
-            /** @example 80 */
-            readonly stargazers_count: number;
-            /** @example 80 */
-            readonly watchers_count: number;
-            /** @example 108 */
-            readonly size: number;
-            /**
-             * @description The default branch of the repository.
-             * @example master
-             */
-            readonly default_branch: string;
-            /** @example 0 */
-            readonly open_issues_count: number;
-            /**
-             * @description Whether this repository acts as a template that can be used to generate new repositories.
-             * @default false
-             * @example true
-             */
-            readonly is_template: boolean;
-            readonly topics?: string[];
-            /**
-             * @description Whether issues are enabled.
-             * @default true
-             * @example true
-             */
-            readonly has_issues: boolean;
-            /**
-             * @description Whether projects are enabled.
-             * @default true
-             * @example true
-             */
-            readonly has_projects: boolean;
-            /**
-             * @description Whether the wiki is enabled.
-             * @default true
-             * @example true
-             */
-            readonly has_wiki: boolean;
-            readonly has_pages: boolean;
-            /**
-             * @description Whether downloads are enabled.
-             * @default true
-             * @example true
-             */
-            readonly has_downloads: boolean;
-            /**
-             * @description Whether the repository is archived.
-             * @default false
-             */
-            readonly archived: boolean;
-            /** @description Returns whether or not this repository disabled. */
-            readonly disabled: boolean;
-            /**
-             * @description The repository visibility: public, private, or internal.
-             * @default public
-             */
-            readonly visibility: string;
-            /**
-             * Format: date-time
-             * @example 2011-01-26T19:06:43Z
-             */
-            readonly pushed_at: string | null;
-            /**
-             * Format: date-time
-             * @example 2011-01-26T19:01:12Z
-             */
-            readonly created_at: string | null;
-            /**
-             * Format: date-time
-             * @example 2011-01-26T19:14:43Z
-             */
-            readonly updated_at: string | null;
-            /**
-             * @description Whether to allow rebase merges for pull requests.
-             * @default true
-             * @example true
-             */
-            readonly allow_rebase_merge: boolean;
-            readonly template_repository?: components["schemas"]["nullable-repository"];
-            readonly temp_clone_token?: string;
-            /**
-             * @description Whether to allow squash merges for pull requests.
-             * @default true
-             * @example true
-             */
-            readonly allow_squash_merge: boolean;
-            /**
-             * @description Whether to allow Auto-merge to be used on pull requests.
-             * @default false
-             * @example false
-             */
-            readonly allow_auto_merge: boolean;
-            /**
-             * @description Whether to delete head branches when pull requests are merged
-             * @default false
-             * @example false
-             */
-            readonly delete_branch_on_merge: boolean;
-            /**
-             * @description Whether to allow merge commits for pull requests.
-             * @default true
-             * @example true
-             */
-            readonly allow_merge_commit: boolean;
-            /**
-             * @description Whether to allow forking this repo
-             * @default false
-             * @example false
-             */
-            readonly allow_forking: boolean;
-            /**
-             * @description Whether to require contributors to sign off on web-based commits
-             * @default false
-             * @example false
-             */
-            readonly web_commit_signoff_required: boolean;
-            readonly subscribers_count?: number;
-            readonly network_count?: number;
-            readonly open_issues: number;
-            readonly watchers: number;
-            readonly master_branch?: string;
-        };
-        /**
-         * Project Card
-         * @description Project cards represent a scope of work.
-         */
-        readonly "project-card": {
-            /**
-             * Format: uri
-             * @example https://api.github.com/projects/columns/cards/1478
-             */
-            readonly url: string;
-            /**
-             * @description The project card's ID
-             * @example 42
-             */
-            readonly id: number;
-            /** @example MDExOlByb2plY3RDYXJkMTQ3OA== */
-            readonly node_id: string;
-            /** @example Add payload for delete Project column */
-            readonly note: string | null;
-            readonly creator: components["schemas"]["nullable-simple-user"];
-            /**
-             * Format: date-time
-             * @example 2016-09-05T14:21:06Z
-             */
-            readonly created_at: string;
-            /**
-             * Format: date-time
-             * @example 2016-09-05T14:20:22Z
-             */
-            readonly updated_at: string;
-            /**
-             * @description Whether or not the card is archived
-             * @example false
-             */
-            readonly archived?: boolean;
-            readonly column_name?: string;
-            readonly project_id?: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/projects/columns/367
-             */
-            readonly column_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/repos/api-playground/projects-test/issues/3
-             */
-            readonly content_url?: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/projects/120
-             */
-            readonly project_url: string;
-        };
-        /**
-         * Project Column
-         * @description Project columns contain cards of work.
-         */
-        readonly "project-column": {
-            /**
-             * Format: uri
-             * @example https://api.github.com/projects/columns/367
-             */
-            readonly url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/projects/120
-             */
-            readonly project_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/projects/columns/367/cards
-             */
-            readonly cards_url: string;
-            /**
-             * @description The unique identifier of the project column
-             * @example 42
-             */
-            readonly id: number;
-            /** @example MDEzOlByb2plY3RDb2x1bW4zNjc= */
-            readonly node_id: string;
-            /**
-             * @description Name of the project column
-             * @example Remaining tasks
-             */
-            readonly name: string;
-            /**
-             * Format: date-time
-             * @example 2016-09-05T14:18:44Z
-             */
-            readonly created_at: string;
-            /**
-             * Format: date-time
-             * @example 2016-09-05T14:22:28Z
-             */
-            readonly updated_at: string;
-        };
-        /**
-         * Project Collaborator Permission
-         * @description Project Collaborator Permission
-         */
-        readonly "project-collaborator-permission": {
-            readonly permission: string;
-            readonly user: components["schemas"]["nullable-simple-user"];
-        };
-        /** Rate Limit */
-        readonly "rate-limit": {
-            readonly limit: number;
-            readonly remaining: number;
-            readonly reset: number;
-            readonly used: number;
-        };
-        /**
-         * Rate Limit Overview
-         * @description Rate Limit Overview
-         */
-        readonly "rate-limit-overview": {
-            readonly resources: {
-                readonly core: components["schemas"]["rate-limit"];
-                readonly graphql?: components["schemas"]["rate-limit"];
-                readonly search: components["schemas"]["rate-limit"];
-                readonly code_search?: components["schemas"]["rate-limit"];
-                readonly source_import?: components["schemas"]["rate-limit"];
-                readonly integration_manifest?: components["schemas"]["rate-limit"];
-                readonly code_scanning_upload?: components["schemas"]["rate-limit"];
-                readonly actions_runner_registration?: components["schemas"]["rate-limit"];
-                readonly scim?: components["schemas"]["rate-limit"];
-                readonly dependency_snapshots?: components["schemas"]["rate-limit"];
-            };
-            readonly rate: components["schemas"]["rate-limit"];
-        };
-        /**
          * Code Of Conduct Simple
          * @description Code of Conduct Simple
          */
@@ -23428,7 +23951,7 @@ export type components = {
              * @example queued
              * @enum {string}
              */
-            readonly status: "queued" | "in_progress" | "completed";
+            readonly status: "queued" | "in_progress" | "completed" | "waiting";
             /**
              * @description The outcome of the job.
              * @example success
@@ -25082,7 +25605,7 @@ export type components = {
              * @description The URL at which to download the CodeQL database. The `Accept` header must be set to the value of the `content_type` property.
              */
             readonly url: string;
-            /** @description The commit SHA of the CodeQL databases repository at time of database creation. */
+            /** @description The commit SHA of the repository at the time the CodeQL database was created. */
             readonly commit_oid?: string | null;
         };
         /** @description Configuration for code scanning default setup. */
@@ -25114,10 +25637,10 @@ export type components = {
         /** @description Configuration for code scanning default setup. */
         readonly "code-scanning-default-setup-update": {
             /**
-             * @description Whether code scanning default setup has been configured or not.
+             * @description The desired state of code scanning default setup.
              * @enum {string}
              */
-            readonly state: "configured" | "not-configured";
+            readonly state?: "configured" | "not-configured";
             /**
              * @description CodeQL query suite to be used.
              * @enum {string}
@@ -25134,6 +25657,12 @@ export type components = {
             /** @description URL of the corresponding run. */
             readonly run_url?: string;
         };
+        /**
+         * @description The full Git reference, formatted as `refs/heads/<branch name>`,
+         *     `refs/pull/<number>/merge`, or `refs/pull/<number>/head`.
+         * @example refs/heads/main
+         */
+        readonly "code-scanning-ref-full": string;
         /** @description A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string. For more information, see "[SARIF support for code scanning](https://docs.github.com/code-security/secure-coding/sarif-support-for-code-scanning)." */
         readonly "code-scanning-analysis-sarif-file": string;
         readonly "code-scanning-sarifs-receipt": {
@@ -26555,32 +27084,44 @@ export type components = {
         readonly "prevent-self-review": boolean;
         /**
          * Deployment branch policy
-         * @description Details of a deployment branch policy.
+         * @description Details of a deployment branch or tag policy.
          */
         readonly "deployment-branch-policy": {
             /**
-             * @description The unique identifier of the branch policy.
+             * @description The unique identifier of the branch or tag policy.
              * @example 361471
              */
             readonly id?: number;
             /** @example MDE2OkdhdGVCcmFuY2hQb2xpY3kzNjE0NzE= */
             readonly node_id?: string;
             /**
-             * @description The name pattern that branches must match in order to deploy to the environment.
+             * @description The name pattern that branches or tags must match in order to deploy to the environment.
              * @example release/*
              */
             readonly name?: string;
+            /**
+             * @description Whether this rule targets a branch or tag.
+             * @example branch
+             * @enum {string}
+             */
+            readonly type?: "branch" | "tag";
         };
-        /** Deployment branch policy name pattern */
+        /** Deployment branch and tag policy name pattern */
         readonly "deployment-branch-policy-name-pattern-with-type": {
             /**
-             * @description The name pattern that branches must match in order to deploy to the environment.
+             * @description The name pattern that branches or tags must match in order to deploy to the environment.
              *
              *     Wildcard characters will not match `/`. For example, to match branches that begin with `release/` and contain an additional single slash, use `release/*\/*`.
              *     For more information about pattern matching syntax, see the [Ruby File.fnmatch documentation](https://ruby-doc.org/core-2.5.1/File.html#method-c-fnmatch).
              * @example release/*
              */
             readonly name: string;
+            /**
+             * @description Whether this rule targets a branch or tag
+             * @example branch
+             * @enum {string}
+             */
+            readonly type?: "branch" | "tag";
         };
         /** Deployment branch policy name pattern */
         readonly "deployment-branch-policy-name-pattern": {
@@ -29112,7 +29653,7 @@ export type components = {
          * Repository Rule
          * @description A repository rule with ruleset details.
          */
-        readonly "repository-rule-detailed": (components["schemas"]["repository-rule-creation"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-update"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-deletion"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-linear-history"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-deployments"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-signatures"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-pull-request"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-status-checks"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-non-fast-forward"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-commit-message-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-commit-author-email-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-committer-email-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-branch-name-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-tag-name-pattern"] & components["schemas"]["repository-rule-ruleset-info"]);
+        readonly "repository-rule-detailed": (components["schemas"]["repository-rule-creation"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-update"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-deletion"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-linear-history"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-deployments"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-signatures"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-pull-request"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-status-checks"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-non-fast-forward"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-commit-message-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-commit-author-email-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-committer-email-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-branch-name-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-tag-name-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-workflows"] & components["schemas"]["repository-rule-ruleset-info"]);
         readonly "secret-scanning-alert": {
             readonly number?: components["schemas"]["alert-number"];
             readonly created_at?: components["schemas"]["alert-created-at"];
@@ -29149,6 +29690,11 @@ export type components = {
              * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
              */
             readonly push_protection_bypassed_at?: string | null;
+            /**
+             * @description The token status as of the latest validity check.
+             * @enum {string}
+             */
+            readonly validity?: "active" | "inactive" | "unknown";
         };
         /** @description An optional comment when closing an alert. Cannot be updated or deleted. Must be `null` when changing `state` to `open`. */
         readonly "secret-scanning-alert-resolution-comment": string | null;
@@ -30783,6 +31329,10 @@ export type components = {
              */
             readonly is_template: boolean;
             readonly topics?: string[];
+            /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+            readonly custom_properties?: {
+                readonly [key: string]: unknown;
+            };
             /**
              * @description Whether issues are enabled.
              * @default true
@@ -31615,6 +32165,10 @@ export type components = {
              */
             readonly is_template: boolean;
             readonly topics?: string[];
+            /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+            readonly custom_properties?: {
+                readonly [key: string]: unknown;
+            };
             /**
              * @description Whether issues are enabled.
              * @default true
@@ -33884,6 +34438,53 @@ export type components = {
             readonly ref_type: "tag" | "branch";
             readonly repository: components["schemas"]["repository-webhooks"];
             readonly sender: components["schemas"]["simple-user-webhooks"];
+        };
+        /** custom property created event */
+        readonly "webhook-custom-property-created": {
+            /** @enum {string} */
+            readonly action: "created";
+            readonly definition: components["schemas"]["org-custom-property"];
+            readonly enterprise?: components["schemas"]["enterprise-webhooks"];
+            readonly installation?: components["schemas"]["simple-installation"];
+            readonly organization: components["schemas"]["organization-simple-webhooks"];
+            readonly sender?: components["schemas"]["simple-user-webhooks"];
+        };
+        /** custom property deleted event */
+        readonly "webhook-custom-property-deleted": {
+            /** @enum {string} */
+            readonly action: "deleted";
+            readonly definition: {
+                /** @description The name of the property that was deleted. */
+                readonly property_name: string;
+            };
+            readonly enterprise?: components["schemas"]["enterprise-webhooks"];
+            readonly installation?: components["schemas"]["simple-installation"];
+            readonly organization: components["schemas"]["organization-simple-webhooks"];
+            readonly sender?: components["schemas"]["simple-user-webhooks"];
+        };
+        /** custom property updated event */
+        readonly "webhook-custom-property-updated": {
+            /** @enum {string} */
+            readonly action: "updated";
+            readonly definition: components["schemas"]["org-custom-property"];
+            readonly enterprise?: components["schemas"]["enterprise-webhooks"];
+            readonly installation?: components["schemas"]["simple-installation"];
+            readonly organization: components["schemas"]["organization-simple-webhooks"];
+            readonly sender?: components["schemas"]["simple-user-webhooks"];
+        };
+        /** Custom property values updated event */
+        readonly "webhook-custom-property-values-updated": {
+            /** @enum {string} */
+            readonly action: "updated";
+            readonly enterprise?: components["schemas"]["enterprise-webhooks"];
+            readonly installation?: components["schemas"]["simple-installation"];
+            readonly repository: components["schemas"]["repository-webhooks"];
+            readonly organization: components["schemas"]["organization-simple-webhooks"];
+            readonly sender?: components["schemas"]["simple-user-webhooks"];
+            /** @description The new custom property values for the repository. */
+            readonly new_property_values: components["schemas"]["custom-property-value"][];
+            /** @description The old custom property values for the repository. */
+            readonly old_property_values: components["schemas"]["custom-property-value"][];
         };
         /** delete event */
         readonly "webhook-delete": {
@@ -37263,6 +37864,10 @@ export type components = {
                 /** Format: uri */
                 readonly contributors_url: string;
                 readonly created_at: number | string;
+                /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                readonly custom_properties?: {
+                    readonly [key: string]: unknown;
+                };
                 /** @description The default branch of the repository. */
                 readonly default_branch: string;
                 /**
@@ -44204,6 +44809,10 @@ export type components = {
                     /** Format: uri */
                     readonly contributors_url: string;
                     readonly created_at: number | string;
+                    /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                    readonly custom_properties?: {
+                        readonly [key: string]: unknown;
+                    };
                     /** @description The default branch of the repository. */
                     readonly default_branch: string;
                     /**
@@ -46170,6 +46779,10 @@ export type components = {
                     /** Format: uri */
                     readonly contributors_url: string;
                     readonly created_at: number | string;
+                    /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                    readonly custom_properties?: {
+                        readonly [key: string]: unknown;
+                    };
                     /** @description The default branch of the repository. */
                     readonly default_branch: string;
                     /**
@@ -82923,6 +83536,10 @@ export type components = {
                 /** Format: uri */
                 readonly contributors_url: string;
                 readonly created_at: number | string;
+                /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                readonly custom_properties?: {
+                    readonly [key: string]: unknown;
+                };
                 /** @description The default branch of the repository. */
                 readonly default_branch: string;
                 /**
@@ -86675,6 +87292,10 @@ export type components = {
                 /** Format: uri */
                 readonly contributors_url: string;
                 readonly created_at: number | string;
+                /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                readonly custom_properties?: {
+                    readonly [key: string]: unknown;
+                };
                 /** @description The default branch of the repository. */
                 readonly default_branch: string;
                 /**
@@ -86984,6 +87605,10 @@ export type components = {
                 /** Format: uri */
                 readonly contributors_url: string;
                 readonly created_at: number | string;
+                /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                readonly custom_properties?: {
+                    readonly [key: string]: unknown;
+                };
                 /** @description The default branch of the repository. */
                 readonly default_branch: string;
                 /**
@@ -87293,6 +87918,10 @@ export type components = {
                 /** Format: uri */
                 readonly contributors_url: string;
                 readonly created_at: number | string;
+                /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                readonly custom_properties?: {
+                    readonly [key: string]: unknown;
+                };
                 /** @description The default branch of the repository. */
                 readonly default_branch: string;
                 /**
@@ -87633,6 +88262,10 @@ export type components = {
                 /** Format: uri */
                 readonly contributors_url: string;
                 readonly created_at: number | string;
+                /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                readonly custom_properties?: {
+                    readonly [key: string]: unknown;
+                };
                 /** @description The default branch of the repository. */
                 readonly default_branch: string;
                 /**
@@ -87942,6 +88575,10 @@ export type components = {
                 /** Format: uri */
                 readonly contributors_url: string;
                 readonly created_at: number | string;
+                /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                readonly custom_properties?: {
+                    readonly [key: string]: unknown;
+                };
                 /** @description The default branch of the repository. */
                 readonly default_branch: string;
                 /**
@@ -90666,6 +91303,8 @@ export type components = {
         readonly "secret-scanning-alert-resolution": string;
         /** @description The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved. */
         readonly "secret-scanning-alert-sort": "created" | "updated";
+        /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
+        readonly "secret-scanning-alert-validity": string;
         /** @description The unique identifier of the gist. */
         readonly "gist-id": string;
         /** @description The unique identifier of the comment. */
@@ -90722,6 +91361,10 @@ export type components = {
         readonly "migration-id": number;
         /** @description repo_name parameter */
         readonly "repo-name": string;
+        /** @description The slug of the team name. */
+        readonly "team-slug": string;
+        /** @description The unique identifier of the role. */
+        readonly "role-id": number;
         /** @description The selected visibility of the packages.  This parameter is optional and only filters an existing result set.
          *
          *     The `internal` visibility is only supported for GitHub Packages registries that allow for granular permissions. For other ecosystems `internal` is synonymous with `private`.
@@ -90747,6 +91390,8 @@ export type components = {
         readonly "personal-access-token-after": string;
         /** @description The unique identifier of the fine-grained personal access token. */
         readonly "fine-grained-personal-access-token-id": number;
+        /** @description The custom property name. The name is case sensitive. */
+        readonly "custom-property-name": string;
         /** @description The name of the repository to filter on. When specified, only rule evaluations from this repository will be returned. */
         readonly "repository-name-in-query": number;
         /** @description The time period to filter by.
@@ -90766,8 +91411,6 @@ export type components = {
         readonly "secret-scanning-pagination-before-org-repo": string;
         /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string. */
         readonly "secret-scanning-pagination-after-org-repo": string;
-        /** @description The slug of the team name. */
-        readonly "team-slug": string;
         /** @description The number that identifies the discussion. */
         readonly "discussion-number": number;
         /** @description The number that identifies the comment. */
@@ -91907,6 +92550,8 @@ export interface operations {
                 readonly before?: components["parameters"]["pagination-before"];
                 /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. */
                 readonly after?: components["parameters"]["pagination-after"];
+                /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
+                readonly validity?: components["parameters"]["secret-scanning-alert-validity"];
             };
             readonly header?: never;
             readonly path: {
@@ -95477,7 +96122,7 @@ export interface operations {
             readonly 401: components["responses"]["requires_authentication"];
             readonly 403: components["responses"]["forbidden"];
             readonly 404: components["responses"]["not_found"];
-            /** @description Copilot for Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
+            /** @description Copilot Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
             readonly 422: {
                 headers: {
                     readonly [name: string]: unknown;
@@ -95520,7 +96165,7 @@ export interface operations {
             readonly 401: components["responses"]["requires_authentication"];
             readonly 403: components["responses"]["forbidden"];
             readonly 404: components["responses"]["not_found"];
-            /** @description Copilot for Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
+            /** @description Copilot Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
             readonly 422: {
                 headers: {
                     readonly [name: string]: unknown;
@@ -95563,7 +96208,7 @@ export interface operations {
             readonly 401: components["responses"]["requires_authentication"];
             readonly 403: components["responses"]["forbidden"];
             readonly 404: components["responses"]["not_found"];
-            /** @description Copilot for Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
+            /** @description Copilot Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, or the organization's Copilot access setting is set to enable Copilot for all users or is unconfigured. */
             readonly 422: {
                 headers: {
                     readonly [name: string]: unknown;
@@ -95606,7 +96251,7 @@ export interface operations {
             readonly 401: components["responses"]["requires_authentication"];
             readonly 403: components["responses"]["forbidden"];
             readonly 404: components["responses"]["not_found"];
-            /** @description Copilot for Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, the seat management setting is set to enable Copilot for all users or is unconfigured, or a user's seat cannot be cancelled because it was assigned to them via a team. */
+            /** @description Copilot Business is not enabled for this organization, billing has not been set up for this organization, a public code suggestions policy has not been set for this organization, the seat management setting is set to enable Copilot for all users or is unconfigured, or a user's seat cannot be cancelled because it was assigned to them via a team. */
             readonly 422: {
                 headers: {
                     readonly [name: string]: unknown;
@@ -96890,7 +97535,7 @@ export interface operations {
             readonly 500: components["responses"]["internal_error"];
         };
     };
-    readonly "copilot/get-copilot-seat-assignment-details-for-user": {
+    readonly "copilot/get-copilot-seat-details-for-user": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -96916,7 +97561,7 @@ export interface operations {
             readonly 401: components["responses"]["requires_authentication"];
             readonly 403: components["responses"]["forbidden"];
             readonly 404: components["responses"]["not_found"];
-            /** @description Copilot for Business is not enabled for this organization or the user has a pending organization invitation. */
+            /** @description Copilot Business is not enabled for this organization or the user has a pending organization invitation. */
             readonly 422: {
                 headers: {
                     readonly [name: string]: unknown;
@@ -97259,6 +97904,451 @@ export interface operations {
                 };
             };
             readonly 404: components["responses"]["not_found"];
+        };
+    };
+    readonly "orgs/list-organization-fine-grained-permissions": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["organization-fine-grained-permission"][];
+                };
+            };
+            readonly 404: components["responses"]["not_found"];
+            readonly 422: components["responses"]["validation_failed"];
+        };
+    };
+    readonly "orgs/list-org-roles": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response - list of organization roles */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": {
+                        /** @description The total number of organization roles available to the organization. */
+                        readonly total_count?: number;
+                        /** @description The list of organization roles available to the organization. */
+                        readonly roles?: components["schemas"]["organization-role"][];
+                    };
+                };
+            };
+            readonly 404: components["responses"]["not_found"];
+            readonly 422: components["responses"]["validation_failed"];
+        };
+    };
+    readonly "orgs/create-custom-organization-role": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody: {
+            readonly content: {
+                readonly "application/json": {
+                    /** @description The name of the custom role. */
+                    readonly name: string;
+                    /** @description A short description about the intended usage of this role or what permissions it grants. */
+                    readonly description?: string;
+                    /** @description A list of additional permissions included in this role. */
+                    readonly permissions: string[];
+                };
+            };
+        };
+        readonly responses: {
+            /** @description Response */
+            readonly 201: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["organization-role"];
+                };
+            };
+            readonly 404: components["responses"]["not_found"];
+            readonly 409: components["responses"]["conflict"];
+            readonly 422: components["responses"]["validation_failed"];
+        };
+    };
+    readonly "orgs/revoke-all-org-roles-team": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The slug of the team name. */
+                readonly team_slug: components["parameters"]["team-slug"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 204: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    readonly "orgs/assign-team-to-org-role": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The slug of the team name. */
+                readonly team_slug: components["parameters"]["team-slug"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 204: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Response if the organization, team or role does not exist. */
+            readonly 404: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Response if the organization roles feature is not enabled for the organization, or validation failed. */
+            readonly 422: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    readonly "orgs/revoke-org-role-team": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The slug of the team name. */
+                readonly team_slug: components["parameters"]["team-slug"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 204: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    readonly "orgs/revoke-all-org-roles-user": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The handle for the GitHub user account. */
+                readonly username: components["parameters"]["username"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 204: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    readonly "orgs/assign-user-to-org-role": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The handle for the GitHub user account. */
+                readonly username: components["parameters"]["username"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 204: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Response if the organization, user or role does not exist. */
+            readonly 404: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Response if the organization roles feature is not enabled enabled for the organization, the validation failed, or the user is not an organization member. */
+            readonly 422: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    readonly "orgs/revoke-org-role-user": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The handle for the GitHub user account. */
+                readonly username: components["parameters"]["username"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 204: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    readonly "orgs/get-org-role": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["organization-role"];
+                };
+            };
+            readonly 404: components["responses"]["not_found"];
+            readonly 422: components["responses"]["validation_failed"];
+        };
+    };
+    readonly "orgs/delete-custom-organization-role": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 204: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    readonly "orgs/patch-custom-organization-role": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody: {
+            readonly content: {
+                readonly "application/json": {
+                    /** @description The name of the custom role. */
+                    readonly name?: string;
+                    /** @description A short description about the intended usage of this role or what permissions it grants. */
+                    readonly description?: string;
+                    /** @description A list of additional permissions included in this role. */
+                    readonly permissions?: string[];
+                };
+            };
+        };
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["organization-role"];
+                };
+            };
+            readonly 404: components["responses"]["not_found"];
+            readonly 409: components["responses"]["conflict"];
+            readonly 422: components["responses"]["validation_failed"];
+        };
+    };
+    readonly "orgs/list-org-role-teams": {
+        readonly parameters: {
+            readonly query?: {
+                /** @description The number of results per page (max 100). */
+                readonly per_page?: components["parameters"]["per-page"];
+                /** @description Page number of the results to fetch. */
+                readonly page?: components["parameters"]["page"];
+            };
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response - List of assigned teams */
+            readonly 200: {
+                headers: {
+                    readonly Link: components["headers"]["link"];
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["team"][];
+                };
+            };
+            /** @description Response if the organization or role does not exist. */
+            readonly 404: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Response if the organization roles feature is not enabled or validation failed. */
+            readonly 422: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    readonly "orgs/list-org-role-users": {
+        readonly parameters: {
+            readonly query?: {
+                /** @description The number of results per page (max 100). */
+                readonly per_page?: components["parameters"]["per-page"];
+                /** @description Page number of the results to fetch. */
+                readonly page?: components["parameters"]["page"];
+            };
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The unique identifier of the role. */
+                readonly role_id: components["parameters"]["role-id"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response - List of assigned users */
+            readonly 200: {
+                headers: {
+                    readonly Link: components["headers"]["link"];
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["simple-user"][];
+                };
+            };
+            /** @description Response if the organization or role does not exist. */
+            readonly 404: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Response if the organization roles feature is not enabled or validation failed. */
+            readonly 422: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     readonly "orgs/list-outside-collaborators": {
@@ -97986,6 +99076,220 @@ export interface operations {
             readonly 422: components["responses"]["validation_failed_simple"];
         };
     };
+    readonly "orgs/get-all-custom-properties": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["org-custom-property"][];
+                };
+            };
+            readonly 403: components["responses"]["forbidden"];
+            readonly 404: components["responses"]["not_found"];
+        };
+    };
+    readonly "orgs/create-or-update-custom-properties": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody: {
+            readonly content: {
+                readonly "application/json": {
+                    /** @description The array of custom properties to create or update. */
+                    readonly properties: components["schemas"]["org-custom-property"][];
+                };
+            };
+        };
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["org-custom-property"][];
+                };
+            };
+            readonly 403: components["responses"]["forbidden"];
+            readonly 404: components["responses"]["not_found"];
+        };
+    };
+    readonly "orgs/get-custom-property": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The custom property name. The name is case sensitive. */
+                readonly custom_property_name: components["parameters"]["custom-property-name"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["org-custom-property"];
+                };
+            };
+            readonly 403: components["responses"]["forbidden"];
+            readonly 404: components["responses"]["not_found"];
+        };
+    };
+    readonly "orgs/create-or-update-custom-property": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The custom property name. The name is case sensitive. */
+                readonly custom_property_name: components["parameters"]["custom-property-name"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody: {
+            readonly content: {
+                readonly "application/json": {
+                    /**
+                     * @description The type of the value for the property
+                     * @example single_select
+                     * @enum {string}
+                     */
+                    readonly value_type: "string" | "single_select";
+                    /** @description Whether the property is required. */
+                    readonly required?: boolean;
+                    /** @description Default value of the property */
+                    readonly default_value?: string | null;
+                    /** @description Short description of the property */
+                    readonly description?: string | null;
+                    /** @description Ordered list of allowed values of the property */
+                    readonly allowed_values?: string[] | null;
+                };
+            };
+        };
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["org-custom-property"];
+                };
+            };
+            readonly 403: components["responses"]["forbidden"];
+            readonly 404: components["responses"]["not_found"];
+        };
+    };
+    readonly "orgs/remove-custom-property": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+                /** @description The custom property name. The name is case sensitive. */
+                readonly custom_property_name: components["parameters"]["custom-property-name"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            readonly 204: components["responses"]["no_content"];
+            readonly 403: components["responses"]["forbidden"];
+            readonly 404: components["responses"]["not_found"];
+        };
+    };
+    readonly "orgs/list-custom-properties-values-for-repos": {
+        readonly parameters: {
+            readonly query?: {
+                /** @description The number of results per page (max 100). */
+                readonly per_page?: components["parameters"]["per-page"];
+                /** @description Page number of the results to fetch. */
+                readonly page?: components["parameters"]["page"];
+                /** @description Finds repositories in the organization with a query containing one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching for repositories](https://docs.github.com/articles/searching-for-repositories/)" for a detailed list of qualifiers. */
+                readonly repository_query?: string;
+            };
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly Link: components["headers"]["link"];
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["org-repo-custom-property-values"][];
+                };
+            };
+            readonly 403: components["responses"]["forbidden"];
+            readonly 404: components["responses"]["not_found"];
+        };
+    };
+    readonly "orgs/create-or-update-custom-properties-values-for-repos": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The organization name. The name is not case sensitive. */
+                readonly org: components["parameters"]["org"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody: {
+            readonly content: {
+                readonly "application/json": {
+                    /** @description The names of repositories that the custom property values will be applied to. */
+                    readonly repository_names: string[];
+                    /** @description List of custom property names and associated values to apply to the repositories. */
+                    readonly properties: components["schemas"]["custom-property-value"][];
+                };
+            };
+        };
+        readonly responses: {
+            /** @description No Content when custom property values are successfully created or updated */
+            readonly 204: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content?: never;
+            };
+            readonly 403: components["responses"]["forbidden"];
+            readonly 404: components["responses"]["not_found"];
+        };
+    };
     readonly "orgs/list-public-members": {
         readonly parameters: {
             readonly query?: {
@@ -98258,6 +99562,10 @@ export interface operations {
                      * @enum {string}
                      */
                     readonly merge_commit_message?: "PR_BODY" | "PR_TITLE" | "BLANK";
+                    /** @description The custom properties for the new repository. The keys are the custom property names, and the values are the corresponding custom property values. */
+                    readonly custom_properties?: {
+                        readonly [key: string]: unknown;
+                    };
                 };
             };
         };
@@ -98542,6 +99850,8 @@ export interface operations {
                 readonly before?: components["parameters"]["secret-scanning-pagination-before-org-repo"];
                 /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string. */
                 readonly after?: components["parameters"]["secret-scanning-pagination-after-org-repo"];
+                /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
+                readonly validity?: components["parameters"]["secret-scanning-alert-validity"];
             };
             readonly header?: never;
             readonly path: {
@@ -105741,7 +107051,7 @@ export interface operations {
             readonly content: {
                 readonly "application/json": {
                     readonly commit_sha: components["schemas"]["code-scanning-analysis-commit-sha"];
-                    readonly ref: components["schemas"]["code-scanning-ref"];
+                    readonly ref: components["schemas"]["code-scanning-ref-full"];
                     readonly sarif: components["schemas"]["code-scanning-analysis-sarif-file"];
                     /**
                      * Format: uri
@@ -111501,6 +112811,7 @@ export interface operations {
                     readonly "application/json": components["schemas"]["license-content"];
                 };
             };
+            readonly 404: components["responses"]["not_found"];
         };
     };
     readonly "repos/merge-upstream": {
@@ -112376,6 +113687,33 @@ export interface operations {
             readonly 404: components["responses"]["not_found"];
             readonly 410: components["responses"]["gone"];
             readonly 422: components["responses"]["validation_failed_simple"];
+        };
+    };
+    readonly "repos/get-custom-properties-values": {
+        readonly parameters: {
+            readonly query?: never;
+            readonly header?: never;
+            readonly path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                readonly owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                readonly repo: components["parameters"]["repo"];
+            };
+            readonly cookie?: never;
+        };
+        readonly requestBody?: never;
+        readonly responses: {
+            /** @description Response */
+            readonly 200: {
+                headers: {
+                    readonly [name: string]: unknown;
+                };
+                content: {
+                    readonly "application/json": components["schemas"]["custom-property-value"][];
+                };
+            };
+            readonly 403: components["responses"]["forbidden"];
+            readonly 404: components["responses"]["not_found"];
         };
     };
     readonly "pulls/list": {
@@ -114612,6 +115950,8 @@ export interface operations {
                 readonly before?: components["parameters"]["secret-scanning-pagination-before-org-repo"];
                 /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string. */
                 readonly after?: components["parameters"]["secret-scanning-pagination-after-org-repo"];
+                /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
+                readonly validity?: components["parameters"]["secret-scanning-alert-validity"];
             };
             readonly header?: never;
             readonly path: {
