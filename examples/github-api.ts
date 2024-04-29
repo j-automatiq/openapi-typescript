@@ -19076,7 +19076,7 @@ export interface components {
                  * @description The execution scope of the vulnerable dependency.
                  * @enum {string|null}
                  */
-                readonly scope?: "development" | "runtime";
+                readonly scope?: "development" | "runtime" | null;
             };
             security_advisory: components["schemas"]["dependabot-alert-security-advisory"];
             security_vulnerability: components["schemas"]["dependabot-alert-security-vulnerability"];
@@ -19090,7 +19090,7 @@ export interface components {
              * @description The reason that the alert was dismissed.
              * @enum {string|null}
              */
-            dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk";
+            dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk" | null;
             /** @description An optional comment associated with the alert's dismissal. */
             dismissed_comment: string | null;
             fixed_at: components["schemas"]["alert-fixed-at"];
@@ -19111,7 +19111,7 @@ export interface components {
          * @description **Required when the `state` is `resolved`.** The reason for resolving the alert.
          * @enum {string|null}
          */
-        "secret-scanning-alert-resolution": "false_positive" | "wont_fix" | "revoked" | "used_in_tests";
+        "secret-scanning-alert-resolution": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | null;
         "organization-secret-scanning-alert": {
             number?: components["schemas"]["alert-number"];
             created_at?: components["schemas"]["alert-created-at"];
@@ -19379,7 +19379,7 @@ export interface components {
              * @example not_planned
              * @enum {string|null}
              */
-            state_reason?: "completed" | "reopened" | "not_planned";
+            state_reason?: "completed" | "reopened" | "not_planned" | null;
             /**
              * @description Title of the issue
              * @example Widget creation fails in Safari on OS X 10.8
@@ -20920,12 +20920,12 @@ export interface components {
              * @description The severity of the alert.
              * @enum {string|null}
              */
-            severity?: "none" | "note" | "warning" | "error";
+            severity?: "none" | "note" | "warning" | "error" | null;
             /**
              * @description The security severity of the alert.
              * @enum {string|null}
              */
-            security_severity_level?: "low" | "medium" | "high" | "critical";
+            security_severity_level?: "low" | "medium" | "high" | "critical" | null;
             /** @description A short description of the rule used to detect the alert. */
             description?: string;
         };
@@ -20957,7 +20957,7 @@ export interface components {
          * @description A classification of the file. For example to identify it as generated.
          * @enum {string|null}
          */
-        "code-scanning-alert-classification": "source" | "generated" | "test" | "library";
+        "code-scanning-alert-classification": "source" | "generated" | "test" | "library" | null;
         "code-scanning-alert-instance": {
             ref?: components["schemas"]["code-scanning-ref"];
             analysis_key?: components["schemas"]["code-scanning-analysis-analysis-key"];
@@ -21032,7 +21032,7 @@ export interface components {
              * @example ready
              * @enum {string|null}
              */
-            prebuild_availability: "none" | "ready" | "in_progress";
+            prebuild_availability: "none" | "ready" | "in_progress" | null;
         } | null;
         /**
          * Codespace
@@ -22235,7 +22235,7 @@ export interface components {
              * @example org_actors
              * @enum {string|null}
              */
-            values_editable_by?: "org_actors" | "org_and_repo_actors";
+            values_editable_by?: "org_actors" | "org_and_repo_actors" | null;
         };
         /**
          * Custom Property Value
@@ -23533,7 +23533,7 @@ export interface components {
              * @description The severity of the advisory.
              * @enum {string|null}
              */
-            severity: "critical" | "high" | "medium" | "low";
+            severity: "critical" | "high" | "medium" | "low" | null;
             /** @description The author of the advisory. */
             readonly author: components["schemas"]["simple-user"] | null;
             /** @description The publisher of the advisory. */
@@ -24695,7 +24695,7 @@ export interface components {
              * @example success
              * @enum {string|null}
              */
-            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
             /**
              * Format: date-time
              * @description The time that the job created, in ISO 8601 format.
@@ -26031,7 +26031,7 @@ export interface components {
              * @example neutral
              * @enum {string|null}
              */
-            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
             /**
              * Format: date-time
              * @example 2018-05-04T01:14:52Z
@@ -26161,7 +26161,7 @@ export interface components {
              * @example completed
              * @enum {string|null}
              */
-            status: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending";
+            status: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending" | null;
             /**
              * @example neutral
              * @enum {string|null}
@@ -26225,12 +26225,12 @@ export interface components {
              * @description The severity of the alert.
              * @enum {string|null}
              */
-            severity?: "none" | "note" | "warning" | "error";
+            severity?: "none" | "note" | "warning" | "error" | null;
             /**
              * @description The security severity of the alert.
              * @enum {string|null}
              */
-            security_severity_level?: "low" | "medium" | "high" | "critical";
+            security_severity_level?: "low" | "medium" | "high" | "critical" | null;
             /** @description A short description of the rule used to detect the alert. */
             description?: string;
             /** @description description of the rule used to detect the alert. */
@@ -26382,7 +26382,7 @@ export interface components {
              * @description The frequency of the periodic analysis.
              * @enum {string|null}
              */
-            schedule?: "weekly";
+            schedule?: "weekly" | null;
         };
         /** @description Configuration for code scanning default setup. */
         "code-scanning-default-setup-update": {
@@ -26523,7 +26523,7 @@ export interface components {
              * @example ready
              * @enum {string|null}
              */
-            prebuild_availability: "none" | "ready" | "in_progress";
+            prebuild_availability: "none" | "ready" | "in_progress" | null;
         };
         /**
          * Codespaces Permissions Check
@@ -27376,7 +27376,7 @@ export interface components {
                  * @description The execution scope of the vulnerable dependency.
                  * @enum {string|null}
                  */
-                readonly scope?: "development" | "runtime";
+                readonly scope?: "development" | "runtime" | null;
             };
             security_advisory: components["schemas"]["dependabot-alert-security-advisory"];
             security_vulnerability: components["schemas"]["dependabot-alert-security-vulnerability"];
@@ -27390,7 +27390,7 @@ export interface components {
              * @description The reason that the alert was dismissed.
              * @enum {string|null}
              */
-            dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk";
+            dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk" | null;
             /** @description An optional comment associated with the alert's dismissal. */
             dismissed_comment: string | null;
             fixed_at: components["schemas"]["alert-fixed-at"];
@@ -28332,7 +28332,7 @@ export interface components {
              * @example not_planned
              * @enum {string|null}
              */
-            state_reason?: "completed" | "reopened" | "not_planned";
+            state_reason?: "completed" | "reopened" | "not_planned" | null;
             /**
              * @description Title of the issue
              * @example Widget creation fails in Safari on OS X 10.8
@@ -29148,7 +29148,7 @@ export interface components {
              * @default RIGHT
              * @enum {string|null}
              */
-            start_side: "LEFT" | "RIGHT";
+            start_side: "LEFT" | "RIGHT" | null;
             /**
              * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
              * @example 2
@@ -29420,7 +29420,7 @@ export interface components {
              * @example built
              * @enum {string|null}
              */
-            status: "built" | "building" | "errored";
+            status: "built" | "building" | "errored" | null;
             /**
              * @description The Pages site's custom domain
              * @example example.com
@@ -29431,7 +29431,7 @@ export interface components {
              * @example pending
              * @enum {string|null}
              */
-            protected_domain_state?: "pending" | "verified" | "unverified";
+            protected_domain_state?: "pending" | "verified" | "unverified" | null;
             /**
              * Format: date-time
              * @description The timestamp when a pending domain becomes unverified.
@@ -29454,7 +29454,7 @@ export interface components {
              * @example legacy
              * @enum {string|null}
              */
-            build_type?: "legacy" | "workflow";
+            build_type?: "legacy" | "workflow" | null;
             source?: components["schemas"]["pages-source-hash"];
             /**
              * @description Whether the GitHub Pages site is publicly visible. If set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site.
@@ -30255,7 +30255,7 @@ export interface components {
              * @default RIGHT
              * @enum {string|null}
              */
-            start_side: "LEFT" | "RIGHT";
+            start_side: "LEFT" | "RIGHT" | null;
             /**
              * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
              * @example 2
@@ -30649,7 +30649,7 @@ export interface components {
              * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
              * @enum {string|null}
              */
-            severity?: "critical" | "high" | "medium" | "low";
+            severity?: "critical" | "high" | "medium" | "low" | null;
             /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
             cvss_vector_string?: string | null;
             /**
@@ -30684,7 +30684,7 @@ export interface components {
              * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
              * @enum {string|null}
              */
-            severity?: "critical" | "high" | "medium" | "low";
+            severity?: "critical" | "high" | "medium" | "low" | null;
             /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
             cvss_vector_string?: string | null;
             /**
@@ -30727,7 +30727,7 @@ export interface components {
              * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
              * @enum {string|null}
              */
-            severity?: "critical" | "high" | "medium" | "low";
+            severity?: "critical" | "high" | "medium" | "low" | null;
             /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
             cvss_vector_string?: string | null;
             /**
@@ -32614,7 +32614,7 @@ export interface components {
              * @example neutral
              * @enum {string|null}
              */
-            conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "stale" | "startup_failure";
+            conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "stale" | "startup_failure" | null;
             /** Format: date-time */
             created_at?: string;
             /** @example master */
@@ -32656,7 +32656,7 @@ export interface components {
              * @example neutral
              * @enum {string|null}
              */
-            conclusion: "waiting" | "pending" | "startup_failure" | "stale" | "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            conclusion: "waiting" | "pending" | "startup_failure" | "stale" | "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
             deployment?: components["schemas"]["deployment-simple"];
             /** @example https://example.com */
             details_url: string;
@@ -33022,7 +33022,7 @@ export interface components {
              * @example resolved
              * @enum {string|null}
              */
-            state_reason: "resolved" | "outdated" | "duplicate" | "reopened";
+            state_reason: "resolved" | "outdated" | "duplicate" | "reopened" | null;
             timeline_url?: string;
             title: string;
             /** Format: date-time */
@@ -37053,7 +37053,7 @@ export interface components {
          * @description The reason for resolving the alert.
          * @enum {string|null}
          */
-        "secret-scanning-alert-resolution-webhook": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "pattern_deleted" | "pattern_edited";
+        "secret-scanning-alert-resolution-webhook": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "pattern_deleted" | "pattern_edited" | null;
         "secret-scanning-alert-webhook": {
             number?: components["schemas"]["alert-number"];
             created_at?: components["schemas"]["alert-created-at"];
@@ -82078,7 +82078,7 @@ export interface components {
                 /** Format: uri */
                 check_suite_url: string;
                 /** @enum {string|null} */
-                conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out";
+                conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out" | null;
                 /** Format: date-time */
                 created_at: string;
                 event: string;
@@ -82531,7 +82531,7 @@ export interface components {
                 /** Format: uri */
                 check_suite_url: string;
                 /** @enum {string|null} */
-                conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out";
+                conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out" | null;
                 /** Format: date-time */
                 created_at: string;
                 event: string;
@@ -104716,7 +104716,7 @@ export interface operations {
                      * @example not_planned
                      * @enum {string|null}
                      */
-                    state_reason?: "completed" | "not_planned" | "reopened";
+                    state_reason?: "completed" | "not_planned" | "reopened" | null;
                     milestone?: (string | number) | null;
                     /** @description Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
                     labels?: (string | {

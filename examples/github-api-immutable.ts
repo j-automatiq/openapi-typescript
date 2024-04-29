@@ -19076,7 +19076,7 @@ export interface components {
                  * @description The execution scope of the vulnerable dependency.
                  * @enum {string|null}
                  */
-                readonly scope?: "development" | "runtime";
+                readonly scope?: "development" | "runtime" | null;
             };
             readonly security_advisory: components["schemas"]["dependabot-alert-security-advisory"];
             readonly security_vulnerability: components["schemas"]["dependabot-alert-security-vulnerability"];
@@ -19090,7 +19090,7 @@ export interface components {
              * @description The reason that the alert was dismissed.
              * @enum {string|null}
              */
-            readonly dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk";
+            readonly dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk" | null;
             /** @description An optional comment associated with the alert's dismissal. */
             readonly dismissed_comment: string | null;
             readonly fixed_at: components["schemas"]["alert-fixed-at"];
@@ -19111,7 +19111,7 @@ export interface components {
          * @description **Required when the `state` is `resolved`.** The reason for resolving the alert.
          * @enum {string|null}
          */
-        readonly "secret-scanning-alert-resolution": "false_positive" | "wont_fix" | "revoked" | "used_in_tests";
+        readonly "secret-scanning-alert-resolution": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | null;
         readonly "organization-secret-scanning-alert": {
             readonly number?: components["schemas"]["alert-number"];
             readonly created_at?: components["schemas"]["alert-created-at"];
@@ -19379,7 +19379,7 @@ export interface components {
              * @example not_planned
              * @enum {string|null}
              */
-            readonly state_reason?: "completed" | "reopened" | "not_planned";
+            readonly state_reason?: "completed" | "reopened" | "not_planned" | null;
             /**
              * @description Title of the issue
              * @example Widget creation fails in Safari on OS X 10.8
@@ -20920,12 +20920,12 @@ export interface components {
              * @description The severity of the alert.
              * @enum {string|null}
              */
-            readonly severity?: "none" | "note" | "warning" | "error";
+            readonly severity?: "none" | "note" | "warning" | "error" | null;
             /**
              * @description The security severity of the alert.
              * @enum {string|null}
              */
-            readonly security_severity_level?: "low" | "medium" | "high" | "critical";
+            readonly security_severity_level?: "low" | "medium" | "high" | "critical" | null;
             /** @description A short description of the rule used to detect the alert. */
             readonly description?: string;
         };
@@ -20957,7 +20957,7 @@ export interface components {
          * @description A classification of the file. For example to identify it as generated.
          * @enum {string|null}
          */
-        readonly "code-scanning-alert-classification": "source" | "generated" | "test" | "library";
+        readonly "code-scanning-alert-classification": "source" | "generated" | "test" | "library" | null;
         readonly "code-scanning-alert-instance": {
             readonly ref?: components["schemas"]["code-scanning-ref"];
             readonly analysis_key?: components["schemas"]["code-scanning-analysis-analysis-key"];
@@ -21032,7 +21032,7 @@ export interface components {
              * @example ready
              * @enum {string|null}
              */
-            readonly prebuild_availability: "none" | "ready" | "in_progress";
+            readonly prebuild_availability: "none" | "ready" | "in_progress" | null;
         } | null;
         /**
          * Codespace
@@ -22235,7 +22235,7 @@ export interface components {
              * @example org_actors
              * @enum {string|null}
              */
-            readonly values_editable_by?: "org_actors" | "org_and_repo_actors";
+            readonly values_editable_by?: "org_actors" | "org_and_repo_actors" | null;
         };
         /**
          * Custom Property Value
@@ -23533,7 +23533,7 @@ export interface components {
              * @description The severity of the advisory.
              * @enum {string|null}
              */
-            readonly severity: "critical" | "high" | "medium" | "low";
+            readonly severity: "critical" | "high" | "medium" | "low" | null;
             /** @description The author of the advisory. */
             readonly author: components["schemas"]["simple-user"] | null;
             /** @description The publisher of the advisory. */
@@ -24695,7 +24695,7 @@ export interface components {
              * @example success
              * @enum {string|null}
              */
-            readonly conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            readonly conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
             /**
              * Format: date-time
              * @description The time that the job created, in ISO 8601 format.
@@ -26031,7 +26031,7 @@ export interface components {
              * @example neutral
              * @enum {string|null}
              */
-            readonly conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            readonly conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
             /**
              * Format: date-time
              * @example 2018-05-04T01:14:52Z
@@ -26161,7 +26161,7 @@ export interface components {
              * @example completed
              * @enum {string|null}
              */
-            readonly status: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending";
+            readonly status: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending" | null;
             /**
              * @example neutral
              * @enum {string|null}
@@ -26225,12 +26225,12 @@ export interface components {
              * @description The severity of the alert.
              * @enum {string|null}
              */
-            readonly severity?: "none" | "note" | "warning" | "error";
+            readonly severity?: "none" | "note" | "warning" | "error" | null;
             /**
              * @description The security severity of the alert.
              * @enum {string|null}
              */
-            readonly security_severity_level?: "low" | "medium" | "high" | "critical";
+            readonly security_severity_level?: "low" | "medium" | "high" | "critical" | null;
             /** @description A short description of the rule used to detect the alert. */
             readonly description?: string;
             /** @description description of the rule used to detect the alert. */
@@ -26382,7 +26382,7 @@ export interface components {
              * @description The frequency of the periodic analysis.
              * @enum {string|null}
              */
-            readonly schedule?: "weekly";
+            readonly schedule?: "weekly" | null;
         };
         /** @description Configuration for code scanning default setup. */
         readonly "code-scanning-default-setup-update": {
@@ -26523,7 +26523,7 @@ export interface components {
              * @example ready
              * @enum {string|null}
              */
-            readonly prebuild_availability: "none" | "ready" | "in_progress";
+            readonly prebuild_availability: "none" | "ready" | "in_progress" | null;
         };
         /**
          * Codespaces Permissions Check
@@ -27376,7 +27376,7 @@ export interface components {
                  * @description The execution scope of the vulnerable dependency.
                  * @enum {string|null}
                  */
-                readonly scope?: "development" | "runtime";
+                readonly scope?: "development" | "runtime" | null;
             };
             readonly security_advisory: components["schemas"]["dependabot-alert-security-advisory"];
             readonly security_vulnerability: components["schemas"]["dependabot-alert-security-vulnerability"];
@@ -27390,7 +27390,7 @@ export interface components {
              * @description The reason that the alert was dismissed.
              * @enum {string|null}
              */
-            readonly dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk";
+            readonly dismissed_reason: "fix_started" | "inaccurate" | "no_bandwidth" | "not_used" | "tolerable_risk" | null;
             /** @description An optional comment associated with the alert's dismissal. */
             readonly dismissed_comment: string | null;
             readonly fixed_at: components["schemas"]["alert-fixed-at"];
@@ -28332,7 +28332,7 @@ export interface components {
              * @example not_planned
              * @enum {string|null}
              */
-            readonly state_reason?: "completed" | "reopened" | "not_planned";
+            readonly state_reason?: "completed" | "reopened" | "not_planned" | null;
             /**
              * @description Title of the issue
              * @example Widget creation fails in Safari on OS X 10.8
@@ -29148,7 +29148,7 @@ export interface components {
              * @default RIGHT
              * @enum {string|null}
              */
-            readonly start_side: "LEFT" | "RIGHT";
+            readonly start_side: "LEFT" | "RIGHT" | null;
             /**
              * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
              * @example 2
@@ -29420,7 +29420,7 @@ export interface components {
              * @example built
              * @enum {string|null}
              */
-            readonly status: "built" | "building" | "errored";
+            readonly status: "built" | "building" | "errored" | null;
             /**
              * @description The Pages site's custom domain
              * @example example.com
@@ -29431,7 +29431,7 @@ export interface components {
              * @example pending
              * @enum {string|null}
              */
-            readonly protected_domain_state?: "pending" | "verified" | "unverified";
+            readonly protected_domain_state?: "pending" | "verified" | "unverified" | null;
             /**
              * Format: date-time
              * @description The timestamp when a pending domain becomes unverified.
@@ -29454,7 +29454,7 @@ export interface components {
              * @example legacy
              * @enum {string|null}
              */
-            readonly build_type?: "legacy" | "workflow";
+            readonly build_type?: "legacy" | "workflow" | null;
             readonly source?: components["schemas"]["pages-source-hash"];
             /**
              * @description Whether the GitHub Pages site is publicly visible. If set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site.
@@ -30255,7 +30255,7 @@ export interface components {
              * @default RIGHT
              * @enum {string|null}
              */
-            readonly start_side: "LEFT" | "RIGHT";
+            readonly start_side: "LEFT" | "RIGHT" | null;
             /**
              * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
              * @example 2
@@ -30649,7 +30649,7 @@ export interface components {
              * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
              * @enum {string|null}
              */
-            readonly severity?: "critical" | "high" | "medium" | "low";
+            readonly severity?: "critical" | "high" | "medium" | "low" | null;
             /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
             readonly cvss_vector_string?: string | null;
             /**
@@ -30684,7 +30684,7 @@ export interface components {
              * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
              * @enum {string|null}
              */
-            readonly severity?: "critical" | "high" | "medium" | "low";
+            readonly severity?: "critical" | "high" | "medium" | "low" | null;
             /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
             readonly cvss_vector_string?: string | null;
             /**
@@ -30727,7 +30727,7 @@ export interface components {
              * @description The severity of the advisory. You must choose between setting this field or `cvss_vector_string`.
              * @enum {string|null}
              */
-            readonly severity?: "critical" | "high" | "medium" | "low";
+            readonly severity?: "critical" | "high" | "medium" | "low" | null;
             /** @description The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
             readonly cvss_vector_string?: string | null;
             /**
@@ -32614,7 +32614,7 @@ export interface components {
              * @example neutral
              * @enum {string|null}
              */
-            readonly conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "stale" | "startup_failure";
+            readonly conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "stale" | "startup_failure" | null;
             /** Format: date-time */
             readonly created_at?: string;
             /** @example master */
@@ -32656,7 +32656,7 @@ export interface components {
              * @example neutral
              * @enum {string|null}
              */
-            readonly conclusion: "waiting" | "pending" | "startup_failure" | "stale" | "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required";
+            readonly conclusion: "waiting" | "pending" | "startup_failure" | "stale" | "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
             readonly deployment?: components["schemas"]["deployment-simple"];
             /** @example https://example.com */
             readonly details_url: string;
@@ -33022,7 +33022,7 @@ export interface components {
              * @example resolved
              * @enum {string|null}
              */
-            readonly state_reason: "resolved" | "outdated" | "duplicate" | "reopened";
+            readonly state_reason: "resolved" | "outdated" | "duplicate" | "reopened" | null;
             readonly timeline_url?: string;
             readonly title: string;
             /** Format: date-time */
@@ -37053,7 +37053,7 @@ export interface components {
          * @description The reason for resolving the alert.
          * @enum {string|null}
          */
-        readonly "secret-scanning-alert-resolution-webhook": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "pattern_deleted" | "pattern_edited";
+        readonly "secret-scanning-alert-resolution-webhook": "false_positive" | "wont_fix" | "revoked" | "used_in_tests" | "pattern_deleted" | "pattern_edited" | null;
         readonly "secret-scanning-alert-webhook": {
             readonly number?: components["schemas"]["alert-number"];
             readonly created_at?: components["schemas"]["alert-created-at"];
@@ -82078,7 +82078,7 @@ export interface components {
                 /** Format: uri */
                 readonly check_suite_url: string;
                 /** @enum {string|null} */
-                readonly conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out";
+                readonly conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out" | null;
                 /** Format: date-time */
                 readonly created_at: string;
                 readonly event: string;
@@ -82531,7 +82531,7 @@ export interface components {
                 /** Format: uri */
                 readonly check_suite_url: string;
                 /** @enum {string|null} */
-                readonly conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out";
+                readonly conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out" | null;
                 /** Format: date-time */
                 readonly created_at: string;
                 readonly event: string;
@@ -104716,7 +104716,7 @@ export interface operations {
                      * @example not_planned
                      * @enum {string|null}
                      */
-                    readonly state_reason?: "completed" | "not_planned" | "reopened";
+                    readonly state_reason?: "completed" | "not_planned" | "reopened" | null;
                     readonly milestone?: (string | number) | null;
                     /** @description Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
                     readonly labels?: readonly (string | {
