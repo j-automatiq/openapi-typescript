@@ -101899,7 +101899,7 @@ export interface operations {
                 /** @description The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`). */
                 task?: string;
                 /** @description The name of the environment that was deployed to (e.g., `staging` or `production`). */
-                environment?: string | null;
+                environment?: string;
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 per_page?: components["parameters"]["per-page"];
                 /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
