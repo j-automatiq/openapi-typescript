@@ -85883,7 +85883,7 @@ export interface operations {
                      * @example markdown
                      * @enum {string}
                      */
-                    readonly mode: "markdown" | "gfm";
+                    readonly mode?: "markdown" | "gfm";
                     /** @description The repository context to use when creating references in `gfm` mode.  For example, setting `context` to `octo-org/octo-repo` will change the text `#42` into an HTML link to issue 42 in the `octo-org/octo-repo` repository. */
                     readonly context?: string;
                 };
@@ -86372,7 +86372,7 @@ export interface operations {
                      * @description Whether to block all notifications from a thread.
                      * @default false
                      */
-                    readonly ignored: boolean;
+                    readonly ignored?: boolean;
                 };
             };
         };
@@ -86543,12 +86543,12 @@ export interface operations {
                      * @default read
                      * @enum {string}
                      */
-                    readonly default_repository_permission: "read" | "write" | "admin" | "none";
+                    readonly default_repository_permission?: "read" | "write" | "admin" | "none";
                     /**
                      * @description Whether of non-admin organization members can create repositories. **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details.
                      * @default true
                      */
-                    readonly members_can_create_repositories: boolean;
+                    readonly members_can_create_repositories?: boolean;
                     /** @description Whether organization members can create internal repositories, which are visible to all enterprise members. You can only allow members to create internal repositories if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see "[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)" in the GitHub Help documentation. */
                     readonly members_can_create_internal_repositories?: boolean;
                     /** @description Whether organization members can create private repositories, which are visible to organization members with permission. For more information, see "[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)" in the GitHub Help documentation. */
@@ -86565,27 +86565,27 @@ export interface operations {
                      * @description Whether organization members can create GitHub Pages sites. Existing published sites will not be impacted.
                      * @default true
                      */
-                    readonly members_can_create_pages: boolean;
+                    readonly members_can_create_pages?: boolean;
                     /**
                      * @description Whether organization members can create public GitHub Pages sites. Existing published sites will not be impacted.
                      * @default true
                      */
-                    readonly members_can_create_public_pages: boolean;
+                    readonly members_can_create_public_pages?: boolean;
                     /**
                      * @description Whether organization members can create private GitHub Pages sites. Existing published sites will not be impacted.
                      * @default true
                      */
-                    readonly members_can_create_private_pages: boolean;
+                    readonly members_can_create_private_pages?: boolean;
                     /**
                      * @description Whether organization members can fork private organization repositories.
                      * @default false
                      */
-                    readonly members_can_fork_private_repositories: boolean;
+                    readonly members_can_fork_private_repositories?: boolean;
                     /**
                      * @description Whether contributors to organization repositories are required to sign off on commits they make through GitHub's web interface.
                      * @default false
                      */
-                    readonly web_commit_signoff_required: boolean;
+                    readonly web_commit_signoff_required?: boolean;
                     /** @example "http://github.blog" */
                     readonly blog?: string;
                     /** @description Whether GitHub Advanced Security is automatically enabled for new repositories.
@@ -87093,7 +87093,7 @@ export interface operations {
                      * @description The working directory to be used for job execution, relative to the runner install directory.
                      * @default _work
                      */
-                    readonly work_folder: string;
+                    readonly work_folder?: string;
                 };
             };
         };
@@ -89249,12 +89249,12 @@ export interface operations {
                      *       "push"
                      *     ]
                      */
-                    readonly events: readonly string[];
+                    readonly events?: readonly string[];
                     /**
                      * @description Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
                      * @default true
                      */
-                    readonly active: boolean;
+                    readonly active?: boolean;
                 };
             };
         };
@@ -89352,12 +89352,12 @@ export interface operations {
                      *       "push"
                      *     ]
                      */
-                    readonly events: readonly string[];
+                    readonly events?: readonly string[];
                     /**
                      * @description Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
                      * @default true
                      */
-                    readonly active: boolean;
+                    readonly active?: boolean;
                     /** @example "web" */
                     readonly name?: string;
                 };
@@ -89728,7 +89728,7 @@ export interface operations {
                      * @default direct_member
                      * @enum {string}
                      */
-                    readonly role: "admin" | "direct_member" | "billing_manager" | "reinstate";
+                    readonly role?: "admin" | "direct_member" | "billing_manager" | "reinstate";
                     /** @description Specify IDs for the teams you want to invite new members to. */
                     readonly team_ids?: readonly number[];
                 };
@@ -90123,7 +90123,7 @@ export interface operations {
                      * @default member
                      * @enum {string}
                      */
-                    readonly role: "admin" | "member";
+                    readonly role?: "admin" | "member";
                 };
             };
         };
@@ -90217,41 +90217,41 @@ export interface operations {
                      * @default false
                      * @example true
                      */
-                    readonly lock_repositories: boolean;
+                    readonly lock_repositories?: boolean;
                     /**
                      * @description Indicates whether metadata should be excluded and only git source should be included for the migration.
                      * @default false
                      */
-                    readonly exclude_metadata: boolean;
+                    readonly exclude_metadata?: boolean;
                     /**
                      * @description Indicates whether the repository git data should be excluded from the migration.
                      * @default false
                      */
-                    readonly exclude_git_data: boolean;
+                    readonly exclude_git_data?: boolean;
                     /**
                      * @description Indicates whether attachments should be excluded from the migration (to reduce migration archive file size).
                      * @default false
                      * @example true
                      */
-                    readonly exclude_attachments: boolean;
+                    readonly exclude_attachments?: boolean;
                     /**
                      * @description Indicates whether releases should be excluded from the migration (to reduce migration archive file size).
                      * @default false
                      * @example true
                      */
-                    readonly exclude_releases: boolean;
+                    readonly exclude_releases?: boolean;
                     /**
                      * @description Indicates whether projects owned by the organization or users should be excluded. from the migration.
                      * @default false
                      * @example true
                      */
-                    readonly exclude_owner_projects: boolean;
+                    readonly exclude_owner_projects?: boolean;
                     /**
                      * @description Indicates whether this should only include organization metadata (repositories array should be empty and will ignore other flags).
                      * @default false
                      * @example true
                      */
-                    readonly org_metadata_only: boolean;
+                    readonly org_metadata_only?: boolean;
                     /** @description Exclude related items from being returned in the response in order to improve performance of the request. */
                     readonly exclude?: readonly "repositories"[];
                 };
@@ -90904,7 +90904,7 @@ export interface operations {
                      * @description When set to `true`, the request will be performed asynchronously. Returns a 202 status code when the job is successfully queued.
                      * @default false
                      */
-                    readonly async: boolean;
+                    readonly async?: boolean;
                 };
             };
         };
@@ -91959,7 +91959,7 @@ export interface operations {
                      * @description Whether the repository is private.
                      * @default false
                      */
-                    readonly private: boolean;
+                    readonly private?: boolean;
                     /**
                      * @description The visibility of the repository.
                      * @enum {string}
@@ -91969,35 +91969,35 @@ export interface operations {
                      * @description Either `true` to enable issues for this repository or `false` to disable them.
                      * @default true
                      */
-                    readonly has_issues: boolean;
+                    readonly has_issues?: boolean;
                     /**
                      * @description Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.
                      * @default true
                      */
-                    readonly has_projects: boolean;
+                    readonly has_projects?: boolean;
                     /**
                      * @description Either `true` to enable the wiki for this repository or `false` to disable it.
                      * @default true
                      */
-                    readonly has_wiki: boolean;
+                    readonly has_wiki?: boolean;
                     /**
                      * @description Whether downloads are enabled.
                      * @default true
                      * @example true
                      */
-                    readonly has_downloads: boolean;
+                    readonly has_downloads?: boolean;
                     /**
                      * @description Either `true` to make this repo available as a template repository or `false` to prevent it.
                      * @default false
                      */
-                    readonly is_template: boolean;
+                    readonly is_template?: boolean;
                     /** @description The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
                     readonly team_id?: number;
                     /**
                      * @description Pass `true` to create an initial commit with empty README.
                      * @default false
                      */
-                    readonly auto_init: boolean;
+                    readonly auto_init?: boolean;
                     /** @description Desired language or platform [.gitignore template](https://github.com/github/gitignore) to apply. Use the name of the template without the extension. For example, "Haskell". */
                     readonly gitignore_template?: string;
                     /** @description Choose an [open source license template](https://choosealicense.com/) that best suits your needs, and then use the [license keyword](https://docs.github.com/articles/licensing-a-repository/#searching-github-by-license-type) as the `license_template` string. For example, "mit" or "mpl-2.0". */
@@ -92006,33 +92006,33 @@ export interface operations {
                      * @description Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
                      * @default true
                      */
-                    readonly allow_squash_merge: boolean;
+                    readonly allow_squash_merge?: boolean;
                     /**
                      * @description Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.
                      * @default true
                      */
-                    readonly allow_merge_commit: boolean;
+                    readonly allow_merge_commit?: boolean;
                     /**
                      * @description Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
                      * @default true
                      */
-                    readonly allow_rebase_merge: boolean;
+                    readonly allow_rebase_merge?: boolean;
                     /**
                      * @description Either `true` to allow auto-merge on pull requests, or `false` to disallow auto-merge.
                      * @default false
                      */
-                    readonly allow_auto_merge: boolean;
+                    readonly allow_auto_merge?: boolean;
                     /**
                      * @description Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion. **The authenticated user must be an organization owner to set this property to `true`.**
                      * @default false
                      */
-                    readonly delete_branch_on_merge: boolean;
+                    readonly delete_branch_on_merge?: boolean;
                     /**
                      * @deprecated
                      * @description Either `true` to allow squash-merge commits to use pull request title, or `false` to use commit message. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
                      * @default false
                      */
-                    readonly use_squash_pr_title_as_default: boolean;
+                    readonly use_squash_pr_title_as_default?: boolean;
                     /**
                      * @description The default value for a squash merge commit title:
                      *
@@ -92682,7 +92682,7 @@ export interface operations {
                      * @default pull
                      * @enum {string}
                      */
-                    readonly permission: "pull" | "push";
+                    readonly permission?: "pull" | "push";
                     /** @description The ID of a team to set as the parent team. */
                     readonly parent_team_id?: number;
                 };
@@ -92792,7 +92792,7 @@ export interface operations {
                      * @default pull
                      * @enum {string}
                      */
-                    readonly permission: "pull" | "push" | "admin";
+                    readonly permission?: "pull" | "push" | "admin";
                     /** @description The ID of a team to set as the parent team. */
                     readonly parent_team_id?: number | null;
                 };
@@ -92880,7 +92880,7 @@ export interface operations {
                      * @description Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post.
                      * @default false
                      */
-                    readonly private: boolean;
+                    readonly private?: boolean;
                 };
             };
         };
@@ -93487,7 +93487,7 @@ export interface operations {
                      * @default member
                      * @enum {string}
                      */
-                    readonly role: "member" | "maintainer";
+                    readonly role?: "member" | "maintainer";
                 };
             };
         };
@@ -93783,7 +93783,7 @@ export interface operations {
                      * @description The permission to grant the team on this repository. We accept the following permissions to be set: `pull`, `triage`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any. If no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository.
                      * @default push
                      */
-                    readonly permission: string;
+                    readonly permission?: string;
                 };
             };
         };
@@ -94510,7 +94510,7 @@ export interface operations {
                      * @example write
                      * @enum {string}
                      */
-                    readonly permission: "read" | "write" | "admin";
+                    readonly permission?: "read" | "write" | "admin";
                 } | null;
             };
         };
@@ -94772,7 +94772,7 @@ export interface operations {
                      *     **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://docs.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.
                      * @default false
                      */
-                    readonly private: boolean;
+                    readonly private?: boolean;
                     /**
                      * @description The visibility of the repository.
                      * @enum {string}
@@ -94807,60 +94807,60 @@ export interface operations {
                      * @description Either `true` to enable issues for this repository or `false` to disable them.
                      * @default true
                      */
-                    readonly has_issues: boolean;
+                    readonly has_issues?: boolean;
                     /**
                      * @description Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.
                      * @default true
                      */
-                    readonly has_projects: boolean;
+                    readonly has_projects?: boolean;
                     /**
                      * @description Either `true` to enable the wiki for this repository or `false` to disable it.
                      * @default true
                      */
-                    readonly has_wiki: boolean;
+                    readonly has_wiki?: boolean;
                     /**
                      * @description Either `true` to make this repo available as a template repository or `false` to prevent it.
                      * @default false
                      */
-                    readonly is_template: boolean;
+                    readonly is_template?: boolean;
                     /** @description Updates the default branch for this repository. */
                     readonly default_branch?: string;
                     /**
                      * @description Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
                      * @default true
                      */
-                    readonly allow_squash_merge: boolean;
+                    readonly allow_squash_merge?: boolean;
                     /**
                      * @description Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.
                      * @default true
                      */
-                    readonly allow_merge_commit: boolean;
+                    readonly allow_merge_commit?: boolean;
                     /**
                      * @description Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
                      * @default true
                      */
-                    readonly allow_rebase_merge: boolean;
+                    readonly allow_rebase_merge?: boolean;
                     /**
                      * @description Either `true` to allow auto-merge on pull requests, or `false` to disallow auto-merge.
                      * @default false
                      */
-                    readonly allow_auto_merge: boolean;
+                    readonly allow_auto_merge?: boolean;
                     /**
                      * @description Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion.
                      * @default false
                      */
-                    readonly delete_branch_on_merge: boolean;
+                    readonly delete_branch_on_merge?: boolean;
                     /**
                      * @description Either `true` to always allow a pull request head branch that is behind its base branch to be updated even if it is not required to be up to date before merging, or false otherwise.
                      * @default false
                      */
-                    readonly allow_update_branch: boolean;
+                    readonly allow_update_branch?: boolean;
                     /**
                      * @deprecated
                      * @description Either `true` to allow squash-merge commits to use pull request title, or `false` to use commit message. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
                      * @default false
                      */
-                    readonly use_squash_pr_title_as_default: boolean;
+                    readonly use_squash_pr_title_as_default?: boolean;
                     /**
                      * @description The default value for a squash merge commit title:
                      *
@@ -94899,17 +94899,17 @@ export interface operations {
                      * @description Whether to archive this repository. `false` will unarchive a previously archived repository.
                      * @default false
                      */
-                    readonly archived: boolean;
+                    readonly archived?: boolean;
                     /**
                      * @description Either `true` to allow private forks, or `false` to prevent private forks.
                      * @default false
                      */
-                    readonly allow_forking: boolean;
+                    readonly allow_forking?: boolean;
                     /**
                      * @description Either `true` to require contributors to sign off on web-based commits, or `false` to not require contributors to sign off on web-based commits.
                      * @default false
                      */
-                    readonly web_commit_signoff_required: boolean;
+                    readonly web_commit_signoff_required?: boolean;
                 };
             };
         };
@@ -95239,7 +95239,7 @@ export interface operations {
                      * @description Whether to enable debug logging for the re-run.
                      * @default false
                      */
-                    readonly enable_debug_logging: boolean;
+                    readonly enable_debug_logging?: boolean;
                 } | null;
             };
         };
@@ -95692,7 +95692,7 @@ export interface operations {
                      * @description The working directory to be used for job execution, relative to the runner install directory.
                      * @default _work
                      */
-                    readonly work_folder: string;
+                    readonly work_folder?: string;
                 };
             };
         };
@@ -96498,7 +96498,7 @@ export interface operations {
                      * @description Whether to enable debug logging for the re-run.
                      * @default false
                      */
-                    readonly enable_debug_logging: boolean;
+                    readonly enable_debug_logging?: boolean;
                 } | null;
             };
         };
@@ -96535,7 +96535,7 @@ export interface operations {
                      * @description Whether to enable debug logging for the re-run.
                      * @default false
                      */
-                    readonly enable_debug_logging: boolean;
+                    readonly enable_debug_logging?: boolean;
                 } | null;
             };
         };
@@ -97275,7 +97275,7 @@ export interface operations {
                      * @description Whether this autolink reference matches alphanumeric characters. If true, the `<num>` parameter of the `url_template` matches alphanumeric characters `A-Z` (case insensitive), `0-9`, and `-`. If false, this autolink reference only matches numeric characters.
                      * @default true
                      */
-                    readonly is_alphanumeric: boolean;
+                    readonly is_alphanumeric?: boolean;
                 };
             };
         };
@@ -97575,7 +97575,7 @@ export interface operations {
                          * @description Whether the most recent push must be approved by someone other than the person who pushed it. Default: `false`.
                          * @default false
                          */
-                        readonly require_last_push_approval: boolean;
+                        readonly require_last_push_approval?: boolean;
                         /** @description Allow specific users, teams, or apps to bypass pull request requirements. */
                         readonly bypass_pull_request_allowances?: {
                             /** @description The list of user `login`s allowed to bypass pull request requirements. */
@@ -97609,12 +97609,12 @@ export interface operations {
                      * @description Whether to set the branch as read-only. If this is true, users will not be able to push to the branch. Default: `false`.
                      * @default false
                      */
-                    readonly lock_branch: boolean;
+                    readonly lock_branch?: boolean;
                     /**
                      * @description Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. Default: `false`.
                      * @default false
                      */
-                    readonly allow_fork_syncing: boolean;
+                    readonly allow_fork_syncing?: boolean;
                 };
             };
         };
@@ -97828,7 +97828,7 @@ export interface operations {
                      * @description Whether the most recent push must be approved by someone other than the person who pushed it. Default: `false`
                      * @default false
                      */
-                    readonly require_last_push_approval: boolean;
+                    readonly require_last_push_approval?: boolean;
                     /** @description Allow specific users, teams, or apps to bypass pull request requirements. */
                     readonly bypass_pull_request_allowances?: {
                         /** @description The list of user `login`s allowed to bypass pull request requirements. */
@@ -98692,7 +98692,7 @@ export interface operations {
                      * @default queued
                      * @enum {string}
                      */
-                    readonly status: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending";
+                    readonly status?: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending";
                     /**
                      * Format: date-time
                      * @description The time that the check run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
@@ -100222,7 +100222,7 @@ export interface operations {
                      * @description The permission to grant the collaborator. **Only valid on organization-owned repositories.** We accept the following permissions to be set: `pull`, `triage`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any.
                      * @default push
                      */
-                    readonly permission: string;
+                    readonly permission?: string;
                 };
             };
         };
@@ -101650,12 +101650,12 @@ export interface operations {
                      * @description Specifies a task to execute (e.g., `deploy` or `deploy:migrations`).
                      * @default deploy
                      */
-                    readonly task: string;
+                    readonly task?: string;
                     /**
                      * @description Attempts to automatically merge the default branch into the requested ref, if it's behind the default branch.
                      * @default true
                      */
-                    readonly auto_merge: boolean;
+                    readonly auto_merge?: boolean;
                     /** @description The [status](https://docs.github.com/rest/commits/statuses) contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts. */
                     readonly required_contexts?: readonly string[];
                     readonly payload?: {
@@ -101665,17 +101665,17 @@ export interface operations {
                      * @description Name for the target deployment environment (e.g., `production`, `staging`, `qa`).
                      * @default production
                      */
-                    readonly environment: string;
+                    readonly environment?: string;
                     /**
                      * @description Short description of the deployment.
                      * @default
                      */
-                    readonly description: string | null;
+                    readonly description?: string | null;
                     /**
                      * @description Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: `false`
                      * @default false
                      */
-                    readonly transient_environment: boolean;
+                    readonly transient_environment?: boolean;
                     /** @description Specifies if the given environment is one that end-users directly interact with. Default: `true` when `environment` is `production` and `false` otherwise. */
                     readonly production_environment?: boolean;
                 };
@@ -101827,24 +101827,24 @@ export interface operations {
                      * @description The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment. **Note:** It's recommended to use the `log_url` parameter, which replaces `target_url`.
                      * @default
                      */
-                    readonly target_url: string;
+                    readonly target_url?: string;
                     /**
                      * @description The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`. Setting `log_url` will automatically set `target_url` to the same value. Default: `""`
                      * @default
                      */
-                    readonly log_url: string;
+                    readonly log_url?: string;
                     /**
                      * @description A short description of the status. The maximum description length is 140 characters.
                      * @default
                      */
-                    readonly description: string;
+                    readonly description?: string;
                     /** @description Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. If not defined, the environment of the previous status on the deployment will be used, if it exists. Otherwise, the environment of the deployment will be used. */
                     readonly environment?: string;
                     /**
                      * @description Sets the URL for accessing your environment. Default: `""`
                      * @default
                      */
-                    readonly environment_url: string;
+                    readonly environment_url?: string;
                     /** @description Adds a new `inactive` status to all prior non-transient, non-production environment deployments with the same repository and `environment` name as the created status's deployment. An `inactive` status is only added to deployments that had a `success` state. Default: `true` */
                     readonly auto_inactive?: boolean;
                 };
@@ -102861,7 +102861,7 @@ export interface operations {
                      * @description The encoding used for `content`. Currently, `"utf-8"` and `"base64"` are supported.
                      * @default utf-8
                      */
-                    readonly encoding: string;
+                    readonly encoding?: string;
                 };
             };
         };
@@ -103167,7 +103167,7 @@ export interface operations {
                      * @description Indicates whether to force the update or to make sure the update is a fast-forward update. Leaving this out or setting it to `false` will make sure you're not overwriting work.
                      * @default false
                      */
-                    readonly force: boolean;
+                    readonly force?: boolean;
                 };
             };
         };
@@ -103428,12 +103428,12 @@ export interface operations {
                      *       "push"
                      *     ]
                      */
-                    readonly events: readonly string[];
+                    readonly events?: readonly string[];
                     /**
                      * @description Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
                      * @default true
                      */
-                    readonly active: boolean;
+                    readonly active?: boolean;
                 } | null;
             };
         };
@@ -103532,7 +103532,7 @@ export interface operations {
                      *       "push"
                      *     ]
                      */
-                    readonly events: readonly string[];
+                    readonly events?: readonly string[];
                     /** @description Determines a list of events to be added to the list of events that the Hook triggers for. */
                     readonly add_events?: readonly string[];
                     /** @description Determines a list of events to be removed from the list of events that the Hook triggers for. */
@@ -103541,7 +103541,7 @@ export interface operations {
                      * @description Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.
                      * @default true
                      */
-                    readonly active: boolean;
+                    readonly active?: boolean;
                 };
             };
         };
@@ -105865,7 +105865,7 @@ export interface operations {
                      * @default open
                      * @enum {string}
                      */
-                    readonly state: "open" | "closed";
+                    readonly state?: "open" | "closed";
                     /** @description A description of the milestone. */
                     readonly description?: string;
                     /**
@@ -105970,7 +105970,7 @@ export interface operations {
                      * @default open
                      * @enum {string}
                      */
-                    readonly state: "open" | "closed";
+                    readonly state?: "open" | "closed";
                     /** @description A description of the milestone. */
                     readonly description?: string;
                     /**
@@ -106214,7 +106214,7 @@ export interface operations {
                          * @default /
                          * @enum {string}
                          */
-                        readonly path: "/" | "/docs";
+                        readonly path?: "/" | "/docs";
                     };
                 } | unknown | unknown) | null;
             };
@@ -106389,7 +106389,7 @@ export interface operations {
                      * @description The target environment for this GitHub Pages deployment.
                      * @default github-pages
                      */
-                    readonly environment: string;
+                    readonly environment?: string;
                     /**
                      * @description A unique string that represents the version of the build for this deployment.
                      * @default GITHUB_SHA
@@ -108099,25 +108099,25 @@ export interface operations {
                      * @description `true` to create a draft (unpublished) release, `false` to create a published one.
                      * @default false
                      */
-                    readonly draft: boolean;
+                    readonly draft?: boolean;
                     /**
                      * @description `true` to identify the release as a prerelease. `false` to identify the release as a full release.
                      * @default false
                      */
-                    readonly prerelease: boolean;
+                    readonly prerelease?: boolean;
                     /** @description If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see "[Managing categories for discussions in your repository](https://docs.github.com/discussions/managing-discussions-for-your-community/managing-categories-for-discussions-in-your-repository)." */
                     readonly discussion_category_name?: string;
                     /**
                      * @description Whether to automatically generate the name and body for this release. If `name` is specified, the specified name will be used; otherwise, a name will be automatically generated. If `body` is specified, the body will be pre-pended to the automatically generated notes.
                      * @default false
                      */
-                    readonly generate_release_notes: boolean;
+                    readonly generate_release_notes?: boolean;
                     /**
                      * @description Specifies whether this release should be set as the latest release for the repository. Drafts and prereleases cannot be set as latest. Defaults to `true` for newly published releases. `legacy` specifies that the latest release should be determined based on the release creation date and higher semantic version.
                      * @default true
                      * @enum {string}
                      */
-                    readonly make_latest: "true" | "false" | "legacy";
+                    readonly make_latest?: "true" | "false" | "legacy";
                 };
             };
         };
@@ -108422,7 +108422,7 @@ export interface operations {
                      * @default true
                      * @enum {string}
                      */
-                    readonly make_latest: "true" | "false" | "legacy";
+                    readonly make_latest?: "true" | "false" | "legacy";
                     /** @description If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored. For more information, see "[Managing categories for discussions in your repository](https://docs.github.com/discussions/managing-discussions-for-your-community/managing-categories-for-discussions-in-your-repository)." */
                     readonly discussion_category_name?: string;
                 };
@@ -109552,7 +109552,7 @@ export interface operations {
                      * @description A string label to differentiate this status from the status of other systems. This field is case-insensitive.
                      * @default default
                      */
-                    readonly context: string;
+                    readonly context?: string;
                 };
             };
         };
@@ -110206,12 +110206,12 @@ export interface operations {
                      * @description Set to `true` to include the directory structure and files from all branches in the template repository, and not just the default branch. Default: `false`.
                      * @default false
                      */
-                    readonly include_all_branches: boolean;
+                    readonly include_all_branches?: boolean;
                     /**
                      * @description Either `true` to create a new private repository or `false` to create a new public one.
                      * @default false
                      */
-                    readonly private: boolean;
+                    readonly private?: boolean;
                 };
             };
         };
@@ -110611,7 +110611,7 @@ export interface operations {
                      * @default pull
                      * @enum {string}
                      */
-                    readonly permission: "pull" | "push" | "admin";
+                    readonly permission?: "pull" | "push" | "admin";
                     /** @description The ID of a team to set as the parent team. */
                     readonly parent_team_id?: number | null;
                 };
@@ -110693,7 +110693,7 @@ export interface operations {
                      * @description Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post.
                      * @default false
                      */
-                    readonly private: boolean;
+                    readonly private?: boolean;
                 };
             };
         };
@@ -111287,7 +111287,7 @@ export interface operations {
                      * @default member
                      * @enum {string}
                      */
-                    readonly role: "member" | "maintainer";
+                    readonly role?: "member" | "maintainer";
                 };
             };
         };
@@ -112409,7 +112409,7 @@ export interface operations {
                      * @description Whether the new repository should be private.
                      * @default false
                      */
-                    readonly private: boolean;
+                    readonly private?: boolean;
                 };
             };
         };
@@ -113483,7 +113483,7 @@ export interface operations {
                      * @default false
                      * @example true
                      */
-                    readonly org_metadata_only: boolean;
+                    readonly org_metadata_only?: boolean;
                     /**
                      * @description Exclude attributes from the API response to improve performance
                      * @example [
@@ -114044,38 +114044,38 @@ export interface operations {
                      * @description Whether the repository is private.
                      * @default false
                      */
-                    readonly private: boolean;
+                    readonly private?: boolean;
                     /**
                      * @description Whether issues are enabled.
                      * @default true
                      * @example true
                      */
-                    readonly has_issues: boolean;
+                    readonly has_issues?: boolean;
                     /**
                      * @description Whether projects are enabled.
                      * @default true
                      * @example true
                      */
-                    readonly has_projects: boolean;
+                    readonly has_projects?: boolean;
                     /**
                      * @description Whether the wiki is enabled.
                      * @default true
                      * @example true
                      */
-                    readonly has_wiki: boolean;
+                    readonly has_wiki?: boolean;
                     /**
                      * @description Whether discussions are enabled.
                      * @default false
                      * @example true
                      */
-                    readonly has_discussions: boolean;
+                    readonly has_discussions?: boolean;
                     /** @description The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
                     readonly team_id?: number;
                     /**
                      * @description Whether the repository is initialized with a minimal README.
                      * @default false
                      */
-                    readonly auto_init: boolean;
+                    readonly auto_init?: boolean;
                     /**
                      * @description The desired language or platform to apply to the .gitignore.
                      * @example Haskell
@@ -114091,31 +114091,31 @@ export interface operations {
                      * @default true
                      * @example true
                      */
-                    readonly allow_squash_merge: boolean;
+                    readonly allow_squash_merge?: boolean;
                     /**
                      * @description Whether to allow merge commits for pull requests.
                      * @default true
                      * @example true
                      */
-                    readonly allow_merge_commit: boolean;
+                    readonly allow_merge_commit?: boolean;
                     /**
                      * @description Whether to allow rebase merges for pull requests.
                      * @default true
                      * @example true
                      */
-                    readonly allow_rebase_merge: boolean;
+                    readonly allow_rebase_merge?: boolean;
                     /**
                      * @description Whether to allow Auto-merge to be used on pull requests.
                      * @default false
                      * @example false
                      */
-                    readonly allow_auto_merge: boolean;
+                    readonly allow_auto_merge?: boolean;
                     /**
                      * @description Whether to delete head branches when pull requests are merged
                      * @default false
                      * @example false
                      */
-                    readonly delete_branch_on_merge: boolean;
+                    readonly delete_branch_on_merge?: boolean;
                     /**
                      * @description The default value for a squash merge commit title:
                      *
@@ -114155,13 +114155,13 @@ export interface operations {
                      * @default true
                      * @example true
                      */
-                    readonly has_downloads: boolean;
+                    readonly has_downloads?: boolean;
                     /**
                      * @description Whether this repository acts as a template that can be used to generate new repositories.
                      * @default false
                      * @example true
                      */
-                    readonly is_template: boolean;
+                    readonly is_template?: boolean;
                 };
             };
         };
