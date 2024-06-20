@@ -340,7 +340,7 @@ export interface paths {
         post?: never;
         /**
          * Delete an app authorization
-         * @description OAuth and GitHub application owners can revoke a grant for their application and a specific user. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the OAuth application's `client_id` and `client_secret` as the username and password. You must also provide a valid OAuth `access_token` as an input parameter and the grant for the token's owner will be deleted.
+         * @description OAuth and GitHub application owners can revoke a grant for their application and a specific user. You must provide a valid OAuth `access_token` as an input parameter and the grant for the token's owner will be deleted.
          *     Deleting an application's grant will also delete all OAuth tokens associated with the application for the user. Once deleted, the application will have no access to the user's account and will no longer be listed on [the application authorizations settings screen within GitHub](https://github.com/settings/applications#authorized).
          */
         delete: operations["apps/delete-authorization"];
@@ -360,19 +360,19 @@ export interface paths {
         put?: never;
         /**
          * Check a token
-         * @description OAuth applications and GitHub applications with OAuth authorizations can use this API method for checking OAuth token validity without exceeding the normal rate limits for failed login attempts. Authentication works differently with this particular endpoint. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) to use this endpoint, where the username is the application `client_id` and the password is its `client_secret`. Invalid tokens will return `404 NOT FOUND`.
+         * @description OAuth applications and GitHub applications with OAuth authorizations can use this API method for checking OAuth token validity without exceeding the normal rate limits for failed login attempts. Authentication works differently with this particular endpoint. Invalid tokens will return `404 NOT FOUND`.
          */
         post: operations["apps/check-token"];
         /**
          * Delete an app token
-         * @description OAuth  or GitHub application owners can revoke a single token for an OAuth application or a GitHub application with an OAuth authorization. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the application's `client_id` and `client_secret` as the username and password.
+         * @description OAuth  or GitHub application owners can revoke a single token for an OAuth application or a GitHub application with an OAuth authorization.
          */
         delete: operations["apps/delete-token"];
         options?: never;
         head?: never;
         /**
          * Reset a token
-         * @description OAuth applications and GitHub applications with OAuth authorizations can use this API method to reset a valid OAuth token without end-user involvement. Applications must save the "token" property in the response because changes take effect immediately. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the application's `client_id` and `client_secret` as the username and password. Invalid tokens will return `404 NOT FOUND`.
+         * @description OAuth applications and GitHub applications with OAuth authorizations can use this API method to reset a valid OAuth token without end-user involvement. Applications must save the "token" property in the response because changes take effect immediately. Invalid tokens will return `404 NOT FOUND`.
          */
         patch: operations["apps/reset-token"];
         trace?: never;
@@ -393,10 +393,6 @@ export interface paths {
          *     token.
          *
          *     Invalid tokens will return `404 NOT FOUND`.
-         *
-         *     You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication)
-         *     when accessing this endpoint, using the `client_id` and `client_secret` of the GitHub App
-         *     as the username and password.
          */
         post: operations["apps/scope-token"];
         delete?: never;
@@ -605,6 +601,32 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/enterprises/{enterprise}/copilot/billing/seats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List all Copilot seat assignments for an enterprise
+         * @description **Note**: This endpoint is in beta and is subject to change.
+         *
+         *     Lists all active Copilot seats across organizations or enterprise teams for an enterprise with a Copilot Business or Copilot Enterprise subscription.
+         *
+         *     Only enterprise owners and billing managers can view assigned Copilot seats across their child organizations or enterprise teams.
+         *
+         *     Personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
+         */
+        get: operations["copilot/list-copilot-seats-for-enterprise"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/enterprises/{enterprise}/copilot/usage": {
         parameters: {
             query?: never;
@@ -624,10 +646,9 @@ export interface paths {
          *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
          *     they must have telemetry enabled in their IDE.
          *
-         *     Only the owners and billing managers of enterprises with a Copilot Business or Enterprise subscription can view Copilot usage
-         *     metrics for the enterprise.
+         *     Only owners and billing managers can view Copilot usage metrics for the enterprise.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `copilot`, `manage_billing:copilot`, `admin:enterprise`, or `manage_billing:enterprise` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
          */
         get: operations["copilot/usage-metrics-for-enterprise"];
         put?: never;
@@ -731,7 +752,7 @@ export interface paths {
          *
          *     By default, timeline resources are returned in JSON. You can specify the `application/atom+xml` type in the `Accept` header to return timeline resources in Atom format. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
          *
-         *     **Note**: Private feeds are only returned when [authenticating via Basic Auth](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) since current feed URIs use the older, non revocable auth tokens.
+         *     **Note**: Private feeds are only returned when [authenticating via Basic Auth](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) since current feed URIs use the older, non revocable auth tokens.
          */
         get: operations["activity/get-feeds"];
         put?: never;
@@ -1208,7 +1229,7 @@ export interface paths {
          * Get a subscription plan for an account
          * @description Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
          *
-         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.
          */
         get: operations["apps/get-subscription-plan-for-account"];
         put?: never;
@@ -1230,7 +1251,7 @@ export interface paths {
          * List plans
          * @description Lists all plans that are part of your GitHub Marketplace listing.
          *
-         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.
          */
         get: operations["apps/list-plans"];
         put?: never;
@@ -1252,7 +1273,7 @@ export interface paths {
          * List accounts for a plan
          * @description Returns user and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
          *
-         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.
          */
         get: operations["apps/list-accounts-for-plan"];
         put?: never;
@@ -1274,7 +1295,7 @@ export interface paths {
          * Get a subscription plan for an account (stubbed)
          * @description Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
          *
-         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.
          */
         get: operations["apps/get-subscription-plan-for-account-stubbed"];
         put?: never;
@@ -1296,7 +1317,7 @@ export interface paths {
          * List plans (stubbed)
          * @description Lists all plans that are part of your GitHub Marketplace listing.
          *
-         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.
          */
         get: operations["apps/list-plans-stubbed"];
         put?: never;
@@ -1318,7 +1339,7 @@ export interface paths {
          * List accounts for a plan (stubbed)
          * @description Returns repository and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.
          *
-         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
+         *     GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.
          */
         get: operations["apps/list-accounts-for-plan-stubbed"];
         put?: never;
@@ -2638,12 +2659,12 @@ export interface paths {
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
          *     Gets information about an organization's Copilot subscription, including seat breakdown
-         *     and code matching policies. To configure these settings, go to your organization's settings on GitHub.com.
+         *     and feature policies. To configure these settings, go to your organization's settings on GitHub.com.
          *     For more information, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-policies-for-copilot-business-in-your-organization)".
          *
-         *     Only organization owners can configure and view details about the organization's Copilot Business subscription.
+         *     Only organization owners can view details about the organization's Copilot Business or Copilot Enterprise subscription.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `manage_billing:copilot` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scopes to use this endpoint.
          */
         get: operations["copilot/get-copilot-organization-details"];
         put?: never;
@@ -2665,11 +2686,10 @@ export interface paths {
          * List all Copilot seat assignments for an organization
          * @description **Note**: This endpoint is in beta and is subject to change.
          *
-         *     Lists all Copilot seat assignments for an organization that are currently being billed (either active or pending cancellation at the start of the next billing cycle).
+         *     Lists all active Copilot seats for an organization with a Copilot Business or Copilot Enterprise subscription.
+         *     Only organization owners can view assigned seats.
          *
-         *     Only organization owners can configure and view details about the organization's Copilot Business or Enterprise subscription.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need the `manage_billing:copilot` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scopes to use this endpoint.
          */
         get: operations["copilot/list-copilot-seats"];
         put?: never;
@@ -2696,13 +2716,13 @@ export interface paths {
          *     Purchases a GitHub Copilot seat for all users within each specified team.
          *     The organization will be billed accordingly. For more information about Copilot pricing, see "[Pricing for GitHub Copilot](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#about-billing-for-github-copilot)".
          *
-         *     Only organization owners can configure GitHub Copilot in their organization.
+         *     Only organization owners can add Copilot seats for their organization members.
          *
          *     In order for an admin to use this endpoint, the organization must have a Copilot Business or Enterprise subscription and a configured suggestion matching policy.
          *     For more information about setting up a Copilot subscription, see "[Setting up a Copilot subscription for your organization](https://docs.github.com/billing/managing-billing-for-github-copilot/managing-your-github-copilot-subscription-for-your-organization-or-enterprise)".
          *     For more information about setting a suggestion matching policy, see "[Configuring suggestion matching policies for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-policies-for-github-copilot-in-your-organization#configuring-suggestion-matching-policies-for-github-copilot-in-your-organization)".
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `manage_billing:copilot` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
         post: operations["copilot/add-copilot-seats-for-teams"];
         /**
@@ -2716,9 +2736,9 @@ export interface paths {
          *
          *     For more information about disabling access to Copilot Business or Enterprise, see "[Revoking access to GitHub Copilot for specific users in your organization](https://docs.github.com/copilot/managing-copilot/managing-access-for-copilot-in-your-organization#revoking-access-to-github-copilot-for-specific-users-in-your-organization)".
          *
-         *     Only organization owners can configure GitHub Copilot in their organization.
+         *     Only organization owners can cancel Copilot seats for their organization members.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `manage_billing:copilot` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
         delete: operations["copilot/cancel-copilot-seat-assignment-for-teams"];
         options?: never;
@@ -2742,13 +2762,13 @@ export interface paths {
          *     Purchases a GitHub Copilot seat for each user specified.
          *     The organization will be billed accordingly. For more information about Copilot pricing, see "[Pricing for GitHub Copilot](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#about-billing-for-github-copilot)".
          *
-         *     Only organization owners can configure GitHub Copilot in their organization.
+         *     Only organization owners can add Copilot seats for their organization members.
          *
          *     In order for an admin to use this endpoint, the organization must have a Copilot Business or Enterprise subscription and a configured suggestion matching policy.
          *     For more information about setting up a Copilot subscription, see "[Setting up a Copilot subscription for your organization](https://docs.github.com/billing/managing-billing-for-github-copilot/managing-your-github-copilot-subscription-for-your-organization-or-enterprise)".
          *     For more information about setting a suggestion matching policy, see "[Configuring suggestion matching policies for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-policies-for-github-copilot-in-your-organization#configuring-suggestion-matching-policies-for-github-copilot-in-your-organization)".
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `manage_billing:copilot` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
         post: operations["copilot/add-copilot-seats-for-users"];
         /**
@@ -2762,9 +2782,9 @@ export interface paths {
          *
          *     For more information about disabling access to Copilot Business or Enterprise, see "[Revoking access to GitHub Copilot for specific users in your organization](https://docs.github.com/copilot/managing-copilot/managing-access-for-copilot-in-your-organization#revoking-access-to-github-copilot-for-specific-users-in-your-organization)".
          *
-         *     Only organization owners can configure GitHub Copilot in their organization.
+         *     Only organization owners can cancel Copilot seats for their organization members.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `manage_billing:copilot` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
         delete: operations["copilot/cancel-copilot-seat-assignment-for-users"];
         options?: never;
@@ -2791,10 +2811,9 @@ export interface paths {
          *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
          *     they must have telemetry enabled in their IDE.
          *
-         *     Copilot Business or Copilot Enterprise organization owners, and owners and billing managers of their parent enterprises, can view
-         *     Copilot usage metrics.
+         *     Organization owners, and owners and billing managers of the parent enterprise, can view Copilot usage metrics.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `copilot`, `manage_billing:copilot`, `admin:org`, `admin:enterprise`, or `manage_billing:enterprise` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot`, `read:org`, or `read:enterprise` scopes to use this endpoint.
          */
         get: operations["copilot/usage-metrics-for-org"];
         put?: never;
@@ -3329,7 +3348,10 @@ export interface paths {
         };
         /**
          * List pending organization invitations
-         * @description The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, or `hiring_manager`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.
+         * @description The return hash contains a `role` field which refers to the Organization
+         *     Invitation role and will be one of the following values: `direct_member`, `admin`,
+         *     `billing_manager`, or `hiring_manager`. If the invitee is not a GitHub
+         *     member, the `login` field in the return hash will be `null`.
          */
         get: operations["orgs/list-pending-invitations"];
         put?: never;
@@ -3337,7 +3359,7 @@ export interface paths {
          * Create an organization invitation
          * @description Invite people to an organization by using their GitHub user ID or their email address. In order to create invitations in an organization, the authenticated user must be an organization owner.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
          *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         post: operations["orgs/create-invitation"];
@@ -3544,9 +3566,9 @@ export interface paths {
          *
          *     Gets the GitHub Copilot seat assignment details for a member of an organization who currently has access to GitHub Copilot.
          *
-         *     Organization owners can view GitHub Copilot seat assignment details for members in their organization.
+         *     Only organization owners can view Copilot seat assignment details for members of their organization.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `manage_billing:copilot` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scopes to use this endpoint.
          */
         get: operations["copilot/get-copilot-seat-details-for-user"];
         put?: never;
@@ -3579,7 +3601,7 @@ export interface paths {
          *
          *     **Rate limits**
          *
-         *     To prevent abuse, the authenticated user is limited to 50 organization invitations per 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.
+         *     To prevent abuse, organization owners are limited to creating 50 organization invitations for an organization within a 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.
          */
         put: operations["orgs/set-membership-for-user"];
         post?: never;
@@ -4809,41 +4831,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/orgs/{org}/team/{team_slug}/copilot/usage": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get a summary of Copilot usage for a team
-         * @description **Note**: This endpoint is in beta and is subject to change.
-         *
-         *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
-         *     for users within a team, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
-         *     See the response schema tab for detailed metrics definitions.
-         *
-         *     The response contains metrics for the prior 28 days. Usage metrics are processed once per day for the previous day,
-         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
-         *     they must have telemetry enabled in their IDE.
-         *
-         *     **Note**: This endpoint will only return results for a given day if the team had five or more members on that day.
-         *
-         *     Copilot Business or Copilot Enterprise organization owners for the organization that contains this team,
-         *     and owners and billing managers of their parent enterprises, can view Copilot usage metrics for a team.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need the `copilot`, `manage_billing:copilot`, `admin:org`, `admin:enterprise`, or `manage_billing:enterprise` scope to use this endpoint.
-         */
-        get: operations["copilot/usage-metrics-for-team"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/orgs/{org}/teams": {
         parameters: {
             query?: never;
@@ -4927,7 +4914,7 @@ export interface paths {
          * Create a discussion
          * @description Creates a new discussion post on a team's page.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions`.
          *
@@ -5001,7 +4988,7 @@ export interface paths {
          * Create a discussion comment
          * @description Creates a new comment on a team discussion.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments`.
          *
@@ -5356,7 +5343,7 @@ export interface paths {
          * Check team permissions for a repository
          * @description Checks whether a team has `admin`, `push`, `maintain`, `triage`, or `pull` permission for a repository. Repositories inherited through a parent team will also be checked.
          *
-         *     You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `application/vnd.github.v3.repository+json` accept header.
+         *     You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types/) via the `application/vnd.github.v3.repository+json` accept header.
          *
          *     If a team doesn't have permission for the repository, you will receive a `404 Not Found` response status.
          *
@@ -5674,7 +5661,7 @@ export interface paths {
          *     * The `dependency_snapshots` object provides your rate limit status for submitting snapshots to the dependency graph. For more information, see "[Dependency graph](https://docs.github.com/rest/dependency-graph)."
          *     * The `code_scanning_upload` object provides your rate limit status for uploading SARIF results to code scanning. For more information, see "[Uploading a SARIF file to GitHub](https://docs.github.com/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github)."
          *     * The `actions_runner_registration` object provides your rate limit status for registering self-hosted runners in GitHub Actions. For more information, see "[Self-hosted runners](https://docs.github.com/rest/actions/self-hosted-runners)."
-         *     * The `source_import` object is no longer in use for any API endpoints, and it will be removed in the next API version. For more information about API versions, see "[API Versions](https://docs.github.com/rest/overview/api-versions)."
+         *     * The `source_import` object is no longer in use for any API endpoints, and it will be removed in the next API version. For more information about API versions, see "[API Versions](https://docs.github.com/rest/about-the-rest-api/api-versions)."
          *
          *     **Note:** The `rate` object is deprecated. If you're writing new API client code or updating existing code, you should use the `core` object instead of the `rate` object. The `core` object contains the same information that is present in the `rate` object.
          */
@@ -8172,13 +8159,84 @@ export interface paths {
          *
          *     By default this endpoint returns JSON metadata about the CodeQL database. To
          *     download the CodeQL database binary content, set the `Accept` header of the request
-         *     to [`application/zip`](https://docs.github.com/rest/overview/media-types), and make sure
+         *     to [`application/zip`](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types), and make sure
          *     your HTTP client is configured to follow redirects or use the `Location` header
          *     to make a second request to get the redirect URL.
          *
          *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
          */
         get: operations["code-scanning/get-codeql-database"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/code-scanning/codeql/variant-analyses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create a CodeQL variant analysis
+         * @description Creates a new CodeQL variant analysis, which will run a CodeQL query against one or more repositories.
+         *
+         *     Get started by learning more about [running CodeQL queries at scale with Multi-Repository Variant Analysis](https://docs.github.com/code-security/codeql-for-vs-code/getting-started-with-codeql-for-vs-code/running-codeql-queries-at-scale-with-multi-repository-variant-analysis).
+         *
+         *     Use the `owner` and `repo` parameters in the URL to specify the controller repository that
+         *     will be used for running GitHub Actions workflows and storing the results of the CodeQL variant analysis.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
+         */
+        post: operations["code-scanning/create-variant-analysis"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/code-scanning/codeql/variant-analyses/{codeql_variant_analysis_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the summary of a CodeQL variant analysis
+         * @description Gets the summary of a CodeQL variant analysis.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         */
+        get: operations["code-scanning/get-variant-analysis"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/code-scanning/codeql/variant-analyses/{codeql_variant_analysis_id}/repos/{repo_owner}/{repo_name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the analysis status of a repository in a CodeQL variant analysis
+         * @description Gets the analysis status of a repository in a CodeQL variant analysis.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         */
+        get: operations["code-scanning/get-variant-analysis-repo-task"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8258,6 +8316,8 @@ export interface paths {
          *     For more information, see "[Get information about a SARIF upload](/rest/code-scanning/code-scanning#get-information-about-a-sarif-upload)."
          *
          *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         *
+         *     This endpoint is limited to 1,000 requests per hour for each user or app installation calling it.
          */
         post: operations["code-scanning/upload-sarif"];
         delete?: never;
@@ -8558,7 +8618,7 @@ export interface paths {
         get: operations["repos/check-collaborator"];
         /**
          * Add a repository collaborator
-         * @description This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         * @description This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     Adding an outside collaborator may be restricted by enterprise administrators. For more information, see "[Enforcing repository management policies in your enterprise](https://docs.github.com/admin/policies/enforcing-policies-for-your-enterprise/enforcing-repository-management-policies-in-your-enterprise#enforcing-a-policy-for-inviting-outside-collaborators-to-repositories)."
          *
@@ -8843,7 +8903,7 @@ export interface paths {
          * Create a commit comment
          * @description Create a comment for a commit using its `:commit_sha`.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
          *
@@ -9093,7 +9153,7 @@ export interface paths {
          *
          *     To process a response with a large number of commits, use a query parameter (`per_page` or `page`) to paginate the results. When using pagination:
          *
-         *     - The list of changed files is only shown on the first page of results, but it includes all changed files for the entire comparison.
+         *     - The list of changed files is only shown on the first page of results, and it includes up to 300 changed files for the entire comparison.
          *     - The results are returned in chronological order, but the last commit in the returned list may not be the most recent one in the entire set if there are more pages of results.
          *
          *     For more information on working with pagination, see "[Using pagination in the REST API](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api)."
@@ -10882,7 +10942,7 @@ export interface paths {
          * Create an issue
          * @description Any user with pull access to a repository can create an issue. If [issues are disabled in the repository](https://docs.github.com/articles/disabling-issues/), the API returns a `410 Gone` status.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
          *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
@@ -11180,7 +11240,7 @@ export interface paths {
          *
          *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications).
          *     Creating content too quickly using this endpoint may result in secondary rate limiting.
-         *     For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
          *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
@@ -11952,7 +12012,7 @@ export interface paths {
          *
          *     To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
          *
@@ -12107,7 +12167,7 @@ export interface paths {
          *     *   If merged via a [squash](https://docs.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits), `merge_commit_sha` represents the SHA of the squashed commit on the base branch.
          *     *   If [rebased](https://docs.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits), `merge_commit_sha` represents the commit that the base branch was updated to.
          *
-         *     Pass the appropriate [media type](https://docs.github.com/rest/overview/media-types/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.
+         *     Pass the appropriate [media type](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types) to fetch diff and patch formats.
          *
          *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
          *
@@ -12190,7 +12250,7 @@ export interface paths {
          *
          *     The `position` parameter is deprecated. If you use `position`, the `line`, `side`, `start_line`, and `start_side` parameters are not required.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
          *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
@@ -12220,7 +12280,7 @@ export interface paths {
          * Create a reply for a review comment
          * @description Creates a reply to a review comment for a pull request. For the `comment_id`, provide the ID of the review comment you are replying to. This must be the ID of a _top-level review comment_, not a reply to that comment. Replies to replies are not supported.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
          *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
@@ -12311,7 +12371,7 @@ export interface paths {
         /**
          * Merge a pull request
          * @description Merges a pull request into the base branch.
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         put: operations["pulls/merge"];
         post?: never;
@@ -12337,7 +12397,7 @@ export interface paths {
         /**
          * Request reviewers for a pull request
          * @description Requests reviews for a pull request from a given set of users and/or teams.
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         post: operations["pulls/request-reviewers"];
         /**
@@ -12374,7 +12434,7 @@ export interface paths {
          * Create a review for a pull request
          * @description Creates a review on a specified pull request.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     Pull request reviews created in the `PENDING` state are not submitted and therefore do not include the `submitted_at` property in the response. To create a pending review for a pull request, leave the `event` parameter blank. For more information about submitting a `PENDING` review, see "[Submit a review for a pull request](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request)."
          *
@@ -12619,7 +12679,7 @@ export interface paths {
          * Create a release
          * @description Users with push access to the repository can create a release.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          */
         post: operations["repos/create-release"];
         delete?: never;
@@ -12637,7 +12697,7 @@ export interface paths {
         };
         /**
          * Get a release asset
-         * @description To download the asset's binary content, set the `Accept` header of the request to [`application/octet-stream`](https://docs.github.com/rest/overview/media-types). The API will either redirect the client to the location, or stream it directly if possible. API clients should handle both a `200` or `302` response.
+         * @description To download the asset's binary content, set the `Accept` header of the request to [`application/octet-stream`](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). The API will either redirect the client to the location, or stream it directly if possible. API clients should handle both a `200` or `302` response.
          */
         get: operations["repos/get-release-asset"];
         put?: never;
@@ -13408,16 +13468,24 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List tag protection states for a repository
-         * @description This returns the tag protection states of a repository.
+         * Deprecated - List tag protection states for a repository
+         * @deprecated
+         * @description **Note**: This operation is deprecated and will be removed after August 30th 2024
+         *     Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#get-all-repository-rulesets)" endpoint instead.
+         *
+         *     This returns the tag protection states of a repository.
          *
          *     This information is only available to repository administrators.
          */
         get: operations["repos/list-tag-protection"];
         put?: never;
         /**
-         * Create a tag protection state for a repository
-         * @description This creates a tag protection state for a repository.
+         * Deprecated - Create a tag protection state for a repository
+         * @deprecated
+         * @description **Note**: This operation is deprecated and will be removed after August 30th 2024
+         *     Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#create-a-repository-ruleset)" endpoint instead.
+         *
+         *     This creates a tag protection state for a repository.
          *     This endpoint is only available to repository administrators.
          */
         post: operations["repos/create-tag-protection"];
@@ -13438,8 +13506,12 @@ export interface paths {
         put?: never;
         post?: never;
         /**
-         * Delete a tag protection state for a repository
-         * @description This deletes a tag protection state for a repository.
+         * Deprecated - Delete a tag protection state for a repository
+         * @deprecated
+         * @description **Note**: This operation is deprecated and will be removed after August 30th 2024
+         *     Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#delete-a-repository-ruleset)" endpoint instead.
+         *
+         *     This deletes a tag protection state for a repository.
          *     This endpoint is only available to repository administrators.
          */
         delete: operations["repos/delete-tag-protection"];
@@ -13988,7 +14060,7 @@ export interface paths {
          *
          *     Creates a new discussion post on a team's page.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     OAuth app tokens and personal access tokens (classic) need the `write:discussion` scope to use this endpoint.
          */
@@ -14067,7 +14139,7 @@ export interface paths {
          *
          *     Creates a new comment on a team discussion.
          *
-         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
          *
          *     OAuth app tokens and personal access tokens (classic) need the `write:discussion` scope to use this endpoint.
          */
@@ -14443,7 +14515,7 @@ export interface paths {
          *
          *     **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a repository](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-repository) endpoint.
          *
-         *     You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header:
+         *     You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types/) via the `Accept` header:
          */
         get: operations["teams/check-permissions-for-repo-legacy"];
         /**
@@ -15176,12 +15248,16 @@ export interface paths {
         /**
          * Add a repository to an app installation
          * @description Add a single repository to an installation. The authenticated user must have admin access to the repository.
+         *
+         *     This endpoint only works for PATs (classic) with the `repo` scope.
          */
         put: operations["apps/add-repo-to-installation-for-authenticated-user"];
         post?: never;
         /**
          * Remove a repository from an app installation
          * @description Remove a single repository from an installation. The authenticated user must have admin access to the repository. The installation must have the `repository_selection` of `selected`.
+         *
+         *     This endpoint only works for PATs (classic) with the `repo` scope.
          */
         delete: operations["apps/remove-repo-from-installation-for-authenticated-user"];
         options?: never;
@@ -17258,6 +17334,12 @@ export interface components {
              * @example 123
              */
             repository_id: number | null;
+            /**
+             * Format: date-time
+             * @description Time when the webhook delivery was throttled.
+             * @example 2021-05-12T20:33:44Z
+             */
+            throttled_at?: string | null;
         };
         /**
          * Scim Error
@@ -17348,6 +17430,12 @@ export interface components {
              * @example 123
              */
             repository_id: number | null;
+            /**
+             * Format: date-time
+             * @description Time when the webhook delivery was throttled.
+             * @example 2021-05-12T20:33:44Z
+             */
+            throttled_at?: string | null;
             /**
              * @description The URL target of the delivery.
              * @example https://www.example.com
@@ -18649,6 +18737,280 @@ export interface components {
             html_url: string | null;
         };
         /**
+         * Team Simple
+         * @description Groups of organization members that gives permissions on specified repositories.
+         */
+        "nullable-team-simple": {
+            /**
+             * @description Unique identifier of the team
+             * @example 1
+             */
+            id: number;
+            /** @example MDQ6VGVhbTE= */
+            node_id: string;
+            /**
+             * Format: uri
+             * @description URL for the team
+             * @example https://api.github.com/organizations/1/team/1
+             */
+            url: string;
+            /** @example https://api.github.com/organizations/1/team/1/members{/member} */
+            members_url: string;
+            /**
+             * @description Name of the team
+             * @example Justice League
+             */
+            name: string;
+            /**
+             * @description Description of the team
+             * @example A great team.
+             */
+            description: string | null;
+            /**
+             * @description Permission that the team will have for its repositories
+             * @example admin
+             */
+            permission: string;
+            /**
+             * @description The level of privacy this team should have
+             * @example closed
+             */
+            privacy?: string;
+            /**
+             * @description The notification setting the team has set
+             * @example notifications_enabled
+             */
+            notification_setting?: string;
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/rails/teams/core
+             */
+            html_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/1/repos
+             */
+            repositories_url: string;
+            /** @example justice-league */
+            slug: string;
+            /**
+             * @description Distinguished Name (DN) that team maps to within LDAP environment
+             * @example uid=example,ou=users,dc=github,dc=com
+             */
+            ldap_dn?: string;
+        } | null;
+        /**
+         * Team
+         * @description Groups of organization members that gives permissions on specified repositories.
+         */
+        team: {
+            id: number;
+            node_id: string;
+            name: string;
+            slug: string;
+            description: string | null;
+            privacy?: string;
+            notification_setting?: string;
+            permission: string;
+            permissions?: {
+                pull: boolean;
+                triage: boolean;
+                push: boolean;
+                maintain: boolean;
+                admin: boolean;
+            };
+            /** Format: uri */
+            url: string;
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/rails/teams/core
+             */
+            html_url: string;
+            members_url: string;
+            /** Format: uri */
+            repositories_url: string;
+            parent: components["schemas"]["nullable-team-simple"];
+        };
+        /**
+         * Organization
+         * @description GitHub account for managing multiple users, teams, and repositories
+         */
+        organization: {
+            /**
+             * @description Unique login name of the organization
+             * @example new-org
+             */
+            login: string;
+            /**
+             * Format: uri
+             * @description URL for the organization
+             * @example https://api.github.com/orgs/github
+             */
+            url: string;
+            id: number;
+            node_id: string;
+            /** Format: uri */
+            repos_url: string;
+            /** Format: uri */
+            events_url: string;
+            hooks_url: string;
+            issues_url: string;
+            members_url: string;
+            public_members_url: string;
+            avatar_url: string;
+            description: string | null;
+            /**
+             * Format: uri
+             * @description Display blog url for the organization
+             * @example blog.example-org.com
+             */
+            blog?: string;
+            /** Format: uri */
+            html_url: string;
+            /**
+             * @description Display name for the organization
+             * @example New Org
+             */
+            name?: string;
+            /**
+             * @description Display company name for the organization
+             * @example Acme corporation
+             */
+            company?: string;
+            /**
+             * @description Display location for the organization
+             * @example Berlin, Germany
+             */
+            location?: string;
+            /**
+             * Format: email
+             * @description Display email for the organization
+             * @example org@example.com
+             */
+            email?: string;
+            /** @description Specifies if organization projects are enabled for this org */
+            has_organization_projects: boolean;
+            /** @description Specifies if repository projects are enabled for repositories that belong to this org */
+            has_repository_projects: boolean;
+            is_verified?: boolean;
+            public_repos: number;
+            public_gists: number;
+            followers: number;
+            following: number;
+            type: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            plan?: {
+                name?: string;
+                space?: number;
+                private_repos?: number;
+                filled_seats?: number;
+                seats?: number;
+            };
+        };
+        /**
+         * Organization Simple
+         * @description A GitHub organization.
+         */
+        "organization-simple": {
+            /** @example github */
+            login: string;
+            /** @example 1 */
+            id: number;
+            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
+            node_id: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github
+             */
+            url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/repos
+             */
+            repos_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/events
+             */
+            events_url: string;
+            /** @example https://api.github.com/orgs/github/hooks */
+            hooks_url: string;
+            /** @example https://api.github.com/orgs/github/issues */
+            issues_url: string;
+            /** @example https://api.github.com/orgs/github/members{/member} */
+            members_url: string;
+            /** @example https://api.github.com/orgs/github/public_members{/member} */
+            public_members_url: string;
+            /** @example https://github.com/images/error/octocat_happy.gif */
+            avatar_url: string;
+            /** @example A great organization */
+            description: string | null;
+        };
+        /**
+         * Enterprise Team
+         * @description Group of enterprise owners and/or members
+         */
+        "enterprise-team": {
+            id: number;
+            name: string;
+            slug: string;
+            /** Format: uri */
+            url: string;
+            /** @example disabled | all */
+            sync_to_organizations: string;
+            /** @example 1 */
+            group_id?: number | null;
+            /**
+             * Format: uri
+             * @example https://github.com/enterprises/dc/teams/justice-league
+             */
+            html_url: string;
+            members_url: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+        };
+        /**
+         * Copilot Business Seat Detail
+         * @description Information about a Copilot Business seat assignment for a user, team, or organization.
+         */
+        "copilot-seat-details": {
+            /** @description The assignee that has been granted access to GitHub Copilot. */
+            assignee: {
+                [key: string]: unknown;
+            } & (components["schemas"]["simple-user"] | components["schemas"]["team"] | components["schemas"]["organization"]);
+            /** @description The organization to which this seat belongs. */
+            organization?: components["schemas"]["organization-simple"] | null;
+            /** @description The team through which the assignee is granted access to GitHub Copilot, if applicable. */
+            assigning_team?: (components["schemas"]["team"] | components["schemas"]["enterprise-team"]) | null;
+            /**
+             * Format: date
+             * @description The pending cancellation date for the seat, in `YYYY-MM-DD` format. This will be null unless the assignee's Copilot access has been canceled during the current billing cycle. If the seat has been cancelled, this corresponds to the start of the organization's next billing cycle.
+             */
+            pending_cancellation_date?: string | null;
+            /**
+             * Format: date-time
+             * @description Timestamp of user's last GitHub Copilot activity, in ISO 8601 format.
+             */
+            last_activity_at?: string | null;
+            /** @description Last editor that was used by the user for a GitHub Copilot completion. */
+            last_activity_editor?: string | null;
+            /**
+             * Format: date-time
+             * @description Timestamp of when the assignee was last granted access to GitHub Copilot, in ISO 8601 format.
+             */
+            created_at: string;
+            /**
+             * Format: date-time
+             * @description Timestamp of when the assignee's GitHub Copilot access was last updated, in ISO 8601 format.
+             */
+            updated_at?: string;
+        };
+        /**
          * Copilot Usage Metrics
          * @description Summary of Copilot usage.
          */
@@ -19654,6 +20016,8 @@ export interface components {
             location: string | null;
             /** Format: email */
             email: string | null;
+            /** Format: email */
+            notification_email?: string | null;
             hireable: boolean | null;
             bio: string | null;
             twitter_username?: string | null;
@@ -20094,6 +20458,10 @@ export interface components {
             /** @example [
              *       "192.0.2.1"
              *     ] */
+            actions_macos?: string[];
+            /** @example [
+             *       "192.0.2.1"
+             *     ] */
             dependabot?: string[];
             domains?: {
                 website?: string[];
@@ -20386,45 +20754,6 @@ export interface components {
              * @example https://api.github.com/repos/1
              */
             repository_url?: string;
-        };
-        /**
-         * Organization Simple
-         * @description A GitHub organization.
-         */
-        "organization-simple": {
-            /** @example github */
-            login: string;
-            /** @example 1 */
-            id: number;
-            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
-            node_id: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/orgs/github
-             */
-            url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/orgs/github/repos
-             */
-            repos_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/orgs/github/events
-             */
-            events_url: string;
-            /** @example https://api.github.com/orgs/github/hooks */
-            hooks_url: string;
-            /** @example https://api.github.com/orgs/github/issues */
-            issues_url: string;
-            /** @example https://api.github.com/orgs/github/members{/member} */
-            members_url: string;
-            /** @example https://api.github.com/orgs/github/public_members{/member} */
-            public_members_url: string;
-            /** @example https://github.com/images/error/octocat_happy.gif */
-            avatar_url: string;
-            /** @example A great organization */
-            description: string | null;
         };
         /**
          * Organization Full
@@ -21296,214 +21625,6 @@ export interface components {
             [key: string]: unknown;
         };
         /**
-         * Team Simple
-         * @description Groups of organization members that gives permissions on specified repositories.
-         */
-        "nullable-team-simple": {
-            /**
-             * @description Unique identifier of the team
-             * @example 1
-             */
-            id: number;
-            /** @example MDQ6VGVhbTE= */
-            node_id: string;
-            /**
-             * Format: uri
-             * @description URL for the team
-             * @example https://api.github.com/organizations/1/team/1
-             */
-            url: string;
-            /** @example https://api.github.com/organizations/1/team/1/members{/member} */
-            members_url: string;
-            /**
-             * @description Name of the team
-             * @example Justice League
-             */
-            name: string;
-            /**
-             * @description Description of the team
-             * @example A great team.
-             */
-            description: string | null;
-            /**
-             * @description Permission that the team will have for its repositories
-             * @example admin
-             */
-            permission: string;
-            /**
-             * @description The level of privacy this team should have
-             * @example closed
-             */
-            privacy?: string;
-            /**
-             * @description The notification setting the team has set
-             * @example notifications_enabled
-             */
-            notification_setting?: string;
-            /**
-             * Format: uri
-             * @example https://github.com/orgs/rails/teams/core
-             */
-            html_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/organizations/1/team/1/repos
-             */
-            repositories_url: string;
-            /** @example justice-league */
-            slug: string;
-            /**
-             * @description Distinguished Name (DN) that team maps to within LDAP environment
-             * @example uid=example,ou=users,dc=github,dc=com
-             */
-            ldap_dn?: string;
-        } | null;
-        /**
-         * Team
-         * @description Groups of organization members that gives permissions on specified repositories.
-         */
-        team: {
-            id: number;
-            node_id: string;
-            name: string;
-            slug: string;
-            description: string | null;
-            privacy?: string;
-            notification_setting?: string;
-            permission: string;
-            permissions?: {
-                pull: boolean;
-                triage: boolean;
-                push: boolean;
-                maintain: boolean;
-                admin: boolean;
-            };
-            /** Format: uri */
-            url: string;
-            /**
-             * Format: uri
-             * @example https://github.com/orgs/rails/teams/core
-             */
-            html_url: string;
-            members_url: string;
-            /** Format: uri */
-            repositories_url: string;
-            parent: components["schemas"]["nullable-team-simple"];
-        };
-        /**
-         * Organization
-         * @description GitHub account for managing multiple users, teams, and repositories
-         */
-        organization: {
-            /**
-             * @description Unique login name of the organization
-             * @example new-org
-             */
-            login: string;
-            /**
-             * Format: uri
-             * @description URL for the organization
-             * @example https://api.github.com/orgs/github
-             */
-            url: string;
-            id: number;
-            node_id: string;
-            /** Format: uri */
-            repos_url: string;
-            /** Format: uri */
-            events_url: string;
-            hooks_url: string;
-            issues_url: string;
-            members_url: string;
-            public_members_url: string;
-            avatar_url: string;
-            description: string | null;
-            /**
-             * Format: uri
-             * @description Display blog url for the organization
-             * @example blog.example-org.com
-             */
-            blog?: string;
-            /** Format: uri */
-            html_url: string;
-            /**
-             * @description Display name for the organization
-             * @example New Org
-             */
-            name?: string;
-            /**
-             * @description Display company name for the organization
-             * @example Acme corporation
-             */
-            company?: string;
-            /**
-             * @description Display location for the organization
-             * @example Berlin, Germany
-             */
-            location?: string;
-            /**
-             * Format: email
-             * @description Display email for the organization
-             * @example org@example.com
-             */
-            email?: string;
-            /** @description Specifies if organization projects are enabled for this org */
-            has_organization_projects: boolean;
-            /** @description Specifies if repository projects are enabled for repositories that belong to this org */
-            has_repository_projects: boolean;
-            is_verified?: boolean;
-            public_repos: number;
-            public_gists: number;
-            followers: number;
-            following: number;
-            type: string;
-            /** Format: date-time */
-            created_at: string;
-            /** Format: date-time */
-            updated_at: string;
-            plan?: {
-                name?: string;
-                space?: number;
-                private_repos?: number;
-                filled_seats?: number;
-                seats?: number;
-            };
-        };
-        /**
-         * Copilot Business Seat Detail
-         * @description Information about a Copilot Business seat assignment for a user, team, or organization.
-         */
-        "copilot-seat-details": {
-            /** @description The assignee that has been granted access to GitHub Copilot. */
-            assignee: {
-                [key: string]: unknown;
-            } & (components["schemas"]["simple-user"] | components["schemas"]["team"] | components["schemas"]["organization"]);
-            /** @description The team that granted access to GitHub Copilot to the assignee. This will be null if the user was assigned a seat individually. */
-            assigning_team?: components["schemas"]["team"] | null;
-            /**
-             * Format: date
-             * @description The pending cancellation date for the seat, in `YYYY-MM-DD` format. This will be null unless the assignee's Copilot access has been canceled during the current billing cycle. If the seat has been cancelled, this corresponds to the start of the organization's next billing cycle.
-             */
-            pending_cancellation_date?: string | null;
-            /**
-             * Format: date-time
-             * @description Timestamp of user's last GitHub Copilot activity, in ISO 8601 format.
-             */
-            last_activity_at?: string | null;
-            /** @description Last editor that was used by the user for a GitHub Copilot completion. */
-            last_activity_editor?: string | null;
-            /**
-             * Format: date-time
-             * @description Timestamp of when the assignee was last granted access to GitHub Copilot, in ISO 8601 format.
-             */
-            created_at: string;
-            /**
-             * Format: date-time
-             * @description Timestamp of when the assignee's GitHub Copilot access was last updated, in ISO 8601 format.
-             */
-            updated_at?: string;
-        };
-        /**
          * Dependabot Secret for an Organization
          * @description Secrets for GitHub Dependabot for an organization.
          */
@@ -22014,6 +22135,170 @@ export interface components {
             updated_at: string;
         };
         /**
+         * A Role Assignment for a Team
+         * @description The Relationship a Team has with a role.
+         */
+        "team-role-assignment": {
+            id: number;
+            node_id: string;
+            name: string;
+            slug: string;
+            description: string | null;
+            privacy?: string;
+            notification_setting?: string;
+            permission: string;
+            permissions?: {
+                pull: boolean;
+                triage: boolean;
+                push: boolean;
+                maintain: boolean;
+                admin: boolean;
+            };
+            /** Format: uri */
+            url: string;
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/rails/teams/core
+             */
+            html_url: string;
+            members_url: string;
+            /** Format: uri */
+            repositories_url: string;
+            parent: components["schemas"]["nullable-team-simple"];
+        };
+        /**
+         * Team Simple
+         * @description Groups of organization members that gives permissions on specified repositories.
+         */
+        "team-simple": {
+            /**
+             * @description Unique identifier of the team
+             * @example 1
+             */
+            id: number;
+            /** @example MDQ6VGVhbTE= */
+            node_id: string;
+            /**
+             * Format: uri
+             * @description URL for the team
+             * @example https://api.github.com/organizations/1/team/1
+             */
+            url: string;
+            /** @example https://api.github.com/organizations/1/team/1/members{/member} */
+            members_url: string;
+            /**
+             * @description Name of the team
+             * @example Justice League
+             */
+            name: string;
+            /**
+             * @description Description of the team
+             * @example A great team.
+             */
+            description: string | null;
+            /**
+             * @description Permission that the team will have for its repositories
+             * @example admin
+             */
+            permission: string;
+            /**
+             * @description The level of privacy this team should have
+             * @example closed
+             */
+            privacy?: string;
+            /**
+             * @description The notification setting the team has set
+             * @example notifications_enabled
+             */
+            notification_setting?: string;
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/rails/teams/core
+             */
+            html_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/1/repos
+             */
+            repositories_url: string;
+            /** @example justice-league */
+            slug: string;
+            /**
+             * @description Distinguished Name (DN) that team maps to within LDAP environment
+             * @example uid=example,ou=users,dc=github,dc=com
+             */
+            ldap_dn?: string;
+        };
+        /**
+         * A Role Assignment for a User
+         * @description The Relationship a User has with a role.
+         */
+        "user-role-assignment": {
+            name?: string | null;
+            email?: string | null;
+            /** @example octocat */
+            login: string;
+            /** @example 1 */
+            id: number;
+            /** @example MDQ6VXNlcjE= */
+            node_id: string;
+            /**
+             * Format: uri
+             * @example https://github.com/images/error/octocat_happy.gif
+             */
+            avatar_url: string;
+            /** @example 41d064eb2195891e12d0413f63227ea7 */
+            gravatar_id: string | null;
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat
+             */
+            url: string;
+            /**
+             * Format: uri
+             * @example https://github.com/octocat
+             */
+            html_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/followers
+             */
+            followers_url: string;
+            /** @example https://api.github.com/users/octocat/following{/other_user} */
+            following_url: string;
+            /** @example https://api.github.com/users/octocat/gists{/gist_id} */
+            gists_url: string;
+            /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
+            starred_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/subscriptions
+             */
+            subscriptions_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/orgs
+             */
+            organizations_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/repos
+             */
+            repos_url: string;
+            /** @example https://api.github.com/users/octocat/events{/privacy} */
+            events_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/received_events
+             */
+            received_events_url: string;
+            /** @example User */
+            type: string;
+            site_admin: boolean;
+            /** @example "2020-07-09T00:17:55Z" */
+            starred_at?: string;
+        };
+        /**
          * Package Version
          * @description A version of a software package
          */
@@ -22220,7 +22505,7 @@ export interface components {
              * @example single_select
              * @enum {string}
              */
-            value_type: "string" | "single_select";
+            value_type: "string" | "single_select" | "multi_select" | "true_false";
             /** @description Whether the property is required. */
             required?: boolean;
             /** @description Default value of the property */
@@ -23303,6 +23588,18 @@ export interface components {
             tool: string;
         };
         /**
+         * code_scanning
+         * @description Choose which tools must provide code scanning results before the reference is updated. When configured, code scanning must be enabled and have results for both the commit and the reference being updated.
+         */
+        "repository-rule-code-scanning": {
+            /** @enum {string} */
+            type: "code_scanning";
+            parameters?: {
+                /** @description Tools that must provide code scanning results for this rule to pass. */
+                code_scanning_tools: components["schemas"]["repository-rule-params-code-scanning-tool"][];
+            };
+        };
+        /**
          * Repository Rule
          * @description A repository rule.
          */
@@ -23334,7 +23631,7 @@ export interface components {
                 /** @description The maximum file size allowed in megabytes. This limit does not apply to Git Large File Storage (Git LFS). */
                 max_file_size: number;
             };
-        } | components["schemas"]["repository-rule-workflows"];
+        } | components["schemas"]["repository-rule-workflows"] | components["schemas"]["repository-rule-code-scanning"];
         /**
          * Repository ruleset
          * @description A set of rules to apply when specified conditions are met.
@@ -23608,69 +23905,6 @@ export interface components {
             collaborating_teams: components["schemas"]["team"][] | null;
             /** @description A temporary private fork of the advisory's repository for collaborating on a fix. */
             readonly private_fork: components["schemas"]["simple-repository"] | null;
-        };
-        /**
-         * Team Simple
-         * @description Groups of organization members that gives permissions on specified repositories.
-         */
-        "team-simple": {
-            /**
-             * @description Unique identifier of the team
-             * @example 1
-             */
-            id: number;
-            /** @example MDQ6VGVhbTE= */
-            node_id: string;
-            /**
-             * Format: uri
-             * @description URL for the team
-             * @example https://api.github.com/organizations/1/team/1
-             */
-            url: string;
-            /** @example https://api.github.com/organizations/1/team/1/members{/member} */
-            members_url: string;
-            /**
-             * @description Name of the team
-             * @example Justice League
-             */
-            name: string;
-            /**
-             * @description Description of the team
-             * @example A great team.
-             */
-            description: string | null;
-            /**
-             * @description Permission that the team will have for its repositories
-             * @example admin
-             */
-            permission: string;
-            /**
-             * @description The level of privacy this team should have
-             * @example closed
-             */
-            privacy?: string;
-            /**
-             * @description The notification setting the team has set
-             * @example notifications_enabled
-             */
-            notification_setting?: string;
-            /**
-             * Format: uri
-             * @example https://github.com/orgs/rails/teams/core
-             */
-            html_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/organizations/1/team/1/repos
-             */
-            repositories_url: string;
-            /** @example justice-league */
-            slug: string;
-            /**
-             * @description Distinguished Name (DN) that team maps to within LDAP environment
-             * @example uid=example,ou=users,dc=github,dc=com
-             */
-            ldap_dn?: string;
         };
         "actions-billing-usage": {
             /** @description The sum of the free and paid GitHub Actions minutes used. */
@@ -26357,6 +26591,133 @@ export interface components {
             url: string;
             /** @description The commit SHA of the repository at the time the CodeQL database was created. */
             commit_oid?: string | null;
+        };
+        /**
+         * @description The language targeted by the CodeQL query
+         * @enum {string}
+         */
+        "code-scanning-variant-analysis-language": "cpp" | "csharp" | "go" | "java" | "javascript" | "python" | "ruby" | "swift";
+        /**
+         * Repository Identifier
+         * @description Repository Identifier
+         */
+        "code-scanning-variant-analysis-repository": {
+            /**
+             * @description A unique identifier of the repository.
+             * @example 1296269
+             */
+            id: number;
+            /**
+             * @description The name of the repository.
+             * @example Hello-World
+             */
+            name: string;
+            /**
+             * @description The full, globally unique, name of the repository.
+             * @example octocat/Hello-World
+             */
+            full_name: string;
+            /** @description Whether the repository is private. */
+            private: boolean;
+            /** @example 80 */
+            stargazers_count: number;
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:14:43Z
+             */
+            updated_at: string | null;
+        };
+        /**
+         * @description The new status of the CodeQL variant analysis repository task.
+         * @enum {string}
+         */
+        "code-scanning-variant-analysis-status": "pending" | "in_progress" | "succeeded" | "failed" | "canceled" | "timed_out";
+        "code-scanning-variant-analysis-skipped-repo-group": {
+            /**
+             * @description The total number of repositories that were skipped for this reason.
+             * @example 2
+             */
+            repository_count: number;
+            /** @description A list of repositories that were skipped. This list may not include all repositories that were skipped. This is only available when the repository was found and the user has access to it. */
+            repositories: components["schemas"]["code-scanning-variant-analysis-repository"][];
+        };
+        /**
+         * Variant Analysis
+         * @description A run of a CodeQL query against one or more repositories.
+         */
+        "code-scanning-variant-analysis": {
+            /** @description The ID of the variant analysis. */
+            id: number;
+            controller_repo: components["schemas"]["simple-repository"];
+            actor: components["schemas"]["simple-user"];
+            query_language: components["schemas"]["code-scanning-variant-analysis-language"];
+            /** @description The download url for the query pack. */
+            query_pack_url: string;
+            /**
+             * Format: date-time
+             * @description The date and time at which the variant analysis was created, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.
+             */
+            created_at?: string;
+            /**
+             * Format: date-time
+             * @description The date and time at which the variant analysis was last updated, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.
+             */
+            updated_at?: string;
+            /**
+             * Format: date-time
+             * @description The date and time at which the variant analysis was completed, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. Will be null if the variant analysis has not yet completed or this information is not available.
+             */
+            completed_at?: string | null;
+            /** @enum {string} */
+            status: "in_progress" | "succeeded" | "failed" | "cancelled";
+            /** @description The GitHub Actions workflow run used to execute this variant analysis. This is only available if the workflow run has started. */
+            actions_workflow_run_id?: number;
+            /**
+             * @description The reason for a failure of the variant analysis. This is only available if the variant analysis has failed.
+             * @enum {string}
+             */
+            failure_reason?: "no_repos_queried" | "actions_workflow_run_failed" | "internal_error";
+            scanned_repositories?: {
+                repository: components["schemas"]["code-scanning-variant-analysis-repository"];
+                analysis_status: components["schemas"]["code-scanning-variant-analysis-status"];
+                /** @description The number of results in the case of a successful analysis. This is only available for successful analyses. */
+                result_count?: number;
+                /** @description The size of the artifact. This is only available for successful analyses. */
+                artifact_size_in_bytes?: number;
+                /** @description The reason of the failure of this repo task. This is only available if the repository task has failed. */
+                failure_message?: string;
+            }[];
+            /** @description Information about repositories that were skipped from processing. This information is only available to the user that initiated the variant analysis. */
+            skipped_repositories?: {
+                access_mismatch_repos: components["schemas"]["code-scanning-variant-analysis-skipped-repo-group"];
+                not_found_repos: {
+                    /**
+                     * @description The total number of repositories that were skipped for this reason.
+                     * @example 2
+                     */
+                    repository_count: number;
+                    /** @description A list of full repository names that were skipped. This list may not include all repositories that were skipped. */
+                    repository_full_names: string[];
+                };
+                no_codeql_db_repos: components["schemas"]["code-scanning-variant-analysis-skipped-repo-group"];
+                over_limit_repos: components["schemas"]["code-scanning-variant-analysis-skipped-repo-group"];
+            };
+        };
+        "code-scanning-variant-analysis-repo-task": {
+            repository: components["schemas"]["simple-repository"];
+            analysis_status: components["schemas"]["code-scanning-variant-analysis-status"];
+            /** @description The size of the artifact. This is only available for successful analyses. */
+            artifact_size_in_bytes?: number;
+            /** @description The number of results in the case of a successful analysis. This is only available for successful analyses. */
+            result_count?: number;
+            /** @description The reason of the failure of this repo task. This is only available if the repository task has failed. */
+            failure_message?: string;
+            /** @description The SHA of the commit the CodeQL database was built against. This is only available for successful analyses. */
+            database_commit_sha?: string;
+            /** @description The source location prefix to use. This is only available for successful analyses. */
+            source_location_prefix?: string;
+            /** @description The URL of the artifact. This is only available for successful analyses. */
+            artifact_url?: string;
         };
         /** @description Configuration for code scanning default setup. */
         "code-scanning-default-setup": {
@@ -30396,7 +30757,7 @@ export interface components {
          * Repository Rule
          * @description A repository rule with ruleset details.
          */
-        "repository-rule-detailed": (components["schemas"]["repository-rule-creation"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-update"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-deletion"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-linear-history"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-deployments"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-signatures"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-pull-request"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-status-checks"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-non-fast-forward"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-commit-message-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-commit-author-email-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-committer-email-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-branch-name-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-tag-name-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-workflows"] & components["schemas"]["repository-rule-ruleset-info"]);
+        "repository-rule-detailed": (components["schemas"]["repository-rule-creation"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-update"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-deletion"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-linear-history"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-deployments"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-signatures"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-pull-request"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-required-status-checks"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-non-fast-forward"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-commit-message-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-commit-author-email-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-committer-email-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-branch-name-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-tag-name-pattern"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-workflows"] & components["schemas"]["repository-rule-ruleset-info"]) | (components["schemas"]["repository-rule-code-scanning"] & components["schemas"]["repository-rule-ruleset-info"]);
         "secret-scanning-alert": {
             number?: components["schemas"]["alert-number"];
             created_at?: components["schemas"]["alert-created-at"];
@@ -31394,6 +31755,11 @@ export interface components {
              * @example octocat@github.com
              */
             email: string | null;
+            /**
+             * Format: email
+             * @example octocat@github.com
+             */
+            notification_email?: string | null;
             hireable: boolean | null;
             /** @example There once was... */
             bio: string | null;
@@ -35247,6 +35613,26 @@ export interface components {
              */
             archived_at: string | null;
         };
+        /**
+         * Projects v2 Single Select Option
+         * @description An option for a single select field
+         */
+        "projects-v2-single-select-option": {
+            id: string;
+            name: string;
+            color?: string | null;
+            description?: string | null;
+        };
+        /**
+         * Projects v2 Iteration Setting
+         * @description An iteration setting for an iteration field
+         */
+        "projects-v2-iteration-setting": {
+            id: string;
+            title: string;
+            duration?: number | null;
+            start_date?: string | null;
+        };
         /** @description The pull request number. */
         webhooks_number: number;
         "pull-request-webhook": components["schemas"]["pull-request"] & {
@@ -37076,6 +37462,9 @@ export interface components {
             resolution_comment?: string | null;
             /** @description The type of secret that secret scanning detected. */
             secret_type?: string;
+            /** @description User-friendly name for the detected secret, matching the `secret_type`.
+             *     For a list of built-in patterns, see "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)." */
+            secret_type_display_name?: string;
             /**
              * @description The token status as of the latest validity check.
              * @enum {string}
@@ -41611,10 +42000,6 @@ export interface components {
                 /** Format: uri */
                 contributors_url: string;
                 created_at: number | string;
-                /** @description The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-                custom_properties?: {
-                    [key: string]: unknown;
-                };
                 /** @description The default branch of the repository. */
                 default_branch: string;
                 /**
@@ -50592,6 +50977,7 @@ export interface components {
             /** @enum {string} */
             action: "approved";
             personal_access_token_request: components["schemas"]["personal-access-token-request"];
+            enterprise?: components["schemas"]["enterprise-webhooks"];
             organization: components["schemas"]["organization-simple-webhooks"];
             sender: components["schemas"]["simple-user-webhooks"];
             installation: components["schemas"]["simple-installation"];
@@ -50601,6 +50987,7 @@ export interface components {
             /** @enum {string} */
             action: "cancelled";
             personal_access_token_request: components["schemas"]["personal-access-token-request"];
+            enterprise?: components["schemas"]["enterprise-webhooks"];
             organization: components["schemas"]["organization-simple-webhooks"];
             sender: components["schemas"]["simple-user-webhooks"];
             installation: components["schemas"]["simple-installation"];
@@ -50610,9 +50997,10 @@ export interface components {
             /** @enum {string} */
             action: "created";
             personal_access_token_request: components["schemas"]["personal-access-token-request"];
+            enterprise?: components["schemas"]["enterprise-webhooks"];
             organization: components["schemas"]["organization-simple-webhooks"];
             sender: components["schemas"]["simple-user-webhooks"];
-            installation: components["schemas"]["simple-installation"];
+            installation?: components["schemas"]["simple-installation"];
         };
         /** personal_access_token_request denied event */
         "webhook-personal-access-token-request-denied": {
@@ -50620,6 +51008,7 @@ export interface components {
             action: "denied";
             personal_access_token_request: components["schemas"]["personal-access-token-request"];
             organization: components["schemas"]["organization-simple-webhooks"];
+            enterprise?: components["schemas"]["enterprise-webhooks"];
             sender: components["schemas"]["simple-user-webhooks"];
             installation: components["schemas"]["simple-installation"];
         };
@@ -51111,10 +51500,16 @@ export interface components {
         "webhook-projects-v2-item-edited": {
             /** @enum {string} */
             action: "edited";
+            /** @description The changes made to the item may involve modifications in the item's fields and draft issue body.
+             *     It includes altered values for text, number, date, single select, and iteration fields, along with the GraphQL node ID of the changed field. */
             changes?: {
                 field_value: {
                     field_node_id?: string;
                     field_type?: string;
+                    field_name?: string;
+                    project_number?: number;
+                    from?: (string | number | components["schemas"]["projects-v2-single-select-option"] | components["schemas"]["projects-v2-iteration-setting"]) | null;
+                    to?: (string | number | components["schemas"]["projects-v2-single-select-option"] | components["schemas"]["projects-v2-iteration-setting"]) | null;
                 };
             } | {
                 body: {
@@ -80040,17 +80435,6 @@ export interface components {
             repository: components["schemas"]["repository-webhooks"];
             sender?: components["schemas"]["simple-user-webhooks"];
         };
-        /** secret_scanning_alert revoked event */
-        "webhook-secret-scanning-alert-revoked": {
-            /** @enum {string} */
-            action: "revoked";
-            alert: components["schemas"]["secret-scanning-alert-webhook"];
-            enterprise?: components["schemas"]["enterprise-webhooks"];
-            installation?: components["schemas"]["simple-installation"];
-            organization?: components["schemas"]["organization-simple-webhooks"];
-            repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
-        };
         /** secret_scanning_alert validated event */
         "webhook-secret-scanning-alert-validated": {
             /** @enum {string} */
@@ -84865,6 +85249,43 @@ export interface operations {
                 };
             };
             304: components["responses"]["not_modified"];
+        };
+    };
+    "copilot/list-copilot-seats-for-enterprise": {
+        parameters: {
+            query?: {
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description Total number of Copilot seats for the organization currently being billed. */
+                        total_seats?: number;
+                        seats?: components["schemas"]["copilot-seat-details"][];
+                    };
+                };
+            };
+            401: components["responses"]["requires_authentication"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            500: components["responses"]["internal_error"];
         };
     };
     "copilot/usage-metrics-for-enterprise": {
@@ -90790,7 +91211,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["team"][];
+                    "application/json": components["schemas"]["team-role-assignment"][];
                 };
             };
             /** @description Response if the organization or role does not exist. */
@@ -90835,7 +91256,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["simple-user"][];
+                    "application/json": components["schemas"]["user-role-assignment"][];
                 };
             };
             /** @description Response if the organization or role does not exist. */
@@ -91683,7 +92104,7 @@ export interface operations {
                      * @example single_select
                      * @enum {string}
                      */
-                    value_type: "string" | "single_select";
+                    value_type: "string" | "single_select" | "multi_select" | "true_false";
                     /** @description Whether the property is required. */
                     required?: boolean;
                     /** @description Default value of the property */
@@ -92566,44 +92987,6 @@ export interface operations {
                     "application/json": components["schemas"]["combined-billing-usage"];
                 };
             };
-        };
-    };
-    "copilot/usage-metrics-for-team": {
-        parameters: {
-            query?: {
-                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
-                since?: string;
-                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
-                until?: string;
-                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                page?: components["parameters"]["page"];
-                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                per_page?: number;
-            };
-            header?: never;
-            path: {
-                /** @description The organization name. The name is not case sensitive. */
-                org: components["parameters"]["org"];
-                /** @description The slug of the team name. */
-                team_slug: components["parameters"]["team-slug"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["copilot-usage-metrics"][];
-                };
-            };
-            401: components["responses"]["requires_authentication"];
-            403: components["responses"]["forbidden"];
-            404: components["responses"]["not_found"];
-            500: components["responses"]["internal_error"];
         };
     };
     "teams/list": {
@@ -97429,7 +97812,7 @@ export interface operations {
     "repos/list-branches": {
         parameters: {
             query?: {
-                /** @description Setting to `true` returns only protected branches. When set to `false`, only unprotected branches are returned. Omitting this parameter returns all branches. */
+                /** @description Setting to `true` returns only branches protected by branch protections or rulesets. When set to `false`, only unprotected branches are returned. Omitting this parameter returns all branches. */
                 protected?: boolean;
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 per_page?: components["parameters"]["per-page"];
@@ -99509,6 +99892,118 @@ export interface operations {
             503: components["responses"]["service_unavailable"];
         };
     };
+    "code-scanning/create-variant-analysis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    language: components["schemas"]["code-scanning-variant-analysis-language"];
+                    /** @description A Base64-encoded tarball containing a CodeQL query and all its dependencies */
+                    query_pack: string;
+                    /** @description List of repository names (in the form `owner/repo-name`) to run the query against. Precisely one property from `repositories`, `repository_lists` and `repository_owners` is required. */
+                    repositories?: string[];
+                    /** @description List of repository lists to run the query against. Precisely one property from `repositories`, `repository_lists` and `repository_owners` is required. */
+                    repository_lists?: string[];
+                    /** @description List of organization or user names whose repositories the query should be run against. Precisely one property from `repositories`, `repository_lists` and `repository_owners` is required. */
+                    repository_owners?: string[];
+                } & (unknown | unknown | unknown);
+            };
+        };
+        responses: {
+            /** @description Variant analysis submitted for processing */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-scanning-variant-analysis"];
+                };
+            };
+            404: components["responses"]["not_found"];
+            /** @description Unable to process variant analysis submission */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["basic-error"];
+                };
+            };
+            503: components["responses"]["service_unavailable"];
+        };
+    };
+    "code-scanning/get-variant-analysis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The unique identifier of the variant analysis. */
+                codeql_variant_analysis_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-scanning-variant-analysis"];
+                };
+            };
+            404: components["responses"]["not_found"];
+            503: components["responses"]["service_unavailable"];
+        };
+    };
+    "code-scanning/get-variant-analysis-repo-task": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the controller repository. */
+                repo: string;
+                /** @description The ID of the variant analysis. */
+                codeql_variant_analysis_id: number;
+                /** @description The account owner of the variant analysis repository. The name is not case sensitive. */
+                repo_owner: string;
+                /** @description The name of the variant analysis repository. */
+                repo_name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-scanning-variant-analysis-repo-task"];
+                };
+            };
+            404: components["responses"]["not_found"];
+            503: components["responses"]["service_unavailable"];
+        };
+    };
     "code-scanning/get-default-setup": {
         parameters: {
             query?: never;
@@ -100546,9 +101041,9 @@ export interface operations {
                 author?: string;
                 /** @description GitHub username or email address to use to filter by commit committer. */
                 committer?: string;
-                /** @description Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-                since?: components["parameters"]["since"];
-                /** @description Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                /** @description Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Due to limitations of Git, timestamps must be between 1970-01-01 and 2099-12-31 (inclusive) or unexpected results may be returned. */
+                since?: string;
+                /** @description Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Due to limitations of Git, timestamps must be between 1970-01-01 and 2099-12-31 (inclusive) or unexpected results may be returned. */
                 until?: string;
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 per_page?: components["parameters"]["per-page"];
@@ -101002,6 +101497,7 @@ export interface operations {
                 };
             };
             302: components["responses"]["found"];
+            304: components["responses"]["not_modified"];
             403: components["responses"]["forbidden"];
             404: components["responses"]["not_found"];
         };
@@ -106151,7 +106647,7 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description Specify a custom domain for the repository. Sending a `null` value will remove the custom domain. For more about custom domains, see "[Using a custom domain with GitHub Pages](https://docs.github.com/articles/using-a-custom-domain-with-github-pages/)." */
+                    /** @description Specify a custom domain for the repository. Sending a `null` value will remove the custom domain. For more about custom domains, see "[Using a custom domain with GitHub Pages](https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site)." */
                     cname?: string | null;
                     /** @description Specify whether HTTPS should be enforced for the repository. */
                     https_enforced?: boolean;
@@ -107065,7 +107561,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Pass the appropriate [media type](https://docs.github.com/rest/overview/media-types/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats. */
+            /** @description Pass the appropriate [media type](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types) to fetch diff and patch formats. */
             200: {
                 headers: {
                     [name: string]: unknown;
