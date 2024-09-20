@@ -649,7 +649,7 @@ export interface paths {
          *     for all users across organizations with access to Copilot within your enterprise, with a further breakdown of suggestions, acceptances,
          *     and number of active users by editor and language for each day. See the response schema tab for detailed metrics definitions.
          *
-         *     The response contains metrics for the prior 28 days. Usage metrics are processed once per day for the previous day,
+         *     The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
          *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
          *     they must have telemetry enabled in their IDE.
          *
@@ -710,6 +710,42 @@ export interface paths {
          *     OAuth app tokens and personal access tokens (classic) need the `repo` scope or `security_events` scope to use this endpoint.
          */
         get: operations["secret-scanning/list-alerts-for-enterprise"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/enterprises/{enterprise}/team/{team_slug}/copilot/usage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a summary of Copilot usage for an enterprise team
+         * @description > [!NOTE]
+         *     > This endpoint is in beta and is subject to change.
+         *
+         *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
+         *     for users within an enterprise team, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
+         *     See the response schema tab for detailed metrics definitions.
+         *
+         *     The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
+         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
+         *     they must have telemetry enabled in their IDE.
+         *
+         *     > [!NOTE]
+         *     > This endpoint will only return results for a given day if the enterprise team had five or more members with active Copilot licenses, as evaluated at the end of that day.
+         *
+         *     Owners and billing managers for the enterprise that contains the enterprise team can view Copilot usage metrics for the enterprise team.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
+         */
+        get: operations["copilot/usage-metrics-for-enterprise-team"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3037,7 +3073,7 @@ export interface paths {
          *     across an organization, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
          *     See the response schema tab for detailed metrics definitions.
          *
-         *     The response contains metrics for the prior 28 days. Usage metrics are processed once per day for the previous day,
+         *     The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
          *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
          *     they must have telemetry enabled in their IDE.
          *
@@ -4808,6 +4844,9 @@ export interface paths {
         /**
          * Get an organization repository ruleset
          * @description Get a repository ruleset for an organization.
+         *
+         *     **Note:** To prevent leaking sensitive information, the `bypass_actors` property is only returned if the user
+         *     making the API request has write access to the ruleset.
          */
         get: operations["repos/get-org-ruleset"];
         /**
@@ -4994,6 +5033,42 @@ export interface paths {
          *     OAuth app tokens and personal access tokens (classic) need the `repo` or `admin:org` scope to use this endpoint.
          */
         get: operations["billing/get-shared-storage-billing-org"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/team/{team_slug}/copilot/usage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a summary of Copilot usage for a team
+         * @description > [!NOTE]
+         *     > This endpoint is in beta and is subject to change.
+         *
+         *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
+         *     for users within a team, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
+         *     See the response schema tab for detailed metrics definitions.
+         *
+         *     The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
+         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
+         *     they must have telemetry enabled in their IDE.
+         *
+         *     > [!NOTE]
+         *     > This endpoint will only return results for a given day if the team had five or more members with active Copilot licenses, as evaluated at the end of that day.
+         *
+         *     Organization owners for the organization that contains this team, and owners and billing managers of the parent enterprise can view Copilot usage metrics for a team.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot`, `read:org`, or `read:enterprise` scopes to use this endpoint.
+         */
+        get: operations["copilot/usage-metrics-for-team"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5620,7 +5695,7 @@ export interface paths {
          *
          *     The authenticated user must be an organization owner or be member of a team with the security manager role to use this endpoint.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org`, `write:org`, or `repo` scopes to use this endpoint.
          */
         post: operations["orgs/enable-or-disable-security-product-on-all-org-repos"];
         delete?: never;
@@ -7418,9 +7493,9 @@ export interface paths {
          * Create an attestation
          * @description Store an artifact attestation and associate it with a repository.
          *
-         *     The authenticated user must have write permission to the repository and, if using a fine-grained access token the `attestations:write` permission is required.
+         *     The authenticated user must have write permission to the repository and, if using a fine-grained access token, the `attestations:write` permission is required.
          *
-         *     Artifact attestations are meant to be created using the [attest action](https://github.com/actions/attest). For amore information, see our guide on [using artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
+         *     Artifact attestations are meant to be created using the [attest action](https://github.com/actions/attest). For more information, see our guide on [using artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
          */
         post: operations["repos/create-attestation"];
         delete?: never;
@@ -8611,6 +8686,30 @@ export interface paths {
          *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
          */
         get: operations["code-scanning/get-sarif"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/code-security-configuration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the code security configuration associated with a repository
+         * @description Get the code security configuration that manages a repository's code security settings.
+         *
+         *     The authenticated user must be an administrator or security manager for the organization to use this endpoint.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
+         */
+        get: operations["code-security/get-configuration-for-repository"];
         put?: never;
         post?: never;
         delete?: never;
@@ -13282,6 +13381,9 @@ export interface paths {
         /**
          * Get a repository ruleset
          * @description Get a ruleset for a repository.
+         *
+         *     **Note:** To prevent leaking sensitive information, the `bypass_actors` property is only returned if the user
+         *     making the API request has write access to the ruleset.
          */
         get: operations["repos/get-repo-ruleset"];
         /**
@@ -13374,6 +13476,30 @@ export interface paths {
         get: operations["secret-scanning/list-locations-for-alert"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/secret-scanning/push-protection-bypasses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create a push protection bypass
+         * @description Creates a bypass for a previously push protected secret.
+         *
+         *     The authenticated user must be the original author of the committed secret.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
+         */
+        post: operations["secret-scanning/create-push-protection-bypass"];
         delete?: never;
         options?: never;
         head?: never;
@@ -17305,6 +17431,20 @@ export interface components {
             /** @description The functions in the package that are affected by the vulnerability. */
             readonly vulnerable_functions: string[] | null;
         };
+        "cvss-severities": {
+            cvss_v3?: {
+                /** @description The CVSS 3 vector string. */
+                vector_string: string | null;
+                /** @description The CVSS 3 score. */
+                readonly score: number | null;
+            } | null;
+            cvss_v4?: {
+                /** @description The CVSS 4 vector string. */
+                vector_string: string | null;
+                /** @description The CVSS 4 score. */
+                readonly score: number | null;
+            } | null;
+        } | null;
         /**
          * Simple User
          * @description A GitHub user.
@@ -17463,12 +17603,17 @@ export interface components {
                 /** @description The CVSS score. */
                 readonly score: number | null;
             } | null;
+            cvss_severities?: components["schemas"]["cvss-severities"];
             cwes: {
                 /** @description The Common Weakness Enumeration (CWE) identifier. */
                 cwe_id: string;
                 /** @description The name of the CWE. */
                 readonly name: string;
             }[] | null;
+            epss?: {
+                percentage?: number;
+                percentile?: number;
+            } | null;
             /** @description The users who contributed to the advisory. */
             readonly credits: {
                 user: components["schemas"]["simple-user"];
@@ -17583,6 +17728,8 @@ export interface components {
             slug?: string;
             /** @example MDExOkludGVncmF0aW9uMQ== */
             node_id: string;
+            /** @example "Iv1.25b5d1e65ffc4022" */
+            client_id?: string;
             owner: components["schemas"]["nullable-simple-user"];
             /**
              * @description The name of the GitHub app
@@ -17640,8 +17787,6 @@ export interface components {
              * @example 5
              */
             installations_count?: number;
-            /** @example "Iv1.25b5d1e65ffc4022" */
-            client_id?: string;
             /** @example "1d4b2097ac622ba702d19de498f005747a8b21d3" */
             client_secret?: string;
             /** @example "6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b" */
@@ -19142,6 +19287,45 @@ export interface components {
             html_url: string | null;
         };
         /**
+         * Organization Simple
+         * @description A GitHub organization.
+         */
+        "organization-simple": {
+            /** @example github */
+            login: string;
+            /** @example 1 */
+            id: number;
+            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
+            node_id: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github
+             */
+            url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/repos
+             */
+            repos_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/events
+             */
+            events_url: string;
+            /** @example https://api.github.com/orgs/github/hooks */
+            hooks_url: string;
+            /** @example https://api.github.com/orgs/github/issues */
+            issues_url: string;
+            /** @example https://api.github.com/orgs/github/members{/member} */
+            members_url: string;
+            /** @example https://api.github.com/orgs/github/public_members{/member} */
+            public_members_url: string;
+            /** @example https://github.com/images/error/octocat_happy.gif */
+            avatar_url: string;
+            /** @example A great organization */
+            description: string | null;
+        };
+        /**
          * Team Simple
          * @description Groups of organization members that gives permissions on specified repositories.
          */
@@ -19237,124 +19421,6 @@ export interface components {
             parent: components["schemas"]["nullable-team-simple"];
         };
         /**
-         * Organization
-         * @description GitHub account for managing multiple users, teams, and repositories
-         */
-        organization: {
-            /**
-             * @description Unique login name of the organization
-             * @example new-org
-             */
-            login: string;
-            /**
-             * Format: uri
-             * @description URL for the organization
-             * @example https://api.github.com/orgs/github
-             */
-            url: string;
-            id: number;
-            node_id: string;
-            /** Format: uri */
-            repos_url: string;
-            /** Format: uri */
-            events_url: string;
-            hooks_url: string;
-            issues_url: string;
-            members_url: string;
-            public_members_url: string;
-            avatar_url: string;
-            description: string | null;
-            /**
-             * Format: uri
-             * @description Display blog url for the organization
-             * @example blog.example-org.com
-             */
-            blog?: string;
-            /** Format: uri */
-            html_url: string;
-            /**
-             * @description Display name for the organization
-             * @example New Org
-             */
-            name?: string;
-            /**
-             * @description Display company name for the organization
-             * @example Acme corporation
-             */
-            company?: string;
-            /**
-             * @description Display location for the organization
-             * @example Berlin, Germany
-             */
-            location?: string;
-            /**
-             * Format: email
-             * @description Display email for the organization
-             * @example org@example.com
-             */
-            email?: string;
-            /** @description Specifies if organization projects are enabled for this org */
-            has_organization_projects: boolean;
-            /** @description Specifies if repository projects are enabled for repositories that belong to this org */
-            has_repository_projects: boolean;
-            is_verified?: boolean;
-            public_repos: number;
-            public_gists: number;
-            followers: number;
-            following: number;
-            type: string;
-            /** Format: date-time */
-            created_at: string;
-            /** Format: date-time */
-            updated_at: string;
-            plan?: {
-                name?: string;
-                space?: number;
-                private_repos?: number;
-                filled_seats?: number;
-                seats?: number;
-            };
-        };
-        /**
-         * Organization Simple
-         * @description A GitHub organization.
-         */
-        "organization-simple": {
-            /** @example github */
-            login: string;
-            /** @example 1 */
-            id: number;
-            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
-            node_id: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/orgs/github
-             */
-            url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/orgs/github/repos
-             */
-            repos_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/orgs/github/events
-             */
-            events_url: string;
-            /** @example https://api.github.com/orgs/github/hooks */
-            hooks_url: string;
-            /** @example https://api.github.com/orgs/github/issues */
-            issues_url: string;
-            /** @example https://api.github.com/orgs/github/members{/member} */
-            members_url: string;
-            /** @example https://api.github.com/orgs/github/public_members{/member} */
-            public_members_url: string;
-            /** @example https://github.com/images/error/octocat_happy.gif */
-            avatar_url: string;
-            /** @example A great organization */
-            description: string | null;
-        };
-        /**
          * Enterprise Team
          * @description Group of enterprise owners and/or members
          */
@@ -19388,7 +19454,7 @@ export interface components {
             /** @description The assignee that has been granted access to GitHub Copilot. */
             assignee: {
                 [key: string]: unknown;
-            } & (components["schemas"]["simple-user"] | components["schemas"]["team"] | components["schemas"]["organization"]);
+            } & components["schemas"]["simple-user"];
             /** @description The organization to which this seat belongs. */
             organization?: components["schemas"]["organization-simple"] | null;
             /** @description The team through which the assignee is granted access to GitHub Copilot, if applicable. */
@@ -19511,6 +19577,7 @@ export interface components {
                 /** @description The full CVSS vector string for the advisory. */
                 readonly vector_string: string | null;
             };
+            cvss_severities?: components["schemas"]["cvss-severities"];
             /** @description Details for the advisory pertaining to Common Weakness Enumeration. */
             readonly cwes: {
                 /** @description The unique CWE ID. */
@@ -19904,7 +19971,7 @@ export interface components {
             /** @description The type of secret that secret scanning detected. */
             secret_type?: string;
             /** @description User-friendly name for the detected secret, matching the `secret_type`.
-             *     For a list of built-in patterns, see "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)." */
+             *     For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
             secret_type_display_name?: string;
             /** @description The secret that was detected. */
             secret?: string;
@@ -20025,6 +20092,8 @@ export interface components {
             slug?: string;
             /** @example MDExOkludGVncmF0aW9uMQ== */
             node_id: string;
+            /** @example "Iv1.25b5d1e65ffc4022" */
+            client_id?: string;
             owner: components["schemas"]["nullable-simple-user"];
             /**
              * @description The name of the GitHub app
@@ -20082,8 +20151,6 @@ export interface components {
              * @example 5
              */
             installations_count?: number;
-            /** @example "Iv1.25b5d1e65ffc4022" */
-            client_id?: string;
             /** @example "1d4b2097ac622ba702d19de498f005747a8b21d3" */
             client_secret?: string;
             /** @example "6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b" */
@@ -20872,13 +20939,28 @@ export interface components {
             /** @example [
              *       "192.0.2.1"
              *     ] */
+            codespaces?: string[];
+            /** @example [
+             *       "192.0.2.1"
+             *     ] */
             dependabot?: string[];
+            /** @example [
+             *       "192.0.2.1"
+             *     ] */
+            copilot?: string[];
             domains?: {
                 website?: string[];
                 codespaces?: string[];
                 copilot?: string[];
                 packages?: string[];
                 actions?: string[];
+                artifact_attestations?: {
+                    /** @example [
+                     *       "example"
+                     *     ] */
+                    trust_domain?: string;
+                    services?: string[];
+                };
             };
         };
         "security-and-analysis": {
@@ -21686,8 +21768,14 @@ export interface components {
             security_severity_level?: "low" | "medium" | "high" | "critical" | null;
             /** @description A short description of the rule used to detect the alert. */
             description?: string;
+            /** @description A description of the rule used to detect the alert. */
+            full_description?: string;
             /** @description A set of tags applicable for the rule. */
             tags?: string[] | null;
+            /** @description Detailed documentation for the rule as GitHub Flavored Markdown. */
+            help?: string | null;
+            /** @description A link to the documentation for the rule used to detect the alert. */
+            help_uri?: string | null;
         };
         /** @description The version of the tool used to generate the code scanning analysis. */
         "code-scanning-analysis-tool-version": string | null;
@@ -21776,6 +21864,16 @@ export interface components {
              */
             dependency_graph?: "enabled" | "disabled" | "not_set";
             /**
+             * @description The enablement status of Automatic dependency submission
+             * @enum {string}
+             */
+            dependency_graph_autosubmit_action?: "enabled" | "disabled" | "not_set";
+            /** @description Feature options for Automatic dependency submission */
+            dependency_graph_autosubmit_action_options?: {
+                /** @description Whether to use runners labeled with 'dependency-submission' or standard GitHub runners. */
+                labeled_runners?: boolean;
+            };
+            /**
              * @description The enablement status of Dependabot alerts
              * @enum {string}
              */
@@ -21805,6 +21903,11 @@ export interface components {
              * @enum {string}
              */
             secret_scanning_validity_checks?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of secret scanning non-provider patterns
+             * @enum {string}
+             */
+            secret_scanning_non_provider_patterns?: "enabled" | "disabled" | "not_set";
             /**
              * @description The enablement status of private vulnerability reporting
              * @enum {string}
@@ -23030,9 +23133,14 @@ export interface components {
          * Organization Custom Property
          * @description Custom property defined on an organization
          */
-        "org-custom-property": {
+        "custom-property": {
             /** @description The name of the property */
             property_name: string;
+            /**
+             * Format: uri
+             * @description The URL that can be used to fetch, update, or delete info about this property via the API.
+             */
+            url?: string;
             /**
              * @description The type of the value for the property
              * @example single_select
@@ -23777,18 +23885,15 @@ export interface components {
          * @description An actor that can bypass rules in a ruleset
          */
         "repository-ruleset-bypass-actor": {
-            /** @description The ID of the actor that can bypass a ruleset. If `actor_type` is `OrganizationAdmin`, this should be `1`. If `actor_type` is `DeployKey`, this should be null. `OrganizationAdmin` is not applicable for personal repositories.
-             *      */
+            /** @description The ID of the actor that can bypass a ruleset. If `actor_type` is `OrganizationAdmin`, this should be `1`. If `actor_type` is `DeployKey`, this should be null. `OrganizationAdmin` is not applicable for personal repositories. */
             actor_id?: number | null;
             /**
              * @description The type of actor that can bypass a ruleset.
-             *
              * @enum {string}
              */
             actor_type: "Integration" | "OrganizationAdmin" | "RepositoryRole" | "Team" | "DeployKey";
             /**
              * @description When the specified actor can bypass the ruleset. `pull_request` means that an actor can only bypass rules on pull requests. `pull_request` is not applicable for the `DeployKey` actor type.
-             *
              * @enum {string}
              */
             bypass_mode: "always" | "pull_request";
@@ -23859,7 +23964,6 @@ export interface components {
         /**
          * Organization ruleset conditions
          * @description Conditions for an organization ruleset. The conditions object should contain both `repository_name` and `ref_name` properties or both `repository_id` and `ref_name` properties.
-         *
          */
         "org-ruleset-conditions": (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-name-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-id-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-property-target"]);
         /**
@@ -24219,9 +24323,6 @@ export interface components {
             name: string;
             /**
              * @description The target of the ruleset
-             *
-             *     > [!NOTE]
-             *     > The `push` target is in beta and is subject to change.
              * @enum {string}
              */
             target?: "branch" | "tag" | "push";
@@ -24294,7 +24395,7 @@ export interface components {
              * @description The result of the rule evaluations for rules with the `active` and `evaluate` enforcement statuses, demonstrating whether rules would pass or fail if all rules in the rule suite were `active`.
              * @enum {string}
              */
-            evaluation_result?: "pass" | "fail";
+            evaluation_result?: "pass" | "fail" | "bypass";
         }[];
         /**
          * Rule Suite
@@ -24328,10 +24429,10 @@ export interface components {
              */
             result?: "pass" | "fail" | "bypass";
             /**
-             * @description The result of the rule evaluations for rules with the `active` and `evaluate` enforcement statuses, demonstrating whether rules would pass or fail if all rules in the rule suite were `active`.
-             * @enum {string}
+             * @description The result of the rule evaluations for rules with the `active` and `evaluate` enforcement statuses, demonstrating whether rules would pass or fail if all rules in the rule suite were `active`. Null if no rules with `evaluate` enforcement status were run.
+             * @enum {string|null}
              */
-            evaluation_result?: "pass" | "fail";
+            evaluation_result?: "pass" | "fail" | "bypass" | null;
             /** @description Details on the evaluated rules. */
             rule_evaluations?: {
                 rule_source?: {
@@ -24354,8 +24455,8 @@ export interface components {
                 result?: "pass" | "fail";
                 /** @description The type of rule. */
                 rule_type?: string;
-                /** @description Any associated details with the rule evaluation. */
-                details?: string;
+                /** @description The detailed failure message for the rule. Null if the rule passed. */
+                details?: string | null;
             }[];
         };
         /** @description A product affected by the vulnerability detailed in a repository security advisory. */
@@ -24462,6 +24563,7 @@ export interface components {
                 /** @description The CVSS score. */
                 readonly score: number | null;
             } | null;
+            cvss_severities?: components["schemas"]["cvss-severities"];
             readonly cwes: {
                 /** @description The Common Weakness Enumeration (CWE) identifier. */
                 cwe_id: string;
@@ -26417,6 +26519,7 @@ export interface components {
                     site_admin?: boolean;
                 };
                 name?: string;
+                client_id?: string;
                 description?: string;
                 external_url?: string;
                 html_url?: string;
@@ -26820,6 +26923,7 @@ export interface components {
          */
         "check-run": {
             /**
+             * Format: int64
              * @description The id of the check.
              * @example 21
              */
@@ -27051,7 +27155,7 @@ export interface components {
             security_severity_level?: "low" | "medium" | "high" | "critical" | null;
             /** @description A short description of the rule used to detect the alert. */
             description?: string;
-            /** @description description of the rule used to detect the alert. */
+            /** @description A description of the rule used to detect the alert. */
             full_description?: string;
             /** @description A set of tags applicable for the rule. */
             tags?: string[] | null;
@@ -27381,6 +27485,15 @@ export interface components {
             readonly analyses_url?: string | null;
             /** @description Any errors that ocurred during processing of the delivery. */
             readonly errors?: string[] | null;
+        };
+        /** @description Code security configuration associated with a repository and attachment status */
+        "code-security-configuration-for-repository": {
+            /**
+             * @description The attachment status of the code security configuration on the repository.
+             * @enum {string}
+             */
+            status?: "attached" | "attaching" | "detached" | "removed" | "enforced" | "failed" | "updating" | "removed_by_enterprise";
+            configuration?: components["schemas"]["code-security-configuration"];
         };
         /**
          * CODEOWNERS errors
@@ -28276,6 +28389,22 @@ export interface components {
                     reason?: string;
                     signature?: string | null;
                     payload?: string | null;
+                };
+            };
+        };
+        /** @description The ID of the push protection bypass placeholder. This value is returned on any push protected routes. */
+        "secret-scanning-push-protection-bypass-placeholder-id": string;
+        /** @description Repository rule violation was detected */
+        "repository-rule-violation-error": {
+            message?: string;
+            documentation_url?: string;
+            status?: string;
+            metadata?: {
+                secret_scanning?: {
+                    bypass_placeholders?: {
+                        placeholder_id?: components["schemas"]["secret-scanning-push-protection-bypass-placeholder-id"];
+                        token_type?: string;
+                    }[];
                 };
             };
         };
@@ -31406,7 +31535,7 @@ export interface components {
             /** @description The type of secret that secret scanning detected. */
             secret_type?: string;
             /** @description User-friendly name for the detected secret, matching the `secret_type`.
-             *     For a list of built-in patterns, see "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)." */
+             *     For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
             secret_type_display_name?: string;
             /** @description The secret that was detected. */
             secret?: string;
@@ -31599,6 +31728,21 @@ export interface components {
              */
             type?: "commit" | "wiki_commit" | "issue_title" | "issue_body" | "issue_comment" | "discussion_title" | "discussion_body" | "discussion_comment" | "pull_request_title" | "pull_request_body" | "pull_request_comment" | "pull_request_review" | "pull_request_review_comment";
             details?: components["schemas"]["secret-scanning-location-commit"] | components["schemas"]["secret-scanning-location-wiki-commit"] | components["schemas"]["secret-scanning-location-issue-title"] | components["schemas"]["secret-scanning-location-issue-body"] | components["schemas"]["secret-scanning-location-issue-comment"] | components["schemas"]["secret-scanning-location-discussion-title"] | components["schemas"]["secret-scanning-location-discussion-body"] | components["schemas"]["secret-scanning-location-discussion-comment"] | components["schemas"]["secret-scanning-location-pull-request-title"] | components["schemas"]["secret-scanning-location-pull-request-body"] | components["schemas"]["secret-scanning-location-pull-request-comment"] | components["schemas"]["secret-scanning-location-pull-request-review"] | components["schemas"]["secret-scanning-location-pull-request-review-comment"];
+        };
+        /**
+         * @description The reason for bypassing push protection.
+         * @enum {string}
+         */
+        "secret-scanning-push-protection-bypass-reason": "false_positive" | "used_in_tests" | "will_fix_later";
+        "secret-scanning-push-protection-bypass": {
+            reason?: components["schemas"]["secret-scanning-push-protection-bypass-reason"];
+            /**
+             * Format: date-time
+             * @description The time that the bypass will expire in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+             */
+            expire_at?: string | null;
+            /** @description The token type this bypass is for. */
+            token_type?: string;
         };
         "repository-advisory-create": {
             /** @description A short summary of the advisory. */
@@ -35372,7 +35516,6 @@ export interface components {
         /**
          * Merge Group
          * @description A group of pull requests that the merge queue has grouped together to be merged.
-         *
          */
         "merge-group": {
             /** @description The SHA of the merge group. */
@@ -38203,7 +38346,7 @@ export interface components {
             /** @description The type of secret that secret scanning detected. */
             secret_type?: string;
             /** @description User-friendly name for the detected secret, matching the `secret_type`.
-             *     For a list of built-in patterns, see "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)." */
+             *     For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
             secret_type_display_name?: string;
             /**
              * @description The token status as of the latest validity check.
@@ -38225,6 +38368,7 @@ export interface components {
                 score: number;
                 vector_string: string | null;
             };
+            cvss_severities?: components["schemas"]["cvss-severities"];
             cwes: {
                 cwe_id: string;
                 name: string;
@@ -38649,6 +38793,8 @@ export interface components {
                     html_url: string;
                     /** @description Unique identifier of the GitHub app */
                     id: number | null;
+                    /** @description The client ID of the GitHub app */
+                    client_id?: string | null;
                     /** @description The name of the GitHub app */
                     name: string;
                     node_id: string;
@@ -38890,6 +39036,8 @@ export interface components {
                     html_url: string;
                     /** @description Unique identifier of the GitHub app */
                     id: number | null;
+                    /** @description Client ID of the GitHub app */
+                    client_id?: string | null;
                     /** @description The name of the GitHub app */
                     name: string;
                     node_id: string;
@@ -39131,6 +39279,8 @@ export interface components {
                     html_url: string;
                     /** @description Unique identifier of the GitHub app */
                     id: number | null;
+                    /** @description The Client ID for the GitHub app */
+                    client_id?: string | null;
                     /** @description The name of the GitHub app */
                     name: string;
                     node_id: string;
@@ -40132,7 +40282,7 @@ export interface components {
         "webhook-custom-property-created": {
             /** @enum {string} */
             action: "created";
-            definition: components["schemas"]["org-custom-property"];
+            definition: components["schemas"]["custom-property"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
@@ -40155,7 +40305,7 @@ export interface components {
         "webhook-custom-property-updated": {
             /** @enum {string} */
             action: "updated";
-            definition: components["schemas"]["org-custom-property"];
+            definition: components["schemas"]["custom-property"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
@@ -81529,6 +81679,7 @@ export interface components {
                     score: number;
                     vector_string: string | null;
                 };
+                cvss_severities?: components["schemas"]["cvss-severities"];
                 cwes: {
                     cwe_id: string;
                     name: string;
@@ -81846,6 +81997,70 @@ export interface components {
             /** @description The optional link added to the status. */
             target_url: string | null;
             updated_at: string;
+        };
+        /** parent issue added event */
+        "webhook-sub-issues-parent-issue-added": {
+            /** @enum {string} */
+            action: "parent_issue_added";
+            /** @description The ID of the parent issue. */
+            parent_issue_id: number;
+            parent_issue: components["schemas"]["issue"];
+            parent_issue_repo: components["schemas"]["repository"];
+            /** @description The ID of the sub-issue. */
+            sub_issue_id: number;
+            sub_issue: components["schemas"]["issue"];
+            installation?: components["schemas"]["simple-installation"];
+            organization?: components["schemas"]["organization-simple-webhooks"];
+            repository?: components["schemas"]["repository-webhooks"];
+            sender?: components["schemas"]["simple-user-webhooks"];
+        };
+        /** parent issue removed event */
+        "webhook-sub-issues-parent-issue-removed": {
+            /** @enum {string} */
+            action: "parent_issue_removed";
+            /** @description The ID of the parent issue. */
+            parent_issue_id: number;
+            parent_issue: components["schemas"]["issue"];
+            parent_issue_repo: components["schemas"]["repository"];
+            /** @description The ID of the sub-issue. */
+            sub_issue_id: number;
+            sub_issue: components["schemas"]["issue"];
+            installation?: components["schemas"]["simple-installation"];
+            organization?: components["schemas"]["organization-simple-webhooks"];
+            repository?: components["schemas"]["repository-webhooks"];
+            sender?: components["schemas"]["simple-user-webhooks"];
+        };
+        /** sub-issue added event */
+        "webhook-sub-issues-sub-issue-added": {
+            /** @enum {string} */
+            action: "sub_issue_added";
+            /** @description The ID of the sub-issue. */
+            sub_issue_id: number;
+            sub_issue: components["schemas"]["issue"];
+            sub_issue_repo: components["schemas"]["repository"];
+            /** @description The ID of the parent issue. */
+            parent_issue_id: number;
+            parent_issue: components["schemas"]["issue"];
+            installation?: components["schemas"]["simple-installation"];
+            organization?: components["schemas"]["organization-simple-webhooks"];
+            repository?: components["schemas"]["repository-webhooks"];
+            sender?: components["schemas"]["simple-user-webhooks"];
+        };
+        /** sub-issue removed event */
+        "webhook-sub-issues-sub-issue-removed": {
+            /** @enum {string} */
+            action: "sub_issue_removed";
+            /** @description The ID of the sub-issue. */
+            sub_issue_id: number;
+            sub_issue: components["schemas"]["issue"];
+            sub_issue_repo: components["schemas"]["repository"];
+            /** @description The ID of the parent issue. */
+            parent_issue_id: number;
+            parent_issue: components["schemas"]["issue"];
+            installation?: components["schemas"]["simple-installation"];
+            organization?: components["schemas"]["organization-simple-webhooks"];
+            repository?: components["schemas"]["repository-webhooks"];
+            sender?: components["schemas"]["simple-user-webhooks"];
         };
         /** team_add event */
         "webhook-team-add": {
@@ -83524,7 +83739,7 @@ export interface components {
                 /** Format: uri */
                 check_suite_url: string;
                 /** @enum {string|null} */
-                conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out" | null;
+                conclusion: "action_required" | "cancelled" | "failure" | "neutral" | "skipped" | "stale" | "success" | "timed_out" | "startup_failure" | null;
                 /** Format: date-time */
                 created_at: string;
                 event: string;
@@ -85137,7 +85352,7 @@ export interface components {
         /** @description Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
         "secret-scanning-alert-state": "open" | "resolved";
         /** @description A comma-separated list of secret types to return. By default all secret types are returned.
-         *     See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
+         *     See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
          *     for a complete list of secret types. */
         "secret-scanning-alert-secret-type": string;
         /** @description A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
@@ -85146,6 +85361,8 @@ export interface components {
         "secret-scanning-alert-sort": "created" | "updated";
         /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
         "secret-scanning-alert-validity": string;
+        /** @description The slug of the team name. */
+        "team-slug": string;
         /** @description The unique identifier of the gist. */
         "gist-id": string;
         /** @description The unique identifier of the comment. */
@@ -85204,8 +85421,6 @@ export interface components {
         "migration-id": number;
         /** @description repo_name parameter */
         "repo-name": string;
-        /** @description The slug of the team name. */
-        "team-slug": string;
         /** @description The unique identifier of the role. */
         "role-id": number;
         /** @description The selected visibility of the packages.  This parameter is optional and only filters an existing result set.
@@ -85235,8 +85450,7 @@ export interface components {
         "fine-grained-personal-access-token-id": number;
         /** @description The custom property name. The name is case sensitive. */
         "custom-property-name": string;
-        /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned.
-         *      */
+        /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned. */
         "ref-in-query": string;
         /** @description The name of the repository to filter on. When specified, only rule evaluations from this repository will be returned. */
         "repository-name-in-query": number;
@@ -85421,6 +85635,7 @@ export interface components {
 export type SchemaRoot = components['schemas']['root'];
 export type SchemaSecurityAdvisoryEcosystems = components['schemas']['security-advisory-ecosystems'];
 export type SchemaVulnerability = components['schemas']['vulnerability'];
+export type SchemaCvssSeverities = components['schemas']['cvss-severities'];
 export type SchemaSimpleUser = components['schemas']['simple-user'];
 export type SchemaSecurityAdvisoryCreditTypes = components['schemas']['security-advisory-credit-types'];
 export type SchemaGlobalAdvisory = components['schemas']['global-advisory'];
@@ -85456,10 +85671,9 @@ export type SchemaSimpleClassroomAssignment = components['schemas']['simple-clas
 export type SchemaClassroomAcceptedAssignment = components['schemas']['classroom-accepted-assignment'];
 export type SchemaClassroomAssignmentGrade = components['schemas']['classroom-assignment-grade'];
 export type SchemaCodeOfConduct = components['schemas']['code-of-conduct'];
+export type SchemaOrganizationSimple = components['schemas']['organization-simple'];
 export type SchemaNullableTeamSimple = components['schemas']['nullable-team-simple'];
 export type SchemaTeam = components['schemas']['team'];
-export type SchemaOrganization = components['schemas']['organization'];
-export type SchemaOrganizationSimple = components['schemas']['organization-simple'];
 export type SchemaEnterpriseTeam = components['schemas']['enterprise-team'];
 export type SchemaCopilotSeatDetails = components['schemas']['copilot-seat-details'];
 export type SchemaCopilotUsageMetrics = components['schemas']['copilot-usage-metrics'];
@@ -85575,7 +85789,7 @@ export type SchemaPackageVersion = components['schemas']['package-version'];
 export type SchemaOrganizationProgrammaticAccessGrantRequest = components['schemas']['organization-programmatic-access-grant-request'];
 export type SchemaOrganizationProgrammaticAccessGrant = components['schemas']['organization-programmatic-access-grant'];
 export type SchemaProject = components['schemas']['project'];
-export type SchemaOrgCustomProperty = components['schemas']['org-custom-property'];
+export type SchemaCustomProperty = components['schemas']['custom-property'];
 export type SchemaCustomPropertyValue = components['schemas']['custom-property-value'];
 export type SchemaOrgRepoCustomPropertyValues = components['schemas']['org-repo-custom-property-values'];
 export type SchemaNullableRepository = components['schemas']['nullable-repository'];
@@ -85702,6 +85916,7 @@ export type SchemaCodeScanningRefFull = components['schemas']['code-scanning-ref
 export type SchemaCodeScanningAnalysisSarifFile = components['schemas']['code-scanning-analysis-sarif-file'];
 export type SchemaCodeScanningSarifsReceipt = components['schemas']['code-scanning-sarifs-receipt'];
 export type SchemaCodeScanningSarifsStatus = components['schemas']['code-scanning-sarifs-status'];
+export type SchemaCodeSecurityConfigurationForRepository = components['schemas']['code-security-configuration-for-repository'];
 export type SchemaCodeownersErrors = components['schemas']['codeowners-errors'];
 export type SchemaCodespaceMachine = components['schemas']['codespace-machine'];
 export type SchemaCodespacesPermissionsCheckForDevcontainer = components['schemas']['codespaces-permissions-check-for-devcontainer'];
@@ -85728,6 +85943,8 @@ export type SchemaContentFile = components['schemas']['content-file'];
 export type SchemaContentSymlink = components['schemas']['content-symlink'];
 export type SchemaContentSubmodule = components['schemas']['content-submodule'];
 export type SchemaFileCommit = components['schemas']['file-commit'];
+export type SchemaSecretScanningPushProtectionBypassPlaceholderId = components['schemas']['secret-scanning-push-protection-bypass-placeholder-id'];
+export type SchemaRepositoryRuleViolationError = components['schemas']['repository-rule-violation-error'];
 export type SchemaContributor = components['schemas']['contributor'];
 export type SchemaDependabotAlert = components['schemas']['dependabot-alert'];
 export type SchemaDependabotSecret = components['schemas']['dependabot-secret'];
@@ -85832,6 +86049,8 @@ export type SchemaSecretScanningLocationPullRequestComment = components['schemas
 export type SchemaSecretScanningLocationPullRequestReview = components['schemas']['secret-scanning-location-pull-request-review'];
 export type SchemaSecretScanningLocationPullRequestReviewComment = components['schemas']['secret-scanning-location-pull-request-review-comment'];
 export type SchemaSecretScanningLocation = components['schemas']['secret-scanning-location'];
+export type SchemaSecretScanningPushProtectionBypassReason = components['schemas']['secret-scanning-push-protection-bypass-reason'];
+export type SchemaSecretScanningPushProtectionBypass = components['schemas']['secret-scanning-push-protection-bypass'];
 export type SchemaRepositoryAdvisoryCreate = components['schemas']['repository-advisory-create'];
 export type SchemaPrivateVulnerabilityReportCreate = components['schemas']['private-vulnerability-report-create'];
 export type SchemaRepositoryAdvisoryUpdate = components['schemas']['repository-advisory-update'];
@@ -86176,6 +86395,10 @@ export type SchemaWebhookSponsorshipTierChanged = components['schemas']['webhook
 export type SchemaWebhookStarCreated = components['schemas']['webhook-star-created'];
 export type SchemaWebhookStarDeleted = components['schemas']['webhook-star-deleted'];
 export type SchemaWebhookStatus = components['schemas']['webhook-status'];
+export type SchemaWebhookSubIssuesParentIssueAdded = components['schemas']['webhook-sub-issues-parent-issue-added'];
+export type SchemaWebhookSubIssuesParentIssueRemoved = components['schemas']['webhook-sub-issues-parent-issue-removed'];
+export type SchemaWebhookSubIssuesSubIssueAdded = components['schemas']['webhook-sub-issues-sub-issue-added'];
+export type SchemaWebhookSubIssuesSubIssueRemoved = components['schemas']['webhook-sub-issues-sub-issue-removed'];
 export type SchemaWebhookTeamAdd = components['schemas']['webhook-team-add'];
 export type SchemaWebhookTeamAddedToRepository = components['schemas']['webhook-team-added-to-repository'];
 export type SchemaWebhookTeamCreated = components['schemas']['webhook-team-created'];
@@ -86246,6 +86469,7 @@ export type ParameterSecretScanningAlertSecretType = components['parameters']['s
 export type ParameterSecretScanningAlertResolution = components['parameters']['secret-scanning-alert-resolution'];
 export type ParameterSecretScanningAlertSort = components['parameters']['secret-scanning-alert-sort'];
 export type ParameterSecretScanningAlertValidity = components['parameters']['secret-scanning-alert-validity'];
+export type ParameterTeamSlug = components['parameters']['team-slug'];
 export type ParameterGistId = components['parameters']['gist-id'];
 export type ParameterCommentId = components['parameters']['comment-id'];
 export type ParameterLabels = components['parameters']['labels'];
@@ -86275,7 +86499,6 @@ export type ParameterInvitationId = components['parameters']['invitation-id'];
 export type ParameterCodespaceName = components['parameters']['codespace-name'];
 export type ParameterMigrationId = components['parameters']['migration-id'];
 export type ParameterRepoName = components['parameters']['repo-name'];
-export type ParameterTeamSlug = components['parameters']['team-slug'];
 export type ParameterRoleId = components['parameters']['role-id'];
 export type ParameterPackageVisibility = components['parameters']['package-visibility'];
 export type ParameterPackageType = components['parameters']['package-type'];
@@ -86428,6 +86651,12 @@ export interface operations {
                  *
                  *     For more information on the syntax of the date range, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)." */
                 modified?: string;
+                /** @description If specified, only return advisories that have an EPSS percentage score that matches the provided value.
+                 *     The EPSS percentage represents the likelihood of a CVE being exploited. */
+                epss_percentage?: string;
+                /** @description If specified, only return advisories that have an EPSS percentile score that matches the provided value.
+                 *     The EPSS percentile represents the relative rank of the CVE's likelihood of being exploited compared to other CVEs. */
+                epss_percentile?: string;
                 /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 before?: components["parameters"]["pagination-before"];
                 /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -86437,7 +86666,7 @@ export interface operations {
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 per_page?: number;
                 /** @description The property to sort the results by. */
-                sort?: "updated" | "published";
+                sort?: "updated" | "published" | "epss_percentage" | "epss_percentile";
             };
             header?: never;
             path?: never;
@@ -87412,7 +87641,7 @@ export interface operations {
                 /** @description Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
                 state?: components["parameters"]["secret-scanning-alert-state"];
                 /** @description A comma-separated list of secret types to return. By default all secret types are returned.
-                 *     See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
+                 *     See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
                  *     for a complete list of secret types. */
                 secret_type?: components["parameters"]["secret-scanning-alert-secret-type"];
                 /** @description A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
@@ -87451,6 +87680,44 @@ export interface operations {
             };
             404: components["responses"]["not_found"];
             503: components["responses"]["service_unavailable"];
+        };
+    };
+    "copilot/usage-metrics-for-enterprise-team": {
+        parameters: {
+            query?: {
+                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
+                since?: string;
+                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
+                until?: string;
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+                /** @description The slug of the team name. */
+                team_slug: components["parameters"]["team-slug"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["copilot-usage-metrics"][];
+                };
+            };
+            401: components["responses"]["requires_authentication"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            500: components["responses"]["internal_error"];
         };
     };
     "activity/list-public-events": {
@@ -90613,6 +90880,20 @@ export interface operations {
                      */
                     dependency_graph?: "enabled" | "disabled" | "not_set";
                     /**
+                     * @description The enablement status of Automatic dependency submission
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    dependency_graph_autosubmit_action?: "enabled" | "disabled" | "not_set";
+                    /** @description Feature options for Automatic dependency submission */
+                    dependency_graph_autosubmit_action_options?: {
+                        /**
+                         * @description Whether to use runners labeled with 'dependency-submission' or standard GitHub runners.
+                         * @default false
+                         */
+                        labeled_runners?: boolean;
+                    };
+                    /**
                      * @description The enablement status of Dependabot alerts
                      * @default disabled
                      * @enum {string}
@@ -90648,6 +90929,12 @@ export interface operations {
                      * @enum {string}
                      */
                     secret_scanning_validity_checks?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of secret scanning non provider patterns
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    secret_scanning_non_provider_patterns?: "enabled" | "disabled" | "not_set";
                     /**
                      * @description The enablement status of private vulnerability reporting
                      * @default disabled
@@ -90806,6 +91093,16 @@ export interface operations {
                      */
                     dependency_graph?: "enabled" | "disabled" | "not_set";
                     /**
+                     * @description The enablement status of Automatic dependency submission
+                     * @enum {string}
+                     */
+                    dependency_graph_autosubmit_action?: "enabled" | "disabled" | "not_set";
+                    /** @description Feature options for Automatic dependency submission */
+                    dependency_graph_autosubmit_action_options?: {
+                        /** @description Whether to use runners labeled with 'dependency-submission' or standard GitHub runners. */
+                        labeled_runners?: boolean;
+                    };
+                    /**
                      * @description The enablement status of Dependabot alerts
                      * @enum {string}
                      */
@@ -90835,6 +91132,11 @@ export interface operations {
                      * @enum {string}
                      */
                     secret_scanning_validity_checks?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of secret scanning non-provider patterns
+                     * @enum {string}
+                     */
+                    secret_scanning_non_provider_patterns?: "enabled" | "disabled" | "not_set";
                     /**
                      * @description The enablement status of private vulnerability reporting
                      * @enum {string}
@@ -94418,7 +94720,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["org-custom-property"][];
+                    "application/json": components["schemas"]["custom-property"][];
                 };
             };
             403: components["responses"]["forbidden"];
@@ -94439,7 +94741,7 @@ export interface operations {
             content: {
                 "application/json": {
                     /** @description The array of custom properties to create or update. */
-                    properties: components["schemas"]["org-custom-property"][];
+                    properties: components["schemas"]["custom-property"][];
                 };
             };
         };
@@ -94450,7 +94752,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["org-custom-property"][];
+                    "application/json": components["schemas"]["custom-property"][];
                 };
             };
             403: components["responses"]["forbidden"];
@@ -94477,7 +94779,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["org-custom-property"];
+                    "application/json": components["schemas"]["custom-property"];
                 };
             };
             403: components["responses"]["forbidden"];
@@ -94524,7 +94826,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["org-custom-property"];
+                    "application/json": components["schemas"]["custom-property"];
                 };
             };
             403: components["responses"]["forbidden"];
@@ -94855,7 +95157,9 @@ export interface operations {
                      */
                     use_squash_pr_title_as_default?: boolean;
                     /**
-                     * @description The default value for a squash merge commit title:
+                     * @description Required when using `squash_merge_commit_message`.
+                     *
+                     *     The default value for a squash merge commit title:
                      *
                      *     - `PR_TITLE` - default to the pull request's title.
                      *     - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
@@ -94872,7 +95176,9 @@ export interface operations {
                      */
                     squash_merge_commit_message?: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
                     /**
-                     * @description The default value for a merge commit title.
+                     * @description Required when using `merge_commit_message`.
+                     *
+                     *     The default value for a merge commit title.
                      *
                      *     - `PR_TITLE` - default to the pull request's title.
                      *     - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).
@@ -94959,9 +95265,7 @@ export interface operations {
                     name: string;
                     /**
                      * @description The target of the ruleset
-                     *
-                     *     > [!NOTE]
-                     *     > The `push` target is in beta and is subject to change.
+                     * @default branch
                      * @enum {string}
                      */
                     target?: "branch" | "tag" | "push";
@@ -94991,8 +95295,7 @@ export interface operations {
     "repos/get-org-rule-suites": {
         parameters: {
             query?: {
-                /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned.
-                 *      */
+                /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned. */
                 ref?: components["parameters"]["ref-in-query"];
                 /** @description The name of the repository to filter on. When specified, only rule evaluations from this repository will be returned. */
                 repository_name?: components["parameters"]["repository-name-in-query"];
@@ -95108,9 +95411,6 @@ export interface operations {
                     name?: string;
                     /**
                      * @description The target of the ruleset
-                     *
-                     *     > [!NOTE]
-                     *     > The `push` target is in beta and is subject to change.
                      * @enum {string}
                      */
                     target?: "branch" | "tag" | "push";
@@ -95168,7 +95468,7 @@ export interface operations {
                 /** @description Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
                 state?: components["parameters"]["secret-scanning-alert-state"];
                 /** @description A comma-separated list of secret types to return. By default all secret types are returned.
-                 *     See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
+                 *     See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
                  *     for a complete list of secret types. */
                 secret_type?: components["parameters"]["secret-scanning-alert-secret-type"];
                 /** @description A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
@@ -95385,6 +95685,44 @@ export interface operations {
                     "application/json": components["schemas"]["combined-billing-usage"];
                 };
             };
+        };
+    };
+    "copilot/usage-metrics-for-team": {
+        parameters: {
+            query?: {
+                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
+                since?: string;
+                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
+                until?: string;
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The slug of the team name. */
+                team_slug: components["parameters"]["team-slug"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["copilot-usage-metrics"][];
+                };
+            };
+            401: components["responses"]["requires_authentication"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            500: components["responses"]["internal_error"];
         };
     };
     "teams/list": {
@@ -97580,7 +97918,7 @@ export interface operations {
                             /** @description Can be `enabled` or `disabled`. */
                             status?: string;
                         };
-                        /** @description Use the `status` property to enable or disable secret scanning non-provider patterns for this repository. For more information, see "[Secret scanning supported secrets](/code-security/secret-scanning/secret-scanning-patterns#supported-secrets)." */
+                        /** @description Use the `status` property to enable or disable secret scanning non-provider patterns for this repository. For more information, see "[Supported secret scanning patterns](/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
                         secret_scanning_non_provider_patterns?: {
                             /** @description Can be `enabled` or `disabled`. */
                             status?: string;
@@ -97645,7 +97983,9 @@ export interface operations {
                      */
                     use_squash_pr_title_as_default?: boolean;
                     /**
-                     * @description The default value for a squash merge commit title:
+                     * @description Required when using `squash_merge_commit_message`.
+                     *
+                     *     The default value for a squash merge commit title:
                      *
                      *     - `PR_TITLE` - default to the pull request's title.
                      *     - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
@@ -97662,7 +98002,9 @@ export interface operations {
                      */
                     squash_merge_commit_message?: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
                     /**
-                     * @description The default value for a merge commit title.
+                     * @description Required when using `merge_commit_message`.
+                     *
+                     *     The default value for a merge commit title.
                      *
                      *     - `PR_TITLE` - default to the pull request's title.
                      *     - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).
@@ -100419,7 +100761,6 @@ export interface operations {
                         /**
                          * @deprecated
                          * @description **Deprecated**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control.
-                         *
                          */
                         contexts: string[];
                         /** @description The list of status checks to require in order to merge into this branch. */
@@ -100889,7 +101230,6 @@ export interface operations {
                     /**
                      * @deprecated
                      * @description **Deprecated**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control.
-                     *
                      */
                     contexts?: string[];
                     /** @description The list of status checks to require in order to merge into this branch. */
@@ -102676,6 +103016,35 @@ export interface operations {
             503: components["responses"]["service_unavailable"];
         };
     };
+    "code-security/get-configuration-for-repository": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-security-configuration-for-repository"];
+                };
+            };
+            204: components["responses"]["no_content"];
+            304: components["responses"]["not_modified"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+        };
+    };
     "repos/codeowners-errors": {
         parameters: {
             query?: {
@@ -104067,7 +104436,15 @@ export interface operations {
                 };
             };
             404: components["responses"]["not_found"];
-            409: components["responses"]["conflict"];
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["basic-error"] | components["schemas"]["repository-rule-violation-error"];
+                };
+            };
             422: components["responses"]["validation_failed"];
         };
     };
@@ -105878,7 +106255,15 @@ export interface operations {
             403: components["responses"]["forbidden"];
             404: components["responses"]["not_found"];
             409: components["responses"]["conflict"];
-            422: components["responses"]["validation_failed"];
+            /** @description Validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["validation-error"] | components["schemas"]["repository-rule-violation-error"];
+                };
+            };
         };
     };
     "git/get-blob": {
@@ -111001,6 +111386,7 @@ export interface operations {
                     "application/json": components["schemas"]["content-file"];
                 };
             };
+            304: components["responses"]["not_modified"];
             404: components["responses"]["not_found"];
             422: components["responses"]["validation_failed"];
         };
@@ -111716,9 +112102,7 @@ export interface operations {
                     name: string;
                     /**
                      * @description The target of the ruleset
-                     *
-                     *     > [!NOTE]
-                     *     > The `push` target is in beta and is subject to change.
+                     * @default branch
                      * @enum {string}
                      */
                     target?: "branch" | "tag" | "push";
@@ -111748,8 +112132,7 @@ export interface operations {
     "repos/get-repo-rule-suites": {
         parameters: {
             query?: {
-                /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned.
-                 *      */
+                /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned. */
                 ref?: components["parameters"]["ref-in-query"];
                 /** @description The time period to filter by.
                  *
@@ -111874,9 +112257,6 @@ export interface operations {
                     name?: string;
                     /**
                      * @description The target of the ruleset
-                     *
-                     *     > [!NOTE]
-                     *     > The `push` target is in beta and is subject to change.
                      * @enum {string}
                      */
                     target?: "branch" | "tag" | "push";
@@ -111936,7 +112316,7 @@ export interface operations {
                 /** @description Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
                 state?: components["parameters"]["secret-scanning-alert-state"];
                 /** @description A comma-separated list of secret types to return. By default all secret types are returned.
-                 *     See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
+                 *     See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
                  *     for a complete list of secret types. */
                 secret_type?: components["parameters"]["secret-scanning-alert-secret-type"];
                 /** @description A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
@@ -112112,6 +112492,60 @@ export interface operations {
             };
             /** @description Repository is public, or secret scanning is disabled for the repository, or the resource is not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            503: components["responses"]["service_unavailable"];
+        };
+    };
+    "secret-scanning/create-push-protection-bypass": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    reason: components["schemas"]["secret-scanning-push-protection-bypass-reason"];
+                    placeholder_id: components["schemas"]["secret-scanning-push-protection-bypass-placeholder-id"];
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["secret-scanning-push-protection-bypass"];
+                };
+            };
+            /** @description User does not have enough permissions to perform this action. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Placeholder ID not found, or push protection is disabled on this repository. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad request, input data missing or incorrect. */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -117117,7 +117551,9 @@ export interface operations {
                      */
                     delete_branch_on_merge?: boolean;
                     /**
-                     * @description The default value for a squash merge commit title:
+                     * @description Required when using `squash_merge_commit_message`.
+                     *
+                     *     The default value for a squash merge commit title:
                      *
                      *     - `PR_TITLE` - default to the pull request's title.
                      *     - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
@@ -117134,7 +117570,9 @@ export interface operations {
                      */
                     squash_merge_commit_message?: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
                     /**
-                     * @description The default value for a merge commit title.
+                     * @description Required when using `merge_commit_message`.
+                     *
+                     *     The default value for a merge commit title.
                      *
                      *     - `PR_TITLE` - default to the pull request's title.
                      *     - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).

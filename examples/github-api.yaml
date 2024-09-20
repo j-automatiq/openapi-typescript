@@ -231,6 +231,20 @@ paths:
         in: query
         schema:
           type: string
+      - name: epss_percentage
+        in: query
+        description: |-
+          If specified, only return advisories that have an EPSS percentage score that matches the provided value.
+          The EPSS percentage represents the likelihood of a CVE being exploited.
+        schema:
+          type: string
+      - name: epss_percentile
+        in: query
+        description: |-
+          If specified, only return advisories that have an EPSS percentile score that matches the provided value.
+          The EPSS percentile represents the relative rank of the CVE's likelihood of being exploited compared to other CVEs.
+        schema:
+          type: string
       - "$ref": "#/components/parameters/pagination-before"
       - "$ref": "#/components/parameters/pagination-after"
       - "$ref": "#/components/parameters/direction"
@@ -252,6 +266,8 @@ paths:
           enum:
           - updated
           - published
+          - epss_percentage
+          - epss_percentile
           default: published
       responses:
         '200':
@@ -1495,7 +1511,7 @@ paths:
         for all users across organizations with access to Copilot within your enterprise, with a further breakdown of suggestions, acceptances,
         and number of active users by editor and language for each day. See the response schema tab for detailed metrics definitions.
 
-        The response contains metrics for the prior 28 days. Usage metrics are processed once per day for the previous day,
+        The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
         and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
         they must have telemetry enabled in their IDE.
 
@@ -1668,6 +1684,85 @@ paths:
         enabledForGitHubApps: false
         category: secret-scanning
         subcategory: secret-scanning
+  "/enterprises/{enterprise}/team/{team_slug}/copilot/usage":
+    get:
+      summary: Get a summary of Copilot usage for an enterprise team
+      description: |-
+        > [!NOTE]
+        > This endpoint is in beta and is subject to change.
+
+        You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
+        for users within an enterprise team, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
+        See the response schema tab for detailed metrics definitions.
+
+        The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
+        and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
+        they must have telemetry enabled in their IDE.
+
+        > [!NOTE]
+        > This endpoint will only return results for a given day if the enterprise team had five or more members with active Copilot licenses, as evaluated at the end of that day.
+
+        Owners and billing managers for the enterprise that contains the enterprise team can view Copilot usage metrics for the enterprise team.
+
+        OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
+      tags:
+      - copilot
+      operationId: copilot/usage-metrics-for-enterprise-team
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/copilot/copilot-usage#get-a-summary-of-copilot-usage-for-an-enterprise-team
+      parameters:
+      - "$ref": "#/components/parameters/enterprise"
+      - "$ref": "#/components/parameters/team-slug"
+      - name: since
+        description: Show usage metrics since this date. This is a timestamp in [ISO
+          8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`).
+          Maximum value is 28 days ago.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: until
+        description: Show usage metrics until this date. This is a timestamp in [ISO
+          8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`)
+          and should not preceed the `since` date if it is passed.
+        in: query
+        required: false
+        schema:
+          type: string
+      - "$ref": "#/components/parameters/page"
+      - name: per_page
+        description: The number of days of metrics to display per page (max 28). For
+          more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+        in: query
+        schema:
+          type: integer
+          default: 28
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/copilot-usage-metrics"
+              examples:
+                default:
+                  "$ref": "#/components/examples/copilot-usage-metrics-org"
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '401':
+          "$ref": "#/components/responses/requires_authentication"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '404':
+          "$ref": "#/components/responses/not_found"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: copilot
+        subcategory: copilot-usage
   "/events":
     get:
       summary: List public events
@@ -6207,6 +6302,23 @@ paths:
                   - disabled
                   - not_set
                   default: enabled
+                dependency_graph_autosubmit_action:
+                  type: string
+                  description: The enablement status of Automatic dependency submission
+                  enum:
+                  - enabled
+                  - disabled
+                  - not_set
+                  default: disabled
+                dependency_graph_autosubmit_action_options:
+                  type: object
+                  description: Feature options for Automatic dependency submission
+                  properties:
+                    labeled_runners:
+                      type: boolean
+                      description: Whether to use runners labeled with 'dependency-submission'
+                        or standard GitHub runners.
+                      default: false
                 dependabot_alerts:
                   type: string
                   description: The enablement status of Dependabot alerts
@@ -6250,6 +6362,15 @@ paths:
                 secret_scanning_validity_checks:
                   type: string
                   description: The enablement status of secret scanning validity checks
+                  enum:
+                  - enabled
+                  - disabled
+                  - not_set
+                  default: disabled
+                secret_scanning_non_provider_patterns:
+                  type: string
+                  description: The enablement status of secret scanning non provider
+                    patterns
                   enum:
                   - enabled
                   - disabled
@@ -6476,6 +6597,21 @@ paths:
                   - enabled
                   - disabled
                   - not_set
+                dependency_graph_autosubmit_action:
+                  type: string
+                  description: The enablement status of Automatic dependency submission
+                  enum:
+                  - enabled
+                  - disabled
+                  - not_set
+                dependency_graph_autosubmit_action_options:
+                  type: object
+                  description: Feature options for Automatic dependency submission
+                  properties:
+                    labeled_runners:
+                      type: boolean
+                      description: Whether to use runners labeled with 'dependency-submission'
+                        or standard GitHub runners.
                 dependabot_alerts:
                   type: string
                   description: The enablement status of Dependabot alerts
@@ -6514,6 +6650,14 @@ paths:
                 secret_scanning_validity_checks:
                   type: string
                   description: The enablement status of secret scanning validity checks
+                  enum:
+                  - enabled
+                  - disabled
+                  - not_set
+                secret_scanning_non_provider_patterns:
+                  type: string
+                  description: The enablement status of secret scanning non-provider
+                    patterns
                   enum:
                   - enabled
                   - disabled
@@ -7874,7 +8018,7 @@ paths:
         across an organization, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
         See the response schema tab for detailed metrics definitions.
 
-        The response contains metrics for the prior 28 days. Usage metrics are processed once per day for the previous day,
+        The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
         and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
         they must have telemetry enabled in their IDE.
 
@@ -11627,10 +11771,10 @@ paths:
               schema:
                 type: array
                 items:
-                  "$ref": "#/components/schemas/org-custom-property"
+                  "$ref": "#/components/schemas/custom-property"
               examples:
                 default:
-                  "$ref": "#/components/examples/org-custom-properties"
+                  "$ref": "#/components/examples/custom-properties"
         '403':
           "$ref": "#/components/responses/forbidden"
         '404':
@@ -11667,7 +11811,7 @@ paths:
                   type: array
                   description: The array of custom properties to create or update.
                   items:
-                    "$ref": "#/components/schemas/org-custom-property"
+                    "$ref": "#/components/schemas/custom-property"
                   minItems: 1
                   maxItems: 100
               required:
@@ -11698,10 +11842,10 @@ paths:
               schema:
                 type: array
                 items:
-                  "$ref": "#/components/schemas/org-custom-property"
+                  "$ref": "#/components/schemas/custom-property"
               examples:
                 default:
-                  "$ref": "#/components/examples/org-custom-properties"
+                  "$ref": "#/components/examples/custom-properties"
         '403':
           "$ref": "#/components/responses/forbidden"
         '404':
@@ -11732,10 +11876,10 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/org-custom-property"
+                "$ref": "#/components/schemas/custom-property"
               examples:
                 default:
-                  "$ref": "#/components/examples/org-custom-property"
+                  "$ref": "#/components/examples/custom-property"
         '403':
           "$ref": "#/components/responses/forbidden"
         '404':
@@ -11821,10 +11965,10 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/org-custom-property"
+                "$ref": "#/components/schemas/custom-property"
               examples:
                 default:
-                  "$ref": "#/components/examples/org-custom-property"
+                  "$ref": "#/components/examples/custom-property"
         '403':
           "$ref": "#/components/responses/forbidden"
         '404':
@@ -12285,6 +12429,8 @@ paths:
                   - PR_TITLE
                   - COMMIT_OR_PR_TITLE
                   description: |-
+                    Required when using `squash_merge_commit_message`.
+
                     The default value for a squash merge commit title:
 
                     - `PR_TITLE` - default to the pull request's title.
@@ -12307,6 +12453,8 @@ paths:
                   - PR_TITLE
                   - MERGE_MESSAGE
                   description: |-
+                    Required when using `merge_commit_message`.
+
                     The default value for a merge commit title.
 
                     - `PR_TITLE` - default to the pull request's title.
@@ -12429,15 +12577,12 @@ paths:
                   description: The name of the ruleset.
                 target:
                   type: string
-                  description: |-
-                    The target of the ruleset
-
-                    > [!NOTE]
-                    > The `push` target is in beta and is subject to change.
+                  description: The target of the ruleset
                   enum:
                   - branch
                   - tag
                   - push
+                  default: branch
                 enforcement:
                   "$ref": "#/components/schemas/repository-rule-enforcement"
                 bypass_actors:
@@ -12575,7 +12720,11 @@ paths:
   "/orgs/{org}/rulesets/{ruleset_id}":
     get:
       summary: Get an organization repository ruleset
-      description: Get a repository ruleset for an organization.
+      description: |-
+        Get a repository ruleset for an organization.
+
+        **Note:** To prevent leaking sensitive information, the `bypass_actors` property is only returned if the user
+        making the API request has write access to the ruleset.
       tags:
       - repos
       operationId: repos/get-org-ruleset
@@ -12644,11 +12793,7 @@ paths:
                   description: The name of the ruleset.
                 target:
                   type: string
-                  description: |-
-                    The target of the ruleset
-
-                    > [!NOTE]
-                    > The `push` target is in beta and is subject to change.
+                  description: The target of the ruleset
                   enum:
                   - branch
                   - tag
@@ -13048,6 +13193,85 @@ paths:
         enabledForGitHubApps: false
         category: billing
         subcategory: billing
+  "/orgs/{org}/team/{team_slug}/copilot/usage":
+    get:
+      summary: Get a summary of Copilot usage for a team
+      description: |-
+        > [!NOTE]
+        > This endpoint is in beta and is subject to change.
+
+        You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
+        for users within a team, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
+        See the response schema tab for detailed metrics definitions.
+
+        The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
+        and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
+        they must have telemetry enabled in their IDE.
+
+        > [!NOTE]
+        > This endpoint will only return results for a given day if the team had five or more members with active Copilot licenses, as evaluated at the end of that day.
+
+        Organization owners for the organization that contains this team, and owners and billing managers of the parent enterprise can view Copilot usage metrics for a team.
+
+        OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot`, `read:org`, or `read:enterprise` scopes to use this endpoint.
+      tags:
+      - copilot
+      operationId: copilot/usage-metrics-for-team
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/copilot/copilot-usage#get-a-summary-of-copilot-usage-for-a-team
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/team-slug"
+      - name: since
+        description: Show usage metrics since this date. This is a timestamp in [ISO
+          8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`).
+          Maximum value is 28 days ago.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: until
+        description: Show usage metrics until this date. This is a timestamp in [ISO
+          8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`)
+          and should not preceed the `since` date if it is passed.
+        in: query
+        required: false
+        schema:
+          type: string
+      - "$ref": "#/components/parameters/page"
+      - name: per_page
+        description: The number of days of metrics to display per page (max 28). For
+          more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+        in: query
+        schema:
+          type: integer
+          default: 28
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/copilot-usage-metrics"
+              examples:
+                default:
+                  "$ref": "#/components/examples/copilot-usage-metrics-org"
+        '500':
+          "$ref": "#/components/responses/internal_error"
+        '401':
+          "$ref": "#/components/responses/requires_authentication"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '404':
+          "$ref": "#/components/responses/not_found"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: copilot
+        subcategory: copilot-usage
   "/orgs/{org}/teams":
     get:
       summary: List teams
@@ -14705,7 +14929,7 @@ paths:
 
         The authenticated user must be an organization owner or be member of a team with the security manager role to use this endpoint.
 
-        OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+        OAuth app tokens and personal access tokens (classic) need the `admin:org`, `write:org`, or `repo` scopes to use this endpoint.
       tags:
       - orgs
       operationId: orgs/enable-or-disable-security-product-on-all-org-repos
@@ -15944,7 +16168,7 @@ paths:
                       type: object
                       description: Use the `status` property to enable or disable
                         secret scanning non-provider patterns for this repository.
-                        For more information, see "[Secret scanning supported secrets](/code-security/secret-scanning/secret-scanning-patterns#supported-secrets)."
+                        For more information, see "[Supported secret scanning patterns](/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)."
                       properties:
                         status:
                           type: string
@@ -16021,6 +16245,8 @@ paths:
                   - PR_TITLE
                   - COMMIT_OR_PR_TITLE
                   description: |-
+                    Required when using `squash_merge_commit_message`.
+
                     The default value for a squash merge commit title:
 
                     - `PR_TITLE` - default to the pull request's title.
@@ -16043,6 +16269,8 @@ paths:
                   - PR_TITLE
                   - MERGE_MESSAGE
                   description: |-
+                    Required when using `merge_commit_message`.
+
                     The default value for a merge commit title.
 
                     - `PR_TITLE` - default to the pull request's title.
@@ -19207,9 +19435,9 @@ paths:
       description: |-
         Store an artifact attestation and associate it with a repository.
 
-        The authenticated user must have write permission to the repository and, if using a fine-grained access token the `attestations:write` permission is required.
+        The authenticated user must have write permission to the repository and, if using a fine-grained access token, the `attestations:write` permission is required.
 
-        Artifact attestations are meant to be created using the [attest action](https://github.com/actions/attest). For amore information, see our guide on [using artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
+        Artifact attestations are meant to be created using the [attest action](https://github.com/actions/attest). For more information, see our guide on [using artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
       tags:
       - repos
       operationId: repos/create-attestation
@@ -19739,7 +19967,7 @@ paths:
                         have recently been set by a particular GitHub App, they will
                         be required to come from that app in future for the branch
                         to merge. Use `checks` instead of `contexts` for more fine-grained
-                        control.\n"
+                        control."
                       items:
                         type: string
                     checks:
@@ -20446,7 +20674,7 @@ paths:
                     in order to merge into this branch. If any of these checks have
                     recently been set by a particular GitHub App, they will be required
                     to come from that app in future for the branch to merge. Use `checks`
-                    instead of `contexts` for more fine-grained control.\n"
+                    instead of `contexts` for more fine-grained control."
                   items:
                     type: string
                 checks:
@@ -23585,6 +23813,47 @@ paths:
         githubCloudOnly: false
         category: code-scanning
         subcategory: code-scanning
+  "/repos/{owner}/{repo}/code-security-configuration":
+    get:
+      summary: Get the code security configuration associated with a repository
+      description: |-
+        Get the code security configuration that manages a repository's code security settings.
+
+        The authenticated user must be an administrator or security manager for the organization to use this endpoint.
+
+        OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
+      tags:
+      - code-security
+      operationId: code-security/get-configuration-for-repository
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/code-security/configurations#get-the-code-security-configuration-associated-with-a-repository
+      parameters:
+      - "$ref": "#/components/parameters/owner"
+      - "$ref": "#/components/parameters/repo"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/code-security-configuration-for-repository"
+              examples:
+                default:
+                  "$ref": "#/components/examples/code-security-configuration-for-repository"
+        '204':
+          "$ref": "#/components/responses/no_content"
+        '304':
+          "$ref": "#/components/responses/not_modified"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '404':
+          "$ref": "#/components/responses/not_found"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: code-security
+        subcategory: configurations
   "/repos/{owner}/{repo}/codeowners/errors":
     get:
       summary: List CODEOWNERS errors
@@ -25781,7 +26050,13 @@ paths:
         '422':
           "$ref": "#/components/responses/validation_failed"
         '409':
-          "$ref": "#/components/responses/conflict"
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - "$ref": "#/components/schemas/basic-error"
+                - "$ref": "#/components/schemas/repository-rule-violation-error"
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
@@ -28265,7 +28540,13 @@ paths:
         '403':
           "$ref": "#/components/responses/forbidden"
         '422':
-          "$ref": "#/components/responses/validation_failed"
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - "$ref": "#/components/schemas/validation-error"
+                - "$ref": "#/components/schemas/repository-rule-violation-error"
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
@@ -35914,6 +36195,8 @@ paths:
               examples:
                 default:
                   "$ref": "#/components/examples/content-file"
+        '304':
+          "$ref": "#/components/responses/not_modified"
         '404':
           "$ref": "#/components/responses/not_found"
         '422':
@@ -36896,15 +37179,12 @@ paths:
                   description: The name of the ruleset.
                 target:
                   type: string
-                  description: |-
-                    The target of the ruleset
-
-                    > [!NOTE]
-                    > The `push` target is in beta and is subject to change.
+                  description: The target of the ruleset
                   enum:
                   - branch
                   - tag
                   - push
+                  default: branch
                 enforcement:
                   "$ref": "#/components/schemas/repository-rule-enforcement"
                 bypass_actors:
@@ -37036,7 +37316,11 @@ paths:
   "/repos/{owner}/{repo}/rulesets/{ruleset_id}":
     get:
       summary: Get a repository ruleset
-      description: Get a ruleset for a repository.
+      description: |-
+        Get a ruleset for a repository.
+
+        **Note:** To prevent leaking sensitive information, the `bypass_actors` property is only returned if the user
+        making the API request has write access to the ruleset.
       tags:
       - repos
       operationId: repos/get-repo-ruleset
@@ -37115,11 +37399,7 @@ paths:
                   description: The name of the ruleset.
                 target:
                   type: string
-                  description: |-
-                    The target of the ruleset
-
-                    > [!NOTE]
-                    > The `push` target is in beta and is subject to change.
+                  description: The target of the ruleset
                   enum:
                   - branch
                   - tag
@@ -37403,6 +37683,67 @@ paths:
       x-github:
         githubCloudOnly: false
         enabledForGitHubApps: true
+        category: secret-scanning
+        subcategory: secret-scanning
+  "/repos/{owner}/{repo}/secret-scanning/push-protection-bypasses":
+    post:
+      summary: Create a push protection bypass
+      description: |-
+        Creates a bypass for a previously push protected secret.
+
+        The authenticated user must be the original author of the committed secret.
+
+        OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
+      operationId: secret-scanning/create-push-protection-bypass
+      tags:
+      - secret-scanning
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/secret-scanning/secret-scanning#create-a-push-protection-bypass
+      parameters:
+      - "$ref": "#/components/parameters/owner"
+      - "$ref": "#/components/parameters/repo"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  "$ref": "#/components/schemas/secret-scanning-push-protection-bypass-reason"
+                placeholder_id:
+                  "$ref": "#/components/schemas/secret-scanning-push-protection-bypass-placeholder-id"
+              required:
+              - reason
+              - placeholder_id
+            examples:
+              default:
+                value:
+                  reason: will_fix_later
+                  placeholder_id: 2k4dM4tseyC5lPIsjl5emX9sPNk
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/secret-scanning-push-protection-bypass"
+              examples:
+                default:
+                  "$ref": "#/components/examples/secret-scanning-push-protection-bypass"
+        '403':
+          description: User does not have enough permissions to perform this action.
+        '404':
+          description: Placeholder ID not found, or push protection is disabled on
+            this repository.
+        '422':
+          description: Bad request, input data missing or incorrect.
+        '503':
+          "$ref": "#/components/responses/service_unavailable"
+      x-github:
+        enabledForGitHubApps: true
+        githubCloudOnly: false
         category: secret-scanning
         subcategory: secret-scanning
   "/repos/{owner}/{repo}/security-advisories":
@@ -42701,7 +43042,7 @@ paths:
                     items:
                       type: string
                       example: username@example.com
-                      minItems: 1
+                    minItems: 1
                     example: []
                 required:
                 - emails
@@ -42713,7 +43054,7 @@ paths:
                 items:
                   type: string
                   example: username@example.com
-                  minItems: 1
+                minItems: 1
               - type: string
             examples:
               default:
@@ -42779,7 +43120,7 @@ paths:
                     items:
                       type: string
                       example: username@example.com
-                      minItems: 1
+                    minItems: 1
                 example:
                   emails:
                   - octocat@github.com
@@ -42790,7 +43131,7 @@ paths:
                 items:
                   type: string
                   example: username@example.com
-                  minItems: 1
+                minItems: 1
               - type: string
             examples:
               default:
@@ -44903,6 +45244,8 @@ paths:
                   - PR_TITLE
                   - COMMIT_OR_PR_TITLE
                   description: |-
+                    Required when using `squash_merge_commit_message`.
+
                     The default value for a squash merge commit title:
 
                     - `PR_TITLE` - default to the pull request's title.
@@ -44925,6 +45268,8 @@ paths:
                   - PR_TITLE
                   - MERGE_MESSAGE
                   description: |-
+                    Required when using `merge_commit_message`.
+
                     The default value for a merge commit title.
 
                     - `PR_TITLE` - default to the pull request's title.
@@ -49772,6 +50117,9 @@ x-webhooks:
         For activity relating to deployment creation, use the `deployment` event.
 
         To subscribe to this event, a GitHub App must have at least read-level access for the "Deployments" repository permission.
+
+        > [!NOTE]
+        > A webhook event is not fired for deployment statuses with an `inactive` state.
       description: A new deployment status was created.
       operationId: deployment-status/created
       externalDocs:
@@ -62481,6 +62829,270 @@ x-webhooks:
         - repository
         - organization
         - app
+  sub-issues-parent-issue-added:
+    post:
+      summary: |-
+        This event occurs when there is activity relating to sub-issues.
+
+        For activity relating to issues more generally, use the `issues` event instead.
+
+        To subscribe to this event, a GitHub App must have at least read-level access for the "Issues" repository permissions.
+      description: A parent issue was added to an issue.
+      operationId: sub-issues/parent-issue-added
+      externalDocs:
+        url: https://docs.github.com/webhooks/webhook-events-and-payloads#sub-issues
+      parameters:
+      - name: User-Agent
+        in: header
+        example: GitHub-Hookshot/123abc
+        schema:
+          type: string
+      - name: X-Github-Hook-Id
+        in: header
+        example: 12312312
+        schema:
+          type: string
+      - name: X-Github-Event
+        in: header
+        example: issues
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Id
+        in: header
+        example: 123123
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Type
+        in: header
+        example: repository
+        schema:
+          type: string
+      - name: X-GitHub-Delivery
+        in: header
+        example: 0b989ba4-242f-11e5-81e1-c7b6966d2516
+        schema:
+          type: string
+      - name: X-Hub-Signature-256
+        in: header
+        example: sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/webhook-sub-issues-parent-issue-added"
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received
+            successfully
+      x-github:
+        githubCloudOnly: false
+        category: webhooks
+        subcategory: sub-issues
+        supported-webhook-types:
+        - repository
+        - organization
+        - app
+  sub-issues-parent-issue-removed:
+    post:
+      summary: |-
+        This event occurs when there is activity relating to sub-issues.
+
+        For activity relating to issues more generally, use the `issues` event instead.
+
+        To subscribe to this event, a GitHub App must have at least read-level access for the "Issues" repository permissions.
+      description: A parent issue was removed from an issue.
+      operationId: sub-issues/parent-issue-removed
+      externalDocs:
+        url: https://docs.github.com/webhooks/webhook-events-and-payloads#sub-issues
+      parameters:
+      - name: User-Agent
+        in: header
+        example: GitHub-Hookshot/123abc
+        schema:
+          type: string
+      - name: X-Github-Hook-Id
+        in: header
+        example: 12312312
+        schema:
+          type: string
+      - name: X-Github-Event
+        in: header
+        example: issues
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Id
+        in: header
+        example: 123123
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Type
+        in: header
+        example: repository
+        schema:
+          type: string
+      - name: X-GitHub-Delivery
+        in: header
+        example: 0b989ba4-242f-11e5-81e1-c7b6966d2516
+        schema:
+          type: string
+      - name: X-Hub-Signature-256
+        in: header
+        example: sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/webhook-sub-issues-parent-issue-removed"
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received
+            successfully
+      x-github:
+        githubCloudOnly: false
+        category: webhooks
+        subcategory: sub-issues
+        supported-webhook-types:
+        - repository
+        - organization
+        - app
+  sub-issues-sub-issue-added:
+    post:
+      summary: |-
+        This event occurs when there is activity relating to sub-issues.
+
+        For activity relating to issues more generally, use the `issues` event instead.
+
+        To subscribe to this event, a GitHub App must have at least read-level access for the "Issues" repository permissions.
+      description: A sub-issue was added to an issue.
+      operationId: sub-issues/sub-issue-added
+      externalDocs:
+        url: https://docs.github.com/webhooks/webhook-events-and-payloads#sub-issues
+      parameters:
+      - name: User-Agent
+        in: header
+        example: GitHub-Hookshot/123abc
+        schema:
+          type: string
+      - name: X-Github-Hook-Id
+        in: header
+        example: 12312312
+        schema:
+          type: string
+      - name: X-Github-Event
+        in: header
+        example: issues
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Id
+        in: header
+        example: 123123
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Type
+        in: header
+        example: repository
+        schema:
+          type: string
+      - name: X-GitHub-Delivery
+        in: header
+        example: 0b989ba4-242f-11e5-81e1-c7b6966d2516
+        schema:
+          type: string
+      - name: X-Hub-Signature-256
+        in: header
+        example: sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/webhook-sub-issues-sub-issue-added"
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received
+            successfully
+      x-github:
+        githubCloudOnly: false
+        category: webhooks
+        subcategory: sub-issues
+        supported-webhook-types:
+        - repository
+        - organization
+        - app
+  sub-issues-sub-issue-removed:
+    post:
+      summary: |-
+        This event occurs when there is activity relating to sub-issues.
+
+        For activity relating to issues more generally, use the `issues` event instead.
+
+        To subscribe to this event, a GitHub App must have at least read-level access for the "Issues" repository permissions.
+      description: A sub-issue was removed from an issue.
+      operationId: sub-issues/sub-issue-removed
+      externalDocs:
+        url: https://docs.github.com/webhooks/webhook-events-and-payloads#sub-issues
+      parameters:
+      - name: User-Agent
+        in: header
+        example: GitHub-Hookshot/123abc
+        schema:
+          type: string
+      - name: X-Github-Hook-Id
+        in: header
+        example: 12312312
+        schema:
+          type: string
+      - name: X-Github-Event
+        in: header
+        example: issues
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Id
+        in: header
+        example: 123123
+        schema:
+          type: string
+      - name: X-Github-Hook-Installation-Target-Type
+        in: header
+        example: repository
+        schema:
+          type: string
+      - name: X-GitHub-Delivery
+        in: header
+        example: 0b989ba4-242f-11e5-81e1-c7b6966d2516
+        schema:
+          type: string
+      - name: X-Hub-Signature-256
+        in: header
+        example: sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/webhook-sub-issues-sub-issue-removed"
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received
+            successfully
+      x-github:
+        githubCloudOnly: false
+        category: webhooks
+        subcategory: sub-issues
+        supported-webhook-types:
+        - repository
+        - organization
+        - app
   team-add:
     post:
       summary: |-
@@ -63664,6 +64276,46 @@ components:
       - vulnerable_version_range
       - first_patched_version
       - vulnerable_functions
+    cvss-severities:
+      type: object
+      nullable: true
+      properties:
+        cvss_v3:
+          type: object
+          nullable: true
+          properties:
+            vector_string:
+              type: string
+              description: The CVSS 3 vector string.
+              nullable: true
+            score:
+              type: number
+              description: The CVSS 3 score.
+              minimum: 0
+              maximum: 10
+              nullable: true
+              readOnly: true
+          required:
+          - vector_string
+          - score
+        cvss_v4:
+          type: object
+          nullable: true
+          properties:
+            vector_string:
+              type: string
+              description: The CVSS 4 vector string.
+              nullable: true
+            score:
+              type: number
+              description: The CVSS 4 score.
+              minimum: 0
+              maximum: 10
+              nullable: true
+              readOnly: true
+          required:
+          - vector_string
+          - score
     simple-user:
       title: Simple User
       description: A GitHub user.
@@ -63917,6 +64569,8 @@ components:
           required:
           - vector_string
           - score
+        cvss_severities:
+          "$ref": "#/components/schemas/cvss-severities"
         cwes:
           type: array
           nullable: true
@@ -63933,6 +64587,14 @@ components:
             required:
             - cwe_id
             - name
+        epss:
+          type: object
+          nullable: true
+          properties:
+            percentage:
+              type: number
+            percentile:
+              type: number
         credits:
           type: array
           description: The users who contributed to the advisory.
@@ -64117,6 +64779,9 @@ components:
         node_id:
           type: string
           example: MDExOkludGVncmF0aW9uMQ==
+        client_id:
+          type: string
+          example: '"Iv1.25b5d1e65ffc4022"'
         owner:
           "$ref": "#/components/schemas/nullable-simple-user"
         name:
@@ -64174,9 +64839,6 @@ components:
           description: The number of installations associated with the GitHub app
           example: 5
           type: integer
-        client_id:
-          type: string
-          example: '"Iv1.25b5d1e65ffc4022"'
         client_secret:
           type: string
           example: '"1d4b2097ac622ba702d19de498f005747a8b21d3"'
@@ -66189,6 +66851,64 @@ components:
       - html_url
       - key
       - name
+    organization-simple:
+      title: Organization Simple
+      description: A GitHub organization.
+      type: object
+      properties:
+        login:
+          type: string
+          example: github
+        id:
+          type: integer
+          example: 1
+        node_id:
+          type: string
+          example: MDEyOk9yZ2FuaXphdGlvbjE=
+        url:
+          type: string
+          format: uri
+          example: https://api.github.com/orgs/github
+        repos_url:
+          type: string
+          format: uri
+          example: https://api.github.com/orgs/github/repos
+        events_url:
+          type: string
+          format: uri
+          example: https://api.github.com/orgs/github/events
+        hooks_url:
+          type: string
+          example: https://api.github.com/orgs/github/hooks
+        issues_url:
+          type: string
+          example: https://api.github.com/orgs/github/issues
+        members_url:
+          type: string
+          example: https://api.github.com/orgs/github/members{/member}
+        public_members_url:
+          type: string
+          example: https://api.github.com/orgs/github/public_members{/member}
+        avatar_url:
+          type: string
+          example: https://github.com/images/error/octocat_happy.gif
+        description:
+          type: string
+          example: A great organization
+          nullable: true
+      required:
+      - login
+      - url
+      - id
+      - node_id
+      - repos_url
+      - events_url
+      - hooks_url
+      - issues_url
+      - members_url
+      - public_members_url
+      - avatar_url
+      - description
     nullable-team-simple:
       title: Team Simple
       description: Groups of organization members that gives permissions on specified
@@ -66326,187 +67046,6 @@ components:
       - repositories_url
       - slug
       - parent
-    organization:
-      title: Organization
-      description: GitHub account for managing multiple users, teams, and repositories
-      type: object
-      properties:
-        login:
-          description: Unique login name of the organization
-          example: new-org
-          type: string
-        url:
-          description: URL for the organization
-          example: https://api.github.com/orgs/github
-          type: string
-          format: uri
-        id:
-          type: integer
-        node_id:
-          type: string
-        repos_url:
-          type: string
-          format: uri
-        events_url:
-          type: string
-          format: uri
-        hooks_url:
-          type: string
-        issues_url:
-          type: string
-        members_url:
-          type: string
-        public_members_url:
-          type: string
-        avatar_url:
-          type: string
-        description:
-          type: string
-          nullable: true
-        blog:
-          description: Display blog url for the organization
-          example: blog.example-org.com
-          type: string
-          format: uri
-        html_url:
-          type: string
-          format: uri
-        name:
-          description: Display name for the organization
-          example: New Org
-          type: string
-        company:
-          description: Display company name for the organization
-          example: Acme corporation
-          type: string
-        location:
-          description: Display location for the organization
-          example: Berlin, Germany
-          type: string
-        email:
-          description: Display email for the organization
-          example: org@example.com
-          type: string
-          format: email
-        has_organization_projects:
-          description: Specifies if organization projects are enabled for this org
-          type: boolean
-        has_repository_projects:
-          description: Specifies if repository projects are enabled for repositories
-            that belong to this org
-          type: boolean
-        is_verified:
-          type: boolean
-        public_repos:
-          type: integer
-        public_gists:
-          type: integer
-        followers:
-          type: integer
-        following:
-          type: integer
-        type:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        plan:
-          type: object
-          properties:
-            name:
-              type: string
-            space:
-              type: integer
-            private_repos:
-              type: integer
-            filled_seats:
-              type: integer
-            seats:
-              type: integer
-      required:
-      - login
-      - url
-      - id
-      - node_id
-      - repos_url
-      - events_url
-      - hooks_url
-      - issues_url
-      - members_url
-      - public_members_url
-      - avatar_url
-      - description
-      - html_url
-      - has_organization_projects
-      - has_repository_projects
-      - public_repos
-      - public_gists
-      - followers
-      - following
-      - type
-      - created_at
-      - updated_at
-    organization-simple:
-      title: Organization Simple
-      description: A GitHub organization.
-      type: object
-      properties:
-        login:
-          type: string
-          example: github
-        id:
-          type: integer
-          example: 1
-        node_id:
-          type: string
-          example: MDEyOk9yZ2FuaXphdGlvbjE=
-        url:
-          type: string
-          format: uri
-          example: https://api.github.com/orgs/github
-        repos_url:
-          type: string
-          format: uri
-          example: https://api.github.com/orgs/github/repos
-        events_url:
-          type: string
-          format: uri
-          example: https://api.github.com/orgs/github/events
-        hooks_url:
-          type: string
-          example: https://api.github.com/orgs/github/hooks
-        issues_url:
-          type: string
-          example: https://api.github.com/orgs/github/issues
-        members_url:
-          type: string
-          example: https://api.github.com/orgs/github/members{/member}
-        public_members_url:
-          type: string
-          example: https://api.github.com/orgs/github/public_members{/member}
-        avatar_url:
-          type: string
-          example: https://github.com/images/error/octocat_happy.gif
-        description:
-          type: string
-          example: A great organization
-          nullable: true
-      required:
-      - login
-      - url
-      - id
-      - node_id
-      - repos_url
-      - events_url
-      - hooks_url
-      - issues_url
-      - members_url
-      - public_members_url
-      - avatar_url
-      - description
     enterprise-team:
       title: Enterprise Team
       description: Group of enterprise owners and/or members
@@ -66563,8 +67102,6 @@ components:
           additionalProperties: true
           oneOf:
           - "$ref": "#/components/schemas/simple-user"
-          - "$ref": "#/components/schemas/team"
-          - "$ref": "#/components/schemas/organization"
         organization:
           type: object
           description: The organization to which this seat belongs.
@@ -66815,6 +67352,8 @@ components:
           - score
           - vector_string
           additionalProperties: false
+        cvss_severities:
+          "$ref": "#/components/schemas/cvss-severities"
         cwes:
           type: array
           description: Details for the advisory pertaining to Common Weakness Enumeration.
@@ -67371,7 +67910,7 @@ components:
           type: string
           description: |-
             User-friendly name for the detected secret, matching the `secret_type`.
-            For a list of built-in patterns, see "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)."
+            For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)."
         secret:
           type: string
           description: The secret that was detected.
@@ -67533,6 +68072,9 @@ components:
         node_id:
           type: string
           example: MDExOkludGVncmF0aW9uMQ==
+        client_id:
+          type: string
+          example: '"Iv1.25b5d1e65ffc4022"'
         owner:
           "$ref": "#/components/schemas/nullable-simple-user"
         name:
@@ -67590,9 +68132,6 @@ components:
           description: The number of installations associated with the GitHub app
           example: 5
           type: integer
-        client_id:
-          type: string
-          example: '"Iv1.25b5d1e65ffc4022"'
         client_secret:
           type: string
           example: '"1d4b2097ac622ba702d19de498f005747a8b21d3"'
@@ -68965,7 +69504,19 @@ components:
             type: string
           example:
           - 192.0.2.1
+        codespaces:
+          type: array
+          items:
+            type: string
+          example:
+          - 192.0.2.1
         dependabot:
+          type: array
+          items:
+            type: string
+          example:
+          - 192.0.2.1
+        copilot:
           type: array
           items:
             type: string
@@ -69004,6 +69555,19 @@ components:
                 type: string
                 example:
                 - example.com
+            artifact_attestations:
+              type: object
+              properties:
+                trust_domain:
+                  type: string
+                  example:
+                  - example
+                services:
+                  type: array
+                  items:
+                    type: string
+                    example:
+                    - example.com
       required:
       - verifiable_password_authentication
     security-and-analysis:
@@ -70192,12 +70756,24 @@ components:
         description:
           type: string
           description: A short description of the rule used to detect the alert.
+        full_description:
+          type: string
+          description: A description of the rule used to detect the alert.
         tags:
           nullable: true
           type: array
           description: A set of tags applicable for the rule.
           items:
             type: string
+        help:
+          nullable: true
+          type: string
+          description: Detailed documentation for the rule as GitHub Flavored Markdown.
+        help_uri:
+          nullable: true
+          type: string
+          description: A link to the documentation for the rule used to detect the
+            alert.
     code-scanning-analysis-tool-version:
       nullable: true
       type: string
@@ -70367,6 +70943,21 @@ components:
           - enabled
           - disabled
           - not_set
+        dependency_graph_autosubmit_action:
+          type: string
+          description: The enablement status of Automatic dependency submission
+          enum:
+          - enabled
+          - disabled
+          - not_set
+        dependency_graph_autosubmit_action_options:
+          type: object
+          description: Feature options for Automatic dependency submission
+          properties:
+            labeled_runners:
+              type: boolean
+              description: Whether to use runners labeled with 'dependency-submission'
+                or standard GitHub runners.
         dependabot_alerts:
           type: string
           description: The enablement status of Dependabot alerts
@@ -70405,6 +70996,13 @@ components:
         secret_scanning_validity_checks:
           type: string
           description: The enablement status of secret scanning validity checks
+          enum:
+          - enabled
+          - disabled
+          - not_set
+        secret_scanning_non_provider_patterns:
+          type: string
+          description: The enablement status of secret scanning non-provider patterns
           enum:
           - enabled
           - disabled
@@ -72191,7 +72789,7 @@ components:
       - columns_url
       - created_at
       - updated_at
-    org-custom-property:
+    custom-property:
       title: Organization Custom Property
       description: Custom property defined on an organization
       type: object
@@ -72199,6 +72797,11 @@ components:
         property_name:
           type: string
           description: The name of the property
+        url:
+          type: string
+          format: uri
+          description: The URL that can be used to fetch, update, or delete info about
+            this property via the API.
         value_type:
           type: string
           example: single_select
@@ -73266,12 +73869,10 @@ components:
         actor_id:
           type: integer
           nullable: true
-          description: 'The ID of the actor that can bypass a ruleset. If `actor_type`
+          description: The ID of the actor that can bypass a ruleset. If `actor_type`
             is `OrganizationAdmin`, this should be `1`. If `actor_type` is `DeployKey`,
             this should be null. `OrganizationAdmin` is not applicable for personal
             repositories.
-
-            '
         actor_type:
           type: string
           enum:
@@ -73280,16 +73881,12 @@ components:
           - RepositoryRole
           - Team
           - DeployKey
-          description: 'The type of actor that can bypass a ruleset.
-
-            '
+          description: The type of actor that can bypass a ruleset.
         bypass_mode:
           type: string
-          description: 'When the specified actor can bypass the ruleset. `pull_request`
+          description: When the specified actor can bypass the ruleset. `pull_request`
             means that an actor can only bypass rules on pull requests. `pull_request`
             is not applicable for the `DeployKey` actor type.
-
-            '
           enum:
           - always
           - pull_request
@@ -73404,11 +74001,9 @@ components:
     org-ruleset-conditions:
       title: Organization ruleset conditions
       type: object
-      description: 'Conditions for an organization ruleset. The conditions object
-        should contain both `repository_name` and `ref_name` properties or both `repository_id`
+      description: Conditions for an organization ruleset. The conditions object should
+        contain both `repository_name` and `ref_name` properties or both `repository_id`
         and `ref_name` properties.
-
-        '
       oneOf:
       - type: object
         title: repository_name_and_ref_name
@@ -73995,11 +74590,8 @@ components:
       - "$ref": "#/components/schemas/repository-rule-branch-name-pattern"
       - "$ref": "#/components/schemas/repository-rule-tag-name-pattern"
       - title: file_path_restriction
-        description: |-
-          > [!NOTE]
-          > `file_path_restriction` is in beta and subject to change.
-
-          Prevent commits that include changes in specified file paths from being pushed to the commit graph.
+        description: Prevent commits that include changes in specified file paths
+          from being pushed to the commit graph.
         type: object
         required:
         - type
@@ -74020,11 +74612,8 @@ components:
             required:
             - restricted_file_paths
       - title: max_file_path_length
-        description: |-
-          > [!NOTE]
-          > `max_file_path_length` is in beta and subject to change.
-
-          Prevent commits that include file paths that exceed a specified character limit from being pushed to the commit graph.
+        description: Prevent commits that include file paths that exceed a specified
+          character limit from being pushed to the commit graph.
         type: object
         required:
         - type
@@ -74044,11 +74633,8 @@ components:
             required:
             - max_file_path_length
       - title: file_extension_restriction
-        description: |-
-          > [!NOTE]
-          > `file_extension_restriction` is in beta and subject to change.
-
-          Prevent commits that include files with specified file extensions from being pushed to the commit graph.
+        description: Prevent commits that include files with specified file extensions
+          from being pushed to the commit graph.
         type: object
         required:
         - type
@@ -74069,11 +74655,8 @@ components:
             required:
             - restricted_file_extensions
       - title: max_file_size
-        description: |-
-          > [!NOTE]
-          > `max_file_size` is in beta and subject to change.
-
-          Prevent commits that exceed a specified file size limit from being pushed to the commit.
+        description: Prevent commits that exceed a specified file size limit from
+          being pushed to the commit.
         type: object
         required:
         - type
@@ -74113,11 +74696,7 @@ components:
           description: The name of the ruleset
         target:
           type: string
-          description: |-
-            The target of the ruleset
-
-            > [!NOTE]
-            > The `push` target is in beta and is subject to change.
+          description: The target of the ruleset
           enum:
           - branch
           - tag
@@ -74227,6 +74806,7 @@ components:
             enum:
             - pass
             - fail
+            - bypass
             description: The result of the rule evaluations for rules with the `active`
               and `evaluate` enforcement statuses, demonstrating whether rules would
               pass or fail if all rules in the rule suite were `active`.
@@ -74275,12 +74855,15 @@ components:
             enforcement status.
         evaluation_result:
           type: string
+          nullable: true
           enum:
           - pass
           - fail
+          - bypass
           description: The result of the rule evaluations for rules with the `active`
             and `evaluate` enforcement statuses, demonstrating whether rules would
-            pass or fail if all rules in the rule suite were `active`.
+            pass or fail if all rules in the rule suite were `active`. Null if no
+            rules with `evaluate` enforcement status were run.
         rule_evaluations:
           type: array
           description: Details on the evaluated rules.
@@ -74319,7 +74902,9 @@ components:
                 description: The type of rule.
               details:
                 type: string
-                description: Any associated details with the rule evaluation.
+                nullable: true
+                description: The detailed failure message for the rule. Null if the
+                  rule passed.
     repository-advisory-vulnerability:
       description: A product affected by the vulnerability detailed in a repository
         security advisory.
@@ -74528,6 +75113,8 @@ components:
           required:
           - vector_string
           - score
+        cvss_severities:
+          "$ref": "#/components/schemas/cvss-severities"
         cwes:
           type: array
           nullable: true
@@ -77390,6 +77977,8 @@ components:
                     example: false
               name:
                 type: string
+              client_id:
+                type: string
               description:
                 type: string
               external_url:
@@ -78062,6 +78651,7 @@ components:
           description: The id of the check.
           example: 21
           type: integer
+          format: int64
         head_sha:
           description: The SHA of the commit that is being checked.
           example: '009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d'
@@ -78341,7 +78931,7 @@ components:
           - action_required
           - startup_failure
           - stale
-          - 
+          - null
           nullable: true
         url:
           type: string
@@ -78504,7 +79094,7 @@ components:
           description: A short description of the rule used to detect the alert.
         full_description:
           type: string
-          description: description of the rule used to detect the alert.
+          description: A description of the rule used to detect the alert.
         tags:
           nullable: true
           type: array
@@ -79088,6 +79678,26 @@ components:
           description: Any errors that ocurred during processing of the delivery.
           readOnly: true
           nullable: true
+    code-security-configuration-for-repository:
+      type: object
+      description: Code security configuration associated with a repository and attachment
+        status
+      properties:
+        status:
+          type: string
+          description: The attachment status of the code security configuration on
+            the repository.
+          enum:
+          - attached
+          - attaching
+          - detached
+          - removed
+          - enforced
+          - failed
+          - updating
+          - removed_by_enterprise
+        configuration:
+          "$ref": "#/components/schemas/code-security-configuration"
     codeowners-errors:
       title: CODEOWNERS errors
       description: A list of errors found in a repo's CODEOWNERS file
@@ -80657,6 +81267,35 @@ components:
                 payload:
                   type: string
                   nullable: true
+    secret-scanning-push-protection-bypass-placeholder-id:
+      description: The ID of the push protection bypass placeholder. This value is
+        returned on any push protected routes.
+      type: string
+    repository-rule-violation-error:
+      description: Repository rule violation was detected
+      type: object
+      properties:
+        message:
+          type: string
+        documentation_url:
+          type: string
+        status:
+          type: string
+        metadata:
+          type: object
+          properties:
+            secret_scanning:
+              type: object
+              properties:
+                bypass_placeholders:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      placeholder_id:
+                        "$ref": "#/components/schemas/secret-scanning-push-protection-bypass-placeholder-id"
+                      token_type:
+                        type: string
     contributor:
       title: Contributor
       description: Contributor
@@ -86164,7 +86803,7 @@ components:
           type: string
           description: |-
             User-friendly name for the detected secret, matching the `secret_type`.
-            For a list of built-in patterns, see "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)."
+            For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)."
         secret:
           type: string
           description: The secret that was detected.
@@ -86468,6 +87107,26 @@ components:
           - "$ref": "#/components/schemas/secret-scanning-location-pull-request-comment"
           - "$ref": "#/components/schemas/secret-scanning-location-pull-request-review"
           - "$ref": "#/components/schemas/secret-scanning-location-pull-request-review-comment"
+    secret-scanning-push-protection-bypass-reason:
+      description: The reason for bypassing push protection.
+      type: string
+      enum:
+      - false_positive
+      - used_in_tests
+      - will_fix_later
+    secret-scanning-push-protection-bypass:
+      type: object
+      properties:
+        reason:
+          "$ref": "#/components/schemas/secret-scanning-push-protection-bypass-reason"
+        expire_at:
+          type: string
+          format: date-time
+          description: 'The time that the bypass will expire in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.'
+          nullable: true
+        token_type:
+          type: string
+          description: The token type this bypass is for.
     repository-advisory-create:
       type: object
       properties:
@@ -91337,7 +91996,7 @@ components:
           - off-topic
           - too heated
           - spam
-          - 
+          - null
         assignee:
           title: User
           type: object
@@ -92366,7 +93025,7 @@ components:
           - off-topic
           - too heated
           - spam
-          - 
+          - null
         assignee:
           title: User
           type: object
@@ -93584,10 +94243,8 @@ components:
     merge-group:
       type: object
       title: Merge Group
-      description: 'A group of pull requests that the merge queue has grouped together
+      description: A group of pull requests that the merge queue has grouped together
         to be merged.
-
-        '
       properties:
         head_sha:
           description: The SHA of the merge group.
@@ -95356,7 +96013,7 @@ components:
           - off-topic
           - too heated
           - spam
-          - 
+          - null
         additions:
           type: integer
         assignee:
@@ -97656,7 +98313,7 @@ components:
           enum:
           - LEFT
           - RIGHT
-          - 
+          - null
           default: RIGHT
         subject_type:
           description: The level at which the comment is targeted, can be a diff line
@@ -98690,7 +99347,7 @@ components:
           type: string
           description: |-
             User-friendly name for the detected secret, matching the `secret_type`.
-            For a list of built-in patterns, see "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)."
+            For a list of built-in patterns, see "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)."
         validity:
           type: string
           description: The token status as of the latest validity check.
@@ -98726,6 +99383,8 @@ components:
           required:
           - vector_string
           - score
+        cvss_severities:
+          "$ref": "#/components/schemas/cvss-severities"
         cwes:
           type: array
           items:
@@ -99668,6 +100327,10 @@ components:
                   description: Unique identifier of the GitHub app
                   type: integer
                   nullable: true
+                client_id:
+                  description: The client ID of the GitHub app
+                  type: string
+                  nullable: true
                 name:
                   description: The name of the GitHub app
                   type: string
@@ -99958,7 +100621,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
               - skipped
               - startup_failure
             created_at:
@@ -100126,7 +100789,7 @@ components:
               - in_progress
               - completed
               - queued
-              - 
+              - null
               - pending
             updated_at:
               type: string
@@ -100266,6 +100929,10 @@ components:
                 id:
                   description: Unique identifier of the GitHub app
                   type: integer
+                  nullable: true
+                client_id:
+                  description: Client ID of the GitHub app
+                  type: string
                   nullable: true
                 name:
                   description: The name of the GitHub app
@@ -100557,7 +101224,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
               - skipped
             created_at:
               type: string
@@ -100724,7 +101391,7 @@ components:
               - in_progress
               - completed
               - queued
-              - 
+              - null
             updated_at:
               type: string
               format: date-time
@@ -100858,6 +101525,10 @@ components:
                 id:
                   description: Unique identifier of the GitHub app
                   type: integer
+                  nullable: true
+                client_id:
+                  description: The Client ID for the GitHub app
+                  type: string
                   nullable: true
                 name:
                   description: The name of the GitHub app
@@ -101149,7 +101820,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
             created_at:
               type: string
               format: date-time
@@ -101315,7 +101986,7 @@ components:
               - in_progress
               - completed
               - queued
-              - 
+              - null
             updated_at:
               type: string
               format: date-time
@@ -101453,7 +102124,7 @@ components:
               - false positive
               - won't fix
               - used in tests
-              - 
+              - null
             html_url:
               description: The GitHub URL of the alert resource.
               type: string
@@ -101540,7 +102211,7 @@ components:
                   - note
                   - warning
                   - error
-                  - 
+                  - null
               required:
               - id
               - severity
@@ -101698,7 +102369,7 @@ components:
               - false positive
               - won't fix
               - used in tests
-              - 
+              - null
             html_url:
               description: The GitHub URL of the alert resource.
               type: string
@@ -101797,7 +102468,7 @@ components:
                   - note
                   - warning
                   - error
-                  - 
+                  - null
                 tags:
                   type: array
                   nullable: true
@@ -101997,7 +102668,7 @@ components:
                   - note
                   - warning
                   - error
-                  - 
+                  - null
                 tags:
                   type: array
                   nullable: true
@@ -102167,7 +102838,7 @@ components:
               - false positive
               - won't fix
               - used in tests
-              - 
+              - null
             html_url:
               description: The GitHub URL of the alert resource.
               type: string
@@ -102269,7 +102940,7 @@ components:
                   - note
                   - warning
                   - error
-                  - 
+                  - null
                 tags:
                   type: array
                   nullable: true
@@ -102465,7 +103136,7 @@ components:
                   - note
                   - warning
                   - error
-                  - 
+                  - null
                 tags:
                   type: array
                   nullable: true
@@ -102655,7 +103326,7 @@ components:
                   - note
                   - warning
                   - error
-                  - 
+                  - null
               required:
               - id
               - severity
@@ -102958,7 +103629,7 @@ components:
           enum:
           - created
         definition:
-          "$ref": "#/components/schemas/org-custom-property"
+          "$ref": "#/components/schemas/custom-property"
         enterprise:
           "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
@@ -103006,7 +103677,7 @@ components:
           enum:
           - updated
         definition:
-          "$ref": "#/components/schemas/org-custom-property"
+          "$ref": "#/components/schemas/custom-property"
         enterprise:
           "$ref": "#/components/schemas/enterprise-webhooks"
         installation:
@@ -103897,7 +104568,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
             created_at:
               type: string
               format: date-time
@@ -104578,7 +105249,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
             created_at:
               type: string
               format: date-time
@@ -105232,7 +105903,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
             created_at:
               type: string
               format: date-time
@@ -105963,7 +106634,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
             created_at:
               type: string
               format: date-time
@@ -106508,7 +107179,7 @@ components:
               - action_required
               - stale
               - skipped
-              - 
+              - null
             details_url:
               type: string
               format: uri
@@ -107610,7 +108281,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
               - startup_failure
             created_at:
               type: string
@@ -109967,7 +110638,7 @@ components:
                 - off-topic
                 - too heated
                 - spam
-                - 
+                - null
               assignee:
                 title: User
                 type: object
@@ -111121,7 +111792,7 @@ components:
                 - off-topic
                 - too heated
                 - spam
-                - 
+                - null
               assignee:
                 title: User
                 type: object
@@ -112273,7 +112944,7 @@ components:
                 - off-topic
                 - too heated
                 - spam
-                - 
+                - null
               assignee:
                 title: User
                 type: object
@@ -113454,7 +114125,7 @@ components:
                 - off-topic
                 - too heated
                 - spam
-                - 
+                - null
               assignee:
                 title: User
                 type: object
@@ -114505,7 +115176,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -115437,7 +116108,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -116352,7 +117023,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -117272,7 +117943,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -118213,7 +118884,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -119127,7 +119798,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -120021,7 +120692,7 @@ components:
                   - off-topic
                   - too heated
                   - spam
-                  - 
+                  - null
                 assignee:
                   title: User
                   type: object
@@ -121375,7 +122046,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -122337,7 +123008,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -123231,7 +123902,7 @@ components:
                   - off-topic
                   - too heated
                   - spam
-                  - 
+                  - null
                 assignee:
                   title: User
                   type: object
@@ -124692,7 +125363,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -129706,7 +130377,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -131978,7 +132649,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -134247,7 +134918,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -136598,7 +137269,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -138928,7 +139599,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -141187,7 +141858,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -143459,7 +144130,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -145907,7 +146578,7 @@ components:
               enum:
               - LEFT
               - RIGHT
-              - 
+              - null
               default: RIGHT
             subject_type:
               description: The level at which the comment is targeted, can be a diff
@@ -146118,7 +146789,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -148282,7 +148953,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -150436,7 +151107,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -152589,7 +153260,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -154915,7 +155586,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -156970,7 +157641,7 @@ components:
                 - off-topic
                 - too heated
                 - spam
-                - 
+                - null
               additions:
                 type: integer
               assignee:
@@ -159302,7 +159973,7 @@ components:
                 - off-topic
                 - too heated
                 - spam
-                - 
+                - null
               additions:
                 type: integer
               assignee:
@@ -161687,7 +162358,7 @@ components:
                 - off-topic
                 - too heated
                 - spam
-                - 
+                - null
               additions:
                 type: integer
               assignee:
@@ -164024,7 +164695,7 @@ components:
                 - off-topic
                 - too heated
                 - spam
-                - 
+                - null
               additions:
                 type: integer
               assignee:
@@ -166382,7 +167053,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -168551,7 +169222,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -170677,7 +171348,7 @@ components:
                     enum:
                     - LEFT
                     - RIGHT
-                    - 
+                    - null
                     default: RIGHT
                   subject_type:
                     description: The level at which the comment is targeted, can be
@@ -170908,7 +171579,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             assignee:
               title: User
               type: object
@@ -173019,7 +173690,7 @@ components:
                     enum:
                     - LEFT
                     - RIGHT
-                    - 
+                    - null
                     default: RIGHT
                   subject_type:
                     description: The level at which the comment is targeted, can be
@@ -173255,7 +173926,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -175519,7 +176190,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -177793,7 +178464,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -180055,7 +180726,7 @@ components:
               - off-topic
               - too heated
               - spam
-              - 
+              - null
             additions:
               type: integer
             assignee:
@@ -185521,6 +186192,8 @@ components:
               required:
               - vector_string
               - score
+            cvss_severities:
+              "$ref": "#/components/schemas/cvss-severities"
             cwes:
               type: array
               items:
@@ -186255,6 +186928,146 @@ components:
       - updated_at
       - repository
       - sender
+    webhook-sub-issues-parent-issue-added:
+      title: parent issue added event
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+          - parent_issue_added
+        parent_issue_id:
+          description: The ID of the parent issue.
+          type: number
+        parent_issue:
+          "$ref": "#/components/schemas/issue"
+        parent_issue_repo:
+          "$ref": "#/components/schemas/repository"
+        sub_issue_id:
+          description: The ID of the sub-issue.
+          type: number
+        sub_issue:
+          "$ref": "#/components/schemas/issue"
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
+        organization:
+          "$ref": "#/components/schemas/organization-simple-webhooks"
+        repository:
+          "$ref": "#/components/schemas/repository-webhooks"
+        sender:
+          "$ref": "#/components/schemas/simple-user-webhooks"
+      required:
+      - action
+      - parent_issue_id
+      - parent_issue
+      - parent_issue_repo
+      - sub_issue_id
+      - sub_issue
+    webhook-sub-issues-parent-issue-removed:
+      title: parent issue removed event
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+          - parent_issue_removed
+        parent_issue_id:
+          description: The ID of the parent issue.
+          type: number
+        parent_issue:
+          "$ref": "#/components/schemas/issue"
+        parent_issue_repo:
+          "$ref": "#/components/schemas/repository"
+        sub_issue_id:
+          description: The ID of the sub-issue.
+          type: number
+        sub_issue:
+          "$ref": "#/components/schemas/issue"
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
+        organization:
+          "$ref": "#/components/schemas/organization-simple-webhooks"
+        repository:
+          "$ref": "#/components/schemas/repository-webhooks"
+        sender:
+          "$ref": "#/components/schemas/simple-user-webhooks"
+      required:
+      - action
+      - parent_issue_id
+      - parent_issue
+      - parent_issue_repo
+      - sub_issue_id
+      - sub_issue
+    webhook-sub-issues-sub-issue-added:
+      title: sub-issue added event
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+          - sub_issue_added
+        sub_issue_id:
+          description: The ID of the sub-issue.
+          type: number
+        sub_issue:
+          "$ref": "#/components/schemas/issue"
+        sub_issue_repo:
+          "$ref": "#/components/schemas/repository"
+        parent_issue_id:
+          description: The ID of the parent issue.
+          type: number
+        parent_issue:
+          "$ref": "#/components/schemas/issue"
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
+        organization:
+          "$ref": "#/components/schemas/organization-simple-webhooks"
+        repository:
+          "$ref": "#/components/schemas/repository-webhooks"
+        sender:
+          "$ref": "#/components/schemas/simple-user-webhooks"
+      required:
+      - action
+      - sub_issue_id
+      - sub_issue
+      - sub_issue_repo
+      - parent_issue_id
+      - parent_issue
+    webhook-sub-issues-sub-issue-removed:
+      title: sub-issue removed event
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+          - sub_issue_removed
+        sub_issue_id:
+          description: The ID of the sub-issue.
+          type: number
+        sub_issue:
+          "$ref": "#/components/schemas/issue"
+        sub_issue_repo:
+          "$ref": "#/components/schemas/repository"
+        parent_issue_id:
+          description: The ID of the parent issue.
+          type: number
+        parent_issue:
+          "$ref": "#/components/schemas/issue"
+        installation:
+          "$ref": "#/components/schemas/simple-installation"
+        organization:
+          "$ref": "#/components/schemas/organization-simple-webhooks"
+        repository:
+          "$ref": "#/components/schemas/repository-webhooks"
+        sender:
+          "$ref": "#/components/schemas/simple-user-webhooks"
+      required:
+      - action
+      - sub_issue_id
+      - sub_issue
+      - sub_issue_repo
+      - parent_issue_id
+      - parent_issue
     webhook-team-add:
       title: team_add event
       type: object
@@ -188812,7 +189625,7 @@ components:
                 enum:
                 - success
                 - failure
-                - 
+                - null
                 - skipped
                 - cancelled
                 - action_required
@@ -188902,7 +189715,7 @@ components:
                       - skipped
                       - success
                       - cancelled
-                      - 
+                      - null
                     name:
                       type: string
                     number:
@@ -189068,7 +189881,7 @@ components:
                 enum:
                 - success
                 - failure
-                - 
+                - null
                 - cancelled
                 - neutral
               created_at:
@@ -189153,7 +189966,7 @@ components:
                       - failure
                       - skipped
                       - success
-                      - 
+                      - null
                       - cancelled
                     name:
                       type: string
@@ -189411,7 +190224,7 @@ components:
                     - skipped
                     - success
                     - cancelled
-                    - 
+                    - null
                   name:
                     type: string
                   number:
@@ -189569,7 +190382,7 @@ components:
                     - skipped
                     - success
                     - cancelled
-                    - 
+                    - null
                   name:
                     type: string
                   number:
@@ -189776,6 +190589,7 @@ components:
               - stale
               - success
               - timed_out
+              - startup_failure
             created_at:
               type: string
               format: date-time
@@ -191606,7 +192420,7 @@ components:
               - timed_out
               - action_required
               - stale
-              - 
+              - null
               - skipped
               - startup_failure
             created_at:
@@ -192498,9 +193312,19 @@ components:
         cvss:
           vector_string: CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H
           score: 7.6
+        cvss_severities:
+          cvss_v3:
+            vector_string: CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H
+            score: 7.6
+          cvss_v4:
+            vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+            score: 9.3
         cwes:
         - cwe_id: CWE-400
           name: Uncontrolled Resource Consumption
+        epss:
+        - percentage: 0.00045
+          percentile: 0.16001e0
         credits:
         - user:
             login: octocat
@@ -192557,6 +193381,13 @@ components:
         cvss:
           vector_string: CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H
           score: 7.6
+        cvss_severities:
+          cvss_v3:
+            vector_string: CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H
+            score: 7.6
+          cvss_v4:
+            vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+            score: 9.3
         cwes:
         - cwe_id: CWE-400
           name: Uncontrolled Resource Consumption
@@ -192585,6 +193416,7 @@ components:
       value:
         id: 1
         slug: octoapp
+        client_id: Iv1.ab1112223334445c
         node_id: MDExOkludGVncmF0aW9uMQ==
         owner:
           login: octocat
@@ -195370,6 +196202,13 @@ components:
           cvss:
             vector_string: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
             score: 7.5
+          cvss_severities:
+            cvss_v3:
+              vector_string: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
+              score: 7.5
+            cvss_v4:
+              vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N
+              score: 8.7
           cwes:
           - cwe_id: CWE-200
             name: Exposure of Sensitive Information to an Unauthorized Actor
@@ -195530,6 +196369,13 @@ components:
           cvss:
             vector_string: CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N
             score: 5.5
+          cvss_severities:
+            cvss_v3:
+              vector_string: CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N
+              score: 5.5
+            cvss_v4:
+              vector_string: CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+              score: 8.5
           cwes:
           - cwe_id: CWE-532
             name: Insertion of Sensitive Information into Log File
@@ -195829,6 +196675,70 @@ components:
         push_protection_bypassed_at: 
         resolution_comment: 
         validity: unknown
+    copilot-usage-metrics-org:
+      value:
+      - day: '2023-10-15'
+        total_suggestions_count: 1000
+        total_acceptances_count: 800
+        total_lines_suggested: 1800
+        total_lines_accepted: 1200
+        total_active_users: 10
+        total_chat_acceptances: 32
+        total_chat_turns: 200
+        total_active_chat_users: 4
+        breakdown:
+        - language: python
+          editor: vscode
+          suggestions_count: 300
+          acceptances_count: 250
+          lines_suggested: 900
+          lines_accepted: 700
+          active_users: 5
+        - language: python
+          editor: jetbrains
+          suggestions_count: 300
+          acceptances_count: 200
+          lines_suggested: 400
+          lines_accepted: 300
+          active_users: 2
+        - language: ruby
+          editor: vscode
+          suggestions_count: 400
+          acceptances_count: 350
+          lines_suggested: 500
+          lines_accepted: 200
+          active_users: 3
+      - day: '2023-10-16'
+        total_suggestions_count: 800
+        total_acceptances_count: 600
+        total_lines_suggested: 1100
+        total_lines_accepted: 700
+        total_active_users: 12
+        total_chat_acceptances: 57
+        total_chat_turns: 426
+        total_active_chat_users: 8
+        breakdown:
+        - language: python
+          editor: vscode
+          suggestions_count: 300
+          acceptances_count: 200
+          lines_suggested: 600
+          lines_accepted: 300
+          active_users: 2
+        - language: python
+          editor: jetbrains
+          suggestions_count: 300
+          acceptances_count: 150
+          lines_suggested: 300
+          lines_accepted: 250
+          active_users: 6
+        - language: ruby
+          editor: vscode
+          suggestions_count: 200
+          acceptances_count: 150
+          lines_suggested: 200
+          lines_accepted: 150
+          active_users: 3
     public-events-items:
       value:
       - id: '22249084947'
@@ -196963,6 +197873,8 @@ components:
         - 192.0.2.1
         dependabot:
         - 192.0.2.1
+        copilot:
+        - 192.0.2.1
         domains:
           website:
           - "*.example.com"
@@ -198064,13 +198976,18 @@ components:
           scanning.
         advanced_security: enabled
         dependency_graph: enabled
+        dependency_graph_autosubmit_action: not_set
+        dependency_graph_autosubmit_action_options:
+          labeled_runners: false
         dependabot_alerts: enabled
         dependabot_security_updates: not_set
         code_scanning_default_setup: enabled
         secret_scanning: enabled
         secret_scanning_push_protection: enabled
         secret_scanning_validity_checks: enabled
+        secret_scanning_non_provider_patterns: enabled
         private_vulnerability_reporting: enabled
+        enforcement: enforced
         url: https://api.github.com/orgs/octo-org/code-security/configurations/17
         html_url: https://github.com/organizations/octo-org/settings/security_products/configurations/view
         created_at: '2023-12-04T15:58:07Z'
@@ -198082,13 +198999,18 @@ components:
           repositories
         advanced_security: enabled
         dependency_graph: enabled
+        dependency_graph_autosubmit_action: enabled
+        dependency_graph_autosubmit_action_options:
+          labeled_runners: false
         dependabot_alerts: enabled
         dependabot_security_updates: enabled
         code_scanning_default_setup: enabled
         secret_scanning: enabled
         secret_scanning_push_protection: enabled
         secret_scanning_validity_checks: disabled
+        secret_scanning_non_provider_patterns: disabled
         private_vulnerability_reporting: enabled
+        enforcement: enforced
         url: https://api.github.com/orgs/octo-org/code-security/configurations/1326
         html_url: https://github.com/organizations/octo-org/settings/security_products/configurations/edit/1326
         created_at: '2024-05-10T00:00:00Z'
@@ -198101,12 +199023,16 @@ components:
         description: This is a code security configuration for octo-org
         advanced_security: enabled
         dependency_graph: enabled
+        dependency_graph_autosubmit_action: enabled
+        dependency_graph_autosubmit_action_options:
+          labeled_runners: false
         dependabot_alerts: enabled
         dependabot_security_updates: not_set
         code_scanning_default_setup: disabled
         secret_scanning: enabled
         secret_scanning_push_protection: disabled
         secret_scanning_validity_checks: disabled
+        secret_scanning_non_provider_patterns: disabled
         private_vulnerability_reporting: disabled
         enforcement: enforced
         url: https://api.github.com/orgs/octo-org/code-security/configurations/1325
@@ -198123,13 +199049,18 @@ components:
           description: This is a code security configuration for octo-org
           advanced_security: enabled
           dependency_graph: enabled
+          dependency_graph_autosubmit_action: not_set
+          dependency_graph_autosubmit_action_options:
+            labeled_runners: false
           dependabot_alerts: enabled
           dependabot_security_updates: not_set
           code_scanning_default_setup: enabled
           secret_scanning: enabled
           secret_scanning_push_protection: enabled
           secret_scanning_validity_checks: enabled
+          secret_scanning_non_provider_patterns: enabled
           private_vulnerability_reporting: enabled
+          enforcement: enforced
           url: https://api.github.com/orgs/octo-org/code-security/configurations/1325
           html_url: https://github.com/organizations/octo-org/settings/security_products/configurations/edit/1325
           created_at: '2024-05-01T00:00:00Z'
@@ -198143,6 +199074,9 @@ components:
             scanning.
           advanced_security: enabled
           dependency_graph: enabled
+          dependency_graph_autosubmit_action: not_set
+          dependency_graph_autosubmit_action_options:
+            labeled_runners: false
           dependabot_alerts: enabled
           dependabot_security_updates: not_set
           code_scanning_default_setup: enabled
@@ -198150,6 +199084,7 @@ components:
           secret_scanning_push_protection: enabled
           secret_scanning_validity_checks: disabled
           private_vulnerability_reporting: enabled
+          enforcement: enforced
           url: https://api.github.com/orgs/octo-org/code-security/configurations/17
           html_url: https://github.com/organizations/octo-org/settings/security_products/configurations/view
           created_at: '2023-12-04T15:58:07Z'
@@ -198162,13 +199097,18 @@ components:
         description: This is a code security configuration for octo-org
         advanced_security: enabled
         dependency_graph: enabled
+        dependency_graph_autosubmit_action: enabled
+        dependency_graph_autosubmit_action_options:
+          labeled_runners: false
         dependabot_alerts: enabled
         dependabot_security_updates: not_set
         code_scanning_default_setup: enabled
         secret_scanning: disabled
         secret_scanning_push_protection: disabled
         secret_scanning_validity_checks: disabled
+        secret_scanning_non_provider_patterns: disabled
         private_vulnerability_reporting: disabled
+        enforcement: enforced
         url: https://api.github.com/orgs/octo-org/code-security/configurations/1325
         html_url: https://github.com/organizations/octo-org/settings/security_products/configurations/edit/1325
         created_at: '2024-05-01T00:00:00Z'
@@ -198683,70 +199623,6 @@ components:
           inactive_this_cycle: 11
         seat_management_setting: assign_selected
         public_code_suggestions: block
-    copilot-usage-metrics-org:
-      value:
-      - day: '2023-10-15'
-        total_suggestions_count: 1000
-        total_acceptances_count: 800
-        total_lines_suggested: 1800
-        total_lines_accepted: 1200
-        total_active_users: 10
-        total_chat_acceptances: 32
-        total_chat_turns: 200
-        total_active_chat_users: 4
-        breakdown:
-        - language: python
-          editor: vscode
-          suggestions_count: 300
-          acceptances_count: 250
-          lines_suggested: 900
-          lines_accepted: 700
-          active_users: 5
-        - language: python
-          editor: jetbrains
-          suggestions_count: 300
-          acceptances_count: 200
-          lines_suggested: 400
-          lines_accepted: 300
-          active_users: 2
-        - language: ruby
-          editor: vscode
-          suggestions_count: 400
-          acceptances_count: 350
-          lines_suggested: 500
-          lines_accepted: 200
-          active_users: 3
-      - day: '2023-10-16'
-        total_suggestions_count: 800
-        total_acceptances_count: 600
-        total_lines_suggested: 1100
-        total_lines_accepted: 700
-        total_active_users: 12
-        total_chat_acceptances: 57
-        total_chat_turns: 426
-        total_active_chat_users: 8
-        breakdown:
-        - language: python
-          editor: vscode
-          suggestions_count: 300
-          acceptances_count: 200
-          lines_suggested: 600
-          lines_accepted: 300
-          active_users: 2
-        - language: python
-          editor: jetbrains
-          suggestions_count: 300
-          acceptances_count: 150
-          lines_suggested: 300
-          lines_accepted: 250
-          active_users: 6
-        - language: ruby
-          editor: vscode
-          suggestions_count: 200
-          acceptances_count: 150
-          lines_suggested: 200
-          lines_accepted: 150
-          active_users: 3
     organization-dependabot-secret-paginated:
       value:
         total_count: 3
@@ -198991,6 +199867,7 @@ components:
         repositories_url: https://api.github.com/installation/repositories
         html_url: https://github.com/organizations/github/settings/installations/1
         app_id: 1
+        client_id: Iv1.ab1112223334445c
         target_id: 1
         target_type: Organization
         permissions:
@@ -200172,9 +201049,10 @@ components:
           site_admin: false
         created_at: '2011-04-11T20:09:31Z'
         updated_at: '2014-03-04T18:58:10Z'
-    org-custom-properties:
+    custom-properties:
       value:
       - property_name: environment
+        url: https://api.github.com/orgs/github/properties/schema/environment
         value_type: single_select
         required: true
         default_value: production
@@ -200184,13 +201062,16 @@ components:
         - development
         values_editable_by: org_actors
       - property_name: service
+        url: https://api.github.com/orgs/github/properties/schema/service
         value_type: string
       - property_name: team
+        url: https://api.github.com/orgs/github/properties/schema/team
         value_type: string
         description: Team owning the repository
-    org-custom-property:
+    custom-property:
       value:
         property_name: environment
+        url: https://api.github.com/orgs/github/properties/schema/environment
         value_type: single_select
         required: true
         default_value: production
@@ -200913,6 +201794,13 @@ components:
         cvss:
           vector_string: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
           score: 9.8
+        cvss_severities:
+          cvss_v3:
+            vector_string: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+            score: 9.8
+          cvss_v4:
+            vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+            score: 9.3
         cwes:
         - cwe_id: CWE-123
           name: A CWE
@@ -201053,6 +201941,13 @@ components:
         cvss:
           vector_string: AV:P/AC:H/PR:H/UI:R/S:U/C:N/I:L/A:N
           score: 1.6
+        cvss_severities:
+          cvss_v3:
+            vector_string: CVSS:3.1/AV:P/AC:H/PR:H/UI:R/S:U/C:N/I:L/A:N
+            score: 1.6
+          cvss_v4:
+            vector_string: CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+            score: 7.1
         cwes:
         - cwe_id: CWE-456
           name: A CWE 2.0
@@ -205651,6 +206546,32 @@ components:
       value:
         processing_status: complete
         analyses_url: https://api.github.com/repos/octocat/hello-world/code-scanning/analyses?sarif_id=47177e22-5596-11eb-80a1-c1e54ef945c6
+    code-security-configuration-for-repository:
+      value:
+        state: attached
+        configuration:
+          id: 1325
+          target_type: organization
+          name: octo-org recommended settings
+          description: This is a code security configuration for octo-org
+          advanced_security: enabled
+          dependency_graph: enabled
+          dependency_graph_autosubmit_action: enabled
+          dependency_graph_autosubmit_action_options:
+            labeled_runners: false
+          dependabot_alerts: enabled
+          dependabot_security_updates: not_set
+          code_scanning_default_setup: disabled
+          secret_scanning: enabled
+          secret_scanning_push_protection: disabled
+          secret_scanning_validity_checks: disabled
+          secret_scanning_non_provider_patterns: disabled
+          private_vulnerability_reporting: disabled
+          enforcement: enforced
+          url: https://api.github.com/orgs/octo-org/code-security/configurations/1325
+          html_url: https://github.com/organizations/octo-org/settings/security_products/configurations/edit/1325
+          created_at: '2024-05-01T00:00:00Z'
+          updated_at: '2024-05-01T00:00:00Z'
     codeowners-errors:
       value:
         errors:
@@ -207761,6 +208682,13 @@ components:
           cvss:
             vector_string: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
             score: 7.5
+          cvss_severities:
+            cvss_v3:
+              vector_string: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
+              score: 7.5
+            cvss_v4:
+              vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N
+              score: 8.7
           cwes:
           - cwe_id: CWE-200
             name: Exposure of Sensitive Information to an Unauthorized Actor
@@ -207856,6 +208784,13 @@ components:
           cvss:
             vector_string: CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N
             score: 5.5
+          cvss_severities:
+            cvss_v3:
+              vector_string: CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N
+              score: 5.5
+            cvss_v4:
+              vector_string: CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+              score: 8.5
           cwes:
           - cwe_id: CWE-532
             name: Insertion of Sensitive Information into Log File
@@ -207933,6 +208868,13 @@ components:
           cvss:
             vector_string: CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N
             score: 5.5
+          cvss_severities:
+            cvss_v3:
+              vector_string: CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N
+              score: 5.5
+            cvss_v4:
+              vector_string: CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+              score: 8.5
           cwes:
           - cwe_id: CWE-532
             name: Insertion of Sensitive Information into Log File
@@ -208005,6 +208947,13 @@ components:
           cvss:
             vector_string: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
             score: 7.5
+          cvss_severities:
+            cvss_v3:
+              vector_string: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
+              score: 7.5
+            cvss_v4:
+              vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N
+              score: 8.7
           cwes:
           - cwe_id: CWE-200
             name: Exposure of Sensitive Information to an Unauthorized Actor
@@ -212970,6 +213919,11 @@ components:
       - type: pull_request_review_comment
         details:
           pull_request_review_comment_url: https://api.github.com/repos/octocat/Hello-World/pulls/comments/12
+    secret-scanning-push-protection-bypass:
+      value:
+        reason: will_fix_later
+        expire_at: '2020-11-06T18:18:30Z'
+        token_type: mailchimp_api_key
     repository-advisory:
       value:
         ghsa_id: GHSA-abcd-1234-efgh
@@ -213047,6 +214001,13 @@ components:
         cvss:
           vector_string: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
           score: 9.8
+        cvss_severities:
+          cvss_v3:
+            vector_string: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+            score: 9.8
+          cvss_v4:
+            vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
+            score: 9.3
         cwes:
         - cwe_id: CWE-123
           name: A CWE
@@ -213226,6 +214187,9 @@ components:
           vulnerable_functions:
           - important_function
         cvss: 
+        cvss_severities:
+          cvss_v3: 
+          cvss_v4: 
         cwes:
         - cwe_id: CWE-123
           name: A CWE
@@ -219099,7 +220063,7 @@ components:
       in: query
       description: |-
         A comma-separated list of secret types to return. By default all secret types are returned.
-        See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
+        See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
         for a complete list of secret types.
       required: false
       schema:
@@ -219134,6 +220098,13 @@ components:
       required: false
       schema:
         type: string
+    team-slug:
+      name: team_slug
+      description: The slug of the team name.
+      in: path
+      required: true
+      schema:
+        type: string
     gist-id:
       name: gist_id
       description: The unique identifier of the gist.
@@ -219148,6 +220119,7 @@ components:
       required: true
       schema:
         type: integer
+        format: int64
     labels:
       name: labels
       description: 'A list of comma separated label names. Example: `bug,ui,@high`'
@@ -219358,13 +220330,6 @@ components:
       required: true
       schema:
         type: string
-    team-slug:
-      name: team_slug
-      description: The slug of the team name.
-      in: path
-      required: true
-      schema:
-        type: string
     role-id:
       name: role_id
       description: The unique identifier of the role.
@@ -219492,12 +220457,10 @@ components:
         type: string
     ref-in-query:
       name: ref
-      description: 'The name of the ref. Cannot contain wildcard characters. Optionally
+      description: The name of the ref. Cannot contain wildcard characters. Optionally
         prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to
         tags. Omit the prefix to search across all refs. When specified, only rule
         evaluations triggered for this ref will be returned.
-
-        '
       in: query
       schema:
         type: string
