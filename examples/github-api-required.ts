@@ -453,7 +453,7 @@ export interface paths {
          * List accepted assignments for an assignment
          * @description Lists any assignment repositories that have been created by students accepting a GitHub Classroom assignment. Accepted assignments will only be returned if the current user is an administrator of the GitHub Classroom for the assignment.
          */
-        get: operations["classroom/list-accepted-assigments-for-an-assignment"];
+        get: operations["classroom/list-accepted-assignments-for-an-assignment"];
         put?: never;
         post?: never;
         delete?: never;
@@ -612,19 +612,51 @@ export interface paths {
         /**
          * List all Copilot seat assignments for an enterprise
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
-         *     Lists all active Copilot seats across organizations or enterprise teams for an enterprise with a Copilot Business or Copilot Enterprise subscription.
+         *     Lists all Copilot seats currently being billed for across organizations or enterprise teams for an enterprise with a Copilot Business or Copilot Enterprise subscription.
          *
          *     Users with access through multiple organizations or enterprise teams will only be counted toward `total_seats` once.
          *
          *     For each organization or enterprise team which grants Copilot access to a user, a seat detail object will appear in the `seats` array.
+         *     Each seat object contains information about the assigned user's most recent Copilot activity. Users must have
+         *     telemetry enabled in their IDE for Copilot in the IDE activity to be reflected in `last_activity_at`. For more information about activity data,
+         *     see "[Reviewing user activity data for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/reviewing-activity-related-to-github-copilot-in-your-organization/reviewing-user-activity-data-for-copilot-in-your-organization)."
          *
          *     Only enterprise owners and billing managers can view assigned Copilot seats across their child organizations or enterprise teams.
          *
          *     Personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
          */
         get: operations["copilot/list-copilot-seats-for-enterprise"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/enterprises/{enterprise}/copilot/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Copilot metrics for an enterprise
+         * @description Use this endpoint to see a breakdown of aggregated metrics for various GitHub Copilot features. See the response schema tab for detailed metrics definitions.
+         *
+         *     The response contains metrics for up to 28 days prior. Metrics are processed once per day for the previous day,
+         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
+         *     they must have telemetry enabled in their IDE.
+         *
+         *     To access this endpoint, the Copilot Metrics API access policy must be enabled or set to "no policy" for the enterprise within GitHub settings.
+         *     Only enterprise owners and billing managers can view Copilot metrics for the enterprise.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
+         */
+        get: operations["copilot/copilot-metrics-for-enterprise"];
         put?: never;
         post?: never;
         delete?: never;
@@ -643,7 +675,7 @@ export interface paths {
         /**
          * Get a summary of Copilot usage for enterprise members
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
          *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
          *     for all users across organizations with access to Copilot within your enterprise, with a further breakdown of suggestions, acceptances,
@@ -652,6 +684,8 @@ export interface paths {
          *     The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
          *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
          *     they must have telemetry enabled in their IDE.
+         *
+         *     The time zone in the response is in UTC time, that means that the cutoff time for the "day" is UTC time.
          *
          *     Only owners and billing managers can view Copilot usage metrics for the enterprise.
          *
@@ -718,6 +752,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/enterprises/{enterprise}/team/{team_slug}/copilot/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Copilot metrics for an enterprise team
+         * @description Use this endpoint to see a breakdown of aggregated metrics for various GitHub Copilot features. See the response schema tab for detailed metrics definitions.
+         *
+         *     The response contains metrics for up to 28 days prior. Metrics are processed once per day for the previous day,
+         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
+         *     they must have telemetry enabled in their IDE.
+         *
+         *     > [!NOTE]
+         *     > This endpoint will only return results for a given day if the enterprise team had **five or more members with active Copilot licenses** on that day, as evaluated at the end of that day.
+         *
+         *     To access this endpoint, the Copilot Metrics API access policy must be enabled or set to "no policy" for the enterprise within GitHub settings.
+         *     Only owners and billing managers for the enterprise that contains the enterprise team can view Copilot metrics for the enterprise team.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
+         */
+        get: operations["copilot/copilot-metrics-for-enterprise-team"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/enterprises/{enterprise}/team/{team_slug}/copilot/usage": {
         parameters: {
             query?: never;
@@ -728,7 +794,7 @@ export interface paths {
         /**
          * Get a summary of Copilot usage for an enterprise team
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
          *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
          *     for users within an enterprise team, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
@@ -1609,10 +1675,10 @@ export interface paths {
         /**
          * Update an organization
          * @description > [!WARNING]
-         *     > **Parameter deprecation notice:** GitHub will replace and discontinue `members_allowed_repository_creation_type` in favor of more granular permissions. The new input parameters are `members_can_create_public_repositories`, `members_can_create_private_repositories` for all organizations and `members_can_create_internal_repositories` for organizations associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see the [blog post](https://developer.github.com/changes/2019-12-03-internal-visibility-changes).
+         *     > **Closing down notice:** GitHub will replace and discontinue `members_allowed_repository_creation_type` in favor of more granular permissions. The new input parameters are `members_can_create_public_repositories`, `members_can_create_private_repositories` for all organizations and `members_can_create_internal_repositories` for organizations associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see the [blog post](https://developer.github.com/changes/2019-12-03-internal-visibility-changes).
          *
          *     > [!WARNING]
-         *     > **Parameter deprecation notice:** Code security product enablement for new repositories through the organization API is deprecated. Please use [code security configurations](https://docs.github.com/rest/code-security/configurations#set-a-code-security-configuration-as-a-default-for-an-organization) to set defaults instead. For more information on setting a default security configuration, see the [changelog](https://github.blog/changelog/2024-07-09-sunsetting-security-settings-defaults-parameters-in-the-organizations-rest-api/).
+         *     > **Closing down notice:** Code security product enablement for new repositories through the organization API is closing down. Please use [code security configurations](https://docs.github.com/rest/code-security/configurations#set-a-code-security-configuration-as-a-default-for-an-organization) to set defaults instead. For more information on setting a default security configuration, see the [changelog](https://github.blog/changelog/2024-07-09-sunsetting-security-settings-defaults-parameters-in-the-organizations-rest-api/).
          *
          *     Updates the organization's profile and member privileges.
          *
@@ -1837,6 +1903,180 @@ export interface paths {
         put: operations["actions/set-github-actions-default-workflow-permissions-organization"];
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/runner-groups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List self-hosted runner groups for an organization
+         * @description Lists all self-hosted runner groups configured in an organization and inherited from an enterprise.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        get: operations["actions/list-self-hosted-runner-groups-for-org"];
+        put?: never;
+        /**
+         * Create a self-hosted runner group for an organization
+         * @description Creates a new self-hosted runner group for an organization.
+         *
+         *     OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        post: operations["actions/create-self-hosted-runner-group-for-org"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/runner-groups/{runner_group_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a self-hosted runner group for an organization
+         * @description Gets a specific self-hosted runner group for an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        get: operations["actions/get-self-hosted-runner-group-for-org"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a self-hosted runner group from an organization
+         * @description Deletes a self-hosted runner group for an organization.
+         *
+         *     OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        delete: operations["actions/delete-self-hosted-runner-group-from-org"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a self-hosted runner group for an organization
+         * @description Updates the `name` and `visibility` of a self-hosted runner group in an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        patch: operations["actions/update-self-hosted-runner-group-for-org"];
+        trace?: never;
+    };
+    "/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List repository access to a self-hosted runner group in an organization
+         * @description Lists the repositories with access to a self-hosted runner group configured in an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        get: operations["actions/list-repo-access-to-self-hosted-runner-group-in-org"];
+        /**
+         * Set repository access for a self-hosted runner group in an organization
+         * @description Replaces the list of repositories that have access to a self-hosted runner group configured in an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        put: operations["actions/set-repo-access-to-self-hosted-runner-group-in-org"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories/{repository_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Add repository access to a self-hosted runner group in an organization
+         * @description Adds a repository to the list of repositories that can access a self-hosted runner group. The runner group must have `visibility` set to `selected`. For more information, see "[Create a self-hosted runner group for an organization](#create-a-self-hosted-runner-group-for-an-organization)."
+         *
+         *     OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        put: operations["actions/add-repo-access-to-self-hosted-runner-group-in-org"];
+        post?: never;
+        /**
+         * Remove repository access to a self-hosted runner group in an organization
+         * @description Removes a repository from the list of selected repositories that can access a self-hosted runner group. The runner group must have `visibility` set to `selected`. For more information, see "[Create a self-hosted runner group for an organization](#create-a-self-hosted-runner-group-for-an-organization)."
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        delete: operations["actions/remove-repo-access-to-self-hosted-runner-group-in-org"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/runner-groups/{runner_group_id}/runners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List self-hosted runners in a group for an organization
+         * @description Lists self-hosted runners that are in a specific organization group.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        get: operations["actions/list-self-hosted-runners-in-group-for-org"];
+        /**
+         * Set self-hosted runners in a group for an organization
+         * @description Replaces the list of self-hosted runners that are part of an organization runner group.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        put: operations["actions/set-self-hosted-runners-in-group-for-org"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/runner-groups/{runner_group_id}/runners/{runner_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Add a self-hosted runner to a group for an organization
+         * @description Adds a self-hosted runner to a runner group configured in an organization.
+         *
+         *     OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        put: operations["actions/add-self-hosted-runner-to-group-for-org"];
+        post?: never;
+        /**
+         * Remove a self-hosted runner from a group for an organization
+         * @description Removes a self-hosted runner from a group configured in an organization. The runner is then returned to the default group.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        delete: operations["actions/remove-self-hosted-runner-from-group-for-org"];
         options?: never;
         head?: never;
         patch?: never;
@@ -2912,11 +3152,11 @@ export interface paths {
         /**
          * Get Copilot seat information and settings for an organization
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
          *     Gets information about an organization's Copilot subscription, including seat breakdown
          *     and feature policies. To configure these settings, go to your organization's settings on GitHub.com.
-         *     For more information, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-policies-for-copilot-business-in-your-organization)".
+         *     For more information, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-policies-for-copilot-business-in-your-organization)."
          *
          *     Only organization owners can view details about the organization's Copilot Business or Copilot Enterprise subscription.
          *
@@ -2941,10 +3181,13 @@ export interface paths {
         /**
          * List all Copilot seat assignments for an organization
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
-         *     Lists all active Copilot seats for an organization with a Copilot Business or Copilot Enterprise subscription.
+         *     Lists all Copilot seats for which an organization with a Copilot Business or Copilot Enterprise subscription is currently being billed.
          *     Only organization owners can view assigned seats.
+         *
+         *     Each seat object contains information about the assigned user's most recent Copilot activity. Users must have telemetry enabled in their IDE for Copilot in the IDE activity to be reflected in `last_activity_at`.
+         *     For more information about activity data, see "[Reviewing user activity data for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/reviewing-activity-related-to-github-copilot-in-your-organization/reviewing-user-activity-data-for-copilot-in-your-organization)."
          *
          *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scopes to use this endpoint.
          */
@@ -2969,16 +3212,16 @@ export interface paths {
         /**
          * Add teams to the Copilot subscription for an organization
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
          *     Purchases a GitHub Copilot seat for all users within each specified team.
-         *     The organization will be billed accordingly. For more information about Copilot pricing, see "[Pricing for GitHub Copilot](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#about-billing-for-github-copilot)".
+         *     The organization will be billed for each seat based on the organization's Copilot plan. For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)."
          *
          *     Only organization owners can add Copilot seats for their organization members.
          *
          *     In order for an admin to use this endpoint, the organization must have a Copilot Business or Enterprise subscription and a configured suggestion matching policy.
-         *     For more information about setting up a Copilot subscription, see "[Setting up a Copilot subscription for your organization](https://docs.github.com/billing/managing-billing-for-github-copilot/managing-your-github-copilot-subscription-for-your-organization-or-enterprise)".
-         *     For more information about setting a suggestion matching policy, see "[Configuring suggestion matching policies for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-policies-for-github-copilot-in-your-organization#configuring-suggestion-matching-policies-for-github-copilot-in-your-organization)".
+         *     For more information about setting up a Copilot subscription, see "[Subscribing to Copilot for your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/subscribing-to-copilot-for-your-organization)."
+         *     For more information about setting a suggestion matching policy, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/setting-policies-for-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#policies-for-suggestion-matching)."
          *
          *     The response will contain the total number of new seats that were created and existing seats that were refreshed.
          *
@@ -2988,16 +3231,18 @@ export interface paths {
         /**
          * Remove teams from the Copilot subscription for an organization
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
-         *     Cancels the Copilot seat assignment for all members of each team specified.
-         *     This will cause the members of the specified team(s) to lose access to GitHub Copilot at the end of the current billing cycle, and the organization will not be billed further for those users.
+         *     Sets seats for all members of each team specified to "pending cancellation".
+         *     This will cause the members of the specified team(s) to lose access to GitHub Copilot at the end of the current billing cycle unless they retain access through another team.
          *
-         *     For more information about Copilot pricing, see "[Pricing for GitHub Copilot](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#about-billing-for-github-copilot)".
+         *     For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)."
          *
-         *     For more information about disabling access to Copilot Business or Enterprise, see "[Revoking access to GitHub Copilot for specific users in your organization](https://docs.github.com/copilot/managing-copilot/managing-access-for-copilot-in-your-organization#revoking-access-to-github-copilot-for-specific-users-in-your-organization)".
+         *     For more information about disabling access to Copilot Business or Enterprise, see "[Revoking access to Copilot for members of your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization/revoking-access-to-copilot-for-members-of-your-organization)."
          *
          *     Only organization owners can cancel Copilot seats for their organization members.
+         *
+         *     The response will contain the total number of seats set to "pending cancellation".
          *
          *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
@@ -3019,16 +3264,16 @@ export interface paths {
         /**
          * Add users to the Copilot subscription for an organization
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
          *     Purchases a GitHub Copilot seat for each user specified.
-         *     The organization will be billed accordingly. For more information about Copilot pricing, see "[Pricing for GitHub Copilot](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#about-billing-for-github-copilot)".
+         *     The organization will be billed for each seat based on the organization's Copilot plan. For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)."
          *
          *     Only organization owners can add Copilot seats for their organization members.
          *
          *     In order for an admin to use this endpoint, the organization must have a Copilot Business or Enterprise subscription and a configured suggestion matching policy.
-         *     For more information about setting up a Copilot subscription, see "[Setting up a Copilot subscription for your organization](https://docs.github.com/billing/managing-billing-for-github-copilot/managing-your-github-copilot-subscription-for-your-organization-or-enterprise)".
-         *     For more information about setting a suggestion matching policy, see "[Configuring suggestion matching policies for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-policies-for-github-copilot-in-your-organization#configuring-suggestion-matching-policies-for-github-copilot-in-your-organization)".
+         *     For more information about setting up a Copilot subscription, see "[Subscribing to Copilot for your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/subscribing-to-copilot-for-your-organization)."
+         *     For more information about setting a suggestion matching policy, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/setting-policies-for-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#policies-for-suggestion-matching)."
          *
          *     The response will contain the total number of new seats that were created and existing seats that were refreshed.
          *
@@ -3038,20 +3283,54 @@ export interface paths {
         /**
          * Remove users from the Copilot subscription for an organization
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
-         *     Cancels the Copilot seat assignment for each user specified.
-         *     This will cause the specified users to lose access to GitHub Copilot at the end of the current billing cycle, and the organization will not be billed further for those users.
+         *     Sets seats for all users specified to "pending cancellation".
+         *     This will cause the specified users to lose access to GitHub Copilot at the end of the current billing cycle unless they retain access through team membership.
          *
-         *     For more information about Copilot pricing, see "[Pricing for GitHub Copilot](https://docs.github.com/billing/managing-billing-for-github-copilot/about-billing-for-github-copilot#about-billing-for-github-copilot)".
+         *     For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)."
          *
-         *     For more information about disabling access to Copilot Business or Enterprise, see "[Revoking access to GitHub Copilot for specific users in your organization](https://docs.github.com/copilot/managing-copilot/managing-access-for-copilot-in-your-organization#revoking-access-to-github-copilot-for-specific-users-in-your-organization)".
+         *     For more information about disabling access to Copilot Business or Enterprise, see "[Revoking access to Copilot for members of your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization/revoking-access-to-copilot-for-members-of-your-organization)."
          *
          *     Only organization owners can cancel Copilot seats for their organization members.
+         *
+         *     The response will contain the total number of seats set to "pending cancellation".
          *
          *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
         delete: operations["copilot/cancel-copilot-seat-assignment-for-users"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/copilot/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Copilot metrics for an organization
+         * @description Use this endpoint to see a breakdown of aggregated metrics for various GitHub Copilot features. See the response schema tab for detailed metrics definitions.
+         *
+         *     > [!NOTE]
+         *     > This endpoint will only return results for a given day if the organization contained **five or more members with active Copilot licenses** on that day, as evaluated at the end of that day.
+         *
+         *     The response contains metrics for up to 28 days prior. Metrics are processed once per day for the previous day,
+         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
+         *     they must have telemetry enabled in their IDE.
+         *
+         *     To access this endpoint, the Copilot Metrics API access policy must be enabled for the organization.
+         *     Only organization owners and owners and billing managers of the parent enterprise can view Copilot metrics.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot`, `read:org`, or `read:enterprise` scopes to use this endpoint.
+         */
+        get: operations["copilot/copilot-metrics-for-organization"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -3067,7 +3346,7 @@ export interface paths {
         /**
          * Get a summary of Copilot usage for organization members
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
          *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
          *     across an organization, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
@@ -3534,6 +3813,186 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orgs/{org}/insights/api/route-stats/{actor_type}/{actor_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get route stats by actor
+         * @description Get API request count statistics for an actor broken down by route within a specified time frame.
+         */
+        get: operations["api-insights/get-route-stats-by-actor"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/insights/api/subject-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get subject stats
+         * @description Get API request statistics for all subjects within an organization within a specified time frame. Subjects can be users or GitHub Apps.
+         */
+        get: operations["api-insights/get-subject-stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/insights/api/summary-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get summary stats
+         * @description Get overall statistics of API requests made within an organization by all users and apps within a specified time frame.
+         */
+        get: operations["api-insights/get-summary-stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/insights/api/summary-stats/users/{user_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get summary stats by user
+         * @description Get overall statistics of API requests within the organization for a user.
+         */
+        get: operations["api-insights/get-summary-stats-by-user"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/insights/api/summary-stats/{actor_type}/{actor_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get summary stats by actor
+         * @description Get overall statistics of API requests within the organization made by a specific actor. Actors can be GitHub App installations, OAuth apps or other tokens on behalf of a user.
+         */
+        get: operations["api-insights/get-summary-stats-by-actor"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/insights/api/time-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get time stats
+         * @description Get the number of API requests and rate-limited requests made within an organization over a specified time period.
+         */
+        get: operations["api-insights/get-time-stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/insights/api/time-stats/users/{user_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get time stats by user
+         * @description Get the number of API requests and rate-limited requests made within an organization by a specific user over a specified time period.
+         */
+        get: operations["api-insights/get-time-stats-by-user"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/insights/api/time-stats/{actor_type}/{actor_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get time stats by actor
+         * @description Get the number of API requests and rate-limited requests made within an organization by a specific actor within a specified time period.
+         */
+        get: operations["api-insights/get-time-stats-by-actor"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/insights/api/user-stats/{user_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user stats
+         * @description Get API usage statistics within an organization for a user broken down by the type of access.
+         */
+        get: operations["api-insights/get-user-stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/orgs/{org}/installation": {
         parameters: {
             query?: never;
@@ -3831,9 +4290,12 @@ export interface paths {
         /**
          * Get Copilot seat assignment details for a user
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
-         *     Gets the GitHub Copilot seat assignment details for a member of an organization who currently has access to GitHub Copilot.
+         *     Gets the GitHub Copilot seat details for a member of an organization who currently has access to GitHub Copilot.
+         *
+         *     The seat object contains information about the user's most recent Copilot activity. Users must have telemetry enabled in their IDE for Copilot in the IDE activity to be reflected in `last_activity_at`.
+         *     For more information about activity data, see "[Reviewing user activity data for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/reviewing-activity-related-to-github-copilot-in-your-organization/reviewing-user-activity-data-for-copilot-in-your-organization)."
          *
          *     Only organization owners can view Copilot seat assignment details for members of their organization.
          *
@@ -4272,7 +4734,7 @@ export interface paths {
          * List packages for an organization
          * @description Lists packages in an organization readable by the user.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/list-packages-for-organization"];
         put?: never;
@@ -4294,7 +4756,7 @@ export interface paths {
          * Get a package for an organization
          * @description Gets a specific package in an organization.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-package-for-organization"];
         put?: never;
@@ -4305,7 +4767,7 @@ export interface paths {
          *
          *     The authenticated user must have admin permissions in the organization to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that supports granular permissions, the authenticated user must also have admin permissions to the package. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         delete: operations["packages/delete-package-for-org"];
         options?: never;
@@ -4332,7 +4794,7 @@ export interface paths {
          *
          *     The authenticated user must have admin permissions in the organization to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that supports granular permissions, the authenticated user must also have admin permissions to the package. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         post: operations["packages/restore-package-for-org"];
         delete?: never;
@@ -4352,7 +4814,7 @@ export interface paths {
          * List package versions for a package owned by an organization
          * @description Lists package versions for a package owned by an organization.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint if the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-all-package-versions-for-package-owned-by-org"];
         put?: never;
@@ -4374,7 +4836,7 @@ export interface paths {
          * Get a package version for an organization
          * @description Gets a specific package version in an organization.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-package-version-for-organization"];
         put?: never;
@@ -4385,7 +4847,7 @@ export interface paths {
          *
          *     The authenticated user must have admin permissions in the organization to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that supports granular permissions, the authenticated user must also have admin permissions to the package. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         delete: operations["packages/delete-package-version-for-org"];
         options?: never;
@@ -4412,7 +4874,7 @@ export interface paths {
          *
          *     The authenticated user must have admin permissions in the organization to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that supports granular permissions, the authenticated user must also have admin permissions to the package. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         post: operations["packages/restore-package-version-for-org"];
         delete?: never;
@@ -5041,6 +5503,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orgs/{org}/team/{team_slug}/copilot/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Copilot metrics for a team
+         * @description Use this endpoint to see a breakdown of aggregated metrics for various GitHub Copilot features. See the response schema tab for detailed metrics definitions.
+         *
+         *     > [!NOTE]
+         *     > This endpoint will only return results for a given day if the team had **five or more members with active Copilot licenses** on that day, as evaluated at the end of that day.
+         *
+         *     The response contains metrics for up to 28 days prior. Metrics are processed once per day for the previous day,
+         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
+         *     they must have telemetry enabled in their IDE.
+         *
+         *     To access this endpoint, the Copilot Metrics API access policy must be enabled for the organization containing the team within GitHub settings.
+         *     Only organization owners for the organization that contains this team and owners and billing managers of the parent enterprise can view Copilot metrics for a team.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot`, `read:org`, or `read:enterprise` scopes to use this endpoint.
+         */
+        get: operations["copilot/copilot-metrics-for-team"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/orgs/{org}/team/{team_slug}/copilot/usage": {
         parameters: {
             query?: never;
@@ -5051,7 +5545,7 @@ export interface paths {
         /**
          * Get a summary of Copilot usage for a team
          * @description > [!NOTE]
-         *     > This endpoint is in beta and is subject to change.
+         *     > This endpoint is in public preview and is subject to change.
          *
          *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
          *     for users within a team, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
@@ -5689,7 +6183,7 @@ export interface paths {
          * Enable or disable a security feature for an organization
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** The ability to enable or disable a security feature for all eligible repositories in an organization is deprecated. Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. For more information, see the [changelog](https://github.blog/changelog/2024-07-22-deprecation-of-api-endpoint-to-enable-or-disable-a-security-feature-for-an-organization/).
+         *     > **Closing down notice:** The ability to enable or disable a security feature for all eligible repositories in an organization is closing down. Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead. For more information, see the [changelog](https://github.blog/changelog/2024-07-22-deprecation-of-api-endpoint-to-enable-or-disable-a-security-feature-for-an-organization/).
          *
          *     Enables or disables the specified security feature for all eligible repositories in an organization. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."
          *
@@ -5949,7 +6443,7 @@ export interface paths {
          *     * The `source_import` object is no longer in use for any API endpoints, and it will be removed in the next API version. For more information about API versions, see "[API Versions](https://docs.github.com/rest/about-the-rest-api/api-versions)."
          *
          *     > [!NOTE]
-         *     > The `rate` object is deprecated. If you're writing new API client code or updating existing code, you should use the `core` object instead of the `rate` object. The `core` object contains the same information that is present in the `rate` object.
+         *     > The `rate` object is closing down. If you're writing new API client code or updating existing code, you should use the `core` object instead of the `rate` object. The `core` object contains the same information that is present in the `rate` object.
          */
         get: operations["rate-limit/get"];
         put?: never;
@@ -8355,7 +8849,7 @@ export interface paths {
          *     and `0` is returned in this field.
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** The `tool_name` field is deprecated and will, in future, not be included in the response for this endpoint. The example response reflects this change. The tool name can now be found inside the `tool` field.
+         *     > **Closing down notice:** The `tool_name` field is closing down and will, in future, not be included in the response for this endpoint. The example response reflects this change. The tool name can now be found inside the `tool` field.
          *
          *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
          */
@@ -8482,7 +8976,7 @@ export interface paths {
          * List CodeQL databases for a repository
          * @description Lists the CodeQL databases that are available in a repository.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
          */
         get: operations["code-scanning/list-codeql-databases"];
         put?: never;
@@ -8510,12 +9004,18 @@ export interface paths {
          *     your HTTP client is configured to follow redirects or use the `Location` header
          *     to make a second request to get the redirect URL.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
          */
         get: operations["code-scanning/get-codeql-database"];
         put?: never;
         post?: never;
-        delete?: never;
+        /**
+         * Delete a CodeQL database
+         * @description Deletes a CodeQL database for a language in a repository.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         */
+        delete: operations["code-scanning/delete-codeql-database"];
         options?: never;
         head?: never;
         patch?: never;
@@ -8893,8 +9393,6 @@ export interface paths {
          * Get a repository public key
          * @description Gets your public key, which you need to encrypt secrets. You need to
          *     encrypt a secret before you can create or update secrets.
-         *
-         *     Anyone with read access to the repository can use this endpoint.
          *
          *     If the repository is private, OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
          */
@@ -11038,7 +11536,7 @@ export interface paths {
          * @description View the progress of an import.
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *     > **Endpoint closing down notice:** Due to very low levels of usage and available alternatives, this endpoint is closing down and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          *
          *     **Import status**
          *
@@ -11082,7 +11580,7 @@ export interface paths {
          *     return a status `422 Unprocessable Entity` response.
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *     > **Endpoint closing down notice:** Due to very low levels of usage and available alternatives, this endpoint is closing down and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         put: operations["migrations/start-import"];
         post?: never;
@@ -11092,7 +11590,7 @@ export interface paths {
          * @description Stop an import for a repository.
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *     > **Endpoint closing down notice:** Due to very low levels of usage and available alternatives, this endpoint is closing down and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         delete: operations["migrations/cancel-import"];
         options?: never;
@@ -11108,7 +11606,7 @@ export interface paths {
          *     You can select the project to import by providing one of the objects in the `project_choices` array in the update request.
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *     > **Endpoint closing down notice:** Due to very low levels of usage and available alternatives, this endpoint is closing down and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         patch: operations["migrations/update-import"];
         trace?: never;
@@ -11128,7 +11626,7 @@ export interface paths {
          *     This endpoint and the [Map a commit author](https://docs.github.com/rest/migrations/source-imports#map-a-commit-author) endpoint allow you to provide correct Git author information.
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *     > **Endpoint closing down notice:** Due to very low levels of usage and available alternatives, this endpoint is closing down and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         get: operations["migrations/get-commit-authors"];
         put?: never;
@@ -11159,7 +11657,7 @@ export interface paths {
          *     new commits to the repository.
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *     > **Endpoint closing down notice:** Due to very low levels of usage and available alternatives, this endpoint is closing down and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         patch: operations["migrations/map-commit-author"];
         trace?: never;
@@ -11177,7 +11675,7 @@ export interface paths {
          * @description List files larger than 100MB found during the import
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *     > **Endpoint closing down notice:** Due to very low levels of usage and available alternatives, this endpoint is closing down and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         get: operations["migrations/get-large-files"];
         put?: never;
@@ -11211,7 +11709,7 @@ export interface paths {
          *     site](https://docs.github.com/repositories/working-with-files/managing-large-files).
          *
          *     > [!WARNING]
-         *     > **Deprecation notice:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+         *     > **Endpoint closing down notice:** Due to very low levels of usage and available alternatives, this endpoint is closing down and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
          */
         patch: operations["migrations/set-lfs-preference"];
         trace?: never;
@@ -11540,7 +12038,7 @@ export interface paths {
         head?: never;
         /**
          * Update an issue
-         * @description Issue owners and users with push access can edit an issue.
+         * @description Issue owners and users with push access or Triage role can edit an issue.
          *
          *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
          *
@@ -12638,7 +13136,7 @@ export interface paths {
          *
          *     If your comment applies to more than one line in the pull request diff, you should use the parameters `line`, `side`, and optionally `start_line` and `start_side` in your request.
          *
-         *     The `position` parameter is deprecated. If you use `position`, the `line`, `side`, `start_line`, and `start_side` parameters are not required.
+         *     The `position` parameter is closing down. If you use `position`, the `line`, `side`, `start_line`, and `start_side` parameters are not required.
          *
          *     This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
          *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
@@ -12991,6 +13489,7 @@ export interface paths {
         /**
          * Update a pull request branch
          * @description Updates the pull request branch with the latest upstream changes by merging HEAD from the base branch into the pull request branch.
+         *     Note: If making a request on behalf of a GitHub App you must also have permissions to write the contents of the head repository.
          */
         put: operations["pulls/update-branch"];
         post?: never;
@@ -13885,10 +14384,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Deprecated - List tag protection states for a repository
+         * Closing down - List tag protection states for a repository
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This operation is deprecated and will be removed after August 30, 2024. Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#get-all-repository-rulesets)" endpoint instead.
+         *     > **Closing down notice:** This operation is closing down and will be removed after August 30, 2024. Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#get-all-repository-rulesets)" endpoint instead.
          *
          *     This returns the tag protection states of a repository.
          *
@@ -13897,10 +14396,10 @@ export interface paths {
         get: operations["repos/list-tag-protection"];
         put?: never;
         /**
-         * Deprecated - Create a tag protection state for a repository
+         * Closing down - Create a tag protection state for a repository
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This operation is deprecated and will be removed after August 30, 2024. Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#create-a-repository-ruleset)" endpoint instead.
+         *     > **Closing down notice:** This operation is closing down and will be removed after August 30, 2024. Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#create-a-repository-ruleset)" endpoint instead.
          *
          *     This creates a tag protection state for a repository.
          *     This endpoint is only available to repository administrators.
@@ -13923,10 +14422,10 @@ export interface paths {
         put?: never;
         post?: never;
         /**
-         * Deprecated - Delete a tag protection state for a repository
+         * Closing down - Delete a tag protection state for a repository
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This operation is deprecated and will be removed after August 30, 2024. Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#delete-a-repository-ruleset)" endpoint instead.
+         *     > **Closing down notice:** This operation is closing down and will be removed after August 30, 2024. Use the "[Repository Rulesets](https://docs.github.com/rest/repos/rules#delete-a-repository-ruleset)" endpoint instead.
          *
          *     This deletes a tag protection state for a repository.
          *     This endpoint is only available to repository administrators.
@@ -14428,7 +14927,7 @@ export interface paths {
          * Get a team (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the [Get a team by name](https://docs.github.com/rest/teams/teams#get-a-team-by-name) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the [Get a team by name](https://docs.github.com/rest/teams/teams#get-a-team-by-name) endpoint.
          */
         get: operations["teams/get-legacy"];
         put?: never;
@@ -14437,7 +14936,7 @@ export interface paths {
          * Delete a team (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Delete a team](https://docs.github.com/rest/teams/teams#delete-a-team) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Delete a team](https://docs.github.com/rest/teams/teams#delete-a-team) endpoint.
          *
          *     To delete a team, the authenticated user must be an organization owner or team maintainer.
          *
@@ -14450,7 +14949,7 @@ export interface paths {
          * Update a team (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a team](https://docs.github.com/rest/teams/teams#update-a-team) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a team](https://docs.github.com/rest/teams/teams#update-a-team) endpoint.
          *
          *     To edit a team, the authenticated user must either be an organization owner or a team maintainer.
          *
@@ -14471,7 +14970,7 @@ export interface paths {
          * List discussions (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List discussions`](https://docs.github.com/rest/teams/discussions#list-discussions) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List discussions`](https://docs.github.com/rest/teams/discussions#list-discussions) endpoint.
          *
          *     List all discussions on a team's page.
          *
@@ -14483,7 +14982,7 @@ export interface paths {
          * Create a discussion (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create a discussion`](https://docs.github.com/rest/teams/discussions#create-a-discussion) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create a discussion`](https://docs.github.com/rest/teams/discussions#create-a-discussion) endpoint.
          *
          *     Creates a new discussion post on a team's page.
          *
@@ -14509,7 +15008,7 @@ export interface paths {
          * Get a discussion (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get a discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get a discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion) endpoint.
          *
          *     Get a specific discussion on a team's page.
          *
@@ -14522,7 +15021,7 @@ export interface paths {
          * Delete a discussion (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Delete a discussion`](https://docs.github.com/rest/teams/discussions#delete-a-discussion) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Delete a discussion`](https://docs.github.com/rest/teams/discussions#delete-a-discussion) endpoint.
          *
          *     Delete a discussion from a team's page.
          *
@@ -14535,7 +15034,7 @@ export interface paths {
          * Update a discussion (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a discussion](https://docs.github.com/rest/teams/discussions#update-a-discussion) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a discussion](https://docs.github.com/rest/teams/discussions#update-a-discussion) endpoint.
          *
          *     Edits the title and body text of a discussion post. Only the parameters you provide are updated.
          *
@@ -14555,7 +15054,7 @@ export interface paths {
          * List discussion comments (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [List discussion comments](https://docs.github.com/rest/teams/discussion-comments#list-discussion-comments) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [List discussion comments](https://docs.github.com/rest/teams/discussion-comments#list-discussion-comments) endpoint.
          *
          *     List all comments on a team discussion.
          *
@@ -14567,7 +15066,7 @@ export interface paths {
          * Create a discussion comment (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Create a discussion comment](https://docs.github.com/rest/teams/discussion-comments#create-a-discussion-comment) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Create a discussion comment](https://docs.github.com/rest/teams/discussion-comments#create-a-discussion-comment) endpoint.
          *
          *     Creates a new comment on a team discussion.
          *
@@ -14593,7 +15092,7 @@ export interface paths {
          * Get a discussion comment (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get a discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get a discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment) endpoint.
          *
          *     Get a specific comment on a team discussion.
          *
@@ -14606,7 +15105,7 @@ export interface paths {
          * Delete a discussion comment (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Delete a discussion comment](https://docs.github.com/rest/teams/discussion-comments#delete-a-discussion-comment) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Delete a discussion comment](https://docs.github.com/rest/teams/discussion-comments#delete-a-discussion-comment) endpoint.
          *
          *     Deletes a comment on a team discussion.
          *
@@ -14619,7 +15118,7 @@ export interface paths {
          * Update a discussion comment (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a discussion comment](https://docs.github.com/rest/teams/discussion-comments#update-a-discussion-comment) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a discussion comment](https://docs.github.com/rest/teams/discussion-comments#update-a-discussion-comment) endpoint.
          *
          *     Edits the body text of a discussion comment.
          *
@@ -14639,7 +15138,7 @@ export interface paths {
          * List reactions for a team discussion comment (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List reactions for a team discussion comment`](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion-comment) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List reactions for a team discussion comment`](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion-comment) endpoint.
          *
          *     List the reactions to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment).
          *
@@ -14651,7 +15150,7 @@ export interface paths {
          * Create reaction for a team discussion comment (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Create reaction for a team discussion comment](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion-comment)" endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Create reaction for a team discussion comment](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion-comment)" endpoint.
          *
          *     Create a reaction to a [team discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment).
          *
@@ -14677,7 +15176,7 @@ export interface paths {
          * List reactions for a team discussion (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List reactions for a team discussion`](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List reactions for a team discussion`](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion) endpoint.
          *
          *     List the reactions to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion).
          *
@@ -14689,7 +15188,7 @@ export interface paths {
          * Create reaction for a team discussion (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create reaction for a team discussion`](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create reaction for a team discussion`](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion) endpoint.
          *
          *     Create a reaction to a [team discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion).
          *
@@ -14715,7 +15214,7 @@ export interface paths {
          * List pending team invitations (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List pending team invitations`](https://docs.github.com/rest/teams/members#list-pending-team-invitations) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List pending team invitations`](https://docs.github.com/rest/teams/members#list-pending-team-invitations) endpoint.
          *
          *     The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.
          */
@@ -14739,7 +15238,7 @@ export interface paths {
          * List team members (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List team members`](https://docs.github.com/rest/teams/members#list-team-members) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List team members`](https://docs.github.com/rest/teams/members#list-team-members) endpoint.
          *
          *     Team members will include the members of child teams.
          */
@@ -14762,7 +15261,7 @@ export interface paths {
         /**
          * Get team member (Legacy)
          * @deprecated
-         * @description The "Get team member" endpoint (described below) is deprecated.
+         * @description The "Get team member" endpoint (described below) is closing down.
          *
          *     We recommend using the [Get team membership for a user](https://docs.github.com/rest/teams/members#get-team-membership-for-a-user) endpoint instead. It allows you to get both active and pending memberships.
          *
@@ -14772,7 +15271,7 @@ export interface paths {
         /**
          * Add team member (Legacy)
          * @deprecated
-         * @description The "Add team member" endpoint (described below) is deprecated.
+         * @description The "Add team member" endpoint (described below) is closing down.
          *
          *     We recommend using the [Add or update team membership for a user](https://docs.github.com/rest/teams/members#add-or-update-team-membership-for-a-user) endpoint instead. It allows you to invite new organization members to your teams.
          *
@@ -14790,7 +15289,7 @@ export interface paths {
         /**
          * Remove team member (Legacy)
          * @deprecated
-         * @description The "Remove team member" endpoint (described below) is deprecated.
+         * @description The "Remove team member" endpoint (described below) is closing down.
          *
          *     We recommend using the [Remove team membership for a user](https://docs.github.com/rest/teams/members#remove-team-membership-for-a-user) endpoint instead. It allows you to remove both active and pending memberships.
          *
@@ -14818,7 +15317,7 @@ export interface paths {
          * Get team membership for a user (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get team membership for a user](https://docs.github.com/rest/teams/members#get-team-membership-for-a-user) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get team membership for a user](https://docs.github.com/rest/teams/members#get-team-membership-for-a-user) endpoint.
          *
          *     Team members will include the members of child teams.
          *
@@ -14834,7 +15333,7 @@ export interface paths {
          * Add or update team membership for a user (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Add or update team membership for a user](https://docs.github.com/rest/teams/members#add-or-update-team-membership-for-a-user) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Add or update team membership for a user](https://docs.github.com/rest/teams/members#add-or-update-team-membership-for-a-user) endpoint.
          *
          *     Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
          *
@@ -14853,7 +15352,7 @@ export interface paths {
          * Remove team membership for a user (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove team membership for a user](https://docs.github.com/rest/teams/members#remove-team-membership-for-a-user) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove team membership for a user](https://docs.github.com/rest/teams/members#remove-team-membership-for-a-user) endpoint.
          *
          *     Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
          *
@@ -14879,7 +15378,7 @@ export interface paths {
          * List team projects (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List team projects`](https://docs.github.com/rest/teams/teams#list-team-projects) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List team projects`](https://docs.github.com/rest/teams/teams#list-team-projects) endpoint.
          *
          *     Lists the organization projects for a team.
          */
@@ -14903,7 +15402,7 @@ export interface paths {
          * Check team permissions for a project (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a project](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-project) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a project](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-project) endpoint.
          *
          *     Checks whether a team has `read`, `write`, or `admin` permissions for an organization project. The response includes projects inherited from a parent team.
          */
@@ -14912,7 +15411,7 @@ export interface paths {
          * Add or update team project permissions (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Add or update team project permissions](https://docs.github.com/rest/teams/teams#add-or-update-team-project-permissions) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Add or update team project permissions](https://docs.github.com/rest/teams/teams#add-or-update-team-project-permissions) endpoint.
          *
          *     Adds an organization project to a team. To add a project to a team or update the team's permission on a project, the authenticated user must have `admin` permissions for the project. The project and team must be part of the same organization.
          */
@@ -14922,7 +15421,7 @@ export interface paths {
          * Remove a project from a team (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a project from a team](https://docs.github.com/rest/teams/teams#remove-a-project-from-a-team) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a project from a team](https://docs.github.com/rest/teams/teams#remove-a-project-from-a-team) endpoint.
          *
          *     Removes an organization project from a team. An organization owner or a team maintainer can remove any project from the team. To remove a project from a team as an organization member, the authenticated user must have `read` access to both the team and project, or `admin` access to the team or project. **Note:** This endpoint removes the project from the team, but does not delete it.
          */
@@ -14943,7 +15442,7 @@ export interface paths {
          * List team repositories (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [List team repositories](https://docs.github.com/rest/teams/teams#list-team-repositories) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [List team repositories](https://docs.github.com/rest/teams/teams#list-team-repositories) endpoint.
          */
         get: operations["teams/list-repos-legacy"];
         put?: never;
@@ -14965,7 +15464,7 @@ export interface paths {
          * Check team permissions for a repository (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a repository](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-repository) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a repository](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-repository) endpoint.
          *
          *     > [!NOTE]
          *     > Repositories inherited through a parent team will also be checked.
@@ -14977,7 +15476,7 @@ export interface paths {
          * Add or update team repository permissions (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Add or update team repository permissions](https://docs.github.com/rest/teams/teams#add-or-update-team-repository-permissions)" endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Add or update team repository permissions](https://docs.github.com/rest/teams/teams#add-or-update-team-repository-permissions)" endpoint.
          *
          *     To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a `422 Unprocessable Entity` status if you attempt to add a repository to a team that is not owned by the organization.
          *
@@ -14989,7 +15488,7 @@ export interface paths {
          * Remove a repository from a team (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a repository from a team](https://docs.github.com/rest/teams/teams#remove-a-repository-from-a-team) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a repository from a team](https://docs.github.com/rest/teams/teams#remove-a-repository-from-a-team) endpoint.
          *
          *     If the authenticated user is an organization owner or a team maintainer, they can remove any repositories from the team. To remove a repository from a team as an organization member, the authenticated user must have admin access to the repository and must be able to see the team. NOTE: This does not delete the repository, it just removes it from the team.
          */
@@ -15010,7 +15509,7 @@ export interface paths {
          * List child teams (Legacy)
          * @deprecated
          * @description > [!WARNING]
-         *     > **Deprecation notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List child teams`](https://docs.github.com/rest/teams/teams#list-child-teams) endpoint.
+         *     > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List child teams`](https://docs.github.com/rest/teams/teams#list-child-teams) endpoint.
          */
         get: operations["teams/list-child-legacy"];
         put?: never;
@@ -16068,6 +16567,9 @@ export interface paths {
          * @description List organizations for the authenticated user.
          *
          *     For OAuth app tokens and personal access tokens (classic), this endpoint only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope for OAuth app tokens and personal access tokens (classic). Requests with insufficient scope will receive a `403 Forbidden` response.
+         *
+         *     > [!NOTE]
+         *     > Requests using a fine-grained access token will receive a `200 Success` response with an empty list.
          */
         get: operations["orgs/list-for-authenticated-user"];
         put?: never;
@@ -16089,7 +16591,7 @@ export interface paths {
          * List packages for the authenticated user's namespace
          * @description Lists packages owned by the authenticated user within the user's namespace.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/list-packages-for-authenticated-user"];
         put?: never;
@@ -16111,7 +16613,7 @@ export interface paths {
          * Get a package for the authenticated user
          * @description Gets a specific package for a package owned by the authenticated user.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-package-for-authenticated-user"];
         put?: never;
@@ -16120,7 +16622,7 @@ export interface paths {
          * Delete a package for the authenticated user
          * @description Deletes a package owned by the authenticated user. You cannot delete a public package if any version of the package has more than 5,000 downloads. In this scenario, contact GitHub support for further assistance.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, `repo` scope is also required. For the list these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         delete: operations["packages/delete-package-for-authenticated-user"];
         options?: never;
@@ -16145,7 +16647,7 @@ export interface paths {
          *       - The package was deleted within the last 30 days.
          *       - The same package namespace and version is still available and not reused for a new package. If the same package namespace is not available, you will not be able to restore your package. In this scenario, to restore the deleted package, you must delete the new package that uses the deleted package's namespace first.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         post: operations["packages/restore-package-for-authenticated-user"];
         delete?: never;
@@ -16165,7 +16667,7 @@ export interface paths {
          * List package versions for a package owned by the authenticated user
          * @description Lists package versions for a package owned by the authenticated user.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-all-package-versions-for-package-owned-by-authenticated-user"];
         put?: never;
@@ -16187,7 +16689,7 @@ export interface paths {
          * Get a package version for the authenticated user
          * @description Gets a specific package version for a package owned by the authenticated user.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-package-version-for-authenticated-user"];
         put?: never;
@@ -16198,7 +16700,7 @@ export interface paths {
          *
          *     The authenticated user must have admin permissions in the organization to use this endpoint.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         delete: operations["packages/delete-package-version-for-authenticated-user"];
         options?: never;
@@ -16223,7 +16725,7 @@ export interface paths {
          *       - The package was deleted within the last 30 days.
          *       - The same package namespace and version is still available and not reused for a new package. If the same package namespace is not available, you will not be able to restore your package. In this scenario, to restore the deleted package, you must delete the new package that uses the deleted package's namespace first.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         post: operations["packages/restore-package-version-for-authenticated-user"];
         delete?: never;
@@ -16652,7 +17154,7 @@ export interface paths {
         };
         /**
          * List events for the authenticated user
-         * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
+         * @description If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events. _Optional_: use the fine-grained token with following permission set to view private events: "Events" user permissions (read).
          *
          *     > [!NOTE]
          *     > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.
@@ -16906,7 +17408,7 @@ export interface paths {
          * List packages for a user
          * @description Lists all packages in a user's namespace for which the requesting user has access.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/list-packages-for-user"];
         put?: never;
@@ -16928,7 +17430,7 @@ export interface paths {
          * Get a package for a user
          * @description Gets a specific package metadata for a public package owned by a user.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-package-for-user"];
         put?: never;
@@ -16939,7 +17441,7 @@ export interface paths {
          *
          *     If the `package_type` belongs to a GitHub Packages registry that supports granular permissions, the authenticated user must have admin permissions to the package. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         delete: operations["packages/delete-package-for-user"];
         options?: never;
@@ -16966,7 +17468,7 @@ export interface paths {
          *
          *     If the `package_type` belongs to a GitHub Packages registry that supports granular permissions, the authenticated user must have admin permissions to the package. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         post: operations["packages/restore-package-for-user"];
         delete?: never;
@@ -16986,7 +17488,7 @@ export interface paths {
          * List package versions for a package owned by a user
          * @description Lists package versions for a public package owned by a specified user.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-all-package-versions-for-package-owned-by-user"];
         put?: never;
@@ -17008,7 +17510,7 @@ export interface paths {
          * Get a package version for a user
          * @description Gets a specific package version for a public package owned by a specified user.
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         get: operations["packages/get-package-version-for-user"];
         put?: never;
@@ -17019,7 +17521,7 @@ export interface paths {
          *
          *     If the `package_type` belongs to a GitHub Packages registry that supports granular permissions, the authenticated user must have admin permissions to the package. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `delete:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         delete: operations["packages/delete-package-version-for-user"];
         options?: never;
@@ -17046,7 +17548,7 @@ export interface paths {
          *
          *     If the `package_type` belongs to a GitHub Packages registry that supports granular permissions, the authenticated user must have admin permissions to the package. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
          *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. If the `package_type` belongs to a GitHub Packages registry that only supports repository-scoped permissions, the `repo` scope is also required. For the list of these registries, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
+         *     OAuth app tokens and personal access tokens (classic) need the `read:packages` and `write:packages` scopes to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)."
          */
         post: operations["packages/restore-package-version-for-user"];
         delete?: never;
@@ -17516,6 +18018,8 @@ export interface components {
             site_admin: boolean;
             /** @example "2020-07-09T00:17:55Z" */
             starred_at?: string;
+            /** @example public */
+            user_view_type?: string;
         };
         /**
          * @description The type of credit the user is receiving.
@@ -17710,6 +18214,8 @@ export interface components {
             site_admin: boolean;
             /** @example "2020-07-09T00:17:55Z" */
             starred_at?: string;
+            /** @example public */
+            user_view_type?: string;
         } | null;
         /**
          * GitHub app
@@ -18227,7 +18733,7 @@ export interface components {
              */
             organization_custom_properties: "read" | "write" | "admin";
             /**
-             * @description The level of permission to grant the access token for managing access to GitHub Copilot for members of an organization with a Copilot Business subscription. This property is in beta and is subject to change.
+             * @description The level of permission to grant the access token for managing access to GitHub Copilot for members of an organization with a Copilot Business subscription. This property is in public preview and is subject to change.
              * @enum {string}
              */
             organization_copilot_seat_management: "write";
@@ -18262,7 +18768,7 @@ export interface components {
              */
             organization_plan: "read";
             /**
-             * @description The level of permission to grant the access token to manage organization projects and projects beta (where available).
+             * @description The level of permission to grant the access token to manage organization projects and projects public preview (where available).
              * @enum {string}
              */
             organization_projects: "read" | "write" | "admin";
@@ -18706,7 +19212,7 @@ export interface components {
             allow_update_branch: boolean;
             /**
              * @deprecated
-             * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+             * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
              * @default false
              */
             use_squash_pr_title_as_default: boolean;
@@ -19290,7 +19796,7 @@ export interface components {
          * Organization Simple
          * @description A GitHub organization.
          */
-        "organization-simple": {
+        "nullable-organization-simple": {
             /** @example github */
             login: string;
             /** @example 1 */
@@ -19324,7 +19830,7 @@ export interface components {
             avatar_url: string;
             /** @example A great organization */
             description: string | null;
-        };
+        } | null;
         /**
          * Team Simple
          * @description Groups of organization members that gives permissions on specified repositories.
@@ -19433,8 +19939,8 @@ export interface components {
             url: string;
             /** @example disabled | all */
             sync_to_organizations: string;
-            /** @example 1 */
-            group_id?: number | null;
+            /** @example 62ab9291-fae2-468e-974b-7e45096d5021 */
+            group_id?: string | null;
             /**
              * Format: uri
              * @example https://github.com/enterprises/dc/teams/justice-league
@@ -19451,12 +19957,8 @@ export interface components {
          * @description Information about a Copilot Business seat assignment for a user, team, or organization.
          */
         "copilot-seat-details": {
-            /** @description The assignee that has been granted access to GitHub Copilot. */
-            assignee: {
-                [key: string]: unknown;
-            } & components["schemas"]["simple-user"];
-            /** @description The organization to which this seat belongs. */
-            organization?: components["schemas"]["organization-simple"] | null;
+            assignee: components["schemas"]["simple-user"];
+            organization?: components["schemas"]["nullable-organization-simple"];
             /** @description The team through which the assignee is granted access to GitHub Copilot, if applicable. */
             assigning_team?: (components["schemas"]["team"] | components["schemas"]["enterprise-team"]) | null;
             /**
@@ -19481,6 +19983,157 @@ export interface components {
              * @description Timestamp of when the assignee's GitHub Copilot access was last updated, in ISO 8601 format.
              */
             updated_at?: string;
+            /**
+             * @description The Copilot plan of the organization, or the parent enterprise, when applicable.
+             * @enum {string}
+             */
+            plan_type?: "business" | "enterprise" | "unknown";
+        };
+        /** @description Usage metrics for Copilot editor code completions in the IDE. */
+        "copilot-ide-code-completions": ({
+            /** @description Number of users who accepted at least one Copilot code suggestion, across all active editors. Includes both full and partial acceptances. */
+            total_engaged_users: number;
+            /** @description Code completion metrics for active languages. */
+            languages: {
+                /** @description Name of the language used for Copilot code completion suggestions. */
+                name: string;
+                /** @description Number of users who accepted at least one Copilot code completion suggestion for the given language. Includes both full and partial acceptances. */
+                total_engaged_users: number;
+            }[];
+            editors: ({
+                /** @description Name of the given editor. */
+                name: string;
+                /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor. Includes both full and partial acceptances. */
+                total_engaged_users: number;
+                /** @description List of model metrics for custom models and the default model. */
+                models: {
+                    /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
+                    name: string;
+                    /** @description Indicates whether a model is custom or default. */
+                    is_custom_model: boolean;
+                    /** @description The training date for the custom model. */
+                    custom_model_training_date: string | null;
+                    /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor, for the given language and model. Includes both full and partial acceptances. */
+                    total_engaged_users: number;
+                    /** @description Code completion metrics for active languages, for the given editor. */
+                    languages: {
+                        /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
+                        name: string;
+                        /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor, for the given language. Includes both full and partial acceptances. */
+                        total_engaged_users: number;
+                        /** @description The number of Copilot code suggestions generated for the given editor, for the given language. */
+                        total_code_suggestions: number;
+                        /** @description The number of Copilot code suggestions accepted for the given editor, for the given language. Includes both full and partial acceptances. */
+                        total_code_acceptances: number;
+                        /** @description The number of lines of code suggested by Copilot code completions for the given editor, for the given language. */
+                        total_code_lines_suggested: number;
+                        /** @description The number of lines of code accepted from Copilot code suggestions for the given editor, for the given language. */
+                        total_code_lines_accepted: number;
+                    }[];
+                }[];
+            } & {
+                [key: string]: unknown;
+            })[];
+        } & {
+            [key: string]: unknown;
+        }) | null;
+        /** @description Usage metrics for Copilot Chat in the IDE. */
+        "copilot-ide-chat": ({
+            /** @description Total number of users who prompted Copilot Chat in the IDE. */
+            total_engaged_users: number;
+            editors: {
+                /** @description Name of the given editor. */
+                name: string;
+                /** @description The number of users who prompted Copilot Chat in the specified editor. */
+                total_engaged_users: number;
+                /** @description List of model metrics for custom models and the default model. */
+                models: {
+                    /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
+                    name: string;
+                    /** @description Indicates whether a model is custom or default. */
+                    is_custom_model: boolean;
+                    /** @description The training date for the custom model. */
+                    custom_model_training_date: string | null;
+                    /** @description The number of users who prompted Copilot Chat in the given editor and model. */
+                    total_engaged_users: number;
+                    /** @description The total number of chats initiated by users in the given editor and model. */
+                    total_chats: number;
+                    /** @description The number of times users accepted a code suggestion from Copilot Chat using the 'Insert Code' UI element, for the given editor. */
+                    total_chat_insertion_events: number;
+                    /** @description The number of times users copied a code suggestion from Copilot Chat using the keyboard, or the 'Copy' UI element, for the given editor. */
+                    total_chat_copy_events: number;
+                }[];
+            }[];
+        } & {
+            [key: string]: unknown;
+        }) | null;
+        /** @description Usage metrics for Copilot Chat in github.com */
+        "copilot-dotcom-chat": ({
+            /** @description Total number of users who prompted Copilot Chat on github.com at least once. */
+            total_engaged_users: number;
+            /** @description List of model metrics for a custom models and the default model. */
+            models: {
+                /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
+                name: string;
+                /** @description Indicates whether a model is custom or default. */
+                is_custom_model: boolean;
+                /** @description The training date for the custom model (if applicable). */
+                custom_model_training_date: string | null;
+                /** @description Total number of users who prompted Copilot Chat on github.com at least once for each model. */
+                total_engaged_users: number;
+                /** @description Total number of chats initiated by users on github.com. */
+                total_chats: number;
+            }[];
+        } & {
+            [key: string]: unknown;
+        }) | null;
+        /** @description Usage metrics for Copilot for pull requests. */
+        "copilot-dotcom-pull-requests": ({
+            /** @description The number of users who used Copilot for Pull Requests on github.com to generate a pull request summary at least once. */
+            total_engaged_users: number;
+            /** @description Repositories in which users used Copilot for Pull Requests to generate pull request summaries */
+            repositories: {
+                /** @description Repository name */
+                name: string;
+                /** @description The number of users who generated pull request summaries using Copilot for Pull Requests in the given repository. */
+                total_engaged_users: number;
+                /** @description List of model metrics for custom models and the default model. */
+                models: {
+                    /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
+                    name: string;
+                    /** @description Indicates whether a model is custom or default. */
+                    is_custom_model: boolean;
+                    /** @description The training date for the custom model. */
+                    custom_model_training_date: string | null;
+                    /** @description The number of pull request summaries generated using Copilot for Pull Requests in the given repository. */
+                    total_pr_summaries_created: number;
+                    /** @description The number of users who generated pull request summaries using Copilot for Pull Requests in the given repository and model. */
+                    total_engaged_users: number;
+                }[];
+            }[];
+        } & {
+            [key: string]: unknown;
+        }) | null;
+        /**
+         * Copilot Usage Metrics
+         * @description Copilot usage metrics for a given day.
+         */
+        "copilot-usage-metrics-day": {
+            /**
+             * Format: date
+             * @description The date for which the usage metrics are aggregated, in `YYYY-MM-DD` format.
+             */
+            date: string;
+            /** @description The total number of Copilot users with activity belonging to any Copilot feature, globally, for the given day. Includes passive activity such as receiving a code suggestion, as well as engagement activity such as accepting a code suggestion or prompting chat. Does not include authentication events. Is not limited to the individual features detailed on the endpoint. */
+            total_active_users?: number;
+            /** @description The total number of Copilot users who engaged with any Copilot feature, for the given day. Examples include but are not limited to accepting a code suggestion, prompting Copilot chat, or triggering a PR Summary. Does not include authentication events. Is not limited to the individual features detailed on the endpoint. */
+            total_engaged_users?: number;
+            copilot_ide_code_completions?: components["schemas"]["copilot-ide-code-completions"];
+            copilot_ide_chat?: components["schemas"]["copilot-ide-chat"];
+            copilot_dotcom_chat?: components["schemas"]["copilot-dotcom-chat"];
+            copilot_dotcom_pull_requests?: components["schemas"]["copilot-dotcom-pull-requests"];
+        } & {
+            [key: string]: unknown;
         };
         /**
          * Copilot Usage Metrics
@@ -19991,6 +20644,10 @@ export interface components {
              * @enum {string}
              */
             validity: "active" | "inactive" | "unknown";
+            /** @description Whether the secret was publicly leaked. */
+            publicly_leaked: boolean | null;
+            /** @description Whether the detected secret was found in multiple repositories in the same organization or enterprise. */
+            multi_repo: boolean | null;
         };
         /**
          * Actor
@@ -20438,6 +21095,11 @@ export interface components {
                     language: string;
                     raw_url: string;
                     size: number;
+                    /**
+                     * @description The encoding used for `content`. Currently, `"utf-8"` and `"base64"` are supported.
+                     * @default utf-8
+                     */
+                    encoding: string;
                 };
             };
             public: boolean;
@@ -20463,6 +21125,11 @@ export interface components {
             login: string;
             /** Format: int64 */
             id: number;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            user_view_type: "public";
             node_id: string;
             /** Format: uri */
             avatar_url: string;
@@ -20512,8 +21179,6 @@ export interface components {
                 space: number;
                 private_repos: number;
             };
-            /** Format: date-time */
-            suspended_at?: string | null;
             /** @example 1 */
             private_gists?: number;
             /** @example 2 */
@@ -20620,6 +21285,11 @@ export interface components {
                     size: number;
                     truncated: boolean;
                     content: string;
+                    /**
+                     * @description The encoding used for `content`. Currently, `"utf-8"` and `"base64"` are supported.
+                     * @default utf-8
+                     */
+                    encoding: string;
                 } | null;
             };
             public: boolean;
@@ -20988,6 +21658,10 @@ export interface components {
                 /** @enum {string} */
                 status: "enabled" | "disabled";
             };
+            secret_scanning_ai_detection: {
+                /** @enum {string} */
+                status: "enabled" | "disabled";
+            };
         } | null;
         /**
          * Minimal Repository
@@ -21255,6 +21929,45 @@ export interface components {
             repository_url?: string;
         };
         /**
+         * Organization Simple
+         * @description A GitHub organization.
+         */
+        "organization-simple": {
+            /** @example github */
+            login: string;
+            /** @example 1 */
+            id: number;
+            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
+            node_id: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github
+             */
+            url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/repos
+             */
+            repos_url: string;
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/events
+             */
+            events_url: string;
+            /** @example https://api.github.com/orgs/github/hooks */
+            hooks_url: string;
+            /** @example https://api.github.com/orgs/github/issues */
+            issues_url: string;
+            /** @example https://api.github.com/orgs/github/members{/member} */
+            members_url: string;
+            /** @example https://api.github.com/orgs/github/public_members{/member} */
+            public_members_url: string;
+            /** @example https://github.com/images/error/octocat_happy.gif */
+            avatar_url: string;
+            /** @example A great organization */
+            description: string | null;
+        };
+        /**
          * Organization Full
          * @description Organization Full
          */
@@ -21339,7 +22052,12 @@ export interface components {
             private_gists?: number | null;
             /** @example 10000 */
             disk_usage?: number | null;
-            /** @example 8 */
+            /**
+             * @description The number of collaborators on private repositories.
+             *
+             *     This field may be null if the number of private repositories is over 50,000.
+             * @example 8
+             */
             collaborators?: number | null;
             /**
              * Format: email
@@ -21378,7 +22096,7 @@ export interface components {
             web_commit_signoff_required?: boolean;
             /**
              * @deprecated
-             * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+             * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
              *
              *     Whether GitHub Advanced Security is enabled for new repositories and repositories transferred to this organization.
              *
@@ -21388,7 +22106,7 @@ export interface components {
             advanced_security_enabled_for_new_repositories?: boolean;
             /**
              * @deprecated
-             * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+             * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
              *
              *     Whether Dependabot alerts are automatically enabled for new repositories and repositories transferred to this organization.
              *
@@ -21398,7 +22116,7 @@ export interface components {
             dependabot_alerts_enabled_for_new_repositories?: boolean;
             /**
              * @deprecated
-             * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+             * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
              *
              *     Whether Dependabot security updates are automatically enabled for new repositories and repositories transferred to this organization.
              *
@@ -21408,7 +22126,7 @@ export interface components {
             dependabot_security_updates_enabled_for_new_repositories?: boolean;
             /**
              * @deprecated
-             * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+             * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
              *
              *     Whether dependency graph is automatically enabled for new repositories and repositories transferred to this organization.
              *
@@ -21418,7 +22136,7 @@ export interface components {
             dependency_graph_enabled_for_new_repositories?: boolean;
             /**
              * @deprecated
-             * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+             * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
              *
              *     Whether secret scanning is automatically enabled for new repositories and repositories transferred to this organization.
              *
@@ -21428,7 +22146,7 @@ export interface components {
             secret_scanning_enabled_for_new_repositories?: boolean;
             /**
              * @deprecated
-             * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+             * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
              *
              *     Whether secret scanning push protection is automatically enabled for new repositories and repositories transferred to this organization.
              *
@@ -21455,6 +22173,11 @@ export interface components {
             updated_at: string;
             /** Format: date-time */
             archived_at: string | null;
+            /**
+             * @description Controls whether or not deploy keys may be added and used for repositories in the organization.
+             * @example false
+             */
+            deploy_keys_enabled_for_repositories?: boolean;
         };
         "actions-cache-usage-org-enterprise": {
             /** @description The count of active caches across all repositories of an enterprise or an organization. */
@@ -21540,6 +22263,31 @@ export interface components {
         "actions-set-default-workflow-permissions": {
             default_workflow_permissions: components["schemas"]["actions-default-workflow-permissions"];
             can_approve_pull_request_reviews: components["schemas"]["actions-can-approve-pull-request-reviews"];
+        };
+        "runner-groups-org": {
+            id: number;
+            name: string;
+            visibility: string;
+            default: boolean;
+            /** @description Link to the selected repositories resource for this runner group. Not present unless visibility was set to `selected` */
+            selected_repositories_url?: string;
+            runners_url: string;
+            hosted_runners_url?: string;
+            inherited: boolean;
+            inherited_allows_public_repositories?: boolean;
+            allows_public_repositories: boolean;
+            /**
+             * @description If `true`, the `restricted_to_workflows` and `selected_workflows` fields cannot be modified.
+             * @default false
+             */
+            workflow_restrictions_read_only: boolean;
+            /**
+             * @description If `true`, the runner group will be restricted to running only the workflows specified in the `selected_workflows` array.
+             * @default false
+             */
+            restricted_to_workflows: boolean;
+            /** @description List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
+            selected_workflows?: string[];
         };
         /**
          * Self hosted runner label
@@ -21741,9 +22489,9 @@ export interface components {
         "alert-instances-url": string;
         /**
          * @description State of a code scanning alert.
-         * @enum {string}
+         * @enum {string|null}
          */
-        "code-scanning-alert-state": "open" | "dismissed" | "fixed";
+        "code-scanning-alert-state": "open" | "dismissed" | "fixed" | null;
         /**
          * @description **Required when the state is dismissed.** The reason for dismissing or closing the alert.
          * @enum {string|null}
@@ -21850,7 +22598,7 @@ export interface components {
              * @description The type of the code security configuration.
              * @enum {string}
              */
-            target_type: "global" | "organization";
+            target_type: "global" | "organization" | "enterprise";
             /** @description A description of the code security configuration */
             description: string;
             /**
@@ -21898,6 +22646,24 @@ export interface components {
              * @enum {string}
              */
             secret_scanning_push_protection: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of secret scanning delegated bypass
+             * @enum {string}
+             */
+            secret_scanning_delegated_bypass: "enabled" | "disabled" | "not_set";
+            /** @description Feature options for secret scanning delegated bypass */
+            secret_scanning_delegated_bypass_options: {
+                /** @description The bypass reviewers for secret scanning delegated bypass */
+                reviewers: {
+                    /** @description The ID of the team or role selected as a bypass reviewer */
+                    reviewer_id: number;
+                    /**
+                     * @description The type of the bypass reviewer
+                     * @enum {string}
+                     */
+                    reviewer_type: "TEAM" | "ROLE";
+                }[];
+            };
             /**
              * @description The enablement status of secret scanning validity checks
              * @enum {string}
@@ -22225,8 +22991,8 @@ export interface components {
             inactive_this_cycle: number;
         };
         /**
-         * Copilot Business Organization Details
-         * @description Information about the seat breakdown and policies set for an organization with a Copilot Business subscription.
+         * Copilot Organization Details
+         * @description Information about the seat breakdown and policies set for an organization with a Copilot Business or Copilot Enterprise subscription.
          */
         "copilot-organization-details": {
             seat_breakdown: components["schemas"]["copilot-seat-breakdown"];
@@ -22255,6 +23021,11 @@ export interface components {
              * @enum {string}
              */
             seat_management_setting: "assign_all" | "assign_selected" | "disabled" | "unconfigured";
+            /**
+             * @description The Copilot plan of the organization, or the parent enterprise, when applicable.
+             * @enum {string}
+             */
+            plan_type?: "business" | "enterprise" | "unknown";
         } & {
             [key: string]: unknown;
         };
@@ -22630,6 +23401,87 @@ export interface components {
             type: string;
         };
         /**
+         * Route Stats
+         * @description API Insights usage route stats for an actor
+         */
+        "api-insights-route-stats": {
+            /** @description The HTTP method */
+            http_method: string;
+            /** @description The API path's route template */
+            api_route: string;
+            /**
+             * Format: int64
+             * @description The total number of requests within the queried time period
+             */
+            total_request_count: number;
+            /**
+             * Format: int64
+             * @description The total number of requests that were rate limited within the queried time period
+             */
+            rate_limited_request_count: number;
+            last_rate_limited_timestamp: string | null;
+            last_request_timestamp: string;
+        }[];
+        /**
+         * Subject Stats
+         * @description API Insights usage subject stats for an organization
+         */
+        "api-insights-subject-stats": {
+            subject_type: string;
+            subject_name: string;
+            /** Format: int64 */
+            subject_id: number;
+            total_request_count: number;
+            rate_limited_request_count: number;
+            last_rate_limited_timestamp: string | null;
+            last_request_timestamp: string;
+        }[];
+        /**
+         * Summary Stats
+         * @description API Insights usage summary stats for an organization
+         */
+        "api-insights-summary-stats": {
+            /**
+             * Format: int64
+             * @description The total number of requests within the queried time period
+             */
+            total_request_count: number;
+            /**
+             * Format: int64
+             * @description The total number of requests that were rate limited within the queried time period
+             */
+            rate_limited_request_count: number;
+        };
+        /**
+         * Time Stats
+         * @description API Insights usage time stats for an organization
+         */
+        "api-insights-time-stats": {
+            timestamp: string;
+            /** Format: int64 */
+            total_request_count: number;
+            /** Format: int64 */
+            rate_limited_request_count: number;
+        }[];
+        /**
+         * User Stats
+         * @description API Insights usage stats for a user
+         */
+        "api-insights-user-stats": {
+            actor_type: string;
+            actor_name: string;
+            /** Format: int64 */
+            actor_id: number;
+            /** Format: int64 */
+            integration_id: number | null;
+            /** Format: int64 */
+            oauth_application_id: number | null;
+            total_request_count: number;
+            rate_limited_request_count: number;
+            last_rate_limited_timestamp: string | null;
+            last_request_timestamp: string;
+        }[];
+        /**
          * @description The type of GitHub user that can comment, open issues, or create pull requests while the interaction limit is in effect.
          * @example collaborators_only
          * @enum {string}
@@ -22933,6 +23785,8 @@ export interface components {
             site_admin: boolean;
             /** @example "2020-07-09T00:17:55Z" */
             starred_at?: string;
+            /** @example public */
+            user_view_type?: string;
         };
         /**
          * Package Version
@@ -23021,6 +23875,10 @@ export interface components {
             };
             /** @description Date and time when the request for access was created. */
             created_at: string;
+            /** @description Unique identifier of the user's token. This field can also be found in audit log events and the organization's settings for their PAT grants. */
+            token_id: number;
+            /** @description The name given to the user's token. This field can also be found in an organization's settings page for Active Tokens. */
+            token_name: string;
             /** @description Whether the associated fine-grained personal access token has expired. */
             token_expired: boolean;
             /** @description Date and time when the associated fine-grained personal access token expires. */
@@ -23033,7 +23891,7 @@ export interface components {
          * @description Minimal representation of an organization programmatic access grant for enumerations
          */
         "organization-programmatic-access-grant": {
-            /** @description Unique identifier of the fine-grained personal access token. The `pat_id` used to get details about an approved fine-grained personal access token. */
+            /** @description Unique identifier of the fine-grained personal access token grant. The `pat_id` used to get details about an approved fine-grained personal access token. */
             id: number;
             owner: components["schemas"]["simple-user"];
             /**
@@ -23057,6 +23915,10 @@ export interface components {
             };
             /** @description Date and time when the fine-grained personal access token was approved to access the organization. */
             access_granted_at: string;
+            /** @description Unique identifier of the user's token. This field can also be found in audit log events and the organization's settings for their PAT grants. */
+            token_id: number;
+            /** @description The name given to the user's token. This field can also be found in an organization's settings page for Active Tokens. */
+            token_name: string;
             /** @description Whether the associated fine-grained personal access token has expired. */
             token_expired: boolean;
             /** @description Date and time when the associated fine-grained personal access token expires. */
@@ -23485,7 +24347,7 @@ export interface components {
             allow_update_branch: boolean;
             /**
              * @deprecated
-             * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+             * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
              * @default false
              */
             use_squash_pr_title_as_default: boolean;
@@ -23893,7 +24755,8 @@ export interface components {
              */
             actor_type: "Integration" | "OrganizationAdmin" | "RepositoryRole" | "Team" | "DeployKey";
             /**
-             * @description When the specified actor can bypass the ruleset. `pull_request` means that an actor can only bypass rules on pull requests. `pull_request` is not applicable for the `DeployKey` actor type.
+             * @description When the specified actor can bypass the ruleset. `pull_request` means that an actor can only bypass rules on pull requests. `pull_request` is not applicable for the `DeployKey` actor type. Also, `pull_request` is only applicable to branch rulesets.
+             * @default always
              * @enum {string}
              */
             bypass_mode: "always" | "pull_request";
@@ -23963,7 +24826,9 @@ export interface components {
         };
         /**
          * Organization ruleset conditions
-         * @description Conditions for an organization ruleset. The conditions object should contain both `repository_name` and `ref_name` properties or both `repository_id` and `ref_name` properties.
+         * @description Conditions for an organization ruleset.
+         *     The branch and tag rulesets conditions object should contain both `repository_name` and `ref_name` properties, or both `repository_id` and `ref_name` properties, or both `repository_property` and `ref_name` properties.
+         *     The push rulesets conditions object does not require the `ref_name` property.
          */
         "org-ruleset-conditions": (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-name-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-id-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-property-target"]);
         /**
@@ -24051,6 +24916,18 @@ export interface components {
         "repository-rule-required-signatures": {
             /** @enum {string} */
             type: "required_signatures";
+        };
+        /**
+         * RequiredReviewerConfiguration
+         * @description A reviewing team, and file patterns describing which files they must approve changes to.
+         */
+        "repository-rule-params-required-reviewer-configuration": {
+            /** @description Array of file patterns. Pull requests which change matching files must be approved by the specified team. File patterns use the same syntax as `.gitignore` files. */
+            file_patterns: string[];
+            /** @description Minimum number of approvals required from the specified team. If set to zero, the team will be added to the pull request but approval is optional. */
+            minimum_approvals: number;
+            /** @description Node ID of the team which must review changes to matching files. */
+            reviewer_id: string;
         };
         /**
          * pull_request
@@ -24351,7 +25228,7 @@ export interface components {
                 html: {
                     /** @description The html URL of the ruleset */
                     href: string;
-                };
+                } | null;
             };
             conditions?: (components["schemas"]["repository-ruleset-conditions"] | components["schemas"]["org-ruleset-conditions"]) | null;
             rules?: components["schemas"]["repository-rule"][];
@@ -26462,6 +27339,7 @@ export interface components {
                 received_events_url: string;
                 type: string;
                 site_admin: boolean;
+                user_view_type: string;
             }[];
             teams: {
                 id: number;
@@ -26517,6 +27395,8 @@ export interface components {
                     type: string;
                     /** @example false */
                     site_admin: boolean;
+                    /** @example public */
+                    user_view_type: string;
                 };
                 name: string;
                 client_id: string;
@@ -27067,7 +27947,10 @@ export interface components {
          * @description A suite of checks performed on the code of a given code change
          */
         "check-suite": {
-            /** @example 5 */
+            /**
+             * Format: int64
+             * @example 5
+             */
             id: number;
             /** @example MDEwOkNoZWNrU3VpdGU1 */
             node_id: string;
@@ -27687,6 +28570,8 @@ export interface components {
             };
             /** @example admin */
             role_name: string;
+            /** @example public */
+            user_view_type?: string;
         };
         /**
          * Repository Invitation
@@ -27802,6 +28687,8 @@ export interface components {
             };
             /** @example admin */
             role_name: string;
+            /** @example public */
+            user_view_type?: string;
         } | null;
         /**
          * Repository Collaborator Permission
@@ -28175,6 +29062,7 @@ export interface components {
             name: string;
             path: string;
             sha: string;
+            content?: string;
             /** Format: uri */
             url: string;
             /** Format: uri */
@@ -28188,7 +29076,6 @@ export interface components {
                 size: number;
                 name: string;
                 path: string;
-                content?: string;
                 sha: string;
                 /** Format: uri */
                 url: string;
@@ -28250,7 +29137,10 @@ export interface components {
          * @description Content File
          */
         "content-file": {
-            /** @enum {string} */
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
             type: "file";
             encoding: string;
             size: number;
@@ -28284,7 +29174,10 @@ export interface components {
          * @description An object describing a symlink
          */
         "content-symlink": {
-            /** @enum {string} */
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
             type: "symlink";
             target: string;
             size: number;
@@ -28313,7 +29206,10 @@ export interface components {
          * @description An object describing a submodule
          */
         "content-submodule": {
-            /** @enum {string} */
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
             type: "submodule";
             /** Format: uri */
             submodule_git_url: string;
@@ -28442,6 +29338,7 @@ export interface components {
             contributions: number;
             email?: string;
             name?: string;
+            user_view_type?: string;
         };
         /** @description A Dependabot alert. */
         "dependabot-alert": {
@@ -28548,6 +29445,11 @@ export interface components {
                  * @example SPDX-2.3
                  */
                 spdxVersion: string;
+                /**
+                 * @description An optional comment about the SPDX document.
+                 * @example Exact versions could not be resolved for some packages. For more information: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/
+                 */
+                comment?: string;
                 creationInfo: {
                     /**
                      * @description The date and time the SPDX document was created.
@@ -28567,11 +29469,9 @@ export interface components {
                  * @example CC0-1.0
                  */
                 dataLicense: string;
-                /** @description The name of the repository that the SPDX document describes. */
-                documentDescribes: string[];
                 /**
                  * @description The namespace for the SPDX document.
-                 * @example https://github.com/example/dependency_graph/sbom-123
+                 * @example https://spdx.org/spdxdocs/protobom/15e41dd2-f961-4f4d-b8dc-f8f57ad70d57
                  */
                 documentNamespace: string;
                 packages: {
@@ -28582,7 +29482,7 @@ export interface components {
                     SPDXID: string;
                     /**
                      * @description The name of the package.
-                     * @example rubygems:github/github
+                     * @example github/github
                      */
                     name: string;
                     /**
@@ -28641,6 +29541,17 @@ export interface components {
                          */
                         referenceType: string;
                     }[];
+                }[];
+                relationships?: {
+                    /**
+                     * @description The type of relationship between the two SPDX elements.
+                     * @example DEPENDS_ON
+                     */
+                    relationshipType: string;
+                    /** @description The SPDX identifier of the package that is the source of the relationship. */
+                    spdxElementId: string;
+                    /** @description The SPDX identifier of the package that is the target of the relationship. */
+                    relatedSpdxElement: string;
                 }[];
             };
         };
@@ -28797,7 +29708,7 @@ export interface components {
             environment: string;
             /**
              * Format: uri
-             * @description Deprecated: the URL to associate with this status.
+             * @description Closing down notice: the URL to associate with this status.
              * @default
              * @example https://example.com/deployment/42/output
              */
@@ -30159,12 +31070,12 @@ export interface components {
              */
             path: string;
             /**
-             * @description The line index in the diff to which the comment applies. This field is deprecated; use `line` instead.
+             * @description The line index in the diff to which the comment applies. This field is closing down; use `line` instead.
              * @example 1
              */
             position?: number;
             /**
-             * @description The index of the original line in the diff to which the comment applies. This field is deprecated; use `original_line` instead.
+             * @description The index of the original line in the diff to which the comment applies. This field is closing down; use `original_line` instead.
              * @example 4
              */
             original_position?: number;
@@ -30364,6 +31275,7 @@ export interface components {
             read_only: boolean;
             added_by?: string | null;
             last_used?: string | null;
+            enabled?: boolean;
         };
         /**
          * Language
@@ -30824,361 +31736,16 @@ export interface components {
             head: {
                 label: string;
                 ref: string;
-                repo: {
-                    archive_url: string;
-                    assignees_url: string;
-                    blobs_url: string;
-                    branches_url: string;
-                    collaborators_url: string;
-                    comments_url: string;
-                    commits_url: string;
-                    compare_url: string;
-                    contents_url: string;
-                    /** Format: uri */
-                    contributors_url: string;
-                    /** Format: uri */
-                    deployments_url: string;
-                    description: string | null;
-                    /** Format: uri */
-                    downloads_url: string;
-                    /** Format: uri */
-                    events_url: string;
-                    fork: boolean;
-                    /** Format: uri */
-                    forks_url: string;
-                    full_name: string;
-                    git_commits_url: string;
-                    git_refs_url: string;
-                    git_tags_url: string;
-                    /** Format: uri */
-                    hooks_url: string;
-                    /** Format: uri */
-                    html_url: string;
-                    id: number;
-                    node_id: string;
-                    issue_comment_url: string;
-                    issue_events_url: string;
-                    issues_url: string;
-                    keys_url: string;
-                    labels_url: string;
-                    /** Format: uri */
-                    languages_url: string;
-                    /** Format: uri */
-                    merges_url: string;
-                    milestones_url: string;
-                    name: string;
-                    notifications_url: string;
-                    owner: {
-                        /** Format: uri */
-                        avatar_url: string;
-                        events_url: string;
-                        /** Format: uri */
-                        followers_url: string;
-                        following_url: string;
-                        gists_url: string;
-                        gravatar_id: string | null;
-                        /** Format: uri */
-                        html_url: string;
-                        id: number;
-                        node_id: string;
-                        login: string;
-                        /** Format: uri */
-                        organizations_url: string;
-                        /** Format: uri */
-                        received_events_url: string;
-                        /** Format: uri */
-                        repos_url: string;
-                        site_admin: boolean;
-                        starred_url: string;
-                        /** Format: uri */
-                        subscriptions_url: string;
-                        type: string;
-                        /** Format: uri */
-                        url: string;
-                    };
-                    private: boolean;
-                    pulls_url: string;
-                    releases_url: string;
-                    /** Format: uri */
-                    stargazers_url: string;
-                    statuses_url: string;
-                    /** Format: uri */
-                    subscribers_url: string;
-                    /** Format: uri */
-                    subscription_url: string;
-                    /** Format: uri */
-                    tags_url: string;
-                    /** Format: uri */
-                    teams_url: string;
-                    trees_url: string;
-                    /** Format: uri */
-                    url: string;
-                    clone_url: string;
-                    default_branch: string;
-                    forks: number;
-                    forks_count: number;
-                    git_url: string;
-                    has_downloads: boolean;
-                    has_issues: boolean;
-                    has_projects: boolean;
-                    has_wiki: boolean;
-                    has_pages: boolean;
-                    has_discussions: boolean;
-                    /** Format: uri */
-                    homepage: string | null;
-                    language: string | null;
-                    master_branch?: string;
-                    archived: boolean;
-                    disabled: boolean;
-                    /** @description The repository visibility: public, private, or internal. */
-                    visibility?: string;
-                    /** Format: uri */
-                    mirror_url: string | null;
-                    open_issues: number;
-                    open_issues_count: number;
-                    permissions?: {
-                        admin: boolean;
-                        maintain?: boolean;
-                        push: boolean;
-                        triage?: boolean;
-                        pull: boolean;
-                    };
-                    temp_clone_token?: string;
-                    allow_merge_commit?: boolean;
-                    allow_squash_merge?: boolean;
-                    allow_rebase_merge?: boolean;
-                    license: {
-                        key: string;
-                        name: string;
-                        /** Format: uri */
-                        url: string | null;
-                        spdx_id: string | null;
-                        node_id: string;
-                    } | null;
-                    /** Format: date-time */
-                    pushed_at: string;
-                    size: number;
-                    ssh_url: string;
-                    stargazers_count: number;
-                    /** Format: uri */
-                    svn_url: string;
-                    topics?: string[];
-                    watchers: number;
-                    watchers_count: number;
-                    /** Format: date-time */
-                    created_at: string;
-                    /** Format: date-time */
-                    updated_at: string;
-                    allow_forking?: boolean;
-                    is_template?: boolean;
-                    web_commit_signoff_required?: boolean;
-                } | null;
+                repo: components["schemas"]["repository"];
                 sha: string;
-                user: {
-                    /** Format: uri */
-                    avatar_url: string;
-                    events_url: string;
-                    /** Format: uri */
-                    followers_url: string;
-                    following_url: string;
-                    gists_url: string;
-                    gravatar_id: string | null;
-                    /** Format: uri */
-                    html_url: string;
-                    /** Format: int64 */
-                    id: number;
-                    node_id: string;
-                    login: string;
-                    /** Format: uri */
-                    organizations_url: string;
-                    /** Format: uri */
-                    received_events_url: string;
-                    /** Format: uri */
-                    repos_url: string;
-                    site_admin: boolean;
-                    starred_url: string;
-                    /** Format: uri */
-                    subscriptions_url: string;
-                    type: string;
-                    /** Format: uri */
-                    url: string;
-                };
+                user: components["schemas"]["simple-user"];
             };
             base: {
                 label: string;
                 ref: string;
-                repo: {
-                    archive_url: string;
-                    assignees_url: string;
-                    blobs_url: string;
-                    branches_url: string;
-                    collaborators_url: string;
-                    comments_url: string;
-                    commits_url: string;
-                    compare_url: string;
-                    contents_url: string;
-                    /** Format: uri */
-                    contributors_url: string;
-                    /** Format: uri */
-                    deployments_url: string;
-                    description: string | null;
-                    /** Format: uri */
-                    downloads_url: string;
-                    /** Format: uri */
-                    events_url: string;
-                    fork: boolean;
-                    /** Format: uri */
-                    forks_url: string;
-                    full_name: string;
-                    git_commits_url: string;
-                    git_refs_url: string;
-                    git_tags_url: string;
-                    /** Format: uri */
-                    hooks_url: string;
-                    /** Format: uri */
-                    html_url: string;
-                    id: number;
-                    is_template?: boolean;
-                    node_id: string;
-                    issue_comment_url: string;
-                    issue_events_url: string;
-                    issues_url: string;
-                    keys_url: string;
-                    labels_url: string;
-                    /** Format: uri */
-                    languages_url: string;
-                    /** Format: uri */
-                    merges_url: string;
-                    milestones_url: string;
-                    name: string;
-                    notifications_url: string;
-                    owner: {
-                        /** Format: uri */
-                        avatar_url: string;
-                        events_url: string;
-                        /** Format: uri */
-                        followers_url: string;
-                        following_url: string;
-                        gists_url: string;
-                        gravatar_id: string | null;
-                        /** Format: uri */
-                        html_url: string;
-                        id: number;
-                        node_id: string;
-                        login: string;
-                        /** Format: uri */
-                        organizations_url: string;
-                        /** Format: uri */
-                        received_events_url: string;
-                        /** Format: uri */
-                        repos_url: string;
-                        site_admin: boolean;
-                        starred_url: string;
-                        /** Format: uri */
-                        subscriptions_url: string;
-                        type: string;
-                        /** Format: uri */
-                        url: string;
-                    };
-                    private: boolean;
-                    pulls_url: string;
-                    releases_url: string;
-                    /** Format: uri */
-                    stargazers_url: string;
-                    statuses_url: string;
-                    /** Format: uri */
-                    subscribers_url: string;
-                    /** Format: uri */
-                    subscription_url: string;
-                    /** Format: uri */
-                    tags_url: string;
-                    /** Format: uri */
-                    teams_url: string;
-                    trees_url: string;
-                    /** Format: uri */
-                    url: string;
-                    clone_url: string;
-                    default_branch: string;
-                    forks: number;
-                    forks_count: number;
-                    git_url: string;
-                    has_downloads: boolean;
-                    has_issues: boolean;
-                    has_projects: boolean;
-                    has_wiki: boolean;
-                    has_pages: boolean;
-                    has_discussions: boolean;
-                    /** Format: uri */
-                    homepage: string | null;
-                    language: string | null;
-                    master_branch?: string;
-                    archived: boolean;
-                    disabled: boolean;
-                    /** @description The repository visibility: public, private, or internal. */
-                    visibility?: string;
-                    /** Format: uri */
-                    mirror_url: string | null;
-                    open_issues: number;
-                    open_issues_count: number;
-                    permissions?: {
-                        admin: boolean;
-                        maintain?: boolean;
-                        push: boolean;
-                        triage?: boolean;
-                        pull: boolean;
-                    };
-                    temp_clone_token?: string;
-                    allow_merge_commit?: boolean;
-                    allow_squash_merge?: boolean;
-                    allow_rebase_merge?: boolean;
-                    license: components["schemas"]["nullable-license-simple"];
-                    /** Format: date-time */
-                    pushed_at: string;
-                    size: number;
-                    ssh_url: string;
-                    stargazers_count: number;
-                    /** Format: uri */
-                    svn_url: string;
-                    topics?: string[];
-                    watchers: number;
-                    watchers_count: number;
-                    /** Format: date-time */
-                    created_at: string;
-                    /** Format: date-time */
-                    updated_at: string;
-                    allow_forking?: boolean;
-                    web_commit_signoff_required?: boolean;
-                };
+                repo: components["schemas"]["repository"];
                 sha: string;
-                user: {
-                    /** Format: uri */
-                    avatar_url: string;
-                    events_url: string;
-                    /** Format: uri */
-                    followers_url: string;
-                    following_url: string;
-                    gists_url: string;
-                    gravatar_id: string | null;
-                    /** Format: uri */
-                    html_url: string;
-                    /** Format: int64 */
-                    id: number;
-                    node_id: string;
-                    login: string;
-                    /** Format: uri */
-                    organizations_url: string;
-                    /** Format: uri */
-                    received_events_url: string;
-                    /** Format: uri */
-                    repos_url: string;
-                    site_admin: boolean;
-                    starred_url: string;
-                    /** Format: uri */
-                    subscriptions_url: string;
-                    type: string;
-                    /** Format: uri */
-                    url: string;
-                };
+                user: components["schemas"]["simple-user"];
             };
             _links: {
                 comments: components["schemas"]["link"];
@@ -31552,6 +32119,10 @@ export interface components {
              * @enum {string}
              */
             validity: "active" | "inactive" | "unknown";
+            /** @description Whether the detected secret was publicly leaked. */
+            publicly_leaked: boolean | null;
+            /** @description Whether the detected secret was found in multiple repositories under the same organization or enterprise. */
+            multi_repo: boolean | null;
         };
         /** @description An optional comment when closing an alert. Cannot be updated or deleted. Must be `null` when changing `state` to `open`. */
         "secret-scanning-alert-resolution-comment": string | null;
@@ -32446,6 +33017,7 @@ export interface components {
             company?: string | null;
             /** Format: date-time */
             suspended_at?: string | null;
+            user_view_type?: string;
         };
         /**
          * Private User
@@ -32459,6 +33031,11 @@ export interface components {
              * @example 1
              */
             id: number;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            user_view_type: "private";
             /** @example MDQ6VXNlcjE= */
             node_id: string;
             /**
@@ -32573,8 +33150,6 @@ export interface components {
                 space: number;
                 private_repos: number;
             };
-            /** Format: date-time */
-            suspended_at?: string | null;
             business_plus?: boolean;
             ldap_dn?: string;
         };
@@ -33614,7 +34189,7 @@ export interface components {
             allow_update_branch: boolean;
             /**
              * @deprecated
-             * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+             * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
              * @default false
              */
             use_squash_pr_title_as_default: boolean;
@@ -33674,75 +34249,6 @@ export interface components {
             starred_at?: string;
             /** @description Whether anonymous git access is enabled for this repository */
             anonymous_access_enabled?: boolean;
-        };
-        /**
-         * Simple User
-         * @description The GitHub user that triggered the event. This property is included in every webhook payload.
-         */
-        "simple-user-webhooks": {
-            name?: string | null;
-            email?: string | null;
-            /** @example octocat */
-            login: string;
-            /** @example 1 */
-            id: number;
-            /** @example MDQ6VXNlcjE= */
-            node_id: string;
-            /**
-             * Format: uri
-             * @example https://github.com/images/error/octocat_happy.gif
-             */
-            avatar_url: string;
-            /** @example 41d064eb2195891e12d0413f63227ea7 */
-            gravatar_id: string | null;
-            /**
-             * Format: uri
-             * @example https://api.github.com/users/octocat
-             */
-            url: string;
-            /**
-             * Format: uri
-             * @example https://github.com/octocat
-             */
-            html_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/users/octocat/followers
-             */
-            followers_url: string;
-            /** @example https://api.github.com/users/octocat/following{/other_user} */
-            following_url: string;
-            /** @example https://api.github.com/users/octocat/gists{/gist_id} */
-            gists_url: string;
-            /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
-            starred_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/users/octocat/subscriptions
-             */
-            subscriptions_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/users/octocat/orgs
-             */
-            organizations_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/users/octocat/repos
-             */
-            repos_url: string;
-            /** @example https://api.github.com/users/octocat/events{/privacy} */
-            events_url: string;
-            /**
-             * Format: uri
-             * @example https://api.github.com/users/octocat/received_events
-             */
-            received_events_url: string;
-            /** @example User */
-            type: string;
-            site_admin: boolean;
-            /** @example "2020-07-09T00:17:55Z" */
-            starred_at?: string;
         };
         /**
          * branch protection rule
@@ -33916,6 +34422,7 @@ export interface components {
             /** Format: uri */
             url: string;
             verified: boolean;
+            enabled?: boolean;
         };
         /** Workflow */
         webhooks_workflow: {
@@ -33954,6 +34461,7 @@ export interface components {
             subscriptions_url: string;
             type: string;
             url: string;
+            user_view_type: string;
         };
         webhooks_reviewers: {
             /** User */
@@ -34043,6 +34551,7 @@ export interface components {
             type?: "Bot" | "User" | "Organization";
             /** Format: uri */
             url?: string;
+            user_view_type?: string;
         } | null;
         webhooks_answer: {
             /**
@@ -34114,6 +34623,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         /**
@@ -34159,6 +34669,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             answer_html_url: string | null;
             /**
@@ -34258,6 +34769,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             labels?: components["schemas"]["label"][];
         };
@@ -34329,6 +34841,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         /** Label */
@@ -34458,6 +34971,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         /** @description The changes to the comment. */
@@ -34510,6 +35024,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             assignees: ({
                 /** Format: uri */
@@ -34546,6 +35061,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null)[];
             /**
              * AuthorAssociation
@@ -34633,6 +35149,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 description: string | null;
                 /** Format: date-time */
@@ -34715,6 +35232,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** @description The set of permissions for the GitHub app */
                 permissions?: {
@@ -34876,6 +35394,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         /**
@@ -34924,6 +35443,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             description: string | null;
             /** Format: date-time */
@@ -34992,6 +35512,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             assignees: ({
                 /** Format: uri */
@@ -35028,6 +35549,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null)[];
             /**
              * AuthorAssociation
@@ -35115,6 +35637,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 description: string | null;
                 /** Format: date-time */
@@ -35197,6 +35720,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** @description The set of permissions for the GitHub app */
                 permissions?: {
@@ -35358,6 +35882,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         /** User */
@@ -35396,6 +35921,7 @@ export interface components {
             type?: "Bot" | "User" | "Organization" | "Mannequin";
             /** Format: uri */
             url?: string;
+            user_view_type?: string;
         } | null;
         /** Marketplace Purchase */
         webhooks_marketplace_purchase: {
@@ -35975,7 +36501,7 @@ export interface components {
             allow_update_branch: boolean;
             /**
              * @deprecated
-             * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+             * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
              * @default false
              */
             use_squash_pr_title_as_default: boolean;
@@ -36082,6 +36608,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             description: string | null;
             /** Format: date-time */
@@ -36155,6 +36682,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         /**
@@ -36221,6 +36749,10 @@ export interface components {
             }[] | null;
             /** @description Date and time when the request for access was created. */
             created_at: string;
+            /** @description Unique identifier of the user's token. This field can also be found in audit log events and the organization's settings for their PAT grants. */
+            token_id: number;
+            /** @description The name given to the user's token. This field can also be found in an organization's settings page for Active Tokens. */
+            token_name: string;
             /** @description Whether the associated fine-grained personal access token has expired. */
             token_expired: boolean;
             /** @description Date and time when the associated fine-grained personal access token expires. */
@@ -36276,6 +36808,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             /** @description The project card's ID */
             id: number;
@@ -36332,6 +36865,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             /** Format: uri */
             html_url: string;
@@ -36551,7 +37085,7 @@ export interface components {
              */
             squash_merge_commit_title?: "PR_TITLE" | "COMMIT_OR_PR_TITLE";
             /**
-             * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.**
+             * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.**
              * @default false
              */
             use_squash_pr_title_as_default: boolean;
@@ -36639,6 +37173,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             assignees: ({
                 /** Format: uri */
@@ -36727,6 +37262,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * @description The merge method to use.
@@ -36950,6 +37486,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     permissions?: {
                         admin: boolean;
@@ -37059,6 +37596,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             body: string | null;
@@ -37294,6 +37832,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     permissions?: {
                         admin: boolean;
@@ -37403,6 +37942,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             /** Format: uri */
@@ -37470,6 +38010,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             /**
              * Milestone
@@ -37517,6 +38058,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 description: string | null;
                 /** Format: date-time */
@@ -37740,6 +38282,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         /**
@@ -37886,6 +38429,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         /** @description The review that was affected. */
@@ -37959,6 +38503,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
         };
         webhooks_nullable_string: string | null;
@@ -38065,6 +38610,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             body: string | null;
             /** Format: date-time */
@@ -38212,6 +38758,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             body: string | null;
             /** Format: date-time */
@@ -38361,6 +38908,10 @@ export interface components {
              * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
              */
             push_protection_bypassed_at: string | null;
+            /** @description Whether the detected secret was publicly leaked. */
+            publicly_leaked: boolean | null;
+            /** @description Whether the detected secret was found in multiple repositories in the same organization or business. */
+            multi_repo: boolean | null;
         };
         /** @description The details of the security advisory, including summary, description, and severity. */
         webhooks_security_advisory: {
@@ -38421,6 +38972,7 @@ export interface components {
                 subscriptions_url: string;
                 type: string;
                 url: string;
+                user_view_type: string;
             };
             node_id: string;
             privacy_level: string;
@@ -38460,6 +39012,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             /** User */
             sponsorable: {
@@ -38497,6 +39050,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             /**
              * Sponsorship Tier
@@ -38608,7 +39162,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** branch protection configuration enabled event */
         "webhook-branch-protection-configuration-enabled": {
@@ -38618,7 +39172,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** branch protection rule created event */
         "webhook-branch-protection-rule-created": {
@@ -38629,7 +39183,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
             rule: components["schemas"]["webhooks_rule"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** branch protection rule deleted event */
         "webhook-branch-protection-rule-deleted": {
@@ -38640,7 +39194,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
             rule: components["schemas"]["webhooks_rule"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** branch protection rule edited event */
         "webhook-branch-protection-rule-edited": {
@@ -38691,7 +39245,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
             rule: components["schemas"]["webhooks_rule"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Check Run Completed Event */
         "webhook-check-run-completed": {
@@ -38701,7 +39255,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /**
          * Check Run Completed Event
@@ -38719,7 +39273,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /**
          * Check Run Created Event
@@ -38742,7 +39296,7 @@ export interface components {
                 /** @description The integrator reference of the action requested by the user. */
                 identifier: string;
             };
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /**
          * Check Run Requested Action Event
@@ -38760,7 +39314,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /**
          * Check Run Re-Requested Event
@@ -38834,6 +39388,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -39011,7 +39566,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** check_suite requested event */
         "webhook-check-suite-requested": {
@@ -39077,6 +39632,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -39254,7 +39810,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** check_suite rerequested event */
         "webhook-check-suite-rerequested": {
@@ -39320,6 +39876,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -39497,7 +40054,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** code_scanning_alert appeared_in_branch event */
         "webhook-code-scanning-alert-appeared-in-branch": {
@@ -39551,6 +40108,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * @description The reason for dismissing or closing the alert.
@@ -39623,7 +40181,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             ref: components["schemas"]["webhooks_code_scanning_ref"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** code_scanning_alert closed_by_user event */
         "webhook-code-scanning-alert-closed-by-user": {
@@ -39677,6 +40235,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * @description The reason for dismissing or closing the alert.
@@ -39756,7 +40315,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             ref: components["schemas"]["webhooks_code_scanning_ref"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** code_scanning_alert created event */
         "webhook-code-scanning-alert-created": {
@@ -39831,9 +40390,9 @@ export interface components {
                 };
                 /**
                  * @description State of a code scanning alert.
-                 * @enum {string}
+                 * @enum {string|null}
                  */
-                state: "open" | "dismissed";
+                state: "open" | "dismissed" | null;
                 tool: {
                     guid?: string | null;
                     /** @description The name of the tool used to generate the code scanning analysis alert. */
@@ -39851,7 +40410,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             ref: components["schemas"]["webhooks_code_scanning_ref"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** code_scanning_alert fixed event */
         "webhook-code-scanning-alert-fixed": {
@@ -39905,6 +40464,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * @description The reason for dismissing or closing the alert.
@@ -39986,7 +40546,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             ref: components["schemas"]["webhooks_code_scanning_ref"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** code_scanning_alert reopened event */
         "webhook-code-scanning-alert-reopened": {
@@ -40079,7 +40639,7 @@ export interface components {
             /** @description The Git reference of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
             ref: string | null;
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** code_scanning_alert reopened_by_user event */
         "webhook-code-scanning-alert-reopened-by-user": {
@@ -40163,7 +40723,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             ref: components["schemas"]["webhooks_code_scanning_ref"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** commit_comment created event */
         "webhook-commit-comment-created": {
@@ -40172,7 +40732,7 @@ export interface components {
              * @enum {string}
              */
             action: "created";
-            /** @description The [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment) resource. */
+            /** @description The [commit comment](${externalDocsUpapp/api/description/components/schemas/webhooks/issue-comment-created.yamlrl}/rest/commits/comments#get-a-commit-comment) resource. */
             comment: {
                 /**
                  * AuthorAssociation
@@ -40251,13 +40811,14 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             enterprise?: components["schemas"]["enterprise-webhooks"];
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** create event */
         "webhook-create": {
@@ -40276,7 +40837,7 @@ export interface components {
              */
             ref_type: "tag" | "branch";
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** custom property created event */
         "webhook-custom-property-created": {
@@ -40286,7 +40847,7 @@ export interface components {
             enterprise?: components["schemas"]["enterprise-webhooks"];
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** custom property deleted event */
         "webhook-custom-property-deleted": {
@@ -40299,7 +40860,7 @@ export interface components {
             enterprise?: components["schemas"]["enterprise-webhooks"];
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** custom property updated event */
         "webhook-custom-property-updated": {
@@ -40309,7 +40870,7 @@ export interface components {
             enterprise?: components["schemas"]["enterprise-webhooks"];
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** Custom property values updated event */
         "webhook-custom-property-values-updated": {
@@ -40319,7 +40880,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             repository: components["schemas"]["repository-webhooks"];
             organization: components["schemas"]["organization-simple-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
             /** @description The new custom property values for the repository. */
             new_property_values: components["schemas"]["custom-property-value"][];
             /** @description The old custom property values for the repository. */
@@ -40338,7 +40899,7 @@ export interface components {
              */
             ref_type: "tag" | "branch";
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Dependabot alert auto-dismissed event */
         "webhook-dependabot-alert-auto-dismissed": {
@@ -40349,7 +40910,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Dependabot alert auto-reopened event */
         "webhook-dependabot-alert-auto-reopened": {
@@ -40360,7 +40921,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Dependabot alert created event */
         "webhook-dependabot-alert-created": {
@@ -40371,7 +40932,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Dependabot alert dismissed event */
         "webhook-dependabot-alert-dismissed": {
@@ -40382,7 +40943,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Dependabot alert fixed event */
         "webhook-dependabot-alert-fixed": {
@@ -40393,7 +40954,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Dependabot alert reintroduced event */
         "webhook-dependabot-alert-reintroduced": {
@@ -40404,7 +40965,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Dependabot alert reopened event */
         "webhook-dependabot-alert-reopened": {
@@ -40415,7 +40976,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** deploy_key created event */
         "webhook-deploy-key-created": {
@@ -40426,7 +40987,7 @@ export interface components {
             key: components["schemas"]["webhooks_deploy_key"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** deploy_key deleted event */
         "webhook-deploy-key-deleted": {
@@ -40437,7 +40998,7 @@ export interface components {
             key: components["schemas"]["webhooks_deploy_key"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** deployment created event */
         "webhook-deployment-created": {
@@ -40485,6 +41046,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 description: string | null;
                 environment: string;
@@ -40547,6 +41109,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -40643,7 +41206,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow: components["schemas"]["webhooks_workflow"];
             /** Deployment Workflow Run */
             workflow_run: {
@@ -40683,6 +41246,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 artifacts_url?: string;
                 cancel_url?: string;
@@ -40917,6 +41481,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: date-time */
                 updated_at: string;
@@ -40944,7 +41509,7 @@ export interface components {
             repository: components["schemas"]["repository-webhooks"];
             organization: components["schemas"]["organization-simple-webhooks"];
             installation: components["schemas"]["simple-installation"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         "webhook-deployment-review-approved": {
             /** @enum {string} */
@@ -40956,7 +41521,7 @@ export interface components {
             organization: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
             reviewers?: components["schemas"]["webhooks_reviewers"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             since: string;
             workflow_job_run?: components["schemas"]["webhooks_workflow_job_run"];
             workflow_job_runs?: {
@@ -41007,6 +41572,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 artifacts_url?: string;
                 cancel_url?: string;
@@ -41075,6 +41641,7 @@ export interface components {
                         subscriptions_url: string;
                         type: string;
                         url: string;
+                        user_view_type: string;
                     };
                     private: boolean;
                     pulls_url: string;
@@ -41185,6 +41752,7 @@ export interface components {
                         subscriptions_url: string;
                         type: string;
                         url: string;
+                        user_view_type: string;
                     };
                     private: boolean;
                     pulls_url: string;
@@ -41241,6 +41809,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: date-time */
                 updated_at: string;
@@ -41260,7 +41829,7 @@ export interface components {
             organization: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
             reviewers?: components["schemas"]["webhooks_reviewers"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             since: string;
             workflow_job_run?: components["schemas"]["webhooks_workflow_job_run"];
             workflow_job_runs?: {
@@ -41311,6 +41880,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 artifacts_url?: string;
                 cancel_url?: string;
@@ -41378,6 +41948,7 @@ export interface components {
                         subscriptions_url: string;
                         type: string;
                         url: string;
+                        user_view_type: string;
                     };
                     private: boolean;
                     pulls_url: string;
@@ -41488,6 +42059,7 @@ export interface components {
                         subscriptions_url: string;
                         type: string;
                         url: string;
+                        user_view_type: string;
                     };
                     private: boolean;
                     pulls_url: string;
@@ -41544,6 +42116,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: date-time */
                 updated_at: string;
@@ -41600,11 +42173,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** @enum {string} */
                 type: "User" | "Team";
             }[];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             since: string;
             workflow_job_run: {
                 conclusion: unknown;
@@ -41654,6 +42228,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 artifacts_url?: string;
                 cancel_url?: string;
@@ -41721,6 +42296,7 @@ export interface components {
                         subscriptions_url: string;
                         type: string;
                         url: string;
+                        user_view_type: string;
                     };
                     private: boolean;
                     pulls_url: string;
@@ -41831,6 +42407,7 @@ export interface components {
                         subscriptions_url: string;
                         type: string;
                         url: string;
+                        user_view_type: string;
                     };
                     private: boolean;
                     pulls_url: string;
@@ -41887,6 +42464,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: date-time */
                 updated_at: string;
@@ -41973,6 +42551,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 description: string | null;
                 environment: string;
@@ -42035,6 +42614,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -42166,6 +42746,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: uri */
                 deployment_url: string;
@@ -42233,6 +42814,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -42326,7 +42908,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow?: components["schemas"]["webhooks_workflow"];
             /** Deployment Workflow Run */
             workflow_run?: {
@@ -42366,6 +42948,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 artifacts_url?: string;
                 cancel_url?: string;
@@ -42600,6 +43183,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: date-time */
                 updated_at: string;
@@ -42619,7 +43203,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion category changed event */
         "webhook-discussion-category-changed": {
@@ -42647,7 +43231,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion closed event */
         "webhook-discussion-closed": {
@@ -42658,7 +43242,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion_comment created event */
         "webhook-discussion-comment-created": {
@@ -42670,7 +43254,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion_comment deleted event */
         "webhook-discussion-comment-deleted": {
@@ -42682,7 +43266,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion_comment edited event */
         "webhook-discussion-comment-edited": {
@@ -42699,7 +43283,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion created event */
         "webhook-discussion-created": {
@@ -42710,7 +43294,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion deleted event */
         "webhook-discussion-deleted": {
@@ -42721,7 +43305,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion edited event */
         "webhook-discussion-edited": {
@@ -42740,7 +43324,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion labeled event */
         "webhook-discussion-labeled": {
@@ -42752,7 +43336,7 @@ export interface components {
             label: components["schemas"]["webhooks_label"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion locked event */
         "webhook-discussion-locked": {
@@ -42763,7 +43347,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion pinned event */
         "webhook-discussion-pinned": {
@@ -42774,7 +43358,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion reopened event */
         "webhook-discussion-reopened": {
@@ -42785,7 +43369,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion transferred event */
         "webhook-discussion-transferred": {
@@ -42800,7 +43384,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion unanswered event */
         "webhook-discussion-unanswered": {
@@ -42810,7 +43394,7 @@ export interface components {
             old_answer: components["schemas"]["webhooks_answer"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** discussion unlabeled event */
         "webhook-discussion-unlabeled": {
@@ -42822,7 +43406,7 @@ export interface components {
             label: components["schemas"]["webhooks_label"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion unlocked event */
         "webhook-discussion-unlocked": {
@@ -42833,7 +43417,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** discussion unpinned event */
         "webhook-discussion-unpinned": {
@@ -42844,7 +43428,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /**
          * fork event
@@ -43040,6 +43624,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 permissions?: {
                     admin: boolean;
@@ -43191,13 +43776,13 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** github_app_authorization revoked event */
         "webhook-github-app-authorization-revoked": {
             /** @enum {string} */
             action: "revoked";
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** gollum event */
         "webhook-gollum": {
@@ -43225,7 +43810,7 @@ export interface components {
                 title: string;
             }[];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** installation created event */
         "webhook-installation-created": {
@@ -43237,7 +43822,7 @@ export interface components {
             repositories?: components["schemas"]["webhooks_repositories"];
             repository?: components["schemas"]["repository-webhooks"];
             requester?: components["schemas"]["webhooks_user"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** installation deleted event */
         "webhook-installation-deleted": {
@@ -43249,7 +43834,7 @@ export interface components {
             repositories?: components["schemas"]["webhooks_repositories"];
             repository?: components["schemas"]["repository-webhooks"];
             requester?: unknown;
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** installation new_permissions_accepted event */
         "webhook-installation-new-permissions-accepted": {
@@ -43261,7 +43846,7 @@ export interface components {
             repositories?: components["schemas"]["webhooks_repositories"];
             repository?: components["schemas"]["repository-webhooks"];
             requester?: unknown;
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** installation_repositories added event */
         "webhook-installation-repositories-added": {
@@ -43285,7 +43870,7 @@ export interface components {
             repository?: components["schemas"]["repository-webhooks"];
             repository_selection: components["schemas"]["webhooks_repository_selection"];
             requester: components["schemas"]["webhooks_user"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** installation_repositories removed event */
         "webhook-installation-repositories-removed": {
@@ -43309,7 +43894,7 @@ export interface components {
             repository?: components["schemas"]["repository-webhooks"];
             repository_selection: components["schemas"]["webhooks_repository_selection"];
             requester: components["schemas"]["webhooks_user"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** installation suspend event */
         "webhook-installation-suspend": {
@@ -43321,7 +43906,7 @@ export interface components {
             repositories?: components["schemas"]["webhooks_repositories"];
             repository?: components["schemas"]["repository-webhooks"];
             requester?: unknown;
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         "webhook-installation-target-renamed": {
             account: {
@@ -43361,6 +43946,7 @@ export interface components {
                 updated_at?: string;
                 url?: string;
                 website_url?: unknown;
+                user_view_type?: string;
             };
             /** @enum {string} */
             action: "renamed";
@@ -43376,7 +43962,7 @@ export interface components {
             installation: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
             target_type: string;
         };
         /** installation unsuspend event */
@@ -43389,7 +43975,7 @@ export interface components {
             repositories?: components["schemas"]["webhooks_repositories"];
             repository?: components["schemas"]["repository-webhooks"];
             requester?: unknown;
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issue_comment created event */
         "webhook-issue-comment-created": {
@@ -43479,6 +44065,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             enterprise?: components["schemas"]["enterprise-webhooks"];
@@ -43523,6 +44110,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -43559,6 +44147,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -43646,6 +44235,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -43728,6 +44318,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -43889,6 +44480,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             } & {
                 active_lock_reason?: string | null;
@@ -43928,6 +44520,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees?: Record<string, never>[];
                 author_association?: string;
@@ -44006,7 +44599,7 @@ export interface components {
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issue_comment deleted event */
         "webhook-issue-comment-deleted": {
@@ -44055,6 +44648,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -44091,6 +44685,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -44178,6 +44773,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -44260,6 +44856,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -44421,6 +45018,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             } & {
                 active_lock_reason?: string | null;
@@ -44460,6 +45058,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees?: Record<string, never>[];
                 author_association?: string;
@@ -44534,11 +45133,12 @@ export interface components {
                     subscriptions_url: string;
                     type: string;
                     url: string;
+                    user_view_type: string;
                 };
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issue_comment edited event */
         "webhook-issue-comment-edited": {
@@ -44588,6 +45188,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -44624,6 +45225,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -44711,6 +45313,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -44793,6 +45396,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -44954,6 +45558,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             } & {
                 active_lock_reason?: string | null;
@@ -44993,6 +45598,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees?: Record<string, never>[];
                 author_association?: string;
@@ -45071,7 +45677,7 @@ export interface components {
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues assigned event */
         "webhook-issues-assigned": {
@@ -45086,7 +45692,7 @@ export interface components {
             issue: components["schemas"]["webhooks_issue"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues closed event */
         "webhook-issues-closed": {
@@ -45137,6 +45743,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -45173,6 +45780,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -45260,6 +45868,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -45342,6 +45951,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -45503,6 +46113,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             } & {
                 active_lock_reason?: string | null;
@@ -45563,11 +46174,12 @@ export interface components {
                     subscriptions_url: string;
                     type: string;
                     url: string;
+                    user_view_type: string;
                 };
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues deleted event */
         "webhook-issues-deleted": {
@@ -45618,6 +46230,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -45741,6 +46354,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -45823,6 +46437,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -45984,11 +46599,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues demilestoned event */
         "webhook-issues-demilestoned": {
@@ -46162,6 +46778,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -46244,6 +46861,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -46405,12 +47023,13 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             milestone?: components["schemas"]["webhooks_milestone"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues edited event */
         "webhook-issues-edited": {
@@ -46472,6 +47091,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -46595,6 +47215,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -46677,6 +47298,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -46838,12 +47460,13 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             label?: components["schemas"]["webhooks_label"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues labeled event */
         "webhook-issues-labeled": {
@@ -46894,6 +47517,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -47017,6 +47641,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -47099,6 +47724,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -47260,12 +47886,13 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             label?: components["schemas"]["webhooks_label"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues locked event */
         "webhook-issues-locked": {
@@ -47316,6 +47943,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -47352,6 +47980,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -47440,6 +48069,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -47522,6 +48152,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -47683,11 +48314,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues milestoned event */
         "webhook-issues-milestoned": {
@@ -47861,6 +48493,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -47943,6 +48576,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -48104,12 +48738,13 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             milestone: components["schemas"]["webhooks_milestone"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues opened event */
         "webhook-issues-opened": {
@@ -48159,6 +48794,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     assignees: ({
                         /** Format: uri */
@@ -48195,6 +48831,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null)[];
                     /**
                      * AuthorAssociation
@@ -48282,6 +48919,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         description: string | null;
                         /** Format: date-time */
@@ -48364,6 +49002,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         /** @description The set of permissions for the GitHub app */
                         permissions?: {
@@ -48525,6 +49164,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 } | null;
                 /**
@@ -48724,6 +49364,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     permissions?: {
                         admin: boolean;
@@ -48819,6 +49460,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -48855,6 +49497,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -48942,6 +49585,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -49024,6 +49668,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -49185,11 +49830,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues pinned event */
         "webhook-issues-pinned": {
@@ -49200,7 +49846,7 @@ export interface components {
             issue: components["schemas"]["webhooks_issue_2"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues reopened event */
         "webhook-issues-reopened": {
@@ -49374,6 +50020,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -49456,6 +50103,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -49617,11 +50265,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues transferred event */
         "webhook-issues-transferred": {
@@ -49671,6 +50320,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     assignees: ({
                         /** Format: uri */
@@ -49707,6 +50357,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null)[];
                     /**
                      * AuthorAssociation
@@ -49794,6 +50445,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         description: string | null;
                         /** Format: date-time */
@@ -49876,6 +50528,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         /** @description The set of permissions for the GitHub app */
                         permissions?: {
@@ -50037,6 +50690,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /**
@@ -50239,6 +50893,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     permissions?: {
                         admin: boolean;
@@ -50294,7 +50949,7 @@ export interface components {
             issue: components["schemas"]["webhooks_issue_2"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues unassigned event */
         "webhook-issues-unassigned": {
@@ -50309,7 +50964,7 @@ export interface components {
             issue: components["schemas"]["webhooks_issue"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues unlabeled event */
         "webhook-issues-unlabeled": {
@@ -50321,7 +50976,7 @@ export interface components {
             label?: components["schemas"]["webhooks_label"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues unlocked event */
         "webhook-issues-unlocked": {
@@ -50372,6 +51027,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -50408,6 +51064,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -50496,6 +51153,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -50578,6 +51236,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description The set of permissions for the GitHub app */
                     permissions?: {
@@ -50739,11 +51398,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** issues unpinned event */
         "webhook-issues-unpinned": {
@@ -50754,7 +51414,7 @@ export interface components {
             issue: components["schemas"]["webhooks_issue_2"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** label created event */
         "webhook-label-created": {
@@ -50765,7 +51425,7 @@ export interface components {
             label: components["schemas"]["webhooks_label"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** label deleted event */
         "webhook-label-deleted": {
@@ -50776,7 +51436,7 @@ export interface components {
             label: components["schemas"]["webhooks_label"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** label edited event */
         "webhook-label-edited": {
@@ -50802,7 +51462,7 @@ export interface components {
             label: components["schemas"]["webhooks_label"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** marketplace_purchase cancelled event */
         "webhook-marketplace-purchase-cancelled": {
@@ -50815,7 +51475,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             previous_marketplace_purchase?: components["schemas"]["webhooks_previous_marketplace_purchase"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** marketplace_purchase changed event */
         "webhook-marketplace-purchase-changed": {
@@ -50854,7 +51514,7 @@ export interface components {
                 unit_count: number;
             };
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** marketplace_purchase pending_change event */
         "webhook-marketplace-purchase-pending-change": {
@@ -50893,7 +51553,7 @@ export interface components {
                 unit_count: number;
             };
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** marketplace_purchase pending_change_cancelled event */
         "webhook-marketplace-purchase-pending-change-cancelled": {
@@ -50932,7 +51592,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             previous_marketplace_purchase?: components["schemas"]["webhooks_previous_marketplace_purchase"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** marketplace_purchase purchased event */
         "webhook-marketplace-purchase-purchased": {
@@ -50945,7 +51605,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             previous_marketplace_purchase?: components["schemas"]["webhooks_previous_marketplace_purchase"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** member added event */
         "webhook-member-added": {
@@ -50970,7 +51630,7 @@ export interface components {
             member: components["schemas"]["webhooks_user"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** member edited event */
         "webhook-member-edited": {
@@ -50992,7 +51652,7 @@ export interface components {
             member: components["schemas"]["webhooks_user"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** member removed event */
         "webhook-member-removed": {
@@ -51003,7 +51663,7 @@ export interface components {
             member: components["schemas"]["webhooks_user"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** membership added event */
         "webhook-membership-added": {
@@ -51055,6 +51715,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             team: components["schemas"]["webhooks_team"];
         };
@@ -51108,6 +51769,7 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
             team: components["schemas"]["webhooks_team"];
         };
@@ -51118,7 +51780,7 @@ export interface components {
             merge_group: components["schemas"]["merge-group"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         "webhook-merge-group-destroyed": {
             /** @enum {string} */
@@ -51132,7 +51794,7 @@ export interface components {
             merge_group: components["schemas"]["merge-group"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** meta deleted event */
         "webhook-meta-deleted": {
@@ -51162,7 +51824,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["nullable-repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** milestone closed event */
         "webhook-milestone-closed": {
@@ -51173,7 +51835,7 @@ export interface components {
             milestone: components["schemas"]["webhooks_milestone"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** milestone created event */
         "webhook-milestone-created": {
@@ -51184,7 +51846,7 @@ export interface components {
             milestone: components["schemas"]["webhooks_milestone_3"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** milestone deleted event */
         "webhook-milestone-deleted": {
@@ -51195,7 +51857,7 @@ export interface components {
             milestone: components["schemas"]["webhooks_milestone"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** milestone edited event */
         "webhook-milestone-edited": {
@@ -51221,7 +51883,7 @@ export interface components {
             milestone: components["schemas"]["webhooks_milestone"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** milestone opened event */
         "webhook-milestone-opened": {
@@ -51232,7 +51894,7 @@ export interface components {
             milestone: components["schemas"]["webhooks_milestone_3"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** org_block blocked event */
         "webhook-org-block-blocked": {
@@ -51243,7 +51905,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** org_block unblocked event */
         "webhook-org-block-unblocked": {
@@ -51254,7 +51916,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** organization deleted event */
         "webhook-organization-deleted": {
@@ -51265,7 +51927,7 @@ export interface components {
             membership?: components["schemas"]["webhooks_membership"];
             organization: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** organization member_added event */
         "webhook-organization-member-added": {
@@ -51276,7 +51938,7 @@ export interface components {
             membership: components["schemas"]["webhooks_membership"];
             organization: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** organization member_invited event */
         "webhook-organization-member-invited": {
@@ -51331,6 +51993,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 login: string | null;
                 node_id: string;
@@ -51340,7 +52003,7 @@ export interface components {
             };
             organization: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             user?: components["schemas"]["webhooks_user"];
         };
         /** organization member_removed event */
@@ -51352,7 +52015,7 @@ export interface components {
             membership: components["schemas"]["webhooks_membership"];
             organization: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** organization renamed event */
         "webhook-organization-renamed": {
@@ -51368,7 +52031,7 @@ export interface components {
             membership?: components["schemas"]["webhooks_membership"];
             organization: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Ruby Gems metadata */
         "webhook-rubygems-metadata": {
@@ -51442,6 +52105,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 package_type: string;
                 package_version: {
@@ -51481,6 +52145,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     body?: string | Record<string, never>;
                     body_html?: string;
@@ -51609,6 +52274,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         created_at: string;
                         draft: boolean;
@@ -51644,7 +52310,7 @@ export interface components {
                 updated_at: string | null;
             };
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** package updated event */
         "webhook-package-updated": {
@@ -51699,6 +52365,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 package_type: string;
                 package_version: {
@@ -51738,6 +52405,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     body: string;
                     body_html: string;
@@ -51809,6 +52477,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         created_at: string;
                         draft: boolean;
@@ -51845,7 +52514,7 @@ export interface components {
                 updated_at: string;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** page_build event */
         "webhook-page-build": {
@@ -51893,6 +52562,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 status: string;
                 updated_at: string;
@@ -51904,7 +52574,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** personal_access_token_request approved event */
         "webhook-personal-access-token-request-approved": {
@@ -51913,7 +52583,7 @@ export interface components {
             personal_access_token_request: components["schemas"]["personal-access-token-request"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             organization: components["schemas"]["organization-simple-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             installation: components["schemas"]["simple-installation"];
         };
         /** personal_access_token_request cancelled event */
@@ -51923,7 +52593,7 @@ export interface components {
             personal_access_token_request: components["schemas"]["personal-access-token-request"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             organization: components["schemas"]["organization-simple-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             installation: components["schemas"]["simple-installation"];
         };
         /** personal_access_token_request created event */
@@ -51933,7 +52603,7 @@ export interface components {
             personal_access_token_request: components["schemas"]["personal-access-token-request"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
             organization: components["schemas"]["organization-simple-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             installation?: components["schemas"]["simple-installation"];
         };
         /** personal_access_token_request denied event */
@@ -51943,7 +52613,7 @@ export interface components {
             personal_access_token_request: components["schemas"]["personal-access-token-request"];
             organization: components["schemas"]["organization-simple-webhooks"];
             enterprise?: components["schemas"]["enterprise-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             installation: components["schemas"]["simple-installation"];
         };
         "webhook-ping": {
@@ -51990,7 +52660,7 @@ export interface components {
             hook_id: number;
             organization: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             /** @description Random string of GitHub zen. */
             zen: string;
         };
@@ -52013,7 +52683,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project_card: components["schemas"]["webhooks_project_card"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** project_card created event */
         "webhook-project-card-created": {
@@ -52024,7 +52694,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project_card: components["schemas"]["webhooks_project_card"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** project_card deleted event */
         "webhook-project-card-deleted": {
@@ -52081,6 +52751,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** @description The project card's ID */
                 id: number;
@@ -52094,7 +52765,7 @@ export interface components {
                 url: string;
             };
             repository?: components["schemas"]["nullable-repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** project_card edited event */
         "webhook-project-card-edited": {
@@ -52110,7 +52781,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project_card: components["schemas"]["webhooks_project_card"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** project_card moved event */
         "webhook-project-card-moved": {
@@ -52171,6 +52842,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** @description The project card's ID */
                 id: number;
@@ -52216,7 +52888,7 @@ export interface components {
                 url?: string;
             };
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** project closed event */
         "webhook-project-closed": {
@@ -52227,7 +52899,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project: components["schemas"]["webhooks_project"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** project_column created event */
         "webhook-project-column-created": {
@@ -52238,7 +52910,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project_column: components["schemas"]["webhooks_project_column"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** project_column deleted event */
         "webhook-project-column-deleted": {
@@ -52249,7 +52921,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project_column: components["schemas"]["webhooks_project_column"];
             repository?: components["schemas"]["nullable-repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** project_column edited event */
         "webhook-project-column-edited": {
@@ -52265,7 +52937,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project_column: components["schemas"]["webhooks_project_column"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** project_column moved event */
         "webhook-project-column-moved": {
@@ -52276,7 +52948,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project_column: components["schemas"]["webhooks_project_column"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** project created event */
         "webhook-project-created": {
@@ -52287,7 +52959,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project: components["schemas"]["webhooks_project"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** project deleted event */
         "webhook-project-deleted": {
@@ -52298,7 +52970,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project: components["schemas"]["webhooks_project"];
             repository?: components["schemas"]["nullable-repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** project edited event */
         "webhook-project-edited": {
@@ -52320,7 +52992,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project: components["schemas"]["webhooks_project"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** project reopened event */
         "webhook-project-reopened": {
@@ -52331,7 +53003,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             project: components["schemas"]["webhooks_project"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Project Closed Event */
         "webhook-projects-v2-project-closed": {
@@ -52340,7 +53012,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2: components["schemas"]["projects-v2"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** @description A project was created */
         "webhook-projects-v2-project-created": {
@@ -52349,7 +53021,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2: components["schemas"]["projects-v2"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Project Deleted Event */
         "webhook-projects-v2-project-deleted": {
@@ -52358,7 +53030,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2: components["schemas"]["projects-v2"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Project Edited Event */
         "webhook-projects-v2-project-edited": {
@@ -52385,7 +53057,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2: components["schemas"]["projects-v2"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Item Archived Event */
         "webhook-projects-v2-item-archived": {
@@ -52395,7 +53067,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_item: components["schemas"]["projects-v2-item"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Item Converted Event */
         "webhook-projects-v2-item-converted": {
@@ -52410,7 +53082,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_item: components["schemas"]["projects-v2-item"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Item Created Event */
         "webhook-projects-v2-item-created": {
@@ -52419,7 +53091,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_item: components["schemas"]["projects-v2-item"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Item Deleted Event */
         "webhook-projects-v2-item-deleted": {
@@ -52428,7 +53100,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_item: components["schemas"]["projects-v2-item"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Item Edited Event */
         "webhook-projects-v2-item-edited": {
@@ -52454,7 +53126,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_item: components["schemas"]["projects-v2-item"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Item Reordered Event */
         "webhook-projects-v2-item-reordered": {
@@ -52469,7 +53141,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_item: components["schemas"]["projects-v2-item"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Item Restored Event */
         "webhook-projects-v2-item-restored": {
@@ -52479,7 +53151,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_item: components["schemas"]["projects-v2-item"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Project Reopened Event */
         "webhook-projects-v2-project-reopened": {
@@ -52488,7 +53160,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2: components["schemas"]["projects-v2"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Status Update Created Event */
         "webhook-projects-v2-status-update-created": {
@@ -52497,7 +53169,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_status_update: components["schemas"]["projects-v2-status-update"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Status Update Deleted Event */
         "webhook-projects-v2-status-update-deleted": {
@@ -52506,7 +53178,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_status_update: components["schemas"]["projects-v2-status-update"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Projects v2 Status Update Edited Event */
         "webhook-projects-v2-status-update-edited": {
@@ -52539,7 +53211,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization: components["schemas"]["organization-simple-webhooks"];
             projects_v2_status_update: components["schemas"]["projects-v2-status-update"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** public event */
         "webhook-public": {
@@ -52547,7 +53219,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request assigned event */
         "webhook-pull-request-assigned": {
@@ -52641,6 +53313,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -52677,6 +53350,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -52729,6 +53403,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -52952,6 +53627,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -53012,7 +53688,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -53061,6 +53737,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -53296,6 +53973,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -53356,7 +54034,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -53405,6 +54083,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -53472,6 +54151,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -53519,6 +54199,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -53585,6 +54266,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -53742,10 +54424,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request auto_merge_disabled event */
         "webhook-pull-request-auto-merge-disabled": {
@@ -53838,6 +54521,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -53926,6 +54610,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -54149,6 +54834,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -54209,7 +54895,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -54258,6 +54944,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -54493,6 +55180,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -54553,7 +55241,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -54602,6 +55290,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -54669,6 +55358,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -54716,6 +55406,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -54782,6 +55473,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -54939,11 +55631,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             reason: string;
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request auto_merge_enabled event */
         "webhook-pull-request-auto-merge-enabled": {
@@ -55036,6 +55729,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -55124,6 +55818,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -55347,6 +56042,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -55407,7 +56103,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -55456,6 +56152,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -55688,6 +56385,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -55748,7 +56446,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -55797,6 +56495,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -55864,6 +56563,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -55911,6 +56611,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -55977,6 +56678,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -56134,11 +56836,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             reason?: string;
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request closed event */
         "webhook-pull-request-closed": {
@@ -56150,7 +56853,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             pull_request: components["schemas"]["pull-request-webhook"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request converted_to_draft event */
         "webhook-pull-request-converted-to-draft": {
@@ -56162,7 +56865,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             pull_request: components["schemas"]["pull-request-webhook"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request demilestoned event */
         "webhook-pull-request-demilestoned": {
@@ -56174,7 +56877,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             pull_request: components["schemas"]["webhooks_pull_request_5"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** pull_request dequeued event */
         "webhook-pull-request-dequeued": {
@@ -56267,6 +56970,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -56355,6 +57059,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -56578,6 +57283,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -56638,7 +57344,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -56687,6 +57393,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -56922,6 +57629,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -56982,7 +57690,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -57031,6 +57739,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -57098,6 +57807,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -57145,6 +57855,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -57211,6 +57922,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -57368,11 +58080,13 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
-            reason: string;
+            /** @enum {string} */
+            reason: "UNKNOWN_REMOVAL_REASON" | "MANUAL" | "MERGE" | "MERGE_CONFLICT" | "CI_FAILURE" | "CI_TIMEOUT" | "ALREADY_MERGED" | "QUEUE_CLEARED" | "ROLL_BACK" | "BRANCH_PROTECTIONS" | "GIT_TREE_INVALID" | "INVALID_MERGE_COMMIT";
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request edited event */
         "webhook-pull-request-edited": {
@@ -57403,7 +58117,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             pull_request: components["schemas"]["pull-request-webhook"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** pull_request enqueued event */
         "webhook-pull-request-enqueued": {
@@ -57496,6 +58210,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -57584,6 +58299,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -57807,6 +58523,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -57867,7 +58584,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -57916,6 +58633,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -58151,6 +58869,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -58211,7 +58930,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -58260,6 +58979,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -58327,6 +59047,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -58374,6 +59095,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -58440,6 +59162,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -58597,10 +59320,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request labeled event */
         "webhook-pull-request-labeled": {
@@ -58694,6 +59418,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -58782,6 +59507,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -59005,6 +59731,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -59065,7 +59792,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -59114,6 +59841,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -59349,6 +60077,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -59409,7 +60138,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -59458,6 +60187,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -59525,6 +60255,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -59572,6 +60303,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -59638,6 +60370,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -59795,10 +60528,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request locked event */
         "webhook-pull-request-locked": {
@@ -59891,6 +60625,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -59979,6 +60714,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -60202,6 +60938,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -60262,7 +60999,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -60311,6 +61048,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -60546,6 +61284,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -60606,7 +61345,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -60655,6 +61394,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -60722,6 +61462,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -60769,6 +61510,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -60835,6 +61577,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -60992,10 +61735,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request milestoned event */
         "webhook-pull-request-milestoned": {
@@ -61007,7 +61751,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             pull_request: components["schemas"]["webhooks_pull_request_5"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** pull_request opened event */
         "webhook-pull-request-opened": {
@@ -61019,7 +61763,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             pull_request: components["schemas"]["pull-request-webhook"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request ready_for_review event */
         "webhook-pull-request-ready-for-review": {
@@ -61031,7 +61775,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             pull_request: components["schemas"]["pull-request-webhook"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request reopened event */
         "webhook-pull-request-reopened": {
@@ -61043,7 +61787,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             pull_request: components["schemas"]["pull-request-webhook"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request_review_comment created event */
         "webhook-pull-request-review-comment-created": {
@@ -61193,6 +61937,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             enterprise?: components["schemas"]["enterprise-webhooks"];
@@ -61279,6 +62024,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -61367,6 +62113,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -61590,6 +62337,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -61650,7 +62398,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -61699,6 +62447,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -61927,6 +62676,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -61987,7 +62737,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -62036,6 +62786,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -62107,6 +62858,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -62171,6 +62923,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -62322,10 +63075,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request_review_comment deleted event */
         "webhook-pull-request-review-comment-deleted": {
@@ -62416,6 +63170,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -62504,6 +63259,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -62727,6 +63483,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -62787,7 +63544,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -62836,6 +63593,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -63064,6 +63822,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -63124,7 +63883,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -63173,6 +63932,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -63244,6 +64004,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -63308,6 +64069,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -63459,10 +64221,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request_review_comment edited event */
         "webhook-pull-request-review-comment-edited": {
@@ -63554,6 +64317,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -63590,6 +64354,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -63642,6 +64407,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -63865,6 +64631,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -63925,7 +64692,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -63974,6 +64741,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -64202,6 +64970,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -64262,7 +65031,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -64311,6 +65080,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -64382,6 +65152,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -64446,6 +65217,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -64595,12 +65367,13 @@ export interface components {
                     subscriptions_url?: string;
                     /** @enum {string} */
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
+                    user_view_type?: string;
                     /** Format: uri */
                     url?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request_review dismissed event */
         "webhook-pull-request-review-dismissed": {
@@ -64691,6 +65464,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -64779,6 +65553,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -65002,6 +65777,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -65062,7 +65838,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -65111,6 +65887,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -65339,6 +66116,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -65399,7 +66177,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -65448,6 +66226,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -65519,6 +66298,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -65583,6 +66363,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -65734,6 +66515,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
@@ -65809,9 +66591,10 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request_review edited event */
         "webhook-pull-request-review-edited": {
@@ -65908,6 +66691,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -65996,6 +66780,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -66197,6 +66982,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -66282,6 +67068,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -66488,6 +67275,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -66573,6 +67361,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -66644,6 +67433,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -66708,6 +67498,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -66859,11 +67650,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
             review: components["schemas"]["webhooks_review"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request review_request_removed event */
         "webhook-pull-request-review-request-removed": {
@@ -66957,6 +67749,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -66993,6 +67786,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -67045,6 +67839,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -67268,6 +68063,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -67321,7 +68117,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -67370,6 +68166,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -67605,6 +68402,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -67665,7 +68463,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -67714,6 +68512,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -67781,6 +68580,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -67828,6 +68628,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -67894,6 +68695,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -68051,6 +68853,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
@@ -68090,8 +68893,9 @@ export interface components {
                 type?: "Bot" | "User" | "Organization";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         } | {
             /** @enum {string} */
             action: "review_request_removed";
@@ -68183,6 +68987,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -68219,6 +69024,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -68271,6 +69077,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -68494,6 +69301,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -68554,7 +69362,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -68603,6 +69411,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -68838,6 +69647,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -68898,7 +69708,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -68947,6 +69757,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -69014,6 +69825,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -69061,6 +69873,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -69127,6 +69940,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -69284,6 +70098,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
@@ -69342,7 +70157,7 @@ export interface components {
                  */
                 url: string;
             };
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request review_requested event */
         "webhook-pull-request-review-requested": {
@@ -69436,6 +70251,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -69472,6 +70288,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -69524,6 +70341,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -69747,6 +70565,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -69807,7 +70626,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -69856,6 +70675,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -70091,6 +70911,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -70151,7 +70972,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -70200,6 +71021,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -70267,6 +71089,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -70314,6 +71137,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -70380,6 +71204,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -70537,6 +71362,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
@@ -70576,8 +71402,9 @@ export interface components {
                 type?: "Bot" | "User" | "Organization" | "Mannequin";
                 /** Format: uri */
                 url?: string;
+                user_view_type?: string;
             } | null;
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         } | {
             /** @enum {string} */
             action: "review_requested";
@@ -70669,6 +71496,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -70705,6 +71533,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null)[];
                 /**
                  * AuthorAssociation
@@ -70757,6 +71586,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -70980,6 +71810,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -71040,7 +71871,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -71089,6 +71920,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -71324,6 +72156,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -71384,7 +72217,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -71433,6 +72266,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -71500,6 +72334,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -71547,6 +72382,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -71613,6 +72449,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -71770,6 +72607,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
@@ -71828,7 +72666,7 @@ export interface components {
                  */
                 url?: string;
             };
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request_review submitted event */
         "webhook-pull-request-review-submitted": {
@@ -71919,6 +72757,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -72007,6 +72846,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -72230,6 +73070,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -72290,7 +73131,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -72339,6 +73180,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -72567,6 +73409,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -72627,7 +73470,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -72676,6 +73519,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -72747,6 +73591,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -72811,6 +73656,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -72962,11 +73808,12 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
             review: components["schemas"]["webhooks_review"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request_review_thread resolved event */
         "webhook-pull-request-review-thread-resolved": {
@@ -73057,6 +73904,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -73145,6 +73993,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -73351,6 +74200,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -73438,6 +74288,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -73649,6 +74500,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -73736,6 +74588,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -73807,6 +74660,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -73871,6 +74725,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -74022,10 +74877,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
             thread: {
                 comments: {
                     _links: {
@@ -74167,6 +75023,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 }[];
                 node_id: string;
@@ -74261,6 +75118,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -74349,6 +75207,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -74555,6 +75414,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -74642,6 +75502,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -74853,6 +75714,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -74940,6 +75802,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -75011,6 +75874,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -75075,6 +75939,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -75226,10 +76091,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
             thread: {
                 comments: {
                     _links: {
@@ -75371,6 +76237,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 }[];
                 node_id: string;
@@ -75469,6 +76336,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -75557,6 +76425,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -75780,6 +76649,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -75840,7 +76710,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -75889,6 +76759,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -76117,6 +76988,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -76177,7 +77049,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -76226,6 +77098,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -76293,6 +77166,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -76340,6 +77214,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -76406,6 +77281,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -76563,10 +77439,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request unassigned event */
         "webhook-pull-request-unassigned": {
@@ -76660,6 +77537,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -76748,6 +77626,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -76971,6 +77850,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -77031,7 +77911,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -77080,6 +77960,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -77315,6 +78196,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -77375,7 +78257,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -77424,6 +78306,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -77491,6 +78374,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -77538,6 +78422,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -77604,6 +78489,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -77761,10 +78647,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** pull_request unlabeled event */
         "webhook-pull-request-unlabeled": {
@@ -77858,6 +78745,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -77946,6 +78834,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -78169,6 +79058,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -78229,7 +79119,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -78278,6 +79168,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -78506,6 +79397,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -78566,7 +79458,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -78615,6 +79507,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -78682,6 +79575,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -78729,6 +79623,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization" | "Mannequin";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -78795,6 +79690,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -78952,10 +79848,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization" | "Mannequin";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** pull_request unlocked event */
         "webhook-pull-request-unlocked": {
@@ -79048,6 +79945,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 assignees: ({
                     /** Format: uri */
@@ -79136,6 +80034,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /**
                      * @description The merge method to use.
@@ -79359,6 +80258,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -79419,7 +80319,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -79468,6 +80368,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 body: string | null;
@@ -79703,6 +80604,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                         permissions?: {
                             admin: boolean;
@@ -79763,7 +80665,7 @@ export interface components {
                         /** Format: uri */
                         url: string;
                         /**
-                         * @description Whether a squash merge commit can use the pull request title as default. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                         * @description Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead.
                          * @default false
                          */
                         use_squash_pr_title_as_default: boolean;
@@ -79812,6 +80714,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                 };
                 /** Format: uri */
@@ -79879,6 +80782,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /**
                  * Milestone
@@ -79926,6 +80830,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     description: string | null;
                     /** Format: date-time */
@@ -79992,6 +80897,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null) | {
                     deleted?: boolean;
                     /** @description Description of the team */
@@ -80149,10 +81055,11 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** push event */
         "webhook-push": {
@@ -80489,6 +81396,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 permissions?: {
                     admin: boolean;
@@ -80538,7 +81446,7 @@ export interface components {
                 /** @description Whether to require contributors to sign off on web-based commits */
                 web_commit_signoff_required?: boolean;
             };
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         "webhook-registry-package-published": {
             /** @enum {string} */
@@ -80573,6 +81481,7 @@ export interface components {
                     subscriptions_url: string;
                     type: string;
                     url: string;
+                    user_view_type?: string;
                 };
                 package_type: string;
                 package_version: {
@@ -80595,6 +81504,7 @@ export interface components {
                         subscriptions_url: string;
                         type: string;
                         url: string;
+                        user_view_type?: string;
                     };
                     body?: string | Record<string, never>;
                     body_html?: string;
@@ -80704,6 +81614,7 @@ export interface components {
                             subscriptions_url: string;
                             type: string;
                             url: string;
+                            user_view_type: string;
                         };
                         created_at: string;
                         draft: boolean;
@@ -80734,7 +81645,7 @@ export interface components {
                 updated_at: string | null;
             };
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         "webhook-registry-package-updated": {
             /** @enum {string} */
@@ -80769,6 +81680,7 @@ export interface components {
                     subscriptions_url: string;
                     type: string;
                     url: string;
+                    user_view_type?: string;
                 };
                 package_type: string;
                 package_version: {
@@ -80791,6 +81703,7 @@ export interface components {
                         subscriptions_url: string;
                         type: string;
                         url: string;
+                        user_view_type?: string;
                     };
                     body: string;
                     body_html: string;
@@ -80843,6 +81756,7 @@ export interface components {
                             subscriptions_url: string;
                             type: string;
                             url: string;
+                            user_view_type?: string;
                         };
                         created_at: string;
                         draft: boolean;
@@ -80867,7 +81781,7 @@ export interface components {
                 updated_at: string;
             };
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** release created event */
         "webhook-release-created": {
@@ -80878,7 +81792,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             release: components["schemas"]["webhooks_release"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** release deleted event */
         "webhook-release-deleted": {
@@ -80889,7 +81803,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             release: components["schemas"]["webhooks_release"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** release edited event */
         "webhook-release-edited": {
@@ -80914,7 +81828,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             release: components["schemas"]["webhooks_release"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** release prereleased event */
         "webhook-release-prereleased": {
@@ -81026,6 +81940,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 body: string | null;
                 /** Format: date-time */
@@ -81074,7 +81989,7 @@ export interface components {
                 zipball_url: string | null;
             };
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** release published event */
         "webhook-release-published": {
@@ -81085,7 +82000,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             release: components["schemas"]["webhooks_release_1"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** release released event */
         "webhook-release-released": {
@@ -81096,7 +82011,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             release: components["schemas"]["webhooks_release"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** release unpublished event */
         "webhook-release-unpublished": {
@@ -81107,7 +82022,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             release: components["schemas"]["webhooks_release_1"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** Repository advisory published event */
         "webhook-repository-advisory-published": {
@@ -81118,7 +82033,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
             repository_advisory: components["schemas"]["repository-advisory"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** Repository advisory reported event */
         "webhook-repository-advisory-reported": {
@@ -81129,7 +82044,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
             repository_advisory: components["schemas"]["repository-advisory"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** repository archived event */
         "webhook-repository-archived": {
@@ -81139,7 +82054,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository created event */
         "webhook-repository-created": {
@@ -81149,7 +82064,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository deleted event */
         "webhook-repository-deleted": {
@@ -81159,7 +82074,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository_dispatch event */
         "webhook-repository-dispatch-sample": {
@@ -81174,7 +82089,7 @@ export interface components {
             installation: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository edited event */
         "webhook-repository-edited": {
@@ -81198,7 +82113,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository_import event */
         "webhook-repository-import": {
@@ -81206,7 +82121,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             /** @enum {string} */
             status: "success" | "cancelled" | "failure";
         };
@@ -81218,7 +82133,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository publicized event */
         "webhook-repository-publicized": {
@@ -81228,7 +82143,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository renamed event */
         "webhook-repository-renamed": {
@@ -81245,7 +82160,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository ruleset created event */
         "webhook-repository-ruleset-created": {
@@ -81256,7 +82171,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
             repository_ruleset: components["schemas"]["repository-ruleset"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository ruleset deleted event */
         "webhook-repository-ruleset-deleted": {
@@ -81267,7 +82182,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
             repository_ruleset: components["schemas"]["repository-ruleset"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository ruleset edited event */
         "webhook-repository-ruleset-edited": {
@@ -81325,7 +82240,7 @@ export interface components {
                     }[];
                 };
             };
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository transferred event */
         "webhook-repository-transferred": {
@@ -81396,6 +82311,7 @@ export interface components {
                             type?: "Bot" | "User" | "Organization";
                             /** Format: uri */
                             url?: string;
+                            user_view_type?: string;
                         } | null;
                     };
                 };
@@ -81404,7 +82320,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository unarchived event */
         "webhook-repository-unarchived": {
@@ -81414,7 +82330,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository_vulnerability_alert create event */
         "webhook-repository-vulnerability-alert-create": {
@@ -81425,7 +82341,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository_vulnerability_alert dismiss event */
         "webhook-repository-vulnerability-alert-dismiss": {
@@ -81478,6 +82394,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 external_identifier: string;
                 /** Format: uri */
@@ -81498,7 +82415,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository_vulnerability_alert reopen event */
         "webhook-repository-vulnerability-alert-reopen": {
@@ -81509,7 +82426,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** repository_vulnerability_alert resolve event */
         "webhook-repository-vulnerability-alert-resolve": {
@@ -81581,7 +82498,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** secret_scanning_alert created event */
         "webhook-secret-scanning-alert-created": {
@@ -81592,7 +82509,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** Secret Scanning Alert Location Created Event */
         "webhook-secret-scanning-alert-location-created": {
@@ -81603,12 +82520,23 @@ export interface components {
             location: components["schemas"]["secret-scanning-location"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** Secret Scanning Alert Location Created Event */
         "webhook-secret-scanning-alert-location-created-form-encoded": {
             /** @description A URL-encoded string of the secret_scanning_alert_location.created JSON payload. The decoded payload is a JSON object. */
             payload: string;
+        };
+        /** secret_scanning_alert publicly leaked event */
+        "webhook-secret-scanning-alert-publicly-leaked": {
+            /** @enum {string} */
+            action: "publicly_leaked";
+            alert: components["schemas"]["secret-scanning-alert-webhook"];
+            enterprise?: components["schemas"]["enterprise-webhooks"];
+            installation?: components["schemas"]["simple-installation"];
+            organization?: components["schemas"]["organization-simple-webhooks"];
+            repository: components["schemas"]["repository-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** secret_scanning_alert reopened event */
         "webhook-secret-scanning-alert-reopened": {
@@ -81619,7 +82547,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** secret_scanning_alert resolved event */
         "webhook-secret-scanning-alert-resolved": {
@@ -81630,7 +82558,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** secret_scanning_alert validated event */
         "webhook-secret-scanning-alert-validated": {
@@ -81641,7 +82569,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** security_advisory published event */
         "webhook-security-advisory-published": {
@@ -81652,7 +82580,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
             security_advisory: components["schemas"]["webhooks_security_advisory"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** security_advisory updated event */
         "webhook-security-advisory-updated": {
@@ -81663,7 +82591,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
             security_advisory: components["schemas"]["webhooks_security_advisory"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** security_advisory withdrawn event */
         "webhook-security-advisory-withdrawn": {
@@ -81711,7 +82639,7 @@ export interface components {
                 }[];
                 withdrawn_at: string;
             };
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** security_and_analysis event */
         "webhook-security-and-analysis": {
@@ -81724,7 +82652,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["full-repository"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** sponsorship cancelled event */
         "webhook-sponsorship-cancelled": {
@@ -81734,7 +82662,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             sponsorship: components["schemas"]["webhooks_sponsorship"];
         };
         /** sponsorship created event */
@@ -81745,7 +82673,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             sponsorship: components["schemas"]["webhooks_sponsorship"];
         };
         /** sponsorship edited event */
@@ -81762,7 +82690,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             sponsorship: components["schemas"]["webhooks_sponsorship"];
         };
         /** sponsorship pending_cancellation event */
@@ -81774,7 +82702,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             sponsorship: components["schemas"]["webhooks_sponsorship"];
         };
         /** sponsorship pending_tier_change event */
@@ -81787,7 +82715,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             sponsorship: components["schemas"]["webhooks_sponsorship"];
         };
         /** sponsorship tier_changed event */
@@ -81799,7 +82727,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             sponsorship: components["schemas"]["webhooks_sponsorship"];
         };
         /** star created event */
@@ -81810,7 +82738,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             /** @description The time the star was created. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Will be `null` for the `deleted` action. */
             starred_at: string | null;
         };
@@ -81822,7 +82750,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             /** @description The time the star was created. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Will be `null` for the `deleted` action. */
             starred_at: unknown;
         };
@@ -81986,7 +82914,7 @@ export interface components {
             name: string;
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             /** @description The Commit SHA. */
             sha: string;
             /**
@@ -82012,7 +82940,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** parent issue removed event */
         "webhook-sub-issues-parent-issue-removed": {
@@ -82028,7 +82956,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** sub-issue added event */
         "webhook-sub-issues-sub-issue-added": {
@@ -82044,7 +82972,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** sub-issue removed event */
         "webhook-sub-issues-sub-issue-removed": {
@@ -82060,7 +82988,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository?: components["schemas"]["repository-webhooks"];
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
         };
         /** team_add event */
         "webhook-team-add": {
@@ -82068,7 +82996,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             team: components["schemas"]["webhooks_team_1"];
         };
         /** team added_to_repository event */
@@ -82273,6 +83201,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 permissions?: {
                     admin: boolean;
@@ -82320,7 +83249,7 @@ export interface components {
                 watchers: number;
                 watchers_count: number;
             };
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
             team: components["schemas"]["webhooks_team_1"];
         };
         /** team created event */
@@ -82525,6 +83454,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 permissions?: {
                     admin: boolean;
@@ -82572,7 +83502,7 @@ export interface components {
                 watchers: number;
                 watchers_count: number;
             };
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             team: components["schemas"]["webhooks_team_1"];
         };
         /** team deleted event */
@@ -82777,6 +83707,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 permissions?: {
                     admin: boolean;
@@ -82824,7 +83755,7 @@ export interface components {
                 watchers: number;
                 watchers_count: number;
             };
-            sender?: components["schemas"]["simple-user-webhooks"];
+            sender?: components["schemas"]["simple-user"];
             team: components["schemas"]["webhooks_team_1"];
         };
         /** team edited event */
@@ -83060,6 +83991,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 permissions?: {
                     admin: boolean;
@@ -83107,7 +84039,7 @@ export interface components {
                 watchers: number;
                 watchers_count: number;
             };
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             team: components["schemas"]["webhooks_team_1"];
         };
         /** team removed_from_repository event */
@@ -83312,6 +84244,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 permissions?: {
                     admin: boolean;
@@ -83359,7 +84292,7 @@ export interface components {
                 watchers: number;
                 watchers_count: number;
             };
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             team: components["schemas"]["webhooks_team_1"];
         };
         /** watch started event */
@@ -83370,7 +84303,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
         };
         /** workflow_dispatch event */
         "webhook-workflow-dispatch": {
@@ -83382,7 +84315,7 @@ export interface components {
             organization?: components["schemas"]["organization-simple-webhooks"];
             ref: string;
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow: string;
         };
         /** workflow_job completed event */
@@ -83393,7 +84326,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow_job: {
                 /** Format: uri */
                 check_run_url: string;
@@ -83483,7 +84416,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow_job: {
                 /** Format: uri */
                 check_run_url: string;
@@ -83581,7 +84514,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow_job: {
                 /** Format: uri */
                 check_run_url: string;
@@ -83635,7 +84568,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow_job: {
                 /** Format: uri */
                 check_run_url: string;
@@ -83689,7 +84622,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow: components["schemas"]["webhooks_workflow"];
             /** Workflow Run */
             workflow_run: {
@@ -83729,6 +84662,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: uri */
                 artifacts_url: string;
@@ -83879,6 +84813,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description Whether the repository is private or public. */
                     private: boolean;
@@ -84051,6 +84986,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description Whether the repository is private or public. */
                     private: boolean;
@@ -84119,6 +85055,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: date-time */
                 updated_at: string;
@@ -84142,7 +85079,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow: components["schemas"]["webhooks_workflow"];
             /** Workflow Run */
             workflow_run: {
@@ -84590,7 +85527,7 @@ export interface components {
             installation?: components["schemas"]["simple-installation"];
             organization?: components["schemas"]["organization-simple-webhooks"];
             repository: components["schemas"]["repository-webhooks"];
-            sender: components["schemas"]["simple-user-webhooks"];
+            sender: components["schemas"]["simple-user"];
             workflow: components["schemas"]["webhooks_workflow"];
             /** Workflow Run */
             workflow_run: {
@@ -84630,6 +85567,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: uri */
                 artifacts_url: string;
@@ -84780,6 +85718,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description Whether the repository is private or public. */
                     private: boolean;
@@ -84952,6 +85891,7 @@ export interface components {
                         type?: "Bot" | "User" | "Organization";
                         /** Format: uri */
                         url?: string;
+                        user_view_type?: string;
                     } | null;
                     /** @description Whether the repository is private or public. */
                     private: boolean;
@@ -85020,6 +85960,7 @@ export interface components {
                     type?: "Bot" | "User" | "Organization";
                     /** Format: uri */
                     url?: string;
+                    user_view_type?: string;
                 } | null;
                 /** Format: date-time */
                 updated_at: string;
@@ -85106,6 +86047,15 @@ export interface components {
         };
         /** @description Internal Error */
         internal_error: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["basic-error"];
+            };
+        };
+        /** @description Copilot Usage Merics API setting is disabled at the organization or enterprise level. */
+        usage_metrics_api_disabled: {
             headers: {
                 [name: string]: unknown;
             };
@@ -85361,6 +86311,12 @@ export interface components {
         "secret-scanning-alert-sort": "created" | "updated";
         /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
         "secret-scanning-alert-validity": string;
+        /** @description A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present. */
+        "secret-scanning-alert-publicly-leaked": boolean;
+        /** @description A boolean value representing whether or not to filter alerts by the multi-repo tag being present. */
+        "secret-scanning-alert-multi-repo": boolean;
+        /** @description The slug of the enterprise team name. */
+        "enterprise-team-slug": string;
         /** @description The slug of the team name. */
         "team-slug": string;
         /** @description The unique identifier of the gist. */
@@ -85393,6 +86349,10 @@ export interface components {
         org: string;
         /** @description The unique identifier of the repository. */
         "repository-id": number;
+        /** @description Only return runner groups that are allowed to be used by this repository. */
+        "visible-to-repository": string;
+        /** @description Unique identifier of the self-hosted runner group. */
+        "runner-group-id": number;
         /** @description Unique identifier of the self-hosted runner. */
         "runner-id": number;
         /** @description The name of a self-hosted runner's custom label. */
@@ -85413,6 +86373,22 @@ export interface components {
         "configuration-id": number;
         /** @description The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
         "hook-id": number;
+        /** @description The type of the actor */
+        "api-insights-actor-type": "installations" | "classic_pats" | "fine_grained_pats" | "oauth_apps" | "github_apps_user_to_server";
+        /** @description The ID of the actor */
+        "api-insights-actor-id": number;
+        /** @description The minimum timestamp to query for stats */
+        "api-insights-min-timestamp": string;
+        /** @description The maximum timestamp to query for stats */
+        "api-insights-max-timestamp": string;
+        /** @description The property to sort the results by. */
+        "api-insights-route-stats-sort": ("last_rate_limited_timestamp" | "last_request_timestamp" | "rate_limited_request_count" | "http_method" | "api_route" | "total_request_count")[];
+        /** @description The property to sort the results by. */
+        "api-insights-sort": ("last_rate_limited_timestamp" | "last_request_timestamp" | "rate_limited_request_count" | "subject_name" | "total_request_count")[];
+        /** @description The ID of the user to query for stats */
+        "api-insights-user-id": string;
+        /** @description The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
+        "api-insights-timestamp-increment": string;
         /** @description The unique identifier of the invitation. */
         "invitation-id": number;
         /** @description The name of the codespace. */
@@ -85448,8 +86424,13 @@ export interface components {
         "personal-access-token-after": string;
         /** @description The unique identifier of the fine-grained personal access token. */
         "fine-grained-personal-access-token-id": number;
-        /** @description The custom property name. The name is case sensitive. */
+        /** @description The custom property name */
         "custom-property-name": string;
+        /** @description A comma-separated list of rule targets to filter by.
+         *     If provided, only rulesets that apply to the specified targets will be returned.
+         *     For example, `branch,tag,push`.
+         *      */
+        "ruleset-targets": string;
         /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned. */
         "ref-in-query": string;
         /** @description The name of the repository to filter on. When specified, only rule evaluations from this repository will be returned. */
@@ -85542,6 +86523,8 @@ export interface components {
         status: "queued" | "in_progress" | "completed";
         /** @description The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
         "git-ref": components["schemas"]["code-scanning-ref"];
+        /** @description The number of the pull request for the results you want to list. */
+        "pr-alias": number;
         /** @description The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
         "alert-number": components["schemas"]["alert-number"];
         /** @description The SHA of the commit. */
@@ -85865,7 +86848,6 @@ export interface operations {
                 per_page?: components["parameters"]["per-page"];
                 /** @description Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors. */
                 cursor?: components["parameters"]["cursor"];
-                redelivery?: boolean;
             };
             header?: never;
             path?: never;
@@ -86340,7 +87322,7 @@ export interface operations {
             404: components["responses"]["not_found"];
         };
     };
-    "classroom/list-accepted-assigments-for-an-assignment": {
+    "classroom/list-accepted-assignments-for-an-assignment": {
         parameters: {
             query?: {
                 /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -86574,6 +87556,42 @@ export interface operations {
             500: components["responses"]["internal_error"];
         };
     };
+    "copilot/copilot-metrics-for-enterprise": {
+        parameters: {
+            query?: {
+                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
+                since?: string;
+                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
+                until?: string;
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["copilot-usage-metrics-day"][];
+                };
+            };
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            422: components["responses"]["usage_metrics_api_disabled"];
+            500: components["responses"]["internal_error"];
+        };
+    };
     "copilot/usage-metrics-for-enterprise": {
         parameters: {
             query?: {
@@ -86697,6 +87715,10 @@ export interface operations {
                 after?: components["parameters"]["pagination-after"];
                 /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
                 validity?: components["parameters"]["secret-scanning-alert-validity"];
+                /** @description A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present. */
+                is_publicly_leaked?: components["parameters"]["secret-scanning-alert-publicly-leaked"];
+                /** @description A boolean value representing whether or not to filter alerts by the multi-repo tag being present. */
+                is_multi_repo?: components["parameters"]["secret-scanning-alert-multi-repo"];
             };
             header?: never;
             path: {
@@ -86719,6 +87741,44 @@ export interface operations {
             };
             404: components["responses"]["not_found"];
             503: components["responses"]["service_unavailable"];
+        };
+    };
+    "copilot/copilot-metrics-for-enterprise-team": {
+        parameters: {
+            query?: {
+                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
+                since?: string;
+                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
+                until?: string;
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+                /** @description The slug of the enterprise team name. */
+                team_slug: components["parameters"]["enterprise-team-slug"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["copilot-usage-metrics-day"][];
+                };
+            };
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            422: components["responses"]["usage_metrics_api_disabled"];
+            500: components["responses"]["internal_error"];
         };
     };
     "copilot/usage-metrics-for-enterprise-team": {
@@ -88302,7 +89362,7 @@ export interface operations {
                     members_can_create_public_repositories: boolean;
                     /**
                      * @description Specifies which types of repositories non-admin organization members can create. `private` is only available to repositories that are part of an organization on GitHub Enterprise Cloud.
-                     *     **Note:** This parameter is deprecated and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in `members_can_create_repositories`. See the parameter deprecation notice in the operation description for details.
+                     *     **Note:** This parameter is closing down and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in `members_can_create_repositories`. See the parameter deprecation notice in the operation description for details.
                      * @enum {string}
                      */
                     members_allowed_repository_creation_type: "all" | "private" | "none";
@@ -88335,7 +89395,7 @@ export interface operations {
                     blog: string;
                     /**
                      * @deprecated
-                     * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+                     * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
                      *
                      *     Whether GitHub Advanced Security is automatically enabled for new repositories and repositories transferred to this organization.
                      *
@@ -88346,7 +89406,7 @@ export interface operations {
                     advanced_security_enabled_for_new_repositories: boolean;
                     /**
                      * @deprecated
-                     * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+                     * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
                      *
                      *     Whether Dependabot alerts are automatically enabled for new repositories and repositories transferred to this organization.
                      *
@@ -88357,7 +89417,7 @@ export interface operations {
                     dependabot_alerts_enabled_for_new_repositories: boolean;
                     /**
                      * @deprecated
-                     * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+                     * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
                      *
                      *     Whether Dependabot security updates are automatically enabled for new repositories and repositories transferred to this organization.
                      *
@@ -88368,7 +89428,7 @@ export interface operations {
                     dependabot_security_updates_enabled_for_new_repositories: boolean;
                     /**
                      * @deprecated
-                     * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+                     * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
                      *
                      *     Whether dependency graph is automatically enabled for new repositories and repositories transferred to this organization.
                      *
@@ -88379,7 +89439,7 @@ export interface operations {
                     dependency_graph_enabled_for_new_repositories: boolean;
                     /**
                      * @deprecated
-                     * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+                     * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
                      *
                      *     Whether secret scanning is automatically enabled for new repositories and repositories transferred to this organization.
                      *
@@ -88390,7 +89450,7 @@ export interface operations {
                     secret_scanning_enabled_for_new_repositories: boolean;
                     /**
                      * @deprecated
-                     * @description **Deprecated.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
+                     * @description **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.
                      *
                      *     Whether secret scanning push protection is automatically enabled for new repositories and repositories transferred to this organization.
                      *
@@ -88403,6 +89463,8 @@ export interface operations {
                     secret_scanning_push_protection_custom_link_enabled: boolean;
                     /** @description If `secret_scanning_push_protection_custom_link_enabled` is true, the URL that will be displayed to contributors who are blocked from pushing a secret. */
                     secret_scanning_push_protection_custom_link: string;
+                    /** @description Controls whether or not deploy keys may be added and used for repositories in the organization. */
+                    deploy_keys_enabled_for_repositories: boolean;
                 };
             };
         };
@@ -88780,6 +89842,415 @@ export interface operations {
         };
         responses: {
             /** @description Success response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "actions/list-self-hosted-runner-groups-for-org": {
+        parameters: {
+            query?: {
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description Only return runner groups that are allowed to be used by this repository. */
+                visible_to_repository?: components["parameters"]["visible-to-repository"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        runner_groups: components["schemas"]["runner-groups-org"][];
+                    };
+                };
+            };
+        };
+    };
+    "actions/create-self-hosted-runner-group-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Name of the runner group. */
+                    name: string;
+                    /**
+                     * @description Visibility of a runner group. You can select all repositories, select individual repositories, or limit access to private repositories.
+                     * @default all
+                     * @enum {string}
+                     */
+                    visibility?: "selected" | "all" | "private";
+                    /** @description List of repository IDs that can access the runner group. */
+                    selected_repository_ids?: number[];
+                    /** @description List of runner IDs to add to the runner group. */
+                    runners?: number[];
+                    /**
+                     * @description Whether the runner group can be used by `public` repositories.
+                     * @default false
+                     */
+                    allows_public_repositories?: boolean;
+                    /**
+                     * @description If `true`, the runner group will be restricted to running only the workflows specified in the `selected_workflows` array.
+                     * @default false
+                     */
+                    restricted_to_workflows?: boolean;
+                    /** @description List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
+                    selected_workflows?: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["runner-groups-org"];
+                };
+            };
+        };
+    };
+    "actions/get-self-hosted-runner-group-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["runner-groups-org"];
+                };
+            };
+        };
+    };
+    "actions/delete-self-hosted-runner-group-from-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "actions/update-self-hosted-runner-group-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Name of the runner group. */
+                    name: string;
+                    /**
+                     * @description Visibility of a runner group. You can select all repositories, select individual repositories, or all private repositories.
+                     * @enum {string}
+                     */
+                    visibility?: "selected" | "all" | "private";
+                    /**
+                     * @description Whether the runner group can be used by `public` repositories.
+                     * @default false
+                     */
+                    allows_public_repositories?: boolean;
+                    /**
+                     * @description If `true`, the runner group will be restricted to running only the workflows specified in the `selected_workflows` array.
+                     * @default false
+                     */
+                    restricted_to_workflows?: boolean;
+                    /** @description List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
+                    selected_workflows?: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["runner-groups-org"];
+                };
+            };
+        };
+    };
+    "actions/list-repo-access-to-self-hosted-runner-group-in-org": {
+        parameters: {
+            query?: {
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        repositories: components["schemas"]["minimal-repository"][];
+                    };
+                };
+            };
+        };
+    };
+    "actions/set-repo-access-to-self-hosted-runner-group-in-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description List of repository IDs that can access the runner group. */
+                    selected_repository_ids: number[];
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "actions/add-repo-access-to-self-hosted-runner-group-in-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+                /** @description The unique identifier of the repository. */
+                repository_id: components["parameters"]["repository-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "actions/remove-repo-access-to-self-hosted-runner-group-in-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+                /** @description The unique identifier of the repository. */
+                repository_id: components["parameters"]["repository-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "actions/list-self-hosted-runners-in-group-for-org": {
+        parameters: {
+            query?: {
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        runners: components["schemas"]["runner"][];
+                    };
+                };
+            };
+        };
+    };
+    "actions/set-self-hosted-runners-in-group-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description List of runner IDs to add to the runner group. */
+                    runners: number[];
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "actions/add-self-hosted-runner-to-group-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+                /** @description Unique identifier of the self-hosted runner. */
+                runner_id: components["parameters"]["runner-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "actions/remove-self-hosted-runner-from-group-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+                /** @description Unique identifier of the self-hosted runner. */
+                runner_id: components["parameters"]["runner-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -89963,6 +91434,25 @@ export interface operations {
                      */
                     secret_scanning_push_protection?: "enabled" | "disabled" | "not_set";
                     /**
+                     * @description The enablement status of secret scanning delegated bypass
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    secret_scanning_delegated_bypass?: "enabled" | "disabled" | "not_set";
+                    /** @description Feature options for secret scanning delegated bypass */
+                    secret_scanning_delegated_bypass_options?: {
+                        /** @description The bypass reviewers for secret scanning delegated bypass */
+                        reviewers: {
+                            /** @description The ID of the team or role selected as a bypass reviewer */
+                            reviewer_id: number;
+                            /**
+                             * @description The type of the bypass reviewer
+                             * @enum {string}
+                             */
+                            reviewer_type: "TEAM" | "ROLE";
+                        }[];
+                    };
+                    /**
                      * @description The enablement status of secret scanning validity checks
                      * @default disabled
                      * @enum {string}
@@ -90167,6 +91657,24 @@ export interface operations {
                      */
                     secret_scanning_push_protection: "enabled" | "disabled" | "not_set";
                     /**
+                     * @description The enablement status of secret scanning delegated bypass
+                     * @enum {string}
+                     */
+                    secret_scanning_delegated_bypass: "enabled" | "disabled" | "not_set";
+                    /** @description Feature options for secret scanning delegated bypass */
+                    secret_scanning_delegated_bypass_options: {
+                        /** @description The bypass reviewers for secret scanning delegated bypass */
+                        reviewers: {
+                            /** @description The ID of the team or role selected as a bypass reviewer */
+                            reviewer_id: number;
+                            /**
+                             * @description The type of the bypass reviewer
+                             * @enum {string}
+                             */
+                            reviewer_type: "TEAM" | "ROLE";
+                        }[];
+                    };
+                    /**
                      * @description The enablement status of secret scanning validity checks
                      * @enum {string}
                      */
@@ -90227,7 +91735,7 @@ export interface operations {
                      * @description The type of repositories to attach the configuration to. `selected` means the configuration will be attached to only the repositories specified by `selected_repository_ids`
                      * @enum {string}
                      */
-                    scope: "all" | "public" | "private_or_internal" | "selected";
+                    scope: "all" | "all_without_configurations" | "public" | "private_or_internal" | "selected";
                     /** @description An array of repository IDs to attach the configuration to. You can only provide a list of repository ids when the `scope` is set to `selected`. */
                     selected_repository_ids?: number[];
                 };
@@ -91013,6 +92521,42 @@ export interface operations {
             500: components["responses"]["internal_error"];
         };
     };
+    "copilot/copilot-metrics-for-organization": {
+        parameters: {
+            query?: {
+                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
+                since?: string;
+                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
+                until?: string;
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["copilot-usage-metrics-day"][];
+                };
+            };
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            422: components["responses"]["usage_metrics_api_disabled"];
+            500: components["responses"]["internal_error"];
+        };
+    };
     "copilot/usage-metrics-for-org": {
         parameters: {
             query?: {
@@ -91729,7 +93273,6 @@ export interface operations {
                 per_page?: components["parameters"]["per-page"];
                 /** @description Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors. */
                 cursor?: components["parameters"]["cursor"];
-                redelivery?: boolean;
             };
             header?: never;
             path: {
@@ -91825,6 +93368,306 @@ export interface operations {
                 content?: never;
             };
             404: components["responses"]["not_found"];
+        };
+    };
+    "api-insights/get-route-stats-by-actor": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The direction to sort the results by. */
+                direction?: components["parameters"]["direction"];
+                /** @description The property to sort the results by. */
+                sort?: components["parameters"]["api-insights-route-stats-sort"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The type of the actor */
+                actor_type: components["parameters"]["api-insights-actor-type"];
+                /** @description The ID of the actor */
+                actor_id: components["parameters"]["api-insights-actor-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-route-stats"];
+                };
+            };
+        };
+    };
+    "api-insights/get-subject-stats": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The direction to sort the results by. */
+                direction?: components["parameters"]["direction"];
+                /** @description The property to sort the results by. */
+                sort?: components["parameters"]["api-insights-sort"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-subject-stats"];
+                };
+            };
+        };
+    };
+    "api-insights/get-summary-stats": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-summary-stats"];
+                };
+            };
+        };
+    };
+    "api-insights/get-summary-stats-by-user": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The ID of the user to query for stats */
+                user_id: components["parameters"]["api-insights-user-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-summary-stats"];
+                };
+            };
+        };
+    };
+    "api-insights/get-summary-stats-by-actor": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The type of the actor */
+                actor_type: components["parameters"]["api-insights-actor-type"];
+                /** @description The ID of the actor */
+                actor_id: components["parameters"]["api-insights-actor-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-summary-stats"];
+                };
+            };
+        };
+    };
+    "api-insights/get-time-stats": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
+                timestamp_increment: components["parameters"]["api-insights-timestamp-increment"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-time-stats"];
+                };
+            };
+        };
+    };
+    "api-insights/get-time-stats-by-user": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
+                timestamp_increment: components["parameters"]["api-insights-timestamp-increment"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The ID of the user to query for stats */
+                user_id: components["parameters"]["api-insights-user-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-time-stats"];
+                };
+            };
+        };
+    };
+    "api-insights/get-time-stats-by-actor": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
+                timestamp_increment: components["parameters"]["api-insights-timestamp-increment"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The type of the actor */
+                actor_type: components["parameters"]["api-insights-actor-type"];
+                /** @description The ID of the actor */
+                actor_id: components["parameters"]["api-insights-actor-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-time-stats"];
+                };
+            };
+        };
+    };
+    "api-insights/get-user-stats": {
+        parameters: {
+            query: {
+                /** @description The minimum timestamp to query for stats */
+                min_timestamp: components["parameters"]["api-insights-min-timestamp"];
+                /** @description The maximum timestamp to query for stats */
+                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The direction to sort the results by. */
+                direction?: components["parameters"]["direction"];
+                /** @description The property to sort the results by. */
+                sort?: components["parameters"]["api-insights-sort"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The ID of the user to query for stats */
+                user_id: components["parameters"]["api-insights-user-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["api-insights-user-stats"];
+                };
+            };
         };
     };
     "apps/get-org-installation": {
@@ -93805,7 +95648,7 @@ export interface operations {
             path: {
                 /** @description The organization name. The name is not case sensitive. */
                 org: components["parameters"]["org"];
-                /** @description The custom property name. The name is case sensitive. */
+                /** @description The custom property name */
                 custom_property_name: components["parameters"]["custom-property-name"];
             };
             cookie?: never;
@@ -93832,7 +95675,7 @@ export interface operations {
             path: {
                 /** @description The organization name. The name is not case sensitive. */
                 org: components["parameters"]["org"];
-                /** @description The custom property name. The name is case sensitive. */
+                /** @description The custom property name */
                 custom_property_name: components["parameters"]["custom-property-name"];
             };
             cookie?: never;
@@ -93879,7 +95722,7 @@ export interface operations {
             path: {
                 /** @description The organization name. The name is not case sensitive. */
                 org: components["parameters"]["org"];
-                /** @description The custom property name. The name is case sensitive. */
+                /** @description The custom property name */
                 custom_property_name: components["parameters"]["custom-property-name"];
             };
             cookie?: never;
@@ -94191,7 +96034,7 @@ export interface operations {
                     delete_branch_on_merge?: boolean;
                     /**
                      * @deprecated
-                     * @description Either `true` to allow squash-merge commits to use pull request title, or `false` to use commit message. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                     * @description Either `true` to allow squash-merge commits to use pull request title, or `false` to use commit message. **This property is closing down. Please use `squash_merge_commit_title` instead.
                      * @default false
                      */
                     use_squash_pr_title_as_default?: boolean;
@@ -94263,6 +96106,11 @@ export interface operations {
                 per_page?: components["parameters"]["per-page"];
                 /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 page?: components["parameters"]["page"];
+                /** @description A comma-separated list of rule targets to filter by.
+                 *     If provided, only rulesets that apply to the specified targets will be returned.
+                 *     For example, `branch,tag,push`.
+                 *      */
+                targets?: components["parameters"]["ruleset-targets"];
             };
             header?: never;
             path: {
@@ -94526,6 +96374,10 @@ export interface operations {
                 after?: components["parameters"]["secret-scanning-pagination-after-org-repo"];
                 /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
                 validity?: components["parameters"]["secret-scanning-alert-validity"];
+                /** @description A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present. */
+                is_publicly_leaked?: components["parameters"]["secret-scanning-alert-publicly-leaked"];
+                /** @description A boolean value representing whether or not to filter alerts by the multi-repo tag being present. */
+                is_multi_repo?: components["parameters"]["secret-scanning-alert-multi-repo"];
             };
             header?: never;
             path: {
@@ -94726,6 +96578,44 @@ export interface operations {
             };
         };
     };
+    "copilot/copilot-metrics-for-team": {
+        parameters: {
+            query?: {
+                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
+                since?: string;
+                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
+                until?: string;
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The slug of the team name. */
+                team_slug: components["parameters"]["team-slug"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["copilot-usage-metrics-day"][];
+                };
+            };
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            422: components["responses"]["usage_metrics_api_disabled"];
+            500: components["responses"]["internal_error"];
+        };
+    };
     "copilot/usage-metrics-for-team": {
         parameters: {
             query?: {
@@ -94836,7 +96726,7 @@ export interface operations {
                      */
                     notification_setting?: "notifications_enabled" | "notifications_disabled";
                     /**
-                     * @description **Deprecated**. The permission that new repositories will be added to the team with when none is specified.
+                     * @description **Closing down notice**. The permission that new repositories will be added to the team with when none is specified.
                      * @default pull
                      * @enum {string}
                      */
@@ -94946,7 +96836,7 @@ export interface operations {
                      */
                     notification_setting: "notifications_enabled" | "notifications_disabled";
                     /**
-                     * @description **Deprecated**. The permission that new repositories will be added to the team with when none is specified.
+                     * @description **Closing down notice**. The permission that new repositories will be added to the team with when none is specified.
                      * @default pull
                      * @enum {string}
                      */
@@ -96957,6 +98847,11 @@ export interface operations {
                             /** @description Can be `enabled` or `disabled`. */
                             status: string;
                         };
+                        /** @description Use the `status` property to enable or disable secret scanning AI detection for this repository. For more information, see "[Responsible detection of generic secrets with AI](https://docs.github.com/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/generic-secret-detection/responsible-ai-generic-secrets)." */
+                        secret_scanning_ai_detection: {
+                            /** @description Can be `enabled` or `disabled`. */
+                            status: string;
+                        };
                         /** @description Use the `status` property to enable or disable secret scanning non-provider patterns for this repository. For more information, see "[Supported secret scanning patterns](/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
                         secret_scanning_non_provider_patterns: {
                             /** @description Can be `enabled` or `disabled`. */
@@ -97017,7 +98912,7 @@ export interface operations {
                     allow_update_branch: boolean;
                     /**
                      * @deprecated
-                     * @description Either `true` to allow squash-merge commits to use pull request title, or `false` to use commit message. **This property has been deprecated. Please use `squash_merge_commit_title` instead.
+                     * @description Either `true` to allow squash-merge commits to use pull request title, or `false` to use commit message. **This property is closing down. Please use `squash_merge_commit_title` instead.
                      * @default false
                      */
                     use_squash_pr_title_as_default: boolean;
@@ -99799,7 +101694,7 @@ export interface operations {
                         strict: boolean;
                         /**
                          * @deprecated
-                         * @description **Deprecated**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control.
+                         * @description **Closing down notice**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control.
                          */
                         contexts: string[];
                         /** @description The list of status checks to require in order to merge into this branch. */
@@ -100268,7 +102163,7 @@ export interface operations {
                     strict: boolean;
                     /**
                      * @deprecated
-                     * @description **Deprecated**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control.
+                     * @description **Closing down notice**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control.
                      */
                     contexts: string[];
                     /** @description The list of status checks to require in order to merge into this branch. */
@@ -100527,12 +102422,12 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": {
                     /** @description The GitHub Apps that have push access to this branch. Use the slugified version of the app name. **Note**: The list of users, apps, and teams in total is limited to 100 items. */
                     apps: string[];
-                } | string[];
+                };
             };
         };
         responses: {
@@ -100562,12 +102457,12 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": {
                     /** @description The GitHub Apps that have push access to this branch. Use the slugified version of the app name. **Note**: The list of users, apps, and teams in total is limited to 100 items. */
                     apps: string[];
-                } | string[];
+                };
             };
         };
         responses: {
@@ -100597,12 +102492,12 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": {
                     /** @description The GitHub Apps that have push access to this branch. Use the slugified version of the app name. **Note**: The list of users, apps, and teams in total is limited to 100 items. */
                     apps: string[];
-                } | string[];
+                };
             };
         };
         responses: {
@@ -100793,12 +102688,12 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": {
                     /** @description The username for users */
                     users: string[];
-                } | string[];
+                };
             };
         };
         responses: {
@@ -100828,12 +102723,12 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": {
                     /** @description The username for users */
                     users: string[];
-                } | string[];
+                };
             };
         };
         responses: {
@@ -100863,12 +102758,12 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": {
                     /** @description The username for users */
                     users: string[];
-                } | string[];
+                };
             };
         };
         responses: {
@@ -101458,8 +103353,14 @@ export interface operations {
                 per_page?: components["parameters"]["per-page"];
                 /** @description The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
                 ref?: components["parameters"]["git-ref"];
+                /** @description The number of the pull request for the results you want to list. */
+                pr?: components["parameters"]["pr-alias"];
                 /** @description The direction to sort the results by. */
                 direction?: components["parameters"]["direction"];
+                /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                before?: components["parameters"]["pagination-before"];
+                /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                after?: components["parameters"]["pagination-after"];
                 /** @description The property by which to sort the results. */
                 sort?: "created" | "updated";
                 /** @description If specified, only code scanning alerts with this state will be returned. */
@@ -101571,6 +103472,8 @@ export interface operations {
                 per_page?: components["parameters"]["per-page"];
                 /** @description The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
                 ref?: components["parameters"]["git-ref"];
+                /** @description The number of the pull request for the results you want to list. */
+                pr?: components["parameters"]["pr-alias"];
             };
             header?: never;
             path: {
@@ -101610,6 +103513,8 @@ export interface operations {
                 page?: components["parameters"]["page"];
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 per_page?: components["parameters"]["per-page"];
+                /** @description The number of the pull request for the results you want to list. */
+                pr?: components["parameters"]["pr-alias"];
                 /** @description The Git reference for the analyses you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`. */
                 ref?: components["schemas"]["code-scanning-ref"];
                 /** @description Filter analyses belonging to the same SARIF upload. */
@@ -101766,6 +103671,34 @@ export interface operations {
             };
             302: components["responses"]["found"];
             403: components["responses"]["code_scanning_forbidden_read"];
+            404: components["responses"]["not_found"];
+            503: components["responses"]["service_unavailable"];
+        };
+    };
+    "code-scanning/delete-codeql-database": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The language of the CodeQL database. */
+                language: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: components["responses"]["code_scanning_forbidden_write"];
             404: components["responses"]["not_found"];
             503: components["responses"]["service_unavailable"];
         };
@@ -102176,7 +104109,7 @@ export interface operations {
                     /** @description The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided. */
                     location: string;
                     /**
-                     * @description The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is being deprecated.
+                     * @description The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down.
                      * @enum {string}
                      */
                     geo: "EuropeWest" | "SoutheastAsia" | "UsEast" | "UsWest";
@@ -103069,7 +105002,7 @@ export interface operations {
                     path?: string;
                     /** @description Line index in the diff to comment on. */
                     position?: number;
-                    /** @description **Deprecated**. Use **position** parameter instead. Line number in the file to comment on. */
+                    /** @description **Closing down notice**. Use **position** parameter instead. Line number in the file to comment on. */
                     line?: number;
                 };
             };
@@ -103614,7 +105547,7 @@ export interface operations {
                 direction?: components["parameters"]["direction"];
                 /**
                  * @deprecated
-                 * @description **Deprecated**. Page number of the results to fetch. Use cursor-based pagination with `before` or `after` instead.
+                 * @description **Closing down notice**. Page number of the results to fetch. Use cursor-based pagination with `before` or `after` instead.
                  */
                 page?: number;
                 /**
@@ -104325,7 +106258,7 @@ export interface operations {
                 "application/json": {
                     /** @description A custom webhook event name. Must be 100 characters or fewer. */
                     event_type: string;
-                    /** @description JSON payload with extra information about the webhook event that your action or workflow may use. The maximum number of top-level properties is 10. */
+                    /** @description JSON payload with extra information about the webhook event that your action or workflow may use. The maximum number of top-level properties is 10. The total size of the JSON payload must be less than 64KB. */
                     client_payload?: {
                         [key: string]: unknown;
                     };
@@ -106050,7 +107983,6 @@ export interface operations {
                 per_page?: components["parameters"]["per-page"];
                 /** @description Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors. */
                 cursor?: components["parameters"]["cursor"];
-                redelivery?: boolean;
             };
             header?: never;
             path: {
@@ -106740,7 +108672,7 @@ export interface operations {
                     title: string | number;
                     /** @description The contents of the issue. */
                     body?: string;
-                    /** @description Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is deprecated.**_ */
+                    /** @description Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is closing down.**_ */
                     assignee?: string | null;
                     milestone?: (string | number) | null;
                     /** @description Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._ */
@@ -107125,7 +109057,7 @@ export interface operations {
                     title: (string | number) | null;
                     /** @description The contents of the issue. */
                     body: string | null;
-                    /** @description Username to assign to this issue. **This field is deprecated.** */
+                    /** @description Username to assign to this issue. **This field is closing down.** */
                     assignee: string | null;
                     /**
                      * @description The open or closed state of the issue.
@@ -109569,7 +111501,7 @@ export interface operations {
                     /** @description The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided. */
                     location: string;
                     /**
-                     * @description The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is being deprecated.
+                     * @description The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down.
                      * @enum {string}
                      */
                     geo: "EuropeWest" | "SoutheastAsia" | "UsEast" | "UsWest";
@@ -109681,7 +111613,7 @@ export interface operations {
                     path: string;
                     /**
                      * @deprecated
-                     * @description **This parameter is deprecated. Use `line` instead**. The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. The position value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.
+                     * @description **This parameter is closing down. Use `line` instead**. The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. The position value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.
                      */
                     position?: number;
                     /**
@@ -111096,6 +113028,11 @@ export interface operations {
                 page?: components["parameters"]["page"];
                 /** @description Include rulesets configured at higher levels that apply to this repository */
                 includes_parents?: boolean;
+                /** @description A comma-separated list of rule targets to filter by.
+                 *     If provided, only rulesets that apply to the specified targets will be returned.
+                 *     For example, `branch,tag,push`.
+                 *      */
+                targets?: components["parameters"]["ruleset-targets"];
             };
             header?: never;
             path: {
@@ -111374,6 +113311,10 @@ export interface operations {
                 after?: components["parameters"]["secret-scanning-pagination-after-org-repo"];
                 /** @description A comma-separated list of validities that, when present, will return alerts that match the validities in this list. Valid options are `active`, `inactive`, and `unknown`. */
                 validity?: components["parameters"]["secret-scanning-alert-validity"];
+                /** @description A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present. */
+                is_publicly_leaked?: components["parameters"]["secret-scanning-alert-publicly-leaked"];
+                /** @description A boolean value representing whether or not to filter alerts by the multi-repo tag being present. */
+                is_multi_repo?: components["parameters"]["secret-scanning-alert-multi-repo"];
             };
             header?: never;
             path: {
@@ -112736,12 +114677,12 @@ export interface operations {
                 q: string;
                 /**
                  * @deprecated
-                 * @description **This field is deprecated.** Sorts the results of your query. Can only be `indexed`, which indicates how recently a file has been indexed by the GitHub search infrastructure. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)
+                 * @description **This field is closing down.** Sorts the results of your query. Can only be `indexed`, which indicates how recently a file has been indexed by the GitHub search infrastructure. Default: [best match](https://docs.github.com/rest/search/search#ranking-search-results)
                  */
                 sort?: "indexed";
                 /**
                  * @deprecated
-                 * @description **This field is deprecated.** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
+                 * @description **This field is closing down.** Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
                  */
                 order?: "desc" | "asc";
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -113080,7 +115021,7 @@ export interface operations {
                      */
                     notification_setting?: "notifications_enabled" | "notifications_disabled";
                     /**
-                     * @description **Deprecated**. The permission that new repositories will be added to the team with when none is specified.
+                     * @description **Closing down notice**. The permission that new repositories will be added to the team with when none is specified.
                      * @default pull
                      * @enum {string}
                      */
@@ -114372,7 +116313,7 @@ export interface operations {
                     /** @description The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided. */
                     location?: string;
                     /**
-                     * @description The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is being deprecated.
+                     * @description The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down.
                      * @enum {string}
                      */
                     geo?: "EuropeWest" | "SoutheastAsia" | "UsEast" | "UsWest";
@@ -114403,7 +116344,7 @@ export interface operations {
                     /** @description The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided. */
                     location?: string;
                     /**
-                     * @description The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is being deprecated.
+                     * @description The geographic area for this codespace. If not specified, the value is assigned by IP. This property replaces `location`, which is closing down.
                      * @enum {string}
                      */
                     geo?: "EuropeWest" | "SoutheastAsia" | "UsEast" | "UsWest";
@@ -115232,6 +117173,7 @@ export interface operations {
             401: components["responses"]["requires_authentication"];
             403: components["responses"]["forbidden"];
             404: components["responses"]["not_found"];
+            422: components["responses"]["validation_failed"];
         };
     };
     "users/unfollow": {
