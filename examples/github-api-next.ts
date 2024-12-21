@@ -289,8 +289,6 @@ export interface paths {
          *
          *     Optionally, use the `permissions` body parameter to specify the permissions that the installation access token should have. If `permissions` is not specified, the installation access token will have all of the permissions that were granted to the app. The installation access token cannot be granted permissions that the app was not granted.
          *
-         *     When using the repository or permission parameters to reduce the access of the token, the complexity of the token is increased due to both the number of permissions in the request and the number of repositories the token will have access to. If the complexity is too large, the token will fail to be issued. If this occurs, the error message will indicate the maximum number of repositories that should be requested. For the average application requesting 8 permissions, this limit is around 5000 repositories. With fewer permissions requested, more repositories are supported.
-         *
          *     You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
          */
         post: operations["apps/create-installation-access-token"];
@@ -602,7 +600,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/enterprises/{enterprise}/copilot/billing/seats": {
+    "/enterprises/{enterprise}/code-security/configurations": {
         parameters: {
             query?: never;
             header?: never;
@@ -610,24 +608,46 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List all Copilot seat assignments for an enterprise
-         * @description > [!NOTE]
-         *     > This endpoint is in public preview and is subject to change.
+         * Get code security configurations for an enterprise
+         * @description Lists all code security configurations available in an enterprise.
          *
-         *     Lists all Copilot seats currently being billed for across organizations or enterprise teams for an enterprise with a Copilot Business or Copilot Enterprise subscription.
+         *     The authenticated user must be an administrator of the enterprise in order to use this endpoint.
          *
-         *     Users with access through multiple organizations or enterprise teams will only be counted toward `total_seats` once.
-         *
-         *     For each organization or enterprise team which grants Copilot access to a user, a seat detail object will appear in the `seats` array.
-         *     Each seat object contains information about the assigned user's most recent Copilot activity. Users must have
-         *     telemetry enabled in their IDE for Copilot in the IDE activity to be reflected in `last_activity_at`. For more information about activity data,
-         *     see "[Reviewing user activity data for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/reviewing-activity-related-to-github-copilot-in-your-organization/reviewing-user-activity-data-for-copilot-in-your-organization)."
-         *
-         *     Only enterprise owners and billing managers can view assigned Copilot seats across their child organizations or enterprise teams.
-         *
-         *     Personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need the `read:enterprise` scope to use this endpoint.
          */
-        get: operations["copilot/list-copilot-seats-for-enterprise"];
+        get: operations["code-security/get-configurations-for-enterprise"];
+        put?: never;
+        /**
+         * Create a code security configuration for an enterprise
+         * @description Creates a code security configuration in an enterprise.
+         *
+         *     The authenticated user must be an administrator of the enterprise in order to use this endpoint.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint.
+         */
+        post: operations["code-security/create-configuration-for-enterprise"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/enterprises/{enterprise}/code-security/configurations/defaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get default code security configurations for an enterprise
+         * @description Lists the default code security configurations for an enterprise.
+         *
+         *     The authenticated user must be an administrator of the enterprise in order to use this endpoint.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `read:enterprise` scope to use this endpoint.
+         */
+        get: operations["code-security/get-default-configurations-for-enterprise"];
         put?: never;
         post?: never;
         delete?: never;
@@ -636,7 +656,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/enterprises/{enterprise}/copilot/metrics": {
+    "/enterprises/{enterprise}/code-security/configurations/{configuration_id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -644,20 +664,85 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get Copilot metrics for an enterprise
-         * @description Use this endpoint to see a breakdown of aggregated metrics for various GitHub Copilot features. See the response schema tab for detailed metrics definitions.
+         * Retrieve a code security configuration of an enterprise
+         * @description Gets a code security configuration available in an enterprise.
          *
-         *     The response contains metrics for up to 28 days prior. Metrics are processed once per day for the previous day,
-         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
-         *     they must have telemetry enabled in their IDE.
+         *     The authenticated user must be an administrator of the enterprise in order to use this endpoint.
          *
-         *     To access this endpoint, the Copilot Metrics API access policy must be enabled or set to "no policy" for the enterprise within GitHub settings.
-         *     Only enterprise owners and billing managers can view Copilot metrics for the enterprise.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need the `read:enterprise` scope to use this endpoint.
          */
-        get: operations["copilot/copilot-metrics-for-enterprise"];
+        get: operations["code-security/get-single-configuration-for-enterprise"];
         put?: never;
+        post?: never;
+        /**
+         * Delete a code security configuration for an enterprise
+         * @description Deletes a code security configuration from an enterprise.
+         *     Repositories attached to the configuration will retain their settings but will no longer be associated with
+         *     the configuration.
+         *
+         *     The authenticated user must be an administrator for the enterprise to use this endpoint.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint.
+         */
+        delete: operations["code-security/delete-configuration-for-enterprise"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a custom code security configuration for an enterprise
+         * @description Updates a code security configuration in an enterprise.
+         *
+         *     The authenticated user must be an administrator of the enterprise in order to use this endpoint.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint.
+         */
+        patch: operations["code-security/update-enterprise-configuration"];
+        trace?: never;
+    };
+    "/enterprises/{enterprise}/code-security/configurations/{configuration_id}/attach": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Attach an enterprise configuration to repositories
+         * @description Attaches an enterprise code security configuration to repositories. If the repositories specified are already attached to a configuration, they will be re-attached to the provided configuration.
+         *
+         *     If insufficient GHAS licenses are available to attach the configuration to a repository, only free features will be enabled.
+         *
+         *     The authenticated user must be an administrator for the enterprise to use this endpoint.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint.
+         */
+        post: operations["code-security/attach-enterprise-configuration"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/enterprises/{enterprise}/code-security/configurations/{configuration_id}/defaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set a code security configuration as a default for an enterprise
+         * @description Sets a code security configuration as a default to be applied to new repositories in your enterprise.
+         *
+         *     This configuration will be applied by default to the matching repository type when created, but only for organizations within the enterprise that do not already have a default code security configuration set.
+         *
+         *     The authenticated user must be an administrator for the enterprise to use this endpoint.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint.
+         */
+        put: operations["code-security/set-configuration-as-default-for-enterprise"];
         post?: never;
         delete?: never;
         options?: never;
@@ -665,7 +750,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/enterprises/{enterprise}/copilot/usage": {
+    "/enterprises/{enterprise}/code-security/configurations/{configuration_id}/repositories": {
         parameters: {
             query?: never;
             header?: never;
@@ -673,25 +758,14 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get a summary of Copilot usage for enterprise members
-         * @description > [!NOTE]
-         *     > This endpoint is in public preview and is subject to change.
+         * Get repositories associated with an enterprise code security configuration
+         * @description Lists the repositories associated with an enterprise code security configuration in an organization.
          *
-         *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
-         *     for all users across organizations with access to Copilot within your enterprise, with a further breakdown of suggestions, acceptances,
-         *     and number of active users by editor and language for each day. See the response schema tab for detailed metrics definitions.
+         *     The authenticated user must be an administrator of the enterprise in order to use this endpoint.
          *
-         *     The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
-         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
-         *     they must have telemetry enabled in their IDE.
-         *
-         *     The time zone in the response is in UTC time, that means that the cutoff time for the "day" is UTC time.
-         *
-         *     Only owners and billing managers can view Copilot usage metrics for the enterprise.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
+         *     OAuth app tokens and personal access tokens (classic) need the `read:enterprise` scope to use this endpoint.
          */
-        get: operations["copilot/usage-metrics-for-enterprise"];
+        get: operations["code-security/get-repositories-for-enterprise-configuration"];
         put?: never;
         post?: never;
         delete?: never;
@@ -744,74 +818,6 @@ export interface paths {
          *     OAuth app tokens and personal access tokens (classic) need the `repo` scope or `security_events` scope to use this endpoint.
          */
         get: operations["secret-scanning/list-alerts-for-enterprise"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/enterprises/{enterprise}/team/{team_slug}/copilot/metrics": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Copilot metrics for an enterprise team
-         * @description Use this endpoint to see a breakdown of aggregated metrics for various GitHub Copilot features. See the response schema tab for detailed metrics definitions.
-         *
-         *     The response contains metrics for up to 28 days prior. Metrics are processed once per day for the previous day,
-         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
-         *     they must have telemetry enabled in their IDE.
-         *
-         *     > [!NOTE]
-         *     > This endpoint will only return results for a given day if the enterprise team had **five or more members with active Copilot licenses** on that day, as evaluated at the end of that day.
-         *
-         *     To access this endpoint, the Copilot Metrics API access policy must be enabled or set to "no policy" for the enterprise within GitHub settings.
-         *     Only owners and billing managers for the enterprise that contains the enterprise team can view Copilot metrics for the enterprise team.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
-         */
-        get: operations["copilot/copilot-metrics-for-enterprise-team"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/enterprises/{enterprise}/team/{team_slug}/copilot/usage": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get a summary of Copilot usage for an enterprise team
-         * @description > [!NOTE]
-         *     > This endpoint is in public preview and is subject to change.
-         *
-         *     You can use this endpoint to see a daily breakdown of aggregated usage metrics for Copilot completions and Copilot Chat in the IDE
-         *     for users within an enterprise team, with a further breakdown of suggestions, acceptances, and number of active users by editor and language for each day.
-         *     See the response schema tab for detailed metrics definitions.
-         *
-         *     The response contains metrics for up to 28 days prior. Usage metrics are processed once per day for the previous day,
-         *     and the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,
-         *     they must have telemetry enabled in their IDE.
-         *
-         *     > [!NOTE]
-         *     > This endpoint will only return results for a given day if the enterprise team had five or more members with active Copilot licenses, as evaluated at the end of that day.
-         *
-         *     Owners and billing managers for the enterprise that contains the enterprise team can view Copilot usage metrics for the enterprise team.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.
-         */
-        get: operations["copilot/usage-metrics-for-enterprise-team"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1629,6 +1635,28 @@ export interface paths {
          *     > Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of organizations.
          */
         get: operations["orgs/list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations/{org}/settings/billing/usage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get billing usage report for an organization
+         * @description Gets a report of the total usage for an organization. To use this endpoint, you must be an administrator of an organization within an enterprise or an organization account.
+         *
+         *     **Note:** This endpoint is only available to organizations with access to the enhanced billing platform. For more information, see "[About the enhanced billing platform](https://docs.github.com/billing/using-the-new-billing-platform)."
+         */
+        get: operations["billing/get-github-billing-usage-report-org"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3217,13 +3245,11 @@ export interface paths {
          *     Purchases a GitHub Copilot seat for all users within each specified team.
          *     The organization will be billed for each seat based on the organization's Copilot plan. For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)."
          *
-         *     Only organization owners can add Copilot seats for their organization members.
-         *
-         *     In order for an admin to use this endpoint, the organization must have a Copilot Business or Enterprise subscription and a configured suggestion matching policy.
+         *     Only organization owners can purchase Copilot seats for their organization members. The organization must have a Copilot Business or Copilot Enterprise subscription and a configured suggestion matching policy.
          *     For more information about setting up a Copilot subscription, see "[Subscribing to Copilot for your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/subscribing-to-copilot-for-your-organization)."
          *     For more information about setting a suggestion matching policy, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/setting-policies-for-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#policies-for-suggestion-matching)."
          *
-         *     The response will contain the total number of new seats that were created and existing seats that were refreshed.
+         *     The response contains the total number of new seats that were created and existing seats that were refreshed.
          *
          *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
@@ -3235,14 +3261,11 @@ export interface paths {
          *
          *     Sets seats for all members of each team specified to "pending cancellation".
          *     This will cause the members of the specified team(s) to lose access to GitHub Copilot at the end of the current billing cycle unless they retain access through another team.
-         *
-         *     For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)."
-         *
-         *     For more information about disabling access to Copilot Business or Enterprise, see "[Revoking access to Copilot for members of your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization/revoking-access-to-copilot-for-members-of-your-organization)."
+         *     For more information about disabling access to Copilot, see "[Revoking access to Copilot for members of your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization/revoking-access-to-copilot-for-members-of-your-organization)."
          *
          *     Only organization owners can cancel Copilot seats for their organization members.
          *
-         *     The response will contain the total number of seats set to "pending cancellation".
+         *     The response contains the total number of seats set to "pending cancellation".
          *
          *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
@@ -3269,13 +3292,11 @@ export interface paths {
          *     Purchases a GitHub Copilot seat for each user specified.
          *     The organization will be billed for each seat based on the organization's Copilot plan. For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)."
          *
-         *     Only organization owners can add Copilot seats for their organization members.
-         *
-         *     In order for an admin to use this endpoint, the organization must have a Copilot Business or Enterprise subscription and a configured suggestion matching policy.
+         *     Only organization owners can purchase Copilot seats for their organization members. The organization must have a Copilot Business or Copilot Enterprise subscription and a configured suggestion matching policy.
          *     For more information about setting up a Copilot subscription, see "[Subscribing to Copilot for your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/subscribing-to-copilot-for-your-organization)."
          *     For more information about setting a suggestion matching policy, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/setting-policies-for-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#policies-for-suggestion-matching)."
          *
-         *     The response will contain the total number of new seats that were created and existing seats that were refreshed.
+         *     The response contains the total number of new seats that were created and existing seats that were refreshed.
          *
          *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
@@ -3287,14 +3308,11 @@ export interface paths {
          *
          *     Sets seats for all users specified to "pending cancellation".
          *     This will cause the specified users to lose access to GitHub Copilot at the end of the current billing cycle unless they retain access through team membership.
-         *
-         *     For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)."
-         *
-         *     For more information about disabling access to Copilot Business or Enterprise, see "[Revoking access to Copilot for members of your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization/revoking-access-to-copilot-for-members-of-your-organization)."
+         *     For more information about disabling access to Copilot, see "[Revoking access to Copilot for members of your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization/revoking-access-to-copilot-for-members-of-your-organization)."
          *
          *     Only organization owners can cancel Copilot seats for their organization members.
          *
-         *     The response will contain the total number of seats set to "pending cancellation".
+         *     The response contains the total number of seats set to "pending cancellation".
          *
          *     OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint.
          */
@@ -3609,7 +3627,9 @@ export interface paths {
         };
         /**
          * List organization webhooks
-         * @description You must be an organization owner to use this endpoint.
+         * @description List webhooks for an organization.
+         *
+         *     The authenticated user must be an organization owner to use this endpoint.
          *
          *     OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
          *     webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
@@ -3654,7 +3674,9 @@ export interface paths {
         post?: never;
         /**
          * Delete an organization webhook
-         * @description You must be an organization owner to use this endpoint.
+         * @description Delete a webhook for an organization.
+         *
+         *     The authenticated user must be an organization owner to use this endpoint.
          *
          *     OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
          *     webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
@@ -5027,6 +5049,109 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orgs/{org}/private-registries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List private registries for an organization
+         * @description > [!NOTE]
+         *     > This endpoint is in public preview and is subject to change.
+         *
+         *     Lists all private registry configurations available at the organization-level without revealing their encrypted
+         *     values.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        get: operations["private-registries/list-org-private-registries"];
+        put?: never;
+        /**
+         * Create a private registry for an organization
+         * @description > [!NOTE]
+         *     > This endpoint is in public preview and is subject to change.
+         *
+         *     Creates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        post: operations["private-registries/create-org-private-registry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/private-registries/public-key": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get private registries public key for an organization
+         * @description > [!NOTE]
+         *     > This endpoint is in public preview and is subject to change.
+         *
+         *     Gets the org public key, which is needed to encrypt private registry secrets. You need to encrypt a secret before you can create or update secrets.
+         *
+         *     OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        get: operations["private-registries/get-org-public-key"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/private-registries/{secret_name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a private registry for an organization
+         * @description > [!NOTE]
+         *     > This endpoint is in public preview and is subject to change.
+         *
+         *     Get the configuration of a single private registry defined for an organization, omitting its encrypted value.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        get: operations["private-registries/get-org-private-registry"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a private registry for an organization
+         * @description > [!NOTE]
+         *     > This endpoint is in public preview and is subject to change.
+         *
+         *     Delete a private registry configuration at the organization-level.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        delete: operations["private-registries/delete-org-private-registry"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a private registry for an organization
+         * @description > [!NOTE]
+         *     > This endpoint is in public preview and is subject to change.
+         *
+         *     Updates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        patch: operations["private-registries/update-org-private-registry"];
+        trace?: never;
+    };
     "/orgs/{org}/projects": {
         parameters: {
             query?: never;
@@ -5384,11 +5509,9 @@ export interface paths {
         };
         /**
          * List security manager teams
-         * @description Lists teams that are security managers for an organization. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."
-         *
-         *     The authenticated user must be an administrator or security manager for the organization to use this endpoint.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.
+         * @deprecated
+         * @description > [!WARNING]
+         *     > **Closing down notice:** This operation is closing down and will be removed starting January 1, 2026. Please use the "[Organization Roles](https://docs.github.com/rest/orgs/organization-roles)" endpoints instead.
          */
         get: operations["orgs/list-security-manager-teams"];
         put?: never;
@@ -5409,21 +5532,17 @@ export interface paths {
         get?: never;
         /**
          * Add a security manager team
-         * @description Adds a team as a security manager for an organization. For more information, see "[Managing security for an organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization) for an organization."
-         *
-         *     The authenticated user must be an administrator for the organization to use this endpoint.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+         * @deprecated
+         * @description > [!WARNING]
+         *     > **Closing down notice:** This operation is closing down and will be removed starting January 1, 2026. Please use the "[Organization Roles](https://docs.github.com/rest/orgs/organization-roles)" endpoints instead.
          */
         put: operations["orgs/add-security-manager-team"];
         post?: never;
         /**
          * Remove a security manager team
-         * @description Removes the security manager role from a team for an organization. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization) team from an organization."
-         *
-         *     The authenticated user must be an administrator for the organization to use this endpoint.
-         *
-         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         * @deprecated
+         * @description > [!WARNING]
+         *     > **Closing down notice:** This operation is closing down and will be removed starting January 1, 2026. Please use the "[Organization Roles](https://docs.github.com/rest/orgs/organization-roles)" endpoints instead.
          */
         delete: operations["orgs/remove-security-manager-team"];
         options?: never;
@@ -7166,7 +7285,7 @@ export interface paths {
          *
          *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
          *
-         *     This API will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`.
+         *     This endpoint will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`.
          */
         get: operations["actions/list-workflow-runs-for-repo"];
         put?: never;
@@ -7871,6 +7990,8 @@ export interface paths {
          *     Anyone with read access to the repository can use this endpoint
          *
          *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
+         *
+         *     This endpoint will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`.
          */
         get: operations["actions/list-workflow-runs"];
         put?: never;
@@ -8806,6 +8927,62 @@ export interface paths {
         patch: operations["code-scanning/update-alert"];
         trace?: never;
     };
+    "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the status of an autofix for a code scanning alert
+         * @description Gets the status and description of an autofix for a code scanning alert.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         */
+        get: operations["code-scanning/get-autofix"];
+        put?: never;
+        /**
+         * Create an autofix for a code scanning alert
+         * @description Creates an autofix for a code scanning alert.
+         *
+         *     If a new autofix is to be created as a result of this request or is currently being generated, then this endpoint will return a 202 Accepted response.
+         *
+         *     If an autofix already exists for a given alert, then this endpoint will return a 200 OK response.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         */
+        post: operations["code-scanning/create-autofix"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix/commits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Commit an autofix for a code scanning alert
+         * @description Commits an autofix for a code scanning alert.
+         *
+         *     If an autofix is commited as a result of this request, then this endpoint will return a 201 Created response.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+         */
+        post: operations["code-scanning/commit-autofix"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances": {
         parameters: {
             query?: never;
@@ -9700,6 +9877,7 @@ export interface paths {
          *     | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in table below. |
          *     | `signature` | `string` | The signature that was extracted from the commit. |
          *     | `payload` | `string` | The value that was signed. |
+         *     | `verified_at` | `string` | The date the signature was verified by GitHub. |
          *
          *     These are the possible values for `reason` in the `verification` object:
          *
@@ -9842,6 +10020,7 @@ export interface paths {
          *     | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in table below. |
          *     | `signature` | `string` | The signature that was extracted from the commit. |
          *     | `payload` | `string` | The value that was signed. |
+         *     | `verified_at` | `string` | The date the signature was verified by GitHub. |
          *
          *     These are the possible values for `reason` in the `verification` object:
          *
@@ -10042,6 +10221,7 @@ export interface paths {
          *     | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in table below. |
          *     | `signature` | `string` | The signature that was extracted from the commit. |
          *     | `payload` | `string` | The value that was signed. |
+         *     | `verified_at` | `string` | The date the signature was verified by GitHub. |
          *
          *     These are the possible values for `reason` in the `verification` object:
          *
@@ -11026,6 +11206,7 @@ export interface paths {
          *     | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in the table below. |
          *     | `signature` | `string` | The signature that was extracted from the commit. |
          *     | `payload` | `string` | The value that was signed. |
+         *     | `verified_at` | `string` | The date the signature was verified by GitHub. |
          *
          *     These are the possible values for `reason` in the `verification` object:
          *
@@ -11075,6 +11256,7 @@ export interface paths {
          *     | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in the table below. |
          *     | `signature` | `string` | The signature that was extracted from the commit. |
          *     | `payload` | `string` | The value that was signed. |
+         *     | `verified_at` | `string` | The date the signature was verified by GitHub. |
          *
          *     These are the possible values for `reason` in the `verification` object:
          *
@@ -11220,6 +11402,7 @@ export interface paths {
          *     | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in table below. |
          *     | `signature` | `string` | The signature that was extracted from the commit. |
          *     | `payload` | `string` | The value that was signed. |
+         *     | `verified_at` | `string` | The date the signature was verified by GitHub. |
          *
          *     These are the possible values for `reason` in the `verification` object:
          *
@@ -11265,6 +11448,7 @@ export interface paths {
          *     | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in table below. |
          *     | `signature` | `string` | The signature that was extracted from the commit. |
          *     | `payload` | `string` | The value that was signed. |
+         *     | `verified_at` | `string` | The date the signature was verified by GitHub. |
          *
          *     These are the possible values for `reason` in the `verification` object:
          *
@@ -11381,7 +11565,12 @@ export interface paths {
         get: operations["repos/get-webhook"];
         put?: never;
         post?: never;
-        /** Delete a repository webhook */
+        /**
+         * Delete a repository webhook
+         * @description Delete a webhook for an organization.
+         *
+         *     The authenticated user must be a repository owner, or have admin access in the repository, to delete the webhook.
+         */
         delete: operations["repos/delete-webhook"];
         options?: never;
         head?: never;
@@ -12286,6 +12475,96 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/issues/{issue_number}/sub_issue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove sub-issue
+         * @description You can use the REST API to remove a sub-issue from an issue.
+         *     Removing content too quickly using this endpoint may result in secondary rate limiting.
+         *     For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+         *     - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass a specific media type.
+         *     - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+         *     - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+         *     - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+         */
+        delete: operations["issues/remove-sub-issue"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/issues/{issue_number}/sub_issues": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List sub-issues
+         * @description You can use the REST API to list the sub-issues on an issue.
+         *
+         *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+         *
+         *     - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+         *     - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+         *     - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+         *     - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+         */
+        get: operations["issues/list-sub-issues"];
+        put?: never;
+        /**
+         * Add sub-issue
+         * @description You can use the REST API to add sub-issues to issues.
+         *
+         *     Creating content too quickly using this endpoint may result in secondary rate limiting.
+         *     For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+         *     and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+         *
+         *     This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+         *
+         *     - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+         *     - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+         *     - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+         *     - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+         */
+        post: operations["issues/add-sub-issue"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/issues/{issue_number}/sub_issues/priority": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Reprioritize sub-issue
+         * @description You can use the REST API to reprioritize a sub-issue to a different position in the parent list.
+         */
+        patch: operations["issues/reprioritize-sub-issue"];
         trace?: never;
     };
     "/repos/{owner}/{repo}/issues/{issue_number}/timeline": {
@@ -13586,7 +13865,13 @@ export interface paths {
         };
         /**
          * Get a release asset
-         * @description To download the asset's binary content, set the `Accept` header of the request to [`application/octet-stream`](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). The API will either redirect the client to the location, or stream it directly if possible. API clients should handle both a `200` or `302` response.
+         * @description To download the asset's binary content:
+         *
+         *     - If within a browser, fetch the location specified in the `browser_download_url` key provided in the response.
+         *     - Alternatively, set the `Accept` header of the request to
+         *       [`application/octet-stream`](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).
+         *       The API will either redirect the client to the location, or stream it directly if possible.
+         *       API clients should handle both a `200` or `302` response.
          */
         get: operations["repos/get-release-asset"];
         put?: never;
@@ -13999,6 +14284,28 @@ export interface paths {
          *     OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
          */
         post: operations["secret-scanning/create-push-protection-bypass"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repos/{owner}/{repo}/secret-scanning/scan-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get secret scanning scan history for a repository
+         * @description Lists the latest incremental and backfill scans by type for a repository.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead.
+         */
+        get: operations["secret-scanning/get-scan-history"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -23131,6 +23438,31 @@ export interface webhooks {
         patch?: never;
         trace?: never;
     };
+    "secret-scanning-scan-completed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * This event occurs when secret scanning completes certain scans on a repository. For more information about secret scanning, see "[About secret scanning](https://docs.github.com/code-security/secret-scanning/about-secret-scanning)."
+         *
+         *     Scans can originate from multiple events such as updates to a custom pattern, a push to a repository, or updates
+         *     to patterns from partners. For more information on custom patterns, see "[About custom patterns](https://docs.github.com/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns)."
+         *
+         *     To subscribe to this event, a GitHub App must have at least read-level access for the "Secret scanning alerts" repository permission.
+         * @description A secret scanning scan was completed.
+         */
+        post: operations["secret-scanning-scan/completed"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "security-advisory-published": {
         parameters: {
             query?: never;
@@ -25189,464 +25521,146 @@ export interface components {
             /** Format: uri */
             html_url: string | null;
         };
-        /**
-         * Organization Simple
-         * @description A GitHub organization.
-         */
-        "organization-simple": {
-            login: string;
-            id: number;
-            node_id: string;
-            /** Format: uri */
-            url: string;
-            /** Format: uri */
-            repos_url: string;
-            /** Format: uri */
-            events_url: string;
-            hooks_url: string;
-            issues_url: string;
-            members_url: string;
-            public_members_url: string;
-            avatar_url: string;
-            description: string | null;
-        };
-        /**
-         * Team Simple
-         * @description Groups of organization members that gives permissions on specified repositories.
-         */
-        "team-simple": {
-            /** @description Unique identifier of the team */
-            id: number;
-            node_id: string;
+        /** @description A code security configuration */
+        "code-security-configuration": {
+            /** @description The ID of the code security configuration */
+            id?: number;
+            /** @description The name of the code security configuration. Must be unique within the organization. */
+            name?: string;
+            /**
+             * @description The type of the code security configuration.
+             * @enum {string}
+             */
+            target_type?: "global" | "organization" | "enterprise";
+            /** @description A description of the code security configuration */
+            description?: string;
+            /**
+             * @description The enablement status of GitHub Advanced Security
+             * @enum {string}
+             */
+            advanced_security?: "enabled" | "disabled";
+            /**
+             * @description The enablement status of Dependency Graph
+             * @enum {string}
+             */
+            dependency_graph?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of Automatic dependency submission
+             * @enum {string}
+             */
+            dependency_graph_autosubmit_action?: "enabled" | "disabled" | "not_set";
+            /** @description Feature options for Automatic dependency submission */
+            dependency_graph_autosubmit_action_options?: {
+                /** @description Whether to use runners labeled with 'dependency-submission' or standard GitHub runners. */
+                labeled_runners?: boolean;
+            };
+            /**
+             * @description The enablement status of Dependabot alerts
+             * @enum {string}
+             */
+            dependabot_alerts?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of Dependabot security updates
+             * @enum {string}
+             */
+            dependabot_security_updates?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of code scanning default setup
+             * @enum {string}
+             */
+            code_scanning_default_setup?: "enabled" | "disabled" | "not_set";
+            /** @description Feature options for code scanning default setup */
+            code_scanning_default_setup_options?: {
+                /**
+                 * @description Whether to use labeled runners or standard GitHub runners.
+                 * @enum {string|null}
+                 */
+                runner_type?: "standard" | "labeled" | "not_set" | null;
+                /** @description The label of the runner to use for code scanning when runner_type is 'labeled'. */
+                runner_label?: string | null;
+            } | null;
+            /**
+             * @description The enablement status of secret scanning
+             * @enum {string}
+             */
+            secret_scanning?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of secret scanning push protection
+             * @enum {string}
+             */
+            secret_scanning_push_protection?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of secret scanning delegated bypass
+             * @enum {string}
+             */
+            secret_scanning_delegated_bypass?: "enabled" | "disabled" | "not_set";
+            /** @description Feature options for secret scanning delegated bypass */
+            secret_scanning_delegated_bypass_options?: {
+                /** @description The bypass reviewers for secret scanning delegated bypass */
+                reviewers?: {
+                    /** @description The ID of the team or role selected as a bypass reviewer */
+                    reviewer_id: number;
+                    /**
+                     * @description The type of the bypass reviewer
+                     * @enum {string}
+                     */
+                    reviewer_type: "TEAM" | "ROLE";
+                }[];
+            };
+            /**
+             * @description The enablement status of secret scanning validity checks
+             * @enum {string}
+             */
+            secret_scanning_validity_checks?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of secret scanning non-provider patterns
+             * @enum {string}
+             */
+            secret_scanning_non_provider_patterns?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enablement status of private vulnerability reporting
+             * @enum {string}
+             */
+            private_vulnerability_reporting?: "enabled" | "disabled" | "not_set";
+            /**
+             * @description The enforcement status for a security configuration
+             * @enum {string}
+             */
+            enforcement?: "enforced" | "unenforced";
             /**
              * Format: uri
-             * @description URL for the team
+             * @description The URL of the configuration
              */
-            url: string;
-            members_url: string;
-            /** @description Name of the team */
-            name: string;
-            /** @description Description of the team */
-            description: string | null;
-            /** @description Permission that the team will have for its repositories */
-            permission: string;
-            /** @description The level of privacy this team should have */
-            privacy?: string;
-            /** @description The notification setting the team has set */
-            notification_setting?: string;
-            /** Format: uri */
-            html_url: string;
-            /** Format: uri */
-            repositories_url: string;
-            slug: string;
-            /** @description Distinguished Name (DN) that team maps to within LDAP environment */
-            ldap_dn?: string;
-        };
-        /**
-         * Team
-         * @description Groups of organization members that gives permissions on specified repositories.
-         */
-        team: {
-            id: number;
-            node_id: string;
-            name: string;
-            slug: string;
-            description: string | null;
-            privacy?: string;
-            notification_setting?: string;
-            permission: string;
-            permissions?: {
-                pull: boolean;
-                triage: boolean;
-                push: boolean;
-                maintain: boolean;
-                admin: boolean;
-            };
-            /** Format: uri */
-            url: string;
-            /** Format: uri */
-            html_url: string;
-            members_url: string;
-            /** Format: uri */
-            repositories_url: string;
-            parent: null | components["schemas"]["team-simple"];
-        };
-        /**
-         * Enterprise Team
-         * @description Group of enterprise owners and/or members
-         */
-        "enterprise-team": {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            slug: string;
-            /** Format: uri */
-            url: string;
-            sync_to_organizations: string;
-            group_id?: string | null;
-            /** Format: uri */
-            html_url: string;
-            members_url: string;
+            url?: string;
+            /**
+             * Format: uri
+             * @description The URL of the configuration
+             */
+            html_url?: string;
             /** Format: date-time */
-            created_at: string;
+            created_at?: string;
             /** Format: date-time */
-            updated_at: string;
-        };
-        /**
-         * Copilot Business Seat Detail
-         * @description Information about a Copilot Business seat assignment for a user, team, or organization.
-         */
-        "copilot-seat-details": {
-            assignee: components["schemas"]["simple-user"];
-            organization?: null | components["schemas"]["organization-simple"];
-            /** @description The team through which the assignee is granted access to GitHub Copilot, if applicable. */
-            assigning_team?: (null | Record<string, never>) & (components["schemas"]["team"] | components["schemas"]["enterprise-team"]);
-            /**
-             * Format: date
-             * @description The pending cancellation date for the seat, in `YYYY-MM-DD` format. This will be null unless the assignee's Copilot access has been canceled during the current billing cycle. If the seat has been cancelled, this corresponds to the start of the organization's next billing cycle.
-             */
-            pending_cancellation_date?: string | null;
-            /**
-             * Format: date-time
-             * @description Timestamp of user's last GitHub Copilot activity, in ISO 8601 format.
-             */
-            last_activity_at?: string | null;
-            /** @description Last editor that was used by the user for a GitHub Copilot completion. */
-            last_activity_editor?: string | null;
-            /**
-             * Format: date-time
-             * @description Timestamp of when the assignee was last granted access to GitHub Copilot, in ISO 8601 format.
-             */
-            created_at: string;
-            /**
-             * Format: date-time
-             * @description Timestamp of when the assignee's GitHub Copilot access was last updated, in ISO 8601 format.
-             */
             updated_at?: string;
+        };
+        /** @description Feature options for code scanning default setup */
+        "code-scanning-default-setup-options": {
             /**
-             * @description The Copilot plan of the organization, or the parent enterprise, when applicable.
+             * @description Whether to use labeled runners or standard GitHub runners.
              * @enum {string}
              */
-            plan_type?: "business" | "enterprise" | "unknown";
-        };
-        /** @description Usage metrics for Copilot editor code completions in the IDE. */
-        "copilot-ide-code-completions": ({
-            /** @description Number of users who accepted at least one Copilot code suggestion, across all active editors. Includes both full and partial acceptances. */
-            total_engaged_users?: number;
-            /** @description Code completion metrics for active languages. */
-            languages?: {
-                /** @description Name of the language used for Copilot code completion suggestions. */
-                name?: string;
-                /** @description Number of users who accepted at least one Copilot code completion suggestion for the given language. Includes both full and partial acceptances. */
-                total_engaged_users?: number;
-            }[];
-            editors?: ({
-                /** @description Name of the given editor. */
-                name?: string;
-                /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor. Includes both full and partial acceptances. */
-                total_engaged_users?: number;
-                /** @description List of model metrics for custom models and the default model. */
-                models?: {
-                    /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
-                    name?: string;
-                    /** @description Indicates whether a model is custom or default. */
-                    is_custom_model?: boolean;
-                    /** @description The training date for the custom model. */
-                    custom_model_training_date?: string | null;
-                    /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor, for the given language and model. Includes both full and partial acceptances. */
-                    total_engaged_users?: number;
-                    /** @description Code completion metrics for active languages, for the given editor. */
-                    languages?: {
-                        /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
-                        name?: string;
-                        /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor, for the given language. Includes both full and partial acceptances. */
-                        total_engaged_users?: number;
-                        /** @description The number of Copilot code suggestions generated for the given editor, for the given language. */
-                        total_code_suggestions?: number;
-                        /** @description The number of Copilot code suggestions accepted for the given editor, for the given language. Includes both full and partial acceptances. */
-                        total_code_acceptances?: number;
-                        /** @description The number of lines of code suggested by Copilot code completions for the given editor, for the given language. */
-                        total_code_lines_suggested?: number;
-                        /** @description The number of lines of code accepted from Copilot code suggestions for the given editor, for the given language. */
-                        total_code_lines_accepted?: number;
-                    }[];
-                }[];
-            } & {
-                [key: string]: unknown;
-            })[];
-        } & {
-            [key: string]: unknown;
-        }) | null;
-        /** @description Usage metrics for Copilot Chat in the IDE. */
-        "copilot-ide-chat": ({
-            /** @description Total number of users who prompted Copilot Chat in the IDE. */
-            total_engaged_users?: number;
-            editors?: {
-                /** @description Name of the given editor. */
-                name?: string;
-                /** @description The number of users who prompted Copilot Chat in the specified editor. */
-                total_engaged_users?: number;
-                /** @description List of model metrics for custom models and the default model. */
-                models?: {
-                    /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
-                    name?: string;
-                    /** @description Indicates whether a model is custom or default. */
-                    is_custom_model?: boolean;
-                    /** @description The training date for the custom model. */
-                    custom_model_training_date?: string | null;
-                    /** @description The number of users who prompted Copilot Chat in the given editor and model. */
-                    total_engaged_users?: number;
-                    /** @description The total number of chats initiated by users in the given editor and model. */
-                    total_chats?: number;
-                    /** @description The number of times users accepted a code suggestion from Copilot Chat using the 'Insert Code' UI element, for the given editor. */
-                    total_chat_insertion_events?: number;
-                    /** @description The number of times users copied a code suggestion from Copilot Chat using the keyboard, or the 'Copy' UI element, for the given editor. */
-                    total_chat_copy_events?: number;
-                }[];
-            }[];
-        } & {
-            [key: string]: unknown;
-        }) | null;
-        /** @description Usage metrics for Copilot Chat in github.com */
-        "copilot-dotcom-chat": ({
-            /** @description Total number of users who prompted Copilot Chat on github.com at least once. */
-            total_engaged_users?: number;
-            /** @description List of model metrics for a custom models and the default model. */
-            models?: {
-                /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
-                name?: string;
-                /** @description Indicates whether a model is custom or default. */
-                is_custom_model?: boolean;
-                /** @description The training date for the custom model (if applicable). */
-                custom_model_training_date?: string | null;
-                /** @description Total number of users who prompted Copilot Chat on github.com at least once for each model. */
-                total_engaged_users?: number;
-                /** @description Total number of chats initiated by users on github.com. */
-                total_chats?: number;
-            }[];
-        } & {
-            [key: string]: unknown;
-        }) | null;
-        /** @description Usage metrics for Copilot for pull requests. */
-        "copilot-dotcom-pull-requests": ({
-            /** @description The number of users who used Copilot for Pull Requests on github.com to generate a pull request summary at least once. */
-            total_engaged_users?: number;
-            /** @description Repositories in which users used Copilot for Pull Requests to generate pull request summaries */
-            repositories?: {
-                /** @description Repository name */
-                name?: string;
-                /** @description The number of users who generated pull request summaries using Copilot for Pull Requests in the given repository. */
-                total_engaged_users?: number;
-                /** @description List of model metrics for custom models and the default model. */
-                models?: {
-                    /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
-                    name?: string;
-                    /** @description Indicates whether a model is custom or default. */
-                    is_custom_model?: boolean;
-                    /** @description The training date for the custom model. */
-                    custom_model_training_date?: string | null;
-                    /** @description The number of pull request summaries generated using Copilot for Pull Requests in the given repository. */
-                    total_pr_summaries_created?: number;
-                    /** @description The number of users who generated pull request summaries using Copilot for Pull Requests in the given repository and model. */
-                    total_engaged_users?: number;
-                }[];
-            }[];
-        } & {
-            [key: string]: unknown;
-        }) | null;
-        /**
-         * Copilot Usage Metrics
-         * @description Copilot usage metrics for a given day.
-         */
-        "copilot-usage-metrics-day": {
+            runner_type?: "standard" | "labeled" | "not_set";
+            /** @description The label of the runner to use for code scanning default setup when runner_type is 'labeled'. */
+            runner_label?: string | null;
+        } | null;
+        /** @description A list of default code security configurations */
+        "code-security-default-configurations": {
             /**
-             * Format: date
-             * @description The date for which the usage metrics are aggregated, in `YYYY-MM-DD` format.
+             * @description The visibility of newly created repositories for which the code security configuration will be applied to by default
+             * @enum {unknown}
              */
-            date: string;
-            /** @description The total number of Copilot users with activity belonging to any Copilot feature, globally, for the given day. Includes passive activity such as receiving a code suggestion, as well as engagement activity such as accepting a code suggestion or prompting chat. Does not include authentication events. Is not limited to the individual features detailed on the endpoint. */
-            total_active_users?: number;
-            /** @description The total number of Copilot users who engaged with any Copilot feature, for the given day. Examples include but are not limited to accepting a code suggestion, prompting Copilot chat, or triggering a PR Summary. Does not include authentication events. Is not limited to the individual features detailed on the endpoint. */
-            total_engaged_users?: number;
-            copilot_ide_code_completions?: components["schemas"]["copilot-ide-code-completions"];
-            copilot_ide_chat?: components["schemas"]["copilot-ide-chat"];
-            copilot_dotcom_chat?: components["schemas"]["copilot-dotcom-chat"];
-            copilot_dotcom_pull_requests?: components["schemas"]["copilot-dotcom-pull-requests"];
-        } & {
-            [key: string]: unknown;
-        };
-        /**
-         * Copilot Usage Metrics
-         * @description Summary of Copilot usage.
-         */
-        "copilot-usage-metrics": {
-            /**
-             * Format: date
-             * @description The date for which the usage metrics are reported, in `YYYY-MM-DD` format.
-             */
-            day: string;
-            /** @description The total number of Copilot code completion suggestions shown to users. */
-            total_suggestions_count?: number;
-            /** @description The total number of Copilot code completion suggestions accepted by users. */
-            total_acceptances_count?: number;
-            /** @description The total number of lines of code completions suggested by Copilot. */
-            total_lines_suggested?: number;
-            /** @description The total number of lines of code completions accepted by users. */
-            total_lines_accepted?: number;
-            /** @description The total number of users who were shown Copilot code completion suggestions during the day specified. */
-            total_active_users?: number;
-            /** @description The total instances of users who accepted code suggested by Copilot Chat in the IDE (panel and inline). */
-            total_chat_acceptances?: number;
-            /** @description The total number of chat turns (prompt and response pairs) sent between users and Copilot Chat in the IDE. */
-            total_chat_turns?: number;
-            /** @description The total number of users who interacted with Copilot Chat in the IDE during the day specified. */
-            total_active_chat_users?: number;
-            /** @description Breakdown of Copilot code completions usage by language and editor */
-            breakdown: ({
-                /** @description The language in which Copilot suggestions were shown to users in the specified editor. */
-                language?: string;
-                /** @description The editor in which Copilot suggestions were shown to users for the specified language. */
-                editor?: string;
-                /** @description The number of Copilot suggestions shown to users in the editor specified during the day specified. */
-                suggestions_count?: number;
-                /** @description The number of Copilot suggestions accepted by users in the editor specified during the day specified. */
-                acceptances_count?: number;
-                /** @description The number of lines of code suggested by Copilot in the editor specified during the day specified. */
-                lines_suggested?: number;
-                /** @description The number of lines of code accepted by users in the editor specified during the day specified. */
-                lines_accepted?: number;
-                /** @description The number of users who were shown Copilot completion suggestions in the editor specified during the day specified. */
-                active_users?: number;
-            } & {
-                [key: string]: unknown;
-            })[] | null;
-        };
-        /** @description The security alert number. */
-        "alert-number": number;
-        /** @description Details for the vulnerable package. */
-        "dependabot-alert-package": {
-            /** @description The package's language or package management ecosystem. */
-            readonly ecosystem: string;
-            /** @description The unique package name within its ecosystem. */
-            readonly name: string;
-        };
-        /** @description Details pertaining to one vulnerable version range for the advisory. */
-        "dependabot-alert-security-vulnerability": {
-            package: components["schemas"]["dependabot-alert-package"];
-            /**
-             * @description The severity of the vulnerability.
-             * @enum {string}
-             */
-            readonly severity: "low" | "medium" | "high" | "critical";
-            /** @description Conditions that identify vulnerable versions of this vulnerability's package. */
-            readonly vulnerable_version_range: string;
-            /** @description Details pertaining to the package version that patches this vulnerability. */
-            readonly first_patched_version: {
-                /** @description The package version that patches this vulnerability. */
-                readonly identifier: string;
-            } | null;
-        };
-        /** @description Details for the GitHub Security Advisory. */
-        "dependabot-alert-security-advisory": {
-            /** @description The unique GitHub Security Advisory ID assigned to the advisory. */
-            readonly ghsa_id: string;
-            /** @description The unique CVE ID assigned to the advisory. */
-            readonly cve_id: string | null;
-            /** @description A short, plain text summary of the advisory. */
-            readonly summary: string;
-            /** @description A long-form Markdown-supported description of the advisory. */
-            readonly description: string;
-            /** @description Vulnerable version range information for the advisory. */
-            readonly vulnerabilities: components["schemas"]["dependabot-alert-security-vulnerability"][];
-            /**
-             * @description The severity of the advisory.
-             * @enum {string}
-             */
-            readonly severity: "low" | "medium" | "high" | "critical";
-            /** @description Details for the advisory pertaining to the Common Vulnerability Scoring System. */
-            readonly cvss: {
-                /** @description The overall CVSS score of the advisory. */
-                readonly score: number;
-                /** @description The full CVSS vector string for the advisory. */
-                readonly vector_string: string | null;
-            };
-            cvss_severities?: components["schemas"]["cvss-severities"];
-            /** @description Details for the advisory pertaining to Common Weakness Enumeration. */
-            readonly cwes: {
-                /** @description The unique CWE ID. */
-                readonly cwe_id: string;
-                /** @description The short, plain text name of the CWE. */
-                readonly name: string;
-            }[];
-            /** @description Values that identify this advisory among security information sources. */
-            readonly identifiers: {
-                /**
-                 * @description The type of advisory identifier.
-                 * @enum {string}
-                 */
-                readonly type: "CVE" | "GHSA";
-                /** @description The value of the advisory identifer. */
-                readonly value: string;
-            }[];
-            /** @description Links to additional advisory information. */
-            readonly references: {
-                /**
-                 * Format: uri
-                 * @description The URL of the reference.
-                 */
-                readonly url: string;
-            }[];
-            /**
-             * Format: date-time
-             * @description The time that the advisory was published in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-             */
-            readonly published_at: string;
-            /**
-             * Format: date-time
-             * @description The time that the advisory was last modified in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-             */
-            readonly updated_at: string;
-            /**
-             * Format: date-time
-             * @description The time that the advisory was withdrawn in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-             */
-            readonly withdrawn_at: string | null;
-        };
-        /**
-         * Format: uri
-         * @description The REST API URL of the alert resource.
-         */
-        "alert-url": string;
-        /**
-         * Format: uri
-         * @description The GitHub URL of the alert resource.
-         */
-        "alert-html-url": string;
-        /**
-         * Format: date-time
-         * @description The time that the alert was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-         */
-        "alert-created-at": string;
-        /**
-         * Format: date-time
-         * @description The time that the alert was last updated in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-         */
-        "alert-updated-at": string;
-        /**
-         * Format: date-time
-         * @description The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-         */
-        "alert-dismissed-at": string | null;
-        /**
-         * Format: date-time
-         * @description The time that the alert was no longer detected and was considered fixed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-         */
-        "alert-fixed-at": string | null;
-        /**
-         * Format: date-time
-         * @description The time that the alert was auto-dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-         */
-        "alert-auto-dismissed-at": string | null;
+            default_for_new_repos?: "public" | "private_and_internal" | "all";
+            configuration?: components["schemas"]["code-security-configuration"];
+        }[];
         /**
          * Simple Repository
          * @description A GitHub repository.
@@ -25792,6 +25806,141 @@ export interface components {
              */
             hooks_url: string;
         };
+        /** @description Repositories associated with a code security configuration and attachment status */
+        "code-security-configuration-repositories": {
+            /**
+             * @description The attachment status of the code security configuration on the repository.
+             * @enum {string}
+             */
+            status?: "attached" | "attaching" | "detached" | "removed" | "enforced" | "failed" | "updating" | "removed_by_enterprise";
+            repository?: components["schemas"]["simple-repository"];
+        };
+        /** @description The security alert number. */
+        "alert-number": number;
+        /** @description Details for the vulnerable package. */
+        "dependabot-alert-package": {
+            /** @description The package's language or package management ecosystem. */
+            readonly ecosystem: string;
+            /** @description The unique package name within its ecosystem. */
+            readonly name: string;
+        };
+        /** @description Details pertaining to one vulnerable version range for the advisory. */
+        "dependabot-alert-security-vulnerability": {
+            package: components["schemas"]["dependabot-alert-package"];
+            /**
+             * @description The severity of the vulnerability.
+             * @enum {string}
+             */
+            readonly severity: "low" | "medium" | "high" | "critical";
+            /** @description Conditions that identify vulnerable versions of this vulnerability's package. */
+            readonly vulnerable_version_range: string;
+            /** @description Details pertaining to the package version that patches this vulnerability. */
+            readonly first_patched_version: {
+                /** @description The package version that patches this vulnerability. */
+                readonly identifier: string;
+            } | null;
+        };
+        /** @description Details for the GitHub Security Advisory. */
+        "dependabot-alert-security-advisory": {
+            /** @description The unique GitHub Security Advisory ID assigned to the advisory. */
+            readonly ghsa_id: string;
+            /** @description The unique CVE ID assigned to the advisory. */
+            readonly cve_id: string | null;
+            /** @description A short, plain text summary of the advisory. */
+            readonly summary: string;
+            /** @description A long-form Markdown-supported description of the advisory. */
+            readonly description: string;
+            /** @description Vulnerable version range information for the advisory. */
+            readonly vulnerabilities: components["schemas"]["dependabot-alert-security-vulnerability"][];
+            /**
+             * @description The severity of the advisory.
+             * @enum {string}
+             */
+            readonly severity: "low" | "medium" | "high" | "critical";
+            /** @description Details for the advisory pertaining to the Common Vulnerability Scoring System. */
+            readonly cvss: {
+                /** @description The overall CVSS score of the advisory. */
+                readonly score: number;
+                /** @description The full CVSS vector string for the advisory. */
+                readonly vector_string: string | null;
+            };
+            cvss_severities?: components["schemas"]["cvss-severities"];
+            /** @description Details for the advisory pertaining to Common Weakness Enumeration. */
+            readonly cwes: {
+                /** @description The unique CWE ID. */
+                readonly cwe_id: string;
+                /** @description The short, plain text name of the CWE. */
+                readonly name: string;
+            }[];
+            /** @description Values that identify this advisory among security information sources. */
+            readonly identifiers: {
+                /**
+                 * @description The type of advisory identifier.
+                 * @enum {string}
+                 */
+                readonly type: "CVE" | "GHSA";
+                /** @description The value of the advisory identifer. */
+                readonly value: string;
+            }[];
+            /** @description Links to additional advisory information. */
+            readonly references: {
+                /**
+                 * Format: uri
+                 * @description The URL of the reference.
+                 */
+                readonly url: string;
+            }[];
+            /**
+             * Format: date-time
+             * @description The time that the advisory was published in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+             */
+            readonly published_at: string;
+            /**
+             * Format: date-time
+             * @description The time that the advisory was last modified in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+             */
+            readonly updated_at: string;
+            /**
+             * Format: date-time
+             * @description The time that the advisory was withdrawn in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+             */
+            readonly withdrawn_at: string | null;
+        };
+        /**
+         * Format: uri
+         * @description The REST API URL of the alert resource.
+         */
+        "alert-url": string;
+        /**
+         * Format: uri
+         * @description The GitHub URL of the alert resource.
+         */
+        "alert-html-url": string;
+        /**
+         * Format: date-time
+         * @description The time that the alert was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+         */
+        "alert-created-at": string;
+        /**
+         * Format: date-time
+         * @description The time that the alert was last updated in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+         */
+        "alert-updated-at": string;
+        /**
+         * Format: date-time
+         * @description The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+         */
+        "alert-dismissed-at": string | null;
+        /**
+         * Format: date-time
+         * @description The time that the alert was no longer detected and was considered fixed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+         */
+        "alert-fixed-at": string | null;
+        /**
+         * Format: date-time
+         * @description The time that the alert was auto-dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+         */
+        "alert-auto-dismissed-at": string | null;
         /** @description A Dependabot alert. */
         "dependabot-alert-with-repository": {
             number: components["schemas"]["alert-number"];
@@ -25875,6 +26024,16 @@ export interface components {
              * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
              */
             push_protection_bypassed_at?: string | null;
+            push_protection_bypass_request_reviewer?: null | components["schemas"]["simple-user"];
+            /** @description An optional comment when reviewing a push protection bypass. */
+            push_protection_bypass_request_reviewer_comment?: string | null;
+            /** @description An optional comment when requesting a push protection bypass. */
+            push_protection_bypass_request_comment?: string | null;
+            /**
+             * Format: uri
+             * @description The URL to a push protection bypass request.
+             */
+            push_protection_bypass_request_html_url?: string | null;
             /** @description The comment that was optionally added when this alert was closed */
             resolution_comment?: string | null;
             /**
@@ -25956,6 +26115,12 @@ export interface components {
             hooray: number;
             eyes: number;
             rocket: number;
+        };
+        /** Sub-issues Summary */
+        "sub-issues-summary": {
+            total: number;
+            completed: number;
+            percent_completed: number;
         };
         /**
          * Issue
@@ -26039,6 +26204,7 @@ export interface components {
             performed_via_github_app?: null | components["schemas"]["integration"];
             author_association: components["schemas"]["author-association"];
             reactions?: components["schemas"]["reaction-rollup"];
+            sub_issues_summary?: components["schemas"]["sub-issues-summary"];
         };
         /**
          * Issue Comment
@@ -26518,6 +26684,10 @@ export interface components {
                 copilot?: string[];
                 packages?: string[];
                 actions?: string[];
+                actions_inbound?: {
+                    full_domains?: string[];
+                    wildcard_domains?: string[];
+                };
                 artifact_attestations?: {
                     trust_domain?: string;
                     services?: string[];
@@ -26715,6 +26885,53 @@ export interface components {
             thread_url?: string;
             /** Format: uri */
             repository_url?: string;
+        };
+        /**
+         * Organization Simple
+         * @description A GitHub organization.
+         */
+        "organization-simple": {
+            login: string;
+            id: number;
+            node_id: string;
+            /** Format: uri */
+            url: string;
+            /** Format: uri */
+            repos_url: string;
+            /** Format: uri */
+            events_url: string;
+            hooks_url: string;
+            issues_url: string;
+            members_url: string;
+            public_members_url: string;
+            avatar_url: string;
+            description: string | null;
+        };
+        "billing-usage-report": {
+            usageItems?: {
+                /** @description Date of the usage line item. */
+                date: string;
+                /** @description Product name. */
+                product: string;
+                /** @description SKU name. */
+                sku: string;
+                /** @description Quantity of the usage line item. */
+                quantity: number;
+                /** @description Unit type of the usage line item. */
+                unitType: string;
+                /** @description Price per unit of the usage line item. */
+                pricePerUnit: number;
+                /** @description Gross amount of the usage line item. */
+                grossAmount: number;
+                /** @description Discount amount of the usage line item. */
+                discountAmount: number;
+                /** @description Net amount of the usage line item. */
+                netAmount: number;
+                /** @description Name of the organization. */
+                organizationName: string;
+                /** @description Name of the repository. */
+                repositoryName?: string;
+            }[];
         };
         /**
          * Organization Full
@@ -27199,135 +27416,6 @@ export interface components {
             most_recent_instance: components["schemas"]["code-scanning-alert-instance"];
             repository: components["schemas"]["simple-repository"];
         };
-        /** @description A code security configuration */
-        "code-security-configuration": {
-            /** @description The ID of the code security configuration */
-            id?: number;
-            /** @description The name of the code security configuration. Must be unique within the organization. */
-            name?: string;
-            /**
-             * @description The type of the code security configuration.
-             * @enum {string}
-             */
-            target_type?: "global" | "organization" | "enterprise";
-            /** @description A description of the code security configuration */
-            description?: string;
-            /**
-             * @description The enablement status of GitHub Advanced Security
-             * @enum {string}
-             */
-            advanced_security?: "enabled" | "disabled";
-            /**
-             * @description The enablement status of Dependency Graph
-             * @enum {string}
-             */
-            dependency_graph?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enablement status of Automatic dependency submission
-             * @enum {string}
-             */
-            dependency_graph_autosubmit_action?: "enabled" | "disabled" | "not_set";
-            /** @description Feature options for Automatic dependency submission */
-            dependency_graph_autosubmit_action_options?: {
-                /** @description Whether to use runners labeled with 'dependency-submission' or standard GitHub runners. */
-                labeled_runners?: boolean;
-            };
-            /**
-             * @description The enablement status of Dependabot alerts
-             * @enum {string}
-             */
-            dependabot_alerts?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enablement status of Dependabot security updates
-             * @enum {string}
-             */
-            dependabot_security_updates?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enablement status of code scanning default setup
-             * @enum {string}
-             */
-            code_scanning_default_setup?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enablement status of secret scanning
-             * @enum {string}
-             */
-            secret_scanning?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enablement status of secret scanning push protection
-             * @enum {string}
-             */
-            secret_scanning_push_protection?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enablement status of secret scanning delegated bypass
-             * @enum {string}
-             */
-            secret_scanning_delegated_bypass?: "enabled" | "disabled" | "not_set";
-            /** @description Feature options for secret scanning delegated bypass */
-            secret_scanning_delegated_bypass_options?: {
-                /** @description The bypass reviewers for secret scanning delegated bypass */
-                reviewers?: {
-                    /** @description The ID of the team or role selected as a bypass reviewer */
-                    reviewer_id: number;
-                    /**
-                     * @description The type of the bypass reviewer
-                     * @enum {string}
-                     */
-                    reviewer_type: "TEAM" | "ROLE";
-                }[];
-            };
-            /**
-             * @description The enablement status of secret scanning validity checks
-             * @enum {string}
-             */
-            secret_scanning_validity_checks?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enablement status of secret scanning non-provider patterns
-             * @enum {string}
-             */
-            secret_scanning_non_provider_patterns?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enablement status of private vulnerability reporting
-             * @enum {string}
-             */
-            private_vulnerability_reporting?: "enabled" | "disabled" | "not_set";
-            /**
-             * @description The enforcement status for a security configuration
-             * @enum {string}
-             */
-            enforcement?: "enforced" | "unenforced";
-            /**
-             * Format: uri
-             * @description The URL of the configuration
-             */
-            url?: string;
-            /**
-             * Format: uri
-             * @description The URL of the configuration
-             */
-            html_url?: string;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
-        };
-        /** @description A list of default code security configurations */
-        "code-security-default-configurations": {
-            /**
-             * @description The visibility of newly created repositories for which the code security configuration will be applied to by default
-             * @enum {unknown}
-             */
-            default_for_new_repos?: "public" | "private_and_internal" | "all";
-            configuration?: components["schemas"]["code-security-configuration"];
-        }[];
-        /** @description Repositories associated with a code security configuration and attachment status */
-        "code-security-configuration-repositories": {
-            /**
-             * @description The attachment status of the code security configuration on the repository.
-             * @enum {string}
-             */
-            status?: "attached" | "attaching" | "detached" | "removed" | "enforced" | "failed" | "updating" | "removed_by_enterprise";
-            repository?: components["schemas"]["simple-repository"];
-        };
         /**
          * Codespace machine
          * @description A description of the machine powering a codespace.
@@ -27560,6 +27648,318 @@ export interface components {
             plan_type?: "business" | "enterprise" | "unknown";
         } & {
             [key: string]: unknown;
+        };
+        /**
+         * Team Simple
+         * @description Groups of organization members that gives permissions on specified repositories.
+         */
+        "team-simple": {
+            /** @description Unique identifier of the team */
+            id: number;
+            node_id: string;
+            /**
+             * Format: uri
+             * @description URL for the team
+             */
+            url: string;
+            members_url: string;
+            /** @description Name of the team */
+            name: string;
+            /** @description Description of the team */
+            description: string | null;
+            /** @description Permission that the team will have for its repositories */
+            permission: string;
+            /** @description The level of privacy this team should have */
+            privacy?: string;
+            /** @description The notification setting the team has set */
+            notification_setting?: string;
+            /** Format: uri */
+            html_url: string;
+            /** Format: uri */
+            repositories_url: string;
+            slug: string;
+            /** @description Distinguished Name (DN) that team maps to within LDAP environment */
+            ldap_dn?: string;
+        };
+        /**
+         * Team
+         * @description Groups of organization members that gives permissions on specified repositories.
+         */
+        team: {
+            id: number;
+            node_id: string;
+            name: string;
+            slug: string;
+            description: string | null;
+            privacy?: string;
+            notification_setting?: string;
+            permission: string;
+            permissions?: {
+                pull: boolean;
+                triage: boolean;
+                push: boolean;
+                maintain: boolean;
+                admin: boolean;
+            };
+            /** Format: uri */
+            url: string;
+            /** Format: uri */
+            html_url: string;
+            members_url: string;
+            /** Format: uri */
+            repositories_url: string;
+            parent: null | components["schemas"]["team-simple"];
+        };
+        /**
+         * Enterprise Team
+         * @description Group of enterprise owners and/or members
+         */
+        "enterprise-team": {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            slug: string;
+            /** Format: uri */
+            url: string;
+            sync_to_organizations: string;
+            group_id?: string | null;
+            /** Format: uri */
+            html_url: string;
+            members_url: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+        };
+        /**
+         * Copilot Business Seat Detail
+         * @description Information about a Copilot Business seat assignment for a user, team, or organization.
+         */
+        "copilot-seat-details": {
+            assignee: components["schemas"]["simple-user"];
+            organization?: null | components["schemas"]["organization-simple"];
+            /** @description The team through which the assignee is granted access to GitHub Copilot, if applicable. */
+            assigning_team?: (null | Record<string, never>) & (components["schemas"]["team"] | components["schemas"]["enterprise-team"]);
+            /**
+             * Format: date
+             * @description The pending cancellation date for the seat, in `YYYY-MM-DD` format. This will be null unless the assignee's Copilot access has been canceled during the current billing cycle. If the seat has been cancelled, this corresponds to the start of the organization's next billing cycle.
+             */
+            pending_cancellation_date?: string | null;
+            /**
+             * Format: date-time
+             * @description Timestamp of user's last GitHub Copilot activity, in ISO 8601 format.
+             */
+            last_activity_at?: string | null;
+            /** @description Last editor that was used by the user for a GitHub Copilot completion. */
+            last_activity_editor?: string | null;
+            /**
+             * Format: date-time
+             * @description Timestamp of when the assignee was last granted access to GitHub Copilot, in ISO 8601 format.
+             */
+            created_at: string;
+            /**
+             * Format: date-time
+             * @deprecated
+             * @description **Closing down notice:** This field is no longer relevant and is closing down. Use the `created_at` field to determine when the assignee was last granted access to GitHub Copilot. Timestamp of when the assignee's GitHub Copilot access was last updated, in ISO 8601 format.
+             */
+            updated_at?: string;
+            /**
+             * @description The Copilot plan of the organization, or the parent enterprise, when applicable.
+             * @enum {string}
+             */
+            plan_type?: "business" | "enterprise" | "unknown";
+        };
+        /** @description Usage metrics for Copilot editor code completions in the IDE. */
+        "copilot-ide-code-completions": ({
+            /** @description Number of users who accepted at least one Copilot code suggestion, across all active editors. Includes both full and partial acceptances. */
+            total_engaged_users?: number;
+            /** @description Code completion metrics for active languages. */
+            languages?: {
+                /** @description Name of the language used for Copilot code completion suggestions. */
+                name?: string;
+                /** @description Number of users who accepted at least one Copilot code completion suggestion for the given language. Includes both full and partial acceptances. */
+                total_engaged_users?: number;
+            }[];
+            editors?: ({
+                /** @description Name of the given editor. */
+                name?: string;
+                /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor. Includes both full and partial acceptances. */
+                total_engaged_users?: number;
+                /** @description List of model metrics for custom models and the default model. */
+                models?: {
+                    /** @description Name of the model used for Copilot code completion suggestions. If the default model is used will appear as 'default'. */
+                    name?: string;
+                    /** @description Indicates whether a model is custom or default. */
+                    is_custom_model?: boolean;
+                    /** @description The training date for the custom model. */
+                    custom_model_training_date?: string | null;
+                    /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor, for the given language and model. Includes both full and partial acceptances. */
+                    total_engaged_users?: number;
+                    /** @description Code completion metrics for active languages, for the given editor. */
+                    languages?: {
+                        /** @description Name of the language used for Copilot code completion suggestions, for the given editor. */
+                        name?: string;
+                        /** @description Number of users who accepted at least one Copilot code completion suggestion for the given editor, for the given language. Includes both full and partial acceptances. */
+                        total_engaged_users?: number;
+                        /** @description The number of Copilot code suggestions generated for the given editor, for the given language. */
+                        total_code_suggestions?: number;
+                        /** @description The number of Copilot code suggestions accepted for the given editor, for the given language. Includes both full and partial acceptances. */
+                        total_code_acceptances?: number;
+                        /** @description The number of lines of code suggested by Copilot code completions for the given editor, for the given language. */
+                        total_code_lines_suggested?: number;
+                        /** @description The number of lines of code accepted from Copilot code suggestions for the given editor, for the given language. */
+                        total_code_lines_accepted?: number;
+                    }[];
+                }[];
+            } & {
+                [key: string]: unknown;
+            })[];
+        } & {
+            [key: string]: unknown;
+        }) | null;
+        /** @description Usage metrics for Copilot Chat in the IDE. */
+        "copilot-ide-chat": ({
+            /** @description Total number of users who prompted Copilot Chat in the IDE. */
+            total_engaged_users?: number;
+            editors?: {
+                /** @description Name of the given editor. */
+                name?: string;
+                /** @description The number of users who prompted Copilot Chat in the specified editor. */
+                total_engaged_users?: number;
+                /** @description List of model metrics for custom models and the default model. */
+                models?: {
+                    /** @description Name of the model used for Copilot code completion suggestions. If the default model is used will appear as 'default'. */
+                    name?: string;
+                    /** @description Indicates whether a model is custom or default. */
+                    is_custom_model?: boolean;
+                    /** @description The training date for the custom model. */
+                    custom_model_training_date?: string | null;
+                    /** @description The number of users who prompted Copilot Chat in the given editor and model. */
+                    total_engaged_users?: number;
+                    /** @description The total number of chats initiated by users in the given editor and model. */
+                    total_chats?: number;
+                    /** @description The number of times users accepted a code suggestion from Copilot Chat using the 'Insert Code' UI element, for the given editor. */
+                    total_chat_insertion_events?: number;
+                    /** @description The number of times users copied a code suggestion from Copilot Chat using the keyboard, or the 'Copy' UI element, for the given editor. */
+                    total_chat_copy_events?: number;
+                }[];
+            }[];
+        } & {
+            [key: string]: unknown;
+        }) | null;
+        /** @description Usage metrics for Copilot Chat in github.com */
+        "copilot-dotcom-chat": ({
+            /** @description Total number of users who prompted Copilot Chat on github.com at least once. */
+            total_engaged_users?: number;
+            /** @description List of model metrics for a custom models and the default model. */
+            models?: {
+                /** @description Name of the model used for Copilot code completion suggestions. If the default model is used will appear as 'default'. */
+                name?: string;
+                /** @description Indicates whether a model is custom or default. */
+                is_custom_model?: boolean;
+                /** @description The training date for the custom model (if applicable). */
+                custom_model_training_date?: string | null;
+                /** @description Total number of users who prompted Copilot Chat on github.com at least once for each model. */
+                total_engaged_users?: number;
+                /** @description Total number of chats initiated by users on github.com. */
+                total_chats?: number;
+            }[];
+        } & {
+            [key: string]: unknown;
+        }) | null;
+        /** @description Usage metrics for Copilot for pull requests. */
+        "copilot-dotcom-pull-requests": ({
+            /** @description The number of users who used Copilot for Pull Requests on github.com to generate a pull request summary at least once. */
+            total_engaged_users?: number;
+            /** @description Repositories in which users used Copilot for Pull Requests to generate pull request summaries */
+            repositories?: {
+                /** @description Repository name */
+                name?: string;
+                /** @description The number of users who generated pull request summaries using Copilot for Pull Requests in the given repository. */
+                total_engaged_users?: number;
+                /** @description List of model metrics for custom models and the default model. */
+                models?: {
+                    /** @description Name of the model used for Copilot code completion suggestions. If the default model is used will appear as 'default'. */
+                    name?: string;
+                    /** @description Indicates whether a model is custom or default. */
+                    is_custom_model?: boolean;
+                    /** @description The training date for the custom model. */
+                    custom_model_training_date?: string | null;
+                    /** @description The number of pull request summaries generated using Copilot for Pull Requests in the given repository. */
+                    total_pr_summaries_created?: number;
+                    /** @description The number of users who generated pull request summaries using Copilot for Pull Requests in the given repository and model. */
+                    total_engaged_users?: number;
+                }[];
+            }[];
+        } & {
+            [key: string]: unknown;
+        }) | null;
+        /**
+         * Copilot Usage Metrics
+         * @description Copilot usage metrics for a given day.
+         */
+        "copilot-usage-metrics-day": {
+            /**
+             * Format: date
+             * @description The date for which the usage metrics are aggregated, in `YYYY-MM-DD` format.
+             */
+            date: string;
+            /** @description The total number of Copilot users with activity belonging to any Copilot feature, globally, for the given day. Includes passive activity such as receiving a code suggestion, as well as engagement activity such as accepting a code suggestion or prompting chat. Does not include authentication events. Is not limited to the individual features detailed on the endpoint. */
+            total_active_users?: number;
+            /** @description The total number of Copilot users who engaged with any Copilot feature, for the given day. Examples include but are not limited to accepting a code suggestion, prompting Copilot chat, or triggering a PR Summary. Does not include authentication events. Is not limited to the individual features detailed on the endpoint. */
+            total_engaged_users?: number;
+            copilot_ide_code_completions?: components["schemas"]["copilot-ide-code-completions"];
+            copilot_ide_chat?: components["schemas"]["copilot-ide-chat"];
+            copilot_dotcom_chat?: components["schemas"]["copilot-dotcom-chat"];
+            copilot_dotcom_pull_requests?: components["schemas"]["copilot-dotcom-pull-requests"];
+        } & {
+            [key: string]: unknown;
+        };
+        /**
+         * Copilot Usage Metrics
+         * @description Summary of Copilot usage.
+         */
+        "copilot-usage-metrics": {
+            /**
+             * Format: date
+             * @description The date for which the usage metrics are reported, in `YYYY-MM-DD` format.
+             */
+            day: string;
+            /** @description The total number of Copilot code completion suggestions shown to users. */
+            total_suggestions_count?: number;
+            /** @description The total number of Copilot code completion suggestions accepted by users. */
+            total_acceptances_count?: number;
+            /** @description The total number of lines of code completions suggested by Copilot. */
+            total_lines_suggested?: number;
+            /** @description The total number of lines of code completions accepted by users. */
+            total_lines_accepted?: number;
+            /** @description The total number of users who were shown Copilot code completion suggestions during the day specified. */
+            total_active_users?: number;
+            /** @description The total instances of users who accepted code suggested by Copilot Chat in the IDE (panel and inline). */
+            total_chat_acceptances?: number;
+            /** @description The total number of chat turns (prompt and response pairs) sent between users and Copilot Chat in the IDE. */
+            total_chat_turns?: number;
+            /** @description The total number of users who interacted with Copilot Chat in the IDE during the day specified. */
+            total_active_chat_users?: number;
+            /** @description Breakdown of Copilot code completions usage by language and editor */
+            breakdown: ({
+                /** @description The language in which Copilot suggestions were shown to users in the specified editor. */
+                language?: string;
+                /** @description The editor in which Copilot suggestions were shown to users for the specified language. */
+                editor?: string;
+                /** @description The number of Copilot suggestions shown to users in the editor specified during the day specified. */
+                suggestions_count?: number;
+                /** @description The number of Copilot suggestions accepted by users in the editor specified during the day specified. */
+                acceptances_count?: number;
+                /** @description The number of lines of code suggested by Copilot in the editor specified during the day specified. */
+                lines_suggested?: number;
+                /** @description The number of lines of code accepted by users in the editor specified during the day specified. */
+                lines_accepted?: number;
+                /** @description The number of users who were shown Copilot completion suggestions in the editor specified during the day specified. */
+                active_users?: number;
+            } & {
+                [key: string]: unknown;
+            })[] | null;
         };
         /**
          * Dependabot Secret for an Organization
@@ -27839,6 +28239,16 @@ export interface components {
             name: string;
             /** @description A short description about who this role is for or what permissions it grants. */
             description?: string | null;
+            /**
+             * @description The system role from which this role inherits permissions.
+             * @enum {string|null}
+             */
+            base_role?: "read" | "triage" | "write" | "maintain" | "admin" | null;
+            /**
+             * @description Source answers the question, "where did this role come from?"
+             * @enum {string|null}
+             */
+            source?: "Organization" | "Enterprise" | "Predefined" | null;
             /** @description A list of permissions included in this role. */
             permissions: string[];
             organization: null | components["schemas"]["simple-user"];
@@ -27858,6 +28268,11 @@ export interface components {
          * @description The Relationship a Team has with a role.
          */
         "team-role-assignment": {
+            /**
+             * @description Determines if the team has a direct, indirect, or mixed relationship to a role
+             * @enum {string}
+             */
+            assignment?: "direct" | "indirect" | "mixed";
             id: number;
             node_id: string;
             name: string;
@@ -27887,6 +28302,13 @@ export interface components {
          * @description The Relationship a User has with a role.
          */
         "user-role-assignment": {
+            /**
+             * @description Determines if the user has a direct, indirect, or mixed relationship to a role
+             * @enum {string}
+             */
+            assignment?: "direct" | "indirect" | "mixed";
+            /** @description Team the user has gotten the role through */
+            inherited_from?: components["schemas"]["team-simple"][];
             name?: string | null;
             email?: string | null;
             login: string;
@@ -28035,6 +28457,56 @@ export interface components {
             token_last_used_at: string | null;
         };
         /**
+         * Organization private registry
+         * @description Private registry configuration for an organization
+         */
+        "org-private-registry-configuration": {
+            /** @description The name of the private registry configuration. */
+            name: string;
+            /**
+             * @description The registry type.
+             * @enum {string}
+             */
+            registry_type: "maven_repository";
+            /** @description The username to use when authenticating with the private registry. */
+            username?: string | null;
+            /**
+             * @description Which type of organization repositories have access to the private registry.
+             * @enum {string}
+             */
+            visibility: "all" | "private" | "selected";
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+        };
+        /**
+         * Organization private registry
+         * @description Private registry configuration for an organization
+         */
+        "org-private-registry-configuration-with-selected-repositories": {
+            /** @description The name of the private registry configuration. */
+            name: string;
+            /**
+             * @description The registry type.
+             * @enum {string}
+             */
+            registry_type: "maven_repository";
+            /** @description The username to use when authenticating with the private registry. */
+            username?: string;
+            /**
+             * @description Which type of organization repositories have access to the private registry. `selected` means only the repositories specified by `selected_repository_ids` can access the private registry.
+             * @enum {string}
+             */
+            visibility: "all" | "private" | "selected";
+            /** @description An array of repository IDs that can access the organization private registry when `visibility` is set to `selected`. */
+            selected_repository_ids?: number[];
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+        };
+        /**
          * Project
          * @description Projects are a way to organize columns and cards of work.
          */
@@ -28082,6 +28554,11 @@ export interface components {
              */
             url?: string;
             /**
+             * @description The source type of the property
+             * @enum {string}
+             */
+            source_type?: "organization" | "enterprise";
+            /**
              * @description The type of the value for the property
              * @enum {string}
              */
@@ -28100,6 +28577,26 @@ export interface components {
              * @enum {string|null}
              */
             values_editable_by?: "org_actors" | "org_and_repo_actors" | null;
+        };
+        /**
+         * Custom Property Set Payload
+         * @description Custom property set payload
+         */
+        "custom-property-set-payload": {
+            /**
+             * @description The type of the value for the property
+             * @enum {string}
+             */
+            value_type: "string" | "single_select" | "multi_select" | "true_false";
+            /** @description Whether the property is required. */
+            required?: boolean;
+            /** @description Default value of the property */
+            default_value?: (null | unknown[]) & (string | string[]);
+            /** @description Short description of the property */
+            description?: string | null;
+            /** @description An ordered list of the allowed values of the property.
+             *     The property can have up to 200 allowed values. */
+            allowed_values?: string[] | null;
         };
         /**
          * Custom Property Value
@@ -28403,6 +28900,7 @@ export interface components {
          * @description Conditions for an organization ruleset.
          *     The branch and tag rulesets conditions object should contain both `repository_name` and `ref_name` properties, or both `repository_id` and `ref_name` properties, or both `repository_property` and `ref_name` properties.
          *     The push rulesets conditions object does not require the `ref_name` property.
+         *     For repository policy rulesets, the conditions object should only contain the `repository_name`, the `repository_id`, or the `repository_property`.
          */
         "org-ruleset-conditions": (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-name-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-id-target"]) | (components["schemas"]["repository-ruleset-conditions"] & components["schemas"]["repository-ruleset-conditions-repository-property-target"]);
         /**
@@ -28511,6 +29009,8 @@ export interface components {
             /** @enum {string} */
             type: "pull_request";
             parameters?: {
+                /** @description When merging pull requests, you can allow any combination of merge commits, squashing, or rebasing. At least one option must be enabled. */
+                allowed_merge_methods?: string[];
                 /** @description New, reviewable commits pushed will dismiss previous pull request review approvals. */
                 dismiss_stale_reviews_on_push: boolean;
                 /** @description Require an approving review in pull requests that modify files that have a designated code owner. */
@@ -28776,12 +29276,12 @@ export interface components {
              * @description The target of the ruleset
              * @enum {string}
              */
-            target?: "branch" | "tag" | "push";
+            target?: "branch" | "tag" | "push" | "repository";
             /**
              * @description The type of the source of the ruleset
              * @enum {string}
              */
-            source_type?: "Repository" | "Organization";
+            source_type?: "Repository" | "Organization" | "Enterprise";
             /** @description The name of the source */
             source: string;
             enforcement: components["schemas"]["repository-rule-enforcement"];
@@ -29598,6 +30098,7 @@ export interface components {
                 actions_runner_registration?: components["schemas"]["rate-limit"];
                 scim?: components["schemas"]["rate-limit"];
                 dependency_snapshots?: components["schemas"]["rate-limit"];
+                code_scanning_autofix?: components["schemas"]["rate-limit"];
             };
             rate: components["schemas"]["rate-limit"];
         };
@@ -30408,6 +30909,7 @@ export interface components {
             reason: string;
             payload: string | null;
             signature: string | null;
+            verified_at?: string | null;
         };
         /**
          * Diff Entry
@@ -30785,6 +31287,36 @@ export interface components {
          * @enum {string}
          */
         "code-scanning-alert-set-state": "open" | "dismissed";
+        /**
+         * @description The status of an autofix.
+         * @enum {string}
+         */
+        "code-scanning-autofix-status": "pending" | "error" | "success" | "outdated";
+        /** @description The description of an autofix. */
+        "code-scanning-autofix-description": string | null;
+        /**
+         * Format: date-time
+         * @description The start time of an autofix in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+         */
+        "code-scanning-autofix-started-at": string;
+        "code-scanning-autofix": {
+            status: components["schemas"]["code-scanning-autofix-status"];
+            description: components["schemas"]["code-scanning-autofix-description"];
+            started_at: components["schemas"]["code-scanning-autofix-started-at"];
+        };
+        /** @description Commit an autofix for a code scanning alert */
+        "code-scanning-autofix-commits": {
+            /** @description The Git reference of target branch for the commit. Branch needs to already exist.  For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
+            target_ref?: string;
+            /** @description Commit message to be used. */
+            message?: string;
+        } | null;
+        "code-scanning-autofix-commits-response": {
+            /** @description The Git reference of target branch for the commit. For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
+            target_ref?: string;
+            /** @description SHA of commit with autofix. */
+            sha?: string;
+        };
         /** @description An identifier for the upload. */
         "code-scanning-analysis-sarif-id": string;
         /** @description The SHA of the commit to which the analysis you are uploading relates. */
@@ -30988,7 +31520,7 @@ export interface components {
              */
             state?: "configured" | "not-configured";
             /** @description Languages to be analyzed. */
-            languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "javascript" | "python" | "ruby" | "typescript" | "swift")[];
+            languages?: ("actions" | "c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "javascript" | "python" | "ruby" | "typescript" | "swift")[];
             /**
              * @description CodeQL query suite to be used.
              * @enum {string}
@@ -31013,12 +31545,19 @@ export interface components {
              */
             state?: "configured" | "not-configured";
             /**
+             * @description Runner type to be used.
+             * @enum {string}
+             */
+            runner_type?: "standard" | "labeled";
+            /** @description Runner label to be used if the runner type is labeled. */
+            runner_label?: string | null;
+            /**
              * @description CodeQL query suite to be used.
              * @enum {string}
              */
             query_suite?: "default" | "extended";
             /** @description CodeQL languages to be analyzed. */
-            languages?: ("c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "python" | "ruby" | "swift")[];
+            languages?: ("actions" | "c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "python" | "ruby" | "swift")[];
         };
         /** @description You can use `run_url` to track the status of the run. This includes a property status and conclusion.
          *     You should not rely on this always being an actions workflow run object. */
@@ -31667,6 +32206,7 @@ export interface components {
                     reason?: string;
                     signature?: string | null;
                     payload?: string | null;
+                    verified_at?: string | null;
                 };
             };
         };
@@ -32194,6 +32734,7 @@ export interface components {
                 reason: string;
                 signature: string | null;
                 payload: string | null;
+                verified_at?: string | null;
             };
             /** Format: uri */
             html_url: string;
@@ -32871,6 +33412,7 @@ export interface components {
                 reason: string;
                 signature: string | null;
                 payload: string | null;
+                verified_at?: string | null;
             };
             /** Format: uri */
             html_url: string;
@@ -33681,6 +34223,16 @@ export interface components {
              * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
              */
             push_protection_bypassed_at?: string | null;
+            push_protection_bypass_request_reviewer?: null | components["schemas"]["simple-user"];
+            /** @description An optional comment when reviewing a push protection bypass. */
+            push_protection_bypass_request_reviewer_comment?: string | null;
+            /** @description An optional comment when requesting a push protection bypass. */
+            push_protection_bypass_request_comment?: string | null;
+            /**
+             * Format: uri
+             * @description The URL to a push protection bypass request.
+             */
+            push_protection_bypass_request_html_url?: string | null;
             /**
              * @description The token status as of the latest validity check.
              * @enum {string}
@@ -33845,6 +34397,34 @@ export interface components {
             expire_at?: string | null;
             /** @description The token type this bypass is for. */
             token_type?: string;
+        };
+        /** @description Information on a single scan performed by secret scanning on the repository */
+        "secret-scanning-scan": {
+            /** @description The type of scan */
+            type?: string;
+            /** @description The state of the scan. Either "completed", "running", or "pending" */
+            status?: string;
+            /**
+             * Format: date-time
+             * @description The time that the scan was completed. Empty if the scan is running
+             */
+            completed_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The time that the scan was started. Empty if the scan is pending
+             */
+            started_at?: string | null;
+        };
+        "secret-scanning-scan-history": {
+            incremental_scans?: components["schemas"]["secret-scanning-scan"][];
+            pattern_update_scans?: components["schemas"]["secret-scanning-scan"][];
+            backfill_scans?: components["schemas"]["secret-scanning-scan"][];
+            custom_pattern_backfill_scans?: (components["schemas"]["secret-scanning-scan"] & {
+                /** @description Name of the custom pattern for custom pattern scans */
+                pattern_name?: string;
+                /** @description Level at which the custom pattern is defined, one of "repository", "organization", or "enterprise" */
+                pattern_scope?: string;
+            })[];
         };
         "repository-advisory-create": {
             /** @description A short summary of the advisory. */
@@ -34221,6 +34801,12 @@ export interface components {
                 default?: boolean;
                 description?: string | null;
             }[];
+            /** Sub-issues Summary */
+            sub_issues_summary?: {
+                total: number;
+                completed: number;
+                percent_completed: number;
+            };
             state: string;
             state_reason?: string | null;
             assignee: null | components["schemas"]["simple-user"];
@@ -36421,6 +37007,12 @@ export interface components {
             };
             /** Format: uri */
             repository_url: string;
+            /** Sub-issues Summary */
+            sub_issues_summary?: {
+                total: number;
+                completed: number;
+                percent_completed: number;
+            };
             /**
              * @description State of the issue; either 'open' or 'closed'
              * @enum {string}
@@ -36909,6 +37501,12 @@ export interface components {
             };
             /** Format: uri */
             repository_url: string;
+            /** Sub-issues Summary */
+            sub_issues_summary?: {
+                total: number;
+                completed: number;
+                percent_completed: number;
+            };
             /**
              * @description State of the issue; either 'open' or 'closed'
              * @enum {string}
@@ -39445,6 +40043,16 @@ export interface components {
              * @description The time that push protection was bypassed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
              */
             push_protection_bypassed_at?: string | null;
+            push_protection_bypass_request_reviewer?: null | components["schemas"]["simple-user"];
+            /** @description An optional comment when reviewing a push protection bypass. */
+            push_protection_bypass_request_reviewer_comment?: string | null;
+            /** @description An optional comment when requesting a push protection bypass. */
+            push_protection_bypass_request_comment?: string | null;
+            /**
+             * Format: uri
+             * @description The URL to a push protection bypass request.
+             */
+            push_protection_bypass_request_html_url?: string | null;
             /** @description Whether the detected secret was publicly leaked. */
             publicly_leaked?: boolean | null;
             /** @description Whether the detected secret was found in multiple repositories in the same organization or business. */
@@ -44963,6 +45571,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -45501,6 +46115,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -46041,6 +46661,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -46596,6 +47222,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -47082,6 +47714,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -47506,6 +48144,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -47943,6 +48587,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -48369,6 +49019,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -48797,6 +49453,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -49221,6 +49883,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -49647,6 +50315,12 @@ export interface components {
                     };
                     /** Format: uri */
                     repository_url: string;
+                    /** Sub-issues Summary */
+                    sub_issues_summary?: {
+                        total: number;
+                        completed: number;
+                        percent_completed: number;
+                    };
                     /**
                      * @description State of the issue; either 'open' or 'closed'
                      * @enum {string}
@@ -50313,6 +50987,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -50748,6 +51428,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -51173,6 +51859,12 @@ export interface components {
                     };
                     /** Format: uri */
                     repository_url: string;
+                    /** Sub-issues Summary */
+                    sub_issues_summary?: {
+                        total: number;
+                        completed: number;
+                        percent_completed: number;
+                    };
                     /**
                      * @description State of the issue; either 'open' or 'closed'
                      * @enum {string}
@@ -51881,6 +52573,12 @@ export interface components {
                 };
                 /** Format: uri */
                 repository_url: string;
+                /** Sub-issues Summary */
+                sub_issues_summary?: {
+                    total: number;
+                    completed: number;
+                    percent_completed: number;
+                };
                 /**
                  * @description State of the issue; either 'open' or 'closed'
                  * @enum {string}
@@ -83108,6 +83806,45 @@ export interface components {
             repository: components["schemas"]["repository-webhooks"];
             sender?: components["schemas"]["simple-user"];
         };
+        /** secret_scanning_scan completed event */
+        "webhook-secret-scanning-scan-completed": {
+            /** @enum {string} */
+            action: "completed";
+            /**
+             * @description What type of scan was completed
+             * @enum {string}
+             */
+            type: "backfill" | "custom-pattern-backfill" | "pattern-version-backfill";
+            /**
+             * @description What type of content was scanned
+             * @enum {string}
+             */
+            source: "git" | "issues" | "pull-requests" | "discussions" | "wiki";
+            /**
+             * Format: date-time
+             * @description The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+             */
+            started_at: string;
+            /**
+             * Format: date-time
+             * @description The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+             */
+            completed_at: string;
+            /** @description List of patterns that were updated. This will be empty for normal backfill scans or custom pattern updates */
+            secret_types?: string[] | null;
+            /** @description If the scan was triggered by a custom pattern update, this will be the name of the pattern that was updated */
+            custom_pattern_name?: string | null;
+            /**
+             * @description If the scan was triggered by a custom pattern update, this will be the scope of the pattern that was updated
+             * @enum {string|null}
+             */
+            custom_pattern_scope?: "repository" | "organization" | "enterprise" | null;
+            repository?: components["schemas"]["repository-webhooks"];
+            enterprise?: components["schemas"]["enterprise-webhooks"];
+            installation?: components["schemas"]["simple-installation"];
+            organization?: components["schemas"]["organization-simple-webhooks"];
+            sender?: components["schemas"]["simple-user"];
+        };
         /** security_advisory published event */
         "webhook-security-advisory-published": {
             /** @enum {string} */
@@ -83387,6 +84124,7 @@ export interface components {
                         reason: "expired_key" | "not_signing_key" | "gpgverify_error" | "gpgverify_unavailable" | "unsigned" | "unknown_signature_type" | "no_user" | "unverified_email" | "bad_email" | "unknown_key" | "malformed_signature" | "invalid" | "valid" | "bad_cert" | "ocsp_pending";
                         signature: string | null;
                         verified: boolean;
+                        verified_at?: string | null;
                     };
                 };
                 /** User */
@@ -86579,8 +87317,8 @@ export interface components {
                 "application/json": components["schemas"]["basic-error"];
             };
         };
-        /** @description Internal Error */
-        internal_error: {
+        /** @description Conflict */
+        conflict: {
             headers: {
                 [name: string]: unknown;
             };
@@ -86588,14 +87326,12 @@ export interface components {
                 "application/json": components["schemas"]["basic-error"];
             };
         };
-        /** @description Copilot Usage Merics API setting is disabled at the organization or enterprise level. */
-        usage_metrics_api_disabled: {
+        /** @description A header with no content is returned. */
+        no_content: {
             headers: {
                 [name: string]: unknown;
             };
-            content: {
-                "application/json": components["schemas"]["basic-error"];
-            };
+            content?: never;
         };
         /** @description Service unavailable */
         service_unavailable: {
@@ -86636,8 +87372,17 @@ export interface components {
                 "application/json": components["schemas"]["basic-error"];
             };
         };
-        /** @description Conflict */
-        conflict: {
+        /** @description Billing usage report response for an organization */
+        billing_usage_report_org: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["billing-usage-report"];
+            };
+        };
+        /** @description Internal Error */
+        internal_error: {
             headers: {
                 [name: string]: unknown;
             };
@@ -86682,12 +87427,14 @@ export interface components {
                 };
             };
         };
-        /** @description A header with no content is returned. */
-        no_content: {
+        /** @description Copilot Usage Merics API setting is disabled at the organization or enterprise level. */
+        usage_metrics_api_disabled: {
             headers: {
                 [name: string]: unknown;
             };
-            content?: never;
+            content: {
+                "application/json": components["schemas"]["basic-error"];
+            };
         };
         /** @description The value of `per_page` multiplied by `page` cannot be greater than 10000. */
         package_es_list_error: {
@@ -86725,6 +87472,24 @@ export interface components {
         };
         /** @description Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository */
         code_scanning_forbidden_write: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["basic-error"];
+            };
+        };
+        /** @description Bad Request */
+        code_scanning_bad_request: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["basic-error"];
+            };
+        };
+        /** @description Response if the repository is archived, if GitHub Advanced Security is not enabled for this repository or if rate limit is exceeded */
+        code_scanning_autofix_create_forbidden: {
             headers: {
                 [name: string]: unknown;
             };
@@ -86805,6 +87570,8 @@ export interface components {
         "classroom-id": number;
         /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
         enterprise: string;
+        /** @description The unique identifier of the code security configuration. */
+        "configuration-id": number;
         /** @description A comma-separated list of states. If specified, only alerts with these states will be returned.
          *
          *     Can be: `auto_dismissed`, `dismissed`, `fixed`, `open` */
@@ -86835,9 +87602,7 @@ export interface components {
         "pagination-last": number;
         /** @description Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
         "secret-scanning-alert-state": "open" | "resolved";
-        /** @description A comma-separated list of secret types to return. By default all secret types are returned.
-         *     See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
-         *     for a complete list of secret types. */
+        /** @description A comma-separated list of secret types to return. All default secret patterns are returned. To return experimental patterns, pass the token name(s) in the parameter. See "[Supported secret scanning patterns](https://docs.github.com/enterprise-cloud@latest/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)" for a complete list of secret types. */
         "secret-scanning-alert-secret-type": string;
         /** @description A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
         "secret-scanning-alert-resolution": string;
@@ -86849,10 +87614,6 @@ export interface components {
         "secret-scanning-alert-publicly-leaked": boolean;
         /** @description A boolean value representing whether or not to filter alerts by the multi-repo tag being present. */
         "secret-scanning-alert-multi-repo": boolean;
-        /** @description The slug of the enterprise team name. */
-        "enterprise-team-slug": string;
-        /** @description The slug of the team name. */
-        "team-slug": string;
         /** @description The unique identifier of the gist. */
         "gist-id": string;
         /** @description The unique identifier of the comment. */
@@ -86881,6 +87642,14 @@ export interface components {
         "since-org": number;
         /** @description The organization name. The name is not case sensitive. */
         org: string;
+        /** @description If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2024`. Default value is the current year. */
+        "billing-usage-report-year": number;
+        /** @description If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. */
+        "billing-usage-report-month": number;
+        /** @description If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. */
+        "billing-usage-report-day": number;
+        /** @description If specified, only return results for a single hour. The value of `hour` is an integer between `0` and `23`. */
+        "billing-usage-report-hour": number;
         /** @description The unique identifier of the repository. */
         "repository-id": number;
         /** @description Only return runner groups that are allowed to be used by this repository. */
@@ -86903,26 +87672,30 @@ export interface components {
         "tool-name": components["schemas"]["code-scanning-analysis-tool-name"];
         /** @description The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both. */
         "tool-guid": components["schemas"]["code-scanning-analysis-tool-guid"];
-        /** @description The unique identifier of the code security configuration. */
-        "configuration-id": number;
         /** @description The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
         "hook-id": number;
         /** @description The type of the actor */
-        "api-insights-actor-type": "installations" | "classic_pats" | "fine_grained_pats" | "oauth_apps" | "github_apps_user_to_server";
+        "api-insights-actor-type": "installation" | "classic_pat" | "fine_grained_pat" | "oauth_app" | "github_app_user_to_server";
         /** @description The ID of the actor */
         "api-insights-actor-id": number;
-        /** @description The minimum timestamp to query for stats */
+        /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         "api-insights-min-timestamp": string;
-        /** @description The maximum timestamp to query for stats */
+        /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
         "api-insights-max-timestamp": string;
         /** @description The property to sort the results by. */
         "api-insights-route-stats-sort": ("last_rate_limited_timestamp" | "last_request_timestamp" | "rate_limited_request_count" | "http_method" | "api_route" | "total_request_count")[];
+        /** @description Providing a substring will filter results where the API route contains the substring. This is a case-insensitive search. */
+        "api-insights-api-route-substring": string;
         /** @description The property to sort the results by. */
         "api-insights-sort": ("last_rate_limited_timestamp" | "last_request_timestamp" | "rate_limited_request_count" | "subject_name" | "total_request_count")[];
+        /** @description Providing a substring will filter results where the subject name contains the substring. This is a case-insensitive search. */
+        "api-insights-subject-name-substring": string;
         /** @description The ID of the user to query for stats */
         "api-insights-user-id": string;
         /** @description The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
         "api-insights-timestamp-increment": string;
+        /** @description Providing a substring will filter results where the actor name contains the substring. This is a case-insensitive search. */
+        "api-insights-actor-name-substring": string;
         /** @description The unique identifier of the invitation. */
         "invitation-id": number;
         /** @description The name of the codespace. */
@@ -86931,6 +87704,8 @@ export interface components {
         "migration-id": number;
         /** @description repo_name parameter */
         "repo-name": string;
+        /** @description The slug of the team name. */
+        "team-slug": string;
         /** @description The unique identifier of the role. */
         "role-id": number;
         /** @description The selected visibility of the packages.  This parameter is optional and only filters an existing result set.
@@ -86967,8 +87742,8 @@ export interface components {
         "ruleset-targets": string;
         /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned. */
         "ref-in-query": string;
-        /** @description The name of the repository to filter on. When specified, only rule evaluations from this repository will be returned. */
-        "repository-name-in-query": number;
+        /** @description The name of the repository to filter on. */
+        "repository-name-in-query": string;
         /** @description The time period to filter by.
          *
          *     For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours). */
@@ -88034,13 +88809,15 @@ export interface operations {
             304: components["responses"]["not_modified"];
         };
     };
-    "copilot/list-copilot-seats-for-enterprise": {
+    "code-security/get-configurations-for-enterprise": {
         parameters: {
             query?: {
-                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                page?: components["parameters"]["page"];
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 per_page?: number;
+                /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                before?: components["parameters"]["pagination-before"];
+                /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                after?: components["parameters"]["pagination-after"];
             };
             header?: never;
             path: {
@@ -88054,39 +88831,402 @@ export interface operations {
             /** @description Response */
             200: {
                 headers: {
-                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-security-configuration"][];
+                };
+            };
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+        };
+    };
+    "code-security/create-configuration-for-enterprise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description The name of the code security configuration. Must be unique within the enterprise. */
+                    name: string;
+                    /** @description A description of the code security configuration */
+                    description: string;
+                    /**
+                     * @description The enablement status of GitHub Advanced Security
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    advanced_security?: "enabled" | "disabled";
+                    /**
+                     * @description The enablement status of Dependency Graph
+                     * @default enabled
+                     * @enum {string}
+                     */
+                    dependency_graph?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of Automatic dependency submission
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    dependency_graph_autosubmit_action?: "enabled" | "disabled" | "not_set";
+                    /** @description Feature options for Automatic dependency submission */
+                    dependency_graph_autosubmit_action_options?: {
+                        /**
+                         * @description Whether to use runners labeled with 'dependency-submission' or standard GitHub runners.
+                         * @default false
+                         */
+                        labeled_runners?: boolean;
+                    };
+                    /**
+                     * @description The enablement status of Dependabot alerts
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    dependabot_alerts?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of Dependabot security updates
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    dependabot_security_updates?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of code scanning default setup
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    code_scanning_default_setup?: "enabled" | "disabled" | "not_set";
+                    code_scanning_default_setup_options?: components["schemas"]["code-scanning-default-setup-options"];
+                    /**
+                     * @description The enablement status of secret scanning
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    secret_scanning?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of secret scanning push protection
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    secret_scanning_push_protection?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of secret scanning validity checks
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    secret_scanning_validity_checks?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of secret scanning non provider patterns
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    secret_scanning_non_provider_patterns?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of private vulnerability reporting
+                     * @default disabled
+                     * @enum {string}
+                     */
+                    private_vulnerability_reporting?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enforcement status for a security configuration
+                     * @default enforced
+                     * @enum {string}
+                     */
+                    enforcement?: "enforced" | "unenforced";
+                };
+            };
+        };
+        responses: {
+            /** @description Successfully created code security configuration */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-security-configuration"];
+                };
+            };
+            400: components["responses"]["bad_request"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+        };
+    };
+    "code-security/get-default-configurations-for-enterprise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-security-default-configurations"];
+                };
+            };
+        };
+    };
+    "code-security/get-single-configuration-for-enterprise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+                /** @description The unique identifier of the code security configuration. */
+                configuration_id: components["parameters"]["configuration-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-security-configuration"];
+                };
+            };
+            304: components["responses"]["not_modified"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+        };
+    };
+    "code-security/delete-configuration-for-enterprise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+                /** @description The unique identifier of the code security configuration. */
+                configuration_id: components["parameters"]["configuration-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: components["responses"]["no_content"];
+            400: components["responses"]["bad_request"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            409: components["responses"]["conflict"];
+        };
+    };
+    "code-security/update-enterprise-configuration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+                /** @description The unique identifier of the code security configuration. */
+                configuration_id: components["parameters"]["configuration-id"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description The name of the code security configuration. Must be unique across the enterprise. */
+                    name?: string;
+                    /** @description A description of the code security configuration */
+                    description?: string;
+                    /**
+                     * @description The enablement status of GitHub Advanced Security. Must be set to enabled if you want to enable any GHAS settings.
+                     * @enum {string}
+                     */
+                    advanced_security?: "enabled" | "disabled";
+                    /**
+                     * @description The enablement status of Dependency Graph
+                     * @enum {string}
+                     */
+                    dependency_graph?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of Automatic dependency submission
+                     * @enum {string}
+                     */
+                    dependency_graph_autosubmit_action?: "enabled" | "disabled" | "not_set";
+                    /** @description Feature options for Automatic dependency submission */
+                    dependency_graph_autosubmit_action_options?: {
+                        /** @description Whether to use runners labeled with 'dependency-submission' or standard GitHub runners. */
+                        labeled_runners?: boolean;
+                    };
+                    /**
+                     * @description The enablement status of Dependabot alerts
+                     * @enum {string}
+                     */
+                    dependabot_alerts?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of Dependabot security updates
+                     * @enum {string}
+                     */
+                    dependabot_security_updates?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of code scanning default setup
+                     * @enum {string}
+                     */
+                    code_scanning_default_setup?: "enabled" | "disabled" | "not_set";
+                    code_scanning_default_setup_options?: components["schemas"]["code-scanning-default-setup-options"];
+                    /**
+                     * @description The enablement status of secret scanning
+                     * @enum {string}
+                     */
+                    secret_scanning?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of secret scanning push protection
+                     * @enum {string}
+                     */
+                    secret_scanning_push_protection?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of secret scanning validity checks
+                     * @enum {string}
+                     */
+                    secret_scanning_validity_checks?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of secret scanning non-provider patterns
+                     * @enum {string}
+                     */
+                    secret_scanning_non_provider_patterns?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enablement status of private vulnerability reporting
+                     * @enum {string}
+                     */
+                    private_vulnerability_reporting?: "enabled" | "disabled" | "not_set";
+                    /**
+                     * @description The enforcement status for a security configuration
+                     * @enum {string}
+                     */
+                    enforcement?: "enforced" | "unenforced";
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-security-configuration"];
+                };
+            };
+            304: components["responses"]["not_modified"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            409: components["responses"]["conflict"];
+        };
+    };
+    "code-security/attach-enterprise-configuration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+                /** @description The unique identifier of the code security configuration. */
+                configuration_id: components["parameters"]["configuration-id"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description The type of repositories to attach the configuration to. `selected` means the configuration will be attached to only the repositories specified by `selected_repository_ids`
+                     * @enum {string}
+                     */
+                    scope: "all" | "all_without_configurations";
+                };
+            };
+        };
+        responses: {
+            202: components["responses"]["accepted"];
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            409: components["responses"]["conflict"];
+        };
+    };
+    "code-security/set-configuration-as-default-for-enterprise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
+                enterprise: components["parameters"]["enterprise"];
+                /** @description The unique identifier of the code security configuration. */
+                configuration_id: components["parameters"]["configuration-id"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description Specify which types of repository this security configuration should be applied to by default.
+                     * @enum {string}
+                     */
+                    default_for_new_repos?: "all" | "none" | "private_and_internal" | "public";
+                };
+            };
+        };
+        responses: {
+            /** @description Default successfully changed. */
+            200: {
+                headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @description The total number of Copilot seats the enterprise is being billed for. Users with access through multiple organizations or enterprise teams are only counted once. */
-                        total_seats?: number;
-                        seats?: components["schemas"]["copilot-seat-details"][];
+                        /**
+                         * @description Specifies which types of repository this security configuration is applied to by default.
+                         * @enum {string}
+                         */
+                        default_for_new_repos?: "all" | "none" | "private_and_internal" | "public";
+                        configuration?: components["schemas"]["code-security-configuration"];
                     };
                 };
             };
-            401: components["responses"]["requires_authentication"];
             403: components["responses"]["forbidden"];
             404: components["responses"]["not_found"];
-            500: components["responses"]["internal_error"];
         };
     };
-    "copilot/copilot-metrics-for-enterprise": {
+    "code-security/get-repositories-for-enterprise-configuration": {
         parameters: {
             query?: {
-                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
-                since?: string;
-                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
-                until?: string;
-                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                page?: components["parameters"]["page"];
-                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 per_page?: number;
+                /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                before?: components["parameters"]["pagination-before"];
+                /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                after?: components["parameters"]["pagination-after"];
+                /** @description A comma-separated list of statuses. If specified, only repositories with these attachment statuses will be returned.
+                 *
+                 *     Can be: `all`, `attached`, `attaching`, `removed`, `enforced`, `failed`, `updating`, `removed_by_enterprise` */
+                status?: string;
             };
             header?: never;
             path: {
                 /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
                 enterprise: components["parameters"]["enterprise"];
+                /** @description The unique identifier of the code security configuration. */
+                configuration_id: components["parameters"]["configuration-id"];
             };
             cookie?: never;
         };
@@ -88098,49 +89238,11 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["copilot-usage-metrics-day"][];
+                    "application/json": components["schemas"]["code-security-configuration-repositories"][];
                 };
             };
             403: components["responses"]["forbidden"];
             404: components["responses"]["not_found"];
-            422: components["responses"]["usage_metrics_api_disabled"];
-            500: components["responses"]["internal_error"];
-        };
-    };
-    "copilot/usage-metrics-for-enterprise": {
-        parameters: {
-            query?: {
-                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
-                since?: string;
-                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
-                until?: string;
-                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                page?: components["parameters"]["page"];
-                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                per_page?: number;
-            };
-            header?: never;
-            path: {
-                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
-                enterprise: components["parameters"]["enterprise"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["copilot-usage-metrics"][];
-                };
-            };
-            401: components["responses"]["requires_authentication"];
-            403: components["responses"]["forbidden"];
-            404: components["responses"]["not_found"];
-            500: components["responses"]["internal_error"];
         };
     };
     "dependabot/list-alerts-for-enterprise": {
@@ -88212,9 +89314,7 @@ export interface operations {
             query?: {
                 /** @description Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
                 state?: components["parameters"]["secret-scanning-alert-state"];
-                /** @description A comma-separated list of secret types to return. By default all secret types are returned.
-                 *     See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
-                 *     for a complete list of secret types. */
+                /** @description A comma-separated list of secret types to return. All default secret patterns are returned. To return experimental patterns, pass the token name(s) in the parameter. See "[Supported secret scanning patterns](https://docs.github.com/enterprise-cloud@latest/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)" for a complete list of secret types. */
                 secret_type?: components["parameters"]["secret-scanning-alert-secret-type"];
                 /** @description A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
                 resolution?: components["parameters"]["secret-scanning-alert-resolution"];
@@ -88256,82 +89356,6 @@ export interface operations {
             };
             404: components["responses"]["not_found"];
             503: components["responses"]["service_unavailable"];
-        };
-    };
-    "copilot/copilot-metrics-for-enterprise-team": {
-        parameters: {
-            query?: {
-                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
-                since?: string;
-                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
-                until?: string;
-                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                page?: components["parameters"]["page"];
-                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                per_page?: number;
-            };
-            header?: never;
-            path: {
-                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
-                enterprise: components["parameters"]["enterprise"];
-                /** @description The slug of the enterprise team name. */
-                team_slug: components["parameters"]["enterprise-team-slug"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["copilot-usage-metrics-day"][];
-                };
-            };
-            403: components["responses"]["forbidden"];
-            404: components["responses"]["not_found"];
-            422: components["responses"]["usage_metrics_api_disabled"];
-            500: components["responses"]["internal_error"];
-        };
-    };
-    "copilot/usage-metrics-for-enterprise-team": {
-        parameters: {
-            query?: {
-                /** @description Show usage metrics since this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`). Maximum value is 28 days ago. */
-                since?: string;
-                /** @description Show usage metrics until this date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:MM:SSZ`) and should not preceed the `since` date if it is passed. */
-                until?: string;
-                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                page?: components["parameters"]["page"];
-                /** @description The number of days of metrics to display per page (max 28). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-                per_page?: number;
-            };
-            header?: never;
-            path: {
-                /** @description The slug version of the enterprise name. You can also substitute this value with the enterprise id. */
-                enterprise: components["parameters"]["enterprise"];
-                /** @description The slug of the team name. */
-                team_slug: components["parameters"]["team-slug"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["copilot-usage-metrics"][];
-                };
-            };
-            401: components["responses"]["requires_authentication"];
-            403: components["responses"]["forbidden"];
-            404: components["responses"]["not_found"];
-            500: components["responses"]["internal_error"];
         };
     };
     "activity/list-public-events": {
@@ -89755,6 +90779,34 @@ export interface operations {
                 };
             };
             304: components["responses"]["not_modified"];
+        };
+    };
+    "billing/get-github-billing-usage-report-org": {
+        parameters: {
+            query?: {
+                /** @description If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2024`. Default value is the current year. */
+                year?: components["parameters"]["billing-usage-report-year"];
+                /** @description If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. */
+                month?: components["parameters"]["billing-usage-report-month"];
+                /** @description If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. */
+                day?: components["parameters"]["billing-usage-report-day"];
+                /** @description If specified, only return results for a single hour. The value of `hour` is an integer between `0` and `23`. */
+                hour?: components["parameters"]["billing-usage-report-hour"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: components["responses"]["billing_usage_report_org"];
+            400: components["responses"]["bad_request"];
+            403: components["responses"]["forbidden"];
+            500: components["responses"]["internal_error"];
+            503: components["responses"]["service_unavailable"];
         };
     };
     "orgs/get": {
@@ -91651,6 +92703,7 @@ export interface operations {
                                 };
                             };
                             repository_id?: number;
+                            bundle_url?: string;
                         }[];
                     };
                 };
@@ -91906,6 +92959,7 @@ export interface operations {
                      * @enum {string}
                      */
                     code_scanning_default_setup?: "enabled" | "disabled" | "not_set";
+                    code_scanning_default_setup_options?: components["schemas"]["code-scanning-default-setup-options"];
                     /**
                      * @description The enablement status of secret scanning
                      * @default disabled
@@ -92131,6 +93185,7 @@ export interface operations {
                      * @enum {string}
                      */
                     code_scanning_default_setup?: "enabled" | "disabled" | "not_set";
+                    code_scanning_default_setup_options?: components["schemas"]["code-scanning-default-setup-options"];
                     /**
                      * @description The enablement status of secret scanning
                      * @enum {string}
@@ -93855,10 +94910,10 @@ export interface operations {
     "api-insights/get-route-stats-by-actor": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
                 /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 page?: components["parameters"]["page"];
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -93867,6 +94922,8 @@ export interface operations {
                 direction?: components["parameters"]["direction"];
                 /** @description The property to sort the results by. */
                 sort?: components["parameters"]["api-insights-route-stats-sort"];
+                /** @description Providing a substring will filter results where the API route contains the substring. This is a case-insensitive search. */
+                api_route_substring?: components["parameters"]["api-insights-api-route-substring"];
             };
             header?: never;
             path: {
@@ -93895,10 +94952,10 @@ export interface operations {
     "api-insights/get-subject-stats": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
                 /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 page?: components["parameters"]["page"];
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -93907,6 +94964,8 @@ export interface operations {
                 direction?: components["parameters"]["direction"];
                 /** @description The property to sort the results by. */
                 sort?: components["parameters"]["api-insights-sort"];
+                /** @description Providing a substring will filter results where the subject name contains the substring. This is a case-insensitive search. */
+                subject_name_substring?: components["parameters"]["api-insights-subject-name-substring"];
             };
             header?: never;
             path: {
@@ -93931,10 +94990,10 @@ export interface operations {
     "api-insights/get-summary-stats": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
             };
             header?: never;
             path: {
@@ -93959,10 +95018,10 @@ export interface operations {
     "api-insights/get-summary-stats-by-user": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
             };
             header?: never;
             path: {
@@ -93989,10 +95048,10 @@ export interface operations {
     "api-insights/get-summary-stats-by-actor": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
             };
             header?: never;
             path: {
@@ -94021,10 +95080,10 @@ export interface operations {
     "api-insights/get-time-stats": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
                 /** @description The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
                 timestamp_increment: components["parameters"]["api-insights-timestamp-increment"];
             };
@@ -94051,10 +95110,10 @@ export interface operations {
     "api-insights/get-time-stats-by-user": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
                 /** @description The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
                 timestamp_increment: components["parameters"]["api-insights-timestamp-increment"];
             };
@@ -94083,10 +95142,10 @@ export interface operations {
     "api-insights/get-time-stats-by-actor": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
                 /** @description The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
                 timestamp_increment: components["parameters"]["api-insights-timestamp-increment"];
             };
@@ -94117,10 +95176,10 @@ export interface operations {
     "api-insights/get-user-stats": {
         parameters: {
             query: {
-                /** @description The minimum timestamp to query for stats */
+                /** @description The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 min_timestamp: components["parameters"]["api-insights-min-timestamp"];
-                /** @description The maximum timestamp to query for stats */
-                max_timestamp: components["parameters"]["api-insights-max-timestamp"];
+                /** @description The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                max_timestamp?: components["parameters"]["api-insights-max-timestamp"];
                 /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 page?: components["parameters"]["page"];
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -94129,6 +95188,8 @@ export interface operations {
                 direction?: components["parameters"]["direction"];
                 /** @description The property to sort the results by. */
                 sort?: components["parameters"]["api-insights-sort"];
+                /** @description Providing a substring will filter results where the actor name contains the substring. This is a case-insensitive search. */
+                actor_name_substring?: components["parameters"]["api-insights-actor-name-substring"];
             };
             header?: never;
             path: {
@@ -95992,6 +97053,217 @@ export interface operations {
             500: components["responses"]["internal_error"];
         };
     };
+    "private-registries/list-org-private-registries": {
+        parameters: {
+            query?: {
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        configurations: components["schemas"]["org-private-registry-configuration"][];
+                    };
+                };
+            };
+            400: components["responses"]["bad_request"];
+            404: components["responses"]["not_found"];
+        };
+    };
+    "private-registries/create-org-private-registry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description The registry type.
+                     * @enum {string}
+                     */
+                    registry_type: "maven_repository";
+                    /** @description The username to use when authenticating with the private registry. This field should be omitted if the private registry does not require a username for authentication. */
+                    username?: string | null;
+                    /** @description The value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get private registries public key for an organization](https://docs.github.com/rest/private-registries/organization-configurations#get-private-registries-public-key-for-an-organization) endpoint. */
+                    encrypted_value: string;
+                    /** @description The ID of the key you used to encrypt the secret. */
+                    key_id: string;
+                    /**
+                     * @description Which type of organization repositories have access to the private registry. `selected` means only the repositories specified by `selected_repository_ids` can access the private registry.
+                     * @enum {string}
+                     */
+                    visibility: "all" | "private" | "selected";
+                    /** @description An array of repository IDs that can access the organization private registry. You can only provide a list of repository IDs when `visibility` is set to `selected`. You can manage the list of selected repositories using the [Update a private registry for an organization](https://docs.github.com/rest/private-registries/organization-configurations#update-a-private-registry-for-an-organization) endpoint. This field should be omitted if `visibility` is set to `all` or `private`. */
+                    selected_repository_ids?: number[];
+                };
+            };
+        };
+        responses: {
+            /** @description The organization private registry configuration */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["org-private-registry-configuration-with-selected-repositories"];
+                };
+            };
+            404: components["responses"]["not_found"];
+            422: components["responses"]["validation_failed"];
+        };
+    };
+    "private-registries/get-org-public-key": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description The identifier for the key. */
+                        key_id: string;
+                        /** @description The Base64 encoded public key. */
+                        key: string;
+                    };
+                };
+            };
+            404: components["responses"]["not_found"];
+        };
+    };
+    "private-registries/get-org-private-registry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The name of the secret. */
+                secret_name: components["parameters"]["secret-name"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The specified private registry configuration for the organization */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["org-private-registry-configuration"];
+                };
+            };
+            404: components["responses"]["not_found"];
+        };
+    };
+    "private-registries/delete-org-private-registry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The name of the secret. */
+                secret_name: components["parameters"]["secret-name"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["bad_request"];
+            404: components["responses"]["not_found"];
+        };
+    };
+    "private-registries/update-org-private-registry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description The name of the secret. */
+                secret_name: components["parameters"]["secret-name"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description The registry type.
+                     * @enum {string}
+                     */
+                    registry_type?: "maven_repository";
+                    /** @description The username to use when authenticating with the private registry. This field should be omitted if the private registry does not require a username for authentication. */
+                    username?: string | null;
+                    /** @description The value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get private registries public key for an organization](https://docs.github.com/rest/private-registries/organization-configurations#get-private-registries-public-key-for-an-organization) endpoint. */
+                    encrypted_value?: string;
+                    /** @description The ID of the key you used to encrypt the secret. */
+                    key_id?: string;
+                    /**
+                     * @description Which type of organization repositories have access to the private registry. `selected` means only the repositories specified by `selected_repository_ids` can access the private registry.
+                     * @enum {string}
+                     */
+                    visibility?: "all" | "private" | "selected";
+                    /** @description An array of repository IDs that can access the organization private registry. You can only provide a list of repository IDs when `visibility` is set to `selected`. This field should be omitted if `visibility` is set to `all` or `private`. */
+                    selected_repository_ids?: number[];
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: components["responses"]["not_found"];
+            422: components["responses"]["validation_failed"];
+        };
+    };
     "projects/list-for-org": {
         parameters: {
             query?: {
@@ -96159,22 +97431,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /**
-                     * @description The type of the value for the property
-                     * @enum {string}
-                     */
-                    value_type: "string" | "single_select" | "multi_select" | "true_false";
-                    /** @description Whether the property is required. */
-                    required?: boolean;
-                    /** @description Default value of the property */
-                    default_value?: (null | unknown[]) & (string | string[]);
-                    /** @description Short description of the property */
-                    description?: string | null;
-                    /** @description An ordered list of the allowed values of the property.
-                     *     The property can have up to 200 allowed values. */
-                    allowed_values?: string[] | null;
-                };
+                "application/json": components["schemas"]["custom-property-set-payload"];
             };
         };
         responses: {
@@ -96630,7 +97887,7 @@ export interface operations {
                      * @default branch
                      * @enum {string}
                      */
-                    target?: "branch" | "tag" | "push";
+                    target?: "branch" | "tag" | "push" | "repository";
                     enforcement: components["schemas"]["repository-rule-enforcement"];
                     /** @description The actors that can bypass the rules in this ruleset */
                     bypass_actors?: components["schemas"]["repository-ruleset-bypass-actor"][];
@@ -96659,7 +97916,7 @@ export interface operations {
             query?: {
                 /** @description The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned. */
                 ref?: components["parameters"]["ref-in-query"];
-                /** @description The name of the repository to filter on. When specified, only rule evaluations from this repository will be returned. */
+                /** @description The name of the repository to filter on. */
                 repository_name?: components["parameters"]["repository-name-in-query"];
                 /** @description The time period to filter by.
                  *
@@ -96775,7 +98032,7 @@ export interface operations {
                      * @description The target of the ruleset
                      * @enum {string}
                      */
-                    target?: "branch" | "tag" | "push";
+                    target?: "branch" | "tag" | "push" | "repository";
                     enforcement?: components["schemas"]["repository-rule-enforcement"];
                     /** @description The actors that can bypass the rules in this ruleset */
                     bypass_actors?: components["schemas"]["repository-ruleset-bypass-actor"][];
@@ -96829,9 +98086,7 @@ export interface operations {
             query?: {
                 /** @description Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
                 state?: components["parameters"]["secret-scanning-alert-state"];
-                /** @description A comma-separated list of secret types to return. By default all secret types are returned.
-                 *     See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
-                 *     for a complete list of secret types. */
+                /** @description A comma-separated list of secret types to return. All default secret patterns are returned. To return experimental patterns, pass the token name(s) in the parameter. See "[Supported secret scanning patterns](https://docs.github.com/enterprise-cloud@latest/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)" for a complete list of secret types. */
                 secret_type?: components["parameters"]["secret-scanning-alert-secret-type"];
                 /** @description A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
                 resolution?: components["parameters"]["secret-scanning-alert-resolution"];
@@ -101800,6 +103055,7 @@ export interface operations {
                                 };
                             };
                             repository_id?: number;
+                            bundle_url?: string;
                         }[];
                     };
                 };
@@ -103885,6 +105141,126 @@ export interface operations {
             };
             403: components["responses"]["code_scanning_forbidden_write"];
             404: components["responses"]["not_found"];
+            503: components["responses"]["service_unavailable"];
+        };
+    };
+    "code-scanning/get-autofix": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
+                alert_number: components["parameters"]["alert-number"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-scanning-autofix"];
+                };
+            };
+            400: components["responses"]["code_scanning_bad_request"];
+            403: components["responses"]["code_scanning_forbidden_read"];
+            404: components["responses"]["not_found"];
+            503: components["responses"]["service_unavailable"];
+        };
+    };
+    "code-scanning/create-autofix": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
+                alert_number: components["parameters"]["alert-number"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-scanning-autofix"];
+                };
+            };
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-scanning-autofix"];
+                };
+            };
+            400: components["responses"]["code_scanning_bad_request"];
+            403: components["responses"]["code_scanning_autofix_create_forbidden"];
+            404: components["responses"]["not_found"];
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            503: components["responses"]["service_unavailable"];
+        };
+    };
+    "code-scanning/commit-autofix": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The number that identifies an alert. You can find this at the end of the URL for a code scanning alert within GitHub, and in the `number` field in the response from the `GET /repos/{owner}/{repo}/code-scanning/alerts` operation. */
+                alert_number: components["parameters"]["alert-number"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["code-scanning-autofix-commits"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["code-scanning-autofix-commits-response"];
+                };
+            };
+            400: components["responses"]["code_scanning_bad_request"];
+            403: components["responses"]["code_scanning_forbidden_write"];
+            404: components["responses"]["not_found"];
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             503: components["responses"]["service_unavailable"];
         };
     };
@@ -110081,6 +111457,163 @@ export interface operations {
             };
         };
     };
+    "issues/remove-sub-issue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The number that identifies the issue. */
+                issue_number: components["parameters"]["issue-number"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description The sub-issue to remove */
+                    sub_issue_id: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    /** @example https://api.github.com/repos/octocat/Hello-World/issues/1/sub-issue */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["issue"];
+                };
+            };
+            400: components["responses"]["bad_request"];
+            404: components["responses"]["not_found"];
+        };
+    };
+    "issues/list-sub-issues": {
+        parameters: {
+            query?: {
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+            };
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The number that identifies the issue. */
+                issue_number: components["parameters"]["issue-number"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["issue"][];
+                };
+            };
+            404: components["responses"]["not_found"];
+            410: components["responses"]["gone"];
+        };
+    };
+    "issues/add-sub-issue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The number that identifies the issue. */
+                issue_number: components["parameters"]["issue-number"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description The sub-issue to add */
+                    sub_issue_id: number;
+                    /** @description Option that, when true, instructs the operation to replace the sub-issues current parent issue */
+                    replace_parent?: boolean;
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            201: {
+                headers: {
+                    /** @example https://api.github.com/repos/octocat/Hello-World/issues/sub-issues/1 */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["issue"];
+                };
+            };
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            410: components["responses"]["gone"];
+            422: components["responses"]["validation_failed"];
+        };
+    };
+    "issues/reprioritize-sub-issue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+                /** @description The number that identifies the issue. */
+                issue_number: components["parameters"]["issue-number"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description The id of the sub-issue to reprioritize */
+                    sub_issue_id: number;
+                    /** @description The id of the sub-issue to be prioritized after (either positional argument after OR before should be specified). */
+                    after_id?: number;
+                    /** @description The id of the sub-issue to be prioritized before (either positional argument after OR before should be specified). */
+                    before_id?: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["issue"];
+                };
+            };
+            403: components["responses"]["forbidden"];
+            404: components["responses"]["not_found"];
+            422: components["responses"]["validation_failed_simple"];
+            503: components["responses"]["service_unavailable"];
+        };
+    };
     "issues/list-events-for-timeline": {
         parameters: {
             query?: {
@@ -113680,9 +115213,7 @@ export interface operations {
             query?: {
                 /** @description Set to `open` or `resolved` to only list secret scanning alerts in a specific state. */
                 state?: components["parameters"]["secret-scanning-alert-state"];
-                /** @description A comma-separated list of secret types to return. By default all secret types are returned.
-                 *     See "[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)"
-                 *     for a complete list of secret types. */
+                /** @description A comma-separated list of secret types to return. All default secret patterns are returned. To return experimental patterns, pass the token name(s) in the parameter. See "[Supported secret scanning patterns](https://docs.github.com/enterprise-cloud@latest/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)" for a complete list of secret types. */
                 secret_type?: components["parameters"]["secret-scanning-alert-secret-type"];
                 /** @description A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`. */
                 resolution?: components["parameters"]["secret-scanning-alert-resolution"];
@@ -113915,6 +115446,39 @@ export interface operations {
             };
             /** @description Bad request, input data missing or incorrect. */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            503: components["responses"]["service_unavailable"];
+        };
+    };
+    "secret-scanning/get-scan-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The account owner of the repository. The name is not case sensitive. */
+                owner: components["parameters"]["owner"];
+                /** @description The name of the repository without the `.git` extension. The name is not case sensitive. */
+                repo: components["parameters"]["repo"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["secret-scanning-scan-history"];
+                };
+            };
+            /** @description Repository does not have GitHub Advanced Security or secret scanning enabled */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -119495,6 +121059,7 @@ export interface operations {
                         attestations?: {
                             bundle?: components["schemas"]["sigstore-bundle-0"];
                             repository_id?: number;
+                            bundle_url?: string;
                         }[];
                     };
                 };
@@ -128581,6 +130146,43 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["webhook-secret-scanning-alert-validated"];
+            };
+        };
+        responses: {
+            /** @description Return a 200 status to indicate that the data was received successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "secret-scanning-scan/completed": {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @example GitHub-Hookshot/123abc */
+                "User-Agent"?: string;
+                /** @example 12312312 */
+                "X-Github-Hook-Id"?: string;
+                /** @example issues */
+                "X-Github-Event"?: string;
+                /** @example 123123 */
+                "X-Github-Hook-Installation-Target-Id"?: string;
+                /** @example repository */
+                "X-Github-Hook-Installation-Target-Type"?: string;
+                /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
+                "X-GitHub-Delivery"?: string;
+                /** @example sha256=6dcb09b5b57875f334f61aebed695e2e4193db5e */
+                "X-Hub-Signature-256"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["webhook-secret-scanning-scan-completed"];
             };
         };
         responses: {

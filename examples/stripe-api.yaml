@@ -221,6 +221,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           nullable: true
           type: string
         fiscal_year_end:
@@ -887,12 +888,11 @@ components:
           type: array
         current_deadline:
           description: >-
-            Date on which `future_requirements` merges with the main
-            `requirements` hash and `future_requirements` becomes empty. After
-            the transition, `currently_due` requirements may immediately become
-            `past_due`, but the account may also be given a grace period
-            depending on the capability's enablement state prior to
-            transitioning.
+            Date on which `future_requirements` becomes the main `requirements`
+            hash and `future_requirements` becomes empty. After the transition,
+            `currently_due` requirements may immediately become `past_due`, but
+            the account may also be given a grace period depending on the
+            capability's enablement state prior to transitioning.
           format: unix-time
           nullable: true
           type: integer
@@ -933,9 +933,8 @@ components:
           type: array
         eventually_due:
           description: >-
-            Fields that need to be collected assuming all volume thresholds are
-            reached. As they become required, they appear in `currently_due` as
-            well.
+            Fields you must collect when all thresholds are reached. As they
+            become required, they appear in `currently_due` as well.
           items:
             maxLength: 5000
             type: string
@@ -1030,9 +1029,9 @@ components:
           type: array
         eventually_due:
           description: >-
-            Fields that need to be collected assuming all volume thresholds are
-            reached. As they become required, they appear in `currently_due` as
-            well, and `current_deadline` becomes set.
+            Fields you must collect when all thresholds are reached. As they
+            become required, they appear in `currently_due` as well, and
+            `current_deadline` becomes set.
           items:
             maxLength: 5000
             type: string
@@ -1172,11 +1171,11 @@ components:
           type: array
         current_deadline:
           description: >-
-            Date on which `future_requirements` merges with the main
-            `requirements` hash and `future_requirements` becomes empty. After
-            the transition, `currently_due` requirements may immediately become
-            `past_due`, but the account may also be given a grace period
-            depending on its enablement state prior to transitioning.
+            Date on which `future_requirements` becomes the main `requirements`
+            hash and `future_requirements` becomes empty. After the transition,
+            `currently_due` requirements may immediately become `past_due`, but
+            the account may also be given a grace period depending on its
+            enablement state prior to transitioning.
           format: unix-time
           nullable: true
           type: integer
@@ -1222,9 +1221,8 @@ components:
           type: array
         eventually_due:
           description: >-
-            Fields that need to be collected assuming all volume thresholds are
-            reached. As they become required, they appear in `currently_due` as
-            well.
+            Fields you must collect when all thresholds are reached. As they
+            become required, they appear in `currently_due` as well.
           items:
             maxLength: 5000
             type: string
@@ -1352,6 +1350,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
       required:
         - amount
@@ -1496,9 +1495,9 @@ components:
           type: array
         eventually_due:
           description: >-
-            Fields that need to be collected assuming all volume thresholds are
-            reached. As they become required, they appear in `currently_due` as
-            well, and `current_deadline` becomes set.
+            Fields you must collect when all thresholds are reached. As they
+            become required, they appear in `currently_due` as well, and
+            `current_deadline` becomes set.
           items:
             maxLength: 5000
             type: string
@@ -1995,6 +1994,21 @@ components:
       title: Address
       type: object
       x-expandableFields: []
+    amazon_pay_underlying_payment_method_funding_details:
+      description: ''
+      properties:
+        card:
+          $ref: '#/components/schemas/payment_method_details_passthrough_card'
+        type:
+          description: funding type of the underlying payment method.
+          enum:
+            - card
+          nullable: true
+          type: string
+      title: amazon_pay_underlying_payment_method_funding_details
+      type: object
+      x-expandableFields:
+        - card
     api_errors:
       description: ''
       properties:
@@ -2028,6 +2042,20 @@ components:
             A human-readable message providing more details about the error. For
             card errors, these messages can be shown to your users.
           maxLength: 40000
+          type: string
+        network_advice_code:
+          description: >-
+            For card errors resulting from a card issuer decline, a 2 digit code
+            which indicates the advice given to merchant by the card network on
+            how to proceed with an error.
+          maxLength: 5000
+          type: string
+        network_decline_code:
+          description: >-
+            For card errors resulting from a card issuer decline, a brand
+            specific 2, 3, or 4 digit code which indicates the reason the
+            authorization failed.
+          maxLength: 5000
           type: string
         param:
           description: >-
@@ -2206,6 +2234,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         fee_source:
           anyOf:
@@ -2386,6 +2415,13 @@ components:
     automatic_tax:
       description: ''
       properties:
+        disabled_reason:
+          description: 'If Stripe disabled automatic tax, this enum describes why.'
+          enum:
+            - finalization_requires_location_inputs
+            - finalization_system_error
+          nullable: true
+          type: string
         enabled:
           description: >-
             Whether Stripe automatically computes tax on this invoice. Note that
@@ -2518,6 +2554,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         source_types:
           $ref: '#/components/schemas/balance_amount_by_source_type'
@@ -2555,6 +2592,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         net_available:
           description: Breakdown of balance by destination.
@@ -2639,6 +2677,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -2756,8 +2795,9 @@ components:
             `obligation_reversal_inbound`, `payment`, `payment_failure_refund`,
             `payment_network_reserve_hold`, `payment_network_reserve_release`,
             `payment_refund`, `payment_reversal`, `payment_unreconciled`,
-            `payout`, `payout_cancel`, `payout_failure`, `refund`,
-            `refund_failure`, `reserve_transaction`, `reserved_funds`,
+            `payout`, `payout_cancel`, `payout_failure`,
+            `payout_minimum_balance_hold`, `payout_minimum_balance_release`,
+            `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`,
             `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`,
             `transfer`, `transfer_cancel`, `transfer_failure`, or
             `transfer_refund`. Learn more about [balance transaction types and
@@ -2793,6 +2833,8 @@ components:
             - payout
             - payout_cancel
             - payout_failure
+            - payout_minimum_balance_hold
+            - payout_minimum_balance_release
             - refund
             - refund_failure
             - reserve_transaction
@@ -2902,6 +2944,7 @@ components:
             Three-letter [ISO code for the
             currency](https://stripe.com/docs/payouts) paid out to the bank
             account.
+          format: currency
           type: string
         customer:
           anyOf:
@@ -3529,7 +3572,7 @@ components:
               - $ref: '#/components/schemas/deleted_customer'
         effective_at:
           description: >-
-            The time when the billing credits become effective—when they're
+            The time when the billing credits become effective-when they're
             eligible for use.
           format: unix-time
           nullable: true
@@ -3615,11 +3658,9 @@ components:
       x-resourceId: billing.credit_grant
     billing.meter:
       description: >-
-        A billing meter is a resource that allows you to track usage of a
-        particular event. For example, you might create a billing meter to track
-        the number of API calls made by a particular user. You can then attach
-        the billing meter to a price and attach the price to a subscription to
-        charge the user for the number of API calls they make.
+        Meters specify how to aggregate meter events over a billing period.
+        Meter events represent the actions that customers take in your system.
+        Meters attach to prices and form the basis of the bill.
 
 
         Related guide: [Usage based
@@ -3709,11 +3750,10 @@ components:
       x-resourceId: billing.meter
     billing.meter_event:
       description: >-
-        A billing meter event represents a customer's usage of a product. Meter
-        events are used to bill a customer based on their usage.
-
-        Meter events are associated with billing meters, which define the shape
-        of the event's payload and how those events are aggregated for billing.
+        Meter events represent actions that customers take in your system. You
+        can use meter events to bill a customer based on their usage. Meter
+        events are associated with billing meters, which define both the
+        contents of the event’s payload and how to aggregate those events.
       properties:
         created:
           description: >-
@@ -3945,9 +3985,19 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/billing_credit_grants_resource_amount'
+        credits_application_invoice_voided:
+          anyOf:
+            - $ref: >-
+                #/components/schemas/billing_credit_grants_resource_balance_credits_application_invoice_voided
+          description: >-
+            Details of the invoice to which the reinstated credits were
+            originally applied. Only present if `type` is
+            `credits_application_invoice_voided`.
+          nullable: true
         type:
           description: The type of credit transaction.
           enum:
+            - credits_application_invoice_voided
             - credits_granted
           type: string
       required:
@@ -3957,6 +4007,34 @@ components:
       type: object
       x-expandableFields:
         - amount
+        - credits_application_invoice_voided
+    billing_credit_grants_resource_balance_credits_application_invoice_voided:
+      description: ''
+      properties:
+        invoice:
+          anyOf:
+            - maxLength: 5000
+              type: string
+            - $ref: '#/components/schemas/invoice'
+          description: >-
+            The invoice to which the reinstated billing credits were originally
+            applied.
+          x-expansionResources:
+            oneOf:
+              - $ref: '#/components/schemas/invoice'
+        invoice_line_item:
+          description: >-
+            The invoice line item to which the reinstated billing credits were
+            originally applied.
+          maxLength: 5000
+          type: string
+      required:
+        - invoice
+        - invoice_line_item
+      title: BillingCreditGrantsResourceBalanceCreditsApplicationInvoiceVoided
+      type: object
+      x-expandableFields:
+        - invoice
     billing_credit_grants_resource_balance_credits_applied:
       description: ''
       properties:
@@ -4033,7 +4111,7 @@ components:
       properties:
         price_type:
           description: >-
-            The price type for which credit grants can apply. We currently only
+            The price type that credit grants can apply to. We currently only
             support the `metered` price type. This refers to prices that have a
             [Billing Meter](https://docs.stripe.com/api/billing/meter) attached
             to them.
@@ -4589,6 +4667,19 @@ components:
           maxLength: 5000
           nullable: true
           type: string
+        allow_redisplay:
+          description: >-
+            This field indicates whether this payment method can be shown again
+            to its customer in a checkout flow. Stripe products such as Checkout
+            and Elements use this field to determine whether a payment method
+            can be shown as a saved payment method in a checkout flow. The field
+            defaults to “unspecified”.
+          enum:
+            - always
+            - limited
+            - unspecified
+          nullable: true
+          type: string
         available_payout_methods:
           description: >-
             A set of available payout methods for this card. Only values from
@@ -4626,6 +4717,7 @@ components:
             only available for accounts where
             [controller.requirement_collection](/api/accounts/object#account_object-controller-requirement_collection)
             is `application`, which includes Custom accounts.
+          format: currency
           nullable: true
           type: string
         customer:
@@ -4702,6 +4794,10 @@ components:
           description: Unique identifier for the object.
           maxLength: 5000
           type: string
+        iin:
+          description: Issuer identification number of the card.
+          maxLength: 5000
+          type: string
         last4:
           description: The last four digits of the card.
           maxLength: 5000
@@ -4729,6 +4825,13 @@ components:
             share the same value.
           enum:
             - card
+          type: string
+        regulated_status:
+          description: Status of a card based on the card issuer.
+          enum:
+            - regulated
+            - unregulated
+          nullable: true
           type: string
         status:
           description: >-
@@ -4962,6 +5065,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         customer:
           anyOf:
@@ -5315,6 +5419,20 @@ components:
     charge_outcome:
       description: ''
       properties:
+        network_advice_code:
+          description: >-
+            For charges declined by the network, a 2 digit code which indicates
+            the advice returned by the network on how to proceed with an error.
+          maxLength: 5000
+          nullable: true
+          type: string
+        network_decline_code:
+          description: >-
+            For charges declined by the network, a brand specific 2, 3, or 4
+            digit code which indicates the reason the authorization failed.
+          maxLength: 5000
+          nullable: true
+          type: string
         network_status:
           description: >-
             Possible values are `approved_by_network`, `declined_by_network`,
@@ -5535,6 +5653,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           nullable: true
           type: string
         currency_conversion:
@@ -7165,13 +7284,29 @@ components:
       x-expandableFields: []
     checkout_payment_method_options_mandate_options_bacs_debit:
       description: ''
-      properties: {}
+      properties:
+        reference_prefix:
+          description: >-
+            Prefix used to generate the Mandate reference. Must be at most 12
+            characters long. Must consist of only uppercase letters, numbers,
+            spaces, or the following special characters: '/', '_', '-', '&',
+            '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+          maxLength: 5000
+          type: string
       title: checkout_payment_method_options_mandate_options_bacs_debit
       type: object
       x-expandableFields: []
     checkout_payment_method_options_mandate_options_sepa_debit:
       description: ''
-      properties: {}
+      properties:
+        reference_prefix:
+          description: >-
+            Prefix used to generate the Mandate reference. Must be at most 12
+            characters long. Must consist of only uppercase letters, numbers,
+            spaces, or the following special characters: '/', '_', '-', '&',
+            '.'. Cannot begin with 'STRIPE'.
+          maxLength: 5000
+          type: string
       title: checkout_payment_method_options_mandate_options_sepa_debit
       type: object
       x-expandableFields: []
@@ -8456,6 +8591,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         destination:
           anyOf:
@@ -8514,11 +8650,12 @@ components:
         disable_stripe_user_authentication:
           description: >-
             Disables Stripe user authentication for this embedded component.
-            This feature can only be false for accounts where you’re responsible
-            for collecting updated information when requirements are due or
-            change, like custom accounts. The default value for this feature is
-            `false` when `external_account_collection` is enabled and `true`
-            otherwise.
+            This value can only be true for accounts where
+            `controller.requirement_collection` is `application`. The default
+            value is the opposite of the `external_account_collection` value.
+            For example, if you don’t set `external_account_collection`, it
+            defaults to true and `disable_stripe_user_authentication` defaults
+            to false.
           type: boolean
         external_account_collection:
           description: >-
@@ -8672,11 +8809,12 @@ components:
         disable_stripe_user_authentication:
           description: >-
             Disables Stripe user authentication for this embedded component.
-            This feature can only be false for accounts where you’re responsible
-            for collecting updated information when requirements are due or
-            change, like custom accounts. The default value for this feature is
-            `false` when `external_account_collection` is enabled and `true`
-            otherwise.
+            This value can only be true for accounts where
+            `controller.requirement_collection` is `application`. The default
+            value is the opposite of the `external_account_collection` value.
+            For example, if you don’t set `external_account_collection`, it
+            defaults to true and `disable_stripe_user_authentication` defaults
+            to false.
           type: boolean
         edit_payout_schedule:
           description: >-
@@ -8866,6 +9004,7 @@ components:
             If `amount_off` has been set, the three-letter [ISO code for the
             currency](https://stripe.com/docs/currencies) of the amount to take
             off.
+          format: currency
           nullable: true
           type: string
         currency_options:
@@ -9038,6 +9177,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         customer:
           anyOf:
@@ -10274,6 +10414,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         customer:
           anyOf:
@@ -11776,6 +11917,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         enhanced_eligibility_types:
           description: List of eligibility types that are included in `enhanced_evidence`.
@@ -11890,10 +12032,13 @@ components:
         visa_compelling_evidence_3:
           $ref: >-
             #/components/schemas/dispute_enhanced_eligibility_visa_compelling_evidence3
+        visa_compliance:
+          $ref: '#/components/schemas/dispute_enhanced_eligibility_visa_compliance'
       title: DisputeEnhancedEligibility
       type: object
       x-expandableFields:
         - visa_compelling_evidence_3
+        - visa_compliance
     dispute_enhanced_eligibility_visa_compelling_evidence3:
       description: ''
       properties:
@@ -11923,16 +12068,33 @@ components:
       title: DisputeEnhancedEligibilityVisaCompellingEvidence3
       type: object
       x-expandableFields: []
+    dispute_enhanced_eligibility_visa_compliance:
+      description: ''
+      properties:
+        status:
+          description: Visa compliance eligibility status.
+          enum:
+            - fee_acknowledged
+            - requires_fee_acknowledgement
+          type: string
+      required:
+        - status
+      title: DisputeEnhancedEligibilityVisaCompliance
+      type: object
+      x-expandableFields: []
     dispute_enhanced_evidence:
       description: ''
       properties:
         visa_compelling_evidence_3:
           $ref: >-
             #/components/schemas/dispute_enhanced_evidence_visa_compelling_evidence3
+        visa_compliance:
+          $ref: '#/components/schemas/dispute_enhanced_evidence_visa_compliance'
       title: DisputeEnhancedEvidence
       type: object
       x-expandableFields:
         - visa_compelling_evidence_3
+        - visa_compliance
     dispute_enhanced_evidence_visa_compelling_evidence3:
       description: ''
       properties:
@@ -11959,6 +12121,23 @@ components:
       x-expandableFields:
         - disputed_transaction
         - prior_undisputed_transactions
+    dispute_enhanced_evidence_visa_compliance:
+      description: ''
+      properties:
+        fee_acknowledged:
+          description: >-
+            A field acknowledging the fee incurred when countering a Visa
+            compliance dispute. If this field is set to true, evidence can be
+            submitted for the compliance dispute. Stripe collects a 500 USD (or
+            local equivalent) amount to cover the network costs associated with
+            resolving compliance disputes. Stripe refunds the 500 USD network
+            fee if you win the dispute.
+          type: boolean
+      required:
+        - fee_acknowledged
+      title: DisputeEnhancedEvidenceVisaCompliance
+      type: object
+      x-expandableFields: []
     dispute_evidence:
       description: ''
       properties:
@@ -12987,6 +13166,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -13049,6 +13229,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         fee:
           anyOf:
@@ -13805,6 +13986,7 @@ components:
           type: string
         currency:
           description: Currency of objects to be included in the report run.
+          format: currency
           type: string
         interval_end:
           description: >-
@@ -14012,6 +14194,7 @@ components:
               - card_expiry
               - card_number
               - cardholder_name
+              - request_signature
             type: string
           type: array
         request_context:
@@ -14240,10 +14423,14 @@ components:
     funding_instructions_bank_transfer_iban_record:
       description: Iban Records contain E.U. bank account details per the SEPA format.
       properties:
+        account_holder_address:
+          $ref: '#/components/schemas/address'
         account_holder_name:
           description: The name of the person or business that owns the bank account
           maxLength: 5000
           type: string
+        bank_address:
+          $ref: '#/components/schemas/address'
         bic:
           description: The BIC/SWIFT code of the account.
           maxLength: 5000
@@ -14259,18 +14446,24 @@ components:
           maxLength: 5000
           type: string
       required:
+        - account_holder_address
         - account_holder_name
+        - bank_address
         - bic
         - country
         - iban
       title: FundingInstructionsBankTransferIbanRecord
       type: object
-      x-expandableFields: []
+      x-expandableFields:
+        - account_holder_address
+        - bank_address
     funding_instructions_bank_transfer_sort_code_record:
       description: >-
         Sort Code Records contain U.K. bank account details per the sort code
         format.
       properties:
+        account_holder_address:
+          $ref: '#/components/schemas/address'
         account_holder_name:
           description: The name of the person or business that owns the bank account
           maxLength: 5000
@@ -14279,20 +14472,34 @@ components:
           description: The account number
           maxLength: 5000
           type: string
+        bank_address:
+          $ref: '#/components/schemas/address'
         sort_code:
           description: The six-digit sort code
           maxLength: 5000
           type: string
       required:
+        - account_holder_address
         - account_holder_name
         - account_number
+        - bank_address
         - sort_code
       title: FundingInstructionsBankTransferSortCodeRecord
       type: object
-      x-expandableFields: []
+      x-expandableFields:
+        - account_holder_address
+        - bank_address
     funding_instructions_bank_transfer_spei_record:
       description: SPEI Records contain Mexico bank account details per the SPEI format.
       properties:
+        account_holder_address:
+          $ref: '#/components/schemas/address'
+        account_holder_name:
+          description: The account holder name
+          maxLength: 5000
+          type: string
+        bank_address:
+          $ref: '#/components/schemas/address'
         bank_code:
           description: The three-digit bank code
           maxLength: 5000
@@ -14306,12 +14513,17 @@ components:
           maxLength: 5000
           type: string
       required:
+        - account_holder_address
+        - account_holder_name
+        - bank_address
         - bank_code
         - bank_name
         - clabe
       title: FundingInstructionsBankTransferSpeiRecord
       type: object
-      x-expandableFields: []
+      x-expandableFields:
+        - account_holder_address
+        - bank_address
     funding_instructions_bank_transfer_swift_record:
       description: SWIFT Records contain U.S. bank account details per the SWIFT format.
       properties:
@@ -14355,6 +14567,8 @@ components:
     funding_instructions_bank_transfer_zengin_record:
       description: Zengin Records contain Japan bank account details per the Zengin format.
       properties:
+        account_holder_address:
+          $ref: '#/components/schemas/address'
         account_holder_name:
           description: The account holder name
           maxLength: 5000
@@ -14370,6 +14584,8 @@ components:
           maxLength: 5000
           nullable: true
           type: string
+        bank_address:
+          $ref: '#/components/schemas/address'
         bank_code:
           description: The bank code of the account
           maxLength: 5000
@@ -14390,9 +14606,14 @@ components:
           maxLength: 5000
           nullable: true
           type: string
+      required:
+        - account_holder_address
+        - bank_address
       title: FundingInstructionsBankTransferZenginRecord
       type: object
-      x-expandableFields: []
+      x-expandableFields:
+        - account_holder_address
+        - bank_address
     gelato_data_document_report_date_of_birth:
       description: Point in Time
       properties:
@@ -15713,6 +15934,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         custom_fields:
           description: Custom fields displayed on the invoice.
@@ -17024,6 +17246,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         customer:
           anyOf:
@@ -17405,20 +17628,30 @@ components:
             `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`,
             `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`,
             `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`,
-            `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`,
-            `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`,
-            `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+            `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`,
+            `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`,
+            `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`,
+            `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`,
+            `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`,
+            `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or
+            `unknown`
           enum:
             - ad_nrt
             - ae_trn
+            - al_tin
+            - am_tin
+            - ao_tin
             - ar_cuit
             - au_abn
             - au_arn
+            - ba_tin
+            - bb_tin
             - bg_uic
             - bh_vat
             - bo_tin
             - br_cnpj
             - br_cpf
+            - bs_tin
             - by_tin
             - ca_bn
             - ca_gst_hst
@@ -17426,6 +17659,7 @@ components:
             - ca_pst_mb
             - ca_pst_sk
             - ca_qst
+            - cd_nif
             - ch_uid
             - ch_vat
             - cl_tin
@@ -17441,6 +17675,7 @@ components:
             - eu_vat
             - gb_vat
             - ge_vat
+            - gn_nif
             - hk_br
             - hr_oib
             - hu_tin
@@ -17452,12 +17687,16 @@ components:
             - jp_rn
             - jp_trn
             - ke_pin
+            - kh_tin
             - kr_brn
             - kz_bin
             - li_uid
             - li_vat
             - ma_vat
             - md_vat
+            - me_pib
+            - mk_vat
+            - mr_nif
             - mx_rfc
             - my_frp
             - my_itn
@@ -17465,6 +17704,7 @@ components:
             - ng_tin
             - no_vat
             - no_voec
+            - np_pan
             - nz_gst
             - om_vat
             - pe_ruc
@@ -17477,12 +17717,16 @@ components:
             - sg_gst
             - sg_uen
             - si_tin
+            - sn_ninea
+            - sr_fin
             - sv_nit
             - th_vat
+            - tj_tin
             - tr_tin
             - tw_vat
             - tz_vat
             - ua_vat
+            - ug_tin
             - unknown
             - us_ein
             - uy_ruc
@@ -17491,6 +17735,8 @@ components:
             - ve_rif
             - vn_tin
             - za_vat
+            - zm_tin
+            - zw_tin
           type: string
         value:
           description: The value of the tax ID.
@@ -17719,6 +17965,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         fleet:
           anyOf:
@@ -17767,6 +18014,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         merchant_data:
           $ref: '#/components/schemas/issuing_authorization_merchant_data'
@@ -17936,6 +18184,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Supported currencies are `usd` in the US, `eur` in the
             EU, and `gbp` in the UK.
+          format: currency
           type: string
         cvc:
           description: >-
@@ -18262,6 +18511,7 @@ components:
           type: integer
         currency:
           description: The currency the `transaction` was made in.
+          format: currency
           type: string
         evidence:
           $ref: '#/components/schemas/issuing_dispute_evidence'
@@ -18555,6 +18805,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         id:
           description: Unique identifier for the object.
@@ -18818,6 +19069,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         dispute:
           anyOf:
@@ -18848,6 +19100,7 @@ components:
           type: integer
         merchant_currency:
           description: The currency with which the merchant is taking payment.
+          format: currency
           type: string
         merchant_data:
           $ref: '#/components/schemas/issuing_authorization_merchant_data'
@@ -19271,6 +19524,13 @@ components:
           maxLength: 5000
           nullable: true
           type: string
+        tax_id:
+          description: >-
+            The seller's tax identification number. Currently populated for
+            French merchants only.
+          maxLength: 5000
+          nullable: true
+          type: string
         terminal_id:
           description: An ID assigned by the seller to the location of the sale.
           maxLength: 5000
@@ -19342,6 +19602,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         is_amount_controllable:
           description: >-
@@ -19357,6 +19618,7 @@ components:
           type: integer
         merchant_currency:
           description: The local currency the merchant is requesting to authorize.
+          format: currency
           type: string
         network_risk_score:
           description: >-
@@ -20291,6 +20553,7 @@ components:
           description: >-
             Currency of the amounts within `spending_limits`. Always the same as
             the currency of the card.
+          format: currency
           nullable: true
           type: string
       title: IssuingCardAuthorizationControls
@@ -21481,6 +21744,7 @@ components:
           type: array
         spending_limits_currency:
           description: Currency of the amounts within `spending_limits`.
+          format: currency
           nullable: true
           type: string
       title: IssuingCardholderAuthorizationControls
@@ -23217,12 +23481,14 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
             An arbitrary string attached to the object. Often useful for
             displaying to users. Defaults to product name.
           maxLength: 5000
+          nullable: true
           type: string
         discounts:
           description: The discounts applied to the line item.
@@ -23704,6 +23970,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -24335,6 +24602,7 @@ components:
           type: integer
         currency:
           description: The currency of the payment on a single use mandate.
+          format: currency
           type: string
       required:
         - amount
@@ -24462,6 +24730,7 @@ components:
             - financial_account
             - us_bank_account
           type: string
+          x-stripeBypassValidation: true
         us_bank_account:
           $ref: >-
             #/components/schemas/outbound_payments_payment_method_details_us_bank_account
@@ -25137,6 +25406,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         customer:
           anyOf:
@@ -25673,6 +25943,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           nullable: true
           type: string
         financial_addresses:
@@ -26870,13 +27141,29 @@ components:
       x-expandableFields: []
     payment_intent_payment_method_options_mandate_options_bacs_debit:
       description: ''
-      properties: {}
+      properties:
+        reference_prefix:
+          description: >-
+            Prefix used to generate the Mandate reference. Must be at most 12
+            characters long. Must consist of only uppercase letters, numbers,
+            spaces, or the following special characters: '/', '_', '-', '&',
+            '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+          maxLength: 5000
+          type: string
       title: payment_intent_payment_method_options_mandate_options_bacs_debit
       type: object
       x-expandableFields: []
     payment_intent_payment_method_options_mandate_options_sepa_debit:
       description: ''
-      properties: {}
+      properties:
+        reference_prefix:
+          description: >-
+            Prefix used to generate the Mandate reference. Must be at most 12
+            characters long. Must consist of only uppercase letters, numbers,
+            spaces, or the following special characters: '/', '_', '-', '&',
+            '.'. Cannot begin with 'STRIPE'.
+          maxLength: 5000
+          type: string
       title: payment_intent_payment_method_options_mandate_options_sepa_debit
       type: object
       x-expandableFields: []
@@ -26963,9 +27250,7 @@ components:
       description: ''
       properties:
         reference:
-          description: >-
-            The order ID displayed in the Swish app after the payment is
-            authorized.
+          description: A reference for this payment to be displayed in the Swish app.
           maxLength: 35
           nullable: true
           type: string
@@ -27243,6 +27528,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         custom_fields:
           description: >-
@@ -28246,6 +28532,7 @@ components:
               - ZW
               - ZZ
             type: string
+            x-stripeBypassValidation: true
           type: array
       required:
         - allowed_countries
@@ -28856,6 +29143,13 @@ components:
             Contains information about card networks that can be used to process
             the payment.
           nullable: true
+        regulated_status:
+          description: Status of a card based on the card issuer.
+          enum:
+            - regulated
+            - unregulated
+          nullable: true
+          type: string
         three_d_secure_usage:
           anyOf:
             - $ref: '#/components/schemas/three_d_secure_usage'
@@ -29906,10 +30200,14 @@ components:
       x-expandableFields: []
     payment_method_details_amazon_pay:
       description: ''
-      properties: {}
+      properties:
+        funding:
+          $ref: >-
+            #/components/schemas/amazon_pay_underlying_payment_method_funding_details
       title: payment_method_details_amazon_pay
       type: object
-      x-expandableFields: []
+      x-expandableFields:
+        - funding
     payment_method_details_au_becs_debit:
       description: ''
       properties:
@@ -30179,9 +30477,29 @@ components:
             If this card has network token credentials, this contains the
             details of the network token credentials.
           nullable: true
+        network_transaction_id:
+          description: >-
+            This is used by the financial networks to identify a transaction.
+            Visa calls this the Transaction ID, Mastercard calls this the Trace
+            ID, and American Express calls this the Acquirer Reference Data. The
+            first three digits of the Trace ID is the Financial Network Code,
+            the next 6 digits is the Banknet Reference Number, and the last 4
+            digits represent the date (MM/DD). This field will be available for
+            successful Visa, Mastercard, or American Express transactions and
+            always null for other card brands.
+          maxLength: 5000
+          nullable: true
+          type: string
         overcapture:
           $ref: >-
             #/components/schemas/payment_flows_private_payment_methods_card_details_api_resource_enterprise_features_overcapture_overcapture
+        regulated_status:
+          description: Status of a card based on the card issuer.
+          enum:
+            - regulated
+            - unregulated
+          nullable: true
+          type: string
         three_d_secure:
           anyOf:
             - $ref: '#/components/schemas/three_d_secure_details_charge'
@@ -31461,6 +31779,47 @@ components:
       title: payment_method_details_p24
       type: object
       x-expandableFields: []
+    payment_method_details_passthrough_card:
+      description: ''
+      properties:
+        brand:
+          description: >-
+            Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`,
+            `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+          maxLength: 5000
+          nullable: true
+          type: string
+        country:
+          description: >-
+            Two-letter ISO code representing the country of the card. You could
+            use this attribute to get a sense of the international breakdown of
+            cards you've collected.
+          maxLength: 5000
+          nullable: true
+          type: string
+        exp_month:
+          description: Two-digit number representing the card's expiration month.
+          nullable: true
+          type: integer
+        exp_year:
+          description: Four-digit number representing the card's expiration year.
+          nullable: true
+          type: integer
+        funding:
+          description: >-
+            Card funding type. Can be `credit`, `debit`, `prepaid`, or
+            `unknown`.
+          maxLength: 5000
+          nullable: true
+          type: string
+        last4:
+          description: The last four digits of the card.
+          maxLength: 5000
+          nullable: true
+          type: string
+      title: payment_method_details_passthrough_card
+      type: object
+      x-expandableFields: []
     payment_method_details_payco:
       description: ''
       properties:
@@ -31553,10 +31912,14 @@ components:
       x-expandableFields: []
     payment_method_details_revolut_pay:
       description: ''
-      properties: {}
+      properties:
+        funding:
+          $ref: >-
+            #/components/schemas/revolut_pay_underlying_payment_method_funding_details
       title: payment_method_details_revolut_pay
       type: object
-      x-expandableFields: []
+      x-expandableFields:
+        - funding
     payment_method_details_samsung_pay:
       description: ''
       properties:
@@ -34813,6 +35176,7 @@ components:
               - ZW
               - ZZ
             type: string
+            x-stripeBypassValidation: true
           type: array
       required:
         - allowed_countries
@@ -34895,20 +35259,30 @@ components:
             `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`,
             `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`,
             `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`,
-            `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`,
-            `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`,
-            `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+            `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`,
+            `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`,
+            `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`,
+            `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`,
+            `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`,
+            `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or
+            `unknown`
           enum:
             - ad_nrt
             - ae_trn
+            - al_tin
+            - am_tin
+            - ao_tin
             - ar_cuit
             - au_abn
             - au_arn
+            - ba_tin
+            - bb_tin
             - bg_uic
             - bh_vat
             - bo_tin
             - br_cnpj
             - br_cpf
+            - bs_tin
             - by_tin
             - ca_bn
             - ca_gst_hst
@@ -34916,6 +35290,7 @@ components:
             - ca_pst_mb
             - ca_pst_sk
             - ca_qst
+            - cd_nif
             - ch_uid
             - ch_vat
             - cl_tin
@@ -34931,6 +35306,7 @@ components:
             - eu_vat
             - gb_vat
             - ge_vat
+            - gn_nif
             - hk_br
             - hr_oib
             - hu_tin
@@ -34942,12 +35318,16 @@ components:
             - jp_rn
             - jp_trn
             - ke_pin
+            - kh_tin
             - kr_brn
             - kz_bin
             - li_uid
             - li_vat
             - ma_vat
             - md_vat
+            - me_pib
+            - mk_vat
+            - mr_nif
             - mx_rfc
             - my_frp
             - my_itn
@@ -34955,6 +35335,7 @@ components:
             - ng_tin
             - no_vat
             - no_voec
+            - np_pan
             - nz_gst
             - om_vat
             - pe_ruc
@@ -34967,12 +35348,16 @@ components:
             - sg_gst
             - sg_uen
             - si_tin
+            - sn_ninea
+            - sr_fin
             - sv_nit
             - th_vat
+            - tj_tin
             - tr_tin
             - tw_vat
             - tz_vat
             - ua_vat
+            - ug_tin
             - unknown
             - us_ein
             - uy_ruc
@@ -34981,6 +35366,8 @@ components:
             - ve_rif
             - vn_tin
             - za_vat
+            - zm_tin
+            - zw_tin
           type: string
         value:
           description: The value of the tax ID.
@@ -35146,6 +35533,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -35657,10 +36045,9 @@ components:
           type: array
         eventually_due:
           description: >-
-            Fields that need to be collected assuming all volume thresholds are
-            reached. As they become required, they appear in `currently_due` as
-            well, and the account's `future_requirements[current_deadline]`
-            becomes set.
+            Fields you must collect when all thresholds are reached. As they
+            become required, they appear in `currently_due` as well, and the
+            account's `future_requirements[current_deadline]` becomes set.
           items:
             maxLength: 5000
             type: string
@@ -35702,6 +36089,12 @@ components:
     person_relationship:
       description: ''
       properties:
+        authorizer:
+          description: >-
+            Whether the person is the authorizer of the account's
+            representative.
+          nullable: true
+          type: boolean
         director:
           description: >-
             Whether the person is a director of the account's legal entity.
@@ -35777,9 +36170,9 @@ components:
           type: array
         eventually_due:
           description: >-
-            Fields that need to be collected assuming all volume thresholds are
-            reached. As they become required, they appear in `currently_due` as
-            well, and the account's `current_deadline` becomes set.
+            Fields you must collect when all thresholds are reached. As they
+            become required, they appear in `currently_due` as well, and the
+            account's `current_deadline` becomes set.
           items:
             maxLength: 5000
             type: string
@@ -35901,6 +36294,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         id:
           description: Unique identifier for the object.
@@ -36569,6 +36963,7 @@ components:
         - default_allowed_updates
         - enabled
         - proration_behavior
+        - schedule_at_period_end
       title: PortalSubscriptionUpdate
       type: object
       x-expandableFields:
@@ -36646,6 +37041,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         currency_options:
           additionalProperties:
@@ -38294,6 +38690,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -39017,6 +39414,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -39166,6 +39564,21 @@ components:
         - payment_intent
         - session
       x-resourceId: review
+    revolut_pay_underlying_payment_method_funding_details:
+      description: ''
+      properties:
+        card:
+          $ref: '#/components/schemas/payment_method_details_passthrough_card'
+        type:
+          description: funding type of the underlying payment method.
+          enum:
+            - card
+          nullable: true
+          type: string
+      title: revolut_pay_underlying_payment_method_funding_details
+      type: object
+      x-expandableFields:
+        - card
     rule:
       description: ''
       properties:
@@ -39275,6 +39688,12 @@ components:
     schedules_phase_automatic_tax:
       description: ''
       properties:
+        disabled_reason:
+          description: 'If Stripe disabled automatic tax, this enum describes why.'
+          enum:
+            - requires_location_inputs
+          nullable: true
+          type: string
         enabled:
           description: >-
             Whether Stripe automatically computes tax on invoices created during
@@ -40667,6 +41086,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -40789,13 +41209,29 @@ components:
       x-expandableFields: []
     setup_intent_payment_method_options_mandate_options_bacs_debit:
       description: ''
-      properties: {}
+      properties:
+        reference_prefix:
+          description: >-
+            Prefix used to generate the Mandate reference. Must be at most 12
+            characters long. Must consist of only uppercase letters, numbers,
+            spaces, or the following special characters: '/', '_', '-', '&',
+            '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+          maxLength: 5000
+          type: string
       title: setup_intent_payment_method_options_mandate_options_bacs_debit
       type: object
       x-expandableFields: []
     setup_intent_payment_method_options_mandate_options_sepa_debit:
       description: ''
-      properties: {}
+      properties:
+        reference_prefix:
+          description: >-
+            Prefix used to generate the Mandate reference. Must be at most 12
+            characters long. Must consist of only uppercase letters, numbers,
+            spaces, or the following special characters: '/', '_', '-', '&',
+            '.'. Cannot begin with 'STRIPE'.
+          maxLength: 5000
+          type: string
       title: setup_intent_payment_method_options_mandate_options_sepa_debit
       type: object
       x-expandableFields: []
@@ -41071,6 +41507,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         currency_options:
           additionalProperties:
@@ -41134,6 +41571,19 @@ components:
           $ref: '#/components/schemas/source_type_acss_debit'
         alipay:
           $ref: '#/components/schemas/source_type_alipay'
+        allow_redisplay:
+          description: >-
+            This field indicates whether this payment method can be shown again
+            to its customer in a checkout flow. Stripe products such as Checkout
+            and Elements use this field to determine whether a payment method
+            can be shown as a saved payment method in a checkout flow. The field
+            defaults to “unspecified”.
+          enum:
+            - always
+            - limited
+            - unspecified
+          nullable: true
+          type: string
         amount:
           description: >-
             A positive integer in the smallest currency unit (that is, 100 cents
@@ -41171,6 +41621,7 @@ components:
             currency](https://stripe.com/docs/currencies) associated with the
             source. This is the currency for which the source will be chargeable
             once ready. Required for `single_use` sources.
+          format: currency
           nullable: true
           type: string
         customer:
@@ -41476,6 +41927,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         email:
           description: The email address of the customer placing the order.
@@ -41716,6 +42168,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         gbp_credit_transfer:
           $ref: '#/components/schemas/source_transaction_gbp_credit_transfer_data'
@@ -42486,6 +42939,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         current_period_end:
           description: >-
@@ -42900,6 +43354,12 @@ components:
     subscription_automatic_tax:
       description: ''
       properties:
+        disabled_reason:
+          description: 'If Stripe disabled automatic tax, this enum describes why.'
+          enum:
+            - requires_location_inputs
+          nullable: true
+          type: string
         enabled:
           description: Whether Stripe automatically computes tax on this subscription.
           type: boolean
@@ -43500,6 +43960,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         default_payment_method:
           anyOf:
@@ -43736,6 +44197,12 @@ components:
     subscription_schedules_resource_default_settings_automatic_tax:
       description: ''
       properties:
+        disabled_reason:
+          description: 'If Stripe disabled automatic tax, this enum describes why.'
+          enum:
+            - requires_location_inputs
+          nullable: true
+          type: string
         enabled:
           description: >-
             Whether Stripe automatically computes tax on invoices created during
@@ -44871,32 +45338,41 @@ components:
           nullable: true
         type:
           description: >-
-            Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`,
-            `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`,
+            Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`,
+            `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `ba_tin`, `bb_tin`,
+            `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`,
             `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`,
-            `ca_pst_sk`, `ca_qst`, `ch_uid`, `ch_vat`, `cl_tin`, `cn_tin`,
-            `co_nit`, `cr_tin`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`,
-            `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`,
-            `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`,
-            `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`,
-            `li_vat`, `ma_vat`, `md_vat`, `mx_rfc`, `my_frp`, `my_itn`,
-            `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `nz_gst`, `om_vat`,
-            `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`,
-            `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`,
-            `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `us_ein`, `uy_ruc`,
-            `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, or `za_vat`. Note that some
-            legacy tax IDs have type `unknown`
+            `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`,
+            `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`, `ec_ruc`,
+            `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`,
+            `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`,
+            `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kh_tin`,
+            `kr_brn`, `kz_bin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`,
+            `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`,
+            `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`,
+            `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`,
+            `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`,
+            `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`,
+            `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`,
+            `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`. Note
+            that some legacy tax IDs have type `unknown`
           enum:
             - ad_nrt
             - ae_trn
+            - al_tin
+            - am_tin
+            - ao_tin
             - ar_cuit
             - au_abn
             - au_arn
+            - ba_tin
+            - bb_tin
             - bg_uic
             - bh_vat
             - bo_tin
             - br_cnpj
             - br_cpf
+            - bs_tin
             - by_tin
             - ca_bn
             - ca_gst_hst
@@ -44904,6 +45380,7 @@ components:
             - ca_pst_mb
             - ca_pst_sk
             - ca_qst
+            - cd_nif
             - ch_uid
             - ch_vat
             - cl_tin
@@ -44919,6 +45396,7 @@ components:
             - eu_vat
             - gb_vat
             - ge_vat
+            - gn_nif
             - hk_br
             - hr_oib
             - hu_tin
@@ -44930,12 +45408,16 @@ components:
             - jp_rn
             - jp_trn
             - ke_pin
+            - kh_tin
             - kr_brn
             - kz_bin
             - li_uid
             - li_vat
             - ma_vat
             - md_vat
+            - me_pib
+            - mk_vat
+            - mr_nif
             - mx_rfc
             - my_frp
             - my_itn
@@ -44943,6 +45425,7 @@ components:
             - ng_tin
             - no_vat
             - no_voec
+            - np_pan
             - nz_gst
             - om_vat
             - pe_ruc
@@ -44955,12 +45438,16 @@ components:
             - sg_gst
             - sg_uen
             - si_tin
+            - sn_ninea
+            - sr_fin
             - sv_nit
             - th_vat
+            - tj_tin
             - tr_tin
             - tw_vat
             - tz_vat
             - ua_vat
+            - ug_tin
             - unknown
             - us_ein
             - uy_ruc
@@ -44969,6 +45456,8 @@ components:
             - ve_rif
             - vn_tin
             - za_vat
+            - zm_tin
+            - zw_tin
           type: string
         value:
           description: Value of the tax ID.
@@ -45027,10 +45516,25 @@ components:
         ae:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_default
+        al:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
+        am:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_simplified
+        ao:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
         at:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_europe
         au:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
+        ba:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
+        bb:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_default
         be:
@@ -45042,12 +45546,18 @@ components:
         bh:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_default
+        bs:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
         by:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_simplified
         ca:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_canada
+        cd:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
         ch:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_default
@@ -45096,6 +45606,9 @@ components:
         ge:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_simplified
+        gn:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
         gr:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_europe
@@ -45123,6 +45636,9 @@ components:
         ke:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_simplified
+        kh:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_simplified
         kr:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_simplified
@@ -45144,6 +45660,15 @@ components:
         md:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_simplified
+        me:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
+        mk:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
+        mr:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
         mt:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_europe
@@ -45162,12 +45687,18 @@ components:
         'no':
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_default
+        np:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_simplified
         nz:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_default
         om:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_default
+        pe:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_simplified
         pl:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_europe
@@ -45198,7 +45729,16 @@ components:
         sk:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_europe
+        sn:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_simplified
+        sr:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
         th:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_simplified
+        tj:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_simplified
         tr:
@@ -45207,9 +45747,15 @@ components:
         tz:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_simplified
+        ug:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_simplified
         us:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_united_states
+        uy:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
         uz:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_simplified
@@ -45219,17 +45765,30 @@ components:
         za:
           $ref: >-
             #/components/schemas/tax_product_registrations_resource_country_options_default
+        zm:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_simplified
+        zw:
+          $ref: >-
+            #/components/schemas/tax_product_registrations_resource_country_options_default
       title: TaxProductRegistrationsResourceCountryOptions
       type: object
       x-expandableFields:
         - ae
+        - al
+        - am
+        - ao
         - at
         - au
+        - ba
+        - bb
         - be
         - bg
         - bh
+        - bs
         - by
         - ca
+        - cd
         - ch
         - cl
         - co
@@ -45246,6 +45805,7 @@ components:
         - fr
         - gb
         - ge
+        - gn
         - gr
         - hr
         - hu
@@ -45255,6 +45815,7 @@ components:
         - it
         - jp
         - ke
+        - kh
         - kr
         - kz
         - lt
@@ -45262,14 +45823,19 @@ components:
         - lv
         - ma
         - md
+        - me
+        - mk
+        - mr
         - mt
         - mx
         - my
         - ng
         - nl
         - 'no'
+        - np
         - nz
         - om
+        - pe
         - pl
         - pt
         - ro
@@ -45280,13 +45846,20 @@ components:
         - sg
         - si
         - sk
+        - sn
+        - sr
         - th
+        - tj
         - tr
         - tz
+        - ug
         - us
+        - uy
         - uz
         - vn
         - za
+        - zm
+        - zw
     tax_product_registrations_resource_country_options_ca_province_standard:
       description: ''
       properties:
@@ -45541,20 +46114,30 @@ components:
             `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`,
             `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`,
             `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`,
-            `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`,
-            `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`,
-            `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+            `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`,
+            `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`,
+            `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`,
+            `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`,
+            `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`,
+            `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or
+            `unknown`
           enum:
             - ad_nrt
             - ae_trn
+            - al_tin
+            - am_tin
+            - ao_tin
             - ar_cuit
             - au_abn
             - au_arn
+            - ba_tin
+            - bb_tin
             - bg_uic
             - bh_vat
             - bo_tin
             - br_cnpj
             - br_cpf
+            - bs_tin
             - by_tin
             - ca_bn
             - ca_gst_hst
@@ -45562,6 +46145,7 @@ components:
             - ca_pst_mb
             - ca_pst_sk
             - ca_qst
+            - cd_nif
             - ch_uid
             - ch_vat
             - cl_tin
@@ -45577,6 +46161,7 @@ components:
             - eu_vat
             - gb_vat
             - ge_vat
+            - gn_nif
             - hk_br
             - hr_oib
             - hu_tin
@@ -45588,12 +46173,16 @@ components:
             - jp_rn
             - jp_trn
             - ke_pin
+            - kh_tin
             - kr_brn
             - kz_bin
             - li_uid
             - li_vat
             - ma_vat
             - md_vat
+            - me_pib
+            - mk_vat
+            - mr_nif
             - mx_rfc
             - my_frp
             - my_itn
@@ -45601,6 +46190,7 @@ components:
             - ng_tin
             - no_vat
             - no_voec
+            - np_pan
             - nz_gst
             - om_vat
             - pe_ruc
@@ -45613,12 +46203,16 @@ components:
             - sg_gst
             - sg_uen
             - si_tin
+            - sn_ninea
+            - sr_fin
             - sv_nit
             - th_vat
+            - tj_tin
             - tr_tin
             - tw_vat
             - tz_vat
             - ua_vat
+            - ug_tin
             - unknown
             - us_ein
             - uy_ruc
@@ -45627,6 +46221,8 @@ components:
             - ve_rif
             - vn_tin
             - za_vat
+            - zm_tin
+            - zw_tin
           type: string
         value:
           description: The value of the tax ID.
@@ -46748,6 +47344,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         line_items:
           description: List of line items in the cart.
@@ -47662,6 +48259,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -47890,6 +48488,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         destination_payment_refund:
           anyOf:
@@ -48046,6 +48645,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         financial_account:
           description: The FinancialAccount to reverse funds from.
@@ -48156,6 +48756,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         financial_account:
           description: The FinancialAccount to reverse funds from.
@@ -48487,6 +49088,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -48652,6 +49254,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         customer:
           description: >-
@@ -48843,6 +49446,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -48999,6 +49603,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -49130,6 +49735,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -49261,6 +49867,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         description:
           description: >-
@@ -49398,6 +50005,7 @@ components:
             code](https://www.iso.org/iso-4217-currency-codes.html), in
             lowercase. Must be a [supported
             currency](https://stripe.com/docs/currencies).
+          format: currency
           type: string
         effective_at:
           description: >-
@@ -49561,35 +50169,6 @@ components:
       type: object
       x-expandableFields:
         - status_details
-    treasury_financial_accounts_resource_ach_toggle_settings:
-      description: Toggle settings for enabling/disabling an ACH specific feature
-      properties:
-        requested:
-          description: Whether the FinancialAccount should have the Feature.
-          type: boolean
-        status:
-          description: Whether the Feature is operational.
-          enum:
-            - active
-            - pending
-            - restricted
-          type: string
-        status_details:
-          description: >-
-            Additional details; includes at least one entry when the status is
-            not `active`.
-          items:
-            $ref: >-
-              #/components/schemas/treasury_financial_accounts_resource_toggles_setting_status_details
-          type: array
-      required:
-        - requested
-        - status
-        - status_details
-      title: TreasuryFinancialAccountsResourceAchToggleSettings
-      type: object
-      x-expandableFields:
-        - status_details
     treasury_financial_accounts_resource_balance:
       description: Balance information for the FinancialAccount
       properties:
@@ -49672,6 +50251,35 @@ components:
       type: object
       x-expandableFields:
         - aba
+    treasury_financial_accounts_resource_inbound_ach_toggle_settings:
+      description: Toggle settings for enabling/disabling an inbound ACH specific feature
+      properties:
+        requested:
+          description: Whether the FinancialAccount should have the Feature.
+          type: boolean
+        status:
+          description: Whether the Feature is operational.
+          enum:
+            - active
+            - pending
+            - restricted
+          type: string
+        status_details:
+          description: >-
+            Additional details; includes at least one entry when the status is
+            not `active`.
+          items:
+            $ref: >-
+              #/components/schemas/treasury_financial_accounts_resource_toggles_setting_status_details
+          type: array
+      required:
+        - requested
+        - status
+        - status_details
+      title: TreasuryFinancialAccountsResourceInboundAchToggleSettings
+      type: object
+      x-expandableFields:
+        - status_details
     treasury_financial_accounts_resource_inbound_transfers:
       description: >-
         InboundTransfers contains inbound transfers features for a
@@ -49679,17 +50287,46 @@ components:
       properties:
         ach:
           $ref: >-
-            #/components/schemas/treasury_financial_accounts_resource_ach_toggle_settings
+            #/components/schemas/treasury_financial_accounts_resource_inbound_ach_toggle_settings
       title: TreasuryFinancialAccountsResourceInboundTransfers
       type: object
       x-expandableFields:
         - ach
+    treasury_financial_accounts_resource_outbound_ach_toggle_settings:
+      description: Toggle settings for enabling/disabling an outbound ACH specific feature
+      properties:
+        requested:
+          description: Whether the FinancialAccount should have the Feature.
+          type: boolean
+        status:
+          description: Whether the Feature is operational.
+          enum:
+            - active
+            - pending
+            - restricted
+          type: string
+        status_details:
+          description: >-
+            Additional details; includes at least one entry when the status is
+            not `active`.
+          items:
+            $ref: >-
+              #/components/schemas/treasury_financial_accounts_resource_toggles_setting_status_details
+          type: array
+      required:
+        - requested
+        - status
+        - status_details
+      title: TreasuryFinancialAccountsResourceOutboundAchToggleSettings
+      type: object
+      x-expandableFields:
+        - status_details
     treasury_financial_accounts_resource_outbound_payments:
       description: Settings related to Outbound Payments features on a Financial Account
       properties:
         ach:
           $ref: >-
-            #/components/schemas/treasury_financial_accounts_resource_ach_toggle_settings
+            #/components/schemas/treasury_financial_accounts_resource_outbound_ach_toggle_settings
         us_domestic_wire:
           $ref: >-
             #/components/schemas/treasury_financial_accounts_resource_toggle_settings
@@ -49705,7 +50342,7 @@ components:
       properties:
         ach:
           $ref: >-
-            #/components/schemas/treasury_financial_accounts_resource_ach_toggle_settings
+            #/components/schemas/treasury_financial_accounts_resource_outbound_ach_toggle_settings
         us_domestic_wire:
           $ref: >-
             #/components/schemas/treasury_financial_accounts_resource_toggle_settings
@@ -50805,7 +51442,7 @@ info:
     details.
   termsOfService: 'https://stripe.com/us/terms/'
   title: Stripe API
-  version: 2024-10-28.acacia
+  version: 2024-12-18.acacia
   x-stripeSpecFilename: spec3
 openapi: 3.0.0
 paths:
@@ -51410,6 +52047,7 @@ paths:
                           maxLength: 5000
                           type: string
                         currency:
+                          format: currency
                           type: string
                         documents:
                           properties:
@@ -51451,6 +52089,7 @@ paths:
                         amount:
                           type: integer
                         currency:
+                          format: currency
                           type: string
                         fiscal_year_end:
                           maxLength: 5000
@@ -51471,6 +52110,7 @@ paths:
                         amount:
                           type: integer
                         currency:
+                          format: currency
                           type: string
                       required:
                         - amount
@@ -52112,6 +52752,7 @@ paths:
                     currency for the account. This must be a currency that
                     [Stripe supports in the account's
                     country](https://docs.stripe.com/payouts).
+                  format: currency
                   type: string
                 documents:
                   description: >-
@@ -52224,7 +52865,7 @@ paths:
                 groups:
                   description: >-
                     A hash of account group type to tokens. These are account
-                    groups this account should be added to
+                    groups this account should be added to.
                   properties:
                     payments_pricing:
                       anyOf:
@@ -52869,6 +53510,7 @@ paths:
                         amount:
                           type: integer
                         currency:
+                          format: currency
                           type: string
                         fiscal_year_end:
                           maxLength: 5000
@@ -52889,6 +53531,7 @@ paths:
                         amount:
                           type: integer
                         currency:
+                          format: currency
                           type: string
                       required:
                         - amount
@@ -52936,7 +53579,7 @@ paths:
                           type: string
                     url:
                       type: string
-                  title: business_profile_specs
+                  title: business_profile_update_specs
                   type: object
                 business_type:
                   description: >-
@@ -53467,7 +54110,7 @@ paths:
                           type: object
                       title: verification_specs
                       type: object
-                  title: company_specs
+                  title: company_update_specs
                   type: object
                 default_currency:
                   description: >-
@@ -53475,6 +54118,7 @@ paths:
                     currency for the account. This must be a currency that
                     [Stripe supports in the account's
                     country](https://docs.stripe.com/payouts).
+                  format: currency
                   type: string
                 documents:
                   description: >-
@@ -53587,7 +54231,7 @@ paths:
                 groups:
                   description: >-
                     A hash of account group type to tokens. These are account
-                    groups this account should be added to
+                    groups this account should be added to.
                   properties:
                     payments_pricing:
                       anyOf:
@@ -53822,7 +54466,7 @@ paths:
                           type: object
                       title: person_verification_specs
                       type: object
-                  title: individual_specs
+                  title: individual_update_specs
                   type: object
                 metadata:
                   anyOf:
@@ -54099,6 +54743,7 @@ paths:
                           maxLength: 5000
                           type: string
                         currency:
+                          format: currency
                           type: string
                         documents:
                           properties:
@@ -54823,6 +55468,7 @@ paths:
                           maxLength: 5000
                           type: string
                         currency:
+                          format: currency
                           type: string
                         documents:
                           properties:
@@ -55277,6 +55923,8 @@ paths:
           required: false
           schema:
             properties:
+              authorizer:
+                type: boolean
               director:
                 type: boolean
               executive:
@@ -55716,6 +56364,8 @@ paths:
                     The relationship that this person has with the account's
                     legal entity.
                   properties:
+                    authorizer:
+                      type: boolean
                     director:
                       type: boolean
                     executive:
@@ -56250,6 +56900,8 @@ paths:
                     The relationship that this person has with the account's
                     legal entity.
                   properties:
+                    authorizer:
+                      type: boolean
                     director:
                       type: boolean
                     executive:
@@ -56374,6 +57026,8 @@ paths:
           required: false
           schema:
             properties:
+              authorizer:
+                type: boolean
               director:
                 type: boolean
               executive:
@@ -56813,6 +57467,8 @@ paths:
                     The relationship that this person has with the account's
                     legal entity.
                   properties:
+                    authorizer:
+                      type: boolean
                     director:
                       type: boolean
                     executive:
@@ -57347,6 +58003,8 @@ paths:
                     The relationship that this person has with the account's
                     legal entity.
                   properties:
+                    authorizer:
+                      type: boolean
                     director:
                       type: boolean
                     executive:
@@ -58693,6 +59351,7 @@ paths:
           name: currency
           required: false
           schema:
+            format: currency
             type: string
           style: form
         - description: >-
@@ -58770,8 +59429,9 @@ paths:
             `obligation_reversal_inbound`, `payment`, `payment_failure_refund`,
             `payment_network_reserve_hold`, `payment_network_reserve_release`,
             `payment_refund`, `payment_reversal`, `payment_unreconciled`,
-            `payout`, `payout_cancel`, `payout_failure`, `refund`,
-            `refund_failure`, `reserve_transaction`, `reserved_funds`,
+            `payout`, `payout_cancel`, `payout_failure`,
+            `payout_minimum_balance_hold`, `payout_minimum_balance_release`,
+            `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`,
             `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`,
             `transfer`, `transfer_cancel`, `transfer_failure`, or
             `transfer_refund`.
@@ -58931,6 +59591,7 @@ paths:
           name: currency
           required: false
           schema:
+            format: currency
             type: string
           style: form
         - description: >-
@@ -59008,8 +59669,9 @@ paths:
             `obligation_reversal_inbound`, `payment`, `payment_failure_refund`,
             `payment_network_reserve_hold`, `payment_network_reserve_release`,
             `payment_refund`, `payment_reversal`, `payment_unreconciled`,
-            `payout`, `payout_cancel`, `payout_failure`, `refund`,
-            `refund_failure`, `reserve_transaction`, `reserved_funds`,
+            `payout`, `payout_cancel`, `payout_failure`,
+            `payout_minimum_balance_hold`, `payout_minimum_balance_release`,
+            `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`,
             `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`,
             `transfer`, `transfer_cancel`, `transfer_failure`, or
             `transfer_refund`.
@@ -59514,7 +60176,7 @@ paths:
       summary: Deactivate a billing alert
   /v1/billing/credit_balance_summary:
     get:
-      description: <p>Retrieves the credit balance summary for a customer</p>
+      description: <p>Retrieves the credit balance summary for a customer.</p>
       operationId: GetBillingCreditBalanceSummary
       parameters:
         - description: The customer for which to fetch credit balance summary.
@@ -59591,7 +60253,7 @@ paths:
       summary: Retrieve the credit balance summary for a customer
   /v1/billing/credit_balance_transactions:
     get:
-      description: <p>Retrieve a list of credit balance transactions</p>
+      description: <p>Retrieve a list of credit balance transactions.</p>
       operationId: GetBillingCreditBalanceTransactions
       parameters:
         - description: The credit grant for which to fetch credit balance transactions.
@@ -59712,7 +60374,7 @@ paths:
       summary: List credit balance transactions
   '/v1/billing/credit_balance_transactions/{id}':
     get:
-      description: <p>Retrieves a credit balance transaction</p>
+      description: <p>Retrieves a credit balance transaction.</p>
       operationId: GetBillingCreditBalanceTransactionsId
       parameters:
         - description: Specifies which fields in the response should be expanded.
@@ -59871,7 +60533,7 @@ paths:
           description: Error response.
       summary: List credit grants
     post:
-      description: <p>Creates a credit grant</p>
+      description: <p>Creates a credit grant.</p>
       operationId: PostBillingCreditGrants
       requestBody:
         content:
@@ -59898,6 +60560,7 @@ paths:
                     monetary:
                       properties:
                         currency:
+                          format: currency
                           type: string
                         value:
                           type: integer
@@ -59943,9 +60606,9 @@ paths:
                   type: string
                 effective_at:
                   description: >-
-                    The time when the billing credits become effective—when
-                    they're eligible for use. Defaults to the current timestamp
-                    if not specified.
+                    The time when the billing credits become effective-when
+                    they're eligible for use. It defaults to the current
+                    timestamp if not specified.
                   format: unix-time
                   type: integer
                 expand:
@@ -59956,17 +60619,17 @@ paths:
                   type: array
                 expires_at:
                   description: >-
-                    The time when the billing credits will expire. If not
-                    specified, the billing credits don't expire.
+                    The time when the billing credits expire. If not specified,
+                    the billing credits don't expire.
                   format: unix-time
                   type: integer
                 metadata:
                   additionalProperties:
                     type: string
                   description: >-
-                    Set of key-value pairs that you can attach to an object.
-                    This can be useful for storing additional information about
-                    the object (for example, cost basis) in a structured format.
+                    Set of key-value pairs that you can attach to an object. You
+                    can use this to store additional information about the
+                    object (for example, cost basis) in a structured format.
                   type: object
                 name:
                   description: A descriptive name shown in the Dashboard.
@@ -59995,7 +60658,7 @@ paths:
       summary: Create a credit grant
   '/v1/billing/credit_grants/{id}':
     get:
-      description: <p>Retrieves a credit grant</p>
+      description: <p>Retrieves a credit grant.</p>
       operationId: GetBillingCreditGrantsId
       parameters:
         - description: Specifies which fields in the response should be expanded.
@@ -60041,7 +60704,7 @@ paths:
           description: Error response.
       summary: Retrieve a credit grant
     post:
-      description: <p>Updates a credit grant</p>
+      description: <p>Updates a credit grant.</p>
       operationId: PostBillingCreditGrantsId
       parameters:
         - description: Unique identifier for the object.
@@ -60089,9 +60752,9 @@ paths:
                   additionalProperties:
                     type: string
                   description: >-
-                    Set of key-value pairs you can attach to an object. This can
-                    be useful for storing additional information about the
-                    object (for example, cost basis) in a structured format.
+                    Set of key-value pairs you can attach to an object. You can
+                    use this to store additional information about the object
+                    (for example, cost basis) in a structured format.
                   type: object
               type: object
         required: false
@@ -60201,7 +60864,7 @@ paths:
       summary: Void a credit grant
   /v1/billing/meter_event_adjustments:
     post:
-      description: <p>Creates a billing meter event adjustment</p>
+      description: <p>Creates a billing meter event adjustment.</p>
       operationId: PostBillingMeterEventAdjustments
       requestBody:
         content:
@@ -60265,7 +60928,7 @@ paths:
       summary: Create a billing meter event adjustment
   /v1/billing/meter_events:
     post:
-      description: <p>Creates a billing meter event</p>
+      description: <p>Creates a billing meter event.</p>
       operationId: PostBillingMeterEvents
       requestBody:
         content:
@@ -60294,14 +60957,14 @@ paths:
                   type: array
                 identifier:
                   description: >-
-                    A unique identifier for the event. If not provided, one will
-                    be generated. We strongly advise using UUID-like
-                    identifiers. We will enforce uniqueness within a rolling
-                    period of at least 24 hours. The enforcement of uniqueness
-                    primarily addresses issues arising from accidental retries
-                    or other problems occurring within extremely brief time
-                    intervals. This approach helps prevent duplicate entries and
-                    ensures data integrity in high-frequency operations.
+                    A unique identifier for the event. If not provided, one is
+                    generated. We recommend using UUID-like identifiers. We will
+                    enforce uniqueness within a rolling period of at least 24
+                    hours. The enforcement of uniqueness primarily addresses
+                    issues arising from accidental retries or other problems
+                    occurring within extremely brief time intervals. This
+                    approach helps prevent duplicate entries and ensures data
+                    integrity in high-frequency operations.
                   maxLength: 100
                   type: string
                 payload:
@@ -60458,7 +61121,7 @@ paths:
           description: Error response.
       summary: List billing meters
     post:
-      description: <p>Creates a billing meter</p>
+      description: <p>Creates a billing meter.</p>
       operationId: PostBillingMeters
       requestBody:
         content:
@@ -60507,7 +61170,7 @@ paths:
                   title: aggregation_settings_param
                   type: object
                 display_name:
-                  description: The meter's name.
+                  description: The meter’s name. Not visible to the customer.
                   maxLength: 250
                   type: string
                 event_name:
@@ -60560,7 +61223,7 @@ paths:
       summary: Create a billing meter
   '/v1/billing/meters/{id}':
     get:
-      description: <p>Retrieves a billing meter given an ID</p>
+      description: <p>Retrieves a billing meter given an ID.</p>
       operationId: GetBillingMetersId
       parameters:
         - description: Specifies which fields in the response should be expanded.
@@ -60606,7 +61269,7 @@ paths:
           description: Error response.
       summary: Retrieve a billing meter
     post:
-      description: <p>Updates a billing meter</p>
+      description: <p>Updates a billing meter.</p>
       operationId: PostBillingMetersId
       parameters:
         - description: Unique identifier for the object.
@@ -60628,7 +61291,7 @@ paths:
               additionalProperties: false
               properties:
                 display_name:
-                  description: The meter's name.
+                  description: The meter’s name. Not visible to the customer.
                   maxLength: 250
                   type: string
                 expand:
@@ -60655,7 +61318,9 @@ paths:
       summary: Update a billing meter
   '/v1/billing/meters/{id}/deactivate':
     post:
-      description: <p>Deactivates a billing meter</p>
+      description: >-
+        <p>When a meter is deactivated, no more meter events will be accepted
+        for this meter. You can’t attach a deactivated meter to a price.</p>
       operationId: PostBillingMetersIdDeactivate
       parameters:
         - description: Unique identifier for the object.
@@ -60857,7 +61522,9 @@ paths:
       summary: List billing meter event summaries
   '/v1/billing/meters/{id}/reactivate':
     post:
-      description: <p>Reactivates a billing meter</p>
+      description: >-
+        <p>When a meter is reactivated, events for this meter can be accepted
+        and you can attach the meter to a price.</p>
       operationId: PostBillingMetersIdReactivate
       parameters:
         - description: Unique identifier for the object.
@@ -62146,6 +62813,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: >-
@@ -63136,6 +63804,12 @@ paths:
                                   type: array
                               title: visa_compelling_evidence3
                               type: object
+                            visa_compliance:
+                              properties:
+                                fee_acknowledged:
+                                  type: boolean
+                              title: visa_compliance
+                              type: object
                           title: enhanced_evidence
                           type: object
                         - enum:
@@ -63574,6 +64248,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: Customer whose customer balance to refund from.
@@ -64150,6 +64825,7 @@ paths:
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies). Required in
                     `setup` mode when `payment_method_types` is not set.
+                  format: currency
                   type: string
                 custom_fields:
                   description: >-
@@ -64550,6 +65226,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -64919,7 +65596,14 @@ paths:
                     bacs_debit:
                       properties:
                         mandate_options:
-                          properties: {}
+                          properties:
+                            reference_prefix:
+                              anyOf:
+                                - maxLength: 12
+                                  type: string
+                                - enum:
+                                    - ''
+                                  type: string
                           title: payment_method_options_mandate_options_param
                           type: object
                         setup_future_usage:
@@ -65287,7 +65971,14 @@ paths:
                     sepa_debit:
                       properties:
                         mandate_options:
-                          properties: {}
+                          properties:
+                            reference_prefix:
+                              anyOf:
+                                - maxLength: 12
+                                  type: string
+                                - enum:
+                                    - ''
+                                  type: string
                           title: payment_method_options_mandate_options_param
                           type: object
                         setup_future_usage:
@@ -65775,6 +66466,7 @@ paths:
                           - ZW
                           - ZZ
                         type: string
+                        x-stripeBypassValidation: true
                       type: array
                   required:
                     - allowed_countries
@@ -65837,6 +66529,7 @@ paths:
                               amount:
                                 type: integer
                               currency:
+                                format: currency
                                 type: string
                               currency_options:
                                 additionalProperties:
@@ -67389,6 +68082,7 @@ paths:
                     Three-letter [ISO code for the
                     currency](https://stripe.com/docs/currencies) of the
                     `amount_off` parameter (required if `amount_off` is passed).
+                  format: currency
                   type: string
                 currency_options:
                   additionalProperties:
@@ -69400,14 +70094,20 @@ paths:
                         enum:
                           - ad_nrt
                           - ae_trn
+                          - al_tin
+                          - am_tin
+                          - ao_tin
                           - ar_cuit
                           - au_abn
                           - au_arn
+                          - ba_tin
+                          - bb_tin
                           - bg_uic
                           - bh_vat
                           - bo_tin
                           - br_cnpj
                           - br_cpf
+                          - bs_tin
                           - by_tin
                           - ca_bn
                           - ca_gst_hst
@@ -69415,6 +70115,7 @@ paths:
                           - ca_pst_mb
                           - ca_pst_sk
                           - ca_qst
+                          - cd_nif
                           - ch_uid
                           - ch_vat
                           - cl_tin
@@ -69430,6 +70131,7 @@ paths:
                           - eu_vat
                           - gb_vat
                           - ge_vat
+                          - gn_nif
                           - hk_br
                           - hr_oib
                           - hu_tin
@@ -69441,12 +70143,16 @@ paths:
                           - jp_rn
                           - jp_trn
                           - ke_pin
+                          - kh_tin
                           - kr_brn
                           - kz_bin
                           - li_uid
                           - li_vat
                           - ma_vat
                           - md_vat
+                          - me_pib
+                          - mk_vat
+                          - mr_nif
                           - mx_rfc
                           - my_frp
                           - my_itn
@@ -69454,6 +70160,7 @@ paths:
                           - ng_tin
                           - no_vat
                           - no_voec
+                          - np_pan
                           - nz_gst
                           - om_vat
                           - pe_ruc
@@ -69466,12 +70173,16 @@ paths:
                           - sg_gst
                           - sg_uen
                           - si_tin
+                          - sn_ninea
+                          - sr_fin
                           - sv_nit
                           - th_vat
+                          - tj_tin
                           - tr_tin
                           - tw_vat
                           - tz_vat
                           - ua_vat
+                          - ug_tin
                           - us_ein
                           - uy_ruc
                           - uz_tin
@@ -69479,6 +70190,8 @@ paths:
                           - ve_rif
                           - vn_tin
                           - za_vat
+                          - zm_tin
+                          - zw_tin
                         maxLength: 5000
                         type: string
                         x-stripeBypassValidation: true
@@ -69830,6 +70543,7 @@ paths:
                           maxLength: 5000
                           type: string
                         currency:
+                          format: currency
                           type: string
                         object:
                           enum:
@@ -70320,6 +71034,7 @@ paths:
                     [`invoice_credit_balance`](https://stripe.com/docs/api/customers/object#customer_object-invoice_credit_balance)
                     that this transaction will apply to. If the customer's
                     `currency` is not set, it will be updated to this value.
+                  format: currency
                   type: string
                 description:
                   description: >-
@@ -70682,6 +71397,7 @@ paths:
                           maxLength: 5000
                           type: string
                         currency:
+                          format: currency
                           type: string
                         object:
                           enum:
@@ -71311,6 +72027,7 @@ paths:
                           maxLength: 5000
                           type: string
                         currency:
+                          format: currency
                           type: string
                         object:
                           enum:
@@ -72129,6 +72846,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -72585,6 +73303,7 @@ paths:
                           maxLength: 5000
                           type: string
                         currency:
+                          format: currency
                           type: string
                         object:
                           enum:
@@ -73232,6 +73951,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -73386,6 +74106,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 days_until_due:
                   description: >-
@@ -73532,6 +74253,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -74284,6 +75006,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -74612,6 +75335,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -75366,32 +76090,41 @@ paths:
                   type: array
                 type:
                   description: >-
-                    Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`,
-                    `au_abn`, `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`,
-                    `br_cpf`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`,
-                    `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_uid`, `ch_vat`,
-                    `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`,
-                    `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`,
-                    `gb_vat`, `ge_vat`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`,
-                    `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`,
-                    `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`, `li_vat`, `ma_vat`,
-                    `md_vat`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`,
-                    `no_vat`, `no_voec`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`,
-                    `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`,
-                    `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`,
-                    `tz_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`,
-                    `ve_rif`, `vn_tin`, or `za_vat`
+                    Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`,
+                    `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `ba_tin`,
+                    `bb_tin`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`,
+                    `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`,
+                    `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`,
+                    `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`,
+                    `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`,
+                    `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`,
+                    `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`,
+                    `jp_rn`, `jp_trn`, `ke_pin`, `kh_tin`, `kr_brn`, `kz_bin`,
+                    `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`,
+                    `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`,
+                    `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`,
+                    `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`,
+                    `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`,
+                    `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`,
+                    `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`,
+                    `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
                   enum:
                     - ad_nrt
                     - ae_trn
+                    - al_tin
+                    - am_tin
+                    - ao_tin
                     - ar_cuit
                     - au_abn
                     - au_arn
+                    - ba_tin
+                    - bb_tin
                     - bg_uic
                     - bh_vat
                     - bo_tin
                     - br_cnpj
                     - br_cpf
+                    - bs_tin
                     - by_tin
                     - ca_bn
                     - ca_gst_hst
@@ -75399,6 +76132,7 @@ paths:
                     - ca_pst_mb
                     - ca_pst_sk
                     - ca_qst
+                    - cd_nif
                     - ch_uid
                     - ch_vat
                     - cl_tin
@@ -75414,6 +76148,7 @@ paths:
                     - eu_vat
                     - gb_vat
                     - ge_vat
+                    - gn_nif
                     - hk_br
                     - hr_oib
                     - hu_tin
@@ -75425,12 +76160,16 @@ paths:
                     - jp_rn
                     - jp_trn
                     - ke_pin
+                    - kh_tin
                     - kr_brn
                     - kz_bin
                     - li_uid
                     - li_vat
                     - ma_vat
                     - md_vat
+                    - me_pib
+                    - mk_vat
+                    - mr_nif
                     - mx_rfc
                     - my_frp
                     - my_itn
@@ -75438,6 +76177,7 @@ paths:
                     - ng_tin
                     - no_vat
                     - no_voec
+                    - np_pan
                     - nz_gst
                     - om_vat
                     - pe_ruc
@@ -75450,12 +76190,16 @@ paths:
                     - sg_gst
                     - sg_uen
                     - si_tin
+                    - sn_ninea
+                    - sr_fin
                     - sv_nit
                     - th_vat
+                    - tj_tin
                     - tr_tin
                     - tw_vat
                     - tz_vat
                     - ua_vat
+                    - ug_tin
                     - us_ein
                     - uy_ruc
                     - uz_tin
@@ -75463,6 +76207,8 @@ paths:
                     - ve_rif
                     - vn_tin
                     - za_vat
+                    - zm_tin
+                    - zw_tin
                   maxLength: 5000
                   type: string
                   x-stripeBypassValidation: true
@@ -76059,6 +76805,12 @@ paths:
                                     type: object
                                   type: array
                               title: visa_compelling_evidence3
+                              type: object
+                            visa_compliance:
+                              properties:
+                                fee_acknowledged:
+                                  type: boolean
+                              title: visa_compliance
                               type: object
                           title: enhanced_evidence
                           type: object
@@ -78870,6 +79622,7 @@ paths:
                       - card_expiry
                       - card_number
                       - cardholder_name
+                      - request_signature
                     type: string
                   type: array
                 request:
@@ -80264,6 +81017,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: >-
@@ -80373,6 +81127,7 @@ paths:
                     One of `price` or `price_data` is required.
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -80699,6 +81454,7 @@ paths:
                     One of `price` or `price_data` is required.
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -81116,6 +81872,7 @@ paths:
                   description: >-
                     The currency to create this invoice in. Defaults to that of
                     `customer` if not specified.
+                  format: currency
                   type: string
                 custom_fields:
                   anyOf:
@@ -81635,6 +82392,7 @@ paths:
                             amount:
                               type: integer
                             currency:
+                              format: currency
                               type: string
                             currency_options:
                               additionalProperties:
@@ -81870,6 +82628,7 @@ paths:
                   description: >-
                     The currency to preview this invoice in. Defaults to that of
                     `customer` if not specified.
+                  format: currency
                   type: string
                 customer:
                   description: >-
@@ -81975,14 +82734,20 @@ paths:
                             enum:
                               - ad_nrt
                               - ae_trn
+                              - al_tin
+                              - am_tin
+                              - ao_tin
                               - ar_cuit
                               - au_abn
                               - au_arn
+                              - ba_tin
+                              - bb_tin
                               - bg_uic
                               - bh_vat
                               - bo_tin
                               - br_cnpj
                               - br_cpf
+                              - bs_tin
                               - by_tin
                               - ca_bn
                               - ca_gst_hst
@@ -81990,6 +82755,7 @@ paths:
                               - ca_pst_mb
                               - ca_pst_sk
                               - ca_qst
+                              - cd_nif
                               - ch_uid
                               - ch_vat
                               - cl_tin
@@ -82005,6 +82771,7 @@ paths:
                               - eu_vat
                               - gb_vat
                               - ge_vat
+                              - gn_nif
                               - hk_br
                               - hr_oib
                               - hu_tin
@@ -82016,12 +82783,16 @@ paths:
                               - jp_rn
                               - jp_trn
                               - ke_pin
+                              - kh_tin
                               - kr_brn
                               - kz_bin
                               - li_uid
                               - li_vat
                               - ma_vat
                               - md_vat
+                              - me_pib
+                              - mk_vat
+                              - mr_nif
                               - mx_rfc
                               - my_frp
                               - my_itn
@@ -82029,6 +82800,7 @@ paths:
                               - ng_tin
                               - no_vat
                               - no_voec
+                              - np_pan
                               - nz_gst
                               - om_vat
                               - pe_ruc
@@ -82041,12 +82813,16 @@ paths:
                               - sg_gst
                               - sg_uen
                               - si_tin
+                              - sn_ninea
+                              - sr_fin
                               - sv_nit
                               - th_vat
+                              - tj_tin
                               - tr_tin
                               - tw_vat
                               - tz_vat
                               - ua_vat
+                              - ug_tin
                               - us_ein
                               - uy_ruc
                               - uz_tin
@@ -82054,6 +82830,8 @@ paths:
                               - ve_rif
                               - vn_tin
                               - za_vat
+                              - zm_tin
+                              - zw_tin
                             maxLength: 5000
                             type: string
                             x-stripeBypassValidation: true
@@ -82108,6 +82886,7 @@ paths:
                       amount:
                         type: integer
                       currency:
+                        format: currency
                         type: string
                       description:
                         maxLength: 5000
@@ -82163,6 +82942,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -82297,6 +83077,7 @@ paths:
                                 price_data:
                                   properties:
                                     currency:
+                                      format: currency
                                       type: string
                                     product:
                                       maxLength: 5000
@@ -82497,6 +83278,7 @@ paths:
                                 price_data:
                                   properties:
                                     currency:
+                                      format: currency
                                       type: string
                                     product:
                                       maxLength: 5000
@@ -82703,6 +83485,7 @@ paths:
                           price_data:
                             properties:
                               currency:
+                                format: currency
                                 type: string
                               product:
                                 maxLength: 5000
@@ -82992,6 +83775,7 @@ paths:
           name: currency
           required: false
           schema:
+            format: currency
             type: string
           style: form
         - description: >-
@@ -83105,14 +83889,20 @@ paths:
                       enum:
                         - ad_nrt
                         - ae_trn
+                        - al_tin
+                        - am_tin
+                        - ao_tin
                         - ar_cuit
                         - au_abn
                         - au_arn
+                        - ba_tin
+                        - bb_tin
                         - bg_uic
                         - bh_vat
                         - bo_tin
                         - br_cnpj
                         - br_cpf
+                        - bs_tin
                         - by_tin
                         - ca_bn
                         - ca_gst_hst
@@ -83120,6 +83910,7 @@ paths:
                         - ca_pst_mb
                         - ca_pst_sk
                         - ca_qst
+                        - cd_nif
                         - ch_uid
                         - ch_vat
                         - cl_tin
@@ -83135,6 +83926,7 @@ paths:
                         - eu_vat
                         - gb_vat
                         - ge_vat
+                        - gn_nif
                         - hk_br
                         - hr_oib
                         - hu_tin
@@ -83146,12 +83938,16 @@ paths:
                         - jp_rn
                         - jp_trn
                         - ke_pin
+                        - kh_tin
                         - kr_brn
                         - kz_bin
                         - li_uid
                         - li_vat
                         - ma_vat
                         - md_vat
+                        - me_pib
+                        - mk_vat
+                        - mr_nif
                         - mx_rfc
                         - my_frp
                         - my_itn
@@ -83159,6 +83955,7 @@ paths:
                         - ng_tin
                         - no_vat
                         - no_voec
+                        - np_pan
                         - nz_gst
                         - om_vat
                         - pe_ruc
@@ -83171,12 +83968,16 @@ paths:
                         - sg_gst
                         - sg_uen
                         - si_tin
+                        - sn_ninea
+                        - sr_fin
                         - sv_nit
                         - th_vat
+                        - tj_tin
                         - tr_tin
                         - tw_vat
                         - tz_vat
                         - ua_vat
+                        - ug_tin
                         - us_ein
                         - uy_ruc
                         - uz_tin
@@ -83184,6 +83985,8 @@ paths:
                         - ve_rif
                         - vn_tin
                         - za_vat
+                        - zm_tin
+                        - zw_tin
                       maxLength: 5000
                       type: string
                       x-stripeBypassValidation: true
@@ -83252,6 +84055,7 @@ paths:
                 amount:
                   type: integer
                 currency:
+                  format: currency
                   type: string
                 description:
                   maxLength: 5000
@@ -83307,6 +84111,7 @@ paths:
                 price_data:
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -83462,6 +84267,7 @@ paths:
                           price_data:
                             properties:
                               currency:
+                                format: currency
                                 type: string
                               product:
                                 maxLength: 5000
@@ -83662,6 +84468,7 @@ paths:
                           price_data:
                             properties:
                               currency:
+                                format: currency
                                 type: string
                               product:
                                 maxLength: 5000
@@ -83960,6 +84767,7 @@ paths:
                     price_data:
                       properties:
                         currency:
+                          format: currency
                           type: string
                         product:
                           maxLength: 5000
@@ -84101,6 +84909,7 @@ paths:
                 price_data:
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -84309,6 +85118,7 @@ paths:
           name: currency
           required: false
           schema:
+            format: currency
             type: string
           style: form
         - description: >-
@@ -84422,14 +85232,20 @@ paths:
                       enum:
                         - ad_nrt
                         - ae_trn
+                        - al_tin
+                        - am_tin
+                        - ao_tin
                         - ar_cuit
                         - au_abn
                         - au_arn
+                        - ba_tin
+                        - bb_tin
                         - bg_uic
                         - bh_vat
                         - bo_tin
                         - br_cnpj
                         - br_cpf
+                        - bs_tin
                         - by_tin
                         - ca_bn
                         - ca_gst_hst
@@ -84437,6 +85253,7 @@ paths:
                         - ca_pst_mb
                         - ca_pst_sk
                         - ca_qst
+                        - cd_nif
                         - ch_uid
                         - ch_vat
                         - cl_tin
@@ -84452,6 +85269,7 @@ paths:
                         - eu_vat
                         - gb_vat
                         - ge_vat
+                        - gn_nif
                         - hk_br
                         - hr_oib
                         - hu_tin
@@ -84463,12 +85281,16 @@ paths:
                         - jp_rn
                         - jp_trn
                         - ke_pin
+                        - kh_tin
                         - kr_brn
                         - kz_bin
                         - li_uid
                         - li_vat
                         - ma_vat
                         - md_vat
+                        - me_pib
+                        - mk_vat
+                        - mr_nif
                         - mx_rfc
                         - my_frp
                         - my_itn
@@ -84476,6 +85298,7 @@ paths:
                         - ng_tin
                         - no_vat
                         - no_voec
+                        - np_pan
                         - nz_gst
                         - om_vat
                         - pe_ruc
@@ -84488,12 +85311,16 @@ paths:
                         - sg_gst
                         - sg_uen
                         - si_tin
+                        - sn_ninea
+                        - sr_fin
                         - sv_nit
                         - th_vat
+                        - tj_tin
                         - tr_tin
                         - tw_vat
                         - tz_vat
                         - ua_vat
+                        - ug_tin
                         - us_ein
                         - uy_ruc
                         - uz_tin
@@ -84501,6 +85328,8 @@ paths:
                         - ve_rif
                         - vn_tin
                         - za_vat
+                        - zm_tin
+                        - zw_tin
                       maxLength: 5000
                       type: string
                       x-stripeBypassValidation: true
@@ -84582,6 +85411,7 @@ paths:
                 amount:
                   type: integer
                 currency:
+                  format: currency
                   type: string
                 description:
                   maxLength: 5000
@@ -84637,6 +85467,7 @@ paths:
                 price_data:
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -84801,6 +85632,7 @@ paths:
                           price_data:
                             properties:
                               currency:
+                                format: currency
                                 type: string
                               product:
                                 maxLength: 5000
@@ -85001,6 +85833,7 @@ paths:
                           price_data:
                             properties:
                               currency:
+                                format: currency
                                 type: string
                               product:
                                 maxLength: 5000
@@ -85312,6 +86145,7 @@ paths:
                     price_data:
                       properties:
                         currency:
+                          format: currency
                           type: string
                         product:
                           maxLength: 5000
@@ -85453,6 +86287,7 @@ paths:
                 price_data:
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -86380,6 +87215,7 @@ paths:
                                 amount:
                                   type: integer
                                 currency:
+                                  format: currency
                                   type: string
                                 currency_options:
                                   additionalProperties:
@@ -86631,6 +87467,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -87105,6 +87942,7 @@ paths:
                     One of `price` or `price_data` is required.
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -87671,6 +88509,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -96767,6 +97606,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: >-
@@ -97576,7 +98416,14 @@ paths:
                       anyOf:
                         - properties:
                             mandate_options:
-                              properties: {}
+                              properties:
+                                reference_prefix:
+                                  anyOf:
+                                    - maxLength: 12
+                                      type: string
+                                    - enum:
+                                        - ''
+                                      type: string
                               title: payment_method_options_mandate_options_param
                               type: object
                             setup_future_usage:
@@ -98412,7 +99259,14 @@ paths:
                       anyOf:
                         - properties:
                             mandate_options:
-                              properties: {}
+                              properties:
+                                reference_prefix:
+                                  anyOf:
+                                    - maxLength: 12
+                                      type: string
+                                    - enum:
+                                        - ''
+                                      type: string
                               title: payment_method_options_mandate_options_param
                               type: object
                             setup_future_usage:
@@ -99078,6 +99932,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: >-
@@ -99801,7 +100656,14 @@ paths:
                       anyOf:
                         - properties:
                             mandate_options:
-                              properties: {}
+                              properties:
+                                reference_prefix:
+                                  anyOf:
+                                    - maxLength: 12
+                                      type: string
+                                    - enum:
+                                        - ''
+                                      type: string
                               title: payment_method_options_mandate_options_param
                               type: object
                             setup_future_usage:
@@ -100637,7 +101499,14 @@ paths:
                       anyOf:
                         - properties:
                             mandate_options:
-                              properties: {}
+                              properties:
+                                reference_prefix:
+                                  anyOf:
+                                    - maxLength: 12
+                                      type: string
+                                    - enum:
+                                        - ''
+                                      type: string
                               title: payment_method_options_mandate_options_param
                               type: object
                             setup_future_usage:
@@ -101046,6 +101915,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -102180,7 +103050,14 @@ paths:
                       anyOf:
                         - properties:
                             mandate_options:
-                              properties: {}
+                              properties:
+                                reference_prefix:
+                                  anyOf:
+                                    - maxLength: 12
+                                      type: string
+                                    - enum:
+                                        - ''
+                                      type: string
                               title: payment_method_options_mandate_options_param
                               type: object
                             setup_future_usage:
@@ -103016,7 +103893,14 @@ paths:
                       anyOf:
                         - properties:
                             mandate_options:
-                              properties: {}
+                              properties:
+                                reference_prefix:
+                                  anyOf:
+                                    - maxLength: 12
+                                      type: string
+                                    - enum:
+                                        - ''
+                                      type: string
                               title: payment_method_options_mandate_options_param
                               type: object
                             setup_future_usage:
@@ -103872,6 +104756,7 @@ paths:
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies) and supported
                     by each line item's price.
+                  format: currency
                   type: string
                 custom_fields:
                   description: >-
@@ -104536,6 +105421,7 @@ paths:
                           - ZW
                           - ZZ
                         type: string
+                        x-stripeBypassValidation: true
                       type: array
                   required:
                     - allowed_countries
@@ -105509,6 +106395,7 @@ paths:
                               - ZW
                               - ZZ
                             type: string
+                            x-stripeBypassValidation: true
                           type: array
                       required:
                         - allowed_countries
@@ -105563,6 +106450,12 @@ paths:
                         - additionalProperties:
                             type: string
                           type: object
+                        - enum:
+                            - ''
+                          type: string
+                    trial_period_days:
+                      anyOf:
+                        - type: integer
                         - enum:
                             - ''
                           type: string
@@ -109989,6 +110882,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 description:
                   description: >-
@@ -110532,6 +111426,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -110937,6 +111832,7 @@ paths:
           name: currency
           required: false
           schema:
+            format: currency
             type: string
           style: form
         - description: >-
@@ -111157,6 +112053,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 currency_options:
                   additionalProperties:
@@ -111984,6 +112881,7 @@ paths:
                     Price will be set as the default price for this product.
                   properties:
                     currency:
+                      format: currency
                       type: string
                     currency_options:
                       additionalProperties:
@@ -113137,6 +114035,7 @@ paths:
                     minimum_amount:
                       type: integer
                     minimum_amount_currency:
+                      format: currency
                       type: string
                   title: restrictions_params
                   type: object
@@ -113716,6 +114615,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -114160,6 +115060,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -115783,6 +116684,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: Customer whose customer balance to refund from.
@@ -116206,6 +117108,7 @@ paths:
                     connected_account:
                       type: string
                     currency:
+                      format: currency
                       type: string
                     interval_end:
                       format: unix-time
@@ -118334,7 +119237,14 @@ paths:
                     bacs_debit:
                       properties:
                         mandate_options:
-                          properties: {}
+                          properties:
+                            reference_prefix:
+                              anyOf:
+                                - maxLength: 12
+                                  type: string
+                                - enum:
+                                    - ''
+                                  type: string
                           title: payment_method_options_mandate_options_param
                           type: object
                       title: setup_intent_payment_method_options_param
@@ -118351,6 +119261,7 @@ paths:
                                 - maximum
                               type: string
                             currency:
+                              format: currency
                               type: string
                             description:
                               maxLength: 200
@@ -118497,7 +119408,14 @@ paths:
                     sepa_debit:
                       properties:
                         mandate_options:
-                          properties: {}
+                          properties:
+                            reference_prefix:
+                              anyOf:
+                                - maxLength: 12
+                                  type: string
+                                - enum:
+                                    - ''
+                                  type: string
                           title: payment_method_options_mandate_options_param
                           type: object
                       title: setup_intent_payment_method_options_param
@@ -118603,6 +119521,7 @@ paths:
                     amount:
                       type: integer
                     currency:
+                      format: currency
                       type: string
                   required:
                     - amount
@@ -119381,7 +120300,14 @@ paths:
                     bacs_debit:
                       properties:
                         mandate_options:
-                          properties: {}
+                          properties:
+                            reference_prefix:
+                              anyOf:
+                                - maxLength: 12
+                                  type: string
+                                - enum:
+                                    - ''
+                                  type: string
                           title: payment_method_options_mandate_options_param
                           type: object
                       title: setup_intent_payment_method_options_param
@@ -119398,6 +120324,7 @@ paths:
                                 - maximum
                               type: string
                             currency:
+                              format: currency
                               type: string
                             description:
                               maxLength: 200
@@ -119544,7 +120471,14 @@ paths:
                     sepa_debit:
                       properties:
                         mandate_options:
-                          properties: {}
+                          properties:
+                            reference_prefix:
+                              anyOf:
+                                - maxLength: 12
+                                  type: string
+                                - enum:
+                                    - ''
+                                  type: string
                           title: payment_method_options_mandate_options_param
                           type: object
                       title: setup_intent_payment_method_options_param
@@ -120421,7 +121355,14 @@ paths:
                     bacs_debit:
                       properties:
                         mandate_options:
-                          properties: {}
+                          properties:
+                            reference_prefix:
+                              anyOf:
+                                - maxLength: 12
+                                  type: string
+                                - enum:
+                                    - ''
+                                  type: string
                           title: payment_method_options_mandate_options_param
                           type: object
                       title: setup_intent_payment_method_options_param
@@ -120438,6 +121379,7 @@ paths:
                                 - maximum
                               type: string
                             currency:
+                              format: currency
                               type: string
                             description:
                               maxLength: 200
@@ -120584,7 +121526,14 @@ paths:
                     sepa_debit:
                       properties:
                         mandate_options:
-                          properties: {}
+                          properties:
+                            reference_prefix:
+                              anyOf:
+                                - maxLength: 12
+                                  type: string
+                                - enum:
+                                    - ''
+                                  type: string
                           title: payment_method_options_mandate_options_param
                           type: object
                       title: setup_intent_payment_method_options_param
@@ -120799,6 +121748,7 @@ paths:
           name: currency
           required: false
           schema:
+            format: currency
             type: string
           style: form
         - description: >-
@@ -120985,6 +121935,7 @@ paths:
                     amount:
                       type: integer
                     currency:
+                      format: currency
                       type: string
                     currency_options:
                       additionalProperties:
@@ -121401,6 +122352,7 @@ paths:
                     currency](https://stripe.com/docs/currencies) associated
                     with the source. This is the currency for which the source
                     will be chargeable once ready.
+                  format: currency
                   type: string
                 customer:
                   description: >-
@@ -121489,6 +122441,7 @@ paths:
                             - ''
                           type: string
                     currency:
+                      format: currency
                       type: string
                     interval:
                       enum:
@@ -121591,6 +122544,7 @@ paths:
                           amount:
                             type: integer
                           currency:
+                            format: currency
                             type: string
                           description:
                             maxLength: 1000
@@ -121872,6 +122826,7 @@ paths:
                             - ''
                           type: string
                     currency:
+                      format: currency
                       type: string
                     interval:
                       enum:
@@ -121956,6 +122911,7 @@ paths:
                           amount:
                             type: integer
                           currency:
+                            format: currency
                             type: string
                           description:
                             maxLength: 1000
@@ -122565,6 +123521,7 @@ paths:
                     [Price](https://stripe.com/docs/api/prices) object inline.
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -122941,6 +123898,7 @@ paths:
                     One of `price` or `price_data` is required.
                   properties:
                     currency:
+                      format: currency
                       type: string
                     product:
                       maxLength: 5000
@@ -123696,6 +124654,7 @@ paths:
                             price_data:
                               properties:
                                 currency:
+                                  format: currency
                                   type: string
                                 product:
                                   maxLength: 5000
@@ -123779,6 +124738,7 @@ paths:
                         maxLength: 5000
                         type: string
                       currency:
+                        format: currency
                         type: string
                       default_payment_method:
                         maxLength: 5000
@@ -123893,6 +124853,7 @@ paths:
                             price_data:
                               properties:
                                 currency:
+                                  format: currency
                                   type: string
                                 product:
                                   maxLength: 5000
@@ -124265,6 +125226,7 @@ paths:
                             price_data:
                               properties:
                                 currency:
+                                  format: currency
                                   type: string
                                 product:
                                   maxLength: 5000
@@ -124465,6 +125427,7 @@ paths:
                             price_data:
                               properties:
                                 currency:
+                                  format: currency
                                   type: string
                                 product:
                                   maxLength: 5000
@@ -125066,6 +126029,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -125241,6 +126205,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: The identifier of the customer to subscribe.
@@ -125399,6 +126364,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -126350,6 +127316,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -126691,6 +127658,7 @@ paths:
                       price_data:
                         properties:
                           currency:
+                            format: currency
                             type: string
                           product:
                             maxLength: 5000
@@ -127373,6 +128341,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: >-
@@ -127442,14 +128411,20 @@ paths:
                             enum:
                               - ad_nrt
                               - ae_trn
+                              - al_tin
+                              - am_tin
+                              - ao_tin
                               - ar_cuit
                               - au_abn
                               - au_arn
+                              - ba_tin
+                              - bb_tin
                               - bg_uic
                               - bh_vat
                               - bo_tin
                               - br_cnpj
                               - br_cpf
+                              - bs_tin
                               - by_tin
                               - ca_bn
                               - ca_gst_hst
@@ -127457,6 +128432,7 @@ paths:
                               - ca_pst_mb
                               - ca_pst_sk
                               - ca_qst
+                              - cd_nif
                               - ch_uid
                               - ch_vat
                               - cl_tin
@@ -127472,6 +128448,7 @@ paths:
                               - eu_vat
                               - gb_vat
                               - ge_vat
+                              - gn_nif
                               - hk_br
                               - hr_oib
                               - hu_tin
@@ -127483,12 +128460,16 @@ paths:
                               - jp_rn
                               - jp_trn
                               - ke_pin
+                              - kh_tin
                               - kr_brn
                               - kz_bin
                               - li_uid
                               - li_vat
                               - ma_vat
                               - md_vat
+                              - me_pib
+                              - mk_vat
+                              - mr_nif
                               - mx_rfc
                               - my_frp
                               - my_itn
@@ -127496,6 +128477,7 @@ paths:
                               - ng_tin
                               - no_vat
                               - no_voec
+                              - np_pan
                               - nz_gst
                               - om_vat
                               - pe_ruc
@@ -127508,12 +128490,16 @@ paths:
                               - sg_gst
                               - sg_uen
                               - si_tin
+                              - sn_ninea
+                              - sr_fin
                               - sv_nit
                               - th_vat
+                              - tj_tin
                               - tr_tin
                               - tw_vat
                               - tz_vat
                               - ua_vat
+                              - ug_tin
                               - us_ein
                               - uy_ruc
                               - uz_tin
@@ -127521,6 +128507,8 @@ paths:
                               - ve_rif
                               - vn_tin
                               - za_vat
+                              - zm_tin
+                              - zw_tin
                             maxLength: 5000
                             type: string
                             x-stripeBypassValidation: true
@@ -128000,6 +128988,36 @@ paths:
                         - type
                       title: default
                       type: object
+                    al:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
+                    am:
+                      properties:
+                        type:
+                          enum:
+                            - simplified
+                          type: string
+                      required:
+                        - type
+                      title: simplified
+                      type: object
+                    ao:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
                     at:
                       properties:
                         standard:
@@ -128025,6 +129043,26 @@ paths:
                       title: europe
                       type: object
                     au:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
+                    ba:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
+                    bb:
                       properties:
                         type:
                           enum:
@@ -128092,6 +129130,16 @@ paths:
                         - type
                       title: default
                       type: object
+                    bs:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
                     by:
                       properties:
                         type:
@@ -128122,6 +129170,16 @@ paths:
                       required:
                         - type
                       title: canada
+                      type: object
+                    cd:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
                       type: object
                     ch:
                       properties:
@@ -128395,6 +129453,16 @@ paths:
                         - type
                       title: simplified
                       type: object
+                    gn:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
                     gr:
                       properties:
                         standard:
@@ -128555,6 +129623,16 @@ paths:
                         - type
                       title: simplified
                       type: object
+                    kh:
+                      properties:
+                        type:
+                          enum:
+                            - simplified
+                          type: string
+                      required:
+                        - type
+                      title: simplified
+                      type: object
                     kr:
                       properties:
                         type:
@@ -128667,6 +129745,36 @@ paths:
                         - type
                       title: simplified
                       type: object
+                    me:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
+                    mk:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
+                    mr:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
                     mt:
                       properties:
                         standard:
@@ -128755,6 +129863,16 @@ paths:
                         - type
                       title: default
                       type: object
+                    np:
+                      properties:
+                        type:
+                          enum:
+                            - simplified
+                          type: string
+                      required:
+                        - type
+                      title: simplified
+                      type: object
                     nz:
                       properties:
                         type:
@@ -128774,6 +129892,16 @@ paths:
                       required:
                         - type
                       title: default
+                      type: object
+                    pe:
+                      properties:
+                        type:
+                          enum:
+                            - simplified
+                          type: string
+                      required:
+                        - type
+                      title: simplified
                       type: object
                     pl:
                       properties:
@@ -128959,7 +130087,37 @@ paths:
                         - type
                       title: europe
                       type: object
+                    sn:
+                      properties:
+                        type:
+                          enum:
+                            - simplified
+                          type: string
+                      required:
+                        - type
+                      title: simplified
+                      type: object
+                    sr:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
                     th:
+                      properties:
+                        type:
+                          enum:
+                            - simplified
+                          type: string
+                      required:
+                        - type
+                      title: simplified
+                      type: object
+                    tj:
                       properties:
                         type:
                           enum:
@@ -128980,6 +130138,16 @@ paths:
                       title: simplified
                       type: object
                     tz:
+                      properties:
+                        type:
+                          enum:
+                            - simplified
+                          type: string
+                      required:
+                        - type
+                      title: simplified
+                      type: object
+                    ug:
                       properties:
                         type:
                           enum:
@@ -129049,6 +130217,16 @@ paths:
                         - type
                       title: united_states
                       type: object
+                    uy:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
                     uz:
                       properties:
                         type:
@@ -129070,6 +130248,26 @@ paths:
                       title: simplified
                       type: object
                     za:
+                      properties:
+                        type:
+                          enum:
+                            - standard
+                          type: string
+                      required:
+                        - type
+                      title: default
+                      type: object
+                    zm:
+                      properties:
+                        type:
+                          enum:
+                            - simplified
+                          type: string
+                      required:
+                        - type
+                      title: simplified
+                      type: object
+                    zw:
                       properties:
                         type:
                           enum:
@@ -130071,32 +131269,41 @@ paths:
                   type: object
                 type:
                   description: >-
-                    Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`,
-                    `au_abn`, `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`,
-                    `br_cpf`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`,
-                    `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_uid`, `ch_vat`,
-                    `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`,
-                    `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`,
-                    `gb_vat`, `ge_vat`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`,
-                    `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`,
-                    `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`, `li_vat`, `ma_vat`,
-                    `md_vat`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`,
-                    `no_vat`, `no_voec`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`,
-                    `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`,
-                    `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`,
-                    `tz_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`,
-                    `ve_rif`, `vn_tin`, or `za_vat`
+                    Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`,
+                    `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `ba_tin`,
+                    `bb_tin`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`,
+                    `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`,
+                    `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`,
+                    `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`,
+                    `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`,
+                    `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`,
+                    `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`,
+                    `jp_rn`, `jp_trn`, `ke_pin`, `kh_tin`, `kr_brn`, `kz_bin`,
+                    `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`,
+                    `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`,
+                    `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`,
+                    `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`,
+                    `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`,
+                    `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`,
+                    `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`,
+                    `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
                   enum:
                     - ad_nrt
                     - ae_trn
+                    - al_tin
+                    - am_tin
+                    - ao_tin
                     - ar_cuit
                     - au_abn
                     - au_arn
+                    - ba_tin
+                    - bb_tin
                     - bg_uic
                     - bh_vat
                     - bo_tin
                     - br_cnpj
                     - br_cpf
+                    - bs_tin
                     - by_tin
                     - ca_bn
                     - ca_gst_hst
@@ -130104,6 +131311,7 @@ paths:
                     - ca_pst_mb
                     - ca_pst_sk
                     - ca_qst
+                    - cd_nif
                     - ch_uid
                     - ch_vat
                     - cl_tin
@@ -130119,6 +131327,7 @@ paths:
                     - eu_vat
                     - gb_vat
                     - ge_vat
+                    - gn_nif
                     - hk_br
                     - hr_oib
                     - hu_tin
@@ -130130,12 +131339,16 @@ paths:
                     - jp_rn
                     - jp_trn
                     - ke_pin
+                    - kh_tin
                     - kr_brn
                     - kz_bin
                     - li_uid
                     - li_vat
                     - ma_vat
                     - md_vat
+                    - me_pib
+                    - mk_vat
+                    - mr_nif
                     - mx_rfc
                     - my_frp
                     - my_itn
@@ -130143,6 +131356,7 @@ paths:
                     - ng_tin
                     - no_vat
                     - no_voec
+                    - np_pan
                     - nz_gst
                     - om_vat
                     - pe_ruc
@@ -130155,12 +131369,16 @@ paths:
                     - sg_gst
                     - sg_uen
                     - si_tin
+                    - sn_ninea
+                    - sr_fin
                     - sv_nit
                     - th_vat
+                    - tj_tin
                     - tr_tin
                     - tw_vat
                     - tz_vat
                     - ua_vat
+                    - ug_tin
                     - us_ein
                     - uy_ruc
                     - uz_tin
@@ -130168,6 +131386,8 @@ paths:
                     - ve_rif
                     - vn_tin
                     - za_vat
+                    - zm_tin
+                    - zw_tin
                   maxLength: 5000
                   type: string
                   x-stripeBypassValidation: true
@@ -131986,11 +133206,10 @@ paths:
               properties:
                 address:
                   description: >-
-                    The full address of the location. If you're updating the
-                    `address` field, avoid changing the `country`. If you need
-                    to modify the `country` field, create a new `Location`
-                    object and re-register any existing readers to that
-                    location.
+                    The full address of the location. You can't change the
+                    location's `country`. If you need to modify the `country`
+                    field, create a new `Location` object and re-register any
+                    existing readers to that location.
                   properties:
                     city:
                       maxLength: 5000
@@ -132769,6 +133988,7 @@ paths:
                   description: Cart
                   properties:
                     currency:
+                      format: currency
                       type: string
                     line_items:
                       items:
@@ -133462,6 +134682,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -133569,6 +134790,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -133700,6 +134922,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 merchant_data:
                   description: >-
@@ -135181,6 +136404,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -135271,6 +136495,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -135845,6 +137070,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 expand:
                   description: Specifies which fields in the response should be expanded.
@@ -137530,6 +138756,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 description:
                   description: >-
@@ -137631,6 +138858,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 description:
                   description: >-
@@ -138168,6 +139396,7 @@ paths:
                       maxLength: 5000
                       type: string
                     currency:
+                      format: currency
                       type: string
                     payment_method:
                       maxLength: 5000
@@ -138509,6 +139738,8 @@ paths:
                       type: object
                     relationship:
                       properties:
+                        authorizer:
+                          type: boolean
                         director:
                           type: boolean
                         executive:
@@ -139227,6 +140458,7 @@ paths:
                     currency](https://www.iso.org/iso-4217-currency-codes.html)
                     in lowercase. Must be a [supported
                     currency](https://docs.stripe.com/currencies).
+                  format: currency
                   type: string
                 description:
                   description: >-
@@ -141154,6 +142386,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 description:
                   description: >-
@@ -141499,6 +142732,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 customer:
                   description: >-
@@ -141587,6 +142821,7 @@ paths:
                         - financial_account
                         - us_bank_account
                       type: string
+                      x-stripeBypassValidation: true
                     us_bank_account:
                       properties:
                         account_holder_type:
@@ -141946,6 +143181,7 @@ paths:
                     code](https://www.iso.org/iso-4217-currency-codes.html), in
                     lowercase. Must be a [supported
                     currency](https://stripe.com/docs/currencies).
+                  format: currency
                   type: string
                 description:
                   description: >-
@@ -143186,6 +144422,8 @@ paths:
                     - '2024-06-20'
                     - 2024-09-30.acacia
                     - 2024-10-28.acacia
+                    - 2024-11-20.acacia
+                    - 2024-12-18.acacia
                   maxLength: 5000
                   type: string
                   x-stripeBypassValidation: true
