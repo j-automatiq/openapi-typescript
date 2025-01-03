@@ -41164,7 +41164,7 @@ export interface components {
                 readonly created_at: string;
                 /** @description The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 readonly dismissed_at: string | null;
-                readonly dismissed_by: Record<string, never>;
+                readonly dismissed_by: Record<string, never> | null;
                 /** @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
                 readonly dismissed_reason: string | null;
                 /**
@@ -42189,7 +42189,7 @@ export interface components {
                 readonly display_title: string;
                 readonly event: string;
                 readonly head_branch: string;
-                readonly head_commit?: Record<string, never>;
+                readonly head_commit?: Record<string, never> | null;
                 readonly head_repository?: {
                     readonly archive_url?: string;
                     readonly assignees_url?: string;
@@ -42496,7 +42496,7 @@ export interface components {
                 readonly created_at: string;
                 readonly event: string;
                 readonly head_branch: string;
-                readonly head_commit?: Record<string, never>;
+                readonly head_commit?: Record<string, never> | null;
                 readonly head_repository?: {
                     readonly archive_url?: string;
                     readonly assignees_url?: string;
@@ -42844,7 +42844,7 @@ export interface components {
                 readonly created_at: string;
                 readonly event: string;
                 readonly head_branch: string;
-                readonly head_commit?: Record<string, never>;
+                readonly head_commit?: Record<string, never> | null;
                 readonly head_repository?: {
                     readonly archive_url?: string;
                     readonly assignees_url?: string;
@@ -44324,7 +44324,7 @@ export interface components {
                 readonly labels_url?: string;
                 readonly language?: unknown;
                 readonly languages_url?: string;
-                readonly license?: Record<string, never>;
+                readonly license?: Record<string, never> | null;
                 readonly merges_url?: string;
                 readonly milestones_url?: string;
                 readonly mirror_url?: unknown;
@@ -45131,7 +45131,7 @@ export interface components {
                     readonly url?: string;
                     readonly user_view_type?: string;
                 } | null;
-                readonly assignees?: readonly Record<string, never>[];
+                readonly assignees?: readonly (Record<string, never> | null)[];
                 readonly author_association?: string;
                 readonly body?: string | null;
                 readonly closed_at?: string | null;
@@ -45158,10 +45158,10 @@ export interface components {
                 }[];
                 readonly labels_url?: string;
                 readonly locked: boolean;
-                readonly milestone?: Record<string, never>;
+                readonly milestone?: Record<string, never> | null;
                 readonly node_id?: string;
                 readonly number?: number;
-                readonly performed_via_github_app?: Record<string, never>;
+                readonly performed_via_github_app?: Record<string, never> | null;
                 readonly reactions?: {
                     readonly "+1"?: number;
                     readonly "-1"?: number;
@@ -45675,7 +45675,7 @@ export interface components {
                     readonly url?: string;
                     readonly user_view_type?: string;
                 } | null;
-                readonly assignees?: readonly Record<string, never>[];
+                readonly assignees?: readonly (Record<string, never> | null)[];
                 readonly author_association?: string;
                 readonly body?: string | null;
                 readonly closed_at?: string | null;
@@ -45702,10 +45702,10 @@ export interface components {
                 }[];
                 readonly labels_url?: string;
                 readonly locked: boolean;
-                readonly milestone?: Record<string, never>;
+                readonly milestone?: Record<string, never> | null;
                 readonly node_id?: string;
                 readonly number?: number;
-                readonly performed_via_github_app?: Record<string, never>;
+                readonly performed_via_github_app?: Record<string, never> | null;
                 readonly reactions?: {
                     readonly "+1"?: number;
                     readonly "-1"?: number;
@@ -46221,7 +46221,7 @@ export interface components {
                     readonly url?: string;
                     readonly user_view_type?: string;
                 } | null;
-                readonly assignees?: readonly Record<string, never>[];
+                readonly assignees?: readonly (Record<string, never> | null)[];
                 readonly author_association?: string;
                 readonly body?: string | null;
                 readonly closed_at?: string | null;
@@ -46248,10 +46248,10 @@ export interface components {
                 }[];
                 readonly labels_url?: string;
                 readonly locked: boolean;
-                readonly milestone?: Record<string, never>;
+                readonly milestone?: Record<string, never> | null;
                 readonly node_id?: string;
                 readonly number?: number;
-                readonly performed_via_github_app?: Record<string, never>;
+                readonly performed_via_github_app?: Record<string, never> | null;
                 readonly reactions?: {
                     readonly "+1"?: number;
                     readonly "-1"?: number;
@@ -46744,8 +46744,8 @@ export interface components {
                 } | null;
             } & {
                 readonly active_lock_reason?: string | null;
-                readonly assignee?: Record<string, never>;
-                readonly assignees?: readonly Record<string, never>[];
+                readonly assignee?: Record<string, never> | null;
+                readonly assignees?: readonly (Record<string, never> | null)[];
                 readonly author_association?: string;
                 readonly body?: string | null;
                 readonly closed_at: string | null;
@@ -46755,13 +46755,13 @@ export interface components {
                 readonly events_url?: string;
                 readonly html_url?: string;
                 readonly id?: number;
-                readonly labels?: readonly Record<string, never>[];
+                readonly labels?: readonly (Record<string, never> | null)[];
                 readonly labels_url?: string;
                 readonly locked?: boolean;
-                readonly milestone?: Record<string, never>;
+                readonly milestone?: Record<string, never> | null;
                 readonly node_id?: string;
                 readonly number?: number;
-                readonly performed_via_github_app?: Record<string, never>;
+                readonly performed_via_github_app?: Record<string, never> | null;
                 readonly reactions?: {
                     readonly "+1"?: number;
                     readonly "-1"?: number;
@@ -52843,8 +52843,8 @@ export interface components {
                     readonly body?: string | Record<string, never>;
                     readonly body_html?: string;
                     readonly container_metadata?: {
-                        readonly labels?: Record<string, never>;
-                        readonly manifest?: Record<string, never>;
+                        readonly labels?: Record<string, never> | null;
+                        readonly manifest?: Record<string, never> | null;
                         readonly tag?: {
                             readonly digest?: string;
                             readonly name?: string;
@@ -52869,19 +52869,19 @@ export interface components {
                         readonly name?: string;
                         readonly version?: string;
                         readonly npm_user?: string;
-                        readonly author?: Record<string, never>;
-                        readonly bugs?: Record<string, never>;
+                        readonly author?: Record<string, never> | null;
+                        readonly bugs?: Record<string, never> | null;
                         readonly dependencies?: Record<string, never>;
                         readonly dev_dependencies?: Record<string, never>;
                         readonly peer_dependencies?: Record<string, never>;
                         readonly optional_dependencies?: Record<string, never>;
                         readonly description?: string;
-                        readonly dist?: Record<string, never>;
+                        readonly dist?: Record<string, never> | null;
                         readonly git_head?: string;
                         readonly homepage?: string;
                         readonly license?: string;
                         readonly main?: string;
-                        readonly repository?: Record<string, never>;
+                        readonly repository?: Record<string, never> | null;
                         readonly scripts?: Record<string, never>;
                         readonly id?: string;
                         readonly node_version?: string;
@@ -52894,7 +52894,7 @@ export interface components {
                         readonly files?: readonly string[];
                         readonly bin?: Record<string, never>;
                         readonly man?: Record<string, never>;
-                        readonly directories?: Record<string, never>;
+                        readonly directories?: Record<string, never> | null;
                         readonly os?: readonly string[];
                         readonly cpu?: readonly string[];
                         readonly readme?: string;
@@ -82202,8 +82202,8 @@ export interface components {
                     readonly body?: string | Record<string, never>;
                     readonly body_html?: string;
                     readonly container_metadata?: {
-                        readonly labels?: Record<string, never>;
-                        readonly manifest?: Record<string, never>;
+                        readonly labels?: Record<string, never> | null;
+                        readonly manifest?: Record<string, never> | null;
                         readonly tag?: {
                             readonly digest?: string;
                             readonly name?: string;
@@ -82470,7 +82470,7 @@ export interface components {
                     readonly updated_at: string;
                     readonly version: string;
                 };
-                readonly registry: Record<string, never>;
+                readonly registry: Record<string, never> | null;
                 readonly updated_at: string;
             };
             readonly repository?: components["schemas"]["repository-webhooks"];
@@ -85136,7 +85136,7 @@ export interface components {
                 readonly head_branch?: string | null;
                 /** @description The name of the workflow. */
                 readonly workflow_name?: string | null;
-                readonly steps?: readonly Record<string, never>[];
+                readonly steps?: readonly (Record<string, never> | null)[];
                 readonly url?: string;
             };
             readonly deployment?: components["schemas"]["deployment"];

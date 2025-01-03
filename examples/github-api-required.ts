@@ -41164,7 +41164,7 @@ export interface components {
                 created_at: string;
                 /** @description The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 dismissed_at: string | null;
-                dismissed_by: Record<string, never>;
+                dismissed_by: Record<string, never> | null;
                 /** @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
                 dismissed_reason: string | null;
                 /**
@@ -42189,7 +42189,7 @@ export interface components {
                 display_title: string;
                 event: string;
                 head_branch: string;
-                head_commit?: Record<string, never>;
+                head_commit?: Record<string, never> | null;
                 head_repository?: {
                     archive_url: string;
                     assignees_url: string;
@@ -42496,7 +42496,7 @@ export interface components {
                 created_at: string;
                 event: string;
                 head_branch: string;
-                head_commit?: Record<string, never>;
+                head_commit?: Record<string, never> | null;
                 head_repository?: {
                     archive_url: string;
                     assignees_url: string;
@@ -42844,7 +42844,7 @@ export interface components {
                 created_at: string;
                 event: string;
                 head_branch: string;
-                head_commit?: Record<string, never>;
+                head_commit?: Record<string, never> | null;
                 head_repository?: {
                     archive_url: string;
                     assignees_url: string;
@@ -44324,7 +44324,7 @@ export interface components {
                 labels_url?: string;
                 language?: unknown;
                 languages_url?: string;
-                license?: Record<string, never>;
+                license?: Record<string, never> | null;
                 merges_url?: string;
                 milestones_url?: string;
                 mirror_url?: unknown;
@@ -45131,7 +45131,7 @@ export interface components {
                     url?: string;
                     user_view_type?: string;
                 } | null;
-                assignees?: Record<string, never>[];
+                assignees?: (Record<string, never> | null)[];
                 author_association?: string;
                 body?: string | null;
                 closed_at?: string | null;
@@ -45158,10 +45158,10 @@ export interface components {
                 }[];
                 labels_url?: string;
                 locked: boolean;
-                milestone?: Record<string, never>;
+                milestone?: Record<string, never> | null;
                 node_id?: string;
                 number?: number;
-                performed_via_github_app?: Record<string, never>;
+                performed_via_github_app?: Record<string, never> | null;
                 reactions?: {
                     "+1": number;
                     "-1": number;
@@ -45675,7 +45675,7 @@ export interface components {
                     url?: string;
                     user_view_type?: string;
                 } | null;
-                assignees?: Record<string, never>[];
+                assignees?: (Record<string, never> | null)[];
                 author_association?: string;
                 body?: string | null;
                 closed_at?: string | null;
@@ -45702,10 +45702,10 @@ export interface components {
                 }[];
                 labels_url?: string;
                 locked: boolean;
-                milestone?: Record<string, never>;
+                milestone?: Record<string, never> | null;
                 node_id?: string;
                 number?: number;
-                performed_via_github_app?: Record<string, never>;
+                performed_via_github_app?: Record<string, never> | null;
                 reactions?: {
                     "+1": number;
                     "-1": number;
@@ -46221,7 +46221,7 @@ export interface components {
                     url?: string;
                     user_view_type?: string;
                 } | null;
-                assignees?: Record<string, never>[];
+                assignees?: (Record<string, never> | null)[];
                 author_association?: string;
                 body?: string | null;
                 closed_at?: string | null;
@@ -46248,10 +46248,10 @@ export interface components {
                 }[];
                 labels_url?: string;
                 locked: boolean;
-                milestone?: Record<string, never>;
+                milestone?: Record<string, never> | null;
                 node_id?: string;
                 number?: number;
-                performed_via_github_app?: Record<string, never>;
+                performed_via_github_app?: Record<string, never> | null;
                 reactions?: {
                     "+1": number;
                     "-1": number;
@@ -46744,8 +46744,8 @@ export interface components {
                 } | null;
             } & {
                 active_lock_reason?: string | null;
-                assignee?: Record<string, never>;
-                assignees?: Record<string, never>[];
+                assignee?: Record<string, never> | null;
+                assignees?: (Record<string, never> | null)[];
                 author_association?: string;
                 body?: string | null;
                 closed_at: string | null;
@@ -46755,13 +46755,13 @@ export interface components {
                 events_url?: string;
                 html_url?: string;
                 id?: number;
-                labels?: Record<string, never>[];
+                labels?: (Record<string, never> | null)[];
                 labels_url?: string;
                 locked?: boolean;
-                milestone?: Record<string, never>;
+                milestone?: Record<string, never> | null;
                 node_id?: string;
                 number?: number;
-                performed_via_github_app?: Record<string, never>;
+                performed_via_github_app?: Record<string, never> | null;
                 reactions?: {
                     "+1": number;
                     "-1": number;
@@ -52843,8 +52843,8 @@ export interface components {
                     body?: string | Record<string, never>;
                     body_html?: string;
                     container_metadata?: {
-                        labels: Record<string, never>;
-                        manifest: Record<string, never>;
+                        labels: Record<string, never> | null;
+                        manifest: Record<string, never> | null;
                         tag: {
                             digest: string;
                             name: string;
@@ -52869,19 +52869,19 @@ export interface components {
                         name: string;
                         version: string;
                         npm_user: string;
-                        author: Record<string, never>;
-                        bugs: Record<string, never>;
+                        author: Record<string, never> | null;
+                        bugs: Record<string, never> | null;
                         dependencies: Record<string, never>;
                         dev_dependencies: Record<string, never>;
                         peer_dependencies: Record<string, never>;
                         optional_dependencies: Record<string, never>;
                         description: string;
-                        dist: Record<string, never>;
+                        dist: Record<string, never> | null;
                         git_head: string;
                         homepage: string;
                         license: string;
                         main: string;
-                        repository: Record<string, never>;
+                        repository: Record<string, never> | null;
                         scripts: Record<string, never>;
                         id: string;
                         node_version: string;
@@ -52894,7 +52894,7 @@ export interface components {
                         files: string[];
                         bin: Record<string, never>;
                         man: Record<string, never>;
-                        directories: Record<string, never>;
+                        directories: Record<string, never> | null;
                         os: string[];
                         cpu: string[];
                         readme: string;
@@ -82202,8 +82202,8 @@ export interface components {
                     body?: string | Record<string, never>;
                     body_html?: string;
                     container_metadata?: {
-                        labels: Record<string, never>;
-                        manifest: Record<string, never>;
+                        labels: Record<string, never> | null;
+                        manifest: Record<string, never> | null;
                         tag: {
                             digest: string;
                             name: string;
@@ -82470,7 +82470,7 @@ export interface components {
                     updated_at: string;
                     version: string;
                 };
-                registry: Record<string, never>;
+                registry: Record<string, never> | null;
                 updated_at: string;
             };
             repository?: components["schemas"]["repository-webhooks"];
@@ -85136,7 +85136,7 @@ export interface components {
                 head_branch?: string | null;
                 /** @description The name of the workflow. */
                 workflow_name?: string | null;
-                steps?: Record<string, never>[];
+                steps?: (Record<string, never> | null)[];
                 url?: string;
             };
             deployment?: components["schemas"]["deployment"];
