@@ -93,6 +93,8 @@ tags:
   description: Endpoints to manage Code security using the REST API.
 - name: private-registries
   description: Manage private registry configurations.
+- name: hosted-compute
+  description: Manage hosted compute networking resources.
 servers:
 - url: https://api.github.com
 externalDocs:
@@ -2129,6 +2131,7 @@ paths:
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-severities"
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-ecosystems"
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-packages"
+      - "$ref": "#/components/parameters/dependabot-alert-comma-separated-epss"
       - "$ref": "#/components/parameters/dependabot-alert-scope"
       - "$ref": "#/components/parameters/dependabot-alert-sort"
       - "$ref": "#/components/parameters/direction"
@@ -4763,6 +4766,457 @@ paths:
         enabledForGitHubApps: true
         category: actions
         subcategory: cache
+  "/orgs/{org}/actions/hosted-runners":
+    get:
+      summary: List GitHub-hosted runners for an organization
+      description: |-
+        Lists all GitHub-hosted runners configured in an organization.
+
+        OAuth app tokens and personal access tokens (classic) need the `manage_runner:org` scope to use this endpoint.
+      tags:
+      - actions
+      operationId: actions/list-hosted-runners-for-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#list-github-hosted-runners-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - total_count
+                - runners
+                properties:
+                  total_count:
+                    type: integer
+                  runners:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/actions-hosted-runner"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner-paginated"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: hosted-runners
+    post:
+      summary: Create a GitHub-hosted runner for an organization
+      description: |-
+        Creates a GitHub-hosted runner for an organization.
+        OAuth tokens and personal access tokens (classic) need the `manage_runners:org` scope to use this endpoint.
+      operationId: actions/create-hosted-runner-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#create-a-github-hosted-runner-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name of the runner. Must be between 1 and 64 characters
+                    and may only contain upper and lowercase letters a-z, numbers
+                    0-9, '.', '-', and '_'.
+                  type: string
+                image:
+                  description: The image of runner. To list all available images,
+                    use `GET /actions/hosted-runners/images/github-owned` or `GET
+                    /actions/hosted-runners/images/partner`.
+                  type: object
+                  properties:
+                    id:
+                      description: The unique identifier of the runner image.
+                      type: string
+                    source:
+                      description: The source of the runner image.
+                      type: string
+                      enum:
+                      - github
+                      - partner
+                      - custom
+                    version:
+                      description: The version of the runner image to deploy. This
+                        is relevant only for runners using custom images.
+                      type: string
+                      nullable: true
+                size:
+                  description: The machine size of the runner. To list available sizes,
+                    use `GET actions/hosted-runners/machine-sizes`
+                  type: string
+                runner_group_id:
+                  description: The existing runner group to add this runner to.
+                  type: integer
+                maximum_runners:
+                  description: The maximum amount of runners to scale up to. Runners
+                    will not auto-scale above this number. Use this setting to limit
+                    your cost.
+                  type: integer
+                enable_static_ip:
+                  description: Whether this runner should be created with a static
+                    public IP. Note limit on account. To list limits on account, use
+                    `GET actions/hosted-runners/limits`
+                  type: boolean
+              required:
+              - name
+              - image
+              - size
+              - runner_group_id
+            examples:
+              default:
+                value:
+                  name: My Hosted runner
+                  image:
+                    id: ubuntu-latest
+                    source: github
+                    version: latest
+                  runner_group_id: 1
+                  size: 4-core
+                  maximum_runners: 50
+                  enable_static_ip: false
+      responses:
+        '201':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/actions-hosted-runner"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner"
+      x-github:
+        enabledForGitHubApps: true
+        githubCloudOnly: false
+        category: actions
+        subcategory: hosted-runners
+  "/orgs/{org}/actions/hosted-runners/images/github-owned":
+    get:
+      summary: Get GitHub-owned images for GitHub-hosted runners in an organization
+      description: Get the list of GitHub-owned images available for GitHub-hosted
+        runners for an organization.
+      operationId: actions/get-hosted-runners-github-owned-images-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#get-github-owned-images-for-github-hosted-runners-in-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - total_count
+                - images
+                properties:
+                  total_count:
+                    type: integer
+                  images:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/actions-hosted-runner-image"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner-image"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: hosted-runners
+  "/orgs/{org}/actions/hosted-runners/images/partner":
+    get:
+      summary: Get partner images for GitHub-hosted runners in an organization
+      description: Get the list of partner images available for GitHub-hosted runners
+        for an organization.
+      operationId: actions/get-hosted-runners-partner-images-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#get-partner-images-for-github-hosted-runners-in-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - total_count
+                - images
+                properties:
+                  total_count:
+                    type: integer
+                  images:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/actions-hosted-runner-image"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner-image"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: hosted-runners
+  "/orgs/{org}/actions/hosted-runners/limits":
+    get:
+      summary: Get limits on GitHub-hosted runners for an organization
+      description: Get the GitHub-hosted runners limits for an organization.
+      operationId: actions/get-hosted-runners-limits-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#get-limits-on-github-hosted-runners-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/actions-hosted-runner-limits"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner-limits-default"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: hosted-runners
+  "/orgs/{org}/actions/hosted-runners/machine-sizes":
+    get:
+      summary: Get GitHub-hosted runners machine specs for an organization
+      description: Get the list of machine specs available for GitHub-hosted runners
+        for an organization.
+      operationId: actions/get-hosted-runners-machine-specs-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#get-github-hosted-runners-machine-specs-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - total_count
+                - machine_specs
+                properties:
+                  total_count:
+                    type: integer
+                  machine_specs:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/actions-hosted-runner-machine-spec"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner-machine-spec"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: hosted-runners
+  "/orgs/{org}/actions/hosted-runners/platforms":
+    get:
+      summary: Get platforms for GitHub-hosted runners in an organization
+      description: Get the list of platforms available for GitHub-hosted runners for
+        an organization.
+      operationId: actions/get-hosted-runners-platforms-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#get-platforms-for-github-hosted-runners-in-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - total_count
+                - platforms
+                properties:
+                  total_count:
+                    type: integer
+                  platforms:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                default:
+                  value:
+                    total_count: 1
+                    platforms:
+                    - linux-x64
+                    - win-x64
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: hosted-runners
+  "/orgs/{org}/actions/hosted-runners/{hosted_runner_id}":
+    get:
+      summary: Get a GitHub-hosted runner for an organization
+      description: |-
+        Gets a GitHub-hosted runner configured in an organization.
+
+        OAuth app tokens and personal access tokens (classic) need the `manage_runners:org` scope to use this endpoint.
+      tags:
+      - actions
+      operationId: actions/get-hosted-runner-for-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#get-a-github-hosted-runner-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/hosted-runner-id"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/actions-hosted-runner"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: actions
+        subcategory: hosted-runners
+    patch:
+      summary: Update a GitHub-hosted runner for an organization
+      description: |-
+        Updates a GitHub-hosted runner for an organization.
+        OAuth app tokens and personal access tokens (classic) need the `manage_runners:org` scope to use this endpoint.
+      operationId: actions/update-hosted-runner-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#update-a-github-hosted-runner-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/hosted-runner-id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name of the runner. Must be between 1 and 64 characters
+                    and may only contain upper and lowercase letters a-z, numbers
+                    0-9, '.', '-', and '_'.
+                  type: string
+                runner_group_id:
+                  description: The existing runner group to add this runner to.
+                  type: integer
+                maximum_runners:
+                  description: The maximum amount of runners to scale up to. Runners
+                    will not auto-scale above this number. Use this setting to limit
+                    your cost.
+                  type: integer
+                enable_static_ip:
+                  description: Whether this runner should be updated with a static
+                    public IP. Note limit on account. To list limits on account, use
+                    `GET actions/hosted-runners/limits`
+                  type: boolean
+                image_version:
+                  description: The version of the runner image to deploy. This is
+                    relevant only for runners using custom images.
+                  type: string
+                  nullable: true
+            examples:
+              default:
+                value:
+                  name: My larger runner
+                  runner_group_id: 1
+                  maximum_runners: 50
+                  enable_static_ip: false
+                  image_version: 1.0.0
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/actions-hosted-runner"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner"
+      x-github:
+        enabledForGitHubApps: true
+        githubCloudOnly: false
+        category: actions
+        subcategory: hosted-runners
+    delete:
+      summary: Delete a GitHub-hosted runner for an organization
+      description: Deletes a GitHub-hosted runner for an organization.
+      operationId: actions/delete-hosted-runner-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/hosted-runners#delete-a-github-hosted-runner-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/hosted-runner-id"
+      responses:
+        '202':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/actions-hosted-runner"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: false
+        category: actions
+        subcategory: hosted-runners
   "/orgs/{org}/actions/oidc/customization/sub":
     get:
       summary: Get the customization template for an OIDC subject claim for an organization
@@ -5270,6 +5724,9 @@ paths:
                     description: Name of workflow the runner group should be allowed
                       to run. Note that a ref, tag, or long SHA is required.
                     example: octo-org/octo-repo/.github/workflows/deploy.yaml@main
+                network_configuration_id:
+                  description: The identifier of a hosted compute network configuration.
+                  type: string
               required:
               - name
             examples:
@@ -5381,6 +5838,10 @@ paths:
                     description: Name of workflow the runner group should be allowed
                       to run. Note that a ref, tag, or long SHA is required.
                     example: octo-org/octo-repo/.github/workflows/deploy.yaml@main
+                network_configuration_id:
+                  description: The identifier of a hosted compute network configuration.
+                  type: string
+                  nullable: true
               required:
               - name
             examples:
@@ -5421,6 +5882,52 @@ paths:
       responses:
         '204':
           description: Response
+      x-github:
+        enabledForGitHubApps: true
+        githubCloudOnly: false
+        category: actions
+        subcategory: self-hosted-runner-groups
+  "/orgs/{org}/actions/runner-groups/{runner_group_id}/hosted-runners":
+    get:
+      summary: List GitHub-hosted runners in a group for an organization
+      description: |-
+        Lists the GitHub-hosted runners in an organization group.
+
+        OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+      operationId: actions/list-github-hosted-runners-in-group-for-org
+      tags:
+      - actions
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/actions/self-hosted-runner-groups#list-github-hosted-runners-in-a-group-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/runner-group-id"
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - total_count
+                - runners
+                properties:
+                  total_count:
+                    type: number
+                  runners:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/actions-hosted-runner"
+              examples:
+                default:
+                  "$ref": "#/components/examples/actions-hosted-runner-paginated"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
       x-github:
         enabledForGitHubApps: true
         githubCloudOnly: false
@@ -9280,6 +9787,7 @@ paths:
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-severities"
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-ecosystems"
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-packages"
+      - "$ref": "#/components/parameters/dependabot-alert-comma-separated-epss"
       - "$ref": "#/components/parameters/dependabot-alert-scope"
       - "$ref": "#/components/parameters/dependabot-alert-sort"
       - "$ref": "#/components/parameters/direction"
@@ -13426,17 +13934,11 @@ paths:
                   items:
                     type: integer
             examples:
-              update-username-and-encrypted-value:
+              default:
                 value:
                   username: monalisa
                   encrypted_value: c2VjcmV0
                   key_id: '012345678912345678'
-              update-with-selected-visibility:
-                value:
-                  visibility: selected
-                  selected_repository_ids:
-                  - 1296269
-                  - 1296280
       responses:
         '204':
           description: Response
@@ -15000,6 +15502,270 @@ paths:
         enabledForGitHubApps: false
         category: billing
         subcategory: billing
+  "/orgs/{org}/settings/network-configurations":
+    get:
+      summary: List hosted compute network configurations for an organization
+      description: |-
+        Lists all hosted compute network configurations configured in an organization.
+
+        OAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint.
+      tags:
+      - hosted-compute
+      operationId: hosted-compute/list-network-configurations-for-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/network-configurations#list-hosted-compute-network-configurations-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/per-page"
+      - "$ref": "#/components/parameters/page"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - total_count
+                - network_configurations
+                properties:
+                  total_count:
+                    type: integer
+                  network_configurations:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/network-configuration"
+              examples:
+                default:
+                  "$ref": "#/components/examples/network-configurations-paginated"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: network-configurations
+    post:
+      summary: Create a hosted compute network configuration for an organization
+      description: |-
+        Creates a hosted compute network configuration for an organization.
+
+        OAuth app tokens and personal access tokens (classic) need the `write:network_configurations` scope to use this endpoint.
+      tags:
+      - hosted-compute
+      operationId: hosted-compute/create-network-configuration-for-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/network-configurations#create-a-hosted-compute-network-configuration-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name of the network configuration. Must be between
+                    1 and 100 characters and may only contain upper and lowercase
+                    letters a-z, numbers 0-9, '.', '-', and '_'.
+                  type: string
+                compute_service:
+                  description: The hosted compute service to use for the network configuration.
+                  type: string
+                  enum:
+                  - none
+                  - actions
+                network_settings_ids:
+                  type: array
+                  minItems: 1
+                  maxItems: 1
+                  description: The identifier of the network settings to use for the
+                    network configuration. Exactly one network settings must be specified.
+                  items:
+                    type: string
+              required:
+              - name
+              - network_settings_ids
+            examples:
+              default:
+                value:
+                  name: my-network-configuration
+                  network_settings_ids:
+                  - 23456789ABDCEF1
+                  compute_service: actions
+      responses:
+        '201':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/network-configuration"
+              examples:
+                default:
+                  "$ref": "#/components/examples/network-configuration"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: network-configurations
+  "/orgs/{org}/settings/network-configurations/{network_configuration_id}":
+    get:
+      summary: Get a hosted compute network configuration for an organization
+      description: |-
+        Gets a hosted compute network configuration configured in an organization.
+
+        OAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint.
+      tags:
+      - hosted-compute
+      operationId: hosted-compute/get-network-configuration-for-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/network-configurations#get-a-hosted-compute-network-configuration-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/network-configuration-id"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/network-configuration"
+              examples:
+                default:
+                  "$ref": "#/components/examples/network-configuration"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: network-configurations
+    patch:
+      summary: Update a hosted compute network configuration for an organization
+      description: |-
+        Updates a hosted compute network configuration for an organization.
+
+        OAuth app tokens and personal access tokens (classic) need the `write:network_configurations` scope to use this endpoint.
+      tags:
+      - hosted-compute
+      operationId: hosted-compute/update-network-configuration-for-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/network-configurations#update-a-hosted-compute-network-configuration-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/network-configuration-id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name of the network configuration. Must be between
+                    1 and 100 characters and may only contain upper and lowercase
+                    letters a-z, numbers 0-9, '.', '-', and '_'.
+                  type: string
+                compute_service:
+                  description: The hosted compute service to use for the network configuration.
+                  type: string
+                  enum:
+                  - none
+                  - actions
+                network_settings_ids:
+                  type: array
+                  minItems: 0
+                  maxItems: 1
+                  description: The identifier of the network settings to use for the
+                    network configuration. Exactly one network settings must be specified.
+                  items:
+                    type: string
+            examples:
+              default:
+                value:
+                  name: my-network-configuration
+                  network_settings_ids:
+                  - 23456789ABDCEF1
+                  compute_service: actions
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/network-configuration"
+              examples:
+                default:
+                  "$ref": "#/components/examples/network-configuration"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: network-configurations
+    delete:
+      summary: Delete a hosted compute network configuration from an organization
+      description: |-
+        Deletes a hosted compute network configuration from an organization.
+
+        OAuth app tokens and personal access tokens (classic) need the `write:network_configurations` scope to use this endpoint.
+      tags:
+      - hosted-compute
+      operationId: hosted-compute/delete-network-configuration-from-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/network-configurations#delete-a-hosted-compute-network-configuration-from-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/network-configuration-id"
+      responses:
+        '204':
+          description: Response
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: network-configurations
+  "/orgs/{org}/settings/network-settings/{network_settings_id}":
+    get:
+      summary: Get a hosted compute network settings resource for an organization
+      description: |-
+        Gets a hosted compute network settings resource configured for an organization.
+
+        OAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint.
+      tags:
+      - hosted-compute
+      operationId: hosted-compute/get-network-settings-for-org
+      externalDocs:
+        description: API method documentation
+        url: https://docs.github.com/rest/orgs/network-configurations#get-a-hosted-compute-network-settings-resource-for-an-organization
+      parameters:
+      - "$ref": "#/components/parameters/org"
+      - "$ref": "#/components/parameters/network-settings-id"
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/network-settings"
+              examples:
+                default:
+                  "$ref": "#/components/examples/network-settings"
+          headers:
+            Link:
+              "$ref": "#/components/headers/link"
+      x-github:
+        githubCloudOnly: false
+        enabledForGitHubApps: true
+        category: orgs
+        subcategory: network-configurations
   "/orgs/{org}/team/{team_slug}/copilot/metrics":
     get:
       summary: Get Copilot metrics for a team
@@ -21627,17 +22393,17 @@ paths:
         subcategory: autolinks
   "/repos/{owner}/{repo}/automated-security-fixes":
     get:
-      summary: Check if automated security fixes are enabled for a repository
-      description: Shows whether automated security fixes are enabled, disabled or
-        paused for a repository. The authenticated user must have admin read access
-        to the repository. For more information, see "[Configuring automated security
-        fixes](https://docs.github.com/articles/configuring-automated-security-fixes)".
+      summary: Check if Dependabot security updates are enabled for a repository
+      description: Shows whether Dependabot security updates are enabled, disabled
+        or paused for a repository. The authenticated user must have admin read access
+        to the repository. For more information, see "[Configuring Dependabot security
+        updates](https://docs.github.com/articles/configuring-automated-security-fixes)".
       tags:
       - repos
       operationId: repos/check-automated-security-fixes
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/repos/repos#check-if-automated-security-fixes-are-enabled-for-a-repository
+        url: https://docs.github.com/rest/repos/repos#check-if-dependabot-security-updates-are-enabled-for-a-repository
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -21661,16 +22427,16 @@ paths:
         category: repos
         subcategory: repos
     put:
-      summary: Enable automated security fixes
-      description: Enables automated security fixes for a repository. The authenticated
+      summary: Enable Dependabot security updates
+      description: Enables Dependabot security updates for a repository. The authenticated
         user must have admin access to the repository. For more information, see "[Configuring
-        automated security fixes](https://docs.github.com/articles/configuring-automated-security-fixes)".
+        Dependabot security updates](https://docs.github.com/articles/configuring-automated-security-fixes)".
       tags:
       - repos
       operationId: repos/enable-automated-security-fixes
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/repos/repos#enable-automated-security-fixes
+        url: https://docs.github.com/rest/repos/repos#enable-dependabot-security-updates
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -21683,16 +22449,16 @@ paths:
         category: repos
         subcategory: repos
     delete:
-      summary: Disable automated security fixes
-      description: Disables automated security fixes for a repository. The authenticated
+      summary: Disable Dependabot security updates
+      description: Disables Dependabot security updates for a repository. The authenticated
         user must have admin access to the repository. For more information, see "[Configuring
-        automated security fixes](https://docs.github.com/articles/configuring-automated-security-fixes)".
+        Dependabot security updates](https://docs.github.com/articles/configuring-automated-security-fixes)".
       tags:
       - repos
       operationId: repos/disable-automated-security-fixes
       externalDocs:
         description: API method documentation
-        url: https://docs.github.com/rest/repos/repos#disable-automated-security-fixes
+        url: https://docs.github.com/rest/repos/repos#disable-dependabot-security-updates
       parameters:
       - "$ref": "#/components/parameters/owner"
       - "$ref": "#/components/parameters/repo"
@@ -28305,6 +29071,7 @@ paths:
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-ecosystems"
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-packages"
       - "$ref": "#/components/parameters/dependabot-alert-comma-separated-manifests"
+      - "$ref": "#/components/parameters/dependabot-alert-comma-separated-epss"
       - "$ref": "#/components/parameters/dependabot-alert-scope"
       - "$ref": "#/components/parameters/dependabot-alert-sort"
       - "$ref": "#/components/parameters/direction"
@@ -34416,7 +35183,7 @@ paths:
               properties:
                 sub_issue_id:
                   type: integer
-                  description: The sub-issue to remove
+                  description: The id of the sub-issue to remove
               required:
               - sub_issue_id
             examples:
@@ -34530,7 +35297,8 @@ paths:
               properties:
                 sub_issue_id:
                   type: integer
-                  description: The sub-issue to add
+                  description: The id of the sub-issue to add. The sub-issue must
+                    belong to the same repository as the parent issue
                 replace_parent:
                   type: boolean
                   description: Option that, when true, instructs the operation to
@@ -40082,7 +40850,7 @@ paths:
     get:
       summary: Get secret scanning scan history for a repository
       description: |-
-        Lists the latest incremental and backfill scans by type for a repository.
+        Lists the latest default incremental and backfill scans by type for a repository. Scans from Copilot Secret Scanning are not included.
 
         OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead.
       tags:
@@ -41333,7 +42101,7 @@ paths:
                   description: An array of topics to add to the repository. Pass one
                     or more topics to _replace_ the set of existing topics. Send an
                     empty array (`[]`) to clear all topics from the repository. **Note:**
-                    Topic `names` cannot contain uppercase letters.
+                    Topic `names` will be saved as lowercase.
                   items:
                     type: string
               required:
@@ -48392,9 +49160,11 @@ paths:
       description: |-
         Provides publicly available information about someone with a GitHub account. This method takes their durable user `ID` instead of their `login`, which can change over time.
 
-        The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
+        If you are requesting information about an [Enterprise Managed User](https://docs.github.com/enterprise-cloud@latest/admin/managing-iam/understanding-iam-for-enterprises/about-enterprise-managed-users), or a GitHub App bot that is installed in an organization that uses Enterprise Managed Users, your requests must be authenticated as a user or GitHub App that has access to the organization to view that account's information. If you are not authorized, the request will return a `404 Not Found` status.
 
-        The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/users/emails)".
+        The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be public which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
+
+        The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see [Emails API](https://docs.github.com/rest/users/emails).
       tags:
       - users
       operationId: users/get-by-id
@@ -48475,9 +49245,11 @@ paths:
       description: |-
         Provides publicly available information about someone with a GitHub account.
 
-        The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
+        If you are requesting information about an [Enterprise Managed User](https://docs.github.com/enterprise-cloud@latest/admin/managing-iam/understanding-iam-for-enterprises/about-enterprise-managed-users), or a GitHub App bot that is installed in an organization that uses Enterprise Managed Users, your requests must be authenticated as a user or GitHub App that has access to the organization to view that account's information. If you are not authorized, the request will return a `404 Not Found` status.
 
-        The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/users/emails)".
+        The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be public which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
+
+        The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see [Emails API](https://docs.github.com/rest/users/emails).
       tags:
       - users
       operationId: users/get-by-username
@@ -66843,6 +67615,21 @@ components:
           required:
           - vector_string
           - score
+    security-advisory-epss:
+      type: object
+      nullable: true
+      readOnly: true
+      description: The EPSS scores as calculated by the [Exploit Prediction Scoring
+        System](https://www.first.org/epss).
+      properties:
+        percentage:
+          type: number
+          minimum: 0
+          maximum: 100
+        percentile:
+          type: number
+          minimum: 0
+          maximum: 100
     simple-user:
       title: Simple User
       description: A GitHub user.
@@ -67101,6 +67888,8 @@ components:
           - score
         cvss_severities:
           "$ref": "#/components/schemas/cvss-severities"
+        epss:
+          "$ref": "#/components/schemas/security-advisory-epss"
         cwes:
           type: array
           nullable: true
@@ -67117,14 +67906,6 @@ components:
             required:
             - cwe_id
             - name
-        epss:
-          type: object
-          nullable: true
-          properties:
-            percentage:
-              type: number
-            percentile:
-              type: number
         credits:
           type: array
           description: The users who contributed to the advisory.
@@ -67192,106 +67973,61 @@ components:
           type: array
           items:
             type: string
-    nullable-simple-user:
-      title: Simple User
-      description: A GitHub user.
+    enterprise:
+      title: Enterprise
+      description: An enterprise on GitHub.
       type: object
       properties:
-        name:
+        description:
+          description: A short description of the enterprise.
+          type: string
           nullable: true
-          type: string
-        email:
-          nullable: true
-          type: string
-        login:
-          type: string
-          example: octocat
-        id:
-          type: integer
-          format: int64
-          example: 1
-        node_id:
-          type: string
-          example: MDQ6VXNlcjE=
-        avatar_url:
-          type: string
-          format: uri
-          example: https://github.com/images/error/octocat_happy.gif
-        gravatar_id:
-          type: string
-          example: 41d064eb2195891e12d0413f63227ea7
-          nullable: true
-        url:
-          type: string
-          format: uri
-          example: https://api.github.com/users/octocat
         html_url:
           type: string
           format: uri
-          example: https://github.com/octocat
-        followers_url:
+          example: https://github.com/enterprises/octo-business
+        website_url:
+          description: The enterprise's website URL.
+          type: string
+          nullable: true
+          format: uri
+        id:
+          description: Unique identifier of the enterprise
+          example: 42
+          type: integer
+        node_id:
+          type: string
+          example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
+        name:
+          description: The name of the enterprise.
+          type: string
+          example: Octo Business
+        slug:
+          description: The slug url identifier for the enterprise.
+          type: string
+          example: octo-business
+        created_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2019-01-26T19:01:12Z'
+        updated_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2019-01-26T19:14:43Z'
+        avatar_url:
           type: string
           format: uri
-          example: https://api.github.com/users/octocat/followers
-        following_url:
-          type: string
-          example: https://api.github.com/users/octocat/following{/other_user}
-        gists_url:
-          type: string
-          example: https://api.github.com/users/octocat/gists{/gist_id}
-        starred_url:
-          type: string
-          example: https://api.github.com/users/octocat/starred{/owner}{/repo}
-        subscriptions_url:
-          type: string
-          format: uri
-          example: https://api.github.com/users/octocat/subscriptions
-        organizations_url:
-          type: string
-          format: uri
-          example: https://api.github.com/users/octocat/orgs
-        repos_url:
-          type: string
-          format: uri
-          example: https://api.github.com/users/octocat/repos
-        events_url:
-          type: string
-          example: https://api.github.com/users/octocat/events{/privacy}
-        received_events_url:
-          type: string
-          format: uri
-          example: https://api.github.com/users/octocat/received_events
-        type:
-          type: string
-          example: User
-        site_admin:
-          type: boolean
-        starred_at:
-          type: string
-          example: '"2020-07-09T00:17:55Z"'
-        user_view_type:
-          type: string
-          example: public
       required:
-      - avatar_url
-      - events_url
-      - followers_url
-      - following_url
-      - gists_url
-      - gravatar_id
-      - html_url
       - id
       - node_id
-      - login
-      - organizations_url
-      - received_events_url
-      - repos_url
-      - site_admin
-      - starred_url
-      - subscriptions_url
-      - type
-      - url
-      nullable: true
+      - name
+      - slug
+      - html_url
+      - created_at
+      - updated_at
+      - avatar_url
     integration:
       title: GitHub app
       description: GitHub apps are a new way to extend GitHub. They can be installed
@@ -67316,7 +68052,9 @@ components:
           type: string
           example: '"Iv1.25b5d1e65ffc4022"'
         owner:
-          "$ref": "#/components/schemas/nullable-simple-user"
+          oneOf:
+          - "$ref": "#/components/schemas/simple-user"
+          - "$ref": "#/components/schemas/enterprise"
         name:
           description: The name of the GitHub app
           example: Probot Owners
@@ -67679,61 +68417,6 @@ components:
       - repository_id
       - request
       - response
-    enterprise:
-      title: Enterprise
-      description: An enterprise on GitHub.
-      type: object
-      properties:
-        description:
-          description: A short description of the enterprise.
-          type: string
-          nullable: true
-        html_url:
-          type: string
-          format: uri
-          example: https://github.com/enterprises/octo-business
-        website_url:
-          description: The enterprise's website URL.
-          type: string
-          nullable: true
-          format: uri
-        id:
-          description: Unique identifier of the enterprise
-          example: 42
-          type: integer
-        node_id:
-          type: string
-          example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-        name:
-          description: The name of the enterprise.
-          type: string
-          example: Octo Business
-        slug:
-          description: The slug url identifier for the enterprise.
-          type: string
-          example: octo-business
-        created_at:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2019-01-26T19:01:12Z'
-        updated_at:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2019-01-26T19:14:43Z'
-        avatar_url:
-          type: string
-          format: uri
-      required:
-      - id
-      - node_id
-      - name
-      - slug
-      - html_url
-      - created_at
-      - updated_at
-      - avatar_url
     integration-installation-request:
       title: Integration Installation Request
       description: Request to install an integration on a target
@@ -68108,6 +68791,106 @@ components:
         issues: read
         deployments: write
         single_file: read
+    nullable-simple-user:
+      title: Simple User
+      description: A GitHub user.
+      type: object
+      properties:
+        name:
+          nullable: true
+          type: string
+        email:
+          nullable: true
+          type: string
+        login:
+          type: string
+          example: octocat
+        id:
+          type: integer
+          format: int64
+          example: 1
+        node_id:
+          type: string
+          example: MDQ6VXNlcjE=
+        avatar_url:
+          type: string
+          format: uri
+          example: https://github.com/images/error/octocat_happy.gif
+        gravatar_id:
+          type: string
+          example: 41d064eb2195891e12d0413f63227ea7
+          nullable: true
+        url:
+          type: string
+          format: uri
+          example: https://api.github.com/users/octocat
+        html_url:
+          type: string
+          format: uri
+          example: https://github.com/octocat
+        followers_url:
+          type: string
+          format: uri
+          example: https://api.github.com/users/octocat/followers
+        following_url:
+          type: string
+          example: https://api.github.com/users/octocat/following{/other_user}
+        gists_url:
+          type: string
+          example: https://api.github.com/users/octocat/gists{/gist_id}
+        starred_url:
+          type: string
+          example: https://api.github.com/users/octocat/starred{/owner}{/repo}
+        subscriptions_url:
+          type: string
+          format: uri
+          example: https://api.github.com/users/octocat/subscriptions
+        organizations_url:
+          type: string
+          format: uri
+          example: https://api.github.com/users/octocat/orgs
+        repos_url:
+          type: string
+          format: uri
+          example: https://api.github.com/users/octocat/repos
+        events_url:
+          type: string
+          example: https://api.github.com/users/octocat/events{/privacy}
+        received_events_url:
+          type: string
+          format: uri
+          example: https://api.github.com/users/octocat/received_events
+        type:
+          type: string
+          example: User
+        site_admin:
+          type: boolean
+        starred_at:
+          type: string
+          example: '"2020-07-09T00:17:55Z"'
+        user_view_type:
+          type: string
+          example: public
+      required:
+      - avatar_url
+      - events_url
+      - followers_url
+      - following_url
+      - gists_url
+      - gravatar_id
+      - html_url
+      - id
+      - node_id
+      - login
+      - organizations_url
+      - received_events_url
+      - repos_url
+      - site_admin
+      - starred_url
+      - subscriptions_url
+      - type
+      - url
+      nullable: true
     installation:
       title: Installation
       description: Installation
@@ -70004,6 +70787,8 @@ components:
           additionalProperties: false
         cvss_severities:
           "$ref": "#/components/schemas/cvss-severities"
+        epss:
+          "$ref": "#/components/schemas/security-advisory-epss"
         cwes:
           type: array
           description: Details for the advisory pertaining to Common Weakness Enumeration.
@@ -70478,7 +71263,9 @@ components:
           type: string
           example: '"Iv1.25b5d1e65ffc4022"'
         owner:
-          "$ref": "#/components/schemas/nullable-simple-user"
+          oneOf:
+          - "$ref": "#/components/schemas/simple-user"
+          - "$ref": "#/components/schemas/enterprise"
         name:
           description: The name of the GitHub app
           example: Probot Owners
@@ -71081,6 +71868,8 @@ components:
           nullable: true
         comments:
           type: integer
+        comments_enabled:
+          type: boolean
         user:
           "$ref": "#/components/schemas/nullable-simple-user"
         comments_url:
@@ -71384,6 +72173,8 @@ components:
               nullable: true
             comments:
               type: integer
+            comments_enabled:
+              type: boolean
             user:
               "$ref": "#/components/schemas/nullable-simple-user"
             comments_url:
@@ -71468,6 +72259,8 @@ components:
           nullable: true
         comments:
           type: integer
+        comments_enabled:
+          type: boolean
         user:
           type: string
           nullable: true
@@ -72915,6 +73708,210 @@ components:
       - full_name
       - active_caches_size_in_bytes
       - active_caches_count
+    nullable-actions-hosted-runner-pool-image:
+      title: GitHub-hosted runner image details.
+      description: Provides details of a hosted runner image
+      type: object
+      properties:
+        id:
+          description: The ID of the image. Use this ID for the `image` parameter
+            when creating a new larger runner.
+          type: string
+          example: ubuntu-20.04
+        size_gb:
+          description: Image size in GB.
+          type: integer
+          example: 86
+        display_name:
+          description: Display name for this image.
+          type: string
+          example: 20.04
+        source:
+          description: The image provider.
+          type: string
+          enum:
+          - github
+          - partner
+          - custom
+        version:
+          description: The image version of the hosted runner pool.
+          type: string
+          example: latest
+      required:
+      - id
+      - size_gb
+      - display_name
+      - source
+      - version
+      nullable: true
+    actions-hosted-runner-machine-spec:
+      title: Github-owned VM details.
+      description: Provides details of a particular machine spec.
+      type: object
+      properties:
+        id:
+          description: The ID used for the `size` parameter when creating a new runner.
+          type: string
+          example: 8-core
+        cpu_cores:
+          description: The number of cores.
+          type: integer
+          example: 8
+        memory_gb:
+          description: The available RAM for the machine spec.
+          type: integer
+          example: 32
+        storage_gb:
+          description: The available SSD storage for the machine spec.
+          type: integer
+          example: 300
+      required:
+      - id
+      - cpu_cores
+      - memory_gb
+      - storage_gb
+    public-ip:
+      title: Public IP for a GitHub-hosted larger runners.
+      description: Provides details of Public IP for a GitHub-hosted larger runners
+      type: object
+      properties:
+        enabled:
+          description: Whether public IP is enabled.
+          type: boolean
+          example: true
+        prefix:
+          description: The prefix for the public IP.
+          type: string
+          example: 20.80.208.150
+        length:
+          description: The length of the IP prefix.
+          type: integer
+          example: 28
+    actions-hosted-runner:
+      title: GitHub-hosted hosted runner
+      description: A Github-hosted hosted runner.
+      type: object
+      properties:
+        id:
+          description: The unique identifier of the hosted runner.
+          type: integer
+          example: 5
+        name:
+          description: The name of the hosted runner.
+          type: string
+          example: my-github-hosted-runner
+        runner_group_id:
+          description: The unique identifier of the group that the hosted runner belongs
+            to.
+          type: integer
+          example: 2
+        image_details:
+          "$ref": "#/components/schemas/nullable-actions-hosted-runner-pool-image"
+        machine_size_details:
+          "$ref": "#/components/schemas/actions-hosted-runner-machine-spec"
+        status:
+          description: The status of the runner.
+          type: string
+          example: Ready
+          enum:
+          - Ready
+          - Provisioning
+          - Shutdown
+          - Deleting
+          - Stuck
+        platform:
+          description: The operating system of the image.
+          type: string
+          example: linux-x64
+        maximum_runners:
+          description: The maximum amount of hosted runners. Runners will not scale
+            automatically above this number. Use this setting to limit your cost.
+          type: integer
+          default: 10
+          example: 5
+        public_ip_enabled:
+          description: Whether public IP is enabled for the hosted runners.
+          type: boolean
+          example: true
+        public_ips:
+          description: The public IP ranges when public IP is enabled for the hosted
+            runners.
+          type: array
+          items:
+            "$ref": "#/components/schemas/public-ip"
+        last_active_on:
+          description: The time at which the runner was last used, in ISO 8601 format.
+          type: string
+          format: date-time
+          example: '2022-10-09T23:39:01Z'
+          nullable: true
+      required:
+      - id
+      - name
+      - image_details
+      - machine_size_details
+      - status
+      - public_ip_enabled
+      - platform
+    actions-hosted-runner-image:
+      title: GitHub-hosted runner image details.
+      description: Provides details of a hosted runner image
+      type: object
+      properties:
+        id:
+          description: The ID of the image. Use this ID for the `image` parameter
+            when creating a new larger runner.
+          type: string
+          example: ubuntu-20.04
+        platform:
+          description: The operating system of the image.
+          type: string
+          example: linux-x64
+        size_gb:
+          description: Image size in GB.
+          type: integer
+          example: 86
+        display_name:
+          description: Display name for this image.
+          type: string
+          example: 20.04
+        source:
+          description: The image provider.
+          type: string
+          enum:
+          - github
+          - partner
+          - custom
+      required:
+      - id
+      - platform
+      - size_gb
+      - display_name
+      - source
+    actions-hosted-runner-limits:
+      type: object
+      properties:
+        public_ips:
+          title: Static public IP Limits for GitHub-hosted Hosted Runners.
+          description: Provides details of static public IP limits for GitHub-hosted
+            Hosted Runners
+          type: object
+          properties:
+            maximum:
+              type: integer
+              description: The maximum number of static public IP addresses that can
+                be used for Hosted Runners.
+              example: 50
+            current_usage:
+              type: integer
+              description: The current number of static public IP addresses in use
+                by Hosted Runners.
+              example: 17
+          required:
+          - maximum
+          - current_usage
+      required:
+      - public_ips
     oidc-custom-sub:
       title: Actions OIDC Subject customization
       description: Actions OIDC Subject customization
@@ -73037,6 +74034,9 @@ components:
         runners_url:
           type: string
         hosted_runners_url:
+          type: string
+        network_configuration_id:
+          description: The identifier of a hosted compute network configuration.
           type: string
         inherited:
           type: boolean
@@ -74178,6 +75178,10 @@ components:
           nullable: true
           type: string
           example: 62ab9291-fae2-468e-974b-7e45096d5021
+        group_name:
+          nullable: true
+          type: string
+          example: Justice League
         html_url:
           type: string
           format: uri
@@ -78782,6 +79786,75 @@ components:
       - days_left_in_billing_cycle
       - estimated_paid_storage_for_month
       - estimated_storage_for_month
+    network-configuration:
+      title: Hosted compute network configuration
+      description: A hosted compute network configuration.
+      type: object
+      properties:
+        id:
+          description: The unique identifier of the network configuration.
+          type: string
+          example: 123ABC456DEF789
+        name:
+          description: The name of the network configuration.
+          type: string
+          example: my-network-configuration
+        compute_service:
+          description: The hosted compute service the network configuration supports.
+          type: string
+          enum:
+          - none
+          - actions
+          - codespaces
+        network_settings_ids:
+          description: The unique identifier of each network settings in the configuration.
+          type: array
+          items:
+            type: string
+          example: 123ABC456DEF789
+        created_on:
+          description: The time at which the network configuration was created, in
+            ISO 8601 format.
+          type: string
+          format: date-time
+          example: '2024-04-26T11:31:07Z'
+          nullable: true
+      required:
+      - id
+      - name
+      - created_on
+    network-settings:
+      title: Hosted compute network settings resource
+      description: A hosted compute network settings resource.
+      type: object
+      properties:
+        id:
+          description: The unique identifier of the network settings resource.
+          type: string
+          example: 220F78DACB92BBFBC5E6F22DE1CCF52309D
+        network_configuration_id:
+          description: The identifier of the network configuration that is using this
+            settings resource.
+          type: string
+          example: 934E208B3EE0BD60CF5F752C426BFB53562
+        name:
+          description: The name of the network settings resource.
+          type: string
+          example: my-network-settings
+        subnet_id:
+          description: The subnet this network settings resource is configured for.
+          type: string
+          example: "/subscriptions/14839728-3ad9-43ab-bd2b-fa6ad0f75e2a/resourceGroups/my-rg/providers/Microsoft.Network/virtualNetworks/my-vnet/subnets/my-subnet"
+        region:
+          description: The location of the subnet this network settings resource is
+            configured for.
+          type: string
+          example: eastus
+      required:
+      - id
+      - name
+      - subnet_id
+      - region
     team-organization:
       title: Team Organization
       description: Team Organization
@@ -81157,18 +82230,18 @@ components:
       - url_template
       - is_alphanumeric
     check-automated-security-fixes:
-      title: Check Automated Security Fixes
-      description: Check Automated Security Fixes
+      title: Check Dependabot security updates
+      description: Check Dependabot security updates
       type: object
       properties:
         enabled:
           type: boolean
           example: true
-          description: Whether automated security fixes are enabled for the repository.
+          description: Whether Dependabot security updates are enabled for the repository.
         paused:
           type: boolean
           example: false
-          description: Whether automated security fixes are paused for the repository.
+          description: Whether Dependabot security updates are paused for the repository.
       required:
       - enabled
       - paused
@@ -83116,6 +84189,18 @@ components:
             - ruby
             - typescript
             - swift
+        runner_type:
+          description: Runner type to be used.
+          nullable: true
+          type: string
+          enum:
+          - standard
+          - labeled
+        runner_label:
+          description: Runner label to be used if the runner type is labeled.
+          nullable: true
+          type: string
+          example: code-scanning
         query_suite:
           description: CodeQL query suite to be used.
           type: string
@@ -104995,6 +106080,8 @@ components:
               required:
               - login
               - id
+            dismissed_comment:
+              "$ref": "#/components/schemas/code-scanning-alert-dismissed-comment"
             dismissed_reason:
               description: The reason for dismissing or closing the alert.
               type: string
@@ -105004,6 +106091,10 @@ components:
               - won't fix
               - used in tests
               - null
+            fixed_at:
+              description: 'The time that the alert was fixed in ISO 8601 format:
+                `YYYY-MM-DDTHH:MM:SSZ`.'
+              nullable: true
             html_url:
               description: The GitHub URL of the alert resource.
               type: string
@@ -105096,7 +106187,10 @@ components:
               - severity
               - description
             state:
-              description: State of a code scanning alert.
+              description: State of a code scanning alert. Events for alerts found
+                outside the default branch will return a `null` value until they are
+                dismissed or fixed.
+              nullable: true
               type: string
               enum:
               - open
@@ -105242,6 +106336,8 @@ components:
               required:
               - login
               - id
+            dismissed_comment:
+              "$ref": "#/components/schemas/code-scanning-alert-dismissed-comment"
             dismissed_reason:
               description: The reason for dismissing or closing the alert.
               type: string
@@ -105251,6 +106347,10 @@ components:
               - won't fix
               - used in tests
               - null
+            fixed_at:
+              description: 'The time that the alert was fixed in ISO 8601 format:
+                `YYYY-MM-DDTHH:MM:SSZ`.'
+              nullable: true
             html_url:
               description: The GitHub URL of the alert resource.
               type: string
@@ -105448,6 +106548,8 @@ components:
                 one of: `false positive`, `won''t fix`, and `used in tests`.'
               nullable: true
             fixed_at:
+              description: 'The time that the alert was fixed in ISO 8601 format:
+                `YYYY-MM-DDTHH:MM:SSZ`.'
               nullable: true
             html_url:
               description: The GitHub URL of the alert resource.
@@ -105560,7 +106662,9 @@ components:
               - severity
               - description
             state:
-              description: State of a code scanning alert.
+              description: State of a code scanning alert. Events for alerts found
+                outside the default branch will return a `null` value until they are
+                dismissed or fixed.
               type: string
               nullable: true
               enum:
@@ -105714,6 +106818,8 @@ components:
               required:
               - login
               - id
+            dismissed_comment:
+              "$ref": "#/components/schemas/code-scanning-alert-dismissed-comment"
             dismissed_reason:
               description: The reason for dismissing or closing the alert.
               type: string
@@ -105723,6 +106829,10 @@ components:
               - won't fix
               - used in tests
               - null
+            fixed_at:
+              description: 'The time that the alert was fixed in ISO 8601 format:
+                `YYYY-MM-DDTHH:MM:SSZ`.'
+              nullable: true
             html_url:
               description: The GitHub URL of the alert resource.
               type: string
@@ -105835,7 +106945,10 @@ components:
               - severity
               - description
             state:
-              description: State of a code scanning alert.
+              description: State of a code scanning alert. Events for alerts found
+                outside the default branch will return a `null` value until they are
+                dismissed or fixed.
+              nullable: true
               type: string
               enum:
               - fixed
@@ -105917,10 +107030,16 @@ components:
             dismissed_by:
               type: object
               nullable: true
+            dismissed_comment:
+              "$ref": "#/components/schemas/code-scanning-alert-dismissed-comment"
             dismissed_reason:
               description: 'The reason for dismissing or closing the alert. Can be
                 one of: `false positive`, `won''t fix`, and `used in tests`.'
               type: string
+              nullable: true
+            fixed_at:
+              description: 'The time that the alert was fixed in ISO 8601 format:
+                `YYYY-MM-DDTHH:MM:SSZ`.'
               nullable: true
             html_url:
               description: The GitHub URL of the alert resource.
@@ -106031,7 +107150,10 @@ components:
               - severity
               - description
             state:
-              description: State of a code scanning alert.
+              description: State of a code scanning alert. Events for alerts found
+                outside the default branch will return a `null` value until they are
+                dismissed or fixed.
+              nullable: true
               type: string
               enum:
               - open
@@ -106120,9 +107242,15 @@ components:
               nullable: true
             dismissed_by:
               nullable: true
+            dismissed_comment:
+              "$ref": "#/components/schemas/code-scanning-alert-dismissed-comment"
             dismissed_reason:
               description: 'The reason for dismissing or closing the alert. Can be
                 one of: `false positive`, `won''t fix`, and `used in tests`.'
+              nullable: true
+            fixed_at:
+              description: 'The time that the alert was fixed in ISO 8601 format:
+                `YYYY-MM-DDTHH:MM:SSZ`.'
               nullable: true
             html_url:
               description: The GitHub URL of the alert resource.
@@ -106216,7 +107344,10 @@ components:
               - severity
               - description
             state:
-              description: State of a code scanning alert.
+              description: State of a code scanning alert. Events for alerts found
+                outside the default branch will return a `null` value until they are
+                dismissed or fixed.
+              nullable: true
               type: string
               enum:
               - open
@@ -200258,6 +201389,9 @@ components:
             cvss_v4:
               vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N
               score: 8.7
+          epss:
+          - percentage: 0.00045
+            percentile: 0.16001e0
           cwes:
           - cwe_id: CWE-200
             name: Exposure of Sensitive Information to an Unauthorized Actor
@@ -200908,6 +202042,7 @@ components:
         updated_at: '2022-09-21T10:28:06Z'
         description: An updated gist description.
         comments: 0
+        comments_enabled: true
         user: 
         comments_url: https://api.github.com/gists/2decf6c462d9b4418f2/comments
         owner:
@@ -202252,6 +203387,87 @@ components:
         - full_name: octo-org/server
           active_caches_size_in_bytes: 1022142
           active_caches_count: 2
+    actions-hosted-runner-paginated:
+      value:
+        total_count: 2
+        runners:
+        - id: 5
+          name: My hosted ubuntu runner
+          runner_group_id: 2
+          platform: linux-x64
+          image:
+            id: ubuntu-20.04
+            size: 86
+          machine_size_details:
+            id: 4-core
+            cpu_cores: 4
+            memory_gb: 16
+            storage_gb: 150
+          status: Ready
+          maximum_runners: 10
+          public_ip_enabled: true
+          public_ips:
+          - enabled: true
+            prefix: 20.80.208.150
+            length: 31
+          last_active_on: '2022-10-09T23:39:01Z'
+        - id: 7
+          name: My hosted Windows runner
+          runner_group_id: 2
+          platform: win-x64
+          image:
+            id: windows-latest
+            size: 256
+          machine_size_details:
+            id: 8-core
+            cpu_cores: 8
+            memory_gb: 32
+            storage_gb: 300
+          status: Ready
+          maximum_runners: 20
+          public_ip_enabled: false
+          public_ips: []
+          last_active_on: '2023-04-26T15:23:37Z'
+    actions-hosted-runner:
+      value:
+        id: 5
+        name: My hosted ubuntu runner
+        runner_group_id: 2
+        platform: linux-x64
+        image:
+          id: ubuntu-20.04
+          size: 86
+        machine_size_details:
+          id: 4-core
+          cpu_cores: 4
+          memory_gb: 16
+          storage_gb: 150
+        status: Ready
+        maximum_runners: 10
+        public_ip_enabled: true
+        public_ips:
+        - enabled: true
+          prefix: 20.80.208.150
+          length: 31
+        last_active_on: '2022-10-09T23:39:01Z'
+    actions-hosted-runner-image:
+      value:
+        id: ubuntu-20.04
+        platform: linux-x64
+        size_gb: 86
+        display_name: '20.04'
+        source: github
+    actions-hosted-runner-limits-default:
+      value:
+        public_ips:
+          current_usage: 17
+          maximum: 50
+    actions-hosted-runner-machine-spec:
+      value:
+        id: 4-core
+        cpu_cores: 4
+        memory_gb: 16
+        storage_gb: 150
     oidc-custom-sub:
       value:
         include_claim_keys:
@@ -206626,6 +207842,40 @@ components:
         days_left_in_billing_cycle: 20
         estimated_paid_storage_for_month: 15
         estimated_storage_for_month: 40
+    network-configurations-paginated:
+      value:
+        total_count: 2
+        network_configurations:
+        - id: 123456789ABCDEF
+          name: My network configuration
+          compute_service: actions
+          network_settings_ids:
+          - 23456789ABDCEF1
+          - 3456789ABDCEF12
+          created_on: '2022-10-09T23:39:01Z'
+        - id: 456789ABDCEF123
+          name: My other configuration
+          compute_service: none
+          network_settings_ids:
+          - 56789ABDCEF1234
+          - 6789ABDCEF12345
+          created_on: '2023-04-26T15:23:37Z'
+    network-configuration:
+      value:
+        id: 123456789ABCDEF
+        name: My network configuration
+        compute_service: actions
+        network_settings_ids:
+        - 23456789ABDCEF1
+        - 3456789ABDCEF12
+        created_on: '2022-10-09T23:39:01Z'
+    network-settings:
+      value:
+        id: 220F78DACB92BBFBC5E6F22DE1CCF52309D
+        network_configuration_id: 934E208B3EE0BD60CF5F752C426BFB53562
+        name: my_network_settings
+        subnet_id: "/subscriptions/14839728-3ad9-43ab-bd2b-fa6ad0f75e2a/resourceGroups/my-rg/providers/Microsoft.Network/virtualNetworks/my-vnet/subnets/my-subnet"
+        region: eastus
     team-full:
       value:
         id: 1
@@ -213259,6 +214509,9 @@ components:
             cvss_v4:
               vector_string: CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N
               score: 8.7
+          epss:
+          - percentage: 0.00045
+            percentile: 0.16001e0
           cwes:
           - cwe_id: CWE-200
             name: Exposure of Sensitive Information to an Unauthorized Actor
@@ -213445,6 +214698,9 @@ components:
             cvss_v4:
               vector_string: CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
               score: 8.5
+          epss:
+          - percentage: 0.00045
+            percentile: 0.16001e0
           cwes:
           - cwe_id: CWE-532
             name: Insertion of Sensitive Information into Log File
@@ -224446,6 +225702,18 @@ components:
         for these packages will be returned.
       schema:
         type: string
+    dependabot-alert-comma-separated-epss:
+      name: epss_percentage
+      in: query
+      description: |-
+        CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as:
+        - An exact number (`n`)
+        - Comparators such as `>n`, `<n`, `>=n`, `<=n`
+        - A range like `n..n`, where `n` is a number from 0.0 to 1.0
+
+        Filters the list of alerts based on EPSS percentages. If specified, only alerts with the provided EPSS percentages will be returned.
+      schema:
+        type: string
     dependabot-alert-scope:
       name: scope
       in: query
@@ -224463,11 +225731,13 @@ components:
         The property by which to sort the results.
         `created` means when the alert was created.
         `updated` means when the alert's state last changed.
+        `epss_percentage` sorts alerts by the Exploit Prediction Scoring System (EPSS) percentage.
       schema:
         type: string
         enum:
         - created
         - updated
+        - epss_percentage
         default: created
     pagination-first:
       name: first
@@ -224707,6 +225977,13 @@ components:
         of `hour` is an integer between `0` and `23`.
       in: query
       required: false
+      schema:
+        type: integer
+    hosted-runner-id:
+      name: hosted_runner_id
+      description: Unique identifier of the GitHub-hosted runner.
+      in: path
+      required: true
       schema:
         type: integer
     repository-id:
@@ -225159,6 +226436,20 @@ components:
         an initial cursor on your first request, include an empty "after" query string.
       in: query
       required: false
+      schema:
+        type: string
+    network-configuration-id:
+      name: network_configuration_id
+      description: Unique identifier of the hosted compute network configuration.
+      in: path
+      required: true
+      schema:
+        type: string
+    network-settings-id:
+      name: network_settings_id
+      description: Unique identifier of the hosted compute network settings.
+      in: path
+      required: true
       schema:
         type: string
     discussion-number:

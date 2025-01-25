@@ -1763,6 +1763,164 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orgs/{org}/actions/hosted-runners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List GitHub-hosted runners for an organization
+         * @description Lists all GitHub-hosted runners configured in an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `manage_runner:org` scope to use this endpoint.
+         */
+        get: operations["actions/list-hosted-runners-for-org"];
+        put?: never;
+        /**
+         * Create a GitHub-hosted runner for an organization
+         * @description Creates a GitHub-hosted runner for an organization.
+         *     OAuth tokens and personal access tokens (classic) need the `manage_runners:org` scope to use this endpoint.
+         */
+        post: operations["actions/create-hosted-runner-for-org"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/hosted-runners/images/github-owned": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get GitHub-owned images for GitHub-hosted runners in an organization
+         * @description Get the list of GitHub-owned images available for GitHub-hosted runners for an organization.
+         */
+        get: operations["actions/get-hosted-runners-github-owned-images-for-org"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/hosted-runners/images/partner": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get partner images for GitHub-hosted runners in an organization
+         * @description Get the list of partner images available for GitHub-hosted runners for an organization.
+         */
+        get: operations["actions/get-hosted-runners-partner-images-for-org"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/hosted-runners/limits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get limits on GitHub-hosted runners for an organization
+         * @description Get the GitHub-hosted runners limits for an organization.
+         */
+        get: operations["actions/get-hosted-runners-limits-for-org"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/hosted-runners/machine-sizes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get GitHub-hosted runners machine specs for an organization
+         * @description Get the list of machine specs available for GitHub-hosted runners for an organization.
+         */
+        get: operations["actions/get-hosted-runners-machine-specs-for-org"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/hosted-runners/platforms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get platforms for GitHub-hosted runners in an organization
+         * @description Get the list of platforms available for GitHub-hosted runners for an organization.
+         */
+        get: operations["actions/get-hosted-runners-platforms-for-org"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/actions/hosted-runners/{hosted_runner_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a GitHub-hosted runner for an organization
+         * @description Gets a GitHub-hosted runner configured in an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `manage_runners:org` scope to use this endpoint.
+         */
+        get: operations["actions/get-hosted-runner-for-org"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a GitHub-hosted runner for an organization
+         * @description Deletes a GitHub-hosted runner for an organization.
+         */
+        delete: operations["actions/delete-hosted-runner-for-org"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a GitHub-hosted runner for an organization
+         * @description Updates a GitHub-hosted runner for an organization.
+         *     OAuth app tokens and personal access tokens (classic) need the `manage_runners:org` scope to use this endpoint.
+         */
+        patch: operations["actions/update-hosted-runner-for-org"];
+        trace?: never;
+    };
     "/orgs/{org}/actions/oidc/customization/sub": {
         parameters: {
             query?: never;
@@ -1996,6 +2154,28 @@ export interface paths {
          *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
          */
         patch: operations["actions/update-self-hosted-runner-group-for-org"];
+        trace?: never;
+    };
+    "/orgs/{org}/actions/runner-groups/{runner_group_id}/hosted-runners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List GitHub-hosted runners in a group for an organization
+         * @description Lists the GitHub-hosted runners in an organization group.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+         */
+        get: operations["actions/list-github-hosted-runners-in-group-for-org"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories": {
@@ -5622,6 +5802,90 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orgs/{org}/settings/network-configurations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List hosted compute network configurations for an organization
+         * @description Lists all hosted compute network configurations configured in an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint.
+         */
+        get: operations["hosted-compute/list-network-configurations-for-org"];
+        put?: never;
+        /**
+         * Create a hosted compute network configuration for an organization
+         * @description Creates a hosted compute network configuration for an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `write:network_configurations` scope to use this endpoint.
+         */
+        post: operations["hosted-compute/create-network-configuration-for-org"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orgs/{org}/settings/network-configurations/{network_configuration_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a hosted compute network configuration for an organization
+         * @description Gets a hosted compute network configuration configured in an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint.
+         */
+        get: operations["hosted-compute/get-network-configuration-for-org"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a hosted compute network configuration from an organization
+         * @description Deletes a hosted compute network configuration from an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `write:network_configurations` scope to use this endpoint.
+         */
+        delete: operations["hosted-compute/delete-network-configuration-from-org"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a hosted compute network configuration for an organization
+         * @description Updates a hosted compute network configuration for an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `write:network_configurations` scope to use this endpoint.
+         */
+        patch: operations["hosted-compute/update-network-configuration-for-org"];
+        trace?: never;
+    };
+    "/orgs/{org}/settings/network-settings/{network_settings_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a hosted compute network settings resource for an organization
+         * @description Gets a hosted compute network settings resource configured for an organization.
+         *
+         *     OAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint.
+         */
+        get: operations["hosted-compute/get-network-settings-for-org"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/orgs/{org}/team/{team_slug}/copilot/metrics": {
         parameters: {
             query?: never;
@@ -8205,19 +8469,19 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Check if automated security fixes are enabled for a repository
-         * @description Shows whether automated security fixes are enabled, disabled or paused for a repository. The authenticated user must have admin read access to the repository. For more information, see "[Configuring automated security fixes](https://docs.github.com/articles/configuring-automated-security-fixes)".
+         * Check if Dependabot security updates are enabled for a repository
+         * @description Shows whether Dependabot security updates are enabled, disabled or paused for a repository. The authenticated user must have admin read access to the repository. For more information, see "[Configuring Dependabot security updates](https://docs.github.com/articles/configuring-automated-security-fixes)".
          */
         get: operations["repos/check-automated-security-fixes"];
         /**
-         * Enable automated security fixes
-         * @description Enables automated security fixes for a repository. The authenticated user must have admin access to the repository. For more information, see "[Configuring automated security fixes](https://docs.github.com/articles/configuring-automated-security-fixes)".
+         * Enable Dependabot security updates
+         * @description Enables Dependabot security updates for a repository. The authenticated user must have admin access to the repository. For more information, see "[Configuring Dependabot security updates](https://docs.github.com/articles/configuring-automated-security-fixes)".
          */
         put: operations["repos/enable-automated-security-fixes"];
         post?: never;
         /**
-         * Disable automated security fixes
-         * @description Disables automated security fixes for a repository. The authenticated user must have admin access to the repository. For more information, see "[Configuring automated security fixes](https://docs.github.com/articles/configuring-automated-security-fixes)".
+         * Disable Dependabot security updates
+         * @description Disables Dependabot security updates for a repository. The authenticated user must have admin access to the repository. For more information, see "[Configuring Dependabot security updates](https://docs.github.com/articles/configuring-automated-security-fixes)".
          */
         delete: operations["repos/disable-automated-security-fixes"];
         options?: never;
@@ -14299,7 +14563,7 @@ export interface paths {
         };
         /**
          * Get secret scanning scan history for a repository
-         * @description Lists the latest incremental and backfill scans by type for a repository.
+         * @description Lists the latest default incremental and backfill scans by type for a repository. Scans from Copilot Secret Scanning are not included.
          *
          *     OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead.
          */
@@ -17347,9 +17611,11 @@ export interface paths {
          * Get a user using their ID
          * @description Provides publicly available information about someone with a GitHub account. This method takes their durable user `ID` instead of their `login`, which can change over time.
          *
-         *     The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
+         *     If you are requesting information about an [Enterprise Managed User](https://docs.github.com/enterprise-cloud@latest/admin/managing-iam/understanding-iam-for-enterprises/about-enterprise-managed-users), or a GitHub App bot that is installed in an organization that uses Enterprise Managed Users, your requests must be authenticated as a user or GitHub App that has access to the organization to view that account's information. If you are not authorized, the request will return a `404 Not Found` status.
          *
-         *     The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/users/emails)".
+         *     The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be public which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
+         *
+         *     The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see [Emails API](https://docs.github.com/rest/users/emails).
          */
         get: operations["users/get-by-id"];
         put?: never;
@@ -17393,9 +17659,11 @@ export interface paths {
          * Get a user
          * @description Provides publicly available information about someone with a GitHub account.
          *
-         *     The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
+         *     If you are requesting information about an [Enterprise Managed User](https://docs.github.com/enterprise-cloud@latest/admin/managing-iam/understanding-iam-for-enterprises/about-enterprise-managed-users), or a GitHub App bot that is installed in an organization that uses Enterprise Managed Users, your requests must be authenticated as a user or GitHub App that has access to the organization to view that account's information. If you are not authorized, the request will return a `404 Not Found` status.
          *
-         *     The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/users/emails)".
+         *     The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be public which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
+         *
+         *     The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see [Emails API](https://docs.github.com/rest/users/emails).
          */
         get: operations["users/get-by-username"];
         put?: never;
@@ -24299,6 +24567,11 @@ export interface components {
                 readonly score: number | null;
             } | null;
         } | null;
+        /** @description The EPSS scores as calculated by the [Exploit Prediction Scoring System](https://www.first.org/epss). */
+        "security-advisory-epss": {
+            percentage?: number;
+            percentile?: number;
+        } | null;
         /**
          * Simple User
          * @description A GitHub user.
@@ -24423,16 +24696,13 @@ export interface components {
                 readonly score: number | null;
             } | null;
             cvss_severities?: components["schemas"]["cvss-severities"];
+            epss?: components["schemas"]["security-advisory-epss"];
             cwes: {
                 /** @description The Common Weakness Enumeration (CWE) identifier. */
                 cwe_id: string;
                 /** @description The name of the CWE. */
                 readonly name: string;
             }[] | null;
-            epss?: {
-                percentage?: number;
-                percentile?: number;
-            } | null;
             /** @description The users who contributed to the advisory. */
             readonly credits: {
                 user: components["schemas"]["simple-user"];
@@ -24459,6 +24729,34 @@ export interface components {
             errors?: string[];
         };
         /**
+         * Enterprise
+         * @description An enterprise on GitHub.
+         */
+        enterprise: {
+            /** @description A short description of the enterprise. */
+            description?: string | null;
+            /** Format: uri */
+            html_url: string;
+            /**
+             * Format: uri
+             * @description The enterprise's website URL.
+             */
+            website_url?: string | null;
+            /** @description Unique identifier of the enterprise */
+            id: number;
+            node_id: string;
+            /** @description The name of the enterprise. */
+            name: string;
+            /** @description The slug url identifier for the enterprise. */
+            slug: string;
+            /** Format: date-time */
+            created_at: string | null;
+            /** Format: date-time */
+            updated_at: string | null;
+            /** Format: uri */
+            avatar_url: string;
+        };
+        /**
          * GitHub app
          * @description GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
          */
@@ -24469,7 +24767,7 @@ export interface components {
             slug?: string;
             node_id: string;
             client_id?: string;
-            owner: null | components["schemas"]["simple-user"];
+            owner: components["schemas"]["simple-user"] | components["schemas"]["enterprise"];
             /** @description The name of the GitHub app */
             name: string;
             description: string | null;
@@ -24644,34 +24942,6 @@ export interface components {
                 /** @description The response payload received. */
                 payload: string | null;
             };
-        };
-        /**
-         * Enterprise
-         * @description An enterprise on GitHub.
-         */
-        enterprise: {
-            /** @description A short description of the enterprise. */
-            description?: string | null;
-            /** Format: uri */
-            html_url: string;
-            /**
-             * Format: uri
-             * @description The enterprise's website URL.
-             */
-            website_url?: string | null;
-            /** @description Unique identifier of the enterprise */
-            id: number;
-            node_id: string;
-            /** @description The name of the enterprise. */
-            name: string;
-            /** @description The slug url identifier for the enterprise. */
-            slug: string;
-            /** Format: date-time */
-            created_at: string | null;
-            /** Format: date-time */
-            updated_at: string | null;
-            /** Format: uri */
-            avatar_url: string;
         };
         /**
          * Integration Installation Request
@@ -25865,6 +26135,7 @@ export interface components {
                 readonly vector_string: string | null;
             };
             cvss_severities?: components["schemas"]["cvss-severities"];
+            epss?: components["schemas"]["security-advisory-epss"];
             /** @description Details for the advisory pertaining to Common Weakness Enumeration. */
             readonly cwes: {
                 /** @description The unique CWE ID. */
@@ -26349,6 +26620,7 @@ export interface components {
             updated_at: string;
             description: string | null;
             comments: number;
+            comments_enabled?: boolean;
             user: null | components["schemas"]["simple-user"];
             /** Format: uri */
             comments_url: string;
@@ -26495,6 +26767,7 @@ export interface components {
                 updated_at: string;
                 description: string | null;
                 comments: number;
+                comments_enabled?: boolean;
                 user: null | components["schemas"]["simple-user"];
                 /** Format: uri */
                 comments_url: string;
@@ -26532,6 +26805,7 @@ export interface components {
             updated_at?: string;
             description?: string | null;
             comments?: number;
+            comments_enabled?: boolean;
             user?: string | null;
             comments_url?: string;
             owner?: components["schemas"]["simple-user"];
@@ -27086,6 +27360,117 @@ export interface components {
             active_caches_count: number;
         };
         /**
+         * GitHub-hosted runner image details.
+         * @description Provides details of a hosted runner image
+         */
+        "actions-hosted-runner-pool-image": {
+            /** @description The ID of the image. Use this ID for the `image` parameter when creating a new larger runner. */
+            id: string;
+            /** @description Image size in GB. */
+            size_gb: number;
+            /** @description Display name for this image. */
+            display_name: string;
+            /**
+             * @description The image provider.
+             * @enum {string}
+             */
+            source: "github" | "partner" | "custom";
+            /** @description The image version of the hosted runner pool. */
+            version: string;
+        };
+        /**
+         * Github-owned VM details.
+         * @description Provides details of a particular machine spec.
+         */
+        "actions-hosted-runner-machine-spec": {
+            /** @description The ID used for the `size` parameter when creating a new runner. */
+            id: string;
+            /** @description The number of cores. */
+            cpu_cores: number;
+            /** @description The available RAM for the machine spec. */
+            memory_gb: number;
+            /** @description The available SSD storage for the machine spec. */
+            storage_gb: number;
+        };
+        /**
+         * Public IP for a GitHub-hosted larger runners.
+         * @description Provides details of Public IP for a GitHub-hosted larger runners
+         */
+        "public-ip": {
+            /** @description Whether public IP is enabled. */
+            enabled?: boolean;
+            /** @description The prefix for the public IP. */
+            prefix?: string;
+            /** @description The length of the IP prefix. */
+            length?: number;
+        };
+        /**
+         * GitHub-hosted hosted runner
+         * @description A Github-hosted hosted runner.
+         */
+        "actions-hosted-runner": {
+            /** @description The unique identifier of the hosted runner. */
+            id: number;
+            /** @description The name of the hosted runner. */
+            name: string;
+            /** @description The unique identifier of the group that the hosted runner belongs to. */
+            runner_group_id?: number;
+            image_details: null | components["schemas"]["actions-hosted-runner-pool-image"];
+            machine_size_details: components["schemas"]["actions-hosted-runner-machine-spec"];
+            /**
+             * @description The status of the runner.
+             * @enum {string}
+             */
+            status: "Ready" | "Provisioning" | "Shutdown" | "Deleting" | "Stuck";
+            /** @description The operating system of the image. */
+            platform: string;
+            /**
+             * @description The maximum amount of hosted runners. Runners will not scale automatically above this number. Use this setting to limit your cost.
+             * @default 10
+             */
+            maximum_runners: number;
+            /** @description Whether public IP is enabled for the hosted runners. */
+            public_ip_enabled: boolean;
+            /** @description The public IP ranges when public IP is enabled for the hosted runners. */
+            public_ips?: components["schemas"]["public-ip"][];
+            /**
+             * Format: date-time
+             * @description The time at which the runner was last used, in ISO 8601 format.
+             */
+            last_active_on?: string | null;
+        };
+        /**
+         * GitHub-hosted runner image details.
+         * @description Provides details of a hosted runner image
+         */
+        "actions-hosted-runner-image": {
+            /** @description The ID of the image. Use this ID for the `image` parameter when creating a new larger runner. */
+            id: string;
+            /** @description The operating system of the image. */
+            platform: string;
+            /** @description Image size in GB. */
+            size_gb: number;
+            /** @description Display name for this image. */
+            display_name: string;
+            /**
+             * @description The image provider.
+             * @enum {string}
+             */
+            source: "github" | "partner" | "custom";
+        };
+        "actions-hosted-runner-limits": {
+            /**
+             * Static public IP Limits for GitHub-hosted Hosted Runners.
+             * @description Provides details of static public IP limits for GitHub-hosted Hosted Runners
+             */
+            public_ips: {
+                /** @description The maximum number of static public IP addresses that can be used for Hosted Runners. */
+                maximum: number;
+                /** @description The current number of static public IP addresses in use by Hosted Runners. */
+                current_usage: number;
+            };
+        };
+        /**
          * Actions OIDC Subject customization
          * @description Actions OIDC Subject customization
          */
@@ -27152,6 +27537,8 @@ export interface components {
             selected_repositories_url?: string;
             runners_url: string;
             hosted_runners_url?: string;
+            /** @description The identifier of a hosted compute network configuration. */
+            network_configuration_id?: string;
             inherited: boolean;
             inherited_allows_public_repositories?: boolean;
             allows_public_repositories: boolean;
@@ -27723,6 +28110,7 @@ export interface components {
             url: string;
             sync_to_organizations: string;
             group_id?: string | null;
+            group_name?: string | null;
             /** Format: uri */
             html_url: string;
             members_url: string;
@@ -29587,6 +29975,44 @@ export interface components {
             estimated_storage_for_month: number;
         };
         /**
+         * Hosted compute network configuration
+         * @description A hosted compute network configuration.
+         */
+        "network-configuration": {
+            /** @description The unique identifier of the network configuration. */
+            id: string;
+            /** @description The name of the network configuration. */
+            name: string;
+            /**
+             * @description The hosted compute service the network configuration supports.
+             * @enum {string}
+             */
+            compute_service?: "none" | "actions" | "codespaces";
+            /** @description The unique identifier of each network settings in the configuration. */
+            network_settings_ids?: string[];
+            /**
+             * Format: date-time
+             * @description The time at which the network configuration was created, in ISO 8601 format.
+             */
+            created_on: string | null;
+        };
+        /**
+         * Hosted compute network settings resource
+         * @description A hosted compute network settings resource.
+         */
+        "network-settings": {
+            /** @description The unique identifier of the network settings resource. */
+            id: string;
+            /** @description The identifier of the network configuration that is using this settings resource. */
+            network_configuration_id?: string;
+            /** @description The name of the network settings resource. */
+            name: string;
+            /** @description The subnet this network settings resource is configured for. */
+            subnet_id: string;
+            /** @description The location of the subnet this network settings resource is configured for. */
+            region: string;
+        };
+        /**
          * Team Organization
          * @description Team Organization
          */
@@ -30669,13 +31095,13 @@ export interface components {
             is_alphanumeric: boolean;
         };
         /**
-         * Check Automated Security Fixes
-         * @description Check Automated Security Fixes
+         * Check Dependabot security updates
+         * @description Check Dependabot security updates
          */
         "check-automated-security-fixes": {
-            /** @description Whether automated security fixes are enabled for the repository. */
+            /** @description Whether Dependabot security updates are enabled for the repository. */
             enabled: boolean;
-            /** @description Whether automated security fixes are paused for the repository. */
+            /** @description Whether Dependabot security updates are paused for the repository. */
             paused: boolean;
         };
         /**
@@ -31521,6 +31947,13 @@ export interface components {
             state?: "configured" | "not-configured";
             /** @description Languages to be analyzed. */
             languages?: ("actions" | "c-cpp" | "csharp" | "go" | "java-kotlin" | "javascript-typescript" | "javascript" | "python" | "ruby" | "typescript" | "swift")[];
+            /**
+             * @description Runner type to be used.
+             * @enum {string|null}
+             */
+            runner_type?: "standard" | "labeled" | null;
+            /** @description Runner label to be used if the runner type is labeled. */
+            runner_label?: string | null;
             /**
              * @description CodeQL query suite to be used.
              * @enum {string}
@@ -41255,11 +41688,14 @@ export interface components {
                     url?: string;
                     user_view_type?: string;
                 } | null;
+                dismissed_comment?: components["schemas"]["code-scanning-alert-dismissed-comment"];
                 /**
                  * @description The reason for dismissing or closing the alert.
                  * @enum {string|null}
                  */
                 dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
+                /** @description The time that the alert was fixed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                fixed_at?: null;
                 /**
                  * Format: uri
                  * @description The GitHub URL of the alert resource.
@@ -41307,10 +41743,10 @@ export interface components {
                     severity: "none" | "note" | "warning" | "error" | null;
                 };
                 /**
-                 * @description State of a code scanning alert.
-                 * @enum {string}
+                 * @description State of a code scanning alert. Events for alerts found outside the default branch will return a `null` value until they are dismissed or fixed.
+                 * @enum {string|null}
                  */
-                state: "open" | "dismissed" | "fixed";
+                state: "open" | "dismissed" | "fixed" | null;
                 tool: {
                     /** @description The name of the tool used to generate the code scanning analysis alert. */
                     name: string;
@@ -41382,11 +41818,14 @@ export interface components {
                     url?: string;
                     user_view_type?: string;
                 } | null;
+                dismissed_comment?: components["schemas"]["code-scanning-alert-dismissed-comment"];
                 /**
                  * @description The reason for dismissing or closing the alert.
                  * @enum {string|null}
                  */
                 dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
+                /** @description The time that the alert was fixed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                fixed_at?: null;
                 /**
                  * Format: uri
                  * @description The GitHub URL of the alert resource.
@@ -41479,6 +41918,7 @@ export interface components {
                 dismissed_comment?: components["schemas"]["code-scanning-alert-dismissed-comment"];
                 /** @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
                 dismissed_reason: null;
+                /** @description The time that the alert was fixed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 fixed_at?: null;
                 /**
                  * Format: uri
@@ -41534,7 +41974,7 @@ export interface components {
                     tags?: string[] | null;
                 };
                 /**
-                 * @description State of a code scanning alert.
+                 * @description State of a code scanning alert. Events for alerts found outside the default branch will return a `null` value until they are dismissed or fixed.
                  * @enum {string|null}
                  */
                 state: "open" | "dismissed" | null;
@@ -41611,11 +42051,14 @@ export interface components {
                     url?: string;
                     user_view_type?: string;
                 } | null;
+                dismissed_comment?: components["schemas"]["code-scanning-alert-dismissed-comment"];
                 /**
                  * @description The reason for dismissing or closing the alert.
                  * @enum {string|null}
                  */
                 dismissed_reason: "false positive" | "won't fix" | "used in tests" | null;
+                /** @description The time that the alert was fixed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                fixed_at?: null;
                 /**
                  * Format: uri
                  * @description The GitHub URL of the alert resource.
@@ -41671,10 +42114,10 @@ export interface components {
                     tags?: string[] | null;
                 };
                 /**
-                 * @description State of a code scanning alert.
-                 * @enum {string}
+                 * @description State of a code scanning alert. Events for alerts found outside the default branch will return a `null` value until they are dismissed or fixed.
+                 * @enum {string|null}
                  */
-                state: "fixed";
+                state: "fixed" | null;
                 tool: {
                     guid?: string | null;
                     /** @description The name of the tool used to generate the code scanning analysis alert. */
@@ -41707,8 +42150,11 @@ export interface components {
                 /** @description The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 dismissed_at: string | null;
                 dismissed_by: Record<string, never> | null;
+                dismissed_comment?: components["schemas"]["code-scanning-alert-dismissed-comment"];
                 /** @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
                 dismissed_reason: string | null;
+                /** @description The time that the alert was fixed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                fixed_at?: null;
                 /**
                  * Format: uri
                  * @description The GitHub URL of the alert resource.
@@ -41762,10 +42208,10 @@ export interface components {
                     tags?: string[] | null;
                 };
                 /**
-                 * @description State of a code scanning alert.
-                 * @enum {string}
+                 * @description State of a code scanning alert. Events for alerts found outside the default branch will return a `null` value until they are dismissed or fixed.
+                 * @enum {string|null}
                  */
-                state: "open" | "dismissed" | "fixed";
+                state: "open" | "dismissed" | "fixed" | null;
                 tool: {
                     guid?: string | null;
                     /** @description The name of the tool used to generate the code scanning analysis alert. */
@@ -41800,8 +42246,11 @@ export interface components {
                 /** @description The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
                 dismissed_at: null;
                 dismissed_by: null;
+                dismissed_comment?: components["schemas"]["code-scanning-alert-dismissed-comment"];
                 /** @description The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`. */
                 dismissed_reason: null;
+                /** @description The time that the alert was fixed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. */
+                fixed_at?: null;
                 /**
                  * Format: uri
                  * @description The GitHub URL of the alert resource.
@@ -41849,10 +42298,10 @@ export interface components {
                     severity: "none" | "note" | "warning" | "error" | null;
                 };
                 /**
-                 * @description State of a code scanning alert.
-                 * @enum {string}
+                 * @description State of a code scanning alert. Events for alerts found outside the default branch will return a `null` value until they are dismissed or fixed.
+                 * @enum {string|null}
                  */
-                state: "open" | "fixed";
+                state: "open" | "fixed" | null;
                 tool: {
                     /** @description The name of the tool used to generate the code scanning analysis alert. */
                     name: string;
@@ -87586,12 +88035,20 @@ export interface components {
         "dependabot-alert-comma-separated-ecosystems": string;
         /** @description A comma-separated list of package names. If specified, only alerts for these packages will be returned. */
         "dependabot-alert-comma-separated-packages": string;
+        /** @description CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as:
+         *     - An exact number (`n`)
+         *     - Comparators such as `>n`, `<n`, `>=n`, `<=n`
+         *     - A range like `n..n`, where `n` is a number from 0.0 to 1.0
+         *
+         *     Filters the list of alerts based on EPSS percentages. If specified, only alerts with the provided EPSS percentages will be returned. */
+        "dependabot-alert-comma-separated-epss": string;
         /** @description The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned. */
         "dependabot-alert-scope": "development" | "runtime";
         /** @description The property by which to sort the results.
          *     `created` means when the alert was created.
-         *     `updated` means when the alert's state last changed. */
-        "dependabot-alert-sort": "created" | "updated";
+         *     `updated` means when the alert's state last changed.
+         *     `epss_percentage` sorts alerts by the Exploit Prediction Scoring System (EPSS) percentage. */
+        "dependabot-alert-sort": "created" | "updated" | "epss_percentage";
         /** @description **Deprecated**. The number of results per page (max 100), starting from the first matching result.
          *     This parameter must not be used in combination with `last`.
          *     Instead, use `per_page` in combination with `after` to fetch the first page of results. */
@@ -87650,6 +88107,8 @@ export interface components {
         "billing-usage-report-day": number;
         /** @description If specified, only return results for a single hour. The value of `hour` is an integer between `0` and `23`. */
         "billing-usage-report-hour": number;
+        /** @description Unique identifier of the GitHub-hosted runner. */
+        "hosted-runner-id": number;
         /** @description The unique identifier of the repository. */
         "repository-id": number;
         /** @description Only return runner groups that are allowed to be used by this repository. */
@@ -87761,6 +88220,10 @@ export interface components {
         "secret-scanning-pagination-before-org-repo": string;
         /** @description A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string. */
         "secret-scanning-pagination-after-org-repo": string;
+        /** @description Unique identifier of the hosted compute network configuration. */
+        "network-configuration-id": string;
+        /** @description Unique identifier of the hosted compute network settings. */
+        "network-settings-id": string;
         /** @description The number that identifies the discussion. */
         "discussion-number": number;
         /** @description The number that identifies the comment. */
@@ -89262,11 +89725,19 @@ export interface operations {
                 ecosystem?: components["parameters"]["dependabot-alert-comma-separated-ecosystems"];
                 /** @description A comma-separated list of package names. If specified, only alerts for these packages will be returned. */
                 package?: components["parameters"]["dependabot-alert-comma-separated-packages"];
+                /** @description CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as:
+                 *     - An exact number (`n`)
+                 *     - Comparators such as `>n`, `<n`, `>=n`, `<=n`
+                 *     - A range like `n..n`, where `n` is a number from 0.0 to 1.0
+                 *
+                 *     Filters the list of alerts based on EPSS percentages. If specified, only alerts with the provided EPSS percentages will be returned. */
+                epss_percentage?: components["parameters"]["dependabot-alert-comma-separated-epss"];
                 /** @description The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned. */
                 scope?: components["parameters"]["dependabot-alert-scope"];
                 /** @description The property by which to sort the results.
                  *     `created` means when the alert was created.
-                 *     `updated` means when the alert's state last changed. */
+                 *     `updated` means when the alert's state last changed.
+                 *     `epss_percentage` sorts alerts by the Exploit Prediction Scoring System (EPSS) percentage. */
                 sort?: components["parameters"]["dependabot-alert-sort"];
                 /** @description The direction to sort the results by. */
                 direction?: components["parameters"]["direction"];
@@ -91083,6 +91554,306 @@ export interface operations {
             };
         };
     };
+    "actions/list-hosted-runners-for-org": {
+        parameters: {
+            query?: {
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        runners: components["schemas"]["actions-hosted-runner"][];
+                    };
+                };
+            };
+        };
+    };
+    "actions/create-hosted-runner-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Name of the runner. Must be between 1 and 64 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'. */
+                    name: string;
+                    /** @description The image of runner. To list all available images, use `GET /actions/hosted-runners/images/github-owned` or `GET /actions/hosted-runners/images/partner`. */
+                    image: {
+                        /** @description The unique identifier of the runner image. */
+                        id?: string;
+                        /**
+                         * @description The source of the runner image.
+                         * @enum {string}
+                         */
+                        source?: "github" | "partner" | "custom";
+                        /** @description The version of the runner image to deploy. This is relevant only for runners using custom images. */
+                        version?: string | null;
+                    };
+                    /** @description The machine size of the runner. To list available sizes, use `GET actions/hosted-runners/machine-sizes` */
+                    size: string;
+                    /** @description The existing runner group to add this runner to. */
+                    runner_group_id: number;
+                    /** @description The maximum amount of runners to scale up to. Runners will not auto-scale above this number. Use this setting to limit your cost. */
+                    maximum_runners?: number;
+                    /** @description Whether this runner should be created with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits` */
+                    enable_static_ip?: boolean;
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["actions-hosted-runner"];
+                };
+            };
+        };
+    };
+    "actions/get-hosted-runners-github-owned-images-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        images: components["schemas"]["actions-hosted-runner-image"][];
+                    };
+                };
+            };
+        };
+    };
+    "actions/get-hosted-runners-partner-images-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        images: components["schemas"]["actions-hosted-runner-image"][];
+                    };
+                };
+            };
+        };
+    };
+    "actions/get-hosted-runners-limits-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["actions-hosted-runner-limits"];
+                };
+            };
+        };
+    };
+    "actions/get-hosted-runners-machine-specs-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        machine_specs: components["schemas"]["actions-hosted-runner-machine-spec"][];
+                    };
+                };
+            };
+        };
+    };
+    "actions/get-hosted-runners-platforms-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        platforms: string[];
+                    };
+                };
+            };
+        };
+    };
+    "actions/get-hosted-runner-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the GitHub-hosted runner. */
+                hosted_runner_id: components["parameters"]["hosted-runner-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["actions-hosted-runner"];
+                };
+            };
+        };
+    };
+    "actions/delete-hosted-runner-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the GitHub-hosted runner. */
+                hosted_runner_id: components["parameters"]["hosted-runner-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["actions-hosted-runner"];
+                };
+            };
+        };
+    };
+    "actions/update-hosted-runner-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the GitHub-hosted runner. */
+                hosted_runner_id: components["parameters"]["hosted-runner-id"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Name of the runner. Must be between 1 and 64 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'. */
+                    name?: string;
+                    /** @description The existing runner group to add this runner to. */
+                    runner_group_id?: number;
+                    /** @description The maximum amount of runners to scale up to. Runners will not auto-scale above this number. Use this setting to limit your cost. */
+                    maximum_runners?: number;
+                    /** @description Whether this runner should be updated with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits` */
+                    enable_static_ip?: boolean;
+                    /** @description The version of the runner image to deploy. This is relevant only for runners using custom images. */
+                    image_version?: string | null;
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["actions-hosted-runner"];
+                };
+            };
+        };
+    };
     "oidc/get-oidc-custom-sub-template-for-org": {
         parameters: {
             query?: never;
@@ -91457,6 +92228,8 @@ export interface operations {
                     restricted_to_workflows?: boolean;
                     /** @description List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
                     selected_workflows?: string[];
+                    /** @description The identifier of a hosted compute network configuration. */
+                    network_configuration_id?: string;
                 };
             };
         };
@@ -91554,6 +92327,8 @@ export interface operations {
                     restricted_to_workflows?: boolean;
                     /** @description List of workflows the runner group should be allowed to run. This setting will be ignored unless `restricted_to_workflows` is set to `true`. */
                     selected_workflows?: string[];
+                    /** @description The identifier of a hosted compute network configuration. */
+                    network_configuration_id?: string | null;
                 };
             };
         };
@@ -91565,6 +92340,40 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["runner-groups-org"];
+                };
+            };
+        };
+    };
+    "actions/list-github-hosted-runners-in-group-for-org": {
+        parameters: {
+            query?: {
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the self-hosted runner group. */
+                runner_group_id: components["parameters"]["runner-group-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        runners: components["schemas"]["actions-hosted-runner"][];
+                    };
                 };
             };
         };
@@ -94150,11 +94959,19 @@ export interface operations {
                 ecosystem?: components["parameters"]["dependabot-alert-comma-separated-ecosystems"];
                 /** @description A comma-separated list of package names. If specified, only alerts for these packages will be returned. */
                 package?: components["parameters"]["dependabot-alert-comma-separated-packages"];
+                /** @description CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as:
+                 *     - An exact number (`n`)
+                 *     - Comparators such as `>n`, `<n`, `>=n`, `<=n`
+                 *     - A range like `n..n`, where `n` is a number from 0.0 to 1.0
+                 *
+                 *     Filters the list of alerts based on EPSS percentages. If specified, only alerts with the provided EPSS percentages will be returned. */
+                epss_percentage?: components["parameters"]["dependabot-alert-comma-separated-epss"];
                 /** @description The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned. */
                 scope?: components["parameters"]["dependabot-alert-scope"];
                 /** @description The property by which to sort the results.
                  *     `created` means when the alert was created.
-                 *     `updated` means when the alert's state last changed. */
+                 *     `updated` means when the alert's state last changed.
+                 *     `epss_percentage` sorts alerts by the Exploit Prediction Scoring System (EPSS) percentage. */
                 sort?: components["parameters"]["dependabot-alert-sort"];
                 /** @description The direction to sort the results by. */
                 direction?: components["parameters"]["direction"];
@@ -98304,6 +99121,189 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["combined-billing-usage"];
+                };
+            };
+        };
+    };
+    "hosted-compute/list-network-configurations-for-org": {
+        parameters: {
+            query?: {
+                /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                per_page?: components["parameters"]["per-page"];
+                /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+                page?: components["parameters"]["page"];
+            };
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        total_count: number;
+                        network_configurations: components["schemas"]["network-configuration"][];
+                    };
+                };
+            };
+        };
+    };
+    "hosted-compute/create-network-configuration-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Name of the network configuration. Must be between 1 and 100 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'. */
+                    name: string;
+                    /**
+                     * @description The hosted compute service to use for the network configuration.
+                     * @enum {string}
+                     */
+                    compute_service?: "none" | "actions";
+                    /** @description The identifier of the network settings to use for the network configuration. Exactly one network settings must be specified. */
+                    network_settings_ids: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["network-configuration"];
+                };
+            };
+        };
+    };
+    "hosted-compute/get-network-configuration-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the hosted compute network configuration. */
+                network_configuration_id: components["parameters"]["network-configuration-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["network-configuration"];
+                };
+            };
+        };
+    };
+    "hosted-compute/delete-network-configuration-from-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the hosted compute network configuration. */
+                network_configuration_id: components["parameters"]["network-configuration-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "hosted-compute/update-network-configuration-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the hosted compute network configuration. */
+                network_configuration_id: components["parameters"]["network-configuration-id"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Name of the network configuration. Must be between 1 and 100 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'. */
+                    name?: string;
+                    /**
+                     * @description The hosted compute service to use for the network configuration.
+                     * @enum {string}
+                     */
+                    compute_service?: "none" | "actions";
+                    /** @description The identifier of the network settings to use for the network configuration. Exactly one network settings must be specified. */
+                    network_settings_ids?: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["network-configuration"];
+                };
+            };
+        };
+    };
+    "hosted-compute/get-network-settings-for-org": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization name. The name is not case sensitive. */
+                org: components["parameters"]["org"];
+                /** @description Unique identifier of the hosted compute network settings. */
+                network_settings_id: components["parameters"]["network-settings-id"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Response */
+            200: {
+                headers: {
+                    Link: components["headers"]["link"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["network-settings"];
                 };
             };
         };
@@ -107335,11 +108335,19 @@ export interface operations {
                 package?: components["parameters"]["dependabot-alert-comma-separated-packages"];
                 /** @description A comma-separated list of full manifest paths. If specified, only alerts for these manifests will be returned. */
                 manifest?: components["parameters"]["dependabot-alert-comma-separated-manifests"];
+                /** @description CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as:
+                 *     - An exact number (`n`)
+                 *     - Comparators such as `>n`, `<n`, `>=n`, `<=n`
+                 *     - A range like `n..n`, where `n` is a number from 0.0 to 1.0
+                 *
+                 *     Filters the list of alerts based on EPSS percentages. If specified, only alerts with the provided EPSS percentages will be returned. */
+                epss_percentage?: components["parameters"]["dependabot-alert-comma-separated-epss"];
                 /** @description The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned. */
                 scope?: components["parameters"]["dependabot-alert-scope"];
                 /** @description The property by which to sort the results.
                  *     `created` means when the alert was created.
-                 *     `updated` means when the alert's state last changed. */
+                 *     `updated` means when the alert's state last changed.
+                 *     `epss_percentage` sorts alerts by the Exploit Prediction Scoring System (EPSS) percentage. */
                 sort?: components["parameters"]["dependabot-alert-sort"];
                 /** @description The direction to sort the results by. */
                 direction?: components["parameters"]["direction"];
@@ -111474,7 +112482,7 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The sub-issue to remove */
+                    /** @description The id of the sub-issue to remove */
                     sub_issue_id: number;
                 };
             };
@@ -111547,7 +112555,7 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The sub-issue to add */
+                    /** @description The id of the sub-issue to add. The sub-issue must belong to the same repository as the parent issue */
                     sub_issue_id: number;
                     /** @description Option that, when true, instructs the operation to replace the sub-issues current parent issue */
                     replace_parent?: boolean;
@@ -116281,7 +117289,7 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository. **Note:** Topic `names` cannot contain uppercase letters. */
+                    /** @description An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository. **Note:** Topic `names` will be saved as lowercase. */
                     names: string[];
                 };
             };

@@ -715,6 +715,15 @@ components:
             - inactive
             - pending
           type: string
+        pay_by_bank_payments:
+          description: >-
+            The status of the pay_by_bank payments capability of the account, or
+            whether the account can directly process pay_by_bank charges.
+          enum:
+            - active
+            - inactive
+            - pending
+          type: string
         payco_payments:
           description: >-
             The status of the Payco capability of the account, or whether the
@@ -2012,6 +2021,14 @@ components:
     api_errors:
       description: ''
       properties:
+        advice_code:
+          description: >-
+            For card errors resulting from a card issuer decline, a short string
+            indicating [how to proceed with an
+            error](https://stripe.com/docs/declines#retrying-issuer-declines) if
+            they provide one.
+          maxLength: 5000
+          type: string
         charge:
           description: 'For card errors, the ID of the failed charge.'
           maxLength: 5000
@@ -5419,6 +5436,17 @@ components:
     charge_outcome:
       description: ''
       properties:
+        advice_code:
+          description: >-
+            An enumerated value providing a more detailed explanation on [how to
+            proceed with an
+            error](https://stripe.com/docs/declines#retrying-issuer-declines).
+          enum:
+            - confirm_card_data
+            - do_not_try_again
+            - try_again_later
+          nullable: true
+          type: string
         network_advice_code:
           description: >-
             For charges declined by the network, a 2 digit code which indicates
@@ -5733,6 +5761,14 @@ components:
           maxLength: 5000
           nullable: true
           type: string
+        discounts:
+          description: >-
+            List of coupons and promotion codes attached to the Checkout
+            Session.
+          items:
+            $ref: '#/components/schemas/payment_pages_checkout_session_discount'
+          nullable: true
+          type: array
         expires_at:
           description: The timestamp at which the Checkout Session will expire.
           format: unix-time
@@ -5861,6 +5897,7 @@ components:
             - setup
             - subscription
           type: string
+          x-stripeBypassValidation: true
         object:
           description: >-
             String representing the object's type. Objects of the same type
@@ -6117,6 +6154,7 @@ components:
         - custom_text
         - customer
         - customer_details
+        - discounts
         - invoice
         - invoice_creation
         - line_items
@@ -8400,6 +8438,8 @@ components:
           $ref: '#/components/schemas/payment_method_oxxo'
         p24:
           $ref: '#/components/schemas/payment_method_p24'
+        pay_by_bank:
+          $ref: '#/components/schemas/payment_method_pay_by_bank'
         payco:
           $ref: '#/components/schemas/payment_method_payco'
         paynow:
@@ -8459,6 +8499,7 @@ components:
             - naver_pay
             - oxxo
             - p24
+            - pay_by_bank
             - payco
             - paynow
             - paypal
@@ -8520,6 +8561,7 @@ components:
         - naver_pay
         - oxxo
         - p24
+        - pay_by_bank
         - payco
         - paynow
         - paypal
@@ -8683,6 +8725,16 @@ components:
           $ref: '#/components/schemas/connect_embedded_payouts_config_claim'
         documents:
           $ref: '#/components/schemas/connect_embedded_base_config_claim'
+        financial_account:
+          $ref: '#/components/schemas/connect_embedded_financial_account_config_claim'
+        financial_account_transactions:
+          $ref: >-
+            #/components/schemas/connect_embedded_financial_account_transactions_config_claim
+        issuing_card:
+          $ref: '#/components/schemas/connect_embedded_issuing_card_config_claim'
+        issuing_cards_list:
+          $ref: >-
+            #/components/schemas/connect_embedded_issuing_cards_list_config_claim
         notification_banner:
           $ref: '#/components/schemas/connect_embedded_account_config_claim'
         payment_details:
@@ -8702,6 +8754,10 @@ components:
         - account_onboarding
         - balances
         - documents
+        - financial_account
+        - financial_account_transactions
+        - issuing_card
+        - issuing_cards_list
         - notification_banner
         - payment_details
         - payments
@@ -8716,6 +8772,10 @@ components:
         - account_onboarding
         - balances
         - documents
+        - financial_account
+        - financial_account_transactions
+        - issuing_card
+        - issuing_cards_list
         - notification_banner
         - payment_details
         - payments
@@ -8742,6 +8802,162 @@ components:
       description: ''
       properties: {}
       title: ConnectEmbeddedBaseFeatures
+      type: object
+      x-expandableFields: []
+    connect_embedded_financial_account_config_claim:
+      description: ''
+      properties:
+        enabled:
+          description: Whether the embedded component is enabled.
+          type: boolean
+        features:
+          $ref: '#/components/schemas/connect_embedded_financial_account_features'
+      required:
+        - enabled
+        - features
+      title: ConnectEmbeddedFinancialAccountConfigClaim
+      type: object
+      x-expandableFields:
+        - features
+    connect_embedded_financial_account_features:
+      description: ''
+      properties:
+        disable_stripe_user_authentication:
+          description: >-
+            Disables Stripe user authentication for this embedded component.
+            This value can only be true for accounts where
+            `controller.requirement_collection` is `application`. The default
+            value is the opposite of the `external_account_collection` value.
+            For example, if you don’t set `external_account_collection`, it
+            defaults to true and `disable_stripe_user_authentication` defaults
+            to false.
+          type: boolean
+        external_account_collection:
+          description: Whether to allow external accounts to be linked for money transfer.
+          type: boolean
+        send_money:
+          description: Whether to allow sending money.
+          type: boolean
+        transfer_balance:
+          description: Whether to allow transferring balance.
+          type: boolean
+      required:
+        - disable_stripe_user_authentication
+        - external_account_collection
+        - send_money
+        - transfer_balance
+      title: ConnectEmbeddedFinancialAccountFeatures
+      type: object
+      x-expandableFields: []
+    connect_embedded_financial_account_transactions_config_claim:
+      description: ''
+      properties:
+        enabled:
+          description: Whether the embedded component is enabled.
+          type: boolean
+        features:
+          $ref: >-
+            #/components/schemas/connect_embedded_financial_account_transactions_features
+      required:
+        - enabled
+        - features
+      title: ConnectEmbeddedFinancialAccountTransactionsConfigClaim
+      type: object
+      x-expandableFields:
+        - features
+    connect_embedded_financial_account_transactions_features:
+      description: ''
+      properties:
+        card_spend_dispute_management:
+          description: Whether to allow card spend dispute management features.
+          type: boolean
+      required:
+        - card_spend_dispute_management
+      title: ConnectEmbeddedFinancialAccountTransactionsFeatures
+      type: object
+      x-expandableFields: []
+    connect_embedded_issuing_card_config_claim:
+      description: ''
+      properties:
+        enabled:
+          description: Whether the embedded component is enabled.
+          type: boolean
+        features:
+          $ref: '#/components/schemas/connect_embedded_issuing_card_features'
+      required:
+        - enabled
+        - features
+      title: ConnectEmbeddedIssuingCardConfigClaim
+      type: object
+      x-expandableFields:
+        - features
+    connect_embedded_issuing_card_features:
+      description: ''
+      properties:
+        card_management:
+          description: Whether to allow card management features.
+          type: boolean
+        card_spend_dispute_management:
+          description: Whether to allow card spend dispute management features.
+          type: boolean
+        cardholder_management:
+          description: Whether to allow cardholder management features.
+          type: boolean
+        spend_control_management:
+          description: Whether to allow spend control management features.
+          type: boolean
+      required:
+        - card_management
+        - card_spend_dispute_management
+        - cardholder_management
+        - spend_control_management
+      title: ConnectEmbeddedIssuingCardFeatures
+      type: object
+      x-expandableFields: []
+    connect_embedded_issuing_cards_list_config_claim:
+      description: ''
+      properties:
+        enabled:
+          description: Whether the embedded component is enabled.
+          type: boolean
+        features:
+          $ref: '#/components/schemas/connect_embedded_issuing_cards_list_features'
+      required:
+        - enabled
+        - features
+      title: ConnectEmbeddedIssuingCardsListConfigClaim
+      type: object
+      x-expandableFields:
+        - features
+    connect_embedded_issuing_cards_list_features:
+      description: ''
+      properties:
+        card_management:
+          description: Whether to allow card management features.
+          type: boolean
+        card_spend_dispute_management:
+          description: Whether to allow card spend dispute management features.
+          type: boolean
+        cardholder_management:
+          description: Whether to allow cardholder management features.
+          type: boolean
+        disable_stripe_user_authentication:
+          description: >-
+            Disables Stripe user authentication for this embedded component.
+            This feature can only be false for accounts where you’re responsible
+            for collecting updated information when requirements are due or
+            change, like custom accounts.
+          type: boolean
+        spend_control_management:
+          description: Whether to allow spend control management features.
+          type: boolean
+      required:
+        - card_management
+        - card_spend_dispute_management
+        - cardholder_management
+        - disable_stripe_user_authentication
+        - spend_control_management
+      title: ConnectEmbeddedIssuingCardsListFeatures
       type: object
       x-expandableFields: []
     connect_embedded_payments_config_claim:
@@ -9410,6 +9626,7 @@ components:
         - number
         - object
         - pdf
+        - pretax_credit_amounts
         - status
         - subtotal
         - tax_amounts
@@ -9536,6 +9753,7 @@ components:
         - id
         - livemode
         - object
+        - pretax_credit_amounts
         - tax_amounts
         - tax_rates
         - type
@@ -23580,6 +23798,13 @@ components:
             provided via [the `directors_provided`
             parameter](https://stripe.com/docs/api/accounts/update#update_account-company-directors_provided).
           type: boolean
+        directorship_declaration:
+          anyOf:
+            - $ref: '#/components/schemas/legal_entity_directorship_declaration'
+          description: >-
+            This hash is used to attest that the director information provided
+            to Stripe is both current and correct.
+          nullable: true
         executives_provided:
           description: >-
             Whether the company's executives have been provided. This Boolean
@@ -23631,6 +23856,11 @@ components:
             This hash is used to attest that the beneficial owner information
             provided to Stripe is both current and correct.
           nullable: true
+        ownership_exemption_reason:
+          enum:
+            - qualified_entity_exceeds_ownership_threshold
+            - qualifies_as_financial_institution
+          type: string
         phone:
           description: The company's phone number (used for verification).
           maxLength: 5000
@@ -23691,6 +23921,7 @@ components:
         - address
         - address_kana
         - address_kanji
+        - directorship_declaration
         - ownership_declaration
         - verification
     legal_entity_company_verification:
@@ -23758,6 +23989,33 @@ components:
       x-expandableFields:
         - back
         - front
+    legal_entity_directorship_declaration:
+      description: ''
+      properties:
+        date:
+          description: >-
+            The Unix timestamp marking when the directorship declaration
+            attestation was made.
+          format: unix-time
+          nullable: true
+          type: integer
+        ip:
+          description: >-
+            The IP address from which the directorship declaration attestation
+            was made.
+          maxLength: 5000
+          nullable: true
+          type: string
+        user_agent:
+          description: >-
+            The user-agent string from the browser where the directorship
+            declaration attestation was made.
+          maxLength: 5000
+          nullable: true
+          type: string
+      title: LegalEntityDirectorshipDeclaration
+      type: object
+      x-expandableFields: []
     legal_entity_dob:
       description: ''
       properties:
@@ -24829,12 +25087,15 @@ components:
       properties:
         billing_details:
           $ref: '#/components/schemas/treasury_shared_resource_billing_details'
+        financial_account:
+          $ref: >-
+            #/components/schemas/outbound_transfers_payment_method_details_financial_account
         type:
           description: The type of the payment method used in the OutboundTransfer.
           enum:
+            - financial_account
             - us_bank_account
           type: string
-          x-stripeBypassValidation: true
         us_bank_account:
           $ref: >-
             #/components/schemas/outbound_transfers_payment_method_details_us_bank_account
@@ -24845,7 +25106,26 @@ components:
       type: object
       x-expandableFields:
         - billing_details
+        - financial_account
         - us_bank_account
+    outbound_transfers_payment_method_details_financial_account:
+      description: ''
+      properties:
+        id:
+          description: Token of the FinancialAccount.
+          maxLength: 5000
+          type: string
+        network:
+          description: The rails used to send funds.
+          enum:
+            - stripe
+          type: string
+      required:
+        - id
+        - network
+      title: outbound_transfers_payment_method_details_financial_account
+      type: object
+      x-expandableFields: []
     outbound_transfers_payment_method_details_us_bank_account:
       description: ''
       properties:
@@ -26591,6 +26871,11 @@ components:
             - $ref: '#/components/schemas/payment_method_options_p24'
             - $ref: >-
                 #/components/schemas/payment_intent_type_specific_payment_method_options_client
+        pay_by_bank:
+          anyOf:
+            - $ref: '#/components/schemas/payment_method_options_pay_by_bank'
+            - $ref: >-
+                #/components/schemas/payment_intent_type_specific_payment_method_options_client
         payco:
           anyOf:
             - $ref: >-
@@ -26699,6 +26984,7 @@ components:
         - naver_pay
         - oxxo
         - p24
+        - pay_by_bank
         - payco
         - paynow
         - paypal
@@ -27674,6 +27960,7 @@ components:
               - multibanco
               - oxxo
               - p24
+              - pay_by_bank
               - paynow
               - paypal
               - pix
@@ -28478,6 +28765,7 @@ components:
               - SA
               - SB
               - SC
+              - SD
               - SE
               - SG
               - SH
@@ -28532,7 +28820,6 @@ components:
               - ZW
               - ZZ
             type: string
-            x-stripeBypassValidation: true
           type: array
       required:
         - allowed_countries
@@ -28796,6 +29083,8 @@ components:
           $ref: '#/components/schemas/payment_method_oxxo'
         p24:
           $ref: '#/components/schemas/payment_method_p24'
+        pay_by_bank:
+          $ref: '#/components/schemas/payment_method_pay_by_bank'
         payco:
           $ref: '#/components/schemas/payment_method_payco'
         paynow:
@@ -28857,6 +29146,7 @@ components:
             - naver_pay
             - oxxo
             - p24
+            - pay_by_bank
             - payco
             - paynow
             - paypal
@@ -28922,6 +29212,7 @@ components:
         - naver_pay
         - oxxo
         - p24
+        - pay_by_bank
         - payco
         - paynow
         - paypal
@@ -29797,6 +30088,9 @@ components:
           maxLength: 5000
           nullable: true
           type: string
+        pay_by_bank:
+          $ref: >-
+            #/components/schemas/payment_method_config_resource_payment_method_properties
         paynow:
           $ref: >-
             #/components/schemas/payment_method_config_resource_payment_method_properties
@@ -29870,6 +30164,7 @@ components:
         - multibanco
         - oxxo
         - p24
+        - pay_by_bank
         - paynow
         - paypal
         - promptpay
@@ -29958,6 +30253,8 @@ components:
           $ref: '#/components/schemas/payment_method_details_oxxo'
         p24:
           $ref: '#/components/schemas/payment_method_details_p24'
+        pay_by_bank:
+          $ref: '#/components/schemas/payment_method_details_pay_by_bank'
         payco:
           $ref: '#/components/schemas/payment_method_details_payco'
         paynow:
@@ -30042,6 +30339,7 @@ components:
         - naver_pay
         - oxxo
         - p24
+        - pay_by_bank
         - payco
         - paynow
         - paypal
@@ -31820,6 +32118,12 @@ components:
       title: payment_method_details_passthrough_card
       type: object
       x-expandableFields: []
+    payment_method_details_pay_by_bank:
+      description: ''
+      properties: {}
+      title: payment_method_details_pay_by_bank
+      type: object
+      x-expandableFields: []
     payment_method_details_payco:
       description: ''
       properties:
@@ -31847,6 +32151,14 @@ components:
     payment_method_details_paypal:
       description: ''
       properties:
+        country:
+          description: >-
+            Two-letter ISO code representing the buyer's country. Values are
+            provided by PayPal directly (if supported) at the time of
+            authorization or settlement. They cannot be set or mutated.
+          maxLength: 5000
+          nullable: true
+          type: string
         payer_email:
           description: >-
             Owner's email. Values are provided by PayPal directly
@@ -33640,6 +33952,12 @@ components:
       title: payment_method_options_p24
       type: object
       x-expandableFields: []
+    payment_method_options_pay_by_bank:
+      description: ''
+      properties: {}
+      title: payment_method_options_pay_by_bank
+      type: object
+      x-expandableFields: []
     payment_method_options_paynow:
       description: ''
       properties:
@@ -34066,6 +34384,12 @@ components:
       title: payment_method_p24
       type: object
       x-expandableFields: []
+    payment_method_pay_by_bank:
+      description: ''
+      properties: {}
+      title: payment_method_pay_by_bank
+      type: object
+      x-expandableFields: []
     payment_method_payco:
       description: ''
       properties: {}
@@ -34081,6 +34405,14 @@ components:
     payment_method_paypal:
       description: ''
       properties:
+        country:
+          description: >-
+            Two-letter ISO code representing the buyer's country. Values are
+            provided by PayPal directly (if supported) at the time of
+            authorization or settlement. They cannot be set or mutated.
+          maxLength: 5000
+          nullable: true
+          type: string
         payer_email:
           description: >-
             Owner's email. Values are provided by PayPal directly
@@ -34774,6 +35106,34 @@ components:
       x-expandableFields:
         - address
         - tax_ids
+    payment_pages_checkout_session_discount:
+      description: ''
+      properties:
+        coupon:
+          anyOf:
+            - maxLength: 5000
+              type: string
+            - $ref: '#/components/schemas/coupon'
+          description: Coupon attached to the Checkout Session.
+          nullable: true
+          x-expansionResources:
+            oneOf:
+              - $ref: '#/components/schemas/coupon'
+        promotion_code:
+          anyOf:
+            - maxLength: 5000
+              type: string
+            - $ref: '#/components/schemas/promotion_code'
+          description: Promotion code attached to the Checkout Session.
+          nullable: true
+          x-expansionResources:
+            oneOf:
+              - $ref: '#/components/schemas/promotion_code'
+      title: PaymentPagesCheckoutSessionDiscount
+      type: object
+      x-expandableFields:
+        - coupon
+        - promotion_code
     payment_pages_checkout_session_invoice_creation:
       description: ''
       properties:
@@ -34935,7 +35295,7 @@ components:
             countries Checkout should provide as options for
 
             shipping locations. Unsupported country codes: `AS, CX, CC, CU, HM,
-            IR, KP, MH, FM, NF, MP, PW, SD, SY, UM, VI`.
+            IR, KP, MH, FM, NF, MP, PW, SY, UM, VI`.
           items:
             enum:
               - AC
@@ -35122,6 +35482,7 @@ components:
               - SA
               - SB
               - SC
+              - SD
               - SE
               - SG
               - SH
@@ -35176,7 +35537,6 @@ components:
               - ZW
               - ZZ
             type: string
-            x-stripeBypassValidation: true
           type: array
       required:
         - allowed_countries
@@ -47296,6 +47656,9 @@ components:
         hkd:
           $ref: >-
             #/components/schemas/terminal_configuration_configuration_resource_currency_specific_config
+        jpy:
+          $ref: >-
+            #/components/schemas/terminal_configuration_configuration_resource_currency_specific_config
         myr:
           $ref: >-
             #/components/schemas/terminal_configuration_configuration_resource_currency_specific_config
@@ -47328,6 +47691,7 @@ components:
         - eur
         - gbp
         - hkd
+        - jpy
         - myr
         - nok
         - nzd
@@ -48904,6 +49268,8 @@ components:
           description: Unique identifier for the object.
           maxLength: 5000
           type: string
+        is_default:
+          type: boolean
         livemode:
           description: >-
             Has the value `true` if the object exists in live mode or the value
@@ -48919,6 +49285,11 @@ components:
             additional information about the object in a structured format.
           nullable: true
           type: object
+        nickname:
+          description: The nickname for the FinancialAccount.
+          maxLength: 5000
+          nullable: true
+          type: string
         object:
           description: >-
             String representing the object's type. Objects of the same type
@@ -50882,6 +51253,8 @@ components:
           $ref: '#/components/schemas/treasury.credit_reversal'
         outbound_payment:
           $ref: '#/components/schemas/treasury.outbound_payment'
+        outbound_transfer:
+          $ref: '#/components/schemas/treasury.outbound_transfer'
         payout:
           $ref: '#/components/schemas/payout'
         type:
@@ -50890,9 +51263,9 @@ components:
             - credit_reversal
             - other
             - outbound_payment
+            - outbound_transfer
             - payout
           type: string
-          x-stripeBypassValidation: true
       required:
         - type
       title: TreasuryReceivedCreditsResourceSourceFlowsDetails
@@ -50900,6 +51273,7 @@ components:
       x-expandableFields:
         - credit_reversal
         - outbound_payment
+        - outbound_transfer
         - payout
     treasury_received_credits_resource_status_transitions:
       description: ''
@@ -51442,7 +51816,7 @@ info:
     details.
   termsOfService: 'https://stripe.com/us/terms/'
   title: Stripe API
-  version: 2024-12-18.acacia
+  version: 2025-01-27.acacia
   x-stripeSpecFilename: spec3
 openapi: 3.0.0
 paths:
@@ -51681,6 +52055,82 @@ paths:
                       required:
                         - enabled
                       title: base_config_param
+                      type: object
+                    financial_account:
+                      properties:
+                        enabled:
+                          type: boolean
+                        features:
+                          properties:
+                            disable_stripe_user_authentication:
+                              type: boolean
+                            external_account_collection:
+                              type: boolean
+                            send_money:
+                              type: boolean
+                            transfer_balance:
+                              type: boolean
+                          title: financial_account_features_param
+                          type: object
+                      required:
+                        - enabled
+                      title: financial_account_config_param
+                      type: object
+                    financial_account_transactions:
+                      properties:
+                        enabled:
+                          type: boolean
+                        features:
+                          properties:
+                            card_spend_dispute_management:
+                              type: boolean
+                          title: financial_account_transactions_features_param
+                          type: object
+                      required:
+                        - enabled
+                      title: financial_account_transactions_config_param
+                      type: object
+                    issuing_card:
+                      properties:
+                        enabled:
+                          type: boolean
+                        features:
+                          properties:
+                            card_management:
+                              type: boolean
+                            card_spend_dispute_management:
+                              type: boolean
+                            cardholder_management:
+                              type: boolean
+                            spend_control_management:
+                              type: boolean
+                          title: issuing_card_features_param
+                          type: object
+                      required:
+                        - enabled
+                      title: issuing_card_config_param
+                      type: object
+                    issuing_cards_list:
+                      properties:
+                        enabled:
+                          type: boolean
+                        features:
+                          properties:
+                            card_management:
+                              type: boolean
+                            card_spend_dispute_management:
+                              type: boolean
+                            cardholder_management:
+                              type: boolean
+                            disable_stripe_user_authentication:
+                              type: boolean
+                            spend_control_management:
+                              type: boolean
+                          title: issuing_cards_list_features_param
+                          type: object
+                      required:
+                        - enabled
+                      title: issuing_cards_list_config_param
                       type: object
                     notification_banner:
                       properties:
@@ -52413,6 +52863,12 @@ paths:
                           type: boolean
                       title: capability_param
                       type: object
+                    pay_by_bank_payments:
+                      properties:
+                        requested:
+                          type: boolean
+                      title: capability_param
+                      type: object
                     payco_payments:
                       properties:
                         requested:
@@ -52601,6 +53057,18 @@ paths:
                       type: object
                     directors_provided:
                       type: boolean
+                    directorship_declaration:
+                      properties:
+                        date:
+                          format: unix-time
+                          type: integer
+                        ip:
+                          type: string
+                        user_agent:
+                          maxLength: 5000
+                          type: string
+                      title: company_directorship_declaration
+                      type: object
                     executives_provided:
                       type: boolean
                     export_license_id:
@@ -52632,6 +53100,12 @@ paths:
                           type: string
                       title: company_ownership_declaration
                       type: object
+                    ownership_exemption_reason:
+                      enum:
+                        - ''
+                        - qualified_entity_exceeds_ownership_threshold
+                        - qualifies_as_financial_institution
+                      type: string
                     phone:
                       maxLength: 5000
                       type: string
@@ -52814,6 +53288,15 @@ paths:
                       title: documents_param
                       type: object
                     proof_of_registration:
+                      properties:
+                        files:
+                          items:
+                            maxLength: 500
+                            type: string
+                          type: array
+                      title: documents_param
+                      type: object
+                    proof_of_ultimate_beneficial_ownership:
                       properties:
                         files:
                           items:
@@ -53834,6 +54317,12 @@ paths:
                           type: boolean
                       title: capability_param
                       type: object
+                    pay_by_bank_payments:
+                      properties:
+                        requested:
+                          type: boolean
+                      title: capability_param
+                      type: object
                     payco_payments:
                       properties:
                         requested:
@@ -54022,6 +54511,18 @@ paths:
                       type: object
                     directors_provided:
                       type: boolean
+                    directorship_declaration:
+                      properties:
+                        date:
+                          format: unix-time
+                          type: integer
+                        ip:
+                          type: string
+                        user_agent:
+                          maxLength: 5000
+                          type: string
+                      title: company_directorship_declaration
+                      type: object
                     executives_provided:
                       type: boolean
                     export_license_id:
@@ -54053,6 +54554,12 @@ paths:
                           type: string
                       title: company_ownership_declaration
                       type: object
+                    ownership_exemption_reason:
+                      enum:
+                        - ''
+                        - qualified_entity_exceeds_ownership_threshold
+                        - qualifies_as_financial_institution
+                      type: string
                     phone:
                       maxLength: 5000
                       type: string
@@ -54180,6 +54687,15 @@ paths:
                       title: documents_param
                       type: object
                     proof_of_registration:
+                      properties:
+                        files:
+                          items:
+                            maxLength: 500
+                            type: string
+                          type: array
+                      title: documents_param
+                      type: object
+                    proof_of_ultimate_beneficial_ownership:
                       properties:
                         files:
                           items:
@@ -65363,6 +65879,7 @@ paths:
                     - setup
                     - subscription
                   type: string
+                  x-stripeBypassValidation: true
                 payment_intent_data:
                   description: >-
                     A subset of parameters to be passed to PaymentIntent
@@ -65883,6 +66400,10 @@ paths:
                           type: boolean
                       title: payment_method_options_param
                       type: object
+                    pay_by_bank:
+                      properties: {}
+                      title: payment_method_options_param
+                      type: object
                     payco:
                       properties:
                         capture_method:
@@ -66126,6 +66647,7 @@ paths:
                       - naver_pay
                       - oxxo
                       - p24
+                      - pay_by_bank
                       - payco
                       - paynow
                       - paypal
@@ -66412,6 +66934,7 @@ paths:
                           - SA
                           - SB
                           - SC
+                          - SD
                           - SE
                           - SG
                           - SH
@@ -66466,7 +66989,6 @@ paths:
                           - ZW
                           - ZZ
                         type: string
-                        x-stripeBypassValidation: true
                       type: array
                   required:
                     - allowed_countries
@@ -72917,6 +73439,7 @@ paths:
           name: ending_before
           required: false
           schema:
+            maxLength: 5000
             type: string
           style: form
         - description: Specifies which fields in the response should be expanded.
@@ -72949,6 +73472,7 @@ paths:
           name: starting_after
           required: false
           schema:
+            maxLength: 5000
             type: string
           style: form
         - description: >-
@@ -72991,6 +73515,7 @@ paths:
               - naver_pay
               - oxxo
               - p24
+              - pay_by_bank
               - payco
               - paynow
               - paypal
@@ -79253,7 +79778,9 @@ paths:
         objects.</p>
       operationId: GetFinancialConnectionsTransactions
       parameters:
-        - description: The ID of the Stripe account whose transactions will be retrieved.
+        - description: >-
+            The ID of the Financial Connections Account whose transactions will
+            be retrieved.
           in: query
           name: account
           required: true
@@ -98110,6 +98637,10 @@ paths:
                           x-stripeBypassValidation: true
                       title: param
                       type: object
+                    pay_by_bank:
+                      properties: {}
+                      title: param
+                      type: object
                     payco:
                       properties: {}
                       title: param
@@ -98207,6 +98738,7 @@ paths:
                         - naver_pay
                         - oxxo
                         - p24
+                        - pay_by_bank
                         - payco
                         - paynow
                         - paypal
@@ -99115,6 +99647,14 @@ paths:
                             tos_shown_and_accepted:
                               type: boolean
                           title: payment_method_options_param
+                          type: object
+                        - enum:
+                            - ''
+                          type: string
+                    pay_by_bank:
+                      anyOf:
+                        - properties: {}
+                          title: payment_intent_payment_method_options_param
                           type: object
                         - enum:
                             - ''
@@ -100350,6 +100890,10 @@ paths:
                           x-stripeBypassValidation: true
                       title: param
                       type: object
+                    pay_by_bank:
+                      properties: {}
+                      title: param
+                      type: object
                     payco:
                       properties: {}
                       title: param
@@ -100447,6 +100991,7 @@ paths:
                         - naver_pay
                         - oxxo
                         - p24
+                        - pay_by_bank
                         - payco
                         - paynow
                         - paypal
@@ -101355,6 +101900,14 @@ paths:
                             tos_shown_and_accepted:
                               type: boolean
                           title: payment_method_options_param
+                          type: object
+                        - enum:
+                            - ''
+                          type: string
+                    pay_by_bank:
+                      anyOf:
+                        - properties: {}
+                          title: payment_intent_payment_method_options_param
                           type: object
                         - enum:
                             - ''
@@ -102744,6 +103297,10 @@ paths:
                           x-stripeBypassValidation: true
                       title: param
                       type: object
+                    pay_by_bank:
+                      properties: {}
+                      title: param
+                      type: object
                     payco:
                       properties: {}
                       title: param
@@ -102841,6 +103398,7 @@ paths:
                         - naver_pay
                         - oxxo
                         - p24
+                        - pay_by_bank
                         - payco
                         - paynow
                         - paypal
@@ -103749,6 +104307,14 @@ paths:
                             tos_shown_and_accepted:
                               type: boolean
                           title: payment_method_options_param
+                          type: object
+                        - enum:
+                            - ''
+                          type: string
+                    pay_by_bank:
+                      anyOf:
+                        - properties: {}
+                          title: payment_intent_payment_method_options_param
                           type: object
                         - enum:
                             - ''
@@ -105132,6 +105698,7 @@ paths:
                       - multibanco
                       - oxxo
                       - p24
+                      - pay_by_bank
                       - paynow
                       - paypal
                       - pix
@@ -105367,6 +105934,7 @@ paths:
                           - SA
                           - SB
                           - SC
+                          - SD
                           - SE
                           - SG
                           - SH
@@ -105421,7 +105989,6 @@ paths:
                           - ZW
                           - ZZ
                         type: string
-                        x-stripeBypassValidation: true
                       type: array
                   required:
                     - allowed_countries
@@ -105645,6 +106212,9 @@ paths:
                 explode: true
                 style: deepObject
               payment_method_types:
+                explode: true
+                style: deepObject
+              phone_number_collection:
                 explode: true
                 style: deepObject
               restrictions:
@@ -106110,6 +106680,7 @@ paths:
                           - multibanco
                           - oxxo
                           - p24
+                          - pay_by_bank
                           - paynow
                           - paypal
                           - pix
@@ -106132,6 +106703,20 @@ paths:
                     Pass an empty string to enable dynamic payment methods that
                     use your [payment method
                     settings](https://dashboard.stripe.com/settings/payment_methods).
+                phone_number_collection:
+                  description: >-
+                    Controls phone number collection settings during checkout.
+
+
+                    We recommend that you review your privacy policy and check
+                    with your legal contacts.
+                  properties:
+                    enabled:
+                      type: boolean
+                  required:
+                    - enabled
+                  title: phone_number_collection_params
+                  type: object
                 restrictions:
                   anyOf:
                     - properties:
@@ -106341,6 +106926,7 @@ paths:
                               - SA
                               - SB
                               - SC
+                              - SD
                               - SE
                               - SG
                               - SH
@@ -106395,7 +106981,6 @@ paths:
                               - ZW
                               - ZZ
                             type: string
-                            x-stripeBypassValidation: true
                           type: array
                       required:
                         - allowed_countries
@@ -106848,6 +107433,9 @@ paths:
                 explode: true
                 style: deepObject
               p24:
+                explode: true
+                style: deepObject
+              pay_by_bank:
                 explode: true
                 style: deepObject
               paynow:
@@ -107551,6 +108139,27 @@ paths:
                     child configuration.
                   maxLength: 100
                   type: string
+                pay_by_bank:
+                  description: >-
+                    Pay by bank is a redirect payment method backed by bank
+                    transfers. A customer is redirected to their bank to
+                    authorize a bank transfer for a given amount. This removes a
+                    lot of the error risks inherent in waiting for the customer
+                    to initiate a transfer themselves, and is less expensive
+                    than card payments.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
                 paynow:
                   description: >-
                     PayNow is a Singapore-based payment method that allows
@@ -107956,6 +108565,9 @@ paths:
                 explode: true
                 style: deepObject
               p24:
+                explode: true
+                style: deepObject
+              pay_by_bank:
                 explode: true
                 style: deepObject
               paynow:
@@ -108656,6 +109268,27 @@ paths:
                       type: object
                   title: payment_method_param
                   type: object
+                pay_by_bank:
+                  description: >-
+                    Pay by bank is a redirect payment method backed by bank
+                    transfers. A customer is redirected to their bank to
+                    authorize a bank transfer for a given amount. This removes a
+                    lot of the error risks inherent in waiting for the customer
+                    to initiate a transfer themselves, and is less expensive
+                    than card payments.
+                  properties:
+                    display_preference:
+                      properties:
+                        preference:
+                          enum:
+                            - none
+                            - 'off'
+                            - 'on'
+                          type: string
+                      title: display_preference_param
+                      type: object
+                  title: payment_method_param
+                  type: object
                 paynow:
                   description: >-
                     PayNow is a Singapore-based payment method that allows
@@ -109259,6 +109892,7 @@ paths:
           name: ending_before
           required: false
           schema:
+            maxLength: 5000
             type: string
           style: form
         - description: Specifies which fields in the response should be expanded.
@@ -109291,6 +109925,7 @@ paths:
           name: starting_after
           required: false
           schema:
+            maxLength: 5000
             type: string
           style: form
         - description: >-
@@ -109333,6 +109968,7 @@ paths:
               - naver_pay
               - oxxo
               - p24
+              - pay_by_bank
               - payco
               - paynow
               - paypal
@@ -109518,6 +110154,9 @@ paths:
                 explode: true
                 style: deepObject
               p24:
+                explode: true
+                style: deepObject
+              pay_by_bank:
                 explode: true
                 style: deepObject
               payco:
@@ -110074,6 +110713,13 @@ paths:
                       x-stripeBypassValidation: true
                   title: param
                   type: object
+                pay_by_bank:
+                  description: >-
+                    If this is a `pay_by_bank` PaymentMethod, this hash contains
+                    details about the PayByBank payment method.
+                  properties: {}
+                  title: param
+                  type: object
                 payco:
                   description: >-
                     If this is a `payco` PaymentMethod, this hash contains
@@ -110218,6 +110864,7 @@ paths:
                     - naver_pay
                     - oxxo
                     - p24
+                    - pay_by_bank
                     - payco
                     - paynow
                     - paypal
@@ -110375,6 +111022,9 @@ paths:
               naver_pay:
                 explode: true
                 style: deepObject
+              pay_by_bank:
+                explode: true
+                style: deepObject
               us_bank_account:
                 explode: true
                 style: deepObject
@@ -110510,6 +111160,13 @@ paths:
                         - points
                       type: string
                       x-stripeBypassValidation: true
+                  title: param
+                  type: object
+                pay_by_bank:
+                  description: >-
+                    If this is a `pay_by_bank` PaymentMethod, this hash contains
+                    details about the PayByBank payment method.
+                  properties: {}
                   title: param
                   type: object
                 us_bank_account:
@@ -119031,6 +119688,10 @@ paths:
                           x-stripeBypassValidation: true
                       title: param
                       type: object
+                    pay_by_bank:
+                      properties: {}
+                      title: param
+                      type: object
                     payco:
                       properties: {}
                       title: param
@@ -119128,6 +119789,7 @@ paths:
                         - naver_pay
                         - oxxo
                         - p24
+                        - pay_by_bank
                         - payco
                         - paynow
                         - paypal
@@ -120094,6 +120756,10 @@ paths:
                           x-stripeBypassValidation: true
                       title: param
                       type: object
+                    pay_by_bank:
+                      properties: {}
+                      title: param
+                      type: object
                     payco:
                       properties: {}
                       title: param
@@ -120191,6 +120857,7 @@ paths:
                         - naver_pay
                         - oxxo
                         - p24
+                        - pay_by_bank
                         - payco
                         - paynow
                         - paypal
@@ -121149,6 +121816,10 @@ paths:
                           x-stripeBypassValidation: true
                       title: param
                       type: object
+                    pay_by_bank:
+                      properties: {}
+                      title: param
+                      type: object
                     payco:
                       properties: {}
                       title: param
@@ -121246,6 +121917,7 @@ paths:
                         - naver_pay
                         - oxxo
                         - p24
+                        - pay_by_bank
                         - payco
                         - paynow
                         - paypal
@@ -132250,6 +132922,20 @@ paths:
                               type: integer
                           title: currency_specific_config
                           type: object
+                        jpy:
+                          properties:
+                            fixed_amounts:
+                              items:
+                                type: integer
+                              type: array
+                            percentages:
+                              items:
+                                type: integer
+                              type: array
+                            smart_tip_threshold:
+                              type: integer
+                          title: currency_specific_config
+                          type: object
                         myr:
                           properties:
                             fixed_amounts:
@@ -132681,6 +133367,20 @@ paths:
                           title: currency_specific_config
                           type: object
                         hkd:
+                          properties:
+                            fixed_amounts:
+                              items:
+                                type: integer
+                              type: array
+                            percentages:
+                              items:
+                                type: integer
+                              type: array
+                            smart_tip_threshold:
+                              type: integer
+                          title: currency_specific_config
+                          type: object
+                        jpy:
                           properties:
                             fixed_amounts:
                               items:
@@ -134423,6 +135123,10 @@ paths:
                           x-stripeBypassValidation: true
                       title: param
                       type: object
+                    pay_by_bank:
+                      properties: {}
+                      title: param
+                      type: object
                     payco:
                       properties: {}
                       title: param
@@ -134520,6 +135224,7 @@ paths:
                         - naver_pay
                         - oxxo
                         - p24
+                        - pay_by_bank
                         - payco
                         - paynow
                         - paypal
@@ -139056,6 +139761,18 @@ paths:
                           type: object
                         directors_provided:
                           type: boolean
+                        directorship_declaration:
+                          properties:
+                            date:
+                              format: unix-time
+                              type: integer
+                            ip:
+                              type: string
+                            user_agent:
+                              maxLength: 5000
+                              type: string
+                          title: company_directorship_declaration
+                          type: object
                         executives_provided:
                           type: boolean
                         export_license_id:
@@ -139089,6 +139806,12 @@ paths:
                           type: object
                         ownership_declaration_shown_and_signed:
                           type: boolean
+                        ownership_exemption_reason:
+                          enum:
+                            - ''
+                            - qualified_entity_exceeds_ownership_threshold
+                            - qualifies_as_financial_institution
+                          type: string
                         phone:
                           maxLength: 5000
                           type: string
@@ -141619,6 +142342,9 @@ paths:
               metadata:
                 explode: true
                 style: deepObject
+              nickname:
+                explode: true
+                style: deepObject
               platform_restrictions:
                 explode: true
                 style: deepObject
@@ -141742,6 +142468,14 @@ paths:
                     value to them. All keys can be unset by posting an empty
                     value to `metadata`.
                   type: object
+                nickname:
+                  anyOf:
+                    - maxLength: 5000
+                      type: string
+                    - enum:
+                        - ''
+                      type: string
+                  description: The nickname for the FinancialAccount.
                 platform_restrictions:
                   description: >-
                     The set of functionalities that the platform can restrict on
@@ -141850,7 +142584,13 @@ paths:
               features:
                 explode: true
                 style: deepObject
+              forwarding_settings:
+                explode: true
+                style: deepObject
               metadata:
+                explode: true
+                style: deepObject
+              nickname:
                 explode: true
                 style: deepObject
               platform_restrictions:
@@ -141962,6 +142702,26 @@ paths:
                       type: object
                   title: feature_access
                   type: object
+                forwarding_settings:
+                  description: >-
+                    A different bank account where funds can be
+                    deposited/debited in order to get the closing FA's balance
+                    to $0
+                  properties:
+                    financial_account:
+                      type: string
+                    payment_method:
+                      maxLength: 5000
+                      type: string
+                    type:
+                      enum:
+                        - financial_account
+                        - payment_method
+                      type: string
+                  required:
+                    - type
+                  title: forwarding_settings
+                  type: object
                 metadata:
                   additionalProperties:
                     type: string
@@ -141974,6 +142734,14 @@ paths:
                     value to them. All keys can be unset by posting an empty
                     value to `metadata`.
                   type: object
+                nickname:
+                  anyOf:
+                    - maxLength: 5000
+                      type: string
+                    - enum:
+                        - ''
+                      type: string
+                  description: The nickname for the FinancialAccount.
                 platform_restrictions:
                   description: >-
                     The set of functionalities that the platform can restrict on
@@ -142007,6 +142775,76 @@ paths:
                 $ref: '#/components/schemas/error'
           description: Error response.
       summary: Update a FinancialAccount
+  '/v1/treasury/financial_accounts/{financial_account}/close':
+    post:
+      description: >-
+        <p>Closes a FinancialAccount. A FinancialAccount can only be closed if
+        it has a zero balance, has no pending InboundTransfers, and has canceled
+        all attached Issuing cards.</p>
+      operationId: PostTreasuryFinancialAccountsFinancialAccountClose
+      parameters:
+        - in: path
+          name: financial_account
+          required: true
+          schema:
+            maxLength: 5000
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding:
+              expand:
+                explode: true
+                style: deepObject
+              forwarding_settings:
+                explode: true
+                style: deepObject
+            schema:
+              additionalProperties: false
+              properties:
+                expand:
+                  description: Specifies which fields in the response should be expanded.
+                  items:
+                    maxLength: 5000
+                    type: string
+                  type: array
+                forwarding_settings:
+                  description: >-
+                    A different bank account where funds can be
+                    deposited/debited in order to get the closing FA's balance
+                    to $0
+                  properties:
+                    financial_account:
+                      type: string
+                    payment_method:
+                      maxLength: 5000
+                      type: string
+                    type:
+                      enum:
+                        - financial_account
+                        - payment_method
+                      type: string
+                  required:
+                    - type
+                  title: forwarding_settings
+                  type: object
+              type: object
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/treasury.financial_account'
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+          description: Error response.
+      summary: Close a FinancialAccount
   '/v1/treasury/financial_accounts/{financial_account}/features':
     get:
       description: >-
@@ -143160,6 +143998,9 @@ paths:
         content:
           application/x-www-form-urlencoded:
             encoding:
+              destination_payment_method_data:
+                explode: true
+                style: deepObject
               destination_payment_method_options:
                 explode: true
                 style: deepObject
@@ -143195,6 +144036,22 @@ paths:
                     OutboundTransfer.
                   maxLength: 5000
                   type: string
+                destination_payment_method_data:
+                  description: >-
+                    Hash used to generate the PaymentMethod to be used for this
+                    OutboundTransfer. Exclusive with
+                    `destination_payment_method`.
+                  properties:
+                    financial_account:
+                      type: string
+                    type:
+                      enum:
+                        - financial_account
+                      type: string
+                  required:
+                    - type
+                  title: payment_method_data
+                  type: object
                 destination_payment_method_options:
                   description: Hash describing payment method configuration details.
                   properties:
@@ -143414,9 +144271,9 @@ paths:
                   - credit_reversal
                   - other
                   - outbound_payment
+                  - outbound_transfer
                   - payout
                 type: string
-                x-stripeBypassValidation: true
             required:
               - source_flow_type
             title: linked_flows_param
@@ -144424,6 +145281,7 @@ paths:
                     - 2024-10-28.acacia
                     - 2024-11-20.acacia
                     - 2024-12-18.acacia
+                    - 2025-01-27.acacia
                   maxLength: 5000
                   type: string
                   x-stripeBypassValidation: true
