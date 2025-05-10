@@ -32229,7 +32229,7 @@ export type components = {
              * @default RIGHT
              * @enum {string|null}
              */
-            readonly start_side: "LEFT" | "RIGHT";
+            readonly start_side: "LEFT" | "RIGHT" | null;
             /**
              * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
              * @example 2
@@ -33004,7 +33004,7 @@ export type components = {
              * @default RIGHT
              * @enum {string|null}
              */
-            readonly start_side: "LEFT" | "RIGHT";
+            readonly start_side: "LEFT" | "RIGHT" | null;
             /**
              * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
              * @example 2
@@ -108426,7 +108426,7 @@ export interface operations {
                 /** @description The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`). */
                 readonly task?: string;
                 /** @description The name of the environment that was deployed to (e.g., `staging` or `production`). */
-                readonly environment?: string;
+                readonly environment?: string | null;
                 /** @description The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
                 readonly per_page?: components["parameters"]["per-page"];
                 /** @description The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
