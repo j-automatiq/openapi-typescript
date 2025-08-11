@@ -24579,34 +24579,71 @@ export interface components {
         "simple-user": {
             name?: string | null;
             email?: string | null;
+            /** @example octocat */
             login: string;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
+            /** @example MDQ6VXNlcjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/images/error/octocat_happy.gif
+             */
             avatar_url: string;
+            /** @example 41d064eb2195891e12d0413f63227ea7 */
             gravatar_id: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/followers
+             */
             followers_url: string;
+            /** @example https://api.github.com/users/octocat/following{/other_user} */
             following_url: string;
+            /** @example https://api.github.com/users/octocat/gists{/gist_id} */
             gists_url: string;
+            /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
             starred_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/subscriptions
+             */
             subscriptions_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/orgs
+             */
             organizations_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/repos
+             */
             repos_url: string;
+            /** @example https://api.github.com/users/octocat/events{/privacy} */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/received_events
+             */
             received_events_url: string;
+            /** @example User */
             type: string;
             site_admin: boolean;
+            /** @example "2020-07-09T00:17:55Z" */
             starred_at?: string;
+            /** @example public */
             user_view_type?: string;
         };
         /**
@@ -24735,23 +24772,42 @@ export interface components {
         enterprise: {
             /** @description A short description of the enterprise. */
             description?: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/enterprises/octo-business
+             */
             html_url: string;
             /**
              * Format: uri
              * @description The enterprise's website URL.
              */
             website_url?: string | null;
-            /** @description Unique identifier of the enterprise */
+            /**
+             * @description Unique identifier of the enterprise
+             * @example 42
+             */
             id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
             node_id: string;
-            /** @description The name of the enterprise. */
+            /**
+             * @description The name of the enterprise.
+             * @example Octo Business
+             */
             name: string;
-            /** @description The slug url identifier for the enterprise. */
+            /**
+             * @description The slug url identifier for the enterprise.
+             * @example octo-business
+             */
             slug: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2019-01-26T19:01:12Z
+             */
             created_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2019-01-26T19:14:43Z
+             */
             updated_at: string | null;
             /** Format: uri */
             avatar_url: string;
@@ -24761,23 +24817,47 @@ export interface components {
          * @description GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
          */
         integration: {
-            /** @description Unique identifier of the GitHub app */
+            /**
+             * @description Unique identifier of the GitHub app
+             * @example 37
+             */
             id: number;
-            /** @description The slug name of the GitHub app */
+            /**
+             * @description The slug name of the GitHub app
+             * @example probot-owners
+             */
             slug?: string;
+            /** @example MDExOkludGVncmF0aW9uMQ== */
             node_id: string;
+            /** @example "Iv1.25b5d1e65ffc4022" */
             client_id?: string;
             owner: components["schemas"]["simple-user"] | components["schemas"]["enterprise"];
-            /** @description The name of the GitHub app */
+            /**
+             * @description The name of the GitHub app
+             * @example Probot Owners
+             */
             name: string;
+            /** @example The description of the app. */
             description: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://example.com
+             */
             external_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/apps/super-ci
+             */
             html_url: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2017-07-08T16:18:44-04:00
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2017-07-08T16:18:44-04:00
+             */
             updated_at: string;
             /**
              * @description The set of permissions for the GitHub app
@@ -24795,22 +24875,39 @@ export interface components {
             } & {
                 [key: string]: string;
             };
-            /** @description The list of events for the GitHub app */
+            /**
+             * @description The list of events for the GitHub app
+             * @example label
+             * @example deployment
+             */
             events: string[];
-            /** @description The number of installations associated with the GitHub app */
+            /**
+             * @description The number of installations associated with the GitHub app
+             * @example 5
+             */
             installations_count?: number;
+            /** @example "1d4b2097ac622ba702d19de498f005747a8b21d3" */
             client_secret?: string;
+            /** @example "6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b" */
             webhook_secret?: string | null;
+            /** @example "-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEArYxrNYD/iT5CZVpRJu4rBKmmze3PVmT/gCo2ATUvDvZTPTey\nxcGJ3vvrJXazKk06pN05TN29o98jrYz4cengG3YGsXPNEpKsIrEl8NhbnxapEnM9\nJCMRe0P5JcPsfZlX6hmiT7136GRWiGOUba2X9+HKh8QJVLG5rM007TBER9/z9mWm\nrJuNh+m5l320oBQY/Qq3A7wzdEfZw8qm/mIN0FCeoXH1L6B8xXWaAYBwhTEh6SSn\nZHlO1Xu1JWDmAvBCi0RO5aRSKM8q9QEkvvHP4yweAtK3N8+aAbZ7ovaDhyGz8r6r\nzhU1b8Uo0Z2ysf503WqzQgIajr7Fry7/kUwpgQIDAQABAoIBADwJp80Ko1xHPZDy\nfcCKBDfIuPvkmSW6KumbsLMaQv1aGdHDwwTGv3t0ixSay8CGlxMRtRDyZPib6SvQ\n6OH/lpfpbMdW2ErkksgtoIKBVrDilfrcAvrNZu7NxRNbhCSvN8q0s4ICecjbbVQh\nnueSdlA6vGXbW58BHMq68uRbHkP+k+mM9U0mDJ1HMch67wlg5GbayVRt63H7R2+r\nVxcna7B80J/lCEjIYZznawgiTvp3MSanTglqAYi+m1EcSsP14bJIB9vgaxS79kTu\noiSo93leJbBvuGo8QEiUqTwMw4tDksmkLsoqNKQ1q9P7LZ9DGcujtPy4EZsamSJT\ny8OJt0ECgYEA2lxOxJsQk2kI325JgKFjo92mQeUObIvPfSNWUIZQDTjniOI6Gv63\nGLWVFrZcvQBWjMEQraJA9xjPbblV8PtfO87MiJGLWCHFxmPz2dzoedN+2Coxom8m\nV95CLz8QUShuao6u/RYcvUaZEoYs5bHcTmy5sBK80JyEmafJPtCQVxMCgYEAy3ar\nZr3yv4xRPEPMat4rseswmuMooSaK3SKub19WFI5IAtB/e7qR1Rj9JhOGcZz+OQrl\nT78O2OFYlgOIkJPvRMrPpK5V9lslc7tz1FSh3BZMRGq5jSyD7ETSOQ0c8T2O/s7v\nbeEPbVbDe4mwvM24XByH0GnWveVxaDl51ABD65sCgYB3ZAspUkOA5egVCh8kNpnd\nSd6SnuQBE3ySRlT2WEnCwP9Ph6oPgn+oAfiPX4xbRqkL8q/k0BdHQ4h+zNwhk7+h\nWtPYRAP1Xxnc/F+jGjb+DVaIaKGU18MWPg7f+FI6nampl3Q0KvfxwX0GdNhtio8T\nTj1E+SnFwh56SRQuxSh2gwKBgHKjlIO5NtNSflsUYFM+hyQiPiqnHzddfhSG+/3o\nm5nNaSmczJesUYreH5San7/YEy2UxAugvP7aSY2MxB+iGsiJ9WD2kZzTUlDZJ7RV\nUzWsoqBR+eZfVJ2FUWWvy8TpSG6trh4dFxImNtKejCR1TREpSiTV3Zb1dmahK9GV\nrK9NAoGAbBxRLoC01xfxCTgt5BDiBcFVh4fp5yYKwavJPLzHSpuDOrrI9jDn1oKN\nonq5sDU1i391zfQvdrbX4Ova48BN+B7p63FocP/MK5tyyBoT8zQEk2+vWDOw7H/Z\nu5dTCPxTIsoIwUw1I+7yIxqJzLPFgR2gVBwY1ra/8iAqCj+zeBw=\n-----END RSA PRIVATE KEY-----\n" */
             pem?: string;
         } | null;
         /**
          * Format: uri
          * @description The URL to which the payloads will be delivered.
+         * @example https://example.com/webhook
          */
         "webhook-config-url": string;
-        /** @description The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`. */
+        /**
+         * @description The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.
+         * @example "json"
+         */
         "webhook-config-content-type": string;
-        /** @description If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers). */
+        /**
+         * @description If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
+         * @example "********"
+         */
         "webhook-config-secret": string;
         "webhook-config-insecure-ssl": string | number;
         /**
@@ -24828,34 +24925,66 @@ export interface components {
          * @description Delivery made by a webhook, without request and response information.
          */
         "hook-delivery-item": {
-            /** @description Unique identifier of the webhook delivery. */
+            /**
+             * @description Unique identifier of the webhook delivery.
+             * @example 42
+             */
             id: number;
-            /** @description Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to this event). */
+            /**
+             * @description Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to this event).
+             * @example 58474f00-b361-11eb-836d-0e4f3503ccbe
+             */
             guid: string;
             /**
              * Format: date-time
              * @description Time when the webhook delivery occurred.
+             * @example 2021-05-12T20:33:44Z
              */
             delivered_at: string;
-            /** @description Whether the webhook delivery is a redelivery. */
+            /**
+             * @description Whether the webhook delivery is a redelivery.
+             * @example false
+             */
             redelivery: boolean;
-            /** @description Time spent delivering. */
+            /**
+             * @description Time spent delivering.
+             * @example 0.03
+             */
             duration: number;
-            /** @description Describes the response returned after attempting the delivery. */
+            /**
+             * @description Describes the response returned after attempting the delivery.
+             * @example failed to connect
+             */
             status: string;
-            /** @description Status code received when delivery was made. */
+            /**
+             * @description Status code received when delivery was made.
+             * @example 502
+             */
             status_code: number;
-            /** @description The event that triggered the delivery. */
+            /**
+             * @description The event that triggered the delivery.
+             * @example issues
+             */
             event: string;
-            /** @description The type of activity for the event that triggered the delivery. */
+            /**
+             * @description The type of activity for the event that triggered the delivery.
+             * @example opened
+             */
             action: string | null;
-            /** @description The id of the GitHub App installation associated with this event. */
+            /**
+             * @description The id of the GitHub App installation associated with this event.
+             * @example 123
+             */
             installation_id: number | null;
-            /** @description The id of the repository associated with this event. */
+            /**
+             * @description The id of the repository associated with this event.
+             * @example 123
+             */
             repository_id: number | null;
             /**
              * Format: date-time
              * @description Time when the webhook delivery was throttled.
+             * @example 2021-05-12T20:33:44Z
              */
             throttled_at?: string | null;
         };
@@ -24892,37 +25021,72 @@ export interface components {
          * @description Delivery made by a webhook.
          */
         "hook-delivery": {
-            /** @description Unique identifier of the delivery. */
+            /**
+             * @description Unique identifier of the delivery.
+             * @example 42
+             */
             id: number;
-            /** @description Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to this event). */
+            /**
+             * @description Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to this event).
+             * @example 58474f00-b361-11eb-836d-0e4f3503ccbe
+             */
             guid: string;
             /**
              * Format: date-time
              * @description Time when the delivery was delivered.
+             * @example 2021-05-12T20:33:44Z
              */
             delivered_at: string;
-            /** @description Whether the delivery is a redelivery. */
+            /**
+             * @description Whether the delivery is a redelivery.
+             * @example false
+             */
             redelivery: boolean;
-            /** @description Time spent delivering. */
+            /**
+             * @description Time spent delivering.
+             * @example 0.03
+             */
             duration: number;
-            /** @description Description of the status of the attempted delivery */
+            /**
+             * @description Description of the status of the attempted delivery
+             * @example failed to connect
+             */
             status: string;
-            /** @description Status code received when delivery was made. */
+            /**
+             * @description Status code received when delivery was made.
+             * @example 502
+             */
             status_code: number;
-            /** @description The event that triggered the delivery. */
+            /**
+             * @description The event that triggered the delivery.
+             * @example issues
+             */
             event: string;
-            /** @description The type of activity for the event that triggered the delivery. */
+            /**
+             * @description The type of activity for the event that triggered the delivery.
+             * @example opened
+             */
             action: string | null;
-            /** @description The id of the GitHub App installation associated with this event. */
+            /**
+             * @description The id of the GitHub App installation associated with this event.
+             * @example 123
+             */
             installation_id: number | null;
-            /** @description The id of the repository associated with this event. */
+            /**
+             * @description The id of the repository associated with this event.
+             * @example 123
+             */
             repository_id: number | null;
             /**
              * Format: date-time
              * @description Time when the webhook delivery was throttled.
+             * @example 2021-05-12T20:33:44Z
              */
             throttled_at?: string | null;
-            /** @description The URL target of the delivery. */
+            /**
+             * @description The URL target of the delivery.
+             * @example https://www.example.com
+             */
             url?: string;
             request: {
                 /** @description The request headers sent with the webhook delivery. */
@@ -24948,12 +25112,19 @@ export interface components {
          * @description Request to install an integration on a target
          */
         "integration-installation-request": {
-            /** @description Unique identifier of the request installation. */
+            /**
+             * @description Unique identifier of the request installation.
+             * @example 42
+             */
             id: number;
+            /** @example MDExOkludGVncmF0aW9uMQ== */
             node_id?: string;
             account: components["schemas"]["simple-user"] | components["schemas"]["enterprise"];
             requester: components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-07-08T16:18:44-04:00
+             */
             created_at: string;
         };
         /**
@@ -25213,7 +25384,10 @@ export interface components {
          * @description Installation
          */
         installation: {
-            /** @description The ID of the installation. */
+            /**
+             * @description The ID of the installation.
+             * @example 1
+             */
             id: number;
             account: (null | (components["schemas"]["simple-user"] | components["schemas"]["enterprise"])) | components["schemas"]["simple-user"] | components["schemas"]["enterprise"];
             /**
@@ -25221,15 +25395,26 @@ export interface components {
              * @enum {string}
              */
             repository_selection: "all" | "selected";
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/app/installations/1/access_tokens
+             */
             access_tokens_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/installation/repositories
+             */
             repositories_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/organizations/github/settings/installations/1
+             */
             html_url: string;
+            /** @example 1 */
             app_id: number;
             /** @description The ID of the user or organization this token is being scoped to. */
             target_id: number;
+            /** @example Organization */
             target_type: string;
             permissions: components["schemas"]["app-permissions"];
             events: string[];
@@ -25237,13 +25422,21 @@ export interface components {
             created_at: string;
             /** Format: date-time */
             updated_at: string;
+            /** @example config.yaml */
             single_file_name: string | null;
+            /** @example true */
             has_multiple_single_files?: boolean;
+            /**
+             * @example config.yml
+             * @example .github/issue_TEMPLATE.md
+             */
             single_file_paths?: string[];
+            /** @example github-actions */
             app_slug: string;
             suspended_by: null | components["schemas"]["simple-user"];
             /** Format: date-time */
             suspended_at: string | null;
+            /** @example "test_13f1e99741e3e004@d7e1eb0bc0a1ba12.com" */
             contact_email?: string | null;
         };
         /**
@@ -25251,11 +25444,18 @@ export interface components {
          * @description License Simple
          */
         "license-simple": {
+            /** @example mit */
             key: string;
+            /** @example MIT License */
             name: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/licenses/mit
+             */
             url: string | null;
+            /** @example MIT */
             spdx_id: string | null;
+            /** @example MDc6TGljZW5zZW1pdA== */
             node_id: string;
             /** Format: uri */
             html_url?: string;
@@ -25268,11 +25468,17 @@ export interface components {
             /**
              * Format: int64
              * @description Unique identifier of the repository
+             * @example 42
              */
             id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
             node_id: string;
-            /** @description The name of the repository. */
+            /**
+             * @description The name of the repository.
+             * @example Team Environment
+             */
             name: string;
+            /** @example octocat/Hello-World */
             full_name: string;
             license: null | components["schemas"]["license-simple"];
             forks: number;
@@ -25289,98 +25495,193 @@ export interface components {
              * @default false
              */
             private: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World
+             */
             html_url: string;
+            /** @example This your first repo! */
             description: string | null;
             fork: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World
+             */
             url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
             archive_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
             assignees_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
             blobs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
             branches_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
             collaborators_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
             comments_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
             commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
             compare_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
             contents_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/contributors
+             */
             contributors_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/deployments
+             */
             deployments_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/downloads
+             */
             downloads_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/events
+             */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/forks
+             */
             forks_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
             git_commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
             git_refs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
             git_tags_url: string;
+            /** @example git:github.com/octocat/Hello-World.git */
             git_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
             issue_comment_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
             issue_events_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
             issues_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
             keys_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
             labels_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/languages
+             */
             languages_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/merges
+             */
             merges_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
             milestones_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
             notifications_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
             pulls_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
             releases_url: string;
+            /** @example git@github.com:octocat/Hello-World.git */
             ssh_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+             */
             stargazers_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
             statuses_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+             */
             subscribers_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscription
+             */
             subscription_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/tags
+             */
             tags_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/teams
+             */
             teams_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
             trees_url: string;
+            /** @example https://github.com/octocat/Hello-World.git */
             clone_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example git:git.example.com/octocat/Hello-World
+             */
             mirror_url: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/hooks
+             */
             hooks_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://svn.github.com/octocat/Hello-World
+             */
             svn_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com
+             */
             homepage: string | null;
             language: string | null;
+            /** @example 9 */
             forks_count: number;
+            /** @example 80 */
             stargazers_count: number;
+            /** @example 80 */
             watchers_count: number;
-            /** @description The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
+            /**
+             * @description The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0.
+             * @example 108
+             */
             size: number;
-            /** @description The default branch of the repository. */
+            /**
+             * @description The default branch of the repository.
+             * @example master
+             */
             default_branch: string;
+            /** @example 0 */
             open_issues_count: number;
             /**
              * @description Whether this repository acts as a template that can be used to generate new repositories.
              * @default false
+             * @example true
              */
             is_template: boolean;
             topics?: string[];
             /**
              * @description Whether issues are enabled.
              * @default true
+             * @example true
              */
             has_issues: boolean;
             /**
              * @description Whether projects are enabled.
              * @default true
+             * @example true
              */
             has_projects: boolean;
             /**
              * @description Whether the wiki is enabled.
              * @default true
+             * @example true
              */
             has_wiki: boolean;
             has_pages: boolean;
@@ -25388,11 +25689,13 @@ export interface components {
              * @deprecated
              * @description Whether downloads are enabled.
              * @default true
+             * @example true
              */
             has_downloads: boolean;
             /**
              * @description Whether discussions are enabled.
              * @default false
+             * @example true
              */
             has_discussions: boolean;
             /**
@@ -25407,36 +25710,50 @@ export interface components {
              * @default public
              */
             visibility: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:06:43Z
+             */
             pushed_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:14:43Z
+             */
             updated_at: string | null;
             /**
              * @description Whether to allow rebase merges for pull requests.
              * @default true
+             * @example true
              */
             allow_rebase_merge: boolean;
             temp_clone_token?: string;
             /**
              * @description Whether to allow squash merges for pull requests.
              * @default true
+             * @example true
              */
             allow_squash_merge: boolean;
             /**
              * @description Whether to allow Auto-merge to be used on pull requests.
              * @default false
+             * @example false
              */
             allow_auto_merge: boolean;
             /**
              * @description Whether to delete head branches when pull requests are merged
              * @default false
+             * @example false
              */
             delete_branch_on_merge: boolean;
             /**
              * @description Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging.
              * @default false
+             * @example false
              */
             allow_update_branch: boolean;
             /**
@@ -25482,6 +25799,7 @@ export interface components {
             /**
              * @description Whether to allow merge commits for pull requests.
              * @default true
+             * @example true
              */
             allow_merge_commit: boolean;
             /** @description Whether to allow forking this repo */
@@ -25494,6 +25812,7 @@ export interface components {
             open_issues: number;
             watchers: number;
             master_branch?: string;
+            /** @example "2020-07-09T00:17:42Z" */
             starred_at?: string;
             /** @description Whether anonymous git access is enabled for this repository */
             anonymous_access_enabled?: boolean;
@@ -25509,8 +25828,14 @@ export interface components {
             /** @enum {string} */
             repository_selection?: "all" | "selected";
             repositories?: components["schemas"]["repository"][];
+            /** @example README.md */
             single_file?: string;
+            /** @example true */
             has_multiple_single_files?: boolean;
+            /**
+             * @example config.yml
+             * @example .github/issue_TEMPLATE.md
+             */
             single_file_paths?: string[];
         };
         /** Scoped Installation */
@@ -25521,10 +25846,19 @@ export interface components {
              * @enum {string}
              */
             repository_selection: "all" | "selected";
+            /** @example config.yaml */
             single_file_name: string | null;
+            /** @example true */
             has_multiple_single_files?: boolean;
+            /**
+             * @example config.yml
+             * @example .github/issue_TEMPLATE.md
+             */
             single_file_paths?: string[];
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/repos
+             */
             repositories_url: string;
             account: components["schemas"]["simple-user"];
         };
@@ -25566,20 +25900,33 @@ export interface components {
          * @description A GitHub repository view for Classroom
          */
         "simple-classroom-repository": {
-            /** @description A unique identifier of the repository. */
+            /**
+             * @description A unique identifier of the repository.
+             * @example 1296269
+             */
             id: number;
-            /** @description The full, globally unique name of the repository. */
+            /**
+             * @description The full, globally unique name of the repository.
+             * @example octocat/Hello-World
+             */
             full_name: string;
             /**
              * Format: uri
              * @description The URL to view the repository on GitHub.com.
+             * @example https://github.com/octocat/Hello-World
              */
             html_url: string;
-            /** @description The GraphQL identifier of the repository. */
+            /**
+             * @description The GraphQL identifier of the repository.
+             * @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5
+             */
             node_id: string;
             /** @description Whether the repository is private. */
             private: boolean;
-            /** @description The default branch for the repository. */
+            /**
+             * @description The default branch for the repository.
+             * @example main
+             */
             default_branch: string;
         };
         /**
@@ -25587,12 +25934,20 @@ export interface components {
          * @description A GitHub organization.
          */
         "simple-classroom-organization": {
+            /** @example 1 */
             id: number;
+            /** @example github */
             login: string;
+            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/github
+             */
             html_url: string;
+            /** @example Github - Code thigns happen here */
             name: string | null;
+            /** @example https://github.com/images/error/octocat_happy.gif */
             avatar_url: string;
         };
         /**
@@ -25600,14 +25955,26 @@ export interface components {
          * @description A GitHub Classroom classroom
          */
         classroom: {
-            /** @description Unique identifier of the classroom. */
+            /**
+             * @description Unique identifier of the classroom.
+             * @example 42
+             */
             id: number;
-            /** @description The name of the classroom. */
+            /**
+             * @description The name of the classroom.
+             * @example Programming Elixir
+             */
             name: string;
-            /** @description Whether classroom is archived. */
+            /**
+             * @description Whether classroom is archived.
+             * @example false
+             */
             archived: boolean;
             organization: components["schemas"]["simple-classroom-organization"];
-            /** @description The URL of the classroom on GitHub Classroom. */
+            /**
+             * @description The URL of the classroom on GitHub Classroom.
+             * @example https://classroom.github.com/classrooms/1-programming-elixir
+             */
             url: string;
         };
         /**
@@ -25615,44 +25982,91 @@ export interface components {
          * @description A GitHub Classroom assignment
          */
         "classroom-assignment": {
-            /** @description Unique identifier of the repository. */
+            /**
+             * @description Unique identifier of the repository.
+             * @example 42
+             */
             id: number;
-            /** @description Whether an accepted assignment creates a public repository. */
+            /**
+             * @description Whether an accepted assignment creates a public repository.
+             * @example true
+             */
             public_repo: boolean;
-            /** @description Assignment title. */
+            /**
+             * @description Assignment title.
+             * @example Intro to Binaries
+             */
             title: string;
             /**
              * @description Whether it's a group assignment or individual assignment.
+             * @example individual
              * @enum {string}
              */
             type: "individual" | "group";
-            /** @description The link that a student can use to accept the assignment. */
+            /**
+             * @description The link that a student can use to accept the assignment.
+             * @example https://classroom.github.com/a/Lx7jiUgx
+             */
             invite_link: string;
-            /** @description Whether the invitation link is enabled. Visiting an enabled invitation link will accept the assignment. */
+            /**
+             * @description Whether the invitation link is enabled. Visiting an enabled invitation link will accept the assignment.
+             * @example true
+             */
             invitations_enabled: boolean;
-            /** @description Sluggified name of the assignment. */
+            /**
+             * @description Sluggified name of the assignment.
+             * @example intro-to-binaries
+             */
             slug: string;
-            /** @description Whether students are admins on created repository when a student accepts the assignment. */
+            /**
+             * @description Whether students are admins on created repository when a student accepts the assignment.
+             * @example true
+             */
             students_are_repo_admins: boolean;
-            /** @description Whether feedback pull request will be created when a student accepts the assignment. */
+            /**
+             * @description Whether feedback pull request will be created when a student accepts the assignment.
+             * @example true
+             */
             feedback_pull_requests_enabled: boolean;
-            /** @description The maximum allowable teams for the assignment. */
+            /**
+             * @description The maximum allowable teams for the assignment.
+             * @example 0
+             */
             max_teams: number | null;
-            /** @description The maximum allowable members per team. */
+            /**
+             * @description The maximum allowable members per team.
+             * @example 0
+             */
             max_members: number | null;
-            /** @description The selected editor for the assignment. */
+            /**
+             * @description The selected editor for the assignment.
+             * @example codespaces
+             */
             editor: string;
-            /** @description The number of students that have accepted the assignment. */
+            /**
+             * @description The number of students that have accepted the assignment.
+             * @example 25
+             */
             accepted: number;
-            /** @description The number of students that have submitted the assignment. */
+            /**
+             * @description The number of students that have submitted the assignment.
+             * @example 10
+             */
             submitted: number;
-            /** @description The number of students that have passed the assignment. */
+            /**
+             * @description The number of students that have passed the assignment.
+             * @example 10
+             */
             passing: number;
-            /** @description The programming language used in the assignment. */
+            /**
+             * @description The programming language used in the assignment.
+             * @example elixir
+             */
             language: string;
             /**
              * Format: date-time
              * @description The time at which the assignment is due.
+             * @example 2011-01-26T19:06:43Z
              */
             deadline: string | null;
             starter_code_repository: components["schemas"]["simple-classroom-repository"];
@@ -25663,11 +26077,19 @@ export interface components {
          * @description A GitHub user simplified for Classroom.
          */
         "simple-classroom-user": {
+            /** @example 1 */
             id: number;
+            /** @example octocat */
             login: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/images/error/octocat_happy.gif
+             */
             avatar_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat
+             */
             html_url: string;
         };
         /**
@@ -25675,13 +26097,25 @@ export interface components {
          * @description A GitHub Classroom classroom
          */
         "simple-classroom": {
-            /** @description Unique identifier of the classroom. */
+            /**
+             * @description Unique identifier of the classroom.
+             * @example 42
+             */
             id: number;
-            /** @description The name of the classroom. */
+            /**
+             * @description The name of the classroom.
+             * @example Programming Elixir
+             */
             name: string;
-            /** @description Returns whether classroom is archived or not. */
+            /**
+             * @description Returns whether classroom is archived or not.
+             * @example false
+             */
             archived: boolean;
-            /** @description The url of the classroom on GitHub Classroom. */
+            /**
+             * @description The url of the classroom on GitHub Classroom.
+             * @example https://classroom.github.com/classrooms/1-programming-elixir
+             */
             url: string;
         };
         /**
@@ -25689,44 +26123,91 @@ export interface components {
          * @description A GitHub Classroom assignment
          */
         "simple-classroom-assignment": {
-            /** @description Unique identifier of the repository. */
+            /**
+             * @description Unique identifier of the repository.
+             * @example 42
+             */
             id: number;
-            /** @description Whether an accepted assignment creates a public repository. */
+            /**
+             * @description Whether an accepted assignment creates a public repository.
+             * @example true
+             */
             public_repo: boolean;
-            /** @description Assignment title. */
+            /**
+             * @description Assignment title.
+             * @example Intro to Binaries
+             */
             title: string;
             /**
              * @description Whether it's a Group Assignment or Individual Assignment.
+             * @example individual
              * @enum {string}
              */
             type: "individual" | "group";
-            /** @description The link that a student can use to accept the assignment. */
+            /**
+             * @description The link that a student can use to accept the assignment.
+             * @example https://classroom.github.com/a/Lx7jiUgx
+             */
             invite_link: string;
-            /** @description Whether the invitation link is enabled. Visiting an enabled invitation link will accept the assignment. */
+            /**
+             * @description Whether the invitation link is enabled. Visiting an enabled invitation link will accept the assignment.
+             * @example true
+             */
             invitations_enabled: boolean;
-            /** @description Sluggified name of the assignment. */
+            /**
+             * @description Sluggified name of the assignment.
+             * @example intro-to-binaries
+             */
             slug: string;
-            /** @description Whether students are admins on created repository on accepted assignment. */
+            /**
+             * @description Whether students are admins on created repository on accepted assignment.
+             * @example true
+             */
             students_are_repo_admins: boolean;
-            /** @description Whether feedback pull request will be created on assignment acceptance. */
+            /**
+             * @description Whether feedback pull request will be created on assignment acceptance.
+             * @example true
+             */
             feedback_pull_requests_enabled: boolean;
-            /** @description The maximum allowable teams for the assignment. */
+            /**
+             * @description The maximum allowable teams for the assignment.
+             * @example 0
+             */
             max_teams?: number | null;
-            /** @description The maximum allowable members per team. */
+            /**
+             * @description The maximum allowable members per team.
+             * @example 0
+             */
             max_members?: number | null;
-            /** @description The selected editor for the assignment. */
+            /**
+             * @description The selected editor for the assignment.
+             * @example codespaces
+             */
             editor: string;
-            /** @description The number of students that have accepted the assignment. */
+            /**
+             * @description The number of students that have accepted the assignment.
+             * @example 25
+             */
             accepted: number;
-            /** @description The number of students that have submitted the assignment. */
+            /**
+             * @description The number of students that have submitted the assignment.
+             * @example 10
+             */
             submitted: number;
-            /** @description The number of students that have passed the assignment. */
+            /**
+             * @description The number of students that have passed the assignment.
+             * @example 10
+             */
             passing: number;
-            /** @description The programming language used in the assignment. */
+            /**
+             * @description The programming language used in the assignment.
+             * @example elixir
+             */
             language: string;
             /**
              * Format: date-time
              * @description The time at which the assignment is due.
+             * @example 2011-01-26T19:06:43Z
              */
             deadline: string | null;
             classroom: components["schemas"]["simple-classroom"];
@@ -25736,15 +26217,30 @@ export interface components {
          * @description A GitHub Classroom accepted assignment
          */
         "classroom-accepted-assignment": {
-            /** @description Unique identifier of the repository. */
+            /**
+             * @description Unique identifier of the repository.
+             * @example 42
+             */
             id: number;
-            /** @description Whether an accepted assignment has been submitted. */
+            /**
+             * @description Whether an accepted assignment has been submitted.
+             * @example true
+             */
             submitted: boolean;
-            /** @description Whether a submission passed. */
+            /**
+             * @description Whether a submission passed.
+             * @example true
+             */
             passing: boolean;
-            /** @description Count of student commits. */
+            /**
+             * @description Count of student commits.
+             * @example 5
+             */
             commit_count: number;
-            /** @description Most recent grade. */
+            /**
+             * @description Most recent grade.
+             * @example 10/10
+             */
             grade: string;
             students: components["schemas"]["simple-classroom-user"][];
             repository: components["schemas"]["simple-classroom-repository"];
@@ -25783,10 +26279,61 @@ export interface components {
          * @description Code Of Conduct
          */
         "code-of-conduct": {
+            /** @example contributor_covenant */
             key: string;
+            /** @example Contributor Covenant */
             name: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/codes_of_conduct/contributor_covenant
+             */
             url: string;
+            /** @example # Contributor Covenant Code of Conduct
+             *
+             *     ## Our Pledge
+             *
+             *     In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
+             *
+             *     ## Our Standards
+             *
+             *     Examples of behavior that contributes to creating a positive environment include:
+             *
+             *     * Using welcoming and inclusive language
+             *     * Being respectful of differing viewpoints and experiences
+             *     * Gracefully accepting constructive criticism
+             *     * Focusing on what is best for the community
+             *     * Showing empathy towards other community members
+             *
+             *     Examples of unacceptable behavior by participants include:
+             *
+             *     * The use of sexualized language or imagery and unwelcome sexual attention or advances
+             *     * Trolling, insulting/derogatory comments, and personal or political attacks
+             *     * Public or private harassment
+             *     * Publishing others' private information, such as a physical or electronic address, without explicit permission
+             *     * Other conduct which could reasonably be considered inappropriate in a professional setting
+             *
+             *     ## Our Responsibilities
+             *
+             *     Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response
+             *                       to any instances of unacceptable behavior.
+             *
+             *     Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
+             *
+             *     ## Scope
+             *
+             *     This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address,
+             *                       posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
+             *
+             *     ## Enforcement
+             *
+             *     Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [EMAIL]. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
+             *
+             *     Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
+             *
+             *     ## Attribution
+             *
+             *     This Code of Conduct is adapted from the [Contributor Covenant](http://contributor-covenant.org), version 1.4, available at [http://contributor-covenant.org/version/1/4](http://contributor-covenant.org/version/1/4/).
+             *      */
             body?: string;
             /** Format: uri */
             html_url: string | null;
@@ -25939,13 +26486,23 @@ export interface components {
             /**
              * Format: int64
              * @description A unique identifier of the repository.
+             * @example 1296269
              */
             id: number;
-            /** @description The GraphQL identifier of the repository. */
+            /**
+             * @description The GraphQL identifier of the repository.
+             * @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5
+             */
             node_id: string;
-            /** @description The name of the repository. */
+            /**
+             * @description The name of the repository.
+             * @example Hello-World
+             */
             name: string;
-            /** @description The full, globally unique, name of the repository. */
+            /**
+             * @description The full, globally unique, name of the repository.
+             * @example octocat/Hello-World
+             */
             full_name: string;
             owner: components["schemas"]["simple-user"];
             /** @description Whether the repository is private. */
@@ -25953,126 +26510,213 @@ export interface components {
             /**
              * Format: uri
              * @description The URL to view the repository on GitHub.com.
+             * @example https://github.com/octocat/Hello-World
              */
             html_url: string;
-            /** @description The repository description. */
+            /**
+             * @description The repository description.
+             * @example This your first repo!
+             */
             description: string | null;
             /** @description Whether the repository is a fork. */
             fork: boolean;
             /**
              * Format: uri
              * @description The URL to get more information about the repository from the GitHub API.
+             * @example https://api.github.com/repos/octocat/Hello-World
              */
             url: string;
-            /** @description A template for the API URL to download the repository as an archive. */
+            /**
+             * @description A template for the API URL to download the repository as an archive.
+             * @example https://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}
+             */
             archive_url: string;
-            /** @description A template for the API URL to list the available assignees for issues in the repository. */
+            /**
+             * @description A template for the API URL to list the available assignees for issues in the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/assignees{/user}
+             */
             assignees_url: string;
-            /** @description A template for the API URL to create or retrieve a raw Git blob in the repository. */
+            /**
+             * @description A template for the API URL to create or retrieve a raw Git blob in the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}
+             */
             blobs_url: string;
-            /** @description A template for the API URL to get information about branches in the repository. */
+            /**
+             * @description A template for the API URL to get information about branches in the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/branches{/branch}
+             */
             branches_url: string;
-            /** @description A template for the API URL to get information about collaborators of the repository. */
+            /**
+             * @description A template for the API URL to get information about collaborators of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}
+             */
             collaborators_url: string;
-            /** @description A template for the API URL to get information about comments on the repository. */
+            /**
+             * @description A template for the API URL to get information about comments on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/comments{/number}
+             */
             comments_url: string;
-            /** @description A template for the API URL to get information about commits on the repository. */
+            /**
+             * @description A template for the API URL to get information about commits on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/commits{/sha}
+             */
             commits_url: string;
-            /** @description A template for the API URL to compare two commits or refs. */
+            /**
+             * @description A template for the API URL to compare two commits or refs.
+             * @example https://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}
+             */
             compare_url: string;
-            /** @description A template for the API URL to get the contents of the repository. */
+            /**
+             * @description A template for the API URL to get the contents of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/contents/{+path}
+             */
             contents_url: string;
             /**
              * Format: uri
              * @description A template for the API URL to list the contributors to the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/contributors
              */
             contributors_url: string;
             /**
              * Format: uri
              * @description The API URL to list the deployments of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/deployments
              */
             deployments_url: string;
             /**
              * Format: uri
              * @description The API URL to list the downloads on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/downloads
              */
             downloads_url: string;
             /**
              * Format: uri
              * @description The API URL to list the events of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/events
              */
             events_url: string;
             /**
              * Format: uri
              * @description The API URL to list the forks of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/forks
              */
             forks_url: string;
-            /** @description A template for the API URL to get information about Git commits of the repository. */
+            /**
+             * @description A template for the API URL to get information about Git commits of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/git/commits{/sha}
+             */
             git_commits_url: string;
-            /** @description A template for the API URL to get information about Git refs of the repository. */
+            /**
+             * @description A template for the API URL to get information about Git refs of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/git/refs{/sha}
+             */
             git_refs_url: string;
-            /** @description A template for the API URL to get information about Git tags of the repository. */
+            /**
+             * @description A template for the API URL to get information about Git tags of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/git/tags{/sha}
+             */
             git_tags_url: string;
-            /** @description A template for the API URL to get information about issue comments on the repository. */
+            /**
+             * @description A template for the API URL to get information about issue comments on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/comments{/number}
+             */
             issue_comment_url: string;
-            /** @description A template for the API URL to get information about issue events on the repository. */
+            /**
+             * @description A template for the API URL to get information about issue events on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/events{/number}
+             */
             issue_events_url: string;
-            /** @description A template for the API URL to get information about issues on the repository. */
+            /**
+             * @description A template for the API URL to get information about issues on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/issues{/number}
+             */
             issues_url: string;
-            /** @description A template for the API URL to get information about deploy keys on the repository. */
+            /**
+             * @description A template for the API URL to get information about deploy keys on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/keys{/key_id}
+             */
             keys_url: string;
-            /** @description A template for the API URL to get information about labels of the repository. */
+            /**
+             * @description A template for the API URL to get information about labels of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/labels{/name}
+             */
             labels_url: string;
             /**
              * Format: uri
              * @description The API URL to get information about the languages of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/languages
              */
             languages_url: string;
             /**
              * Format: uri
              * @description The API URL to merge branches in the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/merges
              */
             merges_url: string;
-            /** @description A template for the API URL to get information about milestones of the repository. */
+            /**
+             * @description A template for the API URL to get information about milestones of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/milestones{/number}
+             */
             milestones_url: string;
-            /** @description A template for the API URL to get information about notifications on the repository. */
+            /**
+             * @description A template for the API URL to get information about notifications on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}
+             */
             notifications_url: string;
-            /** @description A template for the API URL to get information about pull requests on the repository. */
+            /**
+             * @description A template for the API URL to get information about pull requests on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls{/number}
+             */
             pulls_url: string;
-            /** @description A template for the API URL to get information about releases on the repository. */
+            /**
+             * @description A template for the API URL to get information about releases on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/releases{/id}
+             */
             releases_url: string;
             /**
              * Format: uri
              * @description The API URL to list the stargazers on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/stargazers
              */
             stargazers_url: string;
-            /** @description A template for the API URL to get information about statuses of a commit. */
+            /**
+             * @description A template for the API URL to get information about statuses of a commit.
+             * @example https://api.github.com/repos/octocat/Hello-World/statuses/{sha}
+             */
             statuses_url: string;
             /**
              * Format: uri
              * @description The API URL to list the subscribers on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/subscribers
              */
             subscribers_url: string;
             /**
              * Format: uri
              * @description The API URL to subscribe to notifications for this repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/subscription
              */
             subscription_url: string;
             /**
              * Format: uri
              * @description The API URL to get information about tags on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/tags
              */
             tags_url: string;
             /**
              * Format: uri
              * @description The API URL to list the teams on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/teams
              */
             teams_url: string;
-            /** @description A template for the API URL to create or retrieve a raw Git tree of the repository. */
+            /**
+             * @description A template for the API URL to create or retrieve a raw Git tree of the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/git/trees{/sha}
+             */
             trees_url: string;
             /**
              * Format: uri
              * @description The API URL to list the hooks on the repository.
+             * @example https://api.github.com/repos/octocat/Hello-World/hooks
              */
             hooks_url: string;
         };
@@ -26336,40 +26980,74 @@ export interface components {
          * @description A collection of related issues and pull requests.
          */
         milestone: {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/milestones/1
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/milestones/v1.0
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/milestones/1/labels
+             */
             labels_url: string;
+            /** @example 1002604 */
             id: number;
+            /** @example MDk6TWlsZXN0b25lMTAwMjYwNA== */
             node_id: string;
-            /** @description The number of the milestone. */
+            /**
+             * @description The number of the milestone.
+             * @example 42
+             */
             number: number;
             /**
              * @description The state of the milestone.
              * @default open
+             * @example open
              * @enum {string}
              */
             state: "open" | "closed";
-            /** @description The title of the milestone. */
+            /**
+             * @description The title of the milestone.
+             * @example v1.0
+             */
             title: string;
+            /** @example Tracking milestone for version 1.0 */
             description: string | null;
             creator: null | components["schemas"]["simple-user"];
+            /** @example 4 */
             open_issues: number;
+            /** @example 8 */
             closed_issues: number;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-10T20:09:31Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2014-03-03T18:58:10Z
+             */
             updated_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2013-02-12T13:22:01Z
+             */
             closed_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-10-09T23:39:01Z
+             */
             due_on: string | null;
         };
         /**
          * author_association
          * @description How the author is associated with the repository.
+         * @example OWNER
          * @enum {string}
          */
         "author-association": "COLLABORATOR" | "CONTRIBUTOR" | "FIRST_TIMER" | "FIRST_TIME_CONTRIBUTOR" | "MANNEQUIN" | "MEMBER" | "NONE" | "OWNER";
@@ -26404,6 +27082,7 @@ export interface components {
             /**
              * Format: uri
              * @description URL for the issue
+             * @example https://api.github.com/repositories/42/issues/1
              */
             url: string;
             /** Format: uri */
@@ -26415,21 +27094,38 @@ export interface components {
             events_url: string;
             /** Format: uri */
             html_url: string;
-            /** @description Number uniquely identifying the issue within its repository */
+            /**
+             * @description Number uniquely identifying the issue within its repository
+             * @example 42
+             */
             number: number;
-            /** @description State of the issue; either 'open' or 'closed' */
+            /**
+             * @description State of the issue; either 'open' or 'closed'
+             * @example open
+             */
             state: string;
             /**
              * @description The reason for the current state
+             * @example not_planned
              * @enum {string|null}
              */
             state_reason?: "completed" | "reopened" | "not_planned" | null;
-            /** @description Title of the issue */
+            /**
+             * @description Title of the issue
+             * @example Widget creation fails in Safari on OS X 10.8
+             */
             title: string;
-            /** @description Contents of the issue */
+            /**
+             * @description Contents of the issue
+             * @example It looks like the new widget form is broken on Safari. When I try and create the widget, Safari crashes. This is reproducible on 10.8, but not 10.9. Maybe a browser bug?
+             */
             body?: string | null;
             user: null | components["schemas"]["simple-user"];
-            /** @description Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
+            /**
+             * @description Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository
+             * @example bug
+             * @example registration
+             */
             labels: (string | {
                 /** Format: int64 */
                 id?: number;
@@ -26485,24 +27181,35 @@ export interface components {
             /**
              * Format: int64
              * @description Unique identifier of the issue comment
+             * @example 42
              */
             id: number;
             node_id: string;
             /**
              * Format: uri
              * @description URL for the issue comment
+             * @example https://api.github.com/repositories/42/issues/comments/1
              */
             url: string;
-            /** @description Contents of the issue comment */
+            /**
+             * @description Contents of the issue comment
+             * @example What version of Safari were you using when you observed this bug?
+             */
             body?: string;
             body_text?: string;
             body_html?: string;
             /** Format: uri */
             html_url: string;
             user: null | components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             updated_at: string;
             /** Format: uri */
             issue_url: string;
@@ -26555,17 +27262,31 @@ export interface components {
          * @description Feed
          */
         feed: {
+            /** @example https://github.com/timeline */
             timeline_url: string;
+            /** @example https://github.com/{user} */
             user_url: string;
+            /** @example https://github.com/octocat */
             current_user_public_url?: string;
+            /** @example https://github.com/octocat.private?token=abc123 */
             current_user_url?: string;
+            /** @example https://github.com/octocat.private.actor?token=abc123 */
             current_user_actor_url?: string;
+            /** @example https://github.com/octocat-org */
             current_user_organization_url?: string;
+            /** @example https://github.com/organizations/github/octocat.private.atom?token=abc123 */
             current_user_organization_urls?: string[];
+            /** @example https://github.com/security-advisories */
             security_advisories_url?: string;
-            /** @description A feed of discussions for a given repository. */
+            /**
+             * @description A feed of discussions for a given repository.
+             * @example https://github.com/{user}/{repo}/discussions
+             */
             repository_discussions_url?: string;
-            /** @description A feed of discussions for a given repository and category. */
+            /**
+             * @description A feed of discussions for a given repository and category.
+             * @example https://github.com/{user}/{repo}/discussions/categories/{category}
+             */
             repository_discussions_category_url?: string;
             _links: {
                 timeline: components["schemas"]["link-with-type"];
@@ -26691,10 +27412,15 @@ export interface components {
                 space: number;
                 private_repos: number;
             };
+            /** @example 1 */
             private_gists?: number;
+            /** @example 2 */
             total_private_repos?: number;
+            /** @example 2 */
             owned_private_repos?: number;
+            /** @example 1 */
             disk_usage?: number;
+            /** @example 3 */
             collaborators?: number;
         };
         /**
@@ -26816,16 +27542,30 @@ export interface components {
          * @description A comment made to a gist.
          */
         "gist-comment": {
+            /** @example 1 */
             id: number;
+            /** @example MDExOkdpc3RDb21tZW50MQ== */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/gists/a6db0bec360bb87e9418/comments/1
+             */
             url: string;
-            /** @description The comment text. */
+            /**
+             * @description The comment text.
+             * @example Body of the attachment
+             */
             body: string;
             user: null | components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-18T23:23:56Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-18T23:23:56Z
+             */
             updated_at: string;
             author_association: components["schemas"]["author-association"];
         };
@@ -26834,8 +27574,12 @@ export interface components {
          * @description Gist Commit
          */
         "gist-commit": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/gists/aa5a315d61ae9438b18d/57a7f021a713b1c5a6a199b54cc514735d2d462f
+             */
             url: string;
+            /** @example 57a7f021a713b1c5a6a199b54cc514735d2d462f */
             version: string;
             user: null | components["schemas"]["simple-user"];
             change_status: {
@@ -26843,7 +27587,10 @@ export interface components {
                 additions?: number;
                 deletions?: number;
             };
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2010-04-14T02:15:15Z
+             */
             committed_at: string;
         };
         /**
@@ -26851,7 +27598,26 @@ export interface components {
          * @description Gitignore Template
          */
         "gitignore-template": {
+            /** @example C */
             name: string;
+            /** @example # Object files
+             *     *.o
+             *
+             *     # Libraries
+             *     *.lib
+             *     *.a
+             *
+             *     # Shared objects (inc. Windows DLLs)
+             *     *.dll
+             *     *.so
+             *     *.so.*
+             *     *.dylib
+             *
+             *     # Executables
+             *     *.exe
+             *     *.out
+             *     *.app
+             *      */
             source: string;
         };
         /**
@@ -26859,20 +27625,66 @@ export interface components {
          * @description License
          */
         license: {
+            /** @example mit */
             key: string;
+            /** @example MIT License */
             name: string;
+            /** @example MIT */
             spdx_id: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/licenses/mit
+             */
             url: string | null;
+            /** @example MDc6TGljZW5zZW1pdA== */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://choosealicense.com/licenses/mit/
+             */
             html_url: string;
+            /** @example A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty. */
             description: string;
+            /** @example Create a text file (typically named LICENSE or LICENSE.txt) in the root of your source code and copy the text of the license into the file. Replace [year] with the current year and [fullname] with the name (or names) of the copyright holders. */
             implementation: string;
+            /**
+             * @example commercial-use
+             * @example modifications
+             * @example distribution
+             * @example sublicense
+             * @example private-use
+             */
             permissions: string[];
+            /** @example include-copyright */
             conditions: string[];
+            /** @example no-liability */
             limitations: string[];
+            /** @example
+             *
+             *     The MIT License (MIT)
+             *
+             *     Copyright (c) [year] [fullname]
+             *
+             *     Permission is hereby granted, free of charge, to any person obtaining a copy
+             *     of this software and associated documentation files (the "Software"), to deal
+             *     in the Software without restriction, including without limitation the rights
+             *     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+             *     copies of the Software, and to permit persons to whom the Software is
+             *     furnished to do so, subject to the following conditions:
+             *
+             *     The above copyright notice and this permission notice shall be included in all
+             *     copies or substantial portions of the Software.
+             *
+             *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+             *     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+             *     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+             *     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+             *     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+             *     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+             *     SOFTWARE.
+             *      */
             body: string;
+            /** @example true */
             featured: boolean;
         };
         /**
@@ -26880,21 +27692,42 @@ export interface components {
          * @description Marketplace Listing Plan
          */
         "marketplace-listing-plan": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/marketplace_listing/plans/1313
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/marketplace_listing/plans/1313/accounts
+             */
             accounts_url: string;
+            /** @example 1313 */
             id: number;
+            /** @example 3 */
             number: number;
+            /** @example Pro */
             name: string;
+            /** @example A professional-grade CI solution */
             description: string;
+            /** @example 1099 */
             monthly_price_in_cents: number;
+            /** @example 11870 */
             yearly_price_in_cents: number;
-            /** @enum {string} */
+            /**
+             * @example FLAT_RATE
+             * @enum {string}
+             */
             price_model: "FREE" | "FLAT_RATE" | "PER_UNIT";
+            /** @example true */
             has_free_trial: boolean;
             unit_name: string | null;
+            /** @example published */
             state: string;
+            /**
+             * @example Up to 25 private repositories
+             * @example 11 concurrent builds
+             */
             bullets: string[];
         };
         /**
@@ -26931,6 +27764,7 @@ export interface components {
          * @description Api Overview
          */
         "api-overview": {
+            /** @example true */
             verifiable_password_authentication: boolean;
             ssh_key_fingerprints?: {
                 SHA256_RSA?: string;
@@ -26938,19 +27772,33 @@ export interface components {
                 SHA256_ECDSA?: string;
                 SHA256_ED25519?: string;
             };
+            /** @example ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ */
             ssh_keys?: string[];
+            /** @example 192.0.2.1 */
             hooks?: string[];
+            /** @example 192.0.2.1 */
             github_enterprise_importer?: string[];
+            /** @example 192.0.2.1 */
             web?: string[];
+            /** @example 192.0.2.1 */
             api?: string[];
+            /** @example 192.0.2.1 */
             git?: string[];
+            /** @example 192.0.2.1 */
             packages?: string[];
+            /** @example 192.0.2.1 */
             pages?: string[];
+            /** @example 192.0.2.1 */
             importer?: string[];
+            /** @example 192.0.2.1 */
             actions?: string[];
+            /** @example 192.0.2.1 */
             actions_macos?: string[];
+            /** @example 192.0.2.1 */
             codespaces?: string[];
+            /** @example 192.0.2.1 */
             dependabot?: string[];
+            /** @example 192.0.2.1 */
             copilot?: string[];
             domains?: {
                 website?: string[];
@@ -26963,6 +27811,7 @@ export interface components {
                     wildcard_domains?: string[];
                 };
                 artifact_attestations?: {
+                    /** @example example */
                     trust_domain?: string;
                     services?: string[];
                 };
@@ -27003,71 +27852,146 @@ export interface components {
          * @description Minimal Repository
          */
         "minimal-repository": {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1296269
+             */
             id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
             node_id: string;
+            /** @example Hello-World */
             name: string;
+            /** @example octocat/Hello-World */
             full_name: string;
             owner: components["schemas"]["simple-user"];
             private: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World
+             */
             html_url: string;
+            /** @example This your first repo! */
             description: string | null;
             fork: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World
+             */
             url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
             archive_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
             assignees_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
             blobs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
             branches_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
             collaborators_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
             comments_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
             commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
             compare_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
             contents_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/contributors
+             */
             contributors_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/deployments
+             */
             deployments_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/downloads
+             */
             downloads_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/events
+             */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/forks
+             */
             forks_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
             git_commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
             git_refs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
             git_tags_url: string;
             git_url?: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
             issue_comment_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
             issue_events_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
             issues_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
             keys_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
             labels_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/languages
+             */
             languages_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/merges
+             */
             merges_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
             milestones_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
             notifications_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
             pulls_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
             releases_url: string;
             ssh_url?: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+             */
             stargazers_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
             statuses_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+             */
             subscribers_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscription
+             */
             subscription_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/tags
+             */
             tags_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/teams
+             */
             teams_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
             trees_url: string;
             clone_url?: string;
             mirror_url?: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/hooks
+             */
             hooks_url: string;
             svn_url?: string;
             homepage?: string | null;
@@ -27090,11 +28014,20 @@ export interface components {
             archived?: boolean;
             disabled?: boolean;
             visibility?: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:06:43Z
+             */
             pushed_at?: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at?: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:14:43Z
+             */
             updated_at?: string | null;
             permissions?: {
                 admin?: boolean;
@@ -27103,6 +28036,7 @@ export interface components {
                 triage?: boolean;
                 pull?: boolean;
             };
+            /** @example admin */
             role_name?: string;
             temp_clone_token?: string;
             delete_branch_on_merge?: boolean;
@@ -27116,10 +28050,14 @@ export interface components {
                 url?: string;
                 node_id?: string;
             } | null;
+            /** @example 0 */
             forks?: number;
+            /** @example 0 */
             open_issues?: number;
+            /** @example 0 */
             watchers?: number;
             allow_forking?: boolean;
+            /** @example false */
             web_commit_signoff_required?: boolean;
             security_and_analysis?: components["schemas"]["security-and-analysis"];
         };
@@ -27141,6 +28079,7 @@ export interface components {
             updated_at: string;
             last_read_at: string | null;
             url: string;
+            /** @example https://api.github.com/notifications/threads/2/subscription */
             subscription_url: string;
         };
         /**
@@ -27148,16 +28087,29 @@ export interface components {
          * @description Thread Subscription
          */
         "thread-subscription": {
+            /** @example true */
             subscribed: boolean;
             ignored: boolean;
             reason: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-10-06T21:34:12Z
+             */
             created_at: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/notifications/threads/1/subscription
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/notifications/threads/1
+             */
             thread_url?: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/1
+             */
             repository_url?: string;
         };
         /**
@@ -27165,20 +28117,38 @@ export interface components {
          * @description A GitHub organization.
          */
         "organization-simple": {
+            /** @example github */
             login: string;
+            /** @example 1 */
             id: number;
+            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/repos
+             */
             repos_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/events
+             */
             events_url: string;
+            /** @example https://api.github.com/orgs/github/hooks */
             hooks_url: string;
+            /** @example https://api.github.com/orgs/github/issues */
             issues_url: string;
+            /** @example https://api.github.com/orgs/github/members{/member} */
             members_url: string;
+            /** @example https://api.github.com/orgs/github/public_members{/member} */
             public_members_url: string;
+            /** @example https://github.com/images/error/octocat_happy.gif */
             avatar_url: string;
+            /** @example A great organization */
             description: string | null;
         };
         "billing-usage-report": {
@@ -27212,48 +28182,97 @@ export interface components {
          * @description Organization Full
          */
         "organization-full": {
+            /** @example github */
             login: string;
+            /** @example 1 */
             id: number;
+            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/repos
+             */
             repos_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/events
+             */
             events_url: string;
+            /** @example https://api.github.com/orgs/github/hooks */
             hooks_url: string;
+            /** @example https://api.github.com/orgs/github/issues */
             issues_url: string;
+            /** @example https://api.github.com/orgs/github/members{/member} */
             members_url: string;
+            /** @example https://api.github.com/orgs/github/public_members{/member} */
             public_members_url: string;
+            /** @example https://github.com/images/error/octocat_happy.gif */
             avatar_url: string;
+            /** @example A great organization */
             description: string | null;
+            /** @example github */
             name?: string;
+            /** @example GitHub */
             company?: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/blog
+             */
             blog?: string;
+            /** @example San Francisco */
             location?: string;
-            /** Format: email */
+            /**
+             * Format: email
+             * @example octocat@github.com
+             */
             email?: string;
+            /** @example github */
             twitter_username?: string | null;
+            /** @example true */
             is_verified?: boolean;
+            /** @example true */
             has_organization_projects: boolean;
+            /** @example true */
             has_repository_projects: boolean;
+            /** @example 2 */
             public_repos: number;
+            /** @example 1 */
             public_gists: number;
+            /** @example 20 */
             followers: number;
+            /** @example 0 */
             following: number;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat
+             */
             html_url: string;
+            /** @example Organization */
             type: string;
+            /** @example 100 */
             total_private_repos?: number;
+            /** @example 100 */
             owned_private_repos?: number;
+            /** @example 81 */
             private_gists?: number | null;
+            /** @example 10000 */
             disk_usage?: number | null;
-            /** @description The number of collaborators on private repositories.
+            /**
+             * @description The number of collaborators on private repositories.
              *
-             *     This field may be null if the number of private repositories is over 50,000. */
+             *     This field may be null if the number of private repositories is over 50,000.
+             * @example 8
+             */
             collaborators?: number | null;
-            /** Format: email */
+            /**
+             * Format: email
+             * @example org@example.com
+             */
             billing_email?: string | null;
             plan?: {
                 name: string;
@@ -27263,16 +28282,27 @@ export interface components {
                 seats?: number;
             };
             default_repository_permission?: string | null;
+            /** @example true */
             members_can_create_repositories?: boolean | null;
+            /** @example true */
             two_factor_requirement_enabled?: boolean | null;
+            /** @example all */
             members_allowed_repository_creation_type?: string;
+            /** @example true */
             members_can_create_public_repositories?: boolean;
+            /** @example true */
             members_can_create_private_repositories?: boolean;
+            /** @example true */
             members_can_create_internal_repositories?: boolean;
+            /** @example true */
             members_can_create_pages?: boolean;
+            /** @example true */
             members_can_create_public_pages?: boolean;
+            /** @example true */
             members_can_create_private_pages?: boolean;
+            /** @example false */
             members_can_fork_private_repositories?: boolean | null;
+            /** @example false */
             web_commit_signoff_required?: boolean;
             /**
              * @deprecated
@@ -27281,6 +28311,7 @@ export interface components {
              *     Whether GitHub Advanced Security is enabled for new repositories and repositories transferred to this organization.
              *
              *     This field is only visible to organization owners or members of a team with the security manager role.
+             * @example false
              */
             advanced_security_enabled_for_new_repositories?: boolean;
             /**
@@ -27290,6 +28321,7 @@ export interface components {
              *     Whether Dependabot alerts are automatically enabled for new repositories and repositories transferred to this organization.
              *
              *     This field is only visible to organization owners or members of a team with the security manager role.
+             * @example false
              */
             dependabot_alerts_enabled_for_new_repositories?: boolean;
             /**
@@ -27299,6 +28331,7 @@ export interface components {
              *     Whether Dependabot security updates are automatically enabled for new repositories and repositories transferred to this organization.
              *
              *     This field is only visible to organization owners or members of a team with the security manager role.
+             * @example false
              */
             dependabot_security_updates_enabled_for_new_repositories?: boolean;
             /**
@@ -27308,6 +28341,7 @@ export interface components {
              *     Whether dependency graph is automatically enabled for new repositories and repositories transferred to this organization.
              *
              *     This field is only visible to organization owners or members of a team with the security manager role.
+             * @example false
              */
             dependency_graph_enabled_for_new_repositories?: boolean;
             /**
@@ -27317,6 +28351,7 @@ export interface components {
              *     Whether secret scanning is automatically enabled for new repositories and repositories transferred to this organization.
              *
              *     This field is only visible to organization owners or members of a team with the security manager role.
+             * @example false
              */
             secret_scanning_enabled_for_new_repositories?: boolean;
             /**
@@ -27326,19 +28361,32 @@ export interface components {
              *     Whether secret scanning push protection is automatically enabled for new repositories and repositories transferred to this organization.
              *
              *     This field is only visible to organization owners or members of a team with the security manager role.
+             * @example false
              */
             secret_scanning_push_protection_enabled_for_new_repositories?: boolean;
-            /** @description Whether a custom link is shown to contributors who are blocked from pushing a secret by push protection. */
+            /**
+             * @description Whether a custom link is shown to contributors who are blocked from pushing a secret by push protection.
+             * @example false
+             */
             secret_scanning_push_protection_custom_link_enabled?: boolean;
-            /** @description An optional URL string to display to contributors who are blocked from pushing a secret. */
+            /**
+             * @description An optional URL string to display to contributors who are blocked from pushing a secret.
+             * @example https://github.com/test-org/test-repo/blob/main/README.md
+             */
             secret_scanning_push_protection_custom_link?: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2008-01-14T04:33:35Z
+             */
             created_at: string;
             /** Format: date-time */
             updated_at: string;
             /** Format: date-time */
             archived_at: string | null;
-            /** @description Controls whether or not deploy keys may be added and used for repositories in the organization. */
+            /**
+             * @description Controls whether or not deploy keys may be added and used for repositories in the organization.
+             * @example false
+             */
             deploy_keys_enabled_for_repositories?: boolean;
         };
         "actions-cache-usage-org-enterprise": {
@@ -27352,11 +28400,20 @@ export interface components {
          * @description GitHub Actions Cache Usage by repository.
          */
         "actions-cache-usage-by-repository": {
-            /** @description The repository owner and name for the cache usage being shown. */
+            /**
+             * @description The repository owner and name for the cache usage being shown.
+             * @example octo-org/Hello-World
+             */
             full_name: string;
-            /** @description The sum of the size in bytes of all the active cache items in the repository. */
+            /**
+             * @description The sum of the size in bytes of all the active cache items in the repository.
+             * @example 2322142
+             */
             active_caches_size_in_bytes: number;
-            /** @description The number of active caches in the repository. */
+            /**
+             * @description The number of active caches in the repository.
+             * @example 3
+             */
             active_caches_count: number;
         };
         /**
@@ -27364,18 +28421,30 @@ export interface components {
          * @description Provides details of a hosted runner image
          */
         "actions-hosted-runner-pool-image": {
-            /** @description The ID of the image. Use this ID for the `image` parameter when creating a new larger runner. */
+            /**
+             * @description The ID of the image. Use this ID for the `image` parameter when creating a new larger runner.
+             * @example ubuntu-20.04
+             */
             id: string;
-            /** @description Image size in GB. */
+            /**
+             * @description Image size in GB.
+             * @example 86
+             */
             size_gb: number;
-            /** @description Display name for this image. */
+            /**
+             * @description Display name for this image.
+             * @example 20.04
+             */
             display_name: string;
             /**
              * @description The image provider.
              * @enum {string}
              */
             source: "github" | "partner" | "custom";
-            /** @description The image version of the hosted runner pool. */
+            /**
+             * @description The image version of the hosted runner pool.
+             * @example latest
+             */
             version: string;
         };
         /**
@@ -27383,13 +28452,25 @@ export interface components {
          * @description Provides details of a particular machine spec.
          */
         "actions-hosted-runner-machine-spec": {
-            /** @description The ID used for the `size` parameter when creating a new runner. */
+            /**
+             * @description The ID used for the `size` parameter when creating a new runner.
+             * @example 8-core
+             */
             id: string;
-            /** @description The number of cores. */
+            /**
+             * @description The number of cores.
+             * @example 8
+             */
             cpu_cores: number;
-            /** @description The available RAM for the machine spec. */
+            /**
+             * @description The available RAM for the machine spec.
+             * @example 32
+             */
             memory_gb: number;
-            /** @description The available SSD storage for the machine spec. */
+            /**
+             * @description The available SSD storage for the machine spec.
+             * @example 300
+             */
             storage_gb: number;
         };
         /**
@@ -27397,11 +28478,20 @@ export interface components {
          * @description Provides details of Public IP for a GitHub-hosted larger runners
          */
         "public-ip": {
-            /** @description Whether public IP is enabled. */
+            /**
+             * @description Whether public IP is enabled.
+             * @example true
+             */
             enabled?: boolean;
-            /** @description The prefix for the public IP. */
+            /**
+             * @description The prefix for the public IP.
+             * @example 20.80.208.150
+             */
             prefix?: string;
-            /** @description The length of the IP prefix. */
+            /**
+             * @description The length of the IP prefix.
+             * @example 28
+             */
             length?: number;
         };
         /**
@@ -27409,33 +28499,51 @@ export interface components {
          * @description A Github-hosted hosted runner.
          */
         "actions-hosted-runner": {
-            /** @description The unique identifier of the hosted runner. */
+            /**
+             * @description The unique identifier of the hosted runner.
+             * @example 5
+             */
             id: number;
-            /** @description The name of the hosted runner. */
+            /**
+             * @description The name of the hosted runner.
+             * @example my-github-hosted-runner
+             */
             name: string;
-            /** @description The unique identifier of the group that the hosted runner belongs to. */
+            /**
+             * @description The unique identifier of the group that the hosted runner belongs to.
+             * @example 2
+             */
             runner_group_id?: number;
             image_details: null | components["schemas"]["actions-hosted-runner-pool-image"];
             machine_size_details: components["schemas"]["actions-hosted-runner-machine-spec"];
             /**
              * @description The status of the runner.
+             * @example Ready
              * @enum {string}
              */
             status: "Ready" | "Provisioning" | "Shutdown" | "Deleting" | "Stuck";
-            /** @description The operating system of the image. */
+            /**
+             * @description The operating system of the image.
+             * @example linux-x64
+             */
             platform: string;
             /**
              * @description The maximum amount of hosted runners. Runners will not scale automatically above this number. Use this setting to limit your cost.
              * @default 10
+             * @example 5
              */
             maximum_runners: number;
-            /** @description Whether public IP is enabled for the hosted runners. */
+            /**
+             * @description Whether public IP is enabled for the hosted runners.
+             * @example true
+             */
             public_ip_enabled: boolean;
             /** @description The public IP ranges when public IP is enabled for the hosted runners. */
             public_ips?: components["schemas"]["public-ip"][];
             /**
              * Format: date-time
              * @description The time at which the runner was last used, in ISO 8601 format.
+             * @example 2022-10-09T23:39:01Z
              */
             last_active_on?: string | null;
         };
@@ -27444,13 +28552,25 @@ export interface components {
          * @description Provides details of a hosted runner image
          */
         "actions-hosted-runner-image": {
-            /** @description The ID of the image. Use this ID for the `image` parameter when creating a new larger runner. */
+            /**
+             * @description The ID of the image. Use this ID for the `image` parameter when creating a new larger runner.
+             * @example ubuntu-20.04
+             */
             id: string;
-            /** @description The operating system of the image. */
+            /**
+             * @description The operating system of the image.
+             * @example linux-x64
+             */
             platform: string;
-            /** @description Image size in GB. */
+            /**
+             * @description Image size in GB.
+             * @example 86
+             */
             size_gb: number;
-            /** @description Display name for this image. */
+            /**
+             * @description Display name for this image.
+             * @example 20.04
+             */
             display_name: string;
             /**
              * @description The image provider.
@@ -27464,9 +28584,15 @@ export interface components {
              * @description Provides details of static public IP limits for GitHub-hosted Hosted Runners
              */
             public_ips: {
-                /** @description The maximum number of static public IP addresses that can be used for Hosted Runners. */
+                /**
+                 * @description The maximum number of static public IP addresses that can be used for Hosted Runners.
+                 * @example 50
+                 */
                 maximum: number;
-                /** @description The current number of static public IP addresses in use by Hosted Runners. */
+                /**
+                 * @description The current number of static public IP addresses in use by Hosted Runners.
+                 * @example 17
+                 */
                 current_usage: number;
             };
         };
@@ -27575,15 +28701,30 @@ export interface components {
          * @description A self hosted runner
          */
         runner: {
-            /** @description The id of the runner. */
+            /**
+             * @description The id of the runner.
+             * @example 5
+             */
             id: number;
-            /** @description The id of the runner group. */
+            /**
+             * @description The id of the runner group.
+             * @example 1
+             */
             runner_group_id?: number;
-            /** @description The name of the runner. */
+            /**
+             * @description The name of the runner.
+             * @example iMac
+             */
             name: string;
-            /** @description The Operating System of the runner. */
+            /**
+             * @description The Operating System of the runner.
+             * @example macos
+             */
             os: string;
-            /** @description The status of the runner. */
+            /**
+             * @description The status of the runner.
+             * @example online
+             */
             status: string;
             busy: boolean;
             labels: components["schemas"]["runner-label"][];
@@ -27606,16 +28747,25 @@ export interface components {
          * @description Authentication Token
          */
         "authentication-token": {
-            /** @description The token used for authentication */
+            /**
+             * @description The token used for authentication
+             * @example v1.1f699f1069f60xxx
+             */
             token: string;
             /**
              * Format: date-time
              * @description The time this token expires
+             * @example 2016-07-11T22:14:10Z
              */
             expires_at: string;
+            /** @example {
+             *       "issues": "read",
+             *       "deployments": "write"
+             *     } */
             permissions?: Record<string, never>;
             /** @description The repositories this token has access to */
             repositories?: components["schemas"]["repository"][];
+            /** @example config.yaml */
             single_file?: string | null;
             /**
              * @description Describe whether all repositories have been selected or there's a selection involved
@@ -27628,7 +28778,10 @@ export interface components {
          * @description Secrets for GitHub Actions for an organization.
          */
         "organization-actions-secret": {
-            /** @description The name of the secret. */
+            /**
+             * @description The name of the secret.
+             * @example SECRET_TOKEN
+             */
             name: string;
             /** Format: date-time */
             created_at: string;
@@ -27639,7 +28792,10 @@ export interface components {
              * @enum {string}
              */
             visibility: "all" | "private" | "selected";
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/org/secrets/my_secret/repositories
+             */
             selected_repositories_url?: string;
         };
         /**
@@ -27647,13 +28803,23 @@ export interface components {
          * @description The public key used for setting Actions Secrets.
          */
         "actions-public-key": {
-            /** @description The identifier for the key. */
+            /**
+             * @description The identifier for the key.
+             * @example 1234567
+             */
             key_id: string;
-            /** @description The Base64 encoded public key. */
+            /**
+             * @description The Base64 encoded public key.
+             * @example hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=
+             */
             key: string;
+            /** @example 2 */
             id?: number;
+            /** @example https://api.github.com/user/keys/2 */
             url?: string;
+            /** @example ssh-rsa AAAAB3NzaC1yc2EAAA */
             title?: string;
+            /** @example 2011-01-26T19:01:12Z */
             created_at?: string;
         };
         /**
@@ -27661,18 +28827,26 @@ export interface components {
          * @description Organization variable for GitHub Actions.
          */
         "organization-actions-variable": {
-            /** @description The name of the variable. */
+            /**
+             * @description The name of the variable.
+             * @example USERNAME
+             */
             name: string;
-            /** @description The value of the variable. */
+            /**
+             * @description The value of the variable.
+             * @example octocat
+             */
             value: string;
             /**
              * Format: date-time
              * @description The date and time at which the variable was created, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.
+             * @example 2019-01-24T22:45:36.000Z
              */
             created_at: string;
             /**
              * Format: date-time
              * @description The date and time at which the variable was last updated, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.
+             * @example 2019-01-24T22:45:36.000Z
              */
             updated_at: string;
             /**
@@ -27680,7 +28854,10 @@ export interface components {
              * @enum {string}
              */
             visibility: "all" | "private" | "selected";
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/org/variables/USERNAME/repositories
+             */
             selected_repositories_url?: string;
         };
         /** @description The name of the tool used to generate the code scanning analysis. */
@@ -27808,20 +28985,39 @@ export interface components {
          * @description A description of the machine powering a codespace.
          */
         "codespace-machine": {
-            /** @description The name of the machine. */
+            /**
+             * @description The name of the machine.
+             * @example standardLinux
+             */
             name: string;
-            /** @description The display name of the machine includes cores, memory, and storage. */
+            /**
+             * @description The display name of the machine includes cores, memory, and storage.
+             * @example 4 cores, 16 GB RAM, 64 GB storage
+             */
             display_name: string;
-            /** @description The operating system of the machine. */
+            /**
+             * @description The operating system of the machine.
+             * @example linux
+             */
             operating_system: string;
-            /** @description How much storage is available to the codespace. */
+            /**
+             * @description How much storage is available to the codespace.
+             * @example 68719476736
+             */
             storage_in_bytes: number;
-            /** @description How much memory is available to the codespace. */
+            /**
+             * @description How much memory is available to the codespace.
+             * @example 17179869184
+             */
             memory_in_bytes: number;
-            /** @description How many cores are available to the codespace. */
+            /**
+             * @description How many cores are available to the codespace.
+             * @example 4
+             */
             cpus: number;
             /**
              * @description Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value will be "none" if no prebuild is available. Latest values "ready" and "in_progress" indicate the prebuild availability status.
+             * @example ready
              * @enum {string|null}
              */
             prebuild_availability: "none" | "ready" | "in_progress" | null;
@@ -27831,33 +29027,59 @@ export interface components {
          * @description A codespace.
          */
         codespace: {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
-            /** @description Automatically generated name of this codespace. */
+            /**
+             * @description Automatically generated name of this codespace.
+             * @example monalisa-octocat-hello-world-g4wpq6h95q
+             */
             name: string;
-            /** @description Display name for this codespace. */
+            /**
+             * @description Display name for this codespace.
+             * @example bookish space pancake
+             */
             display_name?: string | null;
-            /** @description UUID identifying this codespace's environment. */
+            /**
+             * @description UUID identifying this codespace's environment.
+             * @example 26a7c758-7299-4a73-b978-5a92a7ae98a0
+             */
             environment_id: string | null;
             owner: components["schemas"]["simple-user"];
             billable_owner: components["schemas"]["simple-user"];
             repository: components["schemas"]["minimal-repository"];
             machine: null | components["schemas"]["codespace-machine"];
-            /** @description Path to devcontainer.json from repo root used to create Codespace. */
+            /**
+             * @description Path to devcontainer.json from repo root used to create Codespace.
+             * @example .devcontainer/example/devcontainer.json
+             */
             devcontainer_path?: string | null;
-            /** @description Whether the codespace was created from a prebuild. */
+            /**
+             * @description Whether the codespace was created from a prebuild.
+             * @example false
+             */
             prebuild: boolean | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             updated_at: string;
             /**
              * Format: date-time
              * @description Last known time this codespace was started.
+             * @example 2011-01-26T19:01:12Z
              */
             last_used_at: string;
             /**
              * @description State of this codespace.
+             * @example Available
              * @enum {string}
              */
             state: "Unknown" | "Created" | "Queued" | "Provisioning" | "Available" | "Awaiting" | "Unavailable" | "Deleted" | "Moved" | "Shutdown" | "Archived" | "Starting" | "ShuttingDown" | "Failed" | "Exporting" | "Updating" | "Rebuilding";
@@ -27868,23 +29090,36 @@ export interface components {
             url: string;
             /** @description Details about the codespace's git repository. */
             git_status: {
-                /** @description The number of commits the local repository is ahead of the remote. */
+                /**
+                 * @description The number of commits the local repository is ahead of the remote.
+                 * @example 0
+                 */
                 ahead?: number;
-                /** @description The number of commits the local repository is behind the remote. */
+                /**
+                 * @description The number of commits the local repository is behind the remote.
+                 * @example 0
+                 */
                 behind?: number;
                 /** @description Whether the local repository has unpushed changes. */
                 has_unpushed_changes?: boolean;
                 /** @description Whether the local repository has uncommitted changes. */
                 has_uncommitted_changes?: boolean;
-                /** @description The current branch (or SHA if in detached HEAD state) of the local repository. */
+                /**
+                 * @description The current branch (or SHA if in detached HEAD state) of the local repository.
+                 * @example main
+                 */
                 ref?: string;
             };
             /**
              * @description The initally assigned location of a new codespace.
+             * @example WestUs2
              * @enum {string}
              */
             location: "EastUs" | "SouthEastAsia" | "WestEurope" | "WestUs2";
-            /** @description The number of minutes of inactivity after which this codespace will be automatically stopped. */
+            /**
+             * @description The number of minutes of inactivity after which this codespace will be automatically stopped.
+             * @example 60
+             */
             idle_timeout_minutes: number | null;
             /**
              * Format: uri
@@ -27927,14 +29162,21 @@ export interface components {
             pending_operation_disabled_reason?: string | null;
             /** @description Text to show user when codespace idle timeout minutes has been overriden by an organization policy */
             idle_timeout_notice?: string | null;
-            /** @description Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days). */
+            /**
+             * @description Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days).
+             * @example 60
+             */
             retention_period_minutes?: number | null;
             /**
              * Format: date-time
              * @description When a codespace will be auto-deleted based on the "retention_period_minutes" and "last_used_at"
+             * @example 2011-01-26T20:01:12Z
              */
             retention_expires_at?: string | null;
-            /** @description The text to display to a user when a codespace has been stopped for a potentially actionable reason. */
+            /**
+             * @description The text to display to a user when a codespace has been stopped for a potentially actionable reason.
+             * @example you've used 100% of your spending limit for Codespaces
+             */
             last_known_stop_notice?: string | null;
         };
         /**
@@ -27942,7 +29184,10 @@ export interface components {
          * @description Secrets for a GitHub Codespace.
          */
         "codespaces-org-secret": {
-            /** @description The name of the secret */
+            /**
+             * @description The name of the secret
+             * @example SECRET_NAME
+             */
             name: string;
             /**
              * Format: date-time
@@ -27962,6 +29207,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL at which the list of repositories this secret is visible to can be retrieved
+             * @example https://api.github.com/orgs/ORGANIZATION/codespaces/secrets/SECRET_NAME/repositories
              */
             selected_repositories_url?: string;
         };
@@ -27970,13 +29216,23 @@ export interface components {
          * @description The public key used for setting Codespaces secrets.
          */
         "codespaces-public-key": {
-            /** @description The identifier for the key. */
+            /**
+             * @description The identifier for the key.
+             * @example 1234567
+             */
             key_id: string;
-            /** @description The Base64 encoded public key. */
+            /**
+             * @description The Base64 encoded public key.
+             * @example hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=
+             */
             key: string;
+            /** @example 2 */
             id?: number;
+            /** @example https://api.github.com/user/keys/2 */
             url?: string;
+            /** @example ssh-rsa AAAAB3NzaC1yc2EAAA */
             title?: string;
+            /** @example 2011-01-26T19:01:12Z */
             created_at?: string;
         };
         /**
@@ -28041,31 +29297,62 @@ export interface components {
          * @description Groups of organization members that gives permissions on specified repositories.
          */
         "team-simple": {
-            /** @description Unique identifier of the team */
+            /**
+             * @description Unique identifier of the team
+             * @example 1
+             */
             id: number;
+            /** @example MDQ6VGVhbTE= */
             node_id: string;
             /**
              * Format: uri
              * @description URL for the team
+             * @example https://api.github.com/organizations/1/team/1
              */
             url: string;
+            /** @example https://api.github.com/organizations/1/team/1/members{/member} */
             members_url: string;
-            /** @description Name of the team */
+            /**
+             * @description Name of the team
+             * @example Justice League
+             */
             name: string;
-            /** @description Description of the team */
+            /**
+             * @description Description of the team
+             * @example A great team.
+             */
             description: string | null;
-            /** @description Permission that the team will have for its repositories */
+            /**
+             * @description Permission that the team will have for its repositories
+             * @example admin
+             */
             permission: string;
-            /** @description The level of privacy this team should have */
+            /**
+             * @description The level of privacy this team should have
+             * @example closed
+             */
             privacy?: string;
-            /** @description The notification setting the team has set */
+            /**
+             * @description The notification setting the team has set
+             * @example notifications_enabled
+             */
             notification_setting?: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/rails/teams/core
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/1/repos
+             */
             repositories_url: string;
+            /** @example justice-league */
             slug: string;
-            /** @description Distinguished Name (DN) that team maps to within LDAP environment */
+            /**
+             * @description Distinguished Name (DN) that team maps to within LDAP environment
+             * @example uid=example,ou=users,dc=github,dc=com
+             */
             ldap_dn?: string;
         };
         /**
@@ -28090,7 +29377,10 @@ export interface components {
             };
             /** Format: uri */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/rails/teams/core
+             */
             html_url: string;
             members_url: string;
             /** Format: uri */
@@ -28108,10 +29398,16 @@ export interface components {
             slug: string;
             /** Format: uri */
             url: string;
+            /** @example disabled | all */
             sync_to_organizations: string;
+            /** @example 62ab9291-fae2-468e-974b-7e45096d5021 */
             group_id?: string | null;
+            /** @example Justice League */
             group_name?: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/enterprises/dc/teams/justice-league
+             */
             html_url: string;
             members_url: string;
             /** Format: date-time */
@@ -28354,7 +29650,10 @@ export interface components {
          * @description Secrets for GitHub Dependabot for an organization.
          */
         "organization-dependabot-secret": {
-            /** @description The name of the secret. */
+            /**
+             * @description The name of the secret.
+             * @example SECRET_TOKEN
+             */
             name: string;
             /** Format: date-time */
             created_at: string;
@@ -28365,7 +29664,10 @@ export interface components {
              * @enum {string}
              */
             visibility: "all" | "private" | "selected";
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/org/dependabot/secrets/my_secret/repositories
+             */
             selected_repositories_url?: string;
         };
         /**
@@ -28373,9 +29675,15 @@ export interface components {
          * @description The public key used for setting Dependabot Secrets.
          */
         "dependabot-public-key": {
-            /** @description The identifier for the key. */
+            /**
+             * @description The identifier for the key.
+             * @example 1234567
+             */
             key_id: string;
-            /** @description The Base64 encoded public key. */
+            /**
+             * @description The Base64 encoded public key.
+             * @example hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=
+             */
             key: string;
         };
         /**
@@ -28383,17 +29691,34 @@ export interface components {
          * @description A software package
          */
         package: {
-            /** @description Unique identifier of the package. */
+            /**
+             * @description Unique identifier of the package.
+             * @example 1
+             */
             id: number;
-            /** @description The name of the package. */
+            /**
+             * @description The name of the package.
+             * @example super-linter
+             */
             name: string;
-            /** @enum {string} */
+            /**
+             * @example docker
+             * @enum {string}
+             */
             package_type: "npm" | "maven" | "rubygems" | "docker" | "nuget" | "container";
+            /** @example https://api.github.com/orgs/github/packages/container/super-linter */
             url: string;
+            /** @example https://github.com/orgs/github/packages/container/package/super-linter */
             html_url: string;
-            /** @description The number of versions of the package. */
+            /**
+             * @description The number of versions of the package.
+             * @example 1
+             */
             version_count: number;
-            /** @enum {string} */
+            /**
+             * @example private
+             * @enum {string}
+             */
             visibility: "private" | "public";
             owner?: null | components["schemas"]["simple-user"];
             repository?: null | components["schemas"]["minimal-repository"];
@@ -28417,8 +29742,11 @@ export interface components {
             failed_reason?: string | null;
             inviter: components["schemas"]["simple-user"];
             team_count: number;
+            /** @example "MDIyOk9yZ2FuaXphdGlvbkludml0YXRpb24x" */
             node_id: string;
+            /** @example "https://api.github.com/organizations/16/invitations/1/teams" */
             invitation_teams_url: string;
+            /** @example "member" */
             invitation_source?: string;
         };
         /**
@@ -28426,25 +29754,51 @@ export interface components {
          * @description Org Hook
          */
         "org-hook": {
+            /** @example 1 */
             id: number;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/octocat/hooks/1
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/octocat/hooks/1/pings
+             */
             ping_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/octocat/hooks/1/deliveries
+             */
             deliveries_url?: string;
+            /** @example web */
             name: string;
+            /**
+             * @example push
+             * @example pull_request
+             */
             events: string[];
+            /** @example true */
             active: boolean;
             config: {
+                /** @example "http://example.com/2" */
                 url?: string;
+                /** @example "0" */
                 insecure_ssl?: string;
+                /** @example "form" */
                 content_type?: string;
+                /** @example "********" */
                 secret?: string;
             };
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-09-06T20:39:23Z
+             */
             updated_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-09-06T17:26:27Z
+             */
             created_at: string;
             type: string;
         };
@@ -28531,6 +29885,7 @@ export interface components {
         }[];
         /**
          * @description The type of GitHub user that can comment, open issues, or create pull requests while the interaction limit is in effect.
+         * @example collaborators_only
          * @enum {string}
          */
         "interaction-group": "existing_users" | "contributors_only" | "collaborators_only";
@@ -28540,12 +29895,17 @@ export interface components {
          */
         "interaction-limit-response": {
             limit: components["schemas"]["interaction-group"];
+            /** @example repository */
             origin: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-08-17T04:18:39Z
+             */
             expires_at: string;
         };
         /**
          * @description The duration of the interaction restriction. Default: `one_day`.
+         * @example one_month
          * @enum {string}
          */
         "interaction-expiry": "one_day" | "three_days" | "one_week" | "one_month" | "six_months";
@@ -28562,19 +29922,27 @@ export interface components {
          * @description Org Membership
          */
         "org-membership": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/octocat/memberships/defunkt
+             */
             url: string;
             /**
              * @description The state of the member in the organization. The `pending` state indicates the user has not yet accepted an invitation.
+             * @example active
              * @enum {string}
              */
             state: "active" | "pending";
             /**
              * @description The user's membership type in the organization.
+             * @example admin
              * @enum {string}
              */
             role: "admin" | "member" | "billing_manager";
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/octocat
+             */
             organization_url: string;
             organization: components["schemas"]["organization-simple"];
             user: null | components["schemas"]["simple-user"];
@@ -28587,11 +29955,17 @@ export interface components {
          * @description A migration.
          */
         migration: {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 79
+             */
             id: number;
             owner: null | components["schemas"]["simple-user"];
+            /** @example 0b989ba4-242f-11e5-81e1-c7b6966d2516 */
             guid: string;
+            /** @example pending */
             state: string;
+            /** @example true */
             lock_repositories: boolean;
             exclude_metadata: boolean;
             exclude_git_data: boolean;
@@ -28601,11 +29975,20 @@ export interface components {
             org_metadata_only: boolean;
             /** @description The repositories included in the migration. Only returned for export migrations. */
             repositories: components["schemas"]["repository"][];
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/octo-org/migrations/79
+             */
             url: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2015-07-06T15:33:38-07:00
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2015-07-06T15:33:38-07:00
+             */
             updated_at: string;
             node_id: string;
             /** Format: uri */
@@ -28658,6 +30041,7 @@ export interface components {
         "team-role-assignment": {
             /**
              * @description Determines if the team has a direct, indirect, or mixed relationship to a role
+             * @example direct
              * @enum {string}
              */
             assignment?: "direct" | "indirect" | "mixed";
@@ -28678,7 +30062,10 @@ export interface components {
             };
             /** Format: uri */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/rails/teams/core
+             */
             html_url: string;
             members_url: string;
             /** Format: uri */
@@ -28692,6 +30079,7 @@ export interface components {
         "user-role-assignment": {
             /**
              * @description Determines if the user has a direct, indirect, or mixed relationship to a role
+             * @example direct
              * @enum {string}
              */
             assignment?: "direct" | "indirect" | "mixed";
@@ -28699,33 +30087,68 @@ export interface components {
             inherited_from?: components["schemas"]["team-simple"][];
             name?: string | null;
             email?: string | null;
+            /** @example octocat */
             login: string;
+            /** @example 1 */
             id: number;
+            /** @example MDQ6VXNlcjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/images/error/octocat_happy.gif
+             */
             avatar_url: string;
+            /** @example 41d064eb2195891e12d0413f63227ea7 */
             gravatar_id: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/followers
+             */
             followers_url: string;
+            /** @example https://api.github.com/users/octocat/following{/other_user} */
             following_url: string;
+            /** @example https://api.github.com/users/octocat/gists{/gist_id} */
             gists_url: string;
+            /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
             starred_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/subscriptions
+             */
             subscriptions_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/orgs
+             */
             organizations_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/repos
+             */
             repos_url: string;
+            /** @example https://api.github.com/users/octocat/events{/privacy} */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/received_events
+             */
             received_events_url: string;
+            /** @example User */
             type: string;
             site_admin: boolean;
+            /** @example "2020-07-09T00:17:55Z" */
             starred_at?: string;
+            /** @example public */
             user_view_type?: string;
         };
         /**
@@ -28733,24 +30156,46 @@ export interface components {
          * @description A version of a software package
          */
         "package-version": {
-            /** @description Unique identifier of the package version. */
+            /**
+             * @description Unique identifier of the package version.
+             * @example 1
+             */
             id: number;
-            /** @description The name of the package version. */
+            /**
+             * @description The name of the package version.
+             * @example latest
+             */
             name: string;
+            /** @example https://api.github.com/orgs/github/packages/container/super-linter/versions/786068 */
             url: string;
+            /** @example https://github.com/orgs/github/packages/container/package/super-linter */
             package_html_url: string;
+            /** @example https://github.com/orgs/github/packages/container/super-linter/786068 */
             html_url?: string;
+            /** @example MIT */
             license?: string;
             description?: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-10T20:09:31Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2014-03-03T18:58:10Z
+             */
             updated_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2014-03-03T18:58:10Z
+             */
             deleted_at?: string;
             /** Package Version Metadata */
             metadata?: {
-                /** @enum {string} */
+                /**
+                 * @example docker
+                 * @enum {string}
+                 */
                 package_type: "npm" | "maven" | "rubygems" | "docker" | "nuget" | "container";
                 /** Container Metadata */
                 container?: {
@@ -28849,14 +30294,20 @@ export interface components {
          * @description Private registry configuration for an organization
          */
         "org-private-registry-configuration": {
-            /** @description The name of the private registry configuration. */
+            /**
+             * @description The name of the private registry configuration.
+             * @example MAVEN_REPOSITORY_SECRET
+             */
             name: string;
             /**
              * @description The registry type.
              * @enum {string}
              */
             registry_type: "maven_repository";
-            /** @description The username to use when authenticating with the private registry. */
+            /**
+             * @description The username to use when authenticating with the private registry.
+             * @example monalisa
+             */
             username?: string | null;
             /**
              * @description Which type of organization repositories have access to the private registry.
@@ -28873,14 +30324,20 @@ export interface components {
          * @description Private registry configuration for an organization
          */
         "org-private-registry-configuration-with-selected-repositories": {
-            /** @description The name of the private registry configuration. */
+            /**
+             * @description The name of the private registry configuration.
+             * @example MAVEN_REPOSITORY_SECRET
+             */
             name: string;
             /**
              * @description The registry type.
              * @enum {string}
              */
             registry_type: "maven_repository";
-            /** @description The username to use when authenticating with the private registry. */
+            /**
+             * @description The username to use when authenticating with the private registry.
+             * @example monalisa
+             */
             username?: string;
             /**
              * @description Which type of organization repositories have access to the private registry. `selected` means only the repositories specified by `selected_repository_ids` can access the private registry.
@@ -28899,27 +30356,57 @@ export interface components {
          * @description Projects are a way to organize columns and cards of work.
          */
         project: {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/api-playground/projects-test
+             */
             owner_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/1002604
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/api-playground/projects-test/projects/12
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/1002604/columns
+             */
             columns_url: string;
+            /** @example 1002604 */
             id: number;
+            /** @example MDc6UHJvamVjdDEwMDI2MDQ= */
             node_id: string;
-            /** @description Name of the project */
+            /**
+             * @description Name of the project
+             * @example Week One Sprint
+             */
             name: string;
-            /** @description Body of the project */
+            /**
+             * @description Body of the project
+             * @example This project represents the sprint of the first week in January
+             */
             body: string | null;
+            /** @example 1 */
             number: number;
-            /** @description State of the project; either 'open' or 'closed' */
+            /**
+             * @description State of the project; either 'open' or 'closed'
+             * @example open
+             */
             state: string;
             creator: null | components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-10T20:09:31Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2014-03-03T18:58:10Z
+             */
             updated_at: string;
             /**
              * @description The baseline permission that all organization members have on this project. Only present if owner is an organization.
@@ -28943,11 +30430,13 @@ export interface components {
             url?: string;
             /**
              * @description The source type of the property
+             * @example organization
              * @enum {string}
              */
             source_type?: "organization" | "enterprise";
             /**
              * @description The type of the value for the property
+             * @example single_select
              * @enum {string}
              */
             value_type: "string" | "single_select" | "multi_select" | "true_false";
@@ -28962,6 +30451,7 @@ export interface components {
             allowed_values?: string[] | null;
             /**
              * @description Who can edit the values of the property
+             * @example org_actors
              * @enum {string|null}
              */
             values_editable_by?: "org_actors" | "org_and_repo_actors" | null;
@@ -28973,6 +30463,7 @@ export interface components {
         "custom-property-set-payload": {
             /**
              * @description The type of the value for the property
+             * @example single_select
              * @enum {string}
              */
             value_type: "string" | "single_select" | "multi_select" | "true_false";
@@ -29001,8 +30492,11 @@ export interface components {
          * @description List of custom property values for a repository
          */
         "org-repo-custom-property-values": {
+            /** @example 1296269 */
             repository_id: number;
+            /** @example Hello-World */
             repository_name: string;
+            /** @example octocat/Hello-World */
             repository_full_name: string;
             /** @description List of custom property names and associated values */
             properties: components["schemas"]["custom-property-value"][];
@@ -29012,11 +30506,19 @@ export interface components {
          * @description Code of Conduct Simple
          */
         "code-of-conduct-simple": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/github/docs/community/code_of_conduct
+             */
             url: string;
+            /** @example citizen_code_of_conduct */
             key: string;
+            /** @example Citizen Code of Conduct */
             name: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/github/docs/blob/main/CODE_OF_CONDUCT.md
+             */
             html_url: string | null;
         };
         /**
@@ -29024,103 +30526,222 @@ export interface components {
          * @description Full Repository
          */
         "full-repository": {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1296269
+             */
             id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
             node_id: string;
+            /** @example Hello-World */
             name: string;
+            /** @example octocat/Hello-World */
             full_name: string;
             owner: components["schemas"]["simple-user"];
             private: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World
+             */
             html_url: string;
+            /** @example This your first repo! */
             description: string | null;
             fork: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World
+             */
             url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
             archive_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
             assignees_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
             blobs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
             branches_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
             collaborators_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
             comments_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
             commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
             compare_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
             contents_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/contributors
+             */
             contributors_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/deployments
+             */
             deployments_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/downloads
+             */
             downloads_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/events
+             */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/forks
+             */
             forks_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
             git_commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
             git_refs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
             git_tags_url: string;
+            /** @example git:github.com/octocat/Hello-World.git */
             git_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
             issue_comment_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
             issue_events_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
             issues_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
             keys_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
             labels_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/languages
+             */
             languages_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/merges
+             */
             merges_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
             milestones_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
             notifications_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
             pulls_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
             releases_url: string;
+            /** @example git@github.com:octocat/Hello-World.git */
             ssh_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+             */
             stargazers_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
             statuses_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+             */
             subscribers_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscription
+             */
             subscription_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/tags
+             */
             tags_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/teams
+             */
             teams_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
             trees_url: string;
+            /** @example https://github.com/octocat/Hello-World.git */
             clone_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example git:git.example.com/octocat/Hello-World
+             */
             mirror_url: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/hooks
+             */
             hooks_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://svn.github.com/octocat/Hello-World
+             */
             svn_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com
+             */
             homepage: string | null;
             language: string | null;
+            /** @example 9 */
             forks_count: number;
+            /** @example 80 */
             stargazers_count: number;
+            /** @example 80 */
             watchers_count: number;
-            /** @description The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
+            /**
+             * @description The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0.
+             * @example 108
+             */
             size: number;
+            /** @example master */
             default_branch: string;
+            /** @example 0 */
             open_issues_count: number;
+            /** @example true */
             is_template?: boolean;
+            /**
+             * @example octocat
+             * @example atom
+             * @example electron
+             * @example API
+             */
             topics?: string[];
+            /** @example true */
             has_issues: boolean;
+            /** @example true */
             has_projects: boolean;
+            /** @example true */
             has_wiki: boolean;
             has_pages: boolean;
+            /** @example true */
             has_downloads?: boolean;
+            /** @example true */
             has_discussions: boolean;
             archived: boolean;
             /** @description Returns whether or not this repository disabled. */
             disabled: boolean;
-            /** @description The repository visibility: public, private, or internal. */
+            /**
+             * @description The repository visibility: public, private, or internal.
+             * @example public
+             */
             visibility?: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:06:43Z
+             */
             pushed_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:14:43Z
+             */
             updated_at: string;
             permissions?: {
                 admin: boolean;
@@ -29129,20 +30750,28 @@ export interface components {
                 triage?: boolean;
                 pull: boolean;
             };
+            /** @example true */
             allow_rebase_merge?: boolean;
             template_repository?: null | components["schemas"]["repository"];
             temp_clone_token?: string | null;
+            /** @example true */
             allow_squash_merge?: boolean;
+            /** @example false */
             allow_auto_merge?: boolean;
+            /** @example false */
             delete_branch_on_merge?: boolean;
+            /** @example true */
             allow_merge_commit?: boolean;
+            /** @example true */
             allow_update_branch?: boolean;
+            /** @example false */
             use_squash_pr_title_as_default?: boolean;
             /**
              * @description The default value for a squash merge commit title:
              *
              *     - `PR_TITLE` - default to the pull request's title.
              *     - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
+             * @example PR_TITLE
              * @enum {string}
              */
             squash_merge_commit_title?: "PR_TITLE" | "COMMIT_OR_PR_TITLE";
@@ -29152,6 +30781,7 @@ export interface components {
              *     - `PR_BODY` - default to the pull request's body.
              *     - `COMMIT_MESSAGES` - default to the branch's commit messages.
              *     - `BLANK` - default to a blank commit message.
+             * @example PR_BODY
              * @enum {string}
              */
             squash_merge_commit_message?: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
@@ -29160,6 +30790,7 @@ export interface components {
              *
              *       - `PR_TITLE` - default to the pull request's title.
              *       - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).
+             * @example PR_TITLE
              * @enum {string}
              */
             merge_commit_title?: "PR_TITLE" | "MERGE_MESSAGE";
@@ -29169,12 +30800,17 @@ export interface components {
              *     - `PR_TITLE` - default to the pull request's title.
              *     - `PR_BODY` - default to the pull request's body.
              *     - `BLANK` - default to a blank commit message.
+             * @example PR_BODY
              * @enum {string}
              */
             merge_commit_message?: "PR_BODY" | "PR_TITLE" | "BLANK";
+            /** @example true */
             allow_forking?: boolean;
+            /** @example false */
             web_commit_signoff_required?: boolean;
+            /** @example 42 */
             subscribers_count: number;
+            /** @example 0 */
             network_count: number;
             license: null | components["schemas"]["license-simple"];
             organization?: null | components["schemas"]["simple-user"];
@@ -29720,7 +31356,10 @@ export interface components {
             repository_id?: number;
             /** @description The name of the repository without the `.git` extension. */
             repository_name?: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:06:43Z
+             */
             pushed_at?: string;
             /**
              * @description The result of the rule evaluations for rules with the `active` enforcement status.
@@ -29754,7 +31393,10 @@ export interface components {
             repository_id?: number;
             /** @description The name of the repository without the `.git` extension. */
             repository_name?: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:06:43Z
+             */
             pushed_at?: string;
             /**
              * @description The result of the rule evaluations for rules with the `active` enforcement status.
@@ -29979,20 +31621,30 @@ export interface components {
          * @description A hosted compute network configuration.
          */
         "network-configuration": {
-            /** @description The unique identifier of the network configuration. */
+            /**
+             * @description The unique identifier of the network configuration.
+             * @example 123ABC456DEF789
+             */
             id: string;
-            /** @description The name of the network configuration. */
+            /**
+             * @description The name of the network configuration.
+             * @example my-network-configuration
+             */
             name: string;
             /**
              * @description The hosted compute service the network configuration supports.
              * @enum {string}
              */
             compute_service?: "none" | "actions" | "codespaces";
-            /** @description The unique identifier of each network settings in the configuration. */
+            /**
+             * @description The unique identifier of each network settings in the configuration.
+             * @example 123ABC456DEF789
+             */
             network_settings_ids?: string[];
             /**
              * Format: date-time
              * @description The time at which the network configuration was created, in ISO 8601 format.
+             * @example 2024-04-26T11:31:07Z
              */
             created_on: string | null;
         };
@@ -30001,15 +31653,30 @@ export interface components {
          * @description A hosted compute network settings resource.
          */
         "network-settings": {
-            /** @description The unique identifier of the network settings resource. */
+            /**
+             * @description The unique identifier of the network settings resource.
+             * @example 220F78DACB92BBFBC5E6F22DE1CCF52309D
+             */
             id: string;
-            /** @description The identifier of the network configuration that is using this settings resource. */
+            /**
+             * @description The identifier of the network configuration that is using this settings resource.
+             * @example 934E208B3EE0BD60CF5F752C426BFB53562
+             */
             network_configuration_id?: string;
-            /** @description The name of the network settings resource. */
+            /**
+             * @description The name of the network settings resource.
+             * @example my-network-settings
+             */
             name: string;
-            /** @description The subnet this network settings resource is configured for. */
+            /**
+             * @description The subnet this network settings resource is configured for.
+             * @example /subscriptions/14839728-3ad9-43ab-bd2b-fa6ad0f75e2a/resourceGroups/my-rg/providers/Microsoft.Network/virtualNetworks/my-vnet/subnets/my-subnet
+             */
             subnet_id: string;
-            /** @description The location of the subnet this network settings resource is configured for. */
+            /**
+             * @description The location of the subnet this network settings resource is configured for.
+             * @example eastus
+             */
             region: string;
         };
         /**
@@ -30017,47 +31684,97 @@ export interface components {
          * @description Team Organization
          */
         "team-organization": {
+            /** @example github */
             login: string;
+            /** @example 1 */
             id: number;
+            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/repos
+             */
             repos_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/events
+             */
             events_url: string;
+            /** @example https://api.github.com/orgs/github/hooks */
             hooks_url: string;
+            /** @example https://api.github.com/orgs/github/issues */
             issues_url: string;
+            /** @example https://api.github.com/orgs/github/members{/member} */
             members_url: string;
+            /** @example https://api.github.com/orgs/github/public_members{/member} */
             public_members_url: string;
+            /** @example https://github.com/images/error/octocat_happy.gif */
             avatar_url: string;
+            /** @example A great organization */
             description: string | null;
+            /** @example github */
             name?: string;
+            /** @example GitHub */
             company?: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/blog
+             */
             blog?: string;
+            /** @example San Francisco */
             location?: string;
-            /** Format: email */
+            /**
+             * Format: email
+             * @example octocat@github.com
+             */
             email?: string;
+            /** @example github */
             twitter_username?: string | null;
+            /** @example true */
             is_verified?: boolean;
+            /** @example true */
             has_organization_projects: boolean;
+            /** @example true */
             has_repository_projects: boolean;
+            /** @example 2 */
             public_repos: number;
+            /** @example 1 */
             public_gists: number;
+            /** @example 20 */
             followers: number;
+            /** @example 0 */
             following: number;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat
+             */
             html_url: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2008-01-14T04:33:35Z
+             */
             created_at: string;
+            /** @example Organization */
             type: string;
+            /** @example 100 */
             total_private_repos?: number;
+            /** @example 100 */
             owned_private_repos?: number;
+            /** @example 81 */
             private_gists?: number | null;
+            /** @example 10000 */
             disk_usage?: number | null;
+            /** @example 8 */
             collaborators?: number | null;
-            /** Format: email */
+            /**
+             * Format: email
+             * @example org@example.com
+             */
             billing_email?: string | null;
             plan?: {
                 name: string;
@@ -30067,16 +31784,27 @@ export interface components {
                 seats?: number;
             };
             default_repository_permission?: string | null;
+            /** @example true */
             members_can_create_repositories?: boolean | null;
+            /** @example true */
             two_factor_requirement_enabled?: boolean | null;
+            /** @example all */
             members_allowed_repository_creation_type?: string;
+            /** @example true */
             members_can_create_public_repositories?: boolean;
+            /** @example true */
             members_can_create_private_repositories?: boolean;
+            /** @example true */
             members_can_create_internal_repositories?: boolean;
+            /** @example true */
             members_can_create_pages?: boolean;
+            /** @example true */
             members_can_create_public_pages?: boolean;
+            /** @example true */
             members_can_create_private_pages?: boolean;
+            /** @example false */
             members_can_fork_private_repositories?: boolean | null;
+            /** @example false */
             web_commit_signoff_required?: boolean;
             /** Format: date-time */
             updated_at: string;
@@ -30088,44 +31816,77 @@ export interface components {
          * @description Groups of organization members that gives permissions on specified repositories.
          */
         "team-full": {
-            /** @description Unique identifier of the team */
+            /**
+             * @description Unique identifier of the team
+             * @example 42
+             */
             id: number;
+            /** @example MDQ6VGVhbTE= */
             node_id: string;
             /**
              * Format: uri
              * @description URL for the team
+             * @example https://api.github.com/organizations/1/team/1
              */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/rails/teams/core
+             */
             html_url: string;
-            /** @description Name of the team */
+            /**
+             * @description Name of the team
+             * @example Developers
+             */
             name: string;
+            /** @example justice-league */
             slug: string;
+            /** @example A great team. */
             description: string | null;
             /**
              * @description The level of privacy this team should have
+             * @example closed
              * @enum {string}
              */
             privacy?: "closed" | "secret";
             /**
              * @description The notification setting the team has set
+             * @example notifications_enabled
              * @enum {string}
              */
             notification_setting?: "notifications_enabled" | "notifications_disabled";
-            /** @description Permission that the team will have for its repositories */
+            /**
+             * @description Permission that the team will have for its repositories
+             * @example push
+             */
             permission: string;
+            /** @example https://api.github.com/organizations/1/team/1/members{/member} */
             members_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/1/repos
+             */
             repositories_url: string;
             parent?: null | components["schemas"]["team-simple"];
+            /** @example 3 */
             members_count: number;
+            /** @example 10 */
             repos_count: number;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2017-07-14T16:53:42Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2017-08-17T12:37:15Z
+             */
             updated_at: string;
             organization: components["schemas"]["team-organization"];
-            /** @description Distinguished Name (DN) that team maps to within LDAP environment */
+            /**
+             * @description Distinguished Name (DN) that team maps to within LDAP environment
+             * @example uid=example,ou=users,dc=github,dc=com
+             */
             ldap_dn?: string;
         };
         /**
@@ -30134,34 +31895,73 @@ export interface components {
          */
         "team-discussion": {
             author: null | components["schemas"]["simple-user"];
-            /** @description The main text of the discussion. */
+            /**
+             * @description The main text of the discussion.
+             * @example Please suggest improvements to our workflow in comments.
+             */
             body: string;
+            /** @example <p>Hi! This is an area for us to collaborate as a team</p> */
             body_html: string;
-            /** @description The current version of the body content. If provided, this update operation will be rejected if the given version does not match the latest version on the server. */
+            /**
+             * @description The current version of the body content. If provided, this update operation will be rejected if the given version does not match the latest version on the server.
+             * @example 0307116bbf7ced493b8d8a346c650b71
+             */
             body_version: string;
+            /** @example 0 */
             comments_count: number;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/2343027/discussions/1/comments
+             */
             comments_url: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-01-25T18:56:31Z
+             */
             created_at: string;
             /** Format: date-time */
             last_edited_at: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/github/teams/justice-league/discussions/1
+             */
             html_url: string;
+            /** @example MDE0OlRlYW1EaXNjdXNzaW9uMQ== */
             node_id: string;
-            /** @description The unique sequence number of a team discussion. */
+            /**
+             * @description The unique sequence number of a team discussion.
+             * @example 42
+             */
             number: number;
-            /** @description Whether or not this discussion should be pinned for easy retrieval. */
+            /**
+             * @description Whether or not this discussion should be pinned for easy retrieval.
+             * @example true
+             */
             pinned: boolean;
-            /** @description Whether or not this discussion should be restricted to team members and organization owners. */
+            /**
+             * @description Whether or not this discussion should be restricted to team members and organization owners.
+             * @example true
+             */
             private: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/2343027
+             */
             team_url: string;
-            /** @description The title of the discussion. */
+            /**
+             * @description The title of the discussion.
+             * @example How can we improve our workflow?
+             */
             title: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-01-25T18:56:31Z
+             */
             updated_at: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/2343027/discussions/1
+             */
             url: string;
             reactions?: components["schemas"]["reaction-rollup"];
         };
@@ -30171,25 +31971,51 @@ export interface components {
          */
         "team-discussion-comment": {
             author: null | components["schemas"]["simple-user"];
-            /** @description The main text of the comment. */
+            /**
+             * @description The main text of the comment.
+             * @example I agree with this suggestion.
+             */
             body: string;
+            /** @example <p>Do you like apples?</p> */
             body_html: string;
-            /** @description The current version of the body content. If provided, this update operation will be rejected if the given version does not match the latest version on the server. */
+            /**
+             * @description The current version of the body content. If provided, this update operation will be rejected if the given version does not match the latest version on the server.
+             * @example 0307116bbf7ced493b8d8a346c650b71
+             */
             body_version: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-01-15T23:53:58Z
+             */
             created_at: string;
             /** Format: date-time */
             last_edited_at: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/2403582/discussions/1
+             */
             discussion_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1
+             */
             html_url: string;
+            /** @example MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE= */
             node_id: string;
-            /** @description The unique sequence number of a team discussion comment. */
+            /**
+             * @description The unique sequence number of a team discussion comment.
+             * @example 42
+             */
             number: number;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-01-15T23:53:58Z
+             */
             updated_at: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/organizations/1/team/2403582/discussions/1/comments/1
+             */
             url: string;
             reactions?: components["schemas"]["reaction-rollup"];
         };
@@ -30198,15 +32024,21 @@ export interface components {
          * @description Reactions to conversations provide a way to help people express their feelings more simply and effectively.
          */
         reaction: {
+            /** @example 1 */
             id: number;
+            /** @example MDg6UmVhY3Rpb24x */
             node_id: string;
             user: null | components["schemas"]["simple-user"];
             /**
              * @description The reaction to use
+             * @example heart
              * @enum {string}
              */
             content: "+1" | "-1" | "laugh" | "confused" | "heart" | "hooray" | "rocket" | "eyes";
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2016-05-20T20:09:31Z
+             */
             created_at: string;
         };
         /**
@@ -30219,6 +32051,7 @@ export interface components {
             /**
              * @description The role of the user in the team.
              * @default member
+             * @example member
              * @enum {string}
              */
             role: "member" | "maintainer";
@@ -30261,11 +32094,19 @@ export interface components {
          * @description A team's access to a repository.
          */
         "team-repository": {
-            /** @description Unique identifier of the repository */
+            /**
+             * @description Unique identifier of the repository
+             * @example 42
+             */
             id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
             node_id: string;
-            /** @description The name of the repository. */
+            /**
+             * @description The name of the repository.
+             * @example Team Environment
+             */
             name: string;
+            /** @example octocat/Hello-World */
             full_name: string;
             license: null | components["schemas"]["license-simple"];
             forks: number;
@@ -30276,6 +32117,7 @@ export interface components {
                 push: boolean;
                 maintain?: boolean;
             };
+            /** @example admin */
             role_name?: string;
             owner: null | components["schemas"]["simple-user"];
             /**
@@ -30283,103 +32125,197 @@ export interface components {
              * @default false
              */
             private: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World
+             */
             html_url: string;
+            /** @example This your first repo! */
             description: string | null;
             fork: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World
+             */
             url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
             archive_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
             assignees_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
             blobs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
             branches_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
             collaborators_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
             comments_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
             commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
             compare_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
             contents_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/contributors
+             */
             contributors_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/deployments
+             */
             deployments_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/downloads
+             */
             downloads_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/events
+             */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/forks
+             */
             forks_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
             git_commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
             git_refs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
             git_tags_url: string;
+            /** @example git:github.com/octocat/Hello-World.git */
             git_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
             issue_comment_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
             issue_events_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
             issues_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
             keys_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
             labels_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/languages
+             */
             languages_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/merges
+             */
             merges_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
             milestones_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
             notifications_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
             pulls_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
             releases_url: string;
+            /** @example git@github.com:octocat/Hello-World.git */
             ssh_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+             */
             stargazers_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
             statuses_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+             */
             subscribers_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscription
+             */
             subscription_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/tags
+             */
             tags_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/teams
+             */
             teams_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
             trees_url: string;
+            /** @example https://github.com/octocat/Hello-World.git */
             clone_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example git:git.example.com/octocat/Hello-World
+             */
             mirror_url: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/hooks
+             */
             hooks_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://svn.github.com/octocat/Hello-World
+             */
             svn_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com
+             */
             homepage: string | null;
             language: string | null;
+            /** @example 9 */
             forks_count: number;
+            /** @example 80 */
             stargazers_count: number;
+            /** @example 80 */
             watchers_count: number;
+            /** @example 108 */
             size: number;
-            /** @description The default branch of the repository. */
+            /**
+             * @description The default branch of the repository.
+             * @example master
+             */
             default_branch: string;
+            /** @example 0 */
             open_issues_count: number;
             /**
              * @description Whether this repository acts as a template that can be used to generate new repositories.
              * @default false
+             * @example true
              */
             is_template: boolean;
             topics?: string[];
             /**
              * @description Whether issues are enabled.
              * @default true
+             * @example true
              */
             has_issues: boolean;
             /**
              * @description Whether projects are enabled.
              * @default true
+             * @example true
              */
             has_projects: boolean;
             /**
              * @description Whether the wiki is enabled.
              * @default true
+             * @example true
              */
             has_wiki: boolean;
             has_pages: boolean;
             /**
              * @description Whether downloads are enabled.
              * @default true
+             * @example true
              */
             has_downloads: boolean;
             /**
@@ -30394,46 +32330,62 @@ export interface components {
              * @default public
              */
             visibility: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:06:43Z
+             */
             pushed_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:14:43Z
+             */
             updated_at: string | null;
             /**
              * @description Whether to allow rebase merges for pull requests.
              * @default true
+             * @example true
              */
             allow_rebase_merge: boolean;
             temp_clone_token?: string;
             /**
              * @description Whether to allow squash merges for pull requests.
              * @default true
+             * @example true
              */
             allow_squash_merge: boolean;
             /**
              * @description Whether to allow Auto-merge to be used on pull requests.
              * @default false
+             * @example false
              */
             allow_auto_merge: boolean;
             /**
              * @description Whether to delete head branches when pull requests are merged
              * @default false
+             * @example false
              */
             delete_branch_on_merge: boolean;
             /**
              * @description Whether to allow merge commits for pull requests.
              * @default true
+             * @example true
              */
             allow_merge_commit: boolean;
             /**
              * @description Whether to allow forking this repo
              * @default false
+             * @example false
              */
             allow_forking: boolean;
             /**
              * @description Whether to require contributors to sign off on web-based commits
              * @default false
+             * @example false
              */
             web_commit_signoff_required: boolean;
             subscribers_count?: number;
@@ -30447,29 +32399,53 @@ export interface components {
          * @description Project cards represent a scope of work.
          */
         "project-card": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/columns/cards/1478
+             */
             url: string;
             /**
              * Format: int64
              * @description The project card's ID
+             * @example 42
              */
             id: number;
+            /** @example MDExOlByb2plY3RDYXJkMTQ3OA== */
             node_id: string;
+            /** @example Add payload for delete Project column */
             note: string | null;
             creator: null | components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2016-09-05T14:21:06Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2016-09-05T14:20:22Z
+             */
             updated_at: string;
-            /** @description Whether or not the card is archived */
+            /**
+             * @description Whether or not the card is archived
+             * @example false
+             */
             archived?: boolean;
             column_name?: string;
             project_id?: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/columns/367
+             */
             column_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/api-playground/projects-test/issues/3
+             */
             content_url?: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/120
+             */
             project_url: string;
         };
         /**
@@ -30477,20 +32453,42 @@ export interface components {
          * @description Project columns contain cards of work.
          */
         "project-column": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/columns/367
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/120
+             */
             project_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/projects/columns/367/cards
+             */
             cards_url: string;
-            /** @description The unique identifier of the project column */
+            /**
+             * @description The unique identifier of the project column
+             * @example 42
+             */
             id: number;
+            /** @example MDEzOlByb2plY3RDb2x1bW4zNjc= */
             node_id: string;
-            /** @description Name of the project column */
+            /**
+             * @description Name of the project column
+             * @example Remaining tasks
+             */
             name: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2016-09-05T14:18:44Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2016-09-05T14:22:28Z
+             */
             updated_at: string;
         };
         /**
@@ -30533,13 +32531,23 @@ export interface components {
          * @description An artifact
          */
         artifact: {
+            /** @example 5 */
             id: number;
+            /** @example MDEwOkNoZWNrU3VpdGU1 */
             node_id: string;
-            /** @description The name of the artifact. */
+            /**
+             * @description The name of the artifact.
+             * @example AdventureWorks.Framework
+             */
             name: string;
-            /** @description The size in bytes of the artifact. */
+            /**
+             * @description The size in bytes of the artifact.
+             * @example 12345
+             */
             size_in_bytes: number;
+            /** @example https://api.github.com/repos/github/hello-world/actions/artifacts/5 */
             url: string;
+            /** @example https://api.github.com/repos/github/hello-world/actions/artifacts/5/zip */
             archive_download_url: string;
             /** @description Whether or not the artifact has expired. */
             expired: boolean;
@@ -30550,10 +32558,15 @@ export interface components {
             /** Format: date-time */
             updated_at: string | null;
             workflow_run?: {
+                /** @example 10 */
                 id?: number;
+                /** @example 42 */
                 repository_id?: number;
+                /** @example 42 */
                 head_repository_id?: number;
+                /** @example main */
                 head_branch?: string;
+                /** @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d */
                 head_sha?: string;
             } | null;
         };
@@ -30562,18 +32575,32 @@ export interface components {
          * @description Repository actions caches
          */
         "actions-cache-list": {
-            /** @description Total number of caches */
+            /**
+             * @description Total number of caches
+             * @example 2
+             */
             total_count: number;
             /** @description Array of caches */
             actions_caches: {
+                /** @example 2 */
                 id?: number;
+                /** @example refs/heads/main */
                 ref?: string;
+                /** @example Linux-node-958aff96db2d75d67787d1e634ae70b659de937b */
                 key?: string;
+                /** @example 73885106f58cc52a7df9ec4d4a5622a5614813162cb516c759a30af6bf56e6f0 */
                 version?: string;
-                /** Format: date-time */
+                /**
+                 * Format: date-time
+                 * @example 2019-01-24T22:45:36.000Z
+                 */
                 last_accessed_at?: string;
-                /** Format: date-time */
+                /**
+                 * Format: date-time
+                 * @example 2019-01-24T22:45:36.000Z
+                 */
                 created_at?: string;
+                /** @example 1024 */
                 size_in_bytes?: number;
             }[];
         };
@@ -30582,82 +32609,140 @@ export interface components {
          * @description Information of a job execution in a workflow run
          */
         job: {
-            /** @description The id of the job. */
+            /**
+             * @description The id of the job.
+             * @example 21
+             */
             id: number;
-            /** @description The id of the associated workflow run. */
+            /**
+             * @description The id of the associated workflow run.
+             * @example 5
+             */
             run_id: number;
+            /** @example https://api.github.com/repos/github/hello-world/actions/runs/5 */
             run_url: string;
-            /** @description Attempt number of the associated workflow run, 1 for first attempt and higher if the workflow was re-run. */
+            /**
+             * @description Attempt number of the associated workflow run, 1 for first attempt and higher if the workflow was re-run.
+             * @example 1
+             */
             run_attempt?: number;
+            /** @example MDg6Q2hlY2tSdW40 */
             node_id: string;
-            /** @description The SHA of the commit that is being run. */
+            /**
+             * @description The SHA of the commit that is being run.
+             * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+             */
             head_sha: string;
+            /** @example https://api.github.com/repos/github/hello-world/actions/jobs/21 */
             url: string;
+            /** @example https://github.com/github/hello-world/runs/4 */
             html_url: string | null;
             /**
              * @description The phase of the lifecycle that the job is currently in.
+             * @example queued
              * @enum {string}
              */
             status: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending";
             /**
              * @description The outcome of the job.
+             * @example success
              * @enum {string|null}
              */
             conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
             /**
              * Format: date-time
              * @description The time that the job created, in ISO 8601 format.
+             * @example 2019-08-08T08:00:00-07:00
              */
             created_at: string;
             /**
              * Format: date-time
              * @description The time that the job started, in ISO 8601 format.
+             * @example 2019-08-08T08:00:00-07:00
              */
             started_at: string;
             /**
              * Format: date-time
              * @description The time that the job finished, in ISO 8601 format.
+             * @example 2019-08-08T08:00:00-07:00
              */
             completed_at: string | null;
-            /** @description The name of the job. */
+            /**
+             * @description The name of the job.
+             * @example test-coverage
+             */
             name: string;
             /** @description Steps in this job. */
             steps?: {
                 /**
                  * @description The phase of the lifecycle that the job is currently in.
+                 * @example queued
                  * @enum {string}
                  */
                 status: "queued" | "in_progress" | "completed";
-                /** @description The outcome of the job. */
+                /**
+                 * @description The outcome of the job.
+                 * @example success
+                 */
                 conclusion: string | null;
-                /** @description The name of the job. */
+                /**
+                 * @description The name of the job.
+                 * @example test-coverage
+                 */
                 name: string;
+                /** @example 1 */
                 number: number;
                 /**
                  * Format: date-time
                  * @description The time that the step started, in ISO 8601 format.
+                 * @example 2019-08-08T08:00:00-07:00
                  */
                 started_at?: string | null;
                 /**
                  * Format: date-time
                  * @description The time that the job finished, in ISO 8601 format.
+                 * @example 2019-08-08T08:00:00-07:00
                  */
                 completed_at?: string | null;
             }[];
+            /** @example https://api.github.com/repos/github/hello-world/check-runs/4 */
             check_run_url: string;
-            /** @description Labels for the workflow job. Specified by the "runs_on" attribute in the action's workflow file. */
+            /**
+             * @description Labels for the workflow job. Specified by the "runs_on" attribute in the action's workflow file.
+             * @example self-hosted
+             * @example foo
+             * @example bar
+             */
             labels: string[];
-            /** @description The ID of the runner to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.) */
+            /**
+             * @description The ID of the runner to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.)
+             * @example 1
+             */
             runner_id: number | null;
-            /** @description The name of the runner to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.) */
+            /**
+             * @description The name of the runner to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.)
+             * @example my runner
+             */
             runner_name: string | null;
-            /** @description The ID of the runner group to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.) */
+            /**
+             * @description The ID of the runner group to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.)
+             * @example 2
+             */
             runner_group_id: number | null;
-            /** @description The name of the runner group to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.) */
+            /**
+             * @description The name of the runner group to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.)
+             * @example my runner group
+             */
             runner_group_name: string | null;
-            /** @description The name of the workflow. */
+            /**
+             * @description The name of the workflow.
+             * @example Build
+             */
             workflow_name: string | null;
-            /** @description The name of the current branch. */
+            /**
+             * @description The name of the current branch.
+             * @example main
+             */
             head_branch: string | null;
         };
         /**
@@ -30675,7 +32760,10 @@ export interface components {
          * @description Set secrets for GitHub Actions.
          */
         "actions-secret": {
-            /** @description The name of the secret. */
+            /**
+             * @description The name of the secret.
+             * @example SECRET_TOKEN
+             */
             name: string;
             /** Format: date-time */
             created_at: string;
@@ -30684,18 +32772,26 @@ export interface components {
         };
         /** Actions Variable */
         "actions-variable": {
-            /** @description The name of the variable. */
+            /**
+             * @description The name of the variable.
+             * @example USERNAME
+             */
             name: string;
-            /** @description The value of the variable. */
+            /**
+             * @description The value of the variable.
+             * @example octocat
+             */
             value: string;
             /**
              * Format: date-time
              * @description The date and time at which the variable was created, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.
+             * @example 2019-01-24T22:45:36.000Z
              */
             created_at: string;
             /**
              * Format: date-time
              * @description The date and time at which the variable was last updated, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.
+             * @example 2019-01-24T22:45:36.000Z
              */
             updated_at: string;
         };
@@ -30757,34 +32853,49 @@ export interface components {
          * @description A commit.
          */
         "simple-commit": {
-            /** @description SHA for the commit */
+            /**
+             * @description SHA for the commit
+             * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+             */
             id: string;
             /** @description SHA for the commit's tree */
             tree_id: string;
-            /** @description Message describing the purpose of the commit */
+            /**
+             * @description Message describing the purpose of the commit
+             * @example Fix #42
+             */
             message: string;
             /**
              * Format: date-time
              * @description Timestamp of the commit
+             * @example 2014-08-09T08:02:04+12:00
              */
             timestamp: string;
             /** @description Information about the Git author */
             author: {
-                /** @description Name of the commit's author */
+                /**
+                 * @description Name of the commit's author
+                 * @example Monalisa Octocat
+                 */
                 name: string;
                 /**
                  * Format: email
                  * @description Git email address of the commit's author
+                 * @example monalisa.octocat@example.com
                  */
                 email: string;
             } | null;
             /** @description Information about the Git committer */
             committer: {
-                /** @description Name of the commit's committer */
+                /**
+                 * @description Name of the commit's committer
+                 * @example Monalisa Octocat
+                 */
                 name: string;
                 /**
                  * Format: email
                  * @description Git email address of the commit's committer
+                 * @example monalisa.octocat@example.com
                  */
                 email: string;
             } | null;
@@ -30794,32 +32905,68 @@ export interface components {
          * @description An invocation of a workflow
          */
         "workflow-run": {
-            /** @description The ID of the workflow run. */
+            /**
+             * @description The ID of the workflow run.
+             * @example 5
+             */
             id: number;
-            /** @description The name of the workflow run. */
+            /**
+             * @description The name of the workflow run.
+             * @example Build
+             */
             name?: string | null;
+            /** @example MDEwOkNoZWNrU3VpdGU1 */
             node_id: string;
-            /** @description The ID of the associated check suite. */
+            /**
+             * @description The ID of the associated check suite.
+             * @example 42
+             */
             check_suite_id?: number;
-            /** @description The node ID of the associated check suite. */
+            /**
+             * @description The node ID of the associated check suite.
+             * @example MDEwOkNoZWNrU3VpdGU0Mg==
+             */
             check_suite_node_id?: string;
+            /** @example master */
             head_branch: string | null;
-            /** @description The SHA of the head commit that points to the version of the workflow being run. */
+            /**
+             * @description The SHA of the head commit that points to the version of the workflow being run.
+             * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+             */
             head_sha: string;
-            /** @description The full path of the workflow */
+            /**
+             * @description The full path of the workflow
+             * @example octocat/octo-repo/.github/workflows/ci.yml@main
+             */
             path: string;
-            /** @description The auto incrementing run number for the workflow run. */
+            /**
+             * @description The auto incrementing run number for the workflow run.
+             * @example 106
+             */
             run_number: number;
-            /** @description Attempt number of the run, 1 for first attempt and higher if the workflow was re-run. */
+            /**
+             * @description Attempt number of the run, 1 for first attempt and higher if the workflow was re-run.
+             * @example 1
+             */
             run_attempt?: number;
             referenced_workflows?: components["schemas"]["referenced-workflow"][] | null;
+            /** @example push */
             event: string;
+            /** @example completed */
             status: string | null;
+            /** @example neutral */
             conclusion: string | null;
-            /** @description The ID of the parent workflow. */
+            /**
+             * @description The ID of the parent workflow.
+             * @example 5
+             */
             workflow_id: number;
-            /** @description The URL to the workflow run. */
+            /**
+             * @description The URL to the workflow run.
+             * @example https://api.github.com/repos/github/hello-world/actions/runs/5
+             */
             url: string;
+            /** @example https://github.com/github/hello-world/suites/4 */
             html_url: string;
             /** @description Pull requests that are open with a `head_sha` or `head_branch` that matches the workflow run. The returned pull requests do not necessarily indicate pull requests that triggered the run. */
             pull_requests: components["schemas"]["pull-request-minimal"][] | null;
@@ -30834,27 +32981,55 @@ export interface components {
              * @description The start time of the latest run. Resets on re-run.
              */
             run_started_at?: string;
-            /** @description The URL to the jobs for the workflow run. */
+            /**
+             * @description The URL to the jobs for the workflow run.
+             * @example https://api.github.com/repos/github/hello-world/actions/runs/5/jobs
+             */
             jobs_url: string;
-            /** @description The URL to download the logs for the workflow run. */
+            /**
+             * @description The URL to download the logs for the workflow run.
+             * @example https://api.github.com/repos/github/hello-world/actions/runs/5/logs
+             */
             logs_url: string;
-            /** @description The URL to the associated check suite. */
+            /**
+             * @description The URL to the associated check suite.
+             * @example https://api.github.com/repos/github/hello-world/check-suites/12
+             */
             check_suite_url: string;
-            /** @description The URL to the artifacts for the workflow run. */
+            /**
+             * @description The URL to the artifacts for the workflow run.
+             * @example https://api.github.com/repos/github/hello-world/actions/runs/5/rerun/artifacts
+             */
             artifacts_url: string;
-            /** @description The URL to cancel the workflow run. */
+            /**
+             * @description The URL to cancel the workflow run.
+             * @example https://api.github.com/repos/github/hello-world/actions/runs/5/cancel
+             */
             cancel_url: string;
-            /** @description The URL to rerun the workflow run. */
+            /**
+             * @description The URL to rerun the workflow run.
+             * @example https://api.github.com/repos/github/hello-world/actions/runs/5/rerun
+             */
             rerun_url: string;
-            /** @description The URL to the previous attempted run of this workflow, if one exists. */
+            /**
+             * @description The URL to the previous attempted run of this workflow, if one exists.
+             * @example https://api.github.com/repos/github/hello-world/actions/runs/5/attempts/3
+             */
             previous_attempt_url?: string | null;
-            /** @description The URL to the workflow. */
+            /**
+             * @description The URL to the workflow.
+             * @example https://api.github.com/repos/github/hello-world/actions/workflows/main.yaml
+             */
             workflow_url: string;
             head_commit: null | components["schemas"]["simple-commit"];
             repository: components["schemas"]["minimal-repository"];
             head_repository: components["schemas"]["minimal-repository"];
+            /** @example 5 */
             head_repository_id?: number;
-            /** @description The event-specific title associated with the run or the run-name if set, or the value of `run-name` if it is set in the workflow. */
+            /**
+             * @description The event-specific title associated with the run or the run-name if set, or the value of `run-name` if it is set in the workflow.
+             * @example Simple Workflow
+             */
             display_title: string;
         };
         /**
@@ -30864,31 +33039,46 @@ export interface components {
         "environment-approvals": {
             /** @description The list of environments that were approved or rejected */
             environments: {
-                /** @description The id of the environment. */
+                /**
+                 * @description The id of the environment.
+                 * @example 56780428
+                 */
                 id?: number;
+                /** @example MDExOkVudmlyb25tZW50NTY3ODA0Mjg= */
                 node_id?: string;
-                /** @description The name of the environment. */
+                /**
+                 * @description The name of the environment.
+                 * @example staging
+                 */
                 name?: string;
+                /** @example https://api.github.com/repos/github/hello-world/environments/staging */
                 url?: string;
+                /** @example https://github.com/github/hello-world/deployments/activity_log?environments_filter=staging */
                 html_url?: string;
                 /**
                  * Format: date-time
                  * @description The time that the environment was created, in ISO 8601 format.
+                 * @example 2020-11-23T22:00:40Z
                  */
                 created_at?: string;
                 /**
                  * Format: date-time
                  * @description The time that the environment was last updated, in ISO 8601 format.
+                 * @example 2020-11-23T22:00:40Z
                  */
                 updated_at?: string;
             }[];
             /**
              * @description Whether deployment to the environment(s) was approved or rejected or pending (with comments)
+             * @example approved
              * @enum {string}
              */
             state: "approved" | "rejected" | "pending";
             user: components["schemas"]["simple-user"];
-            /** @description The comment submitted with the deployment review */
+            /**
+             * @description The comment submitted with the deployment review
+             * @example Ship it!
+             */
             comment: string;
         };
         "review-custom-gates-comment-required": {
@@ -30910,6 +33100,7 @@ export interface components {
         };
         /**
          * @description The type of reviewer.
+         * @example User
          * @enum {string}
          */
         "deployment-reviewer-type": "User" | "Team";
@@ -30922,22 +33113,36 @@ export interface components {
                 /**
                  * Format: int64
                  * @description The id of the environment.
+                 * @example 56780428
                  */
                 id?: number;
+                /** @example MDExOkVudmlyb25tZW50NTY3ODA0Mjg= */
                 node_id?: string;
-                /** @description The name of the environment. */
+                /**
+                 * @description The name of the environment.
+                 * @example staging
+                 */
                 name?: string;
+                /** @example https://api.github.com/repos/github/hello-world/environments/staging */
                 url?: string;
+                /** @example https://github.com/github/hello-world/deployments/activity_log?environments_filter=staging */
                 html_url?: string;
             };
-            /** @description The set duration of the wait timer */
+            /**
+             * @description The set duration of the wait timer
+             * @example 30
+             */
             wait_timer: number;
             /**
              * Format: date-time
              * @description The time that the wait timer began.
+             * @example 2020-11-23T22:00:40Z
              */
             wait_timer_started_at: string | null;
-            /** @description Whether the currently authenticated user can approve the deployment */
+            /**
+             * @description Whether the currently authenticated user can approve the deployment
+             * @example true
+             */
             current_user_can_approve: boolean;
             /** @description The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
             reviewers: {
@@ -30950,38 +33155,73 @@ export interface components {
          * @description A request for a specific ref(branch,sha,tag) to be deployed
          */
         deployment: {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example/deployments/1
+             */
             url: string;
             /**
              * Format: int64
              * @description Unique identifier of the deployment
+             * @example 42
              */
             id: number;
+            /** @example MDEwOkRlcGxveW1lbnQx */
             node_id: string;
+            /** @example a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d */
             sha: string;
-            /** @description The ref to deploy. This can be a branch, tag, or sha. */
+            /**
+             * @description The ref to deploy. This can be a branch, tag, or sha.
+             * @example topic-branch
+             */
             ref: string;
-            /** @description Parameter to specify a task to execute */
+            /**
+             * @description Parameter to specify a task to execute
+             * @example deploy
+             */
             task: string;
             payload: {
                 [key: string]: unknown;
             } | string;
+            /** @example staging */
             original_environment?: string;
-            /** @description Name for the target deployment environment. */
+            /**
+             * @description Name for the target deployment environment.
+             * @example production
+             */
             environment: string;
+            /** @example Deploy request from hubot */
             description: string | null;
             creator: null | components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-07-20T01:19:13Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-07-20T01:19:13Z
+             */
             updated_at: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example/deployments/1/statuses
+             */
             statuses_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example
+             */
             repository_url: string;
-            /** @description Specifies if the given environment is will no longer exist at some point in the future. Default: false. */
+            /**
+             * @description Specifies if the given environment is will no longer exist at some point in the future. Default: false.
+             * @example true
+             */
             transient_environment?: boolean;
-            /** @description Specifies if the given environment is one that end-users directly interact with. Default: false. */
+            /**
+             * @description Specifies if the given environment is one that end-users directly interact with. Default: false.
+             * @example true
+             */
             production_environment?: boolean;
             performed_via_github_app?: null | components["schemas"]["integration"];
         };
@@ -31023,20 +33263,39 @@ export interface components {
          * @description A GitHub Actions workflow
          */
         workflow: {
+            /** @example 5 */
             id: number;
+            /** @example MDg6V29ya2Zsb3cxMg== */
             node_id: string;
+            /** @example CI */
             name: string;
+            /** @example ruby.yaml */
             path: string;
-            /** @enum {string} */
+            /**
+             * @example active
+             * @enum {string}
+             */
             state: "active" | "deleted" | "disabled_fork" | "disabled_inactivity" | "disabled_manually";
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2019-12-06T14:20:20.000Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2019-12-06T14:20:20.000Z
+             */
             updated_at: string;
+            /** @example https://api.github.com/repos/actions/setup-ruby/workflows/5 */
             url: string;
+            /** @example https://github.com/actions/setup-ruby/blob/master/.github/workflows/ruby.yaml */
             html_url: string;
+            /** @example https://github.com/actions/setup-ruby/workflows/CI/badge.svg */
             badge_url: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2019-12-06T14:20:20.000Z
+             */
             deleted_at?: string;
         };
         /**
@@ -31061,21 +33320,34 @@ export interface components {
          * @description Activity
          */
         activity: {
+            /** @example 1296269 */
             id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
             node_id: string;
-            /** @description The SHA of the commit before the activity. */
+            /**
+             * @description The SHA of the commit before the activity.
+             * @example 6dcb09b5b57875f334f61aebed695e2e4193db5e
+             */
             before: string;
-            /** @description The SHA of the commit after the activity. */
+            /**
+             * @description The SHA of the commit after the activity.
+             * @example 827efc6d56897b048c772eb4087f854f46256132
+             */
             after: string;
-            /** @description The full Git reference, formatted as `refs/heads/<branch name>`. */
+            /**
+             * @description The full Git reference, formatted as `refs/heads/<branch name>`.
+             * @example refs/heads/main
+             */
             ref: string;
             /**
              * Format: date-time
              * @description The time when the activity occurred.
+             * @example 2011-01-26T19:06:43Z
              */
             timestamp: string;
             /**
              * @description The type of the activity that was performed.
+             * @example force_push
              * @enum {string}
              */
             activity_type: "push" | "force_push" | "branch_deletion" | "branch_creation" | "pr_merge" | "merge_queue_merge";
@@ -31086,12 +33358,22 @@ export interface components {
          * @description An autolink reference.
          */
         autolink: {
+            /** @example 3 */
             id: number;
-            /** @description The prefix of a key that is linkified. */
+            /**
+             * @description The prefix of a key that is linkified.
+             * @example TICKET-
+             */
             key_prefix: string;
-            /** @description A template for the target URL that is generated if a key was found. */
+            /**
+             * @description A template for the target URL that is generated if a key was found.
+             * @example https://example.com/TICKET?query=<num>
+             */
             url_template: string;
-            /** @description Whether this autolink reference matches alphanumeric characters. If false, this autolink reference only matches numeric characters. */
+            /**
+             * @description Whether this autolink reference matches alphanumeric characters. If false, this autolink reference only matches numeric characters.
+             * @example true
+             */
             is_alphanumeric: boolean;
         };
         /**
@@ -31099,9 +33381,15 @@ export interface components {
          * @description Check Dependabot security updates
          */
         "check-automated-security-fixes": {
-            /** @description Whether Dependabot security updates are enabled for the repository. */
+            /**
+             * @description Whether Dependabot security updates are enabled for the repository.
+             * @example true
+             */
             enabled: boolean;
-            /** @description Whether Dependabot security updates are paused for the repository. */
+            /**
+             * @description Whether Dependabot security updates are paused for the repository.
+             * @example false
+             */
             paused: boolean;
         };
         /**
@@ -31124,8 +33412,12 @@ export interface components {
          * @description Protected Branch Admin Enforced
          */
         "protected-branch-admin-enforced": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/enforce_admins
+             */
             url: string;
+            /** @example true */
             enabled: boolean;
         };
         /**
@@ -31133,7 +33425,10 @@ export interface components {
          * @description Protected Branch Pull Request Review
          */
         "protected-branch-pull-request-review": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions
+             */
             url?: string;
             dismissal_restrictions?: {
                 /** @description The list of users with review dismissal access. */
@@ -31142,8 +33437,11 @@ export interface components {
                 teams?: components["schemas"]["team"][];
                 /** @description The list of apps with review dismissal access. */
                 apps?: components["schemas"]["integration"][];
+                /** @example "https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions" */
                 url?: string;
+                /** @example "https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/users" */
                 users_url?: string;
+                /** @example "https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/teams" */
                 teams_url?: string;
             };
             /** @description Allow specific users, teams, or apps to bypass pull request requirements. */
@@ -31155,12 +33453,16 @@ export interface components {
                 /** @description The list of apps allowed to bypass pull request requirements. */
                 apps?: components["schemas"]["integration"][];
             };
+            /** @example true */
             dismiss_stale_reviews: boolean;
+            /** @example true */
             require_code_owner_reviews: boolean;
+            /** @example 2 */
             required_approving_review_count?: number;
             /**
              * @description Whether the most recent push must be approved by someone other than the person who pushed it.
              * @default false
+             * @example true
              */
             require_last_push_approval: boolean;
         };
@@ -31231,17 +33533,29 @@ export interface components {
                     public_members_url?: string;
                     avatar_url?: string;
                     description?: string;
+                    /** @example "" */
                     gravatar_id?: string;
+                    /** @example "https://github.com/testorg-ea8ec76d71c3af4b" */
                     html_url?: string;
+                    /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/followers" */
                     followers_url?: string;
+                    /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/following{/other_user}" */
                     following_url?: string;
+                    /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/gists{/gist_id}" */
                     gists_url?: string;
+                    /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/starred{/owner}{/repo}" */
                     starred_url?: string;
+                    /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/subscriptions" */
                     subscriptions_url?: string;
+                    /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/orgs" */
                     organizations_url?: string;
+                    /** @example "https://api.github.com/users/testorg-ea8ec76d71c3af4b/received_events" */
                     received_events_url?: string;
+                    /** @example "Organization" */
                     type?: string;
+                    /** @example false */
                     site_admin?: boolean;
+                    /** @example public */
                     user_view_type?: string;
                 };
                 name?: string;
@@ -31286,11 +33600,17 @@ export interface components {
             required_conversation_resolution?: {
                 enabled?: boolean;
             };
+            /** @example "branch/with/protection" */
             name?: string;
+            /** @example "https://api.github.com/repos/owner-79e94e2d36b3fd06a32bb213/AAA_Public_Repo/branches/branch/with/protection/protection" */
             protection_url?: string;
             required_signatures?: {
-                /** Format: uri */
+                /**
+                 * Format: uri
+                 * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_signatures
+                 */
                 url: string;
+                /** @example true */
                 enabled: boolean;
             };
             /** @description Whether to set the branch as read-only. If this is true, users will not be able to push to the branch. */
@@ -31325,8 +33645,11 @@ export interface components {
          * @description Metaproperties for Git author/committer information.
          */
         "git-user": {
+            /** @example "Chris Wanstrath" */
             name?: string;
+            /** @example "chris@ozmm.org" */
             email?: string;
+            /** @example "2007-10-29T02:42:39.000-07:00" */
             date?: string;
         };
         /** Verification */
@@ -31342,20 +33665,39 @@ export interface components {
          * @description Diff Entry
          */
         "diff-entry": {
+            /** @example bbcd538c8e72b8c175046e27cc8f907076331401 */
             sha: string;
+            /** @example file1.txt */
             filename: string;
-            /** @enum {string} */
+            /**
+             * @example added
+             * @enum {string}
+             */
             status: "added" | "removed" | "modified" | "renamed" | "copied" | "changed" | "unchanged";
+            /** @example 103 */
             additions: number;
+            /** @example 21 */
             deletions: number;
+            /** @example 124 */
             changes: number;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt
+             */
             blob_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt
+             */
             raw_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e
+             */
             contents_url: string;
+            /** @example @@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test */
             patch?: string;
+            /** @example file.txt */
             previous_filename?: string;
         };
         /**
@@ -31363,24 +33705,44 @@ export interface components {
          * @description Commit
          */
         commit: {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e
+             */
             url: string;
+            /** @example 6dcb09b5b57875f334f61aebed695e2e4193db5e */
             sha: string;
+            /** @example MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ== */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments
+             */
             comments_url: string;
             commit: {
-                /** Format: uri */
+                /**
+                 * Format: uri
+                 * @example https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e
+                 */
                 url: string;
                 author: null | components["schemas"]["git-user"];
                 committer: null | components["schemas"]["git-user"];
+                /** @example Fix all the bugs */
                 message: string;
+                /** @example 0 */
                 comment_count: number;
                 tree: {
+                    /** @example 827efc6d56897b048c772eb4087f854f46256132 */
                     sha: string;
-                    /** Format: uri */
+                    /**
+                     * Format: uri
+                     * @example https://api.github.com/repos/octocat/Hello-World/tree/827efc6d56897b048c772eb4087f854f46256132
+                     */
                     url: string;
                 };
                 verification?: components["schemas"]["verification"];
@@ -31388,10 +33750,17 @@ export interface components {
             author: (null | Record<string, never>) & (components["schemas"]["simple-user"] | components["schemas"]["empty-object"]);
             committer: (null | Record<string, never>) & (components["schemas"]["simple-user"] | components["schemas"]["empty-object"]);
             parents: {
+                /** @example 7638417db6d59f3c431d3e1f261cc637155684cd */
                 sha: string;
-                /** Format: uri */
+                /**
+                 * Format: uri
+                 * @example https://api.github.com/repos/octocat/Hello-World/commits/7638417db6d59f3c431d3e1f261cc637155684cd
+                 */
                 url: string;
-                /** Format: uri */
+                /**
+                 * Format: uri
+                 * @example https://github.com/octocat/Hello-World/commit/7638417db6d59f3c431d3e1f261cc637155684cd
+                 */
                 html_url?: string;
             }[];
             stats?: {
@@ -31417,7 +33786,9 @@ export interface components {
             protection: components["schemas"]["branch-protection"];
             /** Format: uri */
             protection_url: string;
+            /** @example "mas*" */
             pattern?: string;
+            /** @example 1 */
             required_approving_review_count?: number;
         };
         /**
@@ -31425,15 +33796,24 @@ export interface components {
          * @description Status Check Policy
          */
         "status-check-policy": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_status_checks
+             */
             url: string;
+            /** @example true */
             strict: boolean;
+            /** @example continuous-integration/travis-ci */
             contexts: string[];
             checks: {
+                /** @example continuous-integration/travis-ci */
                 context: string;
                 app_id: number | null;
             }[];
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_status_checks/contexts
+             */
             contexts_url: string;
         };
         /**
@@ -31473,8 +33853,12 @@ export interface components {
                 };
             };
             required_signatures?: {
-                /** Format: uri */
+                /**
+                 * Format: uri
+                 * @example https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_signatures
+                 */
                 url: string;
+                /** @example true */
                 enabled: boolean;
             };
             enforce_admins?: {
@@ -31514,28 +33898,61 @@ export interface components {
          * @description A deployment created as the result of an Actions check run from a workflow that references an environment
          */
         "deployment-simple": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example/deployments/1
+             */
             url: string;
-            /** @description Unique identifier of the deployment */
+            /**
+             * @description Unique identifier of the deployment
+             * @example 42
+             */
             id: number;
+            /** @example MDEwOkRlcGxveW1lbnQx */
             node_id: string;
-            /** @description Parameter to specify a task to execute */
+            /**
+             * @description Parameter to specify a task to execute
+             * @example deploy
+             */
             task: string;
+            /** @example staging */
             original_environment?: string;
-            /** @description Name for the target deployment environment. */
+            /**
+             * @description Name for the target deployment environment.
+             * @example production
+             */
             environment: string;
+            /** @example Deploy request from hubot */
             description: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-07-20T01:19:13Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-07-20T01:19:13Z
+             */
             updated_at: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example/deployments/1/statuses
+             */
             statuses_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example
+             */
             repository_url: string;
-            /** @description Specifies if the given environment is will no longer exist at some point in the future. Default: false. */
+            /**
+             * @description Specifies if the given environment is will no longer exist at some point in the future. Default: false.
+             * @example true
+             */
             transient_environment?: boolean;
-            /** @description Specifies if the given environment is one that end-users directly interact with. Default: false. */
+            /**
+             * @description Specifies if the given environment is one that end-users directly interact with. Default: false.
+             * @example true
+             */
             production_environment?: boolean;
             performed_via_github_app?: null | components["schemas"]["integration"];
         };
@@ -31547,25 +33964,44 @@ export interface components {
             /**
              * Format: int64
              * @description The id of the check.
+             * @example 21
              */
             id: number;
-            /** @description The SHA of the commit that is being checked. */
+            /**
+             * @description The SHA of the commit that is being checked.
+             * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+             */
             head_sha: string;
+            /** @example MDg6Q2hlY2tSdW40 */
             node_id: string;
+            /** @example 42 */
             external_id: string | null;
+            /** @example https://api.github.com/repos/github/hello-world/check-runs/4 */
             url: string;
+            /** @example https://github.com/github/hello-world/runs/4 */
             html_url: string | null;
+            /** @example https://example.com */
             details_url: string | null;
             /**
              * @description The phase of the lifecycle that the check is currently in. Statuses of waiting, requested, and pending are reserved for GitHub Actions check runs.
+             * @example queued
              * @enum {string}
              */
             status: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending";
-            /** @enum {string|null} */
+            /**
+             * @example neutral
+             * @enum {string|null}
+             */
             conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-05-04T01:14:52Z
+             */
             started_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-05-04T01:14:52Z
+             */
             completed_at: string | null;
             output: {
                 title: string | null;
@@ -31575,7 +34011,10 @@ export interface components {
                 /** Format: uri */
                 annotations_url: string;
             };
-            /** @description The name of the check. */
+            /**
+             * @description The name of the check.
+             * @example test-coverage
+             */
             name: string;
             check_suite: {
                 id: number;
@@ -31590,14 +34029,23 @@ export interface components {
          * @description Check Annotation
          */
         "check-annotation": {
+            /** @example README.md */
             path: string;
+            /** @example 2 */
             start_line: number;
+            /** @example 2 */
             end_line: number;
+            /** @example 5 */
             start_column: number | null;
+            /** @example 10 */
             end_column: number | null;
+            /** @example warning */
             annotation_level: string | null;
+            /** @example Spell Checker */
             title: string | null;
+            /** @example Check your spelling for 'banaas'. */
             message: string | null;
+            /** @example Do you mean 'bananas' or 'banana'? */
             raw_details: string | null;
             blob_href: string;
         };
@@ -31606,21 +34054,36 @@ export interface components {
          * @description A suite of checks performed on the code of a given code change
          */
         "check-suite": {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 5
+             */
             id: number;
+            /** @example MDEwOkNoZWNrU3VpdGU1 */
             node_id: string;
+            /** @example master */
             head_branch: string | null;
-            /** @description The SHA of the head commit that is being checked. */
+            /**
+             * @description The SHA of the head commit that is being checked.
+             * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+             */
             head_sha: string;
             /**
              * @description The phase of the lifecycle that the check suite is currently in. Statuses of waiting, requested, and pending are reserved for GitHub Actions check suites.
+             * @example completed
              * @enum {string|null}
              */
             status: "queued" | "in_progress" | "completed" | "waiting" | "requested" | "pending" | null;
-            /** @enum {string|null} */
+            /**
+             * @example neutral
+             * @enum {string|null}
+             */
             conclusion: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "startup_failure" | "stale" | null;
+            /** @example https://api.github.com/repos/github/hello-world/check-suites/5 */
             url: string | null;
+            /** @example 146e867f55c26428e5f9fade55a9bbf5e95a7912 */
             before: string | null;
+            /** @example d6fde92930d4715a2b49857d24b940956b26d2d3 */
             after: string | null;
             pull_requests: components["schemas"]["pull-request-minimal"][] | null;
             app: null | components["schemas"]["integration"];
@@ -31743,7 +34206,10 @@ export interface components {
             /** @description SHA of commit with autofix. */
             sha?: string;
         };
-        /** @description An identifier for the upload. */
+        /**
+         * @description An identifier for the upload.
+         * @example 6c81cd8e-b078-4ac3-a3be-1dad7dbd0b53
+         */
         "code-scanning-analysis-sarif-id": string;
         /** @description The SHA of the commit to which the analysis you are uploading relates. */
         "code-scanning-analysis-commit-sha": string;
@@ -31765,6 +34231,7 @@ export interface components {
             analysis_key: components["schemas"]["code-scanning-analysis-analysis-key"];
             environment: components["schemas"]["code-scanning-analysis-environment"];
             category?: components["schemas"]["code-scanning-analysis-category"];
+            /** @example error reading field xyz */
             error: string;
             created_at: components["schemas"]["code-scanning-analysis-created-at"];
             /** @description The total number of results in the analysis. */
@@ -31777,7 +34244,10 @@ export interface components {
             sarif_id: components["schemas"]["code-scanning-analysis-sarif-id"];
             tool: components["schemas"]["code-scanning-analysis-tool"];
             deletable: boolean;
-            /** @description Warning generated when processing the analysis */
+            /**
+             * @description Warning generated when processing the analysis
+             * @example 123 results were ignored
+             */
             warning: string;
         };
         /**
@@ -31840,16 +34310,29 @@ export interface components {
          * @description Repository Identifier
          */
         "code-scanning-variant-analysis-repository": {
-            /** @description A unique identifier of the repository. */
+            /**
+             * @description A unique identifier of the repository.
+             * @example 1296269
+             */
             id: number;
-            /** @description The name of the repository. */
+            /**
+             * @description The name of the repository.
+             * @example Hello-World
+             */
             name: string;
-            /** @description The full, globally unique, name of the repository. */
+            /**
+             * @description The full, globally unique, name of the repository.
+             * @example octocat/Hello-World
+             */
             full_name: string;
             /** @description Whether the repository is private. */
             private: boolean;
+            /** @example 80 */
             stargazers_count: number;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:14:43Z
+             */
             updated_at: string | null;
         };
         /**
@@ -31858,7 +34341,10 @@ export interface components {
          */
         "code-scanning-variant-analysis-status": "pending" | "in_progress" | "succeeded" | "failed" | "canceled" | "timed_out";
         "code-scanning-variant-analysis-skipped-repo-group": {
-            /** @description The total number of repositories that were skipped for this reason. */
+            /**
+             * @description The total number of repositories that were skipped for this reason.
+             * @example 2
+             */
             repository_count: number;
             /** @description A list of repositories that were skipped. This list may not include all repositories that were skipped. This is only available when the repository was found and the user has access to it. */
             repositories: components["schemas"]["code-scanning-variant-analysis-repository"][];
@@ -31913,7 +34399,10 @@ export interface components {
             skipped_repositories?: {
                 access_mismatch_repos: components["schemas"]["code-scanning-variant-analysis-skipped-repo-group"];
                 not_found_repos: {
-                    /** @description The total number of repositories that were skipped for this reason. */
+                    /**
+                     * @description The total number of repositories that were skipped for this reason.
+                     * @example 2
+                     */
                     repository_count: number;
                     /** @description A list of full repository names that were skipped. This list may not include all repositories that were skipped. */
                     repository_full_names: string[];
@@ -31952,7 +34441,10 @@ export interface components {
              * @enum {string|null}
              */
             runner_type?: "standard" | "labeled" | null;
-            /** @description Runner label to be used if the runner type is labeled. */
+            /**
+             * @description Runner label to be used if the runner type is labeled.
+             * @example code-scanning
+             */
             runner_label?: string | null;
             /**
              * @description CodeQL query suite to be used.
@@ -31962,6 +34454,7 @@ export interface components {
             /**
              * Format: date-time
              * @description Timestamp of latest configuration update.
+             * @example 2023-12-06T14:20:20.000Z
              */
             updated_at?: string | null;
             /**
@@ -31982,7 +34475,10 @@ export interface components {
              * @enum {string}
              */
             runner_type?: "standard" | "labeled";
-            /** @description Runner label to be used if the runner type is labeled. */
+            /**
+             * @description Runner label to be used if the runner type is labeled.
+             * @example code-scanning
+             */
             runner_label?: string | null;
             /**
              * @description CodeQL query suite to be used.
@@ -32000,8 +34496,11 @@ export interface components {
             /** @description URL of the corresponding run. */
             run_url?: string;
         };
-        /** @description The full Git reference, formatted as `refs/heads/<branch name>`,
-         *     `refs/tags/<tag>`, `refs/pull/<number>/merge`, or `refs/pull/<number>/head`. */
+        /**
+         * @description The full Git reference, formatted as `refs/heads/<branch name>`,
+         *     `refs/tags/<tag>`, `refs/pull/<number>/merge`, or `refs/pull/<number>/head`.
+         * @example refs/heads/main
+         */
         "code-scanning-ref-full": string;
         /** @description A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string. For more information, see "[SARIF support for code scanning](https://docs.github.com/code-security/secure-coding/sarif-support-for-code-scanning)." */
         "code-scanning-analysis-sarif-file": string;
@@ -32042,19 +34541,43 @@ export interface components {
          */
         "codeowners-errors": {
             errors: {
-                /** @description The line number where this errors occurs. */
+                /**
+                 * @description The line number where this errors occurs.
+                 * @example 7
+                 */
                 line: number;
-                /** @description The column number where this errors occurs. */
+                /**
+                 * @description The column number where this errors occurs.
+                 * @example 3
+                 */
                 column: number;
-                /** @description The contents of the line where the error occurs. */
+                /**
+                 * @description The contents of the line where the error occurs.
+                 * @example * user
+                 */
                 source?: string;
-                /** @description The type of error. */
+                /**
+                 * @description The type of error.
+                 * @example Invalid owner
+                 */
                 kind: string;
-                /** @description Suggested action to fix the error. This will usually be `null`, but is provided for some common errors. */
+                /**
+                 * @description Suggested action to fix the error. This will usually be `null`, but is provided for some common errors.
+                 * @example The pattern `/` will never match anything, did you mean `*` instead?
+                 */
                 suggestion?: string | null;
-                /** @description A human-readable description of the error, combining information from multiple fields, laid out for display in a monospaced typeface (for example, a command-line setting). */
+                /**
+                 * @description A human-readable description of the error, combining information from multiple fields, laid out for display in a monospaced typeface (for example, a command-line setting).
+                 * @example Invalid owner on line 7:
+                 *
+                 *       * user
+                 *         ^
+                 */
                 message: string;
-                /** @description The path of the file where the error occured. */
+                /**
+                 * @description The path of the file where the error occured.
+                 * @example .github/CODEOWNERS
+                 */
                 path: string;
             }[];
         };
@@ -32063,7 +34586,10 @@ export interface components {
          * @description Permission check result for a given devcontainer config.
          */
         "codespaces-permissions-check-for-devcontainer": {
-            /** @description Whether the user has accepted the permissions defined by the devcontainer config */
+            /**
+             * @description Whether the user has accepted the permissions defined by the devcontainer config
+             * @example true
+             */
             accepted: boolean;
         };
         /**
@@ -32071,7 +34597,10 @@ export interface components {
          * @description Set repository secrets for GitHub Codespaces.
          */
         "repo-codespaces-secret": {
-            /** @description The name of the secret. */
+            /**
+             * @description The name of the secret.
+             * @example SECRET_TOKEN
+             */
             name: string;
             /** Format: date-time */
             created_at: string;
@@ -32083,33 +34612,68 @@ export interface components {
          * @description Collaborator
          */
         collaborator: {
+            /** @example octocat */
             login: string;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
             email?: string | null;
             name?: string | null;
+            /** @example MDQ6VXNlcjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/images/error/octocat_happy.gif
+             */
             avatar_url: string;
+            /** @example 41d064eb2195891e12d0413f63227ea7 */
             gravatar_id: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/followers
+             */
             followers_url: string;
+            /** @example https://api.github.com/users/octocat/following{/other_user} */
             following_url: string;
+            /** @example https://api.github.com/users/octocat/gists{/gist_id} */
             gists_url: string;
+            /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
             starred_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/subscriptions
+             */
             subscriptions_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/orgs
+             */
             organizations_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/repos
+             */
             repos_url: string;
+            /** @example https://api.github.com/users/octocat/events{/privacy} */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/received_events
+             */
             received_events_url: string;
+            /** @example User */
             type: string;
             site_admin: boolean;
             permissions?: {
@@ -32119,7 +34683,9 @@ export interface components {
                 maintain?: boolean;
                 admin: boolean;
             };
+            /** @example admin */
             role_name: string;
+            /** @example public */
             user_view_type?: string;
         };
         /**
@@ -32130,6 +34696,7 @@ export interface components {
             /**
              * Format: int64
              * @description Unique identifier of the repository invitation.
+             * @example 42
              */
             id: number;
             repository: components["schemas"]["minimal-repository"];
@@ -32137,15 +34704,23 @@ export interface components {
             inviter: null | components["schemas"]["simple-user"];
             /**
              * @description The permission associated with the invitation.
+             * @example read
              * @enum {string}
              */
             permissions: "read" | "write" | "admin" | "triage" | "maintain";
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2016-06-13T14:52:50-05:00
+             */
             created_at: string;
             /** @description Whether or not the invitation has expired */
             expired?: boolean;
-            /** @description URL for the repository invitation */
+            /**
+             * @description URL for the repository invitation
+             * @example https://api.github.com/user/repository-invitations/1
+             */
             url: string;
+            /** @example https://github.com/octocat/Hello-World/invitations */
             html_url: string;
             node_id: string;
         };
@@ -32155,6 +34730,7 @@ export interface components {
          */
         "repository-collaborator-permission": {
             permission: string;
+            /** @example admin */
             role_name: string;
             user: null | components["schemas"]["collaborator"];
         };
@@ -32222,33 +34798,70 @@ export interface components {
          * @description Pull Request Simple
          */
         "pull-request-simple": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347
+             */
             url: string;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
+            /** @example MDExOlB1bGxSZXF1ZXN0MQ== */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/1347
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/1347.diff
+             */
             diff_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/1347.patch
+             */
             patch_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/1347
+             */
             issue_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347/commits
+             */
             commits_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347/comments
+             */
             review_comments_url: string;
+            /** @example https://api.github.com/repos/octocat/Hello-World/pulls/comments{/number} */
             review_comment_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/1347/comments
+             */
             comments_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e
+             */
             statuses_url: string;
+            /** @example 1347 */
             number: number;
+            /** @example open */
             state: string;
+            /** @example true */
             locked: boolean;
+            /** @example new-feature */
             title: string;
             user: null | components["schemas"]["simple-user"];
+            /** @example Please pull these awesome changes */
             body: string | null;
             labels: {
                 /** Format: int64 */
@@ -32261,15 +34874,29 @@ export interface components {
                 default: boolean;
             }[];
             milestone: null | components["schemas"]["milestone"];
+            /** @example too heated */
             active_lock_reason?: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             updated_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             closed_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             merged_at: string | null;
+            /** @example e5bd3914e2e596debea16f433f57875b5b90bcd6 */
             merge_commit_sha: string | null;
             assignee: null | components["schemas"]["simple-user"];
             assignees?: components["schemas"]["simple-user"][] | null;
@@ -32301,7 +34928,10 @@ export interface components {
             };
             author_association: components["schemas"]["author-association"];
             auto_merge: components["schemas"]["auto-merge"];
-            /** @description Indicates whether or not the pull request is a draft. */
+            /**
+             * @description Indicates whether or not the pull request is a draft.
+             * @example false
+             */
             draft?: boolean;
         };
         /** Simple Commit Status */
@@ -32367,8 +34997,11 @@ export interface components {
          * @description Community Profile
          */
         "community-profile": {
+            /** @example 100 */
             health_percentage: number;
+            /** @example My first repository on GitHub! */
             description: string | null;
+            /** @example example.com */
             documentation: string | null;
             files: {
                 code_of_conduct: null | components["schemas"]["code-of-conduct-simple"];
@@ -32379,8 +35012,12 @@ export interface components {
                 issue_template: null | components["schemas"]["community-health-file"];
                 pull_request_template: null | components["schemas"]["community-health-file"];
             };
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2017-02-28T19:09:29Z
+             */
             updated_at: string | null;
+            /** @example true */
             content_reports_enabled?: boolean;
         };
         /**
@@ -32388,22 +35025,43 @@ export interface components {
          * @description Commit Comparison
          */
         "commit-comparison": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/compare/master...topic
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/compare/master...topic
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/compare/octocat:bbcd538c8e72b8c175046e27cc8f907076331401...octocat:0328041d1152db8ae77652d1618a02e57f745f17
+             */
             permalink_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/compare/master...topic.diff
+             */
             diff_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/compare/master...topic.patch
+             */
             patch_url: string;
             base_commit: components["schemas"]["commit"];
             merge_base_commit: components["schemas"]["commit"];
-            /** @enum {string} */
+            /**
+             * @example ahead
+             * @enum {string}
+             */
             status: "diverged" | "ahead" | "behind" | "identical";
+            /** @example 4 */
             ahead_by: number;
+            /** @example 5 */
             behind_by: number;
+            /** @example 6 */
             total_commits: number;
             commits: components["schemas"]["commit"][];
             files?: components["schemas"]["diff-entry"][];
@@ -32520,7 +35178,9 @@ export interface components {
                 /** Format: uri */
                 self: string;
             };
+            /** @example "actual/actual.md" */
             target?: string;
+            /** @example "git://example.com/defunkt/dotjs.git" */
             submodule_git_url?: string;
         };
         /**
@@ -32737,7 +35397,10 @@ export interface components {
          * @description Set secrets for Dependabot.
          */
         "dependabot-secret": {
-            /** @description The name of the secret. */
+            /**
+             * @description The name of the secret.
+             * @example MY_ARTIFACTORY_PASSWORD
+             */
             name: string;
             /** Format: date-time */
             created_at: string;
@@ -32751,17 +35414,28 @@ export interface components {
         "dependency-graph-diff": {
             /** @enum {string} */
             change_type: "added" | "removed";
+            /** @example path/to/package-lock.json */
             manifest: string;
+            /** @example npm */
             ecosystem: string;
+            /** @example @actions/core */
             name: string;
+            /** @example 1.0.0 */
             version: string;
+            /** @example pkg:/npm/%40actions/core@1.1.0 */
             package_url: string | null;
+            /** @example MIT */
             license: string | null;
+            /** @example https://github.com/github/actions */
             source_repository_url: string | null;
             vulnerabilities: {
+                /** @example critical */
                 severity: string;
+                /** @example GHSA-rf4j-j272-fj86 */
                 advisory_ghsa_id: string;
+                /** @example A summary of the advisory. */
                 advisory_summary: string;
+                /** @example https://github.com/advisories/GHSA-rf4j-j272-fj86 */
                 advisory_url: string;
             }[];
             /**
@@ -32776,58 +35450,118 @@ export interface components {
          */
         "dependency-graph-spdx-sbom": {
             sbom: {
-                /** @description The SPDX identifier for the SPDX document. */
+                /**
+                 * @description The SPDX identifier for the SPDX document.
+                 * @example SPDXRef-DOCUMENT
+                 */
                 SPDXID: string;
-                /** @description The version of the SPDX specification that this document conforms to. */
+                /**
+                 * @description The version of the SPDX specification that this document conforms to.
+                 * @example SPDX-2.3
+                 */
                 spdxVersion: string;
-                /** @description An optional comment about the SPDX document. */
+                /**
+                 * @description An optional comment about the SPDX document.
+                 * @example Exact versions could not be resolved for some packages. For more information: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/
+                 */
                 comment?: string;
                 creationInfo: {
-                    /** @description The date and time the SPDX document was created. */
+                    /**
+                     * @description The date and time the SPDX document was created.
+                     * @example 2021-11-03T00:00:00Z
+                     */
                     created: string;
                     /** @description The tools that were used to generate the SPDX document. */
                     creators: string[];
                 };
-                /** @description The name of the SPDX document. */
+                /**
+                 * @description The name of the SPDX document.
+                 * @example github/github
+                 */
                 name: string;
-                /** @description The license under which the SPDX document is licensed. */
+                /**
+                 * @description The license under which the SPDX document is licensed.
+                 * @example CC0-1.0
+                 */
                 dataLicense: string;
-                /** @description The namespace for the SPDX document. */
+                /**
+                 * @description The namespace for the SPDX document.
+                 * @example https://spdx.org/spdxdocs/protobom/15e41dd2-f961-4f4d-b8dc-f8f57ad70d57
+                 */
                 documentNamespace: string;
                 packages: {
-                    /** @description A unique SPDX identifier for the package. */
+                    /**
+                     * @description A unique SPDX identifier for the package.
+                     * @example SPDXRef-Package
+                     */
                     SPDXID?: string;
-                    /** @description The name of the package. */
+                    /**
+                     * @description The name of the package.
+                     * @example github/github
+                     */
                     name?: string;
-                    /** @description The version of the package. If the package does not have an exact version specified,
-                     *     a version range is given. */
+                    /**
+                     * @description The version of the package. If the package does not have an exact version specified,
+                     *     a version range is given.
+                     * @example 1.0.0
+                     */
                     versionInfo?: string;
-                    /** @description The location where the package can be downloaded,
-                     *     or NOASSERTION if this has not been determined. */
+                    /**
+                     * @description The location where the package can be downloaded,
+                     *     or NOASSERTION if this has not been determined.
+                     * @example NOASSERTION
+                     */
                     downloadLocation?: string;
-                    /** @description Whether the package's file content has been subjected to
-                     *     analysis during the creation of the SPDX document. */
+                    /**
+                     * @description Whether the package's file content has been subjected to
+                     *     analysis during the creation of the SPDX document.
+                     * @example false
+                     */
                     filesAnalyzed?: boolean;
-                    /** @description The license of the package as determined while creating the SPDX document. */
+                    /**
+                     * @description The license of the package as determined while creating the SPDX document.
+                     * @example MIT
+                     */
                     licenseConcluded?: string;
-                    /** @description The license of the package as declared by its author, or NOASSERTION if this information
-                     *     was not available when the SPDX document was created. */
+                    /**
+                     * @description The license of the package as declared by its author, or NOASSERTION if this information
+                     *     was not available when the SPDX document was created.
+                     * @example NOASSERTION
+                     */
                     licenseDeclared?: string;
-                    /** @description The distribution source of this package, or NOASSERTION if this was not determined. */
+                    /**
+                     * @description The distribution source of this package, or NOASSERTION if this was not determined.
+                     * @example NOASSERTION
+                     */
                     supplier?: string;
-                    /** @description The copyright holders of the package, and any dates present with those notices, if available. */
+                    /**
+                     * @description The copyright holders of the package, and any dates present with those notices, if available.
+                     * @example Copyright (c) 1985 GitHub.com
+                     */
                     copyrightText?: string;
                     externalRefs?: {
-                        /** @description The category of reference to an external resource this reference refers to. */
+                        /**
+                         * @description The category of reference to an external resource this reference refers to.
+                         * @example PACKAGE-MANAGER
+                         */
                         referenceCategory: string;
-                        /** @description A locator for the particular external resource this reference refers to. */
+                        /**
+                         * @description A locator for the particular external resource this reference refers to.
+                         * @example pkg:gem/rails@6.0.1
+                         */
                         referenceLocator: string;
-                        /** @description The category of reference to an external resource this reference refers to. */
+                        /**
+                         * @description The category of reference to an external resource this reference refers to.
+                         * @example purl
+                         */
                         referenceType: string;
                     }[];
                 }[];
                 relationships?: {
-                    /** @description The type of relationship between the two SPDX elements. */
+                    /**
+                     * @description The type of relationship between the two SPDX elements.
+                     * @example DEPENDS_ON
+                     */
                     relationshipType?: string;
                     /** @description The SPDX identifier of the package that is the source of the relationship. */
                     spdxElementId?: string;
@@ -32844,27 +35578,41 @@ export interface components {
             [key: string]: (null | (string | number | boolean) | (number | string | boolean) | (boolean | string | number)) | string | number | boolean;
         };
         dependency: {
-            /** @description Package-url (PURL) of dependency. See https://github.com/package-url/purl-spec for more details. */
+            /**
+             * @description Package-url (PURL) of dependency. See https://github.com/package-url/purl-spec for more details.
+             * @example pkg:/npm/%40actions/http-client@1.0.11
+             */
             package_url?: string;
             metadata?: components["schemas"]["metadata"];
             /**
              * @description A notation of whether a dependency is requested directly by this manifest or is a dependency of another dependency.
+             * @example direct
              * @enum {string}
              */
             relationship?: "direct" | "indirect";
             /**
              * @description A notation of whether the dependency is required for the primary build artifact (runtime) or is only used for development. Future versions of this specification may allow for more granular scopes.
+             * @example runtime
              * @enum {string}
              */
             scope?: "runtime" | "development";
-            /** @description Array of package-url (PURLs) of direct child dependencies. */
+            /**
+             * @description Array of package-url (PURLs) of direct child dependencies.
+             * @example @actions/http-client
+             */
             dependencies?: string[];
         };
         manifest: {
-            /** @description The name of the manifest. */
+            /**
+             * @description The name of the manifest.
+             * @example package-lock.json
+             */
             name: string;
             file?: {
-                /** @description The path of the manifest file relative to the root of the Git repository. */
+                /**
+                 * @description The path of the manifest file relative to the root of the Git repository.
+                 * @example /src/build/package-lock.json
+                 */
                 source_location?: string;
             };
             metadata?: components["schemas"]["metadata"];
@@ -32881,24 +35629,48 @@ export interface components {
             /** @description The version of the repository snapshot submission. */
             version: number;
             job: {
-                /** @description The external ID of the job. */
+                /**
+                 * @description The external ID of the job.
+                 * @example 5622a2b0-63f6-4732-8c34-a1ab27e102a11
+                 */
                 id: string;
-                /** @description Correlator provides a key that is used to group snapshots submitted over time. Only the "latest" submitted snapshot for a given combination of `job.correlator` and `detector.name` will be considered when calculating a repository's current dependencies. Correlator should be as unique as it takes to distinguish all detection runs for a given "wave" of CI workflow you run. If you're using GitHub Actions, a good default value for this could be the environment variables GITHUB_WORKFLOW and GITHUB_JOB concatenated together. If you're using a build matrix, then you'll also need to add additional key(s) to distinguish between each submission inside a matrix variation. */
+                /**
+                 * @description Correlator provides a key that is used to group snapshots submitted over time. Only the "latest" submitted snapshot for a given combination of `job.correlator` and `detector.name` will be considered when calculating a repository's current dependencies. Correlator should be as unique as it takes to distinguish all detection runs for a given "wave" of CI workflow you run. If you're using GitHub Actions, a good default value for this could be the environment variables GITHUB_WORKFLOW and GITHUB_JOB concatenated together. If you're using a build matrix, then you'll also need to add additional key(s) to distinguish between each submission inside a matrix variation.
+                 * @example yourworkflowname_yourjobname
+                 */
                 correlator: string;
-                /** @description The url for the job. */
+                /**
+                 * @description The url for the job.
+                 * @example http://example.com/build
+                 */
                 html_url?: string;
             };
-            /** @description The commit SHA associated with this dependency snapshot. Maximum length: 40 characters. */
+            /**
+             * @description The commit SHA associated with this dependency snapshot. Maximum length: 40 characters.
+             * @example ddc951f4b1293222421f2c8df679786153acf689
+             */
             sha: string;
-            /** @description The repository branch that triggered this snapshot. */
+            /**
+             * @description The repository branch that triggered this snapshot.
+             * @example refs/heads/main
+             */
             ref: string;
             /** @description A description of the detector used. */
             detector: {
-                /** @description The name of the detector used. */
+                /**
+                 * @description The name of the detector used.
+                 * @example docker buildtime detector
+                 */
                 name: string;
-                /** @description The version of the detector used. */
+                /**
+                 * @description The version of the detector used.
+                 * @example 1.0.0
+                 */
                 version: string;
-                /** @description The url of the detector used. */
+                /**
+                 * @description The url of the detector used.
+                 * @example http://example.com/docker-buildtimer-detector
+                 */
                 url: string;
             };
             metadata?: components["schemas"]["metadata"];
@@ -32909,6 +35681,7 @@ export interface components {
             /**
              * Format: date-time
              * @description The time at which the snapshot was scanned.
+             * @example 2020-06-13T14:52:50-05:00
              */
             scanned: string;
         };
@@ -32917,13 +35690,21 @@ export interface components {
          * @description The status of a deployment.
          */
         "deployment-status": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example/deployments/42/statuses/1
+             */
             url: string;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
+            /** @example MDE2OkRlcGxveW1lbnRTdGF0dXMx */
             node_id: string;
             /**
              * @description The state of the status.
+             * @example success
              * @enum {string}
              */
             state: "error" | "failure" | "inactive" | "pending" | "success" | "queued" | "in_progress";
@@ -32931,42 +35712,62 @@ export interface components {
             /**
              * @description A short description of the status.
              * @default
+             * @example Deployment finished successfully.
              */
             description: string;
             /**
              * @description The environment of the deployment that the status is for.
              * @default
+             * @example production
              */
             environment: string;
             /**
              * Format: uri
              * @description Closing down notice: the URL to associate with this status.
              * @default
+             * @example https://example.com/deployment/42/output
              */
             target_url: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-07-20T01:19:13Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-07-20T01:19:13Z
+             */
             updated_at: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example/deployments/42
+             */
             deployment_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example
+             */
             repository_url: string;
             /**
              * Format: uri
              * @description The URL for accessing your environment.
              * @default
+             * @example https://staging.example.com/
              */
             environment_url: string;
             /**
              * Format: uri
              * @description The URL to associate with this status.
              * @default
+             * @example https://example.com/deployment/42/output
              */
             log_url: string;
             performed_via_github_app?: null | components["schemas"]["integration"];
         };
-        /** @description The amount of time to delay a job after the job is initially triggered. The time (in minutes) must be an integer between 0 and 43,200 (30 days). */
+        /**
+         * @description The amount of time to delay a job after the job is initially triggered. The time (in minutes) must be an integer between 0 and 43,200 (30 days).
+         * @example 30
+         */
         "wait-timer": number;
         /** @description The type of deployment branch policy for this environment. To allow all branches to deploy, set to `null`. */
         "deployment-branch-policy-settings": {
@@ -32983,34 +35784,52 @@ export interface components {
             /**
              * Format: int64
              * @description The id of the environment.
+             * @example 56780428
              */
             id: number;
+            /** @example MDExOkVudmlyb25tZW50NTY3ODA0Mjg= */
             node_id: string;
-            /** @description The name of the environment. */
+            /**
+             * @description The name of the environment.
+             * @example staging
+             */
             name: string;
+            /** @example https://api.github.com/repos/github/hello-world/environments/staging */
             url: string;
+            /** @example https://github.com/github/hello-world/deployments/activity_log?environments_filter=staging */
             html_url: string;
             /**
              * Format: date-time
              * @description The time that the environment was created, in ISO 8601 format.
+             * @example 2020-11-23T22:00:40Z
              */
             created_at: string;
             /**
              * Format: date-time
              * @description The time that the environment was last updated, in ISO 8601 format.
+             * @example 2020-11-23T22:00:40Z
              */
             updated_at: string;
             /** @description Built-in deployment protection rules for the environment. */
             protection_rules?: ({
+                /** @example 3515 */
                 id: number;
+                /** @example MDQ6R2F0ZTM1MTU= */
                 node_id: string;
+                /** @example wait_timer */
                 type: string;
                 wait_timer?: components["schemas"]["wait-timer"];
             } | {
+                /** @example 3755 */
                 id: number;
+                /** @example MDQ6R2F0ZTM3NTU= */
                 node_id: string;
-                /** @description Whether deployments to this environment can be approved by the user who created the deployment. */
+                /**
+                 * @description Whether deployments to this environment can be approved by the user who created the deployment.
+                 * @example false
+                 */
                 prevent_self_review?: boolean;
+                /** @example required_reviewers */
                 type: string;
                 /** @description The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
                 reviewers?: {
@@ -33018,49 +35837,70 @@ export interface components {
                     reviewer?: components["schemas"]["simple-user"] | components["schemas"]["team"];
                 }[];
             } | {
+                /** @example 3515 */
                 id: number;
+                /** @example MDQ6R2F0ZTM1MTU= */
                 node_id: string;
+                /** @example branch_policy */
                 type: string;
             })[];
             deployment_branch_policy?: components["schemas"]["deployment-branch-policy-settings"];
         };
-        /** @description Whether or not a user who created the job is prevented from approving their own job. */
+        /**
+         * @description Whether or not a user who created the job is prevented from approving their own job.
+         * @example false
+         */
         "prevent-self-review": boolean;
         /**
          * Deployment branch policy
          * @description Details of a deployment branch or tag policy.
          */
         "deployment-branch-policy": {
-            /** @description The unique identifier of the branch or tag policy. */
+            /**
+             * @description The unique identifier of the branch or tag policy.
+             * @example 361471
+             */
             id?: number;
+            /** @example MDE2OkdhdGVCcmFuY2hQb2xpY3kzNjE0NzE= */
             node_id?: string;
-            /** @description The name pattern that branches or tags must match in order to deploy to the environment. */
+            /**
+             * @description The name pattern that branches or tags must match in order to deploy to the environment.
+             * @example release/*
+             */
             name?: string;
             /**
              * @description Whether this rule targets a branch or tag.
+             * @example branch
              * @enum {string}
              */
             type?: "branch" | "tag";
         };
         /** Deployment branch and tag policy name pattern */
         "deployment-branch-policy-name-pattern-with-type": {
-            /** @description The name pattern that branches or tags must match in order to deploy to the environment.
+            /**
+             * @description The name pattern that branches or tags must match in order to deploy to the environment.
              *
              *     Wildcard characters will not match `/`. For example, to match branches that begin with `release/` and contain an additional single slash, use `release/*\/*`.
-             *     For more information about pattern matching syntax, see the [Ruby File.fnmatch documentation](https://ruby-doc.org/core-2.5.1/File.html#method-c-fnmatch). */
+             *     For more information about pattern matching syntax, see the [Ruby File.fnmatch documentation](https://ruby-doc.org/core-2.5.1/File.html#method-c-fnmatch).
+             * @example release/*
+             */
             name: string;
             /**
              * @description Whether this rule targets a branch or tag
+             * @example branch
              * @enum {string}
              */
             type?: "branch" | "tag";
         };
         /** Deployment branch policy name pattern */
         "deployment-branch-policy-name-pattern": {
-            /** @description The name pattern that branches must match in order to deploy to the environment.
+            /**
+             * @description The name pattern that branches must match in order to deploy to the environment.
              *
              *     Wildcard characters will not match `/`. For example, to match branches that begin with `release/` and contain an additional single slash, use `release/*\/*`.
-             *     For more information about pattern matching syntax, see the [Ruby File.fnmatch documentation](https://ruby-doc.org/core-2.5.1/File.html#method-c-fnmatch). */
+             *     For more information about pattern matching syntax, see the [Ruby File.fnmatch documentation](https://ruby-doc.org/core-2.5.1/File.html#method-c-fnmatch).
+             * @example release/*
+             */
             name: string;
         };
         /**
@@ -33068,13 +35908,25 @@ export interface components {
          * @description A GitHub App that is providing a custom deployment protection rule.
          */
         "custom-deployment-rule-app": {
-            /** @description The unique identifier of the deployment protection rule integration. */
+            /**
+             * @description The unique identifier of the deployment protection rule integration.
+             * @example 3515
+             */
             id: number;
-            /** @description The slugified name of the deployment protection rule integration. */
+            /**
+             * @description The slugified name of the deployment protection rule integration.
+             * @example my-custom-app
+             */
             slug: string;
-            /** @description The URL for the endpoint to get details about the app. */
+            /**
+             * @description The URL for the endpoint to get details about the app.
+             * @example https://api.github.com/apps/custom-app-slug
+             */
             integration_url: string;
-            /** @description The node ID for the deployment protection rule integration. */
+            /**
+             * @description The node ID for the deployment protection rule integration.
+             * @example MDQ6R2F0ZTM1MTU=
+             */
             node_id: string;
         };
         /**
@@ -33082,11 +35934,20 @@ export interface components {
          * @description Deployment protection rule
          */
         "deployment-protection-rule": {
-            /** @description The unique identifier for the deployment protection rule. */
+            /**
+             * @description The unique identifier for the deployment protection rule.
+             * @example 3515
+             */
             id: number;
-            /** @description The node ID for the deployment protection rule. */
+            /**
+             * @description The node ID for the deployment protection rule.
+             * @example MDQ6R2F0ZTM1MTU=
+             */
             node_id: string;
-            /** @description Whether the deployment protection rule is enabled for the environment. */
+            /**
+             * @description Whether the deployment protection rule is enabled for the environment.
+             * @example true
+             */
             enabled: boolean;
             app: components["schemas"]["custom-deployment-rule-app"];
         };
@@ -33117,7 +35978,10 @@ export interface components {
          * @description Low-level Git commit operations within a repository
          */
         "git-commit": {
-            /** @description SHA for the commit */
+            /**
+             * @description SHA for the commit
+             * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+             */
             sha: string;
             node_id: string;
             /** Format: uri */
@@ -33127,11 +35991,18 @@ export interface components {
                 /**
                  * Format: date-time
                  * @description Timestamp of the commit
+                 * @example 2014-08-09T08:02:04+12:00
                  */
                 date: string;
-                /** @description Git email address of the user */
+                /**
+                 * @description Git email address of the user
+                 * @example monalisa.octocat@example.com
+                 */
                 email: string;
-                /** @description Name of the git user */
+                /**
+                 * @description Name of the git user
+                 * @example Monalisa Octocat
+                 */
                 name: string;
             };
             /** @description Identifying information for the git-user */
@@ -33139,23 +36010,39 @@ export interface components {
                 /**
                  * Format: date-time
                  * @description Timestamp of the commit
+                 * @example 2014-08-09T08:02:04+12:00
                  */
                 date: string;
-                /** @description Git email address of the user */
+                /**
+                 * @description Git email address of the user
+                 * @example monalisa.octocat@example.com
+                 */
                 email: string;
-                /** @description Name of the git user */
+                /**
+                 * @description Name of the git user
+                 * @example Monalisa Octocat
+                 */
                 name: string;
             };
-            /** @description Message describing the purpose of the commit */
+            /**
+             * @description Message describing the purpose of the commit
+             * @example Fix #42
+             */
             message: string;
             tree: {
-                /** @description SHA for the commit */
+                /**
+                 * @description SHA for the commit
+                 * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+                 */
                 sha: string;
                 /** Format: uri */
                 url: string;
             };
             parents: {
-                /** @description SHA for the commit */
+                /**
+                 * @description SHA for the commit
+                 * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+                 */
                 sha: string;
                 /** Format: uri */
                 url: string;
@@ -33183,7 +36070,10 @@ export interface components {
             url: string;
             object: {
                 type: string;
-                /** @description SHA for the reference */
+                /**
+                 * @description SHA for the reference
+                 * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+                 */
                 sha: string;
                 /** Format: uri */
                 url: string;
@@ -33194,16 +36084,25 @@ export interface components {
          * @description Metadata for a Git tag
          */
         "git-tag": {
+            /** @example MDM6VGFnOTQwYmQzMzYyNDhlZmFlMGY5ZWU1YmM3YjJkNWM5ODU4ODdiMTZhYw== */
             node_id: string;
-            /** @description Name of the tag */
+            /**
+             * @description Name of the tag
+             * @example v0.0.1
+             */
             tag: string;
+            /** @example 940bd336248efae0f9ee5bc7b2d5c985887b16ac */
             sha: string;
             /**
              * Format: uri
              * @description URL for the tag
+             * @example https://api.github.com/repositories/42/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac
              */
             url: string;
-            /** @description Message describing the purpose of the tag */
+            /**
+             * @description Message describing the purpose of the tag
+             * @example Initial public release
+             */
             message: string;
             tagger: {
                 date: string;
@@ -33227,13 +36126,57 @@ export interface components {
             /** Format: uri */
             url: string;
             truncated: boolean;
-            /** @description Objects specifying a tree structure */
+            /**
+             * @description Objects specifying a tree structure
+             * @example {
+             *       "path": "file.rb",
+             *       "mode": "100644",
+             *       "type": "blob",
+             *       "size": 30,
+             *       "sha": "44b4fc6d56897b048c772eb4087f854f46256132",
+             *       "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/44b4fc6d56897b048c772eb4087f854f46256132",
+             *       "properties": {
+             *         "path": {
+             *           "type": "string"
+             *         },
+             *         "mode": {
+             *           "type": "string"
+             *         },
+             *         "type": {
+             *           "type": "string"
+             *         },
+             *         "size": {
+             *           "type": "integer"
+             *         },
+             *         "sha": {
+             *           "type": "string"
+             *         },
+             *         "url": {
+             *           "type": "string"
+             *         }
+             *       },
+             *       "required": [
+             *         "path",
+             *         "mode",
+             *         "type",
+             *         "sha",
+             *         "url",
+             *         "size"
+             *       ]
+             *     }
+             */
             tree: {
+                /** @example test/file.rb */
                 path?: string;
+                /** @example 040000 */
                 mode?: string;
+                /** @example tree */
                 type?: string;
+                /** @example 23f6827669e43831def8a7ad935069c8bd418261 */
                 sha?: string;
+                /** @example 12 */
                 size?: number;
+                /** @example https://api.github.com/repos/owner-482f3203ecf01f67e9deb18e/BBB_Private_Repo/git/blobs/23f6827669e43831def8a7ad935069c8bd418261 */
                 url?: string;
             }[];
         };
@@ -33249,26 +36192,57 @@ export interface components {
          */
         hook: {
             type: string;
-            /** @description Unique identifier of the webhook. */
+            /**
+             * @description Unique identifier of the webhook.
+             * @example 42
+             */
             id: number;
-            /** @description The name of a valid service, use 'web' for a webhook. */
+            /**
+             * @description The name of a valid service, use 'web' for a webhook.
+             * @example web
+             */
             name: string;
-            /** @description Determines whether the hook is actually triggered on pushes. */
+            /**
+             * @description Determines whether the hook is actually triggered on pushes.
+             * @example true
+             */
             active: boolean;
-            /** @description Determines what events the hook is triggered for. Default: ['push']. */
+            /**
+             * @description Determines what events the hook is triggered for. Default: ['push'].
+             * @example push
+             * @example pull_request
+             */
             events: string[];
             config: components["schemas"]["webhook-config"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-09-06T20:39:23Z
+             */
             updated_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-09-06T17:26:27Z
+             */
             created_at: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/hooks/1
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/hooks/1/test
+             */
             test_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/hooks/1/pings
+             */
             ping_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/hooks/1/deliveries
+             */
             deliveries_url?: string;
             last_response: components["schemas"]["hook-response"];
         };
@@ -33385,16 +36359,29 @@ export interface components {
          * @description Issue Event
          */
         "issue-event": {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
+            /** @example MDEwOklzc3VlRXZlbnQx */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/events/1
+             */
             url: string;
             actor: null | components["schemas"]["simple-user"];
+            /** @example closed */
             event: string;
+            /** @example 6dcb09b5b57875f334f61aebed695e2e4193db5e */
             commit_id: string | null;
+            /** @example https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e */
             commit_url: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             created_at: string;
             issue?: null | components["schemas"]["issue"];
             label?: components["schemas"]["issue-event-label"];
@@ -33609,6 +36596,7 @@ export interface components {
             commit_url: string | null;
             created_at: string;
             performed_via_github_app: null | components["schemas"]["integration"];
+            /** @example "off-topic" */
             lock_reason: string | null;
         };
         /**
@@ -33724,21 +36712,36 @@ export interface components {
             /**
              * Format: int64
              * @description Unique identifier for the label.
+             * @example 208045946
              */
             id: number;
+            /** @example MDU6TGFiZWwyMDgwNDU5NDY= */
             node_id: string;
             /**
              * Format: uri
              * @description URL for the label
+             * @example https://api.github.com/repositories/42/labels/bug
              */
             url: string;
-            /** @description The name of the label. */
+            /**
+             * @description The name of the label.
+             * @example bug
+             */
             name: string;
-            /** @description Optional description of the label, such as its purpose. */
+            /**
+             * @description Optional description of the label, such as its purpose.
+             * @example Something isn't working
+             */
             description: string | null;
-            /** @description 6-character hex code, without the leading #, identifying the color */
+            /**
+             * @description 6-character hex code, without the leading #, identifying the color
+             * @example FFFFFF
+             */
             color: string;
-            /** @description Whether this label comes by default in a new repository. */
+            /**
+             * @description Whether this label comes by default in a new repository.
+             * @example true
+             */
             default: boolean;
         };
         /**
@@ -33748,24 +36751,37 @@ export interface components {
         "timeline-comment-event": {
             event: string;
             actor: components["schemas"]["simple-user"];
-            /** @description Unique identifier of the issue comment */
+            /**
+             * @description Unique identifier of the issue comment
+             * @example 42
+             */
             id: number;
             node_id: string;
             /**
              * Format: uri
              * @description URL for the issue comment
+             * @example https://api.github.com/repositories/42/issues/comments/1
              */
             url: string;
-            /** @description Contents of the issue comment */
+            /**
+             * @description Contents of the issue comment
+             * @example What version of Safari were you using when you observed this bug?
+             */
             body?: string;
             body_text?: string;
             body_html?: string;
             /** Format: uri */
             html_url: string;
             user: components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             updated_at: string;
             /** Format: uri */
             issue_url: string;
@@ -33795,7 +36811,10 @@ export interface components {
          */
         "timeline-committed-event": {
             event?: string;
-            /** @description SHA for the commit */
+            /**
+             * @description SHA for the commit
+             * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+             */
             sha: string;
             node_id: string;
             /** Format: uri */
@@ -33805,11 +36824,18 @@ export interface components {
                 /**
                  * Format: date-time
                  * @description Timestamp of the commit
+                 * @example 2014-08-09T08:02:04+12:00
                  */
                 date: string;
-                /** @description Git email address of the user */
+                /**
+                 * @description Git email address of the user
+                 * @example monalisa.octocat@example.com
+                 */
                 email: string;
-                /** @description Name of the git user */
+                /**
+                 * @description Name of the git user
+                 * @example Monalisa Octocat
+                 */
                 name: string;
             };
             /** @description Identifying information for the git-user */
@@ -33817,23 +36843,39 @@ export interface components {
                 /**
                  * Format: date-time
                  * @description Timestamp of the commit
+                 * @example 2014-08-09T08:02:04+12:00
                  */
                 date: string;
-                /** @description Git email address of the user */
+                /**
+                 * @description Git email address of the user
+                 * @example monalisa.octocat@example.com
+                 */
                 email: string;
-                /** @description Name of the git user */
+                /**
+                 * @description Name of the git user
+                 * @example Monalisa Octocat
+                 */
                 name: string;
             };
-            /** @description Message describing the purpose of the commit */
+            /**
+             * @description Message describing the purpose of the commit
+             * @example Fix #42
+             */
             message: string;
             tree: {
-                /** @description SHA for the commit */
+                /**
+                 * @description SHA for the commit
+                 * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+                 */
                 sha: string;
                 /** Format: uri */
                 url: string;
             };
             parents: {
-                /** @description SHA for the commit */
+                /**
+                 * @description SHA for the commit
+                 * @example 7638417db6d59f3c431d3e1f261cc637155684cd
+                 */
                 sha: string;
                 /** Format: uri */
                 url: string;
@@ -33856,16 +36898,30 @@ export interface components {
          */
         "timeline-reviewed-event": {
             event: string;
-            /** @description Unique identifier of the review */
+            /**
+             * @description Unique identifier of the review
+             * @example 42
+             */
             id: number;
+            /** @example MDE3OlB1bGxSZXF1ZXN0UmV2aWV3ODA= */
             node_id: string;
             user: components["schemas"]["simple-user"];
-            /** @description The text of the review. */
+            /**
+             * @description The text of the review.
+             * @example This looks great.
+             */
             body: string | null;
+            /** @example CHANGES_REQUESTED */
             state: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/12#pullrequestreview-80
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/12
+             */
             pull_request_url: string;
             _links: {
                 html: {
@@ -33877,7 +36933,10 @@ export interface components {
             };
             /** Format: date-time */
             submitted_at?: string;
-            /** @description A commit SHA for the review. */
+            /**
+             * @description A commit SHA for the review.
+             * @example 54bb654c9e6025347f57900a4a5c2313a96b8035
+             */
             commit_id: string;
             body_html?: string;
             body_text?: string;
@@ -33888,69 +36947,124 @@ export interface components {
          * @description Pull Request Review Comments are comments on a portion of the Pull Request's diff.
          */
         "pull-request-review-comment": {
-            /** @description URL for the pull request review comment */
+            /**
+             * @description URL for the pull request review comment
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
+             */
             url: string;
             /**
              * Format: int64
              * @description The ID of the pull request review to which the comment belongs.
+             * @example 42
              */
             pull_request_review_id: number | null;
             /**
              * Format: int64
              * @description The ID of the pull request review comment.
+             * @example 1
              */
             id: number;
-            /** @description The node ID of the pull request review comment. */
+            /**
+             * @description The node ID of the pull request review comment.
+             * @example MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw
+             */
             node_id: string;
-            /** @description The diff of the line that the comment refers to. */
+            /**
+             * @description The diff of the line that the comment refers to.
+             * @example @@ -16,33 +16,40 @@ public class Connection : IConnection...
+             */
             diff_hunk: string;
-            /** @description The relative path of the file to which the comment applies. */
+            /**
+             * @description The relative path of the file to which the comment applies.
+             * @example config/database.yaml
+             */
             path: string;
-            /** @description The line index in the diff to which the comment applies. This field is closing down; use `line` instead. */
+            /**
+             * @description The line index in the diff to which the comment applies. This field is closing down; use `line` instead.
+             * @example 1
+             */
             position?: number;
-            /** @description The index of the original line in the diff to which the comment applies. This field is closing down; use `original_line` instead. */
+            /**
+             * @description The index of the original line in the diff to which the comment applies. This field is closing down; use `original_line` instead.
+             * @example 4
+             */
             original_position?: number;
-            /** @description The SHA of the commit to which the comment applies. */
+            /**
+             * @description The SHA of the commit to which the comment applies.
+             * @example 6dcb09b5b57875f334f61aebed695e2e4193db5e
+             */
             commit_id: string;
-            /** @description The SHA of the original commit to which the comment applies. */
+            /**
+             * @description The SHA of the original commit to which the comment applies.
+             * @example 9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840
+             */
             original_commit_id: string;
-            /** @description The comment ID to reply to. */
+            /**
+             * @description The comment ID to reply to.
+             * @example 8
+             */
             in_reply_to_id?: number;
             user: components["schemas"]["simple-user"];
-            /** @description The text of the comment. */
+            /**
+             * @description The text of the comment.
+             * @example We should probably include a check for null values here.
+             */
             body: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             updated_at: string;
             /**
              * Format: uri
              * @description HTML URL for the pull request review comment.
+             * @example https://github.com/octocat/Hello-World/pull/1#discussion-diff-1
              */
             html_url: string;
             /**
              * Format: uri
              * @description URL for the pull request that the review comment belongs to.
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/1
              */
             pull_request_url: string;
             author_association: components["schemas"]["author-association"];
             _links: {
                 self: {
-                    /** Format: uri */
+                    /**
+                     * Format: uri
+                     * @example https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
+                     */
                     href: string;
                 };
                 html: {
-                    /** Format: uri */
+                    /**
+                     * Format: uri
+                     * @example https://github.com/octocat/Hello-World/pull/1#discussion-diff-1
+                     */
                     href: string;
                 };
                 pull_request: {
-                    /** Format: uri */
+                    /**
+                     * Format: uri
+                     * @example https://api.github.com/repos/octocat/Hello-World/pulls/1
+                     */
                     href: string;
                 };
             };
-            /** @description The first line of the range for a multi-line comment. */
+            /**
+             * @description The first line of the range for a multi-line comment.
+             * @example 2
+             */
             start_line?: number | null;
-            /** @description The first line of the range for a multi-line comment. */
+            /**
+             * @description The first line of the range for a multi-line comment.
+             * @example 2
+             */
             original_start_line?: number | null;
             /**
              * @description The side of the first line of the range for a multi-line comment.
@@ -33958,9 +37072,15 @@ export interface components {
              * @enum {string|null}
              */
             start_side: "LEFT" | "RIGHT" | null;
-            /** @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
+            /**
+             * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
+             * @example 2
+             */
             line?: number;
-            /** @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
+            /**
+             * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
+             * @example 2
+             */
             original_line?: number;
             /**
              * @description The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment
@@ -33974,7 +37094,9 @@ export interface components {
              */
             subject_type?: "line" | "file";
             reactions?: components["schemas"]["reaction-rollup"];
+            /** @example "<p>comment body</p>" */
             body_html?: string;
+            /** @example "comment body" */
             body_text?: string;
         };
         /**
@@ -34119,10 +37241,18 @@ export interface components {
         };
         /** Pages Https Certificate */
         "pages-https-certificate": {
-            /** @enum {string} */
+            /**
+             * @example approved
+             * @enum {string}
+             */
             state: "new" | "authorization_created" | "authorization_pending" | "authorized" | "authorization_revoked" | "issued" | "uploaded" | "approved" | "errored" | "bad_authz" | "destroy_pending" | "dns_changed";
+            /** @example Certificate is approved */
             description: string;
-            /** @description Array of the domain set and its alternate name (if it is configured) */
+            /**
+             * @description Array of the domain set and its alternate name (if it is configured)
+             * @example example.com
+             * @example www.example.com
+             */
             domains: string[];
             /** Format: date */
             expires_at?: string;
@@ -34135,17 +37265,23 @@ export interface components {
             /**
              * Format: uri
              * @description The API address for accessing this Page resource.
+             * @example https://api.github.com/repos/github/hello-world/pages
              */
             url: string;
             /**
              * @description The status of the most recent build of the Page.
+             * @example built
              * @enum {string|null}
              */
             status: "built" | "building" | "errored" | null;
-            /** @description The Pages site's custom domain */
+            /**
+             * @description The Pages site's custom domain
+             * @example example.com
+             */
             cname: string | null;
             /**
              * @description The state if the domain is verified
+             * @example pending
              * @enum {string|null}
              */
             protected_domain_state?: "pending" | "verified" | "unverified" | null;
@@ -34157,23 +37293,32 @@ export interface components {
             /**
              * @description Whether the Page has a custom 404 page.
              * @default false
+             * @example false
              */
             custom_404: boolean;
             /**
              * Format: uri
              * @description The web address the Page can be accessed from.
+             * @example https://example.com
              */
             html_url?: string;
             /**
              * @description The process in which the Page will be built.
+             * @example legacy
              * @enum {string|null}
              */
             build_type?: "legacy" | "workflow" | null;
             source?: components["schemas"]["pages-source-hash"];
-            /** @description Whether the GitHub Pages site is publicly visible. If set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site. */
+            /**
+             * @description Whether the GitHub Pages site is publicly visible. If set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site.
+             * @example true
+             */
             public: boolean;
             https_certificate?: components["schemas"]["pages-https-certificate"];
-            /** @description Whether https is enabled on the domain */
+            /**
+             * @description Whether https is enabled on the domain
+             * @example true
+             */
             https_enforced?: boolean;
         };
         /**
@@ -34200,8 +37345,12 @@ export interface components {
          * @description Page Build Status
          */
         "page-build-status": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/github/hello-world/pages/builds/latest
+             */
             url: string;
+            /** @example queued */
             status: string;
         };
         /**
@@ -34214,16 +37363,19 @@ export interface components {
             /**
              * Format: uri
              * @description The URI to monitor GitHub Pages deployment status.
+             * @example https://api.github.com/repos/github/hello-world/pages/deployments/4fd754f7e594640989b406850d0bc8f06a121251
              */
             status_url: string;
             /**
              * Format: uri
              * @description The URI to the deployed GitHub Pages.
+             * @example hello-world.github.io
              */
             page_url: string;
             /**
              * Format: uri
              * @description The URI to the deployed GitHub Pages preview.
+             * @example monalisa-1231a2312sa32-23sda74.drafts.github.io
              */
             preview_url?: string;
         };
@@ -34306,39 +37458,80 @@ export interface components {
          * @description Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary.
          */
         "pull-request": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347
+             */
             url: string;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
+            /** @example MDExOlB1bGxSZXF1ZXN0MQ== */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/1347
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/1347.diff
+             */
             diff_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/1347.patch
+             */
             patch_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/1347
+             */
             issue_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347/commits
+             */
             commits_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/1347/comments
+             */
             review_comments_url: string;
+            /** @example https://api.github.com/repos/octocat/Hello-World/pulls/comments{/number} */
             review_comment_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/1347/comments
+             */
             comments_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e
+             */
             statuses_url: string;
-            /** @description Number uniquely identifying the pull request within its repository. */
+            /**
+             * @description Number uniquely identifying the pull request within its repository.
+             * @example 42
+             */
             number: number;
             /**
              * @description State of this Pull Request. Either `open` or `closed`.
+             * @example open
              * @enum {string}
              */
             state: "open" | "closed";
+            /** @example true */
             locked: boolean;
-            /** @description The title of the pull request. */
+            /**
+             * @description The title of the pull request.
+             * @example Amazing new feature
+             */
             title: string;
             user: components["schemas"]["simple-user"];
+            /** @example Please pull these awesome changes */
             body: string | null;
             labels: {
                 /** Format: int64 */
@@ -34351,15 +37544,29 @@ export interface components {
                 default: boolean;
             }[];
             milestone: null | components["schemas"]["milestone"];
+            /** @example too heated */
             active_lock_reason?: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             updated_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             closed_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             merged_at: string | null;
+            /** @example e5bd3914e2e596debea16f433f57875b5b90bcd6 */
             merge_commit_sha: string | null;
             assignee: null | components["schemas"]["simple-user"];
             assignees?: components["schemas"]["simple-user"][] | null;
@@ -34391,20 +37598,35 @@ export interface components {
             };
             author_association: components["schemas"]["author-association"];
             auto_merge: components["schemas"]["auto-merge"];
-            /** @description Indicates whether or not the pull request is a draft. */
+            /**
+             * @description Indicates whether or not the pull request is a draft.
+             * @example false
+             */
             draft?: boolean;
             merged: boolean;
+            /** @example true */
             mergeable: boolean | null;
+            /** @example true */
             rebaseable?: boolean | null;
+            /** @example clean */
             mergeable_state: string;
             merged_by: null | components["schemas"]["simple-user"];
+            /** @example 10 */
             comments: number;
+            /** @example 0 */
             review_comments: number;
-            /** @description Indicates whether maintainers can modify the pull request. */
+            /**
+             * @description Indicates whether maintainers can modify the pull request.
+             * @example true
+             */
             maintainer_can_modify: boolean;
+            /** @example 3 */
             commits: number;
+            /** @example 100 */
             additions: number;
+            /** @example 3 */
             deletions: number;
+            /** @example 5 */
             changed_files: number;
         };
         /**
@@ -34432,16 +37654,28 @@ export interface components {
             /**
              * Format: int64
              * @description Unique identifier of the review
+             * @example 42
              */
             id: number;
+            /** @example MDE3OlB1bGxSZXF1ZXN0UmV2aWV3ODA= */
             node_id: string;
             user: null | components["schemas"]["simple-user"];
-            /** @description The text of the review. */
+            /**
+             * @description The text of the review.
+             * @example This looks great.
+             */
             body: string;
+            /** @example CHANGES_REQUESTED */
             state: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/12#pullrequestreview-80
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/12
+             */
             pull_request_url: string;
             _links: {
                 html: {
@@ -34453,7 +37687,10 @@ export interface components {
             };
             /** Format: date-time */
             submitted_at?: string;
-            /** @description A commit SHA for the review. If the commit object was garbage collected or forcibly deleted, then it no longer exists in Git and this value will be `null`. */
+            /**
+             * @description A commit SHA for the review. If the commit object was garbage collected or forcibly deleted, then it no longer exists in Git and this value will be `null`.
+             * @example 54bb654c9e6025347f57900a4a5c2313a96b8035
+             */
             commit_id: string | null;
             body_html?: string;
             body_text?: string;
@@ -34464,29 +37701,59 @@ export interface components {
          * @description Legacy Review Comment
          */
         "review-comment": {
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
+             */
             url: string;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 42
+             */
             pull_request_review_id: number | null;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 10
+             */
             id: number;
+            /** @example MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw */
             node_id: string;
+            /** @example @@ -16,33 +16,40 @@ public class Connection : IConnection... */
             diff_hunk: string;
+            /** @example file1.txt */
             path: string;
+            /** @example 1 */
             position: number | null;
+            /** @example 4 */
             original_position: number;
+            /** @example 6dcb09b5b57875f334f61aebed695e2e4193db5e */
             commit_id: string;
+            /** @example 9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840 */
             original_commit_id: string;
+            /** @example 8 */
             in_reply_to_id?: number;
             user: null | components["schemas"]["simple-user"];
+            /** @example Great stuff */
             body: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-04-14T16:00:49Z
+             */
             updated_at: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/pull/1#discussion-diff-1
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/1
+             */
             pull_request_url: string;
             author_association: components["schemas"]["author-association"];
             _links: {
@@ -34509,13 +37776,25 @@ export interface components {
              * @enum {string|null}
              */
             start_side: "LEFT" | "RIGHT" | null;
-            /** @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
+            /**
+             * @description The line of the blob to which the comment applies. The last line of the range for a multi-line comment
+             * @example 2
+             */
             line?: number;
-            /** @description The original line of the blob to which the comment applies. The last line of the range for a multi-line comment */
+            /**
+             * @description The original line of the blob to which the comment applies. The last line of the range for a multi-line comment
+             * @example 2
+             */
             original_line?: number;
-            /** @description The first line of the range for a multi-line comment. */
+            /**
+             * @description The first line of the range for a multi-line comment.
+             * @example 2
+             */
             start_line?: number | null;
-            /** @description The original first line of the range for a multi-line comment. */
+            /**
+             * @description The original first line of the range for a multi-line comment.
+             * @example 2
+             */
             original_start_line?: number | null;
         };
         /**
@@ -34529,7 +37808,10 @@ export interface components {
             browser_download_url: string;
             id: number;
             node_id: string;
-            /** @description The file name of the asset. */
+            /**
+             * @description The file name of the asset.
+             * @example Team Environment
+             */
             name: string;
             label: string | null;
             /**
@@ -34564,15 +37846,27 @@ export interface components {
             zipball_url: string | null;
             id: number;
             node_id: string;
-            /** @description The name of the tag. */
+            /**
+             * @description The name of the tag.
+             * @example v1.0.0
+             */
             tag_name: string;
-            /** @description Specifies the commitish value that determines where the Git tag is created from. */
+            /**
+             * @description Specifies the commitish value that determines where the Git tag is created from.
+             * @example master
+             */
             target_commitish: string;
             name: string | null;
             body?: string | null;
-            /** @description true to create a draft (unpublished) release, false to create a published one. */
+            /**
+             * @description true to create a draft (unpublished) release, false to create a published one.
+             * @example false
+             */
             draft: boolean;
-            /** @description Whether to identify the release as a prerelease or a full release. */
+            /**
+             * @description Whether to identify the release as a prerelease or a full release.
+             * @example false
+             */
             prerelease: boolean;
             /** Format: date-time */
             created_at: string;
@@ -34595,7 +37889,10 @@ export interface components {
          * @description Generated name and body describing a release
          */
         "release-notes-content": {
-            /** @description The generated name of the release */
+            /**
+             * @description The generated name of the release
+             * @example Release v1.0.0 is now available!
+             */
             name: string;
             /** @description The generated body describing the contents of the release supporting markdown formatting */
             body: string;
@@ -34680,7 +37977,10 @@ export interface components {
         "secret-scanning-alert-resolution-comment": string | null;
         /** @description Represents a 'commit' secret scanning location type. This location type shows that a secret was detected inside a commit to a repository. */
         "secret-scanning-location-commit": {
-            /** @description The file path in the repository */
+            /**
+             * @description The file path in the repository
+             * @example /example/secrets.txt
+             */
             path: string;
             /** @description Line number at which the secret starts in the file */
             start_line: number;
@@ -34690,18 +37990,27 @@ export interface components {
             start_column: number;
             /** @description The column at which the secret ends within the end line when the file is interpreted as 8BIT ASCII */
             end_column: number;
-            /** @description SHA-1 hash ID of the associated blob */
+            /**
+             * @description SHA-1 hash ID of the associated blob
+             * @example af5626b4a114abcb82d63db7c8082c3c4756e51b
+             */
             blob_sha: string;
             /** @description The API URL to get the associated blob resource */
             blob_url: string;
-            /** @description SHA-1 hash ID of the associated commit */
+            /**
+             * @description SHA-1 hash ID of the associated commit
+             * @example af5626b4a114abcb82d63db7c8082c3c4756e51b
+             */
             commit_sha: string;
             /** @description The API URL to get the associated commit resource */
             commit_url: string;
         };
         /** @description Represents a 'wiki_commit' secret scanning location type. This location type shows that a secret was detected inside a commit to a repository wiki. */
         "secret-scanning-location-wiki-commit": {
-            /** @description The file path of the wiki page */
+            /**
+             * @description The file path of the wiki page
+             * @example /example/Home.md
+             */
             path: string;
             /** @description Line number at which the secret starts in the file */
             start_line: number;
@@ -34711,13 +38020,25 @@ export interface components {
             start_column: number;
             /** @description The column at which the secret ends within the end line when the file is interpreted as 8-bit ASCII. */
             end_column: number;
-            /** @description SHA-1 hash ID of the associated blob */
+            /**
+             * @description SHA-1 hash ID of the associated blob
+             * @example af5626b4a114abcb82d63db7c8082c3c4756e51b
+             */
             blob_sha: string;
-            /** @description The GitHub URL to get the associated wiki page */
+            /**
+             * @description The GitHub URL to get the associated wiki page
+             * @example https://github.com/octocat/Hello-World/wiki/Home/302c0b7e200761c9dd9b57e57db540ee0b4293a5
+             */
             page_url: string;
-            /** @description SHA-1 hash ID of the associated commit */
+            /**
+             * @description SHA-1 hash ID of the associated commit
+             * @example 302c0b7e200761c9dd9b57e57db540ee0b4293a5
+             */
             commit_sha: string;
-            /** @description The GitHub URL to get the associated wiki commit */
+            /**
+             * @description The GitHub URL to get the associated wiki commit
+             * @example https://github.com/octocat/Hello-World/wiki/_compare/302c0b7e200761c9dd9b57e57db540ee0b4293a5
+             */
             commit_url: string;
         };
         /** @description Represents an 'issue_title' secret scanning location type. This location type shows that a secret was detected in the title of an issue. */
@@ -34725,6 +38046,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the issue where the secret was detected.
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/1347
              */
             issue_title_url: string;
         };
@@ -34733,6 +38055,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the issue where the secret was detected.
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/1347
              */
             issue_body_url: string;
         };
@@ -34741,6 +38064,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the issue comment where the secret was detected.
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/comments/1081119451
              */
             issue_comment_url: string;
         };
@@ -34749,6 +38073,7 @@ export interface components {
             /**
              * Format: uri
              * @description The URL to the discussion where the secret was detected.
+             * @example https://github.com/community/community/discussions/39082
              */
             discussion_title_url: string;
         };
@@ -34757,6 +38082,7 @@ export interface components {
             /**
              * Format: uri
              * @description The URL to the discussion where the secret was detected.
+             * @example https://github.com/community/community/discussions/39082#discussion-4566270
              */
             discussion_body_url: string;
         };
@@ -34765,6 +38091,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the discussion comment where the secret was detected.
+             * @example https://github.com/community/community/discussions/39082#discussioncomment-4158232
              */
             discussion_comment_url: string;
         };
@@ -34773,6 +38100,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the pull request where the secret was detected.
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/2846
              */
             pull_request_title_url: string;
         };
@@ -34781,6 +38109,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the pull request where the secret was detected.
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/2846
              */
             pull_request_body_url: string;
         };
@@ -34789,6 +38118,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the pull request comment where the secret was detected.
+             * @example https://api.github.com/repos/octocat/Hello-World/issues/comments/1081119451
              */
             pull_request_comment_url: string;
         };
@@ -34797,6 +38127,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the pull request review where the secret was detected.
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/2846/reviews/80
              */
             pull_request_review_url: string;
         };
@@ -34805,12 +38136,14 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL to get the pull request review comment where the secret was detected.
+             * @example https://api.github.com/repos/octocat/Hello-World/pulls/comments/12
              */
             pull_request_review_comment_url: string;
         };
         "secret-scanning-location": {
             /**
              * @description The location type. Because secrets may be found in different types of resources (ie. code, comments, issues, pull requests, discussions), this field identifies the type of resource where the secret was found.
+             * @example commit
              * @enum {string}
              */
             type?: "commit" | "wiki_commit" | "issue_title" | "issue_body" | "issue_comment" | "discussion_title" | "discussion_body" | "discussion_comment" | "pull_request_title" | "pull_request_body" | "pull_request_comment" | "pull_request_review" | "pull_request_review_comment";
@@ -35003,8 +38336,19 @@ export interface components {
          * @description Commit Activity
          */
         "commit-activity": {
+            /**
+             * @example 0
+             * @example 3
+             * @example 26
+             * @example 20
+             * @example 39
+             * @example 1
+             * @example 0
+             */
             days: number[];
+            /** @example 89 */
             total: number;
+            /** @example 1336280400 */
             week: number;
         };
         /**
@@ -35013,7 +38357,14 @@ export interface components {
          */
         "contributor-activity": {
             author: null | components["schemas"]["simple-user"];
+            /** @example 135 */
             total: number;
+            /** @example {
+             *       "w": "1367712000",
+             *       "a": 6898,
+             *       "d": 77,
+             *       "c": 10
+             *     } */
             weeks: {
                 w?: number;
                 a?: number;
@@ -35031,16 +38382,28 @@ export interface components {
          * @description Repository invitations let you manage who you collaborate with.
          */
         "repository-subscription": {
-            /** @description Determines if notifications should be received from this repository. */
+            /**
+             * @description Determines if notifications should be received from this repository.
+             * @example true
+             */
             subscribed: boolean;
             /** @description Determines if all notifications should be blocked from this repository. */
             ignored: boolean;
             reason: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2012-10-06T21:34:12Z
+             */
             created_at: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example/subscription
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/example
+             */
             repository_url: string;
         };
         /**
@@ -35048,15 +38411,22 @@ export interface components {
          * @description Tag
          */
         tag: {
+            /** @example v0.1 */
             name: string;
             commit: {
                 sha: string;
                 /** Format: uri */
                 url: string;
             };
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/zipball/v0.1
+             */
             zipball_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World/tarball/v0.1
+             */
             tarball_url: string;
             node_id: string;
         };
@@ -35065,10 +38435,15 @@ export interface components {
          * @description Tag protection
          */
         "tag-protection": {
+            /** @example 2 */
             id?: number;
+            /** @example 2011-01-26T19:01:12Z */
             created_at?: string;
+            /** @example 2011-01-26T19:01:12Z */
             updated_at?: string;
+            /** @example true */
             enabled?: boolean;
+            /** @example v1.* */
             pattern: string;
         };
         /**
@@ -35090,7 +38465,9 @@ export interface components {
          * @description Clone Traffic
          */
         "clone-traffic": {
+            /** @example 173 */
             count: number;
+            /** @example 128 */
             uniques: number;
             clones: components["schemas"]["traffic"][];
         };
@@ -35099,9 +38476,13 @@ export interface components {
          * @description Content Traffic
          */
         "content-traffic": {
+            /** @example /github/hubot */
             path: string;
+            /** @example github/hubot: A customizable life embetterment robot. */
             title: string;
+            /** @example 3542 */
             count: number;
+            /** @example 2225 */
             uniques: number;
         };
         /**
@@ -35109,8 +38490,11 @@ export interface components {
          * @description Referrer Traffic
          */
         "referrer-traffic": {
+            /** @example Google */
             referrer: string;
+            /** @example 4 */
             count: number;
+            /** @example 3 */
             uniques: number;
         };
         /**
@@ -35118,7 +38502,9 @@ export interface components {
          * @description View Traffic
          */
         "view-traffic": {
+            /** @example 14850 */
             count: number;
+            /** @example 3782 */
             uniques: number;
             views: components["schemas"]["traffic"][];
         };
@@ -35153,6 +38539,10 @@ export interface components {
             language?: string | null;
             /** Format: date-time */
             last_modified_at?: string;
+            /**
+             * @example 73..77
+             * @example 77..78
+             */
             line_numbers?: string[];
             text_matches?: components["schemas"]["search-result-text-matches"];
         };
@@ -35414,6 +38804,7 @@ export interface components {
             delete_branch_on_merge?: boolean;
             allow_forking?: boolean;
             is_template?: boolean;
+            /** @example false */
             web_commit_signoff_required?: boolean;
         };
         /**
@@ -35514,62 +38905,125 @@ export interface components {
          * @description Private User
          */
         "private-user": {
+            /** @example octocat */
             login: string;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
             /**
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
             user_view_type: "private";
+            /** @example MDQ6VXNlcjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/images/error/octocat_happy.gif
+             */
             avatar_url: string;
+            /** @example 41d064eb2195891e12d0413f63227ea7 */
             gravatar_id: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat
+             */
             html_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/followers
+             */
             followers_url: string;
+            /** @example https://api.github.com/users/octocat/following{/other_user} */
             following_url: string;
+            /** @example https://api.github.com/users/octocat/gists{/gist_id} */
             gists_url: string;
+            /** @example https://api.github.com/users/octocat/starred{/owner}{/repo} */
             starred_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/subscriptions
+             */
             subscriptions_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/orgs
+             */
             organizations_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/repos
+             */
             repos_url: string;
+            /** @example https://api.github.com/users/octocat/events{/privacy} */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/users/octocat/received_events
+             */
             received_events_url: string;
+            /** @example User */
             type: string;
             site_admin: boolean;
+            /** @example monalisa octocat */
             name: string | null;
+            /** @example GitHub */
             company: string | null;
+            /** @example https://github.com/blog */
             blog: string | null;
+            /** @example San Francisco */
             location: string | null;
-            /** Format: email */
+            /**
+             * Format: email
+             * @example octocat@github.com
+             */
             email: string | null;
-            /** Format: email */
+            /**
+             * Format: email
+             * @example octocat@github.com
+             */
             notification_email?: string | null;
             hireable: boolean | null;
+            /** @example There once was... */
             bio: string | null;
+            /** @example monalisa */
             twitter_username?: string | null;
+            /** @example 2 */
             public_repos: number;
+            /** @example 1 */
             public_gists: number;
+            /** @example 20 */
             followers: number;
+            /** @example 0 */
             following: number;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2008-01-14T04:33:35Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2008-01-14T04:33:35Z
+             */
             updated_at: string;
+            /** @example 81 */
             private_gists: number;
+            /** @example 100 */
             total_private_repos: number;
+            /** @example 100 */
             owned_private_repos: number;
+            /** @example 10000 */
             disk_usage: number;
+            /** @example 8 */
             collaborators: number;
+            /** @example true */
             two_factor_authentication: boolean;
             plan?: {
                 collaborators: number;
@@ -35585,7 +39039,10 @@ export interface components {
          * @description Secrets for a GitHub Codespace.
          */
         "codespaces-secret": {
-            /** @description The name of the secret */
+            /**
+             * @description The name of the secret
+             * @example SECRET_NAME
+             */
             name: string;
             /**
              * Format: date-time
@@ -35605,6 +39062,7 @@ export interface components {
             /**
              * Format: uri
              * @description The API URL at which the list of repositories this secret is visible to can be retrieved
+             * @example https://api.github.com/user/secrets/SECRET_NAME/repositories
              */
             selected_repositories_url: string;
         };
@@ -35613,9 +39071,15 @@ export interface components {
          * @description The public key used for setting user Codespaces' Secrets.
          */
         "codespaces-user-public-key": {
-            /** @description The identifier for the key. */
+            /**
+             * @description The identifier for the key.
+             * @example 1234567
+             */
             key_id: string;
-            /** @description The Base64 encoded public key. */
+            /**
+             * @description The Base64 encoded public key.
+             * @example hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=
+             */
             key: string;
         };
         /**
@@ -35623,22 +39087,41 @@ export interface components {
          * @description An export of a codespace. Also, latest export details for a codespace can be fetched with id = latest
          */
         "codespace-export-details": {
-            /** @description State of the latest export */
+            /**
+             * @description State of the latest export
+             * @example succeeded | failed | in_progress
+             */
             state?: string | null;
             /**
              * Format: date-time
              * @description Completion time of the last export operation
+             * @example 2021-01-01T19:01:12Z
              */
             completed_at?: string | null;
-            /** @description Name of the exported branch */
+            /**
+             * @description Name of the exported branch
+             * @example codespace-monalisa-octocat-hello-world-g4wpq6h95q
+             */
             branch?: string | null;
-            /** @description Git commit SHA of the exported branch */
+            /**
+             * @description Git commit SHA of the exported branch
+             * @example fd95a81ca01e48ede9f39c799ecbcef817b8a3b2
+             */
             sha?: string | null;
-            /** @description Id for the export details */
+            /**
+             * @description Id for the export details
+             * @example latest
+             */
             id?: string;
-            /** @description Url for fetching export details */
+            /**
+             * @description Url for fetching export details
+             * @example https://api.github.com/user/codespaces/:name/exports/latest
+             */
             export_url?: string;
-            /** @description Web url for the exported branch */
+            /**
+             * @description Web url for the exported branch
+             * @example https://github.com/octocat/hello-world/tree/:branch
+             */
             html_url?: string | null;
         };
         /**
@@ -35646,33 +39129,59 @@ export interface components {
          * @description A codespace.
          */
         "codespace-with-full-repository": {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 1
+             */
             id: number;
-            /** @description Automatically generated name of this codespace. */
+            /**
+             * @description Automatically generated name of this codespace.
+             * @example monalisa-octocat-hello-world-g4wpq6h95q
+             */
             name: string;
-            /** @description Display name for this codespace. */
+            /**
+             * @description Display name for this codespace.
+             * @example bookish space pancake
+             */
             display_name?: string | null;
-            /** @description UUID identifying this codespace's environment. */
+            /**
+             * @description UUID identifying this codespace's environment.
+             * @example 26a7c758-7299-4a73-b978-5a92a7ae98a0
+             */
             environment_id: string | null;
             owner: components["schemas"]["simple-user"];
             billable_owner: components["schemas"]["simple-user"];
             repository: components["schemas"]["full-repository"];
             machine: null | components["schemas"]["codespace-machine"];
-            /** @description Path to devcontainer.json from repo root used to create Codespace. */
+            /**
+             * @description Path to devcontainer.json from repo root used to create Codespace.
+             * @example .devcontainer/example/devcontainer.json
+             */
             devcontainer_path?: string | null;
-            /** @description Whether the codespace was created from a prebuild. */
+            /**
+             * @description Whether the codespace was created from a prebuild.
+             * @example false
+             */
             prebuild: boolean | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             updated_at: string;
             /**
              * Format: date-time
              * @description Last known time this codespace was started.
+             * @example 2011-01-26T19:01:12Z
              */
             last_used_at: string;
             /**
              * @description State of this codespace.
+             * @example Available
              * @enum {string}
              */
             state: "Unknown" | "Created" | "Queued" | "Provisioning" | "Available" | "Awaiting" | "Unavailable" | "Deleted" | "Moved" | "Shutdown" | "Archived" | "Starting" | "ShuttingDown" | "Failed" | "Exporting" | "Updating" | "Rebuilding";
@@ -35683,23 +39192,36 @@ export interface components {
             url: string;
             /** @description Details about the codespace's git repository. */
             git_status: {
-                /** @description The number of commits the local repository is ahead of the remote. */
+                /**
+                 * @description The number of commits the local repository is ahead of the remote.
+                 * @example 0
+                 */
                 ahead?: number;
-                /** @description The number of commits the local repository is behind the remote. */
+                /**
+                 * @description The number of commits the local repository is behind the remote.
+                 * @example 0
+                 */
                 behind?: number;
                 /** @description Whether the local repository has unpushed changes. */
                 has_unpushed_changes?: boolean;
                 /** @description Whether the local repository has uncommitted changes. */
                 has_uncommitted_changes?: boolean;
-                /** @description The current branch (or SHA if in detached HEAD state) of the local repository. */
+                /**
+                 * @description The current branch (or SHA if in detached HEAD state) of the local repository.
+                 * @example main
+                 */
                 ref?: string;
             };
             /**
              * @description The initally assigned location of a new codespace.
+             * @example WestUs2
              * @enum {string}
              */
             location: "EastUs" | "SouthEastAsia" | "WestEurope" | "WestUs2";
-            /** @description The number of minutes of inactivity after which this codespace will be automatically stopped. */
+            /**
+             * @description The number of minutes of inactivity after which this codespace will be automatically stopped.
+             * @example 60
+             */
             idle_timeout_minutes: number | null;
             /**
              * Format: uri
@@ -35742,11 +39264,15 @@ export interface components {
             pending_operation_disabled_reason?: string | null;
             /** @description Text to show user when codespace idle timeout minutes has been overriden by an organization policy */
             idle_timeout_notice?: string | null;
-            /** @description Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days). */
+            /**
+             * @description Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days).
+             * @example 60
+             */
             retention_period_minutes?: number | null;
             /**
              * Format: date-time
              * @description When a codespace will be auto-deleted based on the "retention_period_minutes" and "last_used_at"
+             * @example 2011-01-26T20:01:12Z
              */
             retention_expires_at?: string | null;
         };
@@ -35755,10 +39281,16 @@ export interface components {
          * @description Email
          */
         email: {
-            /** Format: email */
+            /**
+             * Format: email
+             * @example octocat@github.com
+             */
             email: string;
+            /** @example true */
             primary: boolean;
+            /** @example true */
             verified: boolean;
+            /** @example public */
             visibility: string | null;
         };
         /**
@@ -35766,16 +39298,40 @@ export interface components {
          * @description A unique encryption key
          */
         "gpg-key": {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @example 3
+             */
             id: number;
+            /** @example Octocat's GPG Key */
             name?: string | null;
             primary_key_id: number | null;
+            /** @example 3262EFF25BA0D270 */
             key_id: string;
+            /** @example xsBNBFayYZ... */
             public_key: string;
+            /** @example {
+             *       "email": "octocat@users.noreply.github.com",
+             *       "verified": true
+             *     } */
             emails: {
                 email?: string;
                 verified?: boolean;
             }[];
+            /** @example {
+             *       "id": 4,
+             *       "primary_key_id": 3,
+             *       "key_id": "4A595D4C72EE49C7",
+             *       "public_key": "zsBNBFayYZ...",
+             *       "emails": [],
+             *       "can_sign": false,
+             *       "can_encrypt_comms": true,
+             *       "can_encrypt_storage": true,
+             *       "can_certify": false,
+             *       "created_at": "2016-03-24T11:31:04-06:00",
+             *       "expires_at": null,
+             *       "revoked": false
+             *     } */
             subkeys: {
                 /** Format: int64 */
                 id?: number;
@@ -35796,14 +39352,20 @@ export interface components {
                 raw_key?: string | null;
                 revoked?: boolean;
             }[];
+            /** @example true */
             can_sign: boolean;
             can_encrypt_comms: boolean;
             can_encrypt_storage: boolean;
+            /** @example true */
             can_certify: boolean;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2016-03-24T11:31:04-06:00
+             */
             created_at: string;
             /** Format: date-time */
             expires_at: string | null;
+            /** @example true */
             revoked: boolean;
             raw_key: string | null;
         };
@@ -35840,14 +39402,25 @@ export interface components {
          * @description User Marketplace Purchase
          */
         "user-marketplace-purchase": {
+            /** @example monthly */
             billing_cycle: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2017-11-11T00:00:00Z
+             */
             next_billing_date: string | null;
             unit_count: number | null;
+            /** @example true */
             on_free_trial: boolean;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2017-11-11T00:00:00Z
+             */
             free_trial_ends_on: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2017-11-02T01:12:12Z
+             */
             updated_at: string | null;
             account: components["schemas"]["marketplace-account"];
             plan: components["schemas"]["marketplace-listing-plan"];
@@ -35857,7 +39430,9 @@ export interface components {
          * @description Social media account
          */
         "social-account": {
+            /** @example linkedin */
             provider: string;
+            /** @example https://www.linkedin.com/company/github/ */
             url: string;
         };
         /**
@@ -35946,23 +39521,42 @@ export interface components {
         "enterprise-webhooks": {
             /** @description A short description of the enterprise. */
             description?: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/enterprises/octo-business
+             */
             html_url: string;
             /**
              * Format: uri
              * @description The enterprise's website URL.
              */
             website_url?: string | null;
-            /** @description Unique identifier of the enterprise */
+            /**
+             * @description Unique identifier of the enterprise
+             * @example 42
+             */
             id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
             node_id: string;
-            /** @description The name of the enterprise. */
+            /**
+             * @description The name of the enterprise.
+             * @example Octo Business
+             */
             name: string;
-            /** @description The slug url identifier for the enterprise. */
+            /**
+             * @description The slug url identifier for the enterprise.
+             * @example octo-business
+             */
             slug: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2019-01-26T19:01:12Z
+             */
             created_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2019-01-26T19:14:43Z
+             */
             updated_at: string | null;
             /** Format: uri */
             avatar_url: string;
@@ -35974,9 +39568,15 @@ export interface components {
          *     see "[Using webhooks with GitHub Apps](https://docs.github.com/apps/creating-github-apps/registering-a-github-app/using-webhooks-with-github-apps)."
          */
         "simple-installation": {
-            /** @description The ID of the installation. */
+            /**
+             * @description The ID of the installation.
+             * @example 1
+             */
             id: number;
-            /** @description The global node ID of the installation. */
+            /**
+             * @description The global node ID of the installation.
+             * @example MDQ6VXNlcjU4MzIzMQ==
+             */
             node_id: string;
         };
         /**
@@ -35985,20 +39585,38 @@ export interface components {
          *     organization, or when the event occurs from activity in a repository owned by an organization.
          */
         "organization-simple-webhooks": {
+            /** @example github */
             login: string;
+            /** @example 1 */
             id: number;
+            /** @example MDEyOk9yZ2FuaXphdGlvbjE= */
             node_id: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github
+             */
             url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/repos
+             */
             repos_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/orgs/github/events
+             */
             events_url: string;
+            /** @example https://api.github.com/orgs/github/hooks */
             hooks_url: string;
+            /** @example https://api.github.com/orgs/github/issues */
             issues_url: string;
+            /** @example https://api.github.com/orgs/github/members{/member} */
             members_url: string;
+            /** @example https://api.github.com/orgs/github/public_members{/member} */
             public_members_url: string;
+            /** @example https://github.com/images/error/octocat_happy.gif */
             avatar_url: string;
+            /** @example A great organization */
             description: string | null;
         };
         /**
@@ -36010,11 +39628,17 @@ export interface components {
             /**
              * Format: int64
              * @description Unique identifier of the repository
+             * @example 42
              */
             id: number;
+            /** @example MDEwOlJlcG9zaXRvcnkxMjk2MjY5 */
             node_id: string;
-            /** @description The name of the repository. */
+            /**
+             * @description The name of the repository.
+             * @example Team Environment
+             */
             name: string;
+            /** @example octocat/Hello-World */
             full_name: string;
             license: null | components["schemas"]["license-simple"];
             organization?: null | components["schemas"]["simple-user"];
@@ -36032,82 +39656,174 @@ export interface components {
              * @default false
              */
             private: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com/octocat/Hello-World
+             */
             html_url: string;
+            /** @example This your first repo! */
             description: string | null;
             fork: boolean;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://api.github.com/repos/octocat/Hello-World
+             */
             url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref} */
             archive_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/assignees{/user} */
             assignees_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha} */
             blobs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/branches{/branch} */
             branches_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator} */
             collaborators_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/comments{/number} */
             comments_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/commits{/sha} */
             commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head} */
             compare_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/contents/{+path} */
             contents_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/contributors
+             */
             contributors_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/deployments
+             */
             deployments_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/downloads
+             */
             downloads_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/events
+             */
             events_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/forks
+             */
             forks_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/commits{/sha} */
             git_commits_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/refs{/sha} */
             git_refs_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/tags{/sha} */
             git_tags_url: string;
+            /** @example git:github.com/octocat/Hello-World.git */
             git_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/comments{/number} */
             issue_comment_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues/events{/number} */
             issue_events_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/issues{/number} */
             issues_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/keys{/key_id} */
             keys_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/labels{/name} */
             labels_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/languages
+             */
             languages_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/merges
+             */
             merges_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/milestones{/number} */
             milestones_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating} */
             notifications_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/pulls{/number} */
             pulls_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/releases{/id} */
             releases_url: string;
+            /** @example git@github.com:octocat/Hello-World.git */
             ssh_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/stargazers
+             */
             stargazers_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/statuses/{sha} */
             statuses_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscribers
+             */
             subscribers_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/subscription
+             */
             subscription_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/tags
+             */
             tags_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/teams
+             */
             teams_url: string;
+            /** @example http://api.github.com/repos/octocat/Hello-World/git/trees{/sha} */
             trees_url: string;
+            /** @example https://github.com/octocat/Hello-World.git */
             clone_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example git:git.example.com/octocat/Hello-World
+             */
             mirror_url: string | null;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example http://api.github.com/repos/octocat/Hello-World/hooks
+             */
             hooks_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://svn.github.com/octocat/Hello-World
+             */
             svn_url: string;
-            /** Format: uri */
+            /**
+             * Format: uri
+             * @example https://github.com
+             */
             homepage: string | null;
             language: string | null;
+            /** @example 9 */
             forks_count: number;
+            /** @example 80 */
             stargazers_count: number;
+            /** @example 80 */
             watchers_count: number;
-            /** @description The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
+            /**
+             * @description The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0.
+             * @example 108
+             */
             size: number;
-            /** @description The default branch of the repository. */
+            /**
+             * @description The default branch of the repository.
+             * @example master
+             */
             default_branch: string;
+            /** @example 0 */
             open_issues_count: number;
             /**
              * @description Whether this repository acts as a template that can be used to generate new repositories.
              * @default false
+             * @example true
              */
             is_template: boolean;
             topics?: string[];
@@ -36118,27 +39834,32 @@ export interface components {
             /**
              * @description Whether issues are enabled.
              * @default true
+             * @example true
              */
             has_issues: boolean;
             /**
              * @description Whether projects are enabled.
              * @default true
+             * @example true
              */
             has_projects: boolean;
             /**
              * @description Whether the wiki is enabled.
              * @default true
+             * @example true
              */
             has_wiki: boolean;
             has_pages: boolean;
             /**
              * @description Whether downloads are enabled.
              * @default true
+             * @example true
              */
             has_downloads: boolean;
             /**
              * @description Whether discussions are enabled.
              * @default false
+             * @example true
              */
             has_discussions: boolean;
             /**
@@ -36153,15 +39874,25 @@ export interface components {
              * @default public
              */
             visibility: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:06:43Z
+             */
             pushed_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:01:12Z
+             */
             created_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2011-01-26T19:14:43Z
+             */
             updated_at: string | null;
             /**
              * @description Whether to allow rebase merges for pull requests.
              * @default true
+             * @example true
              */
             allow_rebase_merge: boolean;
             template_repository?: {
@@ -36312,21 +40043,25 @@ export interface components {
             /**
              * @description Whether to allow squash merges for pull requests.
              * @default true
+             * @example true
              */
             allow_squash_merge: boolean;
             /**
              * @description Whether to allow Auto-merge to be used on pull requests.
              * @default false
+             * @example false
              */
             allow_auto_merge: boolean;
             /**
              * @description Whether to delete head branches when pull requests are merged
              * @default false
+             * @example false
              */
             delete_branch_on_merge: boolean;
             /**
              * @description Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging.
              * @default false
+             * @example false
              */
             allow_update_branch: boolean;
             /**
@@ -36372,6 +40107,7 @@ export interface components {
             /**
              * @description Whether to allow merge commits for pull requests.
              * @default true
+             * @example true
              */
             allow_merge_commit: boolean;
             /** @description Whether to allow forking this repo */
@@ -36386,6 +40122,7 @@ export interface components {
             open_issues: number;
             watchers: number;
             master_branch?: string;
+            /** @example "2020-07-09T00:17:42Z" */
             starred_at?: string;
             /** @description Whether anonymous git access is enabled for this repository */
             anonymous_access_enabled?: boolean;
@@ -36443,24 +40180,39 @@ export interface components {
         };
         /** @description A suite of checks performed on the code of a given code change */
         "simple-check-suite": {
+            /** @example d6fde92930d4715a2b49857d24b940956b26d2d3 */
             after?: string | null;
             app?: components["schemas"]["integration"];
+            /** @example 146e867f55c26428e5f9fade55a9bbf5e95a7912 */
             before?: string | null;
-            /** @enum {string|null} */
+            /**
+             * @example neutral
+             * @enum {string|null}
+             */
             conclusion?: "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | "stale" | "startup_failure" | null;
             /** Format: date-time */
             created_at?: string;
+            /** @example master */
             head_branch?: string | null;
-            /** @description The SHA of the head commit that is being checked. */
+            /**
+             * @description The SHA of the head commit that is being checked.
+             * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+             */
             head_sha?: string;
+            /** @example 5 */
             id?: number;
+            /** @example MDEwOkNoZWNrU3VpdGU1 */
             node_id?: string;
             pull_requests?: components["schemas"]["pull-request-minimal"][];
             repository?: components["schemas"]["minimal-repository"];
-            /** @enum {string} */
+            /**
+             * @example completed
+             * @enum {string}
+             */
             status?: "queued" | "in_progress" | "completed" | "pending" | "waiting";
             /** Format: date-time */
             updated_at?: string;
+            /** @example https://api.github.com/repos/github/hello-world/check-suites/5 */
             url?: string;
         };
         /**
@@ -36470,20 +40222,39 @@ export interface components {
         "check-run-with-simple-check-suite": {
             app: null | components["schemas"]["integration"];
             check_suite: components["schemas"]["simple-check-suite"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-05-04T01:14:52Z
+             */
             completed_at: string | null;
-            /** @enum {string|null} */
+            /**
+             * @example neutral
+             * @enum {string|null}
+             */
             conclusion: "waiting" | "pending" | "startup_failure" | "stale" | "success" | "failure" | "neutral" | "cancelled" | "skipped" | "timed_out" | "action_required" | null;
             deployment?: components["schemas"]["deployment-simple"];
+            /** @example https://example.com */
             details_url: string;
+            /** @example 42 */
             external_id: string;
-            /** @description The SHA of the commit that is being checked. */
+            /**
+             * @description The SHA of the commit that is being checked.
+             * @example 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
+             */
             head_sha: string;
+            /** @example https://github.com/github/hello-world/runs/4 */
             html_url: string;
-            /** @description The id of the check. */
+            /**
+             * @description The id of the check.
+             * @example 21
+             */
             id: number;
-            /** @description The name of the check. */
+            /**
+             * @description The name of the check.
+             * @example test-coverage
+             */
             name: string;
+            /** @example MDg6Q2hlY2tSdW40 */
             node_id: string;
             output: {
                 annotations_count: number;
@@ -36494,13 +40265,18 @@ export interface components {
                 title: string | null;
             };
             pull_requests: components["schemas"]["pull-request-minimal"][];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2018-05-04T01:14:52Z
+             */
             started_at: string;
             /**
              * @description The phase of the lifecycle that the check is currently in.
+             * @example queued
              * @enum {string}
              */
             status: "queued" | "in_progress" | "completed" | "pending";
+            /** @example https://api.github.com/repos/github/hello-world/check-runs/4 */
             url: string;
         };
         /** @description The commit SHA of the code scanning alert. When the action is `reopened_by_user` or `closed_by_user`, the event was triggered by the `sender` and this value will be empty. */
@@ -36825,6 +40601,7 @@ export interface components {
             state: "open" | "closed" | "locked" | "converting" | "transferring";
             /**
              * @description The reason for the current state
+             * @example resolved
              * @enum {string|null}
              */
             state_reason: "resolved" | "outdated" | "duplicate" | "reopened" | null;
@@ -38521,15 +42298,27 @@ export interface components {
             title: string;
             description: string | null;
             public: boolean;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             closed_at: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             updated_at: string;
             number: number;
             short_description: string | null;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             deleted_at: string | null;
             deleted_by: null | components["schemas"]["simple-user"];
         };
@@ -38558,11 +42347,20 @@ export interface components {
             content_node_id: string;
             content_type: components["schemas"]["projects-v2-item-content-type"];
             creator?: components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             updated_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             archived_at: string | null;
         };
         /**
@@ -38594,17 +42392,32 @@ export interface components {
             node_id: string;
             project_node_id?: string;
             creator?: components["schemas"]["simple-user"];
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             created_at: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2022-04-28T12:00:00Z
+             */
             updated_at: string;
             /** @enum {string|null} */
             status?: "INACTIVE" | "ON_TRACK" | "AT_RISK" | "OFF_TRACK" | "COMPLETE" | null;
-            /** Format: date */
+            /**
+             * Format: date
+             * @example 2022-04-28
+             */
             start_date?: string;
-            /** Format: date */
+            /**
+             * Format: date
+             * @example 2022-04-28
+             */
             target_date?: string;
-            /** @description Body of the status update */
+            /**
+             * @description Body of the status update
+             * @example The project is off to a great start!
+             */
             body?: string | null;
         };
         /** @description The pull request number. */
@@ -86788,7 +90601,10 @@ export interface components {
                 workflow_id: number;
                 /** Format: uri */
                 workflow_url: string;
-                /** @description The event-specific title associated with the run or the run-name if set, or the value of `run-name` if it is set in the workflow. */
+                /**
+                 * @description The event-specific title associated with the run or the run-name if set, or the value of `run-name` if it is set in the workflow.
+                 * @example Simple Workflow
+                 */
                 display_title?: string;
             };
         };
@@ -88797,7 +92613,10 @@ export interface operations {
                 "application/json": {
                     /** @description List of repository names that the token should have access to */
                     repositories?: string[];
-                    /** @description List of repository IDs that the token should have access to */
+                    /**
+                     * @description List of repository IDs that the token should have access to
+                     * @example 1
+                     */
                     repository_ids?: number[];
                     permissions?: components["schemas"]["app-permissions"];
                 };
@@ -88997,15 +92816,27 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The access token used to authenticate to the GitHub API. */
+                    /**
+                     * @description The access token used to authenticate to the GitHub API.
+                     * @example e72e16c7e42f292c6912e7710c838347ae178b4a
+                     */
                     access_token: string;
-                    /** @description The name of the user or organization to scope the user access token to. **Required** unless `target_id` is specified. */
+                    /**
+                     * @description The name of the user or organization to scope the user access token to. **Required** unless `target_id` is specified.
+                     * @example octocat
+                     */
                     target?: string;
-                    /** @description The ID of the user or organization to scope the user access token to. **Required** unless `target` is specified. */
+                    /**
+                     * @description The ID of the user or organization to scope the user access token to. **Required** unless `target` is specified.
+                     * @example 1
+                     */
                     target_id?: number;
                     /** @description The list of repository names to scope the user access token to. `repositories` may not be specified if `repository_ids` is specified. */
                     repositories?: string[];
-                    /** @description The list of repository IDs to scope the user access token to. `repository_ids` may not be specified if `repositories` is specified. */
+                    /**
+                     * @description The list of repository IDs to scope the user access token to. `repository_ids` may not be specified if `repositories` is specified.
+                     * @example 1
+                     */
                     repository_ids?: number[];
                     permissions?: components["schemas"]["app-permissions"];
                 };
@@ -89917,9 +93748,19 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description Description of the gist */
+                    /**
+                     * @description Description of the gist
+                     * @example Example Ruby script
+                     */
                     description?: string;
-                    /** @description Names and content for the files that make up the gist */
+                    /**
+                     * @description Names and content for the files that make up the gist
+                     * @example {
+                     *       "hello.rb": {
+                     *         "content": "puts \"Hello, World!\""
+                     *       }
+                     *     }
+                     */
                     files: {
                         [key: string]: {
                             /** @description Content of the file */
@@ -90073,13 +93914,24 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The description of the gist. */
+                    /**
+                     * @description The description of the gist.
+                     * @example Example Ruby script
+                     */
                     description?: string;
-                    /** @description The gist files to be updated, renamed, or deleted. Each `key` must match the current filename
+                    /**
+                     * @description The gist files to be updated, renamed, or deleted. Each `key` must match the current filename
                      *     (including extension) of the targeted gist file. For example: `hello.py`.
                      *
                      *     To delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be
-                     *     deleted if the specified object does not contain at least one of `content` or `filename`. */
+                     *     deleted if the specified object does not contain at least one of `content` or `filename`.
+                     * @example {
+                     *       "hello.rb": {
+                     *         "content": "blah",
+                     *         "filename": "goodbye.rb"
+                     *       }
+                     *     }
+                     */
                     files?: {
                         [key: string]: {
                             /** @description The new content of the file. */
@@ -90150,7 +94002,10 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The comment text. */
+                    /**
+                     * @description The comment text.
+                     * @example Body of the attachment
+                     */
                     body: string;
                 };
             };
@@ -90241,7 +94096,10 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The comment text. */
+                    /**
+                     * @description The comment text.
+                     * @example Body of the attachment
+                     */
                     body: string;
                 };
             };
@@ -90528,6 +94386,7 @@ export interface operations {
                     "application/json": {
                         total_count: number;
                         repositories: components["schemas"]["repository"][];
+                        /** @example selected */
                         repository_selection?: string;
                     };
                 };
@@ -90667,6 +94526,7 @@ export interface operations {
                     /**
                      * @description The rendering mode.
                      * @default markdown
+                     * @example markdown
                      * @enum {string}
                      */
                     mode?: "markdown" | "gfm";
@@ -91400,6 +95260,7 @@ export interface operations {
                      * @default false
                      */
                     web_commit_signoff_required?: boolean;
+                    /** @example "http://github.blog" */
                     blog?: string;
                     /**
                      * @deprecated
@@ -95425,7 +99286,9 @@ export interface operations {
                         content_type?: components["schemas"]["webhook-config-content-type"];
                         secret?: components["schemas"]["webhook-config-secret"];
                         insecure_ssl?: components["schemas"]["webhook-config-insecure-ssl"];
+                        /** @example "kdaigle" */
                         username?: string;
+                        /** @example "password" */
                         password?: string;
                     };
                     /**
@@ -95543,6 +99406,7 @@ export interface operations {
                      * @default true
                      */
                     active?: boolean;
+                    /** @example "web" */
                     name?: string;
                 };
             };
@@ -96704,6 +100568,7 @@ export interface operations {
                     /**
                      * @description Indicates whether repositories should be locked (to prevent manipulation) while migrating data.
                      * @default false
+                     * @example true
                      */
                     lock_repositories?: boolean;
                     /**
@@ -96719,21 +100584,25 @@ export interface operations {
                     /**
                      * @description Indicates whether attachments should be excluded from the migration (to reduce migration archive file size).
                      * @default false
+                     * @example true
                      */
                     exclude_attachments?: boolean;
                     /**
                      * @description Indicates whether releases should be excluded from the migration (to reduce migration archive file size).
                      * @default false
+                     * @example true
                      */
                     exclude_releases?: boolean;
                     /**
                      * @description Indicates whether projects owned by the organization or users should be excluded. from the migration.
                      * @default false
+                     * @example true
                      */
                     exclude_owner_projects?: boolean;
                     /**
                      * @description Indicates whether this should only include organization metadata (repositories array should be empty and will ignore other flags).
                      * @default false
+                     * @example true
                      */
                     org_metadata_only?: boolean;
                     /** @description Exclude related items from being returned in the response in order to improve performance of the request. */
@@ -97972,9 +101841,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        /** @description The identifier for the key. */
+                        /**
+                         * @description The identifier for the key.
+                         * @example 012345678912345678
+                         */
                         key_id: string;
-                        /** @description The Base64 encoded public key. */
+                        /**
+                         * @description The Base64 encoded public key.
+                         * @example 2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvv1234
+                         */
                         key: string;
                     };
                 };
@@ -98538,6 +102413,7 @@ export interface operations {
                     /**
                      * @description Whether downloads are enabled.
                      * @default true
+                     * @example true
                      */
                     has_downloads?: boolean;
                     /**
@@ -100753,9 +104629,15 @@ export interface operations {
         requestBody?: {
             content: {
                 "application/json": {
-                    /** @description The project card's note */
+                    /**
+                     * @description The project card's note
+                     * @example Update all gems
+                     */
                     note?: string | null;
-                    /** @description Whether or not the card is archived */
+                    /**
+                     * @description Whether or not the card is archived
+                     * @example false
+                     */
                     archived?: boolean;
                 };
             };
@@ -100790,9 +104672,15 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The position of the card in a column. Can be one of: `top`, `bottom`, or `after:<card_id>` to place after the specified card. */
+                    /**
+                     * @description The position of the card in a column. Can be one of: `top`, `bottom`, or `after:<card_id>` to place after the specified card.
+                     * @example bottom
+                     */
                     position: string;
-                    /** @description The unique identifier of the column the card should be moved to */
+                    /**
+                     * @description The unique identifier of the column the card should be moved to
+                     * @example 42
+                     */
                     column_id?: number;
                 };
             };
@@ -100911,7 +104799,10 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description Name of the project column */
+                    /**
+                     * @description Name of the project column
+                     * @example Remaining tasks
+                     */
                     name: string;
                 };
             };
@@ -100978,12 +104869,21 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The project card's note */
+                    /**
+                     * @description The project card's note
+                     * @example Update all gems
+                     */
                     note: string | null;
                 } | {
-                    /** @description The unique identifier of the content associated with the card */
+                    /**
+                     * @description The unique identifier of the content associated with the card
+                     * @example 42
+                     */
                     content_id: number;
-                    /** @description The piece of content associated with the card */
+                    /**
+                     * @description The piece of content associated with the card
+                     * @example PullRequest
+                     */
                     content_type: string;
                 };
             };
@@ -101042,7 +104942,10 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The position of the column in a project. Can be one of: `first`, `last`, or `after:<column_id>` to place after the specified column. */
+                    /**
+                     * @description The position of the column in a project. Can be one of: `first`, `last`, or `after:<column_id>` to place after the specified column.
+                     * @example last
+                     */
                     position: string;
                 };
             };
@@ -101140,11 +105043,20 @@ export interface operations {
         requestBody?: {
             content: {
                 "application/json": {
-                    /** @description Name of the project */
+                    /**
+                     * @description Name of the project
+                     * @example Week One Sprint
+                     */
                     name?: string;
-                    /** @description Body of the project */
+                    /**
+                     * @description Body of the project
+                     * @example This project represents the sprint of the first week in January
+                     */
                     body?: string | null;
-                    /** @description State of the project; either 'open' or 'closed' */
+                    /**
+                     * @description State of the project; either 'open' or 'closed'
+                     * @example open
+                     */
                     state?: string;
                     /**
                      * @description The baseline permission that all organization members have on this project
@@ -101246,6 +105158,7 @@ export interface operations {
                     /**
                      * @description The permission to grant the collaborator.
                      * @default write
+                     * @example write
                      * @enum {string}
                      */
                     permission?: "read" | "write" | "admin";
@@ -101370,7 +105283,10 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description Name of the project column */
+                    /**
+                     * @description Name of the project column
+                     * @example Remaining tasks
+                     */
                     name: string;
                 };
             };
@@ -103192,14 +107108,22 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The list of environment ids to approve or reject */
+                    /**
+                     * @description The list of environment ids to approve or reject
+                     * @example 161171787
+                     * @example 161171795
+                     */
                     environment_ids: number[];
                     /**
                      * @description Whether to approve or reject deployment to the specified environments.
+                     * @example approved
                      * @enum {string}
                      */
                     state: "approved" | "rejected";
-                    /** @description A comment to accompany the deployment review */
+                    /**
+                     * @description A comment to accompany the deployment review
+                     * @example Ship it!
+                     */
                     comment: string;
                 };
             };
@@ -106708,6 +110632,7 @@ export interface operations {
                      * Format: uri
                      * @description The base directory used in the analysis, as it appears in the SARIF file.
                      *     This property is used to convert file paths from absolute to relative, so that alerts can be mapped to their correct location in the repository.
+                     * @example file:///github/workspace/
                      */
                     checkout_uri?: string;
                     /**
@@ -108173,6 +112098,7 @@ export interface operations {
                         name: string;
                         /** @description The email of the author or committer of the commit. You'll receive a `422` status code if `email` is omitted. */
                         email: string;
+                        /** @example "2013-01-05T13:13:22+05:00" */
                         date?: string;
                     };
                     /** @description The author of the file. Default: The `committer` or the authenticated user if you omit `committer`. */
@@ -108181,6 +112107,7 @@ export interface operations {
                         name: string;
                         /** @description The email of the author or committer of the commit. You'll receive a `422` status code if `email` is omitted. */
                         email: string;
+                        /** @example "2013-01-15T17:13:22+05:00" */
                         date?: string;
                     };
                 };
@@ -109109,7 +113036,10 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        /** @description The number of environments in this repository */
+                        /**
+                         * @description The number of environments in this repository
+                         * @example 5
+                         */
                         total_count?: number;
                         environments?: components["schemas"]["environment"][];
                     };
@@ -109166,7 +113096,10 @@ export interface operations {
                     /** @description The people or teams that may review jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
                     reviewers?: {
                         type?: components["schemas"]["deployment-reviewer-type"];
-                        /** @description The id of the user or team who can review the deployment */
+                        /**
+                         * @description The id of the user or team who can review the deployment
+                         * @example 4532992
+                         */
                         id?: number;
                     }[] | null;
                     deployment_branch_policy?: components["schemas"]["deployment-branch-policy-settings"];
@@ -109247,7 +113180,10 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        /** @description The number of deployment branch policies for the environment. */
+                        /**
+                         * @description The number of deployment branch policies for the environment.
+                         * @example 2
+                         */
                         total_count: number;
                         branch_policies: components["schemas"]["deployment-branch-policy"][];
                     };
@@ -109412,7 +113348,10 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        /** @description The number of enabled custom deployment protection rules for this environment */
+                        /**
+                         * @description The number of enabled custom deployment protection rules for this environment
+                         * @example 10
+                         */
                         total_count?: number;
                         custom_deployment_protection_rules?: components["schemas"]["deployment-protection-rule"][];
                     };
@@ -109482,7 +113421,10 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        /** @description The total number of custom deployment protection rule integrations available for this environment. */
+                        /**
+                         * @description The total number of custom deployment protection rule integrations available for this environment.
+                         * @example 35
+                         */
                         total_count?: number;
                         available_custom_deployment_protection_rule_integrations?: components["schemas"]["custom-deployment-rule-app"][];
                     };
@@ -111025,10 +114967,14 @@ export interface operations {
                     vcs_password?: string;
                     /**
                      * @description The type of version control system you are migrating from.
+                     * @example "git"
                      * @enum {string}
                      */
                     vcs?: "subversion" | "tfvc" | "git" | "mercurial";
-                    /** @description For a tfvc import, the name of the project that is being imported. */
+                    /**
+                     * @description For a tfvc import, the name of the project that is being imported.
+                     * @example "project1"
+                     */
                     tfvc_project?: string;
                 } | null;
             };
@@ -111853,6 +115799,7 @@ export interface operations {
                     state?: "open" | "closed";
                     /**
                      * @description The reason for the state change. Ignored unless `state` is changed.
+                     * @example not_planned
                      * @enum {string|null}
                      */
                     state_reason?: "completed" | "not_planned" | "reopened" | null;
@@ -114075,6 +118022,7 @@ export interface operations {
                     /**
                      * Format: repo.nwo
                      * @description The name of the repository where the changes in the pull request were made. This field is required for cross-repository pull requests if both repositories are owned by the same organization.
+                     * @example octo-org/octo-repo
                      */
                     head_repo?: string;
                     /** @description The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository. */
@@ -114088,6 +118036,7 @@ export interface operations {
                     /**
                      * Format: int64
                      * @description An issue in the repository to convert to a pull request. The issue title, body, and comments will become the title, body, and comments on the new pull request. Required unless `title` is specified.
+                     * @example 1
                      */
                     issue?: number;
                 };
@@ -114571,7 +118520,10 @@ export interface operations {
                      * @enum {string}
                      */
                     start_side?: "LEFT" | "RIGHT" | "side";
-                    /** @description The ID of the review comment to reply to. To find the ID of a review comment with ["List review comments on a pull request"](#list-review-comments-on-a-pull-request). When specified, all parameters other than `body` in the request body are ignored. */
+                    /**
+                     * @description The ID of the review comment to reply to. To find the ID of a review comment with ["List review comments on a pull request"](#list-review-comments-on-a-pull-request). When specified, all parameters other than `body` in the request body are ignored.
+                     * @example 2
+                     */
                     in_reply_to?: number;
                     /**
                      * @description The level at which the comment is targeted.
@@ -114983,9 +118935,13 @@ export interface operations {
                         position?: number;
                         /** @description Text of the review comment. */
                         body: string;
+                        /** @example 28 */
                         line?: number;
+                        /** @example RIGHT */
                         side?: string;
+                        /** @example 26 */
                         start_line?: number;
+                        /** @example LEFT */
                         start_side?: string;
                     }[];
                 };
@@ -115160,7 +119116,10 @@ export interface operations {
                 "application/json": {
                     /** @description The message for the pull request review dismissal */
                     message: string;
-                    /** @enum {string} */
+                    /**
+                     * @example "DISMISS"
+                     * @enum {string}
+                     */
                     event?: "DISMISS";
                 };
             };
@@ -115505,6 +119464,7 @@ export interface operations {
                     name?: string;
                     /** @description An alternate short description of the asset. Used in place of the filename. */
                     label?: string;
+                    /** @example "uploaded" */
                     state?: string;
                 };
             };
@@ -119055,17 +123015,35 @@ export interface operations {
         requestBody?: {
             content: {
                 "application/json": {
-                    /** @description The new name of the user. */
+                    /**
+                     * @description The new name of the user.
+                     * @example Omar Jahandar
+                     */
                     name?: string;
-                    /** @description The publicly visible email address of the user. */
+                    /**
+                     * @description The publicly visible email address of the user.
+                     * @example omar@example.com
+                     */
                     email?: string;
-                    /** @description The new blog URL of the user. */
+                    /**
+                     * @description The new blog URL of the user.
+                     * @example blog.example.com
+                     */
                     blog?: string;
-                    /** @description The new Twitter username of the user. */
+                    /**
+                     * @description The new Twitter username of the user.
+                     * @example therealomarj
+                     */
                     twitter_username?: string | null;
-                    /** @description The new company of the user. */
+                    /**
+                     * @description The new company of the user.
+                     * @example Acme corporation
+                     */
                     company?: string;
-                    /** @description The new location of the user. */
+                    /**
+                     * @description The new location of the user.
+                     * @example Berlin, Germany
+                     */
                     location?: string;
                     /** @description The new hiring availability of the user. */
                     hireable?: boolean;
@@ -120535,7 +124513,10 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description A descriptive name for the new key. */
+                    /**
+                     * @description A descriptive name for the new key.
+                     * @example Personal MacBook Air
+                     */
                     title?: string;
                     /** @description The public SSH key to add to your GitHub account. */
                     key: string;
@@ -120800,24 +124781,46 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description Lock the repositories being migrated at the start of the migration */
+                    /**
+                     * @description Lock the repositories being migrated at the start of the migration
+                     * @example true
+                     */
                     lock_repositories?: boolean;
-                    /** @description Indicates whether metadata should be excluded and only git source should be included for the migration. */
+                    /**
+                     * @description Indicates whether metadata should be excluded and only git source should be included for the migration.
+                     * @example true
+                     */
                     exclude_metadata?: boolean;
-                    /** @description Indicates whether the repository git data should be excluded from the migration. */
+                    /**
+                     * @description Indicates whether the repository git data should be excluded from the migration.
+                     * @example true
+                     */
                     exclude_git_data?: boolean;
-                    /** @description Do not include attachments in the migration */
+                    /**
+                     * @description Do not include attachments in the migration
+                     * @example true
+                     */
                     exclude_attachments?: boolean;
-                    /** @description Do not include releases in the migration */
+                    /**
+                     * @description Do not include releases in the migration
+                     * @example true
+                     */
                     exclude_releases?: boolean;
-                    /** @description Indicates whether projects owned by the organization or users should be excluded. */
+                    /**
+                     * @description Indicates whether projects owned by the organization or users should be excluded.
+                     * @example true
+                     */
                     exclude_owner_projects?: boolean;
                     /**
                      * @description Indicates whether this should only include organization metadata (repositories array should be empty and will ignore other flags).
                      * @default false
+                     * @example true
                      */
                     org_metadata_only?: boolean;
-                    /** @description Exclude attributes from the API response to improve performance */
+                    /**
+                     * @description Exclude attributes from the API response to improve performance
+                     * @example repositories
+                     */
                     exclude?: "repositories"[];
                     repositories: string[];
                 };
@@ -121244,9 +125247,15 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description Name of the project */
+                    /**
+                     * @description Name of the project
+                     * @example Week One Sprint
+                     */
                     name: string;
-                    /** @description Body of the project */
+                    /**
+                     * @description Body of the project
+                     * @example This project represents the sprint of the first week in January
+                     */
                     body?: string | null;
                 };
             };
@@ -121353,7 +125362,10 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description The name of the repository. */
+                    /**
+                     * @description The name of the repository.
+                     * @example Team Environment
+                     */
                     name: string;
                     /** @description A short description of the repository. */
                     description?: string;
@@ -121367,21 +125379,25 @@ export interface operations {
                     /**
                      * @description Whether issues are enabled.
                      * @default true
+                     * @example true
                      */
                     has_issues?: boolean;
                     /**
                      * @description Whether projects are enabled.
                      * @default true
+                     * @example true
                      */
                     has_projects?: boolean;
                     /**
                      * @description Whether the wiki is enabled.
                      * @default true
+                     * @example true
                      */
                     has_wiki?: boolean;
                     /**
                      * @description Whether discussions are enabled.
                      * @default false
+                     * @example true
                      */
                     has_discussions?: boolean;
                     /** @description The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
@@ -121391,33 +125407,44 @@ export interface operations {
                      * @default false
                      */
                     auto_init?: boolean;
-                    /** @description The desired language or platform to apply to the .gitignore. */
+                    /**
+                     * @description The desired language or platform to apply to the .gitignore.
+                     * @example Haskell
+                     */
                     gitignore_template?: string;
-                    /** @description The license keyword of the open source license for this repository. */
+                    /**
+                     * @description The license keyword of the open source license for this repository.
+                     * @example mit
+                     */
                     license_template?: string;
                     /**
                      * @description Whether to allow squash merges for pull requests.
                      * @default true
+                     * @example true
                      */
                     allow_squash_merge?: boolean;
                     /**
                      * @description Whether to allow merge commits for pull requests.
                      * @default true
+                     * @example true
                      */
                     allow_merge_commit?: boolean;
                     /**
                      * @description Whether to allow rebase merges for pull requests.
                      * @default true
+                     * @example true
                      */
                     allow_rebase_merge?: boolean;
                     /**
                      * @description Whether to allow Auto-merge to be used on pull requests.
                      * @default false
+                     * @example false
                      */
                     allow_auto_merge?: boolean;
                     /**
                      * @description Whether to delete head branches when pull requests are merged
                      * @default false
+                     * @example false
                      */
                     delete_branch_on_merge?: boolean;
                     /**
@@ -121461,11 +125488,13 @@ export interface operations {
                     /**
                      * @description Whether downloads are enabled.
                      * @default true
+                     * @example true
                      */
                     has_downloads?: boolean;
                     /**
                      * @description Whether this repository acts as a template that can be used to generate new repositories.
                      * @default false
+                     * @example true
                      */
                     is_template?: boolean;
                 };
@@ -121703,7 +125732,10 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** @description A descriptive name for the new key. */
+                    /**
+                     * @description A descriptive name for the new key.
+                     * @example Personal MacBook Air
+                     */
                     title?: string;
                     /** @description The public SSH key to add to your GitHub account. For more information, see "[Checking for existing SSH keys](https://docs.github.com/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)." */
                     key: string;
