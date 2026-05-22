@@ -71,7 +71,7 @@
     "openapi-typescript-codegen": "0.30.0",
     "openapi-typescript-fetch": "2.2.1",
     "superagent": "10.3.0",
-    "typescript": "5.9.3",
+    "typescript": "catalog:",
     "undici": "7.25.0",
     "vite": "catalog:"
   }

@@ -27,14 +27,12 @@ export function createObservedClient<T extends {}, M extends MediaType = MediaTy
  * Convert a Headers object to a plain object for easier comparison
  */
 export function headersToObj(headers: Headers | Record<string, string>): Record<string, string> {
-  const iter =
-    headers instanceof Headers
-      ? headers
-          // @ts-expect-error FIXME: this is a missing "lib" in tsconfig.json but dunno what
-          .entries()
-      : Object.entries(headers);
+  // Headers is iterable at runtime in both TS 5 and TS 6, but the lib type only
+  // declares Iterable in TS 6's lib.dom. Double-cast bridges the gap.
+  const entries =
+    headers instanceof Headers ? Array.from(headers as unknown as Iterable<[string, string]>) : Object.entries(headers);
   const result: Record<string, string> = {};
-  for (const [k, v] of iter) {
+  for (const [k, v] of entries) {
     result[k] = v;
   }
   return result;
