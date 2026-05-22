@@ -28,14 +28,19 @@ jobs:
     strategy:
       matrix:
         node-version: [22, 24]
+        typescript-version: ["5", "6"]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
       - uses: pnpm/action-setup@v5
-        with:
-          run_install: true
+      - name: Override catalog to TypeScript 5 (backward-compat check)
+        if: matrix.typescript-version == '5'
+        run: |
+          sed -i 's/^  typescript: \^6\..*/  typescript: ^5.9.3/' pnpm-workspace.yaml
+          grep '^  typescript:' pnpm-workspace.yaml
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm test
   test-e2e:
     runs-on: ubuntu-latest

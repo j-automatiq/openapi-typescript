@@ -3,7 +3,7 @@
 "openapi-typescript-helpers": patch
 ---
 
-feat: add TypeScript 6 support
+Add TypeScript 6 support.
 
-- Widen peer dep to `^5.x || ^6.x`
-- Fix `Readable<T>` and `Writable<T>` to preserve built-in objects (Date, RegExp, functions) that now match `extends object` in TS6
+- `openapi-typescript`: widen the `typescript` peer dependency to `^5.x || ^6.x`.
+- `openapi-typescript-helpers`: fix `Readable<T>` and `Writable<T>` so callable types (`Date`, `RegExp`, functions, and class instance methods) are preserved through the recursive mapped type. Without this, the mapped type recursed into method signatures and collapsed them to `{}` under `--strict`, breaking patterns like `Readable<{ createdAt: Date }>.createdAt.toISOString()`. Reproduces on both TS 5 and TS 6.

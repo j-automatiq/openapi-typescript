@@ -223,7 +223,7 @@ export type Readable<T> =
       ? Readable<U>
       : T extends (infer E)[]
         ? Readable<E>[]
-        : T extends Date | RegExp | ((...args: never[]) => unknown)
+        : T extends (...args: never[]) => unknown
           ? T
           : T extends object
             ? { [K in keyof T as NonNullable<T[K]> extends $Write<any> ? never : K]: Readable<T[K]> }
@@ -242,7 +242,7 @@ export type Writable<T> =
       ? Writable<U>
       : T extends (infer E)[]
         ? Writable<E>[]
-        : T extends Date | RegExp | ((...args: never[]) => unknown)
+        : T extends (...args: never[]) => unknown
           ? T
           : T extends object
             ? { [K in keyof T as NonNullable<T[K]> extends $Read<any> ? never : K]: Writable<T[K]> } & {
