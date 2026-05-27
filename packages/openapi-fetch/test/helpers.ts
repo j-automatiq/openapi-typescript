@@ -27,13 +27,15 @@ export function createObservedClient<T extends {}, M extends MediaType = MediaTy
  * Convert a Headers object to a plain object for easier comparison
  */
 export function headersToObj(headers: Headers | Record<string, string>): Record<string, string> {
-  // Headers is iterable at runtime in both TS 5 and TS 6, but the lib type only
-  // declares Iterable in TS 6's lib.dom. Double-cast bridges the gap.
-  const entries =
-    headers instanceof Headers ? Array.from(headers as unknown as Iterable<[string, string]>) : Object.entries(headers);
   const result: Record<string, string> = {};
-  for (const [k, v] of entries) {
-    result[k] = v;
+  if (headers instanceof Headers) {
+    headers.forEach((value, key) => {
+      result[key] = value;
+    });
+  } else {
+    for (const [key, value] of Object.entries(headers)) {
+      result[key] = value;
+    }
   }
   return result;
 }
