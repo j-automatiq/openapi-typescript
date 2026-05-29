@@ -1,6 +1,6 @@
 .DS_Store
 .turbo
-dist
+# dist
 node_modules
 coverage
 
